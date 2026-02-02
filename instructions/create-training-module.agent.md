@@ -47,18 +47,23 @@
 
 - Title: `# [Module Name] - Hands-on Walkthrough`
 - Brief introduction paragraph explaining what you'll accomplish
-- Numbered steps using `1.` format for auto-numbering
+- Prerequisites section listing what needs to be completed first
+- Numbered steps using `1.` format for auto-numbering (Markdown will auto-renumber)
 - Each step should be clear, actionable, and verifiable
 - Include specific paths, commands, URLs where applicable
 - Add screenshots references where helpful: `![description](./screenshots/step-X.png)`
 - Include verification steps: "You should see...", "Verify that..."
-- End with success criteria: "Congratulations! You've successfully..."
+- **Success Criteria section** - Checklist with ✅ of what should be accomplished
+- **Troubleshooting section** - Common problems and solutions
+- Optional: When to Use section for practical guidance
+- **Next Steps section** - Brief pointer to what comes next in the training
 - Keep language simple and direct
 - Use cross-platform paths: `c:/workspace/` (Windows) or `~/workspace/` (macOS/Linux)
 - **Do not include keyboard shortcuts or hotkeys** - refer to menu items or generic descriptions instead
 - Use `./workspace/hello-genai/` as the default test workspace path for consistency across modules
-- Always mention alternative paths for different OS when giving directory examplesnce
-- Optional: Resources section with links to tools/documentation
+- Always mention alternative paths for different OS when giving directory examples
+- When mentioning AI models, recommend **Claude Sonnet 4.5** as the best choice
+- When setting up AI assistants, mention enabling **Agent Mode** where applicable
 
 ## Integration Steps
 
@@ -86,3 +91,8 @@
 - Learning Outcome should be measurable/verifiable.
 - Prerequisites should reference actual prior modules when applicable.
 - Check that module fits logically in learning sequence.
+- Verify Success Criteria section includes all key accomplishments with ✅ checkboxes.
+- Ensure Troubleshooting covers common issues from real usage.
+- Confirm Next Steps section guides learner to the following module.
+- Double-check paths use `./workspace/hello-genai/` for consistency.
+- Verify no keyboard shortcuts are mentioned (use menu names instead).
