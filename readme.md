@@ -13,7 +13,7 @@ This training is highly practical and hands-on. Each video module provides a new
 - **evaluation/** - AI-powered evaluation agent and assessment criteria
 - **quizz/** - Knowledge check quizzes for each module
 - **instructions/** - Helper agents and prompts for course development
-- **docs/** - Course plans, curriculum, and general documentation
+- **docs/** - [Course plans](docs/training-plan.md), curriculum, and general documentation
 
 ## Training Format
 
