@@ -54,7 +54,10 @@
 - Include verification steps: "You should see...", "Verify that..."
 - End with success criteria: "Congratulations! You've successfully..."
 - Keep language simple and direct
-- Use Windows paths format when applicable: `c:/workspace/project-name`nce
+- Use cross-platform paths: `c:/workspace/` (Windows) or `~/workspace/` (macOS/Linux)
+- **Do not include keyboard shortcuts or hotkeys** - refer to menu items or generic descriptions instead
+- Use `./workspace/hello-genai/` as the default test workspace path for consistency across modules
+- Always mention alternative paths for different OS when giving directory examplesnce
 - Optional: Resources section with links to tools/documentation
 
 ## Integration Steps
