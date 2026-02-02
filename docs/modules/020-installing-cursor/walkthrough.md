@@ -61,8 +61,8 @@ In this walkthrough, you'll install Cursor IDE, an AI-native code editor, and se
 
 1. Navigate to `c:/workspace/` (or `~/workspace/` on macOS/Linux)
 
-1. Create a new folder: `hello-cursor`
-   - Full path: `c:/workspace/hello-cursor/`
+1. Create a new folder: `hello-genai`
+   - Full path: `c:/workspace/hello-genai/`
 
 1. Open this folder in Cursor
 
@@ -92,23 +92,6 @@ In this walkthrough, you'll install Cursor IDE, an AI-native code editor, and se
 
 1. Verify: You receive a detailed response from the AI
 
-### Part 6: Understanding Key Differences from VS Code
-
-1. **AI Command Palette** - Direct code generation in the editor
-
-1. **AI Chat** - Side-by-side conversation with AI
-
-1. **Built-in AI** - No need for separate extensions, AI is native
-
-1. **Codebase Context** - Cursor can read your entire codebase for better suggestions
-
-1. Try asking in chat:
-   ```
-   Explain how Cursor is different from VS Code with Copilot
-   ```
-
-1. Verify: AI explains the differences based on its knowledge
-
 ---
 
 ## Success Criteria
@@ -118,7 +101,7 @@ Congratulations! You've successfully completed this module if:
 ✅ Cursor is installed and running on your computer  
 ✅ You've signed in to Cursor  
 ✅ You've selected an AI model (Claude Sonnet 4.5 recommended)  
-✅ You've created and opened the test workspace at `c:/workspace/hello-cursor/`  
+✅ You've created and opened the test workspace at `c:/workspace/hello-genai/`  
 ✅ AI Command Palette generates code  
 ✅ AI Chat responds to your questions  
 ✅ You understand the key differences between Cursor and VS Code
