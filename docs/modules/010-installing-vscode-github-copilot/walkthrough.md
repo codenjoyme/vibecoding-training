@@ -47,36 +47,36 @@ In this walkthrough, you'll install Visual Studio Code, set up GitHub Copilot, a
 
 1. Verify that Copilot is enabled in your account settings
 
-### Part 3: Install GitHub Copilot Extension
+### Part 3: Authorize GitHub Copilot
 
-1. In VS Code, click the **Extensions** icon in the left sidebar (or press `Ctrl+Shift+X` / `Cmd+Shift+X`)
+1. In VS Code, you'll see a prompt to sign in to GitHub Copilot (or click the Copilot icon in the status bar at the bottom)
 
-1. In the search box, type: `GitHub Copilot`
+1. Click **Sign in to GitHub**
 
-1. Find the official **GitHub Copilot** extension (published by GitHub)
+1. Your browser will open - sign in to your GitHub account if prompted
 
-1. Click **Install**
-
-1. Wait for the extension to install (should take a few seconds)
-
-1. You'll see a prompt to sign in to GitHub - click **Sign in to GitHub**
-
-1. Your browser will open - click **Authorize GitHub Copilot**
+1. Click **Authorize GitHub Copilot**
 
 1. Return to VS Code - you should see a confirmation that you're signed in
 
-### Part 4: Select AI Model
+1. Verify: The Copilot icon in the status bar (bottom-right) should show as active (no error indicators)
 
-1. In VS Code, open the Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+### Part 4: Select AI Model and Agent Mode
+
+1. In VS Code, open the Command Palette
 
 1. Type: `Copilot: Chat Model` and select it
 
 1. Choose your preferred model from the list:
-   - `gpt-4` - Most capable, best for complex tasks
-   - `gpt-3.5-turbo` - Faster, good for simple tasks
-   - `claude-3.5-sonnet` - Alternative model (if available)
+   - `claude-sonnet-4.5` - Best overall model, recommended for this training
+   - `gpt-4o` - Alternative capable model
+   - `gpt-4` - Older but reliable model
 
-1. For this training, we recommend starting with **gpt-4**
+1. For this training, we recommend using **Claude Sonnet 4.5**
+
+1. In the Copilot Chat panel, ensure **Agent Mode** is enabled (look for the toggle or setting in the chat interface)
+
+1. Verify: You should see Agent mode indicator active in the chat panel
 
 ### Part 5: Create Your First Workspace
 
@@ -88,12 +88,12 @@ In this walkthrough, you'll install Visual Studio Code, set up GitHub Copilot, a
    - Full path on Windows: `c:/workspace/`
    - Full path on macOS/Linux: `~/workspace/`
 
-1. Inside the `workspace` folder, create another folder: `hellogenai`
-   - Full path: `c:/workspace/hellogenai/`
+1. Inside the `workspace` folder, create another folder: `hello-genai`
+   - Full path: `c:/workspace/hello-genai/`
 
-1. In VS Code, go to **File > Open Folder** (or `Ctrl+K Ctrl+O` / `Cmd+K Cmd+O`)
+1. In VS Code, go to **File > Open Folder**
 
-1. Navigate to `c:/workspace/hellogenai/` and click **Select Folder**
+1. Navigate to `c:/workspace/hello-genai/` and click **Select Folder**
 
 1. VS Code will open this as your workspace
 
@@ -101,22 +101,25 @@ In this walkthrough, you'll install Visual Studio Code, set up GitHub Copilot, a
 
 ### Part 6: Test GitHub Copilot
 
-1. In VS Code, create a new file: **File > New File** (or `Ctrl+N` / `Cmd+N`)
+1. In VS Code, open the Copilot Chat panel (click the chat icon in the left sidebar or in the status bar)
 
-1. Save the file as `hello.py` (**File > Save** or `Ctrl+S` / `Cmd+S`)
-
-1. Type the following comment:
-   ```python
-   # Function to greet the user
+1. In the chat input field, type any question or request, for example:
+   ```
+   Explain what is a variable in programming
    ```
 
-1. Press `Enter` and wait a moment
+1. Press `Enter` to send the message
 
-1. You should see Copilot suggest code (in gray text)
+1. Wait a moment for the response
 
-1. Press `Tab` to accept the suggestion
+1. Verify: You should see a detailed answer from the AI model
 
-1. Verify: You should see a function created by Copilot
+1. Try another question to confirm it's working:
+   ```
+   What is the difference between a list and a dictionary in Python?
+   ```
+
+1. Verify: The AI responds to your questions consistently
 
 ---
 
@@ -124,11 +127,11 @@ In this walkthrough, you'll install Visual Studio Code, set up GitHub Copilot, a
 
 Congratulations! You've successfully completed this module if:
 
-✅ VS Code is installed and running on your computer  
-✅ You have a GitHub account with Copilot subscription active  
-✅ GitHub Copilot extension is installed and authenticated in VS Code  
-✅ You've selected an AI model (gpt-4 recommended)  
-✅ You've created the workspace folder at `c:/workspace/hellogenai/`  
+✅ VS Code is installed and running on your computer  with Agent Mode enabled  
+✅ You've created the workspace folder at `c:/workspace/hello-genai/`  
+✅ VS Code opened the workspace folder  
+✅ Copilot Chat is responding to your questionsecommended)  
+✅ You've created the workspace folder at `c:/workspace/hello-genai/`  
 ✅ VS Code opened the workspace folder  
 ✅ Copilot is making code suggestions when you type
 
@@ -145,8 +148,9 @@ Congratulations! You've successfully completed this module if:
 - Try the manual authorization process in VS Code settings
 
 **Model selection not available?**
-- This feature might require the latest version of Copilot extension
-- Check for extension updates in the Extensions panel
+- This feature might require signing in to Copilot first
+- Make sure you're using the latest version of VS Code
+- Some models may require specific subscription tiers
 
 ## Next Steps
 
