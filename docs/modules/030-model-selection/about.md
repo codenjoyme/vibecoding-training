@@ -3,6 +3,8 @@
 **Duration:** 5-7 minutes  
 **Skill:** Choose the right AI model for your task
 
+**👉 [Start hands-on walkthrough](walkthrough.md)**
+
 ## Topics
 
 - Overview of available models (GPT-4, Claude, etc.)

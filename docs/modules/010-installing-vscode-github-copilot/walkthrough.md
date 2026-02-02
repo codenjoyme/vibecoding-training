@@ -61,24 +61,7 @@ In this walkthrough, you'll install Visual Studio Code, set up GitHub Copilot, a
 
 1. Verify: The Copilot icon in the status bar (bottom-right) should show as active (no error indicators)
 
-### Part 4: Select AI Model and Agent Mode
-
-1. In VS Code, open the Command Palette
-
-1. Type: `Copilot: Chat Model` and select it
-
-1. Choose your preferred model from the list:
-   - `claude-sonnet-4.5` - Best overall model, recommended for this training
-   - `gpt-4o` - Alternative capable model
-   - `gpt-4` - Older but reliable model
-
-1. For this training, we recommend using **Claude Sonnet 4.5**
-
-1. In the Copilot Chat panel, ensure **Agent Mode** is enabled (look for the toggle or setting in the chat interface)
-
-1. Verify: You should see Agent mode indicator active in the chat panel
-
-### Part 5: Create Your First Workspace
+### Part 4: Create Your First Workspace
 
 1. Open File Explorer (Windows) or Finder (macOS)
 
@@ -99,7 +82,7 @@ In this walkthrough, you'll install Visual Studio Code, set up GitHub Copilot, a
 
 1. If prompted "Do you trust the authors of the files in this folder?", click **Yes, I trust the authors**
 
-### Part 6: Test GitHub Copilot
+### Part 5: Test GitHub Copilot
 
 1. In VS Code, open the Copilot Chat panel (click the chat icon in the left sidebar or in the status bar)
 
@@ -127,13 +110,12 @@ In this walkthrough, you'll install Visual Studio Code, set up GitHub Copilot, a
 
 Congratulations! You've successfully completed this module if:
 
-✅ VS Code is installed and running on your computer  with Agent Mode enabled  
+✅ VS Code is installed and running on your computer  
+✅ You have a GitHub account with Copilot subscription active  
+✅ GitHub Copilot is authorized in VS Code  
 ✅ You've created the workspace folder at `c:/workspace/hello-genai/`  
 ✅ VS Code opened the workspace folder  
-✅ Copilot Chat is responding to your questionsecommended)  
-✅ You've created the workspace folder at `c:/workspace/hello-genai/`  
-✅ VS Code opened the workspace folder  
-✅ Copilot is making code suggestions when you type
+✅ Copilot Chat is responding to your questions
 
 ## Troubleshooting
 
@@ -146,11 +128,6 @@ Congratulations! You've successfully completed this module if:
 - Make sure you're signed in to GitHub in your browser
 - Check that popup blockers aren't interfering
 - Try the manual authorization process in VS Code settings
-
-**Model selection not available?**
-- This feature might require signing in to Copilot first
-- Make sure you're using the latest version of VS Code
-- Some models may require specific subscription tiers
 
 ## Next Steps
 

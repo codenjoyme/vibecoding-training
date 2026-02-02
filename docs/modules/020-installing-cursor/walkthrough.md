@@ -40,22 +40,7 @@ In this walkthrough, you'll install Cursor IDE, an AI-native code editor, and se
 
 1. Verify: You should now see the main Cursor editor interface
 
-### Part 3: Select AI Model
-
-1. In Cursor, open Settings (gear icon in the bottom-left or top menu)
-
-1. Navigate to the **Models** or **AI** section
-
-1. Choose your preferred model:
-   - `claude-sonnet-4.5` - Best overall model, recommended
-   - `gpt-4o` - Alternative model
-   - `gpt-4-turbo` - Older reliable model
-
-1. For consistency with VSCode training, we recommend **Claude Sonnet 4.5**
-
-1. Verify: The selected model should be displayed in the settings
-
-### Part 4: Create Test Workspace
+### Part 3: Create Test Workspace
 
 1. In Cursor, go to **File > Open Folder**
 
@@ -70,7 +55,7 @@ In this walkthrough, you'll install Cursor IDE, an AI-native code editor, and se
 
 1. Verify: Cursor opens the workspace successfully
 
-### Part 5: Test Cursor AI Features
+### Part 4: Test Cursor AI Features
 
 1. In Cursor, open the AI command palette using the keyboard shortcut or menu
 
@@ -100,7 +85,6 @@ Congratulations! You've successfully completed this module if:
 
 ✅ Cursor is installed and running on your computer  
 ✅ You've signed in to Cursor  
-✅ You've selected an AI model (Claude Sonnet 4.5 recommended)  
 ✅ You've created and opened the test workspace at `c:/workspace/hello-genai/`  
 ✅ AI Command Palette generates code  
 ✅ AI Chat responds to your questions  
@@ -140,4 +124,4 @@ Congratulations! You've successfully completed this module if:
 
 ## Next Steps
 
-Now that you have both VS Code and Cursor set up, you're ready to learn about choosing the right AI model for different tasks in the next module!
+Now that you have both VS Code and Cursor set up, you're ready to learn about selecting the right AI model and configuring optimal settings in the next module!
