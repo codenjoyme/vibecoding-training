@@ -2,6 +2,10 @@
 
 A comprehensive training program teaching managers how to effectively use AI coding assistants (vibecoding) in their work.
 
+## Philosophy
+
+This training is highly practical and hands-on. Each video module provides a new actionable skill that you can immediately apply to your work, building your capabilities step by step.
+
 ## Structure
 
 - **videos/** - Video scripts, storyboards, and content plans for training modules (5-7 min each)
