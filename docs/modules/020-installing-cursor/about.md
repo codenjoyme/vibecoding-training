@@ -3,6 +3,8 @@
 **Duration:** 5-7 minutes  
 **Skill:** Set up alternative AI-native IDE
 
+**👉 [Start hands-on walkthrough](walkthrough.md)**
+
 ## Topics
 
 - What is Cursor and why use it
