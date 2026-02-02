@@ -36,10 +36,12 @@
 - Title: `# [Module Name]`
 - Duration: `**Duration:** 5-7 minutes`
 - Skill: `**Skill:** [One-sentence actionable skill description]`
+- Link to walkthrough: `**👉 [Start hands-on walkthrough](walkthrough.md)**` (placed after Skill section)
 - Topics section with bullet list of main topics covered
 - Learning Outcome section with clear result statement
 - Prerequisites section listing required prior modules/knowledge
-- Optional: When to Use section for practical application guida
+- Optional: When to Use section for practical application guidance
+- Optional: Resources section with links to tools/documentation
 
 ## walkthrough.md File Structure
 

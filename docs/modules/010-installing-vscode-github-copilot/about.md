@@ -3,6 +3,8 @@
 **Duration:** 5-7 minutes  
 **Skill:** Set up your first AI coding environment
 
+**👉 [Start hands-on walkthrough](walkthrough.md)**
+
 ## Topics
 
 - Installing Visual Studio Code
