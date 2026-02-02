@@ -8,7 +8,9 @@
 ## Module Structure
 
 - All modules located in `./docs/modules/[number]-[name]/` directory.
-- Each module contains single `about.md` file with module description.
+- Each module contains two required files:
+  + `about.md` - Module description, topics, outcomes, prerequisites
+  + `walkthrough.md` - Step-by-step hands-on instructions to practice the skill
 - Module folder name format: `[number]-[descriptive-name-with-dashes]`.
 - Numbering uses increments of 10: 010, 020, 030, 040, etc.
 - This allows inserting modules between existing ones using 015, 025, 035, etc.
@@ -22,9 +24,10 @@
   + What are the main topics to cover (3-5 bullet points)?
   + What are the prerequisites (which modules should be completed first)?
   + What practical outcome should learner achieve?
-  + When should this technique/skill be used?
-  + Any specific tools or resources needed?
+  + What are the concrete hands-on steps to practice this skill?
 - Determine module number based on placement (use existing number + 5 if between modules).
+- Create descriptive folder name that reflects skill being taught.
+- Generate both `about.md` and `walkthrough.md` filesbased on placement (use existing number + 5 if between modules).
 - Create descriptive folder name that reflects skill being taught.
 - Generate `about.md` file with proper structure.
 
@@ -36,7 +39,20 @@
 - Topics section with bullet list of main topics covered
 - Learning Outcome section with clear result statement
 - Prerequisites section listing required prior modules/knowledge
-- Optional: When to Use section for practical application guidance
+- Optional: When to Use section for practical application guida
+
+## walkthrough.md File Structure
+
+- Title: `# [Module Name] - Hands-on Walkthrough`
+- Brief introduction paragraph explaining what you'll accomplish
+- Numbered steps using `1.` format for auto-numbering
+- Each step should be clear, actionable, and verifiable
+- Include specific paths, commands, URLs where applicable
+- Add screenshots references where helpful: `![description](./screenshots/step-X.png)`
+- Include verification steps: "You should see...", "Verify that..."
+- End with success criteria: "Congratulations! You've successfully..."
+- Keep language simple and direct
+- Use Windows paths format when applicable: `c:/workspace/project-name`nce
 - Optional: Resources section with links to tools/documentation
 
 ## Integration Steps
