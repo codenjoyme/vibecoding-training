@@ -123,198 +123,7 @@ This is where the magic happens - how your prompt becomes actual file edits or c
 - From the Model's perspective: It suggested using a tool, saw it worked, confirmed to you
 - From Agent System's perspective: It coordinated between you, the Model, and tools
 
-### Part 4: Understanding Temperature and Prompt Precision
-
-Before we practice, let's understand two critical concepts that affect AI behavior.
-
-**Temperature: The Source of Variability**
-
-1. Remember that the model has built-in randomness called "temperature"
-
-1. This means the **same prompt will produce different results** each time
-
-1. Temperature can be both helpful and problematic:
-   - **Helpful:** Gives you creative variations and alternative approaches
-   - **Problematic:** Can cause hallucinations and inconsistent results
-   - **Important:** You can control this by how you write your prompts!
-
-**The Artist Metaphor:**
-
-Imagine you ask 10 world-class artists to paint a still life:
-
-1. **Very abstract prompt:** "Paint a still life"
-   - Result: 10 completely different masterpieces
-   - Each is professional, but wildly different subjects, styles, compositions
-   - This is like asking AI: "Write a function"
-
-1. **Slightly more specific:** "Paint a still life with a vase of flowers and a fruit on the left"
-   - Result: 10 paintings with similarities, but each artist chooses different flowers and fruits
-   - Some paint roses with an apple, others tulips with an orange
-   - This is like: "Write a sorting function in Python"
-
-1. **Very specific:** "Paint a still life with a vase of lilacs and a pear on the left, on a wooden table, with soft morning light"
-   - Result: 10 very similar paintings - nearly identical compositions
-   - Minor variations in brushstroke style, but recognizably the same scene
-   - This is like: "Write a bubble sort function in Python that takes a list of integers, sorts in-place, and returns None"
-
-**The Power of Statements:**
-
-1. When you write a prompt, structure it as **statements** - one sentence per requirement
-
-1. Each statement adds one specific aspect of what you want:
-   - Statement 1: What to create (function, file, class)
-   - Statement 2: What it should do (sort, calculate, parse)
-   - Statement 3: Technical details (algorithm, language)
-   - Statement 4: Constraints (no comments, specific format)
-   - Statement 5: Edge cases or examples
-
-1. **More statements = more precise results = less variability**
-
-**Language and Terms Matter:**
-
-1. You can write prompts in any language - English, Russian, even with typos
-   - Model understands: "напиши функцыю сортування" = "write sorting function"
-   - Model handles Surzhyk, misspellings, informal language
-
-1. BUT specific **technical terms have huge impact:**
-   - "Python" vs "Java" → completely different code
-   - "bubble sort" vs "quicksort" → different algorithms
-   - "function" vs "class" → different code structure
-
-1. **When model seems "dumb", you're probably being too abstract**
-   - Model is incredibly smart, but needs specificity
-   - Vague prompts → diverse results (high temperature effect)
-   - Specific prompts → consistent results (controlled temperature)
-
-### Part 5: Practical Exercise - Controlling Model Output
-
-Let's practice controlling the model's variability through prompt refinement.
-
-**The Iterative Refinement Technique:**
-
-1. Open VS Code or Cursor with your `./workspace/hello-genai/` workspace
-
-1. Open the AI chat panel
-
-1. Make sure Agent Mode is enabled (see Module 030 if needed)
-
-**Round 1: Abstract Prompt**
-
-1. Type this very abstract prompt:
-   ```
-   Create a file with sorting function
-   ```
-
-1. Press Enter and wait for the model to complete
-
-1. Observe the result - check what file was created and what's inside
-
-1. **What you'll see:**
-   - Model might choose any language (Python, JavaScript, Java)
-   - Model might use any sorting algorithm (quicksort, merge sort, bubble sort)
-   - Model might add tests, examples, comments
-   - **This is temperature at work - maximum variability**
-
-**Round 2: Edit the Original Prompt**
-
-1. **Important:** Don't write a new message - go back and EDIT your first message
-
-1. Change it to:
-   ```
-   Create a file with bubble sort function
-   ```
-
-1. Press Enter again
-
-1. **What happens:**
-   - Agent deletes the old file
-   - Agent creates a new file with new content
-   - This is the key skill - editing prompts to regenerate results
-
-1. Observe the new result - still variability in language, structure, extras
-
-**Round 3: Continue Refining**
-
-1. Edit the prompt again:
-   ```
-   Create a file with bubble sort function in Python
-   ```
-
-1. Press Enter, observe the result
-
-1. Notice: Results getting more consistent, but still variations in:
-   - Variable names
-   - Comments and docstrings
-   - Test code inclusion
-   - Type hints
-
-**Round 4: Add More Constraints**
-
-1. Edit the prompt again:
-   ```
-   Create a Python file with bubble sort function. Only the function, no tests, no examples.
-   ```
-
-1. Press Enter, observe the result
-
-1. Getting closer, but might still have:
-   - Docstrings
-   - Type hints
-   - Different function signatures
-
-**Round 5: Maximum Precision**
-
-1. Edit the prompt one more time:
-   ```
-   Create a Python file named bubble_sort.py with a bubble sort function. 
-   Function name: bubble_sort
-   Parameter: numbers (list of integers)
-   Return: sorted list
-   No docstrings, no type hints, no comments.
-   ```
-
-1. Press Enter, observe the result
-
-1. **Now try this experiment:**
-   - Delete the file manually
-   - Run the SAME precise prompt again
-   - Compare results - they should be nearly identical!
-
-**Round 6: Test Consistency**
-
-1. Repeat the precise prompt 2-3 more times
-
-1. Each time, compare the generated code
-
-1. You should see:
-   - Same file name
-   - Same function name
-   - Same basic algorithm structure
-   - Minor variations in variable names (i, j vs idx, jdx)
-   - But essentially the same code
-
-**Key Observations:**
-
-1. **Abstract prompts → High variability**
-   - "sorting function" could be anything
-   - Model's temperature creates diverse solutions
-
-1. **Specific prompts → Low variability**
-   - Detailed statements constrain the model
-   - Less room for temperature to affect outcome
-
-1. **Editing prompts vs new messages**
-   - Editing: Forces fresh start, clean slate
-   - New messages: Builds on previous context (different behavior)
-   - For precise control: Edit the original prompt
-
-1. **Each word matters**
-   - "bubble sort" locks algorithm choice
-   - "Python" locks language choice
-   - "no comments" removes extra text
-   - Every statement reduces variability
-
-### Part 6: Understanding the Conversation Canvas
+### Part 4: Understanding the Conversation Canvas
 
 Let's visualize what the canvas looks like from different perspectives.
 
@@ -413,7 +222,7 @@ Understanding this architecture helps you work better with AI:
 - If you don't like a response, try asking again - you'll get a variation
 - Lower temperature = more predictable, higher = more creative
 
-### Part 8: Advanced Exercise - Multi-Step Orchestration
+### Part 6: Advanced Exercise - Multi-Step Orchestration
 
 Let's do a multi-step task to see the orchestration in action.
 
@@ -463,10 +272,7 @@ Congratulations! You've successfully completed this module if:
 ✅ You can explain the four players: User, Model, Agent System, and Tools  
 ✅ You understand the "canvas" concept where all players interact  
 ✅ You know how Agent System orchestrates tool calls  
-✅ You've practiced iterative prompt refinement technique  
-✅ You understand that abstract prompts cause variability, specific prompts give consistency  
-✅ You know the power of statements - one sentence per requirement  
-✅ You've learned to EDIT prompts instead of sending new messages for precise control  
+✅ You've observed multi-step orchestration in action  
 ✅ You understand why Agent Mode enables real actions vs just chat  
 ✅ You have a mental model of what happens behind the scenes
 
@@ -478,19 +284,12 @@ Congratulations! You've successfully completed this module if:
 - Each tool call adds time (Model → Agent → Tool → Result → Model)
 - This is normal - agent is working, not stuck
 
-****You're probably being too abstract** - add more specific statements
-- Remember: model doesn't "understand" intent, it predicts text patterns
-- Solution: Edit your prompt with more constraints and try again
-
-**Getting different results each time?**
-- This is temperature working - built-in randomness
-- **Solution: Add more specific statements to your prompt**
-- More details = less room for variability
-- Use the "artist painting still life" mental model
-- Each additional constraint narrows the solution space
+**Agent does something unexpected?**
+- Model predicted a different token sequence than you expected
 - Based on training patterns, that sequence seemed appropriate
-- Try rephrasing your prompt or being more specific
+- Try rephrasing your prompt to be more specific
 - Remember: model doesn't "understand" intent, it predicts text patterns
+- You'll learn advanced prompting techniques in the next module
 
 **Want to see what tools were actually called?**
 - Some IDEs show tool call logs or execution history
@@ -520,4 +319,4 @@ Congratulations! You've successfully completed this module if:
 
 ## Next Steps
 
-Now that you understand how AI works under the hood, you're ready to learn advanced prompting techniques to communicate more effectively with AI in the next module!
+Now that you understand how AI works under the hood, you're ready to learn advanced prompting techniques to communicate more effectively with AI in the next module!5

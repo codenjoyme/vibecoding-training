@@ -3,6 +3,8 @@
 **Duration:** 5-7 minutes  
 **Skill:** Iterate prompts instead of arguing with AI
 
+**👉 [Start hands-on walkthrough](walkthrough.md)**
+
 ## Topics
 
 - Why arguing doesn't work
