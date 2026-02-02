@@ -29,13 +29,13 @@
 
 ## Instructions 
 
-- If you are asked to create another one - please add it in this folder `./mcp_server/instructions/` as new file.
-- All instructions are placed in `./mcp_server/instructions/` folder with `[name].agent.md` extension.
+- If you are asked to create another one - please add it in this folder `./instructions/` as new file.
+- All instructions are placed in `./instructions/` folder with `[name].agent.md` extension.
 - Here `[name]` should consist of several words separated by a `-` symbol, the first of which is a verb, the essence of the operation being performed. 
 - Use bullet points format, avoid headers and sections - keep it simple and actionable.
 - Write short, concise statements - minimize words, maximize usefulness.
 - Each point should be specific and actionable, not explanatory.
-- Add new instruction reference to `./mcp_server/instructions/main.agent.md` with one-line description of what it covers.
+- Add new instruction reference to `./instructions/main.agent.md` with one-line description of what it covers.
 - Use backticks for code examples, file paths, and commands.
 - Include practical examples when necessary, but keep them minimal.
 - Structure: bullet points with sub-bullets using `+` when needed.
@@ -46,7 +46,7 @@
 - Keep file focused on one topic or workflow.
 - Apply Single Responsibility Principle to instructions to avoid duplication.
 - Extract common workflows into separate reusable instruction files.
-- Reference shared instructions using `./mcp_server/instructions/[shared-name].agent.md` format.
+- Reference shared instructions using `./instructions/[shared-name].agent.md` format.
 - When updating existing instruction files:
   + Read existing file first to understand current structure and content.
   + Check which statements from new requirements already exist in the file.
@@ -65,11 +65,11 @@
 ---
 mode: agent
 ---
-- When you are asked to _______________, please follow the instructions `./mcp_server/instructions/__________.agent.md`.
+- When you are asked to _______________, please follow the instructions `./instructions/__________.agent.md`.
 ```
 - The file `.github/copilot-instructions.md` should contain the following:
 ```markdown
-- Important! Always follow the instructions in `./mcp_server/instructions/main.agent.md` file.
+- Important! Always follow the instructions in `./instructions/main.agent.md` file.
 - It contains links to other files with instructions.
 - You should reload it in **every prompt** to get the latest instructions - because of the dynamic nature of the project. 
 ```
@@ -99,7 +99,7 @@ globs:
 alwaysApply: true
 ---
 
-Follow the instructions in `./mcp_server/instructions/to-[name].agent.md` when you are asked to _______________.
+Follow the instructions in `./instructions/to-[name].agent.md` when you are asked to _______________.
 ```
 - The main rules file `.cursor/rules/mcpyrex.mdc` should contain the following:
 ```markdown
@@ -109,7 +109,7 @@ globs:
 alwaysApply: true
 ---
 
-- Important! Always follow the instructions in `./mcp_server/instructions/main.agent.md` file.
+- Important! Always follow the instructions in `./instructions/main.agent.md` file.
 - It contains links to other files with instructions.
 - You should reload it in **every prompt** to get the latest instructions - because of the dynamic nature of the project.
 ```
