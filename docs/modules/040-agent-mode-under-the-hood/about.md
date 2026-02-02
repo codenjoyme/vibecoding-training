@@ -3,6 +3,8 @@
 **Duration:** 5-7 minutes  
 **Skill:** Understand how AI coding assistants work
 
+**👉 [Start hands-on walkthrough](walkthrough.md)**
+
 ## Topics
 
 - What is agent mode
