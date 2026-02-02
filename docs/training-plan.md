@@ -24,6 +24,7 @@ This training is highly practical. Each video provides a new actionable skill th
 1. [Rapid Prototyping](modules/120-rapid-poc-prototyping/about.md) - Build a PoC in 2 hours
 1. [QA with Chrome DevTools MCP](modules/130-chrome-devtools-mcp-qa-emulation/about.md) - Test web applications with AI assistance
 1. [Advanced MCP Integration](modules/140-advanced-mcp-integration-in-poc/about.md) - Add MCP interface to your application
+1. [GitHub Coding Agent Delegation](modules/150-github-coding-agent-delegation/about.md) - Delegate tasks to GitHub agent for autonomous PR creation
 
 ---
 
