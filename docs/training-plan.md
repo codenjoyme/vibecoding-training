@@ -13,15 +13,16 @@ This training is highly practical. Each video provides a new actionable skill th
 3. [Model Selection](modules/030-model-selection/about.md) - Choose the right AI model for your task
 4. [Agent Mode & AI Mechanics](modules/040-agent-mode-under-the-hood/about.md) - Understand how AI coding assistants work
 5. [Effective Prompting](modules/050-effective-prompting-without-arguing/about.md) - Iterate prompts instead of arguing with AI
-6. [Version Control with Git](modules/060-version-control-git/about.md) - Track changes with baby steps approach
-7. [Custom Instructions](modules/070-custom-instructions/about.md) - Create instructions for AI assistants
-8. [Learning from Hallucinations](modules/080-learning-from-hallucinations/about.md) - Use AI mistakes to improve instructions
-9. [AI Skills - Context, Tools & Memory](modules/090-ai-skills-tools-creation/about.md) - Understand AI's eyes, hands, and memory
-10. [Model Context Protocol (MCP)](modules/100-mcp-model-context-protocol/about.md) - Connect AI to any data source
-11. [Development Environment Setup](modules/110-development-environment-setup/about.md) - Install essential tools for vibecoding
-12. [Rapid Prototyping](modules/120-rapid-poc-prototyping/about.md) - Build a PoC in 2 hours
-13. [QA with Chrome DevTools MCP](modules/130-chrome-devtools-mcp-qa-emulation/about.md) - Test web applications with AI assistance
-14. [Advanced MCP Integration](modules/140-advanced-mcp-integration-in-poc/about.md) - Add MCP interface to your application
+6. [Clarifying Requirements with AI](modules/055-clarifying-requirements-before-start/about.md) - Ask AI questions when starting unclear tasks
+7. [Version Control with Git](modules/060-version-control-git/about.md) - Track changes with baby steps approach
+8. [Custom Instructions](modules/070-custom-instructions/about.md) - Create instructions for AI assistants
+9. [Learning from Hallucinations](modules/080-learning-from-hallucinations/about.md) - Use AI mistakes to improve instructions
+10. [AI Skills - Context, Tools & Memory](modules/090-ai-skills-tools-creation/about.md) - Understand AI's eyes, hands, and memory
+11. [Model Context Protocol (MCP)](modules/100-mcp-model-context-protocol/about.md) - Connect AI to any data source
+12. [Development Environment Setup](modules/110-development-environment-setup/about.md) - Install essential tools for vibecoding
+13. [Rapid Prototyping](modules/120-rapid-poc-prototyping/about.md) - Build a PoC in 2 hours
+14. [QA with Chrome DevTools MCP](modules/130-chrome-devtools-mcp-qa-emulation/about.md) - Test web applications with AI assistance
+15. [Advanced MCP Integration](modules/140-advanced-mcp-integration-in-poc/about.md) - Add MCP interface to your application
 
 ---
 
