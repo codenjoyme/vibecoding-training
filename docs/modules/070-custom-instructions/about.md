@@ -1,21 +1,27 @@
-# Custom Instructions
+# Custom Instructions: From Prompt to Reusable System
 
-**Duration:** 5-7 minutes  
-**Skill:** Create instructions for AI assistants
+**Duration:** 20-25 minutes  
+**Skill:** Evolution from one-time prompts to instruction architecture
 
 ## Topics
 
-- What are custom instructions
-- When to use them
-- Meta-skill: instructions for creating instructions
-- Examples of effective instructions
-- Storing and reusing instructions
+- Evolution: prompt → text file → markdown → instruction system
+- When repeated tasks need reusable instructions
+- Markdown format for AI agents
+- IDE-agnostic instruction architecture (main.agent.md pattern)
+- SPR principle and when to split instructions
+- Action verbs and naming conventions
+- Capturing session knowledge into instructions
+- Updating vs creating new instructions
+- Shortcuts and prompt references
+- Making agents follow instructions
 
 ## Learning Outcome
 
-Write effective custom instructions
+Build personal instruction system that captures and reuses knowledge from AI sessions
 
 ## Prerequisites
 
-- Understanding of prompting techniques
-- Experience with AI assistant
+- Module 050 (Effective Prompting)
+- Basic markdown knowledge (or willingness to learn)
+- Experience iterating with AI assistant
