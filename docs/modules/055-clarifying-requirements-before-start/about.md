@@ -3,6 +3,8 @@
 **Duration:** 5-7 minutes  
 **Skill:** Get AI to help you define unclear tasks through questions
 
+**👉 [Start hands-on walkthrough](walkthrough.md)**
+
 ## Topics
 
 - When to use this technique (empty project, unclear feature requirements)
