@@ -318,38 +318,8 @@ git commit -m "asdfasdf"
 ### 4. Pushing to Remote
 
 ```powershell
-# Push current branch to GitHub
+# Push to GitHub
 git push
-
-# First push of new branch
-git push -u origin branch-name
-```
-
----
-
-## Working with Branches
-
-### Why Use Branches
-
-- Experiment without breaking main code
-- Work on features independently
-- Easy to discard failed experiments
-
-### Basic Branch Operations
-
-```powershell
-# Create new branch
-git checkout -b feature-name
-
-# Switch between branches
-git checkout main
-git checkout feature-name
-
-# List all branches
-git branch
-
-# Delete branch (after merging)
-git branch -d feature-name
 ```
 
 ---
@@ -417,23 +387,7 @@ git checkout -- filename.py
 git revert HEAD
 ```
 
-### Scenario 2: Want to Experiment Safely
-
-```powershell
-# Create experiment branch
-git checkout -b experiment
-
-# Try things...
-# If works → merge back:
-git checkout main
-git merge experiment
-
-# If failed → discard:
-git checkout main
-git branch -D experiment
-```
-
-### Scenario 3: Need to See What Changed
+### Scenario 2: Need to See What Changed
 
 ```powershell
 # See unstaged changes
@@ -444,12 +398,9 @@ git diff --cached
 
 # See changes in specific file
 git diff filename.py
-
-# Compare branches
-git diff main..feature-branch
 ```
 
-### Scenario 4: Accidentally Committed Secrets
+### Scenario 3: Accidentally Committed Secrets
 
 ```powershell
 # Remove file from last commit (keep local file)
@@ -476,7 +427,6 @@ git push --force
 - **Write descriptive commit messages**
 - **Use .gitignore** to exclude unnecessary files
 - **Ask AI** to identify production-ready vs scaffolding code
-- **Create branches** for experiments
 - **Push regularly** to remote (backup + collaboration)
 
 ### Don'ts ❌
@@ -487,7 +437,6 @@ git push --force
 - **Don't commit working files** (scratch.py, test.tmp)
 - **Don't use vague commit messages** ("fix", "changes")
 - **Don't commit when it's broken** (unless explicitly creating WIP commit)
-- **Don't work on main branch** for experimental features
 
 ---
 
@@ -514,7 +463,7 @@ git push --force
 "Review my staged files - which should be committed?"
 "Suggest a commit message for these changes"
 "Explain this git error: [paste error]"
-"What's the best way to undo my last 3 commits?"
+"How do I undo my last commit?"
 ```
 
 ---
@@ -558,16 +507,6 @@ git add resolved-file.py
 git commit -m "Resolve merge conflict"
 ```
 
-### "Detached HEAD state"
-
-```powershell
-# Create branch from current state
-git checkout -b recovery-branch
-
-# Or return to main branch
-git checkout main
-```
-
 ---
 
 ## Quick Reference
@@ -579,21 +518,16 @@ git add filename             # Stage file
 git commit -m "message"      # Commit staged files
 git push                     # Upload to remote
 
-# Branching
-git checkout -b new-branch   # Create and switch to branch
-git checkout main            # Switch to main
-git merge feature-branch     # Merge branch into current
-
 # Undo operations
 git checkout -- file         # Discard unstaged changes
 git reset HEAD file          # Unstage file
 git reset --soft HEAD~1      # Undo last commit (keep changes)
+git reset --hard abc1234     # Go back to commit (DESTRUCTIVE)
 
 # Information
 git log --oneline           # Commit history
 git diff                    # See unstaged changes
 git diff --cached           # See staged changes
-git remote -v               # See remote URLs
 ```
 
 ---

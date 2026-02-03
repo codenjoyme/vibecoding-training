@@ -439,24 +439,6 @@ Use this workflow on your actual AI-assisted projects:
    - Nothing important left unstaged?
    - Push to backup
 
-### Workflow Variations
-
-**For experiments:**
-```powershell
-git checkout -b experiment-feature
-# Try risky changes
-# If works → merge back
-# If fails → delete branch
-```
-
-**For collaboration:**
-```powershell
-git checkout -b feature-branch
-# Complete feature in baby steps
-git push -u origin feature-branch
-# Create Pull Request on GitHub
-```
-
 ---
 
 ## Common Questions
@@ -503,9 +485,7 @@ git push --force
 **"Everything is broken, I want yesterday's version!"**
 ```powershell
 git log --oneline        # Find good commit
-git checkout abc1234     # Go back to that commit
-# Test if it works
-git checkout -b recovery # Save this as recovery branch
+git reset --hard abc1234 # Go back to that commit
 ```
 
 ---
@@ -531,14 +511,7 @@ git revert HEAD            # Undo last commit (safe)
 git reset --soft HEAD~1    # Undo commit, keep changes
 git reset --hard abc1234   # Go back to specific commit (DESTRUCTIVE)
 
-# Branching
-git checkout -b new-branch  # Create branch
-git checkout main           # Switch to main
-git merge feature-branch    # Merge branch
-
 # Information
-git remote -v              # Show remote URLs
-git branch                 # List branches
 git log --oneline -10      # Last 10 commits
 ```
 
@@ -548,10 +521,8 @@ git log --oneline -10      # Last 10 commits
 
 For detailed reference see: [git-workflow.agent.md](../../../instructions/git-workflow.agent.md)
 
-Topics covered in detail:
+Topics covered:
 - Complete installation instructions
 - .gitignore templates for all languages
 - GitHub SSH setup
 - Advanced recovery scenarios
-- Merge conflict resolution
-- Team collaboration workflows
