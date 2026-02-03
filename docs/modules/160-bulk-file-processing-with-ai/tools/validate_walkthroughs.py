@@ -10,7 +10,7 @@ from pathlib import Path
 
 # Configuration
 INSTRUCTION_FILE = Path("./tools/validate-walkthrough.instruction.md")
-MODULES_PATH = Path("../../../docs/modules")  # Adjust based on your structure
+MODULES_PATH = Path("../../")  # From module 160, go up to docs/modules
 NODE_PATH = "C:\\Java\\nvm\\v20.19.0"  # Adjust to your nvm path
 COPILOT_BAT = r"c:\Users\<USERNAME>\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\copilotCli\copilot.bat"
 
@@ -59,13 +59,14 @@ for counter, walkthrough_path in enumerate(walkthroughs, 1):
         # Run copilot CLI from module directory
         print(f"  → Running AI agent...\n")
         result = subprocess.run(
-            [COPILOT_BAT, "-p", f"@{instruction_relative}", 
+            ["cmd", "/c", COPILOT_BAT, "-p", f"@{instruction_relative}", 
              "--add-dir", ".", 
              "--allow-all", 
              "--no-ask-user", 
              "-s"],
             env=env,
-            timeout=120
+            timeout=120,
+            shell=True
         )
         
         # Check result
