@@ -11,6 +11,11 @@
 - Each module contains two required files:
   + `about.md` - Module description, topics, outcomes, prerequisites
   + `walkthrough.md` - Step-by-step hands-on instructions to practice the skill
+- Optional `tools/` directory for module-specific resources:
+  + Scripts (Python, PowerShell, etc.) referenced in walkthrough
+  + AI instruction files for automation tasks
+  + Configuration files or templates
+  + Any artifacts that learners create or use during practice
 - Module folder name format: `[number]-[descriptive-name-with-dashes]`.
 - Numbering uses increments of 10: 010, 020, 030, 040, etc.
 - This allows inserting modules between existing ones using 015, 025, 035, etc.
