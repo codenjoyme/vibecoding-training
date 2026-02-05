@@ -53,12 +53,22 @@
 - Title: `# [Module Name] - Hands-on Walkthrough`
 - Brief introduction paragraph explaining what you'll accomplish
 - Prerequisites section listing what needs to be completed first
+- **"What We'll Install/Build" section** - Explain components before installation
+  + List each component with brief description
+  + Explain why it's needed
+  + Include size/time estimates where relevant
 - Numbered steps using `1.` format for auto-numbering (Markdown will auto-renumber)
 - Each step should be clear, actionable, and verifiable
+- **Before complex actions** - Section explaining what will happen and why
+- **After complex actions** - Section explaining what just happened
 - Include specific paths, commands, URLs where applicable
 - Add screenshots references where helpful: `![description](./screenshots/step-X.png)`
 - Include verification steps: "You should see...", "Verify that..."
 - **Success Criteria section** - Checklist with ✅ of what should be accomplished
+- **Understanding Check section** - Questions to verify comprehension
+  + 5-7 questions covering key concepts
+  + Include expected answers or key points to cover
+  + Questions should test understanding, not just memory
 - **Troubleshooting section** - Common problems and solutions
 - Optional: When to Use section for practical guidance
 - **Next Steps section** - Brief pointer to what comes next in the training
@@ -97,6 +107,8 @@
 - Prerequisites should reference actual prior modules when applicable.
 - Check that module fits logically in learning sequence.
 - Verify Success Criteria section includes all key accomplishments with ✅ checkboxes.
+- **Verify Understanding Check section has 5-7 questions with answers.**
+- **Ensure complex actions have "What we'll do" sections before and "What happened" sections after.**
 - Ensure Troubleshooting covers common issues from real usage.
 - Confirm Next Steps section guides learner to the following module.
 - Double-check paths use `./workspace/hello-genai/` for consistency.

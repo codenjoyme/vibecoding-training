@@ -11,7 +11,38 @@ In this walkthrough, you'll build a complete Python project that connects to EPA
 
 ## Quick Start: Automated Setup (RECOMMENDED)
 
-For fastest setup, use the automated installation script for your operating system. The script handles everything: Python environment setup, dependency installation, and file copying.
+For fastest setup, use the automated installation script for your operating system. 
+
+### What Will Be Installed
+
+Before we run the installation script, let's understand what it will set up:
+
+1. **Python 3.12.8 (Portable)** - Programming language runtime environment
+   - Downloaded to `work/python-ai-workspace/.tools/python`
+   - Doesn't interfere with your system Python installation
+   - Size: ~30 MB download
+
+2. **Virtual Environment (.venv)** - Isolated package space
+   - Created in `work/python-ai-workspace/.venv`
+   - Keeps project dependencies separate from system
+   - Prevents package version conflicts
+
+3. **Python Packages** - Libraries for AI work
+   - `langchain` - Framework for building AI applications
+   - `langchain-openai` - OpenAI/Azure integration for langchain
+   - `python-dotenv` - Secure credential management
+   - Total: ~50 packages (with dependencies)
+
+4. **Project Files** - Example scripts and configuration
+   - `query_dial.py` - Demo script showing DIAL integration
+   - `color.py` - Helper for terminal output formatting
+   - `.env` - Configuration file template (you'll add your API key here)
+   - `.gitignore` - Prevents committing secrets to Git
+
+**Installation time:** 2-3 minutes  
+**Disk space:** ~200 MB
+
+### Running the Installation
 
 **Choose based on your OS:**
 
@@ -51,18 +82,14 @@ Builds Docker container with isolated Python environment.
 
 **After automated setup completes:**
 1. Configure your DIAL API key in `work/python-ai-workspace/.env`
-2. Skip to **Part 6: Understanding the Demo Script** to learn what was installed
-3. Continue to **Part 7: Running Your First AI Query**
+2. Continue to **Part 2: Understanding the Demo Script** to learn what was installed
+3. Then proceed to **Part 3: Running Your First AI Query**
 
 ---
 
-**Alternative: Manual Setup for Learning**
+## Part 1: Understanding What We're Building
 
-If you want to understand every step in detail, continue with Part 1-5 below. Manual setup teaches you virtual environments, dependency management, and Python project structure - valuable knowledge for future projects. However, for completing this training module, automated setup above is faster and recommended.
-
----
-
-## Part 1: Understanding the Stack
+Before installing anything, let's understand the big picture.
 
 Before diving in, let's understand what we're building with and why these choices matter.
 
@@ -214,7 +241,33 @@ Now let's configure your API key and run the script.
 
 ## Part 4: Experimenting with the Script
 
-Now let's modify the script to try different queries.
+Now let's modify the script to try different queries and parameters.
+
+### Understanding What We Can Change
+
+Before experimenting, let's understand the script's configurable parts:
+
+**1. Query Text** - What you ask the AI
+```python
+query = "Tell me about artificial intelligence in the style of a pirate."
+```
+
+**2. Temperature (0.0 to 2.0)** - Controls creativity
+- `0` = Deterministic (same question → same answer)
+- `0.7` = Balanced (recommended for most tasks)
+- `1.5` = Very creative (unpredictable, varied answers)
+
+**3. Max Tokens** - Limits response length
+- Controls cost and prevents overly long responses
+- 1000 tokens ≈ 750 words
+
+**4. Model Selection** - Which AI model to use
+- Set in `.env` file: `AZURE_OPENAI_API_DEPLOYMENT`
+- `gpt-4o-mini-2024-07-18` - Fast, cheap (default)
+- `gpt-4o` - More capable, slower, more expensive
+- `gpt-4` - Most capable, slowest, highest cost
+
+### Experimentation Steps
 
 1. Open `query_dial.py` in editor
 
@@ -264,6 +317,57 @@ Now let's modify the script to try different queries.
 ✅ Tested temperature parameter variations  
 ✅ Understand virtual environments and dependency isolation  
 ✅ Know how to secure credentials with .env files
+
+## Understanding Check
+
+Before completing this module, verify your understanding by answering these questions:
+
+### 1. Virtual Environment Concept
+**Question:** Why do we use a virtual environment (`.venv`) instead of installing packages globally?
+
+**Key points to cover:**
+- Isolation prevents package conflicts between projects
+- Different projects can use different package versions
+- Doesn't pollute system Python installation
+- Easy to delete and recreate if something breaks
+
+### 2. Dependencies and Packages
+**Question:** What are the three main packages we installed and what does each do?
+
+**Answer:**
+- `langchain` - Framework for building AI applications with conversation management
+- `langchain-openai` - Integration with OpenAI/Azure-compatible APIs like DIAL
+- `python-dotenv` - Loads configuration from .env files securely
+
+### 3. Security and Credentials
+**Question:** Why do we store the API key in `.env` instead of directly in the Python code?
+
+**Key points:**
+- Prevents accidental commits to Git (security risk)
+- Easy to change without modifying code
+- Different keys for dev/test/prod environments
+- `.gitignore` ensures secrets stay private
+
+### 4. Langchain Benefits
+**Question:** What advantages does langchain provide compared to raw cURL requests?
+
+**Key benefits:**
+- Cleaner, more readable code
+- Automatic retry logic on failures
+- Easy conversation history management
+- Built-in response parsing
+- Integration with other tools (databases, documents, etc.)
+
+### 5. Model Parameters
+**Question:** What does the `temperature` parameter control and how does it affect responses?
+
+**Answer:**
+- Controls randomness/creativity of AI responses
+- `0` = Deterministic (same input → same output)
+- `0.7` = Balanced (recommended default)
+- High values (1.5+) = More creative/unpredictable
+
+**If you can explain these concepts, you've successfully understood the module!**
 
 ## Troubleshooting
 

@@ -53,12 +53,36 @@
 - Read current module's `walkthrough.md` file completely.
 - Guide user through walkthrough from top to bottom.
 - Follow structure in walkthrough.md exactly - it's the lesson plan.
+- **Before complex actions, explain what will happen** - describe what we're about to do and why.
 - **Execute commands for the user** - don't ask them to run commands manually, use run_in_terminal tool.
+- **After complex actions, explain what just happened** - briefly describe the result and its meaning.
 - Present steps one at a time, wait for user confirmation when needed.
 - If walkthrough references tools in `./tools/` - use them as described.
 - If walkthrough references instruction files - follow those instructions.
 - Answer user questions that arise during practice.
 - Don't skip steps even if they seem obvious.
+
+## Explaining Complex Actions (CRITICAL)
+
+- **Before running installation scripts or complex commands:**
+  + Explain what components will be installed
+  + Why each component is needed
+  + What the result will look like
+  + Example: "Сейчас запущу скрипт установки. Он установит: 1) Python 3.12.8, 2) Виртуальное окружение .venv для изоляции пакетов, 3) Langchain для работы с AI API. Процесс займет ~2 минуты."
+
+- **Before running demo scripts:**
+  + Show the code being executed
+  + Explain what each important part does
+  + Predict what output to expect
+  + Example: "Посмотрите на код скрипта. Он: 1) Загружает API ключ из .env, 2) Создает подключение к DIAL, 3) Отправляет запрос, 4) Выводит ответ. Сейчас запущу его."
+
+- **After actions complete:**
+  + Point out key parts of the output
+  + Explain what they mean
+  + Verify success indicators
+  + Example: "Видите строку 'Successfully installed langchain'? Это значит пакет установлен. Теперь у нас есть все для работы с AI."
+
+- **Don't rush through technical steps** - give user time to absorb concepts.
 
 ## Command Execution in Training Mode
 
@@ -84,8 +108,9 @@
 - Success Criteria section in walkthrough.md lists what must be accomplished.
 - Each criterion should be demonstrated/confirmed in chat.
 - If criterion includes practical task - user must complete it in this session.
+- **Check understanding with questions** - if walkthrough has "Understanding Check" section, ask those questions.
 - Ask user to confirm each criterion: "Покажите результат" or "Подтвердите, что это работает".
-- Don't mark module complete until user confirms all criteria met.
+- Don't mark module complete until user confirms all criteria met AND demonstrates understanding.
 
 ## Handling Issues
 
