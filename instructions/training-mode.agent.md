@@ -8,7 +8,7 @@
 
 ## Training Mode Activation
 
-- When user says "давай пройдем тренинг" or similar request to start training.
+- When user requests to start training (any language).
 - Create or update `./training-progress.md` file in project root.
 - Initialize file with all modules from `./docs/training-plan.md`.
 - Format: unchecked checkboxes for all modules + empty feedback sections.
@@ -68,19 +68,19 @@
   + Explain what components will be installed
   + Why each component is needed
   + What the result will look like
-  + Example: "Сейчас запущу скрипт установки. Он установит: 1) Python 3.12.8, 2) Виртуальное окружение .venv для изоляции пакетов, 3) Langchain для работы с AI API. Процесс займет ~2 минуты."
+  + Example: "Running installation script now. It will install: 1) Python 3.12.8, 2) Virtual environment .venv for package isolation, 3) Langchain for AI API work. Process takes ~2 minutes."
 
 - **Before running demo scripts:**
   + Show the code being executed
   + Explain what each important part does
   + Predict what output to expect
-  + Example: "Посмотрите на код скрипта. Он: 1) Загружает API ключ из .env, 2) Создает подключение к DIAL, 3) Отправляет запрос, 4) Выводит ответ. Сейчас запущу его."
+  + Example: "Look at the script code. It: 1) Loads API key from .env, 2) Creates DIAL connection, 3) Sends query, 4) Outputs response. Running it now."
 
 - **After actions complete:**
   + Point out key parts of the output
   + Explain what they mean
   + Verify success indicators
-  + Example: "Видите строку 'Successfully installed langchain'? Это значит пакет установлен. Теперь у нас есть все для работы с AI."
+  + Example: "See the line 'Successfully installed langchain'? That means the package is installed. Now we have everything to work with AI."
 
 - **Don't rush through technical steps** - give user time to absorb concepts.
 
@@ -109,7 +109,7 @@
 - Each criterion should be demonstrated/confirmed in chat.
 - If criterion includes practical task - user must complete it in this session.
 - **Check understanding with questions** - if walkthrough has "Understanding Check" section, ask those questions.
-- Ask user to confirm each criterion: "Покажите результат" or "Подтвердите, что это работает".
+- Ask user to confirm each criterion: "Show the result" or "Confirm it works".
 - Don't mark module complete until user confirms all criteria met AND demonstrates understanding.
 
 ## Handling Issues
@@ -146,25 +146,25 @@
 
 ## Module Navigation
 
-- User can request specific module: "давай пройдем модуль 055".
-- User can continue from where left off: "давай продолжим".
-- User can review completed module: "повтори модуль 010".
+- User can request specific module (any language).
+- User can continue from where left off.
+- User can review completed module.
 - Check progress file to see what's completed and what's next.
 - Always start with checking/updating progress file state.
 
 ## Example Training Session Flow
 
-1. User: "давай пройдем тренинг"
+1. User: "Let's start the training"
 2. Agent: Create/update progress file, identify first unchecked module
-3. Agent: "🎯 Начинаем модуль 010: Installing VSCode + GitHub Copilot"
+3. Agent: "🎯 Starting module 010: Installing VSCode + GitHub Copilot"
 4. Agent: Read walkthrough.md
-5. Agent: "Шаг 1: Откройте браузер и перейдите на https://code.visualstudio.com/"
-6. User: "готово"
-7. Agent: "Шаг 2: Нажмите Download для вашей ОС"
+5. Agent: "Step 1: Open browser and navigate to https://code.visualstudio.com/"
+6. User: "done"
+7. Agent: "Step 2: Click Download for your OS"
 8. [... continue through all steps ...]
 9. Agent: Check all Success Criteria with user
 10. Agent: Update progress file with feedback
-11. Agent: "✅ Модуль завершен! Следующий: 020-installing-cursor. Продолжаем?"
+11. Agent: "✅ Module complete! Next: 020-installing-cursor. Continue?"
 
 ## Important Notes
 
