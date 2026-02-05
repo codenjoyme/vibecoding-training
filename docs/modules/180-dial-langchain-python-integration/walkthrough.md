@@ -11,11 +11,31 @@ In this walkthrough, you'll build a complete Python project that connects to EPA
 
 ## Part 1: Understanding the Stack
 
-Before diving in, let's understand what we're building with:
+Before diving in, let's understand what we're building with and why these choices matter.
+
+### Why Python + Langchain?
+
+**The Goal:** We want to rapidly prototype GenAI applications that are more sophisticated than just running a single prompt on a model. Real-world AI solutions need conversation management, multi-step reasoning, tool integration, and error handling.
+
+**Why Python specifically?**
+- Scripting language - quick to write, easy to test, no compilation needed
+- Helps solve various local automation tasks beyond just AI
+- Massive ecosystem of libraries for data processing, web scraping, file manipulation
+- Industry standard for AI/ML development - most frameworks support Python first
+
+**Why Langchain?**
+- Accelerates prototyping of complex GenAI workflows
+- Handles the tedious parts: API authentication, retries, parsing, streaming
+- Pre-built integrations with 100+ AI models, databases, and tools
+- Lets you focus on business logic, not plumbing code
+
+### Core Components
 
 **Python:** General-purpose programming language, popular for AI and data science
 
-**Virtual Environment:** Isolated Python environment for your project - like a sandbox where packages don't conflict with other projects
+**Virtual Environment:** Isolated Python environment for your project - like a sandbox where packages don't conflict with other projects. Critical because we don't want libraries installed in this module to "leak" into your system Python. They're needed only here, for this specific project.
+
+**Libraries (Packages):** Collections of code written by other programmers to solve common problems. Langchain is one such library. Libraries depend on other libraries, which depend on third libraries - you'll see this whole dependency chain installing automatically when we set up the environment.
 
 **Langchain:** Framework that simplifies working with AI models - handles API calls, conversation history, and response parsing
 
@@ -128,6 +148,8 @@ Virtual environments keep project dependencies isolated. Without them, installin
 
 Now we'll install the packages our project needs.
 
+**Understanding Dependencies:** When you install a library like `langchain`, it automatically installs all other libraries it depends on. Those libraries may depend on others, creating a dependency tree. You'll see dozens of packages installing - this is normal! Each solves a specific problem, and together they enable langchain's functionality.
+
 1. Install langchain and Azure OpenAI integration:
    ```powershell
    pip install python-dotenv
@@ -136,7 +158,7 @@ Now we'll install the packages our project needs.
    pip install langchain-community
    ```
    
-   Each command will download and install packages. This takes 30-60 seconds.
+   Each command will download and install packages plus all their dependencies. This takes 30-60 seconds. You'll see output listing all installed packages - that's the dependency tree resolving automatically.
 
 2. Verify installations:
    ```powershell
