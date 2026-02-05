@@ -6,15 +6,31 @@ In this walkthrough, you'll request your EPAM AI DIAL API key and make your firs
 
 - Active EPAM employee account with access to internal portals
 - PowerShell (Windows) or Terminal (macOS/Linux) access
-- Internet connection to EPAM internal network (VPN if remote)
+- **VPN connection to EPAM internal network is required** (DIAL is only accessible from EPAM network)
 
 ## Part 1: Understanding DIAL and API Keys
 
 EPAM AI DIAL is EPAM's internal AI platform that provides access to various AI models (GPT-4, GPT-4o, Claude, etc.) through a unified interface. Instead of clicking in a chat UI, you can send requests programmatically using an API key.
 
+**Why would you need programmatic access?** As a manager or technical lead, you might need to:
+- Automate document analysis and report generation for your team
+- Build custom tools that integrate AI into your project workflows
+- Process large batches of data (e.g., analyze 100 customer feedback forms)
+- Create prototypes and proof-of-concepts to evaluate AI capabilities for your business case
+- Integrate AI into existing applications and internal tools
+- Control costs and usage by implementing your own rate limiting and logging
+
 **What is an API key?** Think of it as a password that identifies you when your scripts talk to DIAL servers. It's a long string like `57bde47684bd39aebc382b4ca4638abd` that you include in every request.
 
 **Why do we need it?** To track usage, enforce security policies, and ensure compliance with EPAM's AI Policy.
+
+**⚠️ Security Warning:** Your API key is like a password - keep it secret! Anyone with your key can make requests to DIAL on your behalf, which means:
+- They can consume your quota and potentially exceed usage limits
+- All their actions will be logged under your name
+- You'll be held responsible for any policy violations they commit
+- Your account could be suspended for misuse
+
+Never commit API keys to Git repositories, share them in chats, or store them in plain text files. We'll cover secure storage methods in later modules.
 
 ## Part 2: Requesting Your API Key
 
@@ -27,8 +43,7 @@ EPAM AI DIAL is EPAM's internal AI platform that provides access to various AI m
 
 3. Look for the footer text that mentions:
    ```
-   Usage of EPAM AI DIAL must comply with the Prohibited Uses and Approval Steps 
-   in EPAM's AI Policy. Request API key. Report an issue.
+   Usage of EPAM AI DIAL must comply with the Prohibited Uses and Approval Steps in EPAM’s AI Policy. The information you share here is not disclosed to third-party companies. However, we anonymize and log all interactions for research purposes. >>> Request API key <<<. Report an issue. Version 0.40.5 Change log
    ```
 
 4. Click on **"Request API key"** link
@@ -42,7 +57,7 @@ EPAM AI DIAL is EPAM's internal AI platform that provides access to various AI m
 
 7. Submit the ticket
 
-8. Wait for approval - typically takes 1-3 business days
+8. Wait for approval - typically takes 1-3 business days.
 
 9. You'll receive an email with your API key that looks like:
    ```
@@ -87,37 +102,37 @@ cURL is a command-line tool that makes HTTP requests. It's pre-installed on most
 
 3. Create a test directory:
    ```powershell
-   mkdir c:\temp\dial-test
-   cd c:\temp\dial-test
+   mkdir work\dial-test
+   cd work\dial-test
    ```
 
 4. Create a simple cURL test script. Copy the script from module tools:
    
    **For Windows (PowerShell):**
-   Navigate to the module tools directory and examine `test-dial.ps1`:
+   Navigate to the module tools directory and examine `test-dial-windows.ps1`:
    ```powershell
    # View the script content
-   Get-Content c:\Java\CopipotTraining\vibecoding-for-managers\docs\modules\170-dial-api-key-curl-access\tools\test-dial.ps1
+   Get-Content docs\modules\170-dial-api-key-curl-access\tools\test-dial-windows.ps1
    ```
 
    **For Linux/macOS (Bash):**
-   Navigate to the module tools directory and examine `test-dial.sh`:
+   Navigate to the module tools directory and examine `test-dial-linux.sh`:
    ```bash
    # View the script content
-   cat c:/Java/CopipotTraining/vibecoding-for-managers/docs/modules/170-dial-api-key-curl-access/tools/test-dial.sh
+   cat docs/modules/170-dial-api-key-curl-access/tools/test-dial-linux.sh
    ```
 
 5. Copy the appropriate script to your test directory:
    
    **Windows:**
    ```powershell
-   Copy-Item c:\Java\CopipotTraining\vibecoding-for-managers\docs\modules\170-dial-api-key-curl-access\tools\test-dial.ps1 .
+   Copy-Item docs\modules\170-dial-api-key-curl-access\tools\test-dial-windows.ps1 work\dial-test\
    ```
    
    **Linux/macOS:**
    ```bash
-   cp c:/Java/CopipotTraining/vibecoding-for-managers/docs/modules/170-dial-api-key-curl-access/tools/test-dial.sh .
-   chmod +x test-dial.sh
+   cp docs/modules/170-dial-api-key-curl-access/tools/test-dial-linux.sh work/dial-test/
+   chmod +x work/dial-test/test-dial-linux.sh
    ```
 
 6. Open the script in a text editor and replace `YOUR_API_KEY_HERE` with your actual API key
