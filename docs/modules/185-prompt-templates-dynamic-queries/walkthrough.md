@@ -9,7 +9,39 @@ In this walkthrough, you'll learn how to use Langchain's prompt templates to cre
 - DIAL API credentials configured in `.env` file
 - Virtual environment activated (showing `.venv` prefix in terminal)
 
-## Part 1: Understanding the Problem with Hardcoded Prompts
+## Quick Start: Copy Example Script
+
+This module reuses the Python environment from Module 180 - no reinstallation needed! Just copy the example script:
+
+**Windows:**
+```powershell
+cd work\python-ai-workspace
+Copy-Item ..\..\docs\modules\185-prompt-templates-dynamic-queries\tools\prompt_template.py .
+```
+
+**macOS/Linux:**
+```bash
+cd work/python-ai-workspace
+cp ../../docs/modules/185-prompt-templates-dynamic-queries/tools/prompt_template.py .
+```
+
+Then activate your virtual environment if not already active:
+
+**Windows:**
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+**macOS/Linux:**
+```bash
+source .venv/bin/activate
+```
+
+Now skip to **Part 3: Understanding Prompt Templates** to learn how it works, then **Part 4: Running the Example**.
+
+---
+
+## Part 2: Understanding the Problem with Hardcoded Prompts
 
 Let's start by understanding why templates matter.
 
@@ -39,60 +71,9 @@ template = "Tell me about {topic} in the style of {style}."
 - Testable with different parameter combinations
 - Maintainable code that scales
 
-## Part 2: Setting Up Your Workspace
+## Part 3: Understanding Prompt Templates
 
-**Good news!** You already have everything installed from Module 180. We're reusing the same Python environment with Langchain - no reinstallation needed.
-
-1. Navigate to the workspace created in Module 180:
-   
-   **Windows:**
-   ```powershell
-   cd work\python-ai-workspace
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   cd work/python-ai-workspace
-   ```
-
-2. Activate virtual environment if not already active:
-   
-   **Windows:**
-   ```powershell
-   .\.venv\Scripts\Activate.ps1
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   source .venv/bin/activate
-   ```
-
-3. Verify you see the `.venv` prefix in your prompt
-
-**What's already here:**
-- ✅ Python virtual environment
-- ✅ Langchain and dependencies installed
-- ✅ `.env` file with DIAL credentials
-- ✅ `color.py` utility from module 180
-
-**What we'll add:**
-- 📝 `prompt_template.py` - The example from this module
-
-## Part 3: Creating Your First Prompt Template
-
-1. Copy the template example from this module's tools directory:
-   
-   **Windows:**
-   ```powershell
-   Copy-Item ..\..\docs\modules\185-prompt-templates-dynamic-queries\tools\prompt_template.py .
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   cp ../../docs/modules/185-prompt-templates-dynamic-queries/tools/prompt_template.py .
-   ```
-
-2. Open `prompt_template.py` in your editor and examine the structure:
+Open `prompt_template.py` in your editor and examine the structure:
 
 **Template Definition:**
 ```python

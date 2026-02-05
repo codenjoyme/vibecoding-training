@@ -10,6 +10,35 @@ In this walkthrough, you'll build a Retrieval-Augmented Generation (RAG) system 
 - DIAL API credentials with embedding model configured in `.env`
 - Virtual environment activated (showing `.venv` prefix in terminal)
 
+## Quick Start: Install FAISS and Copy Script
+
+This module reuses the Python environment from Module 180. Only need to install FAISS (vector search library) and copy the RAG example:
+
+**Windows:**
+```powershell
+cd work\python-ai-workspace
+.\.venv\Scripts\Activate.ps1
+pip install faiss-cpu
+Copy-Item ..\..\docs\modules\190-rag-document-question-answering\tools\rag.py .
+```
+
+**macOS/Linux:**
+```bash
+cd work/python-ai-workspace
+source .venv/bin/activate
+pip install faiss-cpu
+cp ../../docs/modules/190-rag-document-question-answering/tools/rag.py .
+```
+
+Verify your `.env` file includes embedding model configuration:
+```env
+AZURE_OPENAI_API_EMBEDDING_DEPLOYMENT=text-embedding-ada-002
+```
+
+Now skip to **Part 4: Running the RAG Example** to see it in action, or continue with Part 1-2 to understand RAG architecture first.
+
+---
+
 ## Part 1: Understanding RAG Architecture
 
 Before coding, let's understand what RAG does and why it matters.
@@ -66,38 +95,7 @@ Similarity Score: 0.92 (very similar) → Document is relevant!
 
 **Key Insight:** The AI model (embedding model) learned that "cats" and "felines" mean similar things, even though the words are different. Traditional keyword search would miss this!
 
-## Part 3: Setting Up RAG Environment
-
-**Good news!** You already have Python and Langchain installed from Module 180. We're reusing the same workspace - just need to add one new package (FAISS) for vector search.
-
-1. Navigate to your workspace:
-   
-   **Windows:**
-   ```powershell
-   cd work\python-ai-workspace
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   cd work/python-ai-workspace
-   ```
-
-2. Activate virtual environment:
-   
-   **Windows:**
-   ```powershell
-   .\.venv\Scripts\Activate.ps1
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   source .venv/bin/activate
-   ```
-
-3. Install FAISS for vector search (only new dependency for RAG):
-   ```powershell
-   pip install faiss-cpu
-   ```
+## Part 3: Understanding the RAG Code
    
    **What is FAISS?**
    - Facebook AI Similarity Search
@@ -120,25 +118,11 @@ Similarity Score: 0.92 (very similar) → Document is relevant!
 
 **What we just added:**
 - ✅ FAISS vector database
+- ✅ `rag.py` - The RAG example script
 
-**What we'll add next:**
-- 📝 `rag.py` - The RAG example from this module
+## Part 3: Understanding the RAG Code
 
-## Part 4: Building Your First RAG System
-
-1. Copy the RAG example from this module's tools directory:
-   
-   **Windows:**
-   ```powershell
-   Copy-Item ..\..\docs\modules\190-rag-document-question-answering\tools\rag.py .
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   cp ../../docs/modules/190-rag-document-question-answering/tools/rag.py .
-   ```
-
-2. Open `rag.py` and examine the structure:
+Open `rag.py` and examine the structure:
 
 **Step 1: Setup Models**
 ```python
@@ -216,7 +200,7 @@ response = llm.invoke(prompt)
 - Build prompt with context + question
 - AI generates answer using provided information
 
-## Part 5: Running Your RAG System
+## Part 4: Running Your RAG System
 
 1. Run the RAG example:
    ```powershell

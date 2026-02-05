@@ -9,6 +9,59 @@ In this walkthrough, you'll build a complete Python project that connects to EPA
 - Command line access (PowerShell or Terminal)
 - Text editor or IDE (VS Code recommended)
 
+## Quick Start: Automated Setup (RECOMMENDED)
+
+For fastest setup, use the automated installation script for your operating system. The script handles everything: Python environment setup, dependency installation, and file copying.
+
+**Choose based on your OS:**
+
+### Option 1: Windows (Recommended for Windows users)
+
+```powershell
+cd docs\modules\180-dial-langchain-python-integration\tools
+.\install-python-windows.ps1
+```
+
+This downloads portable Python 3.12.8, creates virtual environment, installs all dependencies, and copies example files to `work/python-ai-workspace`.
+
+### Option 2: Linux/macOS
+
+```bash
+cd docs/modules/180-dial-langchain-python-integration/tools
+./install-python-linux.sh
+```
+
+Uses system Python 3.10+, creates virtual environment, installs dependencies, copies files.
+
+### Option 3: Docker (Use only if native installation fails)
+
+**Windows:**
+```powershell
+cd docs\modules\180-dial-langchain-python-integration\tools
+.\install-python-docker.ps1 -Script "query_dial.py"
+```
+
+**Linux/macOS:**
+```bash
+cd docs/modules/180-dial-langchain-python-integration/tools
+./install-python-docker.sh query_dial.py
+```
+
+Builds Docker container with isolated Python environment.
+
+**After automated setup completes:**
+1. Configure your DIAL API key in `work/python-ai-workspace/.env`
+2. Skip to **Part 6: Understanding the Demo Script** to learn what was installed
+3. Continue to **Part 7: Running Your First AI Query**
+
+---
+
+**Alternative: Manual Setup for Learning**
+
+If you want to understand every step in detail, continue with Part 1-5 below. Manual setup teaches you virtual environments, dependency management, and Python project structure - valuable knowledge for future projects. However, for completing this training module, automated setup above is faster and recommended.
+
+---
+
 ## Part 1: Understanding the Stack
 
 Before diving in, let's understand what we're building with and why these choices matter.
@@ -48,193 +101,11 @@ Before diving in, let's understand what we're building with and why these choice
 - Integration with other tools (databases, APIs, document loaders)
 - Cleaner, more maintainable code
 
-## Part 2: Setting Up Python Environment
+## Part 2: Understanding the Demo Script
 
-1. Verify Python installation:
-   
-   **Windows (PowerShell):**
-   ```powershell
-   python --version
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   python3 --version
-   ```
-   
-   You should see `Python 3.10.x` or higher
+The automated setup script already copied `query_dial.py` and `color.py` to your workspace. Let's understand what they do.
 
-2. If Python is not installed or version is below 3.10:
-   
-   **Windows:**
-   - Download from https://www.python.org/downloads/
-   - Run installer, **check "Add Python to PATH"**
-   - Restart PowerShell after installation
-   
-   **macOS:**
-   ```bash
-   brew install python@3.12
-   ```
-   
-   **Linux (Ubuntu/Debian):**
-   ```bash
-   sudo apt update
-   sudo apt install python3.12 python3.12-venv python3-pip
-   ```
-
-3. Navigate to the workspace directory:
-   
-   **Windows:**
-   ```powershell
-   cd work
-   mkdir python-ai-workspace
-   cd python-ai-workspace
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   cd work
-   mkdir python-ai-workspace
-   cd python-ai-workspace
-   ```
-   
-   **Why this location?** We're creating a persistent workspace that can be reused across multiple AI modules (RAG, agents, etc.) without reinstalling dependencies.
-
-## Part 3: Creating Virtual Environment
-
-Virtual environments keep project dependencies isolated. Without them, installing packages for one project might break another.
-
-1. Create virtual environment:
-   
-   **Windows:**
-   ```powershell
-   python -m venv .venv
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   python3 -m venv .venv
-   ```
-   
-   This creates a `.venv` folder with isolated Python installation
-
-2. Activate the virtual environment:
-   
-   **Windows (PowerShell):**
-   ```powershell
-   .\.venv\Scripts\Activate.ps1
-   ```
-   
-   If you get an error about execution policies:
-   ```powershell
-   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-   .\.venv\Scripts\Activate.ps1
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   source .venv/bin/activate
-   ```
-
-3. Verify activation - your prompt should now show `(.venv)` prefix:
-   ```
-   (.venv) PS C:\Java\CopipotTraining\vibecoding-for-managers\work\python-ai-workspace>
-   ```
-
-4. Upgrade pip (Python package manager):
-   ```powershell
-   python -m pip install --upgrade pip
-   ```
-
-**Important:** Always activate virtual environment before installing packages or running scripts!
-
-## Part 4: Installing Dependencies
-
-Now we'll install the packages our project needs.
-
-**Understanding Dependencies:** When you install a library like `langchain`, it automatically installs all other libraries it depends on. Those libraries may depend on others, creating a dependency tree. You'll see dozens of packages installing - this is normal! Each solves a specific problem, and together they enable langchain's functionality.
-
-1. Install langchain and Azure OpenAI integration:
-   ```powershell
-   pip install python-dotenv
-   pip install langchain
-   pip install langchain-openai
-   pip install langchain-community
-   ```
-   
-   Each command will download and install packages plus all their dependencies. This takes 30-60 seconds. You'll see output listing all installed packages - that's the dependency tree resolving automatically.
-
-2. Verify installations:
-   ```powershell
-   pip list
-   ```
-   
-   You should see packages like:
-   ```
-   langchain            0.x.x
-   langchain-openai     0.x.x
-   python-dotenv        1.x.x
-   ```
-
-3. (Optional) Save dependencies to file for later reproduction:
-   ```powershell
-   pip freeze > requirements.txt
-   ```
-   
-   This creates `requirements.txt` with exact versions - anyone can recreate your environment with `pip install -r requirements.txt`
-
-## Part 5: Configuring Environment Variables
-
-Never hardcode API keys in scripts! Use environment variables instead.
-
-1. Copy the example .env file from module tools:
-   
-   **Windows:**
-   ```powershell
-   Copy-Item ..\..\docs\modules\180-dial-langchain-python-integration\tools\.env.example .\.env
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   cp ../../docs/modules/180-dial-langchain-python-integration/tools/.env.example ./.env
-   ```
-
-2. Open `.env` file in text editor
-
-3. Replace the API key with your actual key from Module 170:
-   ```env
-   AZURE_OPENAI_API_KEY=your_actual_key_here
-   AZURE_OPENAI_API_VERSION=2023-03-15-preview
-   AZURE_OPENAI_ENDPOINT=https://ai-proxy.lab.epam.com
-   AZURE_OPENAI_API_DEPLOYMENT=gpt-4o-mini-2024-07-18
-   ```
-
-4. Save and close the file
-
-**Security note:** 
-- `.env` files should NEVER be committed to Git
-- Add `.env` to your `.gitignore` file
-- Share `.env.example` template instead (with placeholder values)
-
-## Part 6: Understanding the Demo Script
-
-Before running the script, let's understand what it does.
-
-1. Copy the demo script from module tools:
-   
-   **Windows:**
-   ```powershell
-   Copy-Item ..\..\docs\modules\180-dial-langchain-python-integration\tools\query_dial.py .
-   Copy-Item ..\..\docs\modules\180-dial-langchain-python-integration\tools\color.py .
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   cp ../../docs/modules/180-dial-langchain-python-integration/tools/query_dial.py .
-   cp ../../docs/modules/180-dial-langchain-python-integration/tools/color.py .
-   ```
-
-2. Open `query_dial.py` in your editor and examine the code:
+Open `query_dial.py` in your editor (location: `work/python-ai-workspace/query_dial.py`):
 
 **Import section:**
 ```python
@@ -279,11 +150,34 @@ print(response)
 - Response parsing handled automatically
 - Can stream responses token-by-token for long generations
 
-## Part 7: Running Your First AI Query
+## Part 3: Running Your First AI Query
 
-1. Make sure virtual environment is activated (see `(.venv)` in prompt)
+Now let's configure your API key and run the script.
 
-2. Run the script:
+1. Open `.env` file in `work/python-ai-workspace/.env`
+
+2. Replace `YOUR_API_KEY_HERE` with your actual DIAL API key from Module 170:
+   ```env
+   AZURE_OPENAI_API_KEY=your_actual_key_from_module_170
+   ```
+
+3. Save the file
+
+4. Navigate to workspace and activate virtual environment:
+   
+   **Windows:**
+   ```powershell
+   cd work\python-ai-workspace
+   .\.venv\Scripts\Activate.ps1
+   ```
+   
+   **macOS/Linux:**
+   ```bash
+   cd work/python-ai-workspace
+   source .venv/bin/activate
+   ```
+
+5. Run the script:
    ```powershell
    python query_dial.py
    ```
@@ -318,7 +212,7 @@ print(response)
 - Received and displayed response
 - All done in ~10 lines of code vs 30+ lines for raw cURL!
 
-## Part 8: Experimenting with the Script
+## Part 4: Experimenting with the Script
 
 Now let's modify the script to try different queries.
 
@@ -359,7 +253,19 @@ Now let's modify the script to try different queries.
    - `gpt-4o` - More capable, slower, more expensive
    - `gpt-4` - Most capable, slowest, most expensive
 
-## Part 9: Three Ways to Run Your Scripts
+## Success Criteria
+
+✅ Ran automated installation script successfully  
+✅ Python environment configured in `work/python-ai-workspace`  
+✅ Virtual environment created with langchain and dependencies installed  
+✅ Configured DIAL API key in `.env` file  
+✅ Ran `query_dial.py` successfully and received AI response  
+✅ Modified query and experimented with different prompts  
+✅ Tested temperature parameter variations  
+✅ Understand virtual environments and dependency isolation  
+✅ Know how to secure credentials with .env files
+
+## Troubleshooting
 
 Once your environment is set up, you have multiple options for executing Python scripts. Each method has different advantages depending on your workflow.
 

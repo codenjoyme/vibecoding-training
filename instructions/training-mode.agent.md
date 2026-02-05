@@ -70,18 +70,6 @@
   + Good: Execute `python --version` and show result
   + Bad: "Please run `python --version` and tell me the output"
 
-## Automated Setup Scripts Priority
-
-- Many modules provide automated setup scripts (especially Python/Docker modules).
-- **Always prefer automated scripts over manual installation steps**.
-- Choose script based on user's OS:
-  1. **Windows**: Use `install-*-windows.ps1` scripts (highest priority for Windows users)
-  2. **Linux/macOS**: Use `install-*-linux.sh` or `install-*-mac.sh` scripts
-  3. **Docker**: Use `install-*-docker.ps1/.sh` scripts (last resort if native doesn't work)
-- Check module's `tools/` directory for available automation scripts.
-- Manual installation steps in walkthrough.md are for **learning/understanding only**.
-- Execute automation script first, explain what it does after.
-
 ## Workspace and Project Setup
 
 - Default workspace for exercises: `./work/hello-genai/` unless module specifies otherwise.
