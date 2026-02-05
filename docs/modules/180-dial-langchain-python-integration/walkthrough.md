@@ -82,19 +82,23 @@ Before diving in, let's understand what we're building with and why these choice
    sudo apt install python3.12 python3.12-venv python3-pip
    ```
 
-3. Create a project directory:
+3. Navigate to the workspace directory:
    
    **Windows:**
    ```powershell
-   mkdir c:\temp\dial-python-demo
-   cd c:\temp\dial-python-demo
+   cd work
+   mkdir python-ai-workspace
+   cd python-ai-workspace
    ```
    
    **macOS/Linux:**
    ```bash
-   mkdir ~/temp/dial-python-demo
-   cd ~/temp/dial-python-demo
+   cd work
+   mkdir python-ai-workspace
+   cd python-ai-workspace
    ```
+   
+   **Why this location?** We're creating a persistent workspace that can be reused across multiple AI modules (RAG, agents, etc.) without reinstalling dependencies.
 
 ## Part 3: Creating Virtual Environment
 
@@ -134,7 +138,7 @@ Virtual environments keep project dependencies isolated. Without them, installin
 
 3. Verify activation - your prompt should now show `(.venv)` prefix:
    ```
-   (.venv) PS C:\temp\dial-python-demo>
+   (.venv) PS C:\Java\CopipotTraining\vibecoding-for-managers\work\python-ai-workspace>
    ```
 
 4. Upgrade pip (Python package manager):
@@ -187,12 +191,12 @@ Never hardcode API keys in scripts! Use environment variables instead.
    
    **Windows:**
    ```powershell
-   Copy-Item c:\Java\CopipotTraining\vibecoding-for-managers\docs\modules\180-dial-langchain-python-integration\tools\.env.example .\.env
+   Copy-Item ..\..\docs\modules\180-dial-langchain-python-integration\tools\.env.example .\.env
    ```
    
    **macOS/Linux:**
    ```bash
-   cp c:/Java/CopipotTraining/vibecoding-for-managers/docs/modules/180-dial-langchain-python-integration/tools/.env.example ./.env
+   cp ../../docs/modules/180-dial-langchain-python-integration/tools/.env.example ./.env
    ```
 
 2. Open `.env` file in text editor
@@ -220,14 +224,14 @@ Before running the script, let's understand what it does.
    
    **Windows:**
    ```powershell
-   Copy-Item c:\Java\CopipotTraining\vibecoding-for-managers\docs\modules\180-dial-langchain-python-integration\tools\query_dial.py .
-   Copy-Item c:\Java\CopipotTraining\vibecoding-for-managers\docs\modules\180-dial-langchain-python-integration\tools\color.py .
+   Copy-Item ..\..\docs\modules\180-dial-langchain-python-integration\tools\query_dial.py .
+   Copy-Item ..\..\docs\modules\180-dial-langchain-python-integration\tools\color.py .
    ```
    
    **macOS/Linux:**
    ```bash
-   cp c:/Java/CopipotTraining/vibecoding-for-managers/docs/modules/180-dial-langchain-python-integration/tools/query_dial.py .
-   cp c:/Java/CopipotTraining/vibecoding-for-managers/docs/modules/180-dial-langchain-python-integration/tools/color.py .
+   cp ../../docs/modules/180-dial-langchain-python-integration/tools/query_dial.py .
+   cp ../../docs/modules/180-dial-langchain-python-integration/tools/color.py .
    ```
 
 2. Open `query_dial.py` in your editor and examine the code:
@@ -289,9 +293,9 @@ print(response)
    ======================================
    Query on Azure example
    ======================================
-   Python executable: C:\temp\dial-python-demo\.venv\Scripts\python.exe
+   Python executable: C:\Java\CopipotTraining\vibecoding-for-managers\work\python-ai-workspace\.venv\Scripts\python.exe
    Python version: 3.12.x
-   Current directory: C:\temp\dial-python-demo
+   Current directory: C:\Java\CopipotTraining\vibecoding-for-managers\work\python-ai-workspace
    
    Query
    -----
@@ -355,135 +359,258 @@ Now let's modify the script to try different queries.
    - `gpt-4o` - More capable, slower, more expensive
    - `gpt-4` - Most capable, slowest, most expensive
 
-## Part 9: Building a Conversational Script
+## Part 9: Three Ways to Run Your Scripts
 
-Let's enhance the script to maintain conversation history.
+Once your environment is set up, you have multiple options for executing Python scripts. Each method has different advantages depending on your workflow.
 
-1. Create a new file `conversation.py`:
-   ```python
-   from color import header
-   header("Conversational AI Demo", "cyan")
-   
-   import os
-   from langchain_openai import AzureChatOpenAI
-   from dotenv import load_dotenv
-   
-   load_dotenv()
-   
-   llm = AzureChatOpenAI(
-       azure_deployment = os.getenv("AZURE_OPENAI_API_DEPLOYMENT"),
-       api_version      = os.getenv("AZURE_OPENAI_API_VERSION"),
-       api_key          = os.getenv("AZURE_OPENAI_API_KEY"),
-       azure_endpoint   = os.getenv("AZURE_OPENAI_ENDPOINT"),
-       max_tokens       = 1000,
-       temperature      = 0.7
-   )
-   
-   # Conversation history
-   messages = []
-   
-   header("Multi-turn Conversation")
-   print("Type 'exit' to quit\n")
-   
-   while True:
-       user_input = input("You: ")
-       
-       if user_input.lower() == 'exit':
-           break
-       
-       # Add user message to history
-       messages.append({"role": "user", "content": user_input})
-       
-       # Get AI response
-       response = llm.invoke(messages)
-       
-       # Add AI response to history
-       messages.append({"role": "assistant", "content": response.content})
-       
-       print(f"\nAI: {response.content}\n")
-   
-   header("Conversation ended")
-   ```
+### Method 1: Windows Native Execution
 
-2. Run the conversational script:
+**Best for:** Daily development, debugging, quick iterations
+
+**Prerequisites:**
+- Completed Part 2-5 (Python installed, venv created, dependencies installed, .env configured)
+- Virtual environment exists in `work/python-ai-workspace/.venv`
+
+**Steps:**
+
+1. Navigate to workspace:
    ```powershell
-   python conversation.py
+   cd work\python-ai-workspace
    ```
 
-3. Have a multi-turn conversation:
+2. Activate virtual environment:
+   ```powershell
+   .\.venv\Scripts\Activate.ps1
    ```
-   You: What's the capital of France?
-   AI: The capital of France is Paris.
    
-   You: What's the population?
-   AI: Paris has approximately 2.1 million residents...
-   
-   You: exit
+   You should see `(.venv)` prefix in your prompt.
+
+3. Run any script:
+   ```powershell
+   python query_dial.py
+   # Or any other .py script you create
    ```
 
-Notice how the AI remembers context ("What's the population?" - it knows you mean Paris)!
+4. When finished, deactivate (optional):
+   ```powershell
+   deactivate
+   ```
 
-## Part 10: Three Ways to Set Up Your Environment
+**Advantages:**
+- ✅ Fastest execution (no container overhead)
+- ✅ Easy debugging with VS Code Python debugger
+- ✅ Direct file system access
+- ✅ IDE integration works perfectly
 
-For reproducibility, you can automate the entire setup. We provide three installation options:
+**Disadvantages:**
+- ❌ Requires Windows setup (not portable to Linux)
+- ❌ Depends on host Python version
 
-### Option 1: Windows Native (PowerShell)
+### Method 2: Linux/macOS Native Execution
 
-Best for Windows development with native Python installation. Navigate to tools directory and run the script.
+**Best for:** Development on Linux/macOS systems with system Python
+
+**Prerequisites:**
+- Linux/macOS operating system
+- Python 3.10+ installed on system
+- Workspace created in `work/python-ai-workspace`
+
+**Steps:**
+
+1. Navigate to workspace:
+   ```bash
+   cd work/python-ai-workspace
+   ```
+
+2. Activate virtual environment:
+   ```bash
+   source .venv/bin/activate
+   ```
+   
+   You should see `(.venv)` prefix in your prompt.
+
+3. Run any script:
+   ```bash
+   python3 query_dial.py
+   # Or any other .py script you create
+   ```
+
+4. When finished, deactivate (optional):
+   ```bash
+   deactivate
+   ```
+
+**Alternative - Automated Setup:**
+If you haven't set up the environment yet, use the installation script:
+
+```bash
+cd docs/modules/180-dial-langchain-python-integration/tools
+./install-python-linux.sh
+```
+
+This script performs all setup steps automatically (venv creation, dependencies installation, file copying).
+
+**Advantages:**
+- ✅ Fastest execution on Linux/macOS (no container overhead)
+- ✅ Easy debugging with native tools
+- ✅ Direct file system access
+- ✅ Uses system Python 3.10+
+
+**Disadvantages:**
+- ❌ Requires Linux/macOS system
+- ❌ Depends on system Python version
+
+### Method 3: Docker Deployment (Production-Ready Container)
+
+**Best for:** Reproducible environments, deployment, sharing with team
+
+**Prerequisites:**
+- Docker Desktop installed and running
+- Workspace exists with scripts to run
+
+**Steps:**
+
+1. Navigate to module tools directory:
+   ```powershell
+   cd docs\modules\180-dial-langchain-python-integration\tools
+   ```
+
+2. Run Docker deployment script:
+   
+   **Windows:**
+   ```powershell
+   .\install-python-docker.ps1
+   # Or specify different script:
+   .\install-python-docker.ps1 -Script "your_script.py"
+   ```
+   
+   **Linux/macOS:**
+   ```bash
+   ./install-python-docker.sh
+   # Or specify different script:
+   ./install-python-docker.sh your_script.py
+   ```
+
+3. What happens:
+   - Builds Docker image (cached after first build - ~1-3 seconds on subsequent runs)
+   - Mounts `work/python-ai-workspace` as volume
+   - Runs specified script inside container
+   - Container removes automatically after execution
+
+4. First build takes ~120 seconds (downloads Ubuntu, installs Python packages):
+   ```
+   Building Docker image...
+   Step 1/7 : FROM ubuntu:22.04
+   Step 2/7 : RUN apt-get update && apt-get install -y python3...
+   ...
+   Successfully built abc123def456
+   ```
+
+5. Subsequent runs use cache (~1-3 seconds):
+   ```
+   Building Docker image...
+   Using cache...
+   Successfully built abc123def456
+   Running script...
+   ```
+
+**Advantages:**
+- ✅ Perfect reproducibility (same environment everywhere)
+- ✅ No host system pollution (Python stays in container)
+- ✅ Layer caching makes rebuilds fast
+- ✅ Easy to share (Dockerfile + scripts)
+- ✅ Ideal for CI/CD pipelines
+
+**Disadvantages:**
+- ❌ First build takes time (~2 minutes)
+- ❌ Requires Docker Desktop
+- ❌ Slight performance overhead vs native
+
+**Optimization Note:** Docker image is built with base Python environment cached. Scripts are mounted from host, not copied into image, so changing scripts doesn't require rebuild!
+
+### Choosing the Right Method
+
+| Scenario | Recommended Method |
+|----------|-------------------|
+| Daily development and debugging | Method 1: Windows Native |
+| Development on Linux/macOS | Method 2: Linux/macOS Native |
+| CI/CD pipeline | Method 3: Docker Deployment |
+| Sharing with team | Method 3: Docker Deployment |
+| Production deployment | Method 3: Docker Deployment |
+| Quick experiments | Method 1: Windows Native |
+| Cross-platform validation | Method 2 or 3 |
+
+**Pro Tip:** Use Method 1 for development, then validate with Method 3 before committing to ensure your code works in Docker!
+
+## Part 10: Automated Environment Setup Scripts (Optional)
+
+**Note:** If you already completed Parts 2-5 manually, you can skip this section. These automation scripts are provided for convenience and reproducibility.
+
+For automated setup, we provide installation scripts that perform all the manual steps (Python installation, venv creation, dependency installation, file copying) in one command. These are useful for:
+- Setting up fresh environments quickly
+- CI/CD pipelines
+- Team onboarding
+- Reproducible configurations
+
+### Option 1: Windows Automated Setup
+
+Automates Python portable download, venv creation, and dependency installation.
 
 ```powershell
-cd tools
+cd docs\modules\180-dial-langchain-python-integration\tools
 .\install-python-windows.ps1
 ```
 
-This script:
-- Downloads portable Python 3.12.8
-- Creates virtual environment in `.venv`
-- Installs all langchain dependencies
-- Sets up `.env` template if missing
+This script performs:
+- Downloads portable Python 3.12.8 to workspace `.tools/python`
+- Creates virtual environment in `work/python-ai-workspace/.venv`
+- Installs langchain, langchain-openai, python-dotenv
+- Copies example scripts (query_dial.py, color.py) to workspace
+- Sets up `.env` template from `.env.example`
+- Creates `.gitignore` for workspace
 
-### Option 2: Linux/macOS (Bash)
+### Option 2: Linux/macOS Automated Setup
 
-Best for Linux/macOS development with system Python. Navigate to tools directory and run the script.
+Automates venv creation and dependency installation using system Python.
 
 ```bash
-cd tools && ./install-python-linux.sh
+cd docs/modules/180-dial-langchain-python-integration/tools
+./install-python-linux.sh
 ```
 
-This script:
-- Detects and validates system Python installation
-- Creates virtual environment in `.venv`
-- Installs all langchain dependencies
-- Guides through manual Python installation if needed
+This script performs:
+- Detects and validates system Python 3.10+ installation
+- Creates virtual environment in `work/python-ai-workspace/.venv`
+- Installs langchain, langchain-openai, python-dotenv
+- Copies example scripts (query_dial.py, color.py) to workspace
+- Sets up `.env` template from `.env.example`
+- Creates `.gitignore` for workspace
+- Provides guidance if Python not found
 
-### Option 3: Docker (Cross-platform)
+### Option 3: Docker Build-and-Run Automation
 
-Best for consistent environment across all platforms, testing, or deployment. Navigate to tools directory and run Docker build.
+Automates Docker image building and script execution in one command.
 
 **Windows:**
 ```powershell
-cd tools
-.\install-python-docker.ps1
+cd docs\modules\180-dial-langchain-python-integration\tools
+.\install-python-docker.ps1 -Script "query_dial.py"
 ```
 
 **Linux/macOS:**
 ```bash
-cd tools && ./install-python-docker.sh
+cd docs/modules/180-dial-langchain-python-integration/tools
+./install-python-docker.sh query_dial.py
 ```
 
-Docker approach:
-- Creates clean Ubuntu 22.04 image
-- Installs Python and all dependencies in container
-- No host system pollution
-- Perfect reproducibility across machines
-- Ideal for CI/CD pipelines
+This script performs:
+- Builds Docker image with Python 3.10 + langchain (Ubuntu 22.04 base)
+- Mounts `work/python-ai-workspace` as volume
+- Runs specified script inside container
+- Container auto-removes after execution
+- First build ~120 seconds, subsequent builds ~1-3 seconds (cached)
 
-**Which option to choose?**
-- **Windows native**: Fastest for development, integrates with Windows tools
-- **Linux/macOS native**: Fastest for development, uses system Python
-- **Docker**: Slowest to build, but perfectly isolated and reproducible
-
-All three methods produce the same working environment with identical dependencies!
+**These automation scripts are equivalent to performing Parts 2-8 manually.** Choose automation for speed, choose manual for learning!
 
 ## Success Criteria
 

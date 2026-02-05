@@ -2,11 +2,56 @@
 # Bash Docker Runner for DIAL Python Application
 # This script builds a production Docker image and runs the DIAL query application
 
+# Accept script name and workspace path parameters
+SCRIPT_NAME="${1:-query_dial.py}"
+WORKSPACE_PATH="${2:-work/python-ai-workspace}"
+EXTRA_PACKAGES="${3:-}"
+
 set -e
+
+# Function to find project root by .root marker file
+find_project_root() {
+    local current_path="$1"
+    local max_depth=10
+    local depth=0
+    
+    while [ $depth -lt $max_depth ]; do
+        if [ -f "${current_path}/.root" ]; then
+            echo "${current_path}"
+            return 0
+        fi
+        
+        local parent_path="$(dirname "${current_path}")"
+        if [ "${parent_path}" = "${current_path}" ] || [ "${parent_path}" = "/" ]; then
+            break
+        fi
+        
+        current_path="${parent_path}"
+        depth=$((depth + 1))
+    done
+    
+    echo "Error: Could not find project root (.root file not found). Are you in the right directory?" >&2
+    exit 1
+}
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 IMAGE_NAME="dial-python-app"
 CONTAINER_NAME="dial-app-container"
+
+# Convert path for Docker on Windows (Git Bash)
+# /c/Users/... → C:/Users/...
+if [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "cygwin" ]]; then
+    SCRIPT_DIR_DOCKER="$(cygpath -w "$SCRIPT_DIR" | sed 's|\\|/|g')"
+else
+    SCRIPT_DIR_DOCKER="$SCRIPT_DIR"
+fi
+
+# Find project root and resolve workspace path
+PROJECT_ROOT="$(find_project_root "${SCRIPT_DIR}")"
+WORKSPACE_DIR="${PROJECT_ROOT}/${WORKSPACE_PATH}"
+
+mkdir -p "${WORKSPACE_DIR}"
+WORKSPACE_DIR="$(cd "${WORKSPACE_DIR}" && pwd)"
 
 cd "$SCRIPT_DIR"
 
@@ -14,6 +59,9 @@ echo ""
 echo "============================================="
 echo "DIAL Python Docker Application"
 echo "============================================="
+echo ""
+echo "Script to run: $SCRIPT_NAME"
+echo "Workspace: $WORKSPACE_DIR"
 echo ""
 
 # Check if Docker is available
@@ -40,8 +88,23 @@ fi
 
 # Build Docker image
 echo "Building Docker image with full Python environment..."
+if [ -n "$EXTRA_PACKAGES" ]; then
+    echo "Extra packages: $EXTRA_PACKAGES"
+fi
 echo ""
-docker build -f install-python-docker.dockerfile -t "$IMAGE_NAME" .
+
+BUILD_ARGS=(
+    "-f" "install-python-docker.dockerfile"
+    "--build-arg" "SCRIPT_NAME=$SCRIPT_NAME"
+)
+
+if [ -n "$EXTRA_PACKAGES" ]; then
+    BUILD_ARGS+=("--build-arg" "EXTRA_PACKAGES=$EXTRA_PACKAGES")
+fi
+
+BUILD_ARGS+=("-t" "$IMAGE_NAME" ".")
+
+docker build "${BUILD_ARGS[@]}"
 
 echo ""
 echo "============================================="
@@ -49,12 +112,14 @@ echo "Running DIAL application in Docker..."
 echo "============================================="
 echo ""
 
-# Run the container with host network bridge
+# Run the container with tools directory mounted (contains scripts and .env)
 docker run --rm \
     --name "$CONTAINER_NAME" \
     --add-host "host.docker.internal:host-gateway" \
+    -v "${SCRIPT_DIR_DOCKER}:/workspace" \
     -it \
-    "$IMAGE_NAME"
+    "$IMAGE_NAME" \
+    bash -c "if [ -f .env.example ] && [ ! -f .env ]; then cp .env.example .env; fi && python $SCRIPT_NAME"
 
 echo ""
 echo "============================================="

@@ -2,18 +2,53 @@
 # Simple Python Environment Setup for DIAL Integration
 # This script installs system Python, creates virtual environment, and installs dependencies
 
+# Accept workspace path parameter (default: work/python-ai-workspace)
+WORKSPACE_PATH="${1:-work/python-ai-workspace}"
+
 set -e
 
-# Install everything in the tools directory
-INSTALL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TOOLS_DIR="${INSTALL_DIR}/.tools"
-VENV_DIR="${INSTALL_DIR}/.venv"
+# Function to find project root by .root marker file
+find_project_root() {
+    local current_path="$1"
+    local max_depth=10
+    local depth=0
+    
+    while [ $depth -lt $max_depth ]; do
+        if [ -f "${current_path}/.root" ]; then
+            echo "${current_path}"
+            return 0
+        fi
+        
+        local parent_path="$(dirname "${current_path}")"
+        if [ "${parent_path}" = "${current_path}" ] || [ "${parent_path}" = "/" ]; then
+            break
+        fi
+        
+        current_path="${parent_path}"
+        depth=$((depth + 1))
+    done
+    
+    echo "Error: Could not find project root (.root file not found). Are you in the right directory?" >&2
+    exit 1
+}
+
+# Find project root and resolve workspace path
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(find_project_root "${SCRIPT_DIR}")"
+WORKSPACE_DIR="${PROJECT_ROOT}/${WORKSPACE_PATH}"
+
+mkdir -p "${WORKSPACE_DIR}"
+WORKSPACE_DIR="$(cd "${WORKSPACE_DIR}" && pwd)"
+TOOLS_DIR="${WORKSPACE_DIR}/.tools"
+VENV_DIR="${WORKSPACE_DIR}/.venv"
 GET_PIP_URL="https://bootstrap.pypa.io/get-pip.py"
 
 echo ""
 echo "============================================="
 echo "DIAL Python Environment Setup"
 echo "============================================="
+echo ""
+echo "Workspace: $WORKSPACE_DIR"
 echo ""
 
 # Create tools directory
@@ -121,12 +156,48 @@ echo "============================================="
 echo "Installation completed successfully!"
 echo "============================================="
 echo ""
+
+# Step 6: Copy Python scripts to workspace
+echo "Step 6: Copying example scripts to workspace..."
+
+cp "${SCRIPT_DIR}/query_dial.py" "${WORKSPACE_DIR}/"
+cp "${SCRIPT_DIR}/color.py" "${WORKSPACE_DIR}/"
+
+# Copy .env.example if .env doesn't exist
+ENV_EXAMPLE="${SCRIPT_DIR}/.env.example"
+ENV_TARGET="${WORKSPACE_DIR}/.env"
+if [ -f "$ENV_EXAMPLE" ] && [ ! -f "$ENV_TARGET" ]; then
+    cp "$ENV_EXAMPLE" "$ENV_TARGET"
+    echo ""
+    echo "IMPORTANT: Configure your API key in .env file!"
+fi
+
+# Create .gitignore
+cat > "${WORKSPACE_DIR}/.gitignore" << 'EOF'
+.venv/
+.tools/
+.env
+__pycache__/
+*.pyc
+EOF
+
+echo "Scripts copied to workspace"
+
+echo ""
+echo "============================================="
+echo "Setup Complete!"
+echo "============================================="
+echo ""
 echo "Virtual environment location:"
 echo "  $VENV_DIR"
 echo ""
-echo "To activate virtual environment:"
+echo "Workspace location:"
+echo "  $WORKSPACE_DIR"
+echo ""
+echo "To activate virtual environment (run from workspace):"
+echo "  cd $WORKSPACE_DIR"
 echo "  source .venv/bin/activate"
 echo ""
-echo "To run scripts with virtual environment:"
-echo "  $VENV_PYTHON query_dial.py"
+echo "To run example script:"
+echo "  python query_dial.py"
 echo ""

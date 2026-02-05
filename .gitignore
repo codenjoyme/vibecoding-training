@@ -4,3 +4,4 @@ __pycache__/
 .tools
 work/
 training-progress.md
+.env

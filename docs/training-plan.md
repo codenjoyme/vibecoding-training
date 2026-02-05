@@ -28,6 +28,8 @@ This training is highly practical. Each video provides a new actionable skill th
 1. [Bulk File Processing with AI](modules/160-bulk-file-processing-with-ai/about.md) - Process multiple files efficiently with AI agent automation
 1. [DIAL API Key and cURL Access](modules/170-dial-api-key-curl-access/about.md) - Get EPAM AI DIAL API key and test with cURL requests
 1. [DIAL Integration with Python and Langchain](modules/180-dial-langchain-python-integration/about.md) - Build AI applications with Python, langchain, and virtual environments
+1. [Prompt Templates for Dynamic Queries](modules/185-prompt-templates-dynamic-queries/about.md) - Create reusable parameterized prompts for scalable AI applications
+1. [RAG: Document Question Answering](modules/190-rag-document-question-answering/about.md) - Build retrieval-augmented generation systems for factual AI responses
 
 ---
 

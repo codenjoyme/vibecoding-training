@@ -20,7 +20,7 @@ if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
     Write-Host "Error: Docker is not installed!" -ForegroundColor Red
     Write-Host ""
     Write-Host "Please install Docker Desktop first:" -ForegroundColor Yellow
-    Write-Host "  https://www.docker.com/products/docker-desktop" -ForegroundColor Gray
+    Write-Host "  https://www`docker.com/products/docker-desktop" -ForegroundColor Gray
     Write-Host ""
     exit 1
 }
@@ -36,8 +36,8 @@ if ($existingContainer) {
     docker rm -f $CONTAINER_NAME 2>$null | Out-Null
 }
 
-# Build Docker image
-Write-Host "Building Docker image..." -ForegroundColor Cyan
+# Build Docker image (copies .root and all files)
+Write-Host "Building Docker image with project structure..." -ForegroundColor Cyan
 Write-Host ""
 docker build -f install-python-linux-test.dockerfile -t $IMAGE_NAME .
 
@@ -47,41 +47,12 @@ Write-Host "Running installation test in Docker..." -ForegroundColor White
 Write-Host "=============================================" -ForegroundColor Cyan
 Write-Host ""
 
-# Get absolute path to current directory
-$TOOLS_PATH = (Get-Location).Path
-
-# Collect all Python files
-$pythonFiles = Get-ChildItem -Path $TOOLS_PATH -Filter "*.py" -File
-
-Write-Host "Mounting files:" -ForegroundColor Gray
-Write-Host "  .env" -ForegroundColor Gray
-Write-Host "  install-python-linux.sh" -ForegroundColor Gray
-foreach ($file in $pythonFiles) {
-    Write-Host "  $($file.Name)" -ForegroundColor Gray
-}
-Write-Host ""
-
-# Build docker run command with individual file mounts
-$dockerArgs = @(
-    "run", "--rm",
-    "--name", $CONTAINER_NAME,
-    "--add-host", "host.docker.internal:host-gateway",
-    "-v", "${TOOLS_PATH}\.env:/workspace/.env:ro",
-    "-v", "${TOOLS_PATH}\install-python-linux.sh:/workspace/install-python-linux.sh"
-)
-
-# Add each Python file as a mount
-foreach ($file in $pythonFiles) {
-    $dockerArgs += "-v"
-    $dockerArgs += "${TOOLS_PATH}\$($file.Name):/workspace/$($file.Name):ro"
-}
-
-# Add interactive flags and image name
-$dockerArgs += "-it"
-$dockerArgs += $IMAGE_NAME
-
-# Run the container with mounted files
-& docker $dockerArgs
+# Run the container (everything is inside, no volume mounts needed)
+docker run --rm `
+    --name $CONTAINER_NAME `
+    --add-host "host.docker.internal:host-gateway" `
+    -it `
+    $IMAGE_NAME
 
 Write-Host ""
 Write-Host "=============================================" -ForegroundColor Cyan
