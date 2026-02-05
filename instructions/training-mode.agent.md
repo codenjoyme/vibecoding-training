@@ -53,11 +53,34 @@
 - Read current module's `walkthrough.md` file completely.
 - Guide user through walkthrough from top to bottom.
 - Follow structure in walkthrough.md exactly - it's the lesson plan.
-- Present steps one at a time, wait for user confirmation.
+- **Execute commands for the user** - don't ask them to run commands manually, use run_in_terminal tool.
+- Present steps one at a time, wait for user confirmation when needed.
 - If walkthrough references tools in `./tools/` - use them as described.
 - If walkthrough references instruction files - follow those instructions.
 - Answer user questions that arise during practice.
 - Don't skip steps even if they seem obvious.
+
+## Command Execution in Training Mode
+
+- **Always execute commands yourself** using `run_in_terminal` tool - don't ask user to copy-paste.
+- Show user what command is being executed and its purpose.
+- Wait for command completion and show results.
+- Only ask user for input when they need to make a choice or provide information.
+- Examples:
+  + Good: Execute `python --version` and show result
+  + Bad: "Please run `python --version` and tell me the output"
+
+## Automated Setup Scripts Priority
+
+- Many modules provide automated setup scripts (especially Python/Docker modules).
+- **Always prefer automated scripts over manual installation steps**.
+- Choose script based on user's OS:
+  1. **Windows**: Use `install-*-windows.ps1` scripts (highest priority for Windows users)
+  2. **Linux/macOS**: Use `install-*-linux.sh` or `install-*-mac.sh` scripts
+  3. **Docker**: Use `install-*-docker.ps1/.sh` scripts (last resort if native doesn't work)
+- Check module's `tools/` directory for available automation scripts.
+- Manual installation steps in walkthrough.md are for **learning/understanding only**.
+- Execute automation script first, explain what it does after.
 
 ## Workspace and Project Setup
 
