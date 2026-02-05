@@ -401,40 +401,67 @@ Let's enhance the script to maintain conversation history.
 
 Notice how the AI remembers context ("What's the population?" - it knows you mean Paris)!
 
-## Part 10: Saving Your Setup Script
+## Part 10: Three Ways to Set Up Your Environment
 
-For reproducibility, let's create an installation script.
+For reproducibility, you can automate the entire setup. We provide three installation options:
 
-1. Copy the install script from module tools:
-   
-   **Windows:**
-   ```powershell
-   Copy-Item c:\Java\CopipotTraining\vibecoding-for-managers\docs\modules\180-dial-langchain-python-integration\tools\install.ps1 .
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   cp c:/Java/CopipotTraining/vibecoding-for-managers/docs/modules/180-dial-langchain-python-integration/tools/install.sh .
-   ```
+### Option 1: Windows Native (PowerShell)
 
-2. This script automates everything we did manually:
-   - Creates virtual environment
-   - Activates it
-   - Installs all dependencies
-   - Creates .env template if missing
+Best for Windows development with native Python installation. Navigate to tools directory and run the script.
 
-3. Anyone can now set up your project with one command:
-   
-   **Windows:**
-   ```powershell
-   .\install.ps1
-   ```
-   
-   **macOS/Linux:**
-   ```bash
-   chmod +x install.sh
-   ./install.sh
-   ```
+```powershell
+cd tools
+.\install-python-windows.ps1
+```
+
+This script:
+- Downloads portable Python 3.12.8
+- Creates virtual environment in `.venv`
+- Installs all langchain dependencies
+- Sets up `.env` template if missing
+
+### Option 2: Linux/macOS (Bash)
+
+Best for Linux/macOS development with system Python. Navigate to tools directory and run the script.
+
+```bash
+cd tools && ./install-python-linux.sh
+```
+
+This script:
+- Detects and validates system Python installation
+- Creates virtual environment in `.venv`
+- Installs all langchain dependencies
+- Guides through manual Python installation if needed
+
+### Option 3: Docker (Cross-platform)
+
+Best for consistent environment across all platforms, testing, or deployment. Navigate to tools directory and run Docker build.
+
+**Windows:**
+```powershell
+cd tools
+.\install-python-docker.ps1
+```
+
+**Linux/macOS:**
+```bash
+cd tools && ./install-python-docker.sh
+```
+
+Docker approach:
+- Creates clean Ubuntu 22.04 image
+- Installs Python and all dependencies in container
+- No host system pollution
+- Perfect reproducibility across machines
+- Ideal for CI/CD pipelines
+
+**Which option to choose?**
+- **Windows native**: Fastest for development, integrates with Windows tools
+- **Linux/macOS native**: Fastest for development, uses system Python
+- **Docker**: Slowest to build, but perfectly isolated and reproducible
+
+All three methods produce the same working environment with identical dependencies!
 
 ## Success Criteria
 
