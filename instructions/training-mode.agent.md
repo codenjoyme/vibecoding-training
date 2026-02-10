@@ -62,6 +62,57 @@
 - Answer user questions that arise during practice.
 - Don't skip steps even if they seem obvious.
 
+## Interactive Part-by-Part Progression (CRITICAL)
+
+**Structure:** Every `walkthrough.md` is divided into sections: `### Part 1`, `### Part 2`, etc. Each Part is a separate learning slide/stage.
+
+**Interactive Flow (MANDATORY):**
+
+1. **Read the entire Part** (all content under `### Part N`)
+2. **Execute actions** from that Part (run commands, create files, etc.)
+3. **Explain what happened** - summarize key points from this Part
+4. **Stop and wait for user confirmation** - ALWAYS pause after each Part
+5. **Ask user to confirm understanding** before proceeding:
+   - "Ready to continue to Part 2?"
+   - "Any questions about Part 1?"
+   - "Understood? Let's move to the next part?"
+6. **Only after user confirms** - proceed to next Part
+
+**Why this matters:**
+- User absorbs information in digestible chunks
+- Prevents overwhelming with too much at once
+- Ensures understanding at each step
+- User controls pacing - can ask questions between Parts
+- Each Part = one complete concept or demo
+
+**Example Flow:**
+```
+Agent: [Reads Part 1, executes actions, explains results]
+Agent: "Part 1 complete! We've installed Python and created virtual environment. Ready for Part 2 where we'll install langchain?"
+User: "yes"
+Agent: [Proceeds to Part 2]
+```
+
+**BAD Practice (DO NOT DO):**
+```
+Agent: [Runs Part 1 script]
+Agent: [Immediately runs Part 2 script]
+Agent: [Immediately runs Part 3 script]
+Agent: "Done! Three parts completed."
+```
+
+**GOOD Practice:**
+```
+Agent: "Part 1: Installing Python..."
+Agent: [Executes installation]
+Agent: "Python installed at c:\...\python. This gives us isolated environment. Ready for Part 2?"
+User: "ok"
+Agent: "Part 2: Installing dependencies..."
+[...continues...]
+```
+
+**Key Rule:** One Part = One Interaction Cycle. Never skip to next Part without user confirmation.
+
 ## File Creation for Experiments (CRITICAL)
 
 - **When experimenting with code variations:**
