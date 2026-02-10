@@ -166,7 +166,7 @@ Congratulations! You've successfully completed this module if:
 ✅ VS Code is installed and running on your computer  
 ✅ You have a GitHub account with Copilot subscription active  
 ✅ GitHub Copilot is authorized in VS Code  
-✅ You've created the workspace folder at `c:/workspace/hello-genai/`  
+✅ You've created the workspace folder at `c:/workspace/hello-genai/` (Windows) or `~/workspace/hello-genai/` (macOS/Linux)  
 ✅ VS Code opened the workspace folder  
 ✅ Copilot Chat is responding to your questions
 

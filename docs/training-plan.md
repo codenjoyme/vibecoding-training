@@ -10,6 +10,7 @@ This training is highly practical. Each video provides a new actionable skill th
 
 1. [Installing VSCode + GitHub Copilot](modules/010-installing-vscode-github-copilot/about.md) - Set up your first AI coding environment
 1. [Installing Cursor](modules/020-installing-cursor/about.md) - Set up alternative AI-native IDE
+1. [Downloading Course Materials](modules/025-downloading-course-materials/about.md) - Download and set up the course repository locally
 1. [Model Selection](modules/030-model-selection/about.md) - Choose the right AI model for your task
 1. [Agent Mode & AI Mechanics](modules/040-agent-mode-under-the-hood/about.md) - Understand how AI coding assistants work
 1. [Effective Prompting](modules/050-effective-prompting-without-arguing/about.md) - Iterate prompts instead of arguing with AI
