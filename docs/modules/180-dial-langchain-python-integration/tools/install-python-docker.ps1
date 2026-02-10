@@ -4,7 +4,7 @@
 param(
     [string]$Script = "query_dial.py",
     [string]$WorkspacePath = "work\180-task",
-    [string]$ExtraPackages = ""
+    [string]$ExtraPackages = "python-dotenv langchain langchain-openai langchain-community"
 )
 
 $ErrorActionPreference = "Stop"

@@ -5,7 +5,7 @@
 # Accept script name and workspace path parameters
 SCRIPT_NAME="${1:-query_dial.py}"
 WORKSPACE_PATH="${2:-work/180-task}"
-EXTRA_PACKAGES="${3:-}"
+EXTRA_PACKAGES="${3:-python-dotenv langchain langchain-openai langchain-community}"
 
 set -e
 

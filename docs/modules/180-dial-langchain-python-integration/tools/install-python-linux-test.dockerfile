@@ -30,4 +30,4 @@ RUN dos2unix install-python-linux.sh 2>/dev/null || true && \
     if [ -f .env.example ] && [ ! -f .env ]; then cp .env.example .env; fi
 
 # Default command: run the installation script and test
-CMD ["bash", "-c", "echo '=== Starting installation test ===' && ./install-python-linux.sh && echo '' && echo '=== Installation completed ===' && echo '' && echo '=== Checking workspace ===' && ls -la /project/work/python-ai-workspace/ && echo '' && echo '=== Testing query_dial.py ===' && cd /project/work/python-ai-workspace && source .venv/bin/activate && python query_dial.py"]
+CMD ["bash", "-c", "echo '=== Starting installation test ===' && ./install-python-linux.sh && echo '' && echo '=== Installation completed ===' && echo '' && echo '=== Checking workspace ===' && ls -la /project/work/180-task/ && echo '' && echo '=== Testing query_dial.py ===' && cd /project/work/180-task && source .venv/bin/activate && python query_dial.py"]
