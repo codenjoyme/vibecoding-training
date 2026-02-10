@@ -81,10 +81,10 @@ Before we run the installation script, let's understand what it will set up:
 
 ```powershell
 cd docs\modules\180-dial-langchain-python-integration\tools
-.\install-python-windows.ps1 -ExtraPackages "python-dotenv langchain langchain-openai langchain-community"
+.\install-python-windows.ps1 -WorkspacePath "work\180-task" -ExtraPackages "python-dotenv langchain langchain-openai langchain-community"
 ```
 
-This downloads portable Python 3.12.8, creates virtual environment, installs specified packages.
+This downloads portable Python 3.12.8, creates virtual environment, installs specified packages to `work/180-task/`.
 
 ### Option 2: Linux/macOS
 
@@ -93,23 +93,23 @@ cd docs/modules/180-dial-langchain-python-integration/tools
 ./install-python-linux.sh work/180-task "python-dotenv langchain langchain-openai langchain-community"
 ```
 
-Uses system Python 3.10+, creates virtual environment, installs specified packages.
+Uses system Python 3.10+, creates virtual environment, installs specified packages to `work/180-task/`.
 
 ### Option 3: Docker (Use only if native installation fails)
 
 **Windows:**
 ```powershell
 cd docs\modules\180-dial-langchain-python-integration\tools
-.\install-python-docker.ps1 -Script "query_dial.py" -ExtraPackages "python-dotenv langchain langchain-openai langchain-community"
+.\install-python-docker.ps1 -WorkspacePath "work\180-task" -Script "query_dial.py" -ExtraPackages "python-dotenv langchain langchain-openai langchain-community"
 ```
 
 **Linux/macOS:**
 ```bash
 cd docs/modules/180-dial-langchain-python-integration/tools
-./install-python-docker.sh query_dial.py "python-dotenv langchain langchain-openai langchain-community"
+./install-python-docker.sh query_dial.py work/180-task "python-dotenv langchain langchain-openai langchain-community"
 ```
 
-Builds Docker container with isolated Python environment.
+Builds Docker container with isolated Python environment. Workspace: `work/180-task/` mounted as volume.
 
 **After automated setup completes:**
 1. Configure your DIAL API key in `work/180-task/.env`

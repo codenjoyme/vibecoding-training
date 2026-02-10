@@ -17,7 +17,7 @@ This module reuses the Python environment from Module 180. Re-run installation w
 **Windows:**
 ```powershell
 cd docs\modules\180-dial-langchain-python-integration\tools
-.\install-python-windows.ps1 -ExtraPackages "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
+.\install-python-windows.ps1 -WorkspacePath "work\180-task" -ExtraPackages "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
 ```
 
 **macOS/Linux:**
@@ -26,7 +26,7 @@ cd docs/modules/180-dial-langchain-python-integration/tools
 ./install-python-linux.sh work/180-task "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
 ```
 
-Then copy the RAG script:
+Then copy the RAG script to `work/180-task/`:
 ```powershell
 # Windows
 cd work\180-task
