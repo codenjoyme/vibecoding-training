@@ -2,6 +2,12 @@
 
 In this walkthrough, you'll install Visual Studio Code, set up GitHub Copilot, and create your first AI-assisted coding workspace.
 
+## ⚠️ Important Note for EPAM Employees
+
+**If you are an EPAM employee**, please use **Part 2.2** below for GitHub Copilot subscription. All other users should follow **Part 2.1**.
+
+---
+
 ## Prerequisites
 
 - Computer with Windows, macOS, or Linux
@@ -27,7 +33,7 @@ In this walkthrough, you'll install Visual Studio Code, set up GitHub Copilot, a
 
 1. Verify installation: You should see the VS Code welcome screen
 
-### Part 2: Create GitHub Account and Enable Copilot
+### Part 2.1: Create GitHub Account and Enable Copilot (Personal Use)
 
 1. Open your browser and go to [https://github.com/](https://github.com/)
 
@@ -46,6 +52,53 @@ In this walkthrough, you'll install Visual Studio Code, set up GitHub Copilot, a
 1. Complete the subscription process
 
 1. Verify that Copilot is enabled in your account settings
+
+### Part 2.2: Request GitHub Copilot License (EPAM Employees)
+
+**For EPAM employees only:**
+
+1. Open your browser and navigate to the EPAM Support portal:
+   - [https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses](https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses)
+
+1. In the Software Licenses request form, select **GitHub Copilot** from the available options
+
+1. Choose the purpose for using GitHub Copilot:
+   - **Education and Internal project only** - Select this for learning and internal development
+   - **Project needs (for external/client projects)** - Select this if you need Copilot for client work
+
+1. If you selected "Project needs":
+   - You will need to specify the project name/code
+   - You must obtain approval from your project manager before proceeding
+   - Wait for the approval confirmation before continuing
+
+1. Carefully read all license agreements and terms of use
+
+1. Accept the agreements if you agree with the terms
+
+1. Submit your request
+
+1. Wait for the license to be provisioned (you'll receive an email notification)
+
+1. Once approved, you'll receive instructions on how to activate your GitHub Copilot license
+
+1. **Important**: Your GitHub username will be in the format: `Name-Surname_epam`
+   - Example: `Ivan-Petrov_epam`
+   - Use this exact username format for authentication
+
+1. Open your browser and navigate to GitHub ([https://github.com/](https://github.com/))
+
+1. Sign in using your EPAM GitHub account:
+   - Username: `Name-Surname_epam` (the one provided to you)
+   - You will be redirected to Microsoft SSO authentication page
+
+1. On the Microsoft SSO page:
+   - Enter your EPAM credentials (same as for other EPAM portals)
+   - Complete multi-factor authentication if prompted
+   - You'll be redirected back to GitHub after successful authentication
+
+1. Verify: Check that Copilot is now enabled in your GitHub account settings
+
+1. Proceed to **Part 3: Authorize GitHub Copilot** below
 
 ### Part 3: Authorize GitHub Copilot
 
