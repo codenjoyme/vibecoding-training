@@ -12,21 +12,28 @@ In this walkthrough, you'll build a Retrieval-Augmented Generation (RAG) system 
 
 ## Quick Start: Install FAISS and Copy Script
 
-This module reuses the Python environment from Module 180. Only need to install FAISS (vector search library) and copy the RAG example:
+This module reuses the Python environment from Module 180. Re-run installation with FAISS included:
 
 **Windows:**
 ```powershell
-cd work\180-task
-.\.venv\Scripts\Activate.ps1
-pip install faiss-cpu
-Copy-Item ..\..\docs\modules\190-rag-document-question-answering\tools\rag.py .
+cd docs\modules\180-dial-langchain-python-integration\tools
+.\install-python-windows.ps1 -ExtraPackages "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
 ```
 
 **macOS/Linux:**
 ```bash
+cd docs/modules/180-dial-langchain-python-integration/tools
+./install-python-linux.sh work/180-task "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
+```
+
+Then copy the RAG script:
+```powershell
+# Windows
+cd work\180-task
+Copy-Item ..\..\docs\modules\190-rag-document-question-answering\tools\rag.py .
+
+# macOS/Linux  
 cd work/180-task
-source .venv/bin/activate
-pip install faiss-cpu
 cp ../../docs/modules/190-rag-document-question-answering/tools/rag.py .
 ```
 
@@ -576,20 +583,20 @@ cd docs/modules/180-dial-langchain-python-integration/tools
    cd docs\modules\180-dial-langchain-python-integration\tools
    ```
 
-2. Run RAG scripts with **FAISS auto-installation**:
+2. Run RAG scripts with **FAISS included in packages**:
    
    **Windows:**
    ```powershell
-   .\install-python-docker.ps1 -Script "rag.py" -ExtraPackages "faiss-cpu"
-   .\install-python-docker.ps1 -Script "custom_rag.py" -ExtraPackages "faiss-cpu"
-   .\install-python-docker.ps1 -Script "file_rag.py" -ExtraPackages "faiss-cpu"
+   .\install-python-docker.ps1 -Script "rag.py" -ExtraPackages "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
+   .\install-python-docker.ps1 -Script "custom_rag.py" -ExtraPackages "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
+   .\install-python-docker.ps1 -Script "file_rag.py" -ExtraPackages "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
    ```
    
    **Linux/macOS:**
    ```bash
-   ./install-python-docker.sh rag.py faiss-cpu
-   ./install-python-docker.sh custom_rag.py faiss-cpu
-   ./install-python-docker.sh file_rag.py faiss-cpu
+   ./install-python-docker.sh rag.py "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
+   ./install-python-docker.sh custom_rag.py "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
+   ./install-python-docker.sh file_rag.py "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
    ```
 
 3. What happens:

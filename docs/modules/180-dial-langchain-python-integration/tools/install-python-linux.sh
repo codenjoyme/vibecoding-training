@@ -2,8 +2,9 @@
 # Simple Python Environment Setup for DIAL Integration
 # This script installs system Python, creates virtual environment, and installs dependencies
 
-# Accept workspace path parameter (default: work/180-task)
+# Accept workspace path and packages parameters
 WORKSPACE_PATH="${1:-work/180-task}"
+EXTRA_PACKAGES="${2:-python-dotenv langchain langchain-openai langchain-community}"
 
 set -e
 
@@ -145,11 +146,10 @@ VENV_PIP="${VENV_DIR}/bin/pip"
 echo "Upgrading pip in virtual environment..."
 "$VENV_PYTHON" -m pip install --upgrade pip
 
-echo "Installing langchain packages..."
-"$VENV_PIP" install python-dotenv
-"$VENV_PIP" install langchain
-"$VENV_PIP" install langchain-openai
-"$VENV_PIP" install langchain-community
+if [ -n "$EXTRA_PACKAGES" ]; then
+    echo "Installing packages: $EXTRA_PACKAGES"
+    "$VENV_PIP" install $EXTRA_PACKAGES
+fi
 
 echo ""
 echo "============================================="

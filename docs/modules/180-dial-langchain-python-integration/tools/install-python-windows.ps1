@@ -2,7 +2,8 @@
 # This script downloads portable Python, creates virtual environment, and installs dependencies
 
 param(
-    [string]$WorkspacePath = "work\180-task"
+    [string]$WorkspacePath = "work\180-task",
+    [string]$ExtraPackages = "python-dotenv langchain langchain-openai langchain-community"
 )
 
 $ErrorActionPreference = "Stop"
@@ -142,11 +143,10 @@ $VENV_PIP = Join-Path $VENV_DIR "Scripts\pip.exe"
 Write-Host "Upgrading pip in virtual environment..." -ForegroundColor Yellow
 & $VENV_PYTHON -m pip install --upgrade pip
 
-Write-Host "Installing langchain packages..." -ForegroundColor Yellow
-& $VENV_PIP install python-dotenv
-& $VENV_PIP install langchain
-& $VENV_PIP install langchain-openai
-& $VENV_PIP install langchain-community
+if ($ExtraPackages) {
+    Write-Host "Installing packages: $ExtraPackages" -ForegroundColor Yellow
+    & $VENV_PIP install $ExtraPackages.Split(' ')
+}
 
 Write-Host ""
 Write-Host "=============================================" -ForegroundColor Green

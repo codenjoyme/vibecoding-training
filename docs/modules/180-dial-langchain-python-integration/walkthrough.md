@@ -81,32 +81,32 @@ Before we run the installation script, let's understand what it will set up:
 
 ```powershell
 cd docs\modules\180-dial-langchain-python-integration\tools
-.\install-python-windows.ps1
+.\install-python-windows.ps1 -ExtraPackages "python-dotenv langchain langchain-openai langchain-community"
 ```
 
-This downloads portable Python 3.12.8, creates virtual environment, installs all dependencies, and copies example files to `work/180-task`.
+This downloads portable Python 3.12.8, creates virtual environment, installs specified packages.
 
 ### Option 2: Linux/macOS
 
 ```bash
 cd docs/modules/180-dial-langchain-python-integration/tools
-./install-python-linux.sh
+./install-python-linux.sh work/180-task "python-dotenv langchain langchain-openai langchain-community"
 ```
 
-Uses system Python 3.10+, creates virtual environment, installs dependencies, copies files.
+Uses system Python 3.10+, creates virtual environment, installs specified packages.
 
 ### Option 3: Docker (Use only if native installation fails)
 
 **Windows:**
 ```powershell
 cd docs\modules\180-dial-langchain-python-integration\tools
-.\install-python-docker.ps1 -Script "query_dial.py"
+.\install-python-docker.ps1 -Script "query_dial.py" -ExtraPackages "python-dotenv langchain langchain-openai langchain-community"
 ```
 
 **Linux/macOS:**
 ```bash
 cd docs/modules/180-dial-langchain-python-integration/tools
-./install-python-docker.sh query_dial.py
+./install-python-docker.sh query_dial.py "python-dotenv langchain langchain-openai langchain-community"
 ```
 
 Builds Docker container with isolated Python environment.
