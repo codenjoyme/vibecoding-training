@@ -62,6 +62,31 @@
 - Answer user questions that arise during practice.
 - Don't skip steps even if they seem obvious.
 
+## File Creation for Experiments (CRITICAL)
+
+- **When experimenting with code variations:**
+  + Always create NEW files instead of editing existing ones
+  + Use descriptive names that reflect the experiment: `test-dial-haiku.ps1`, `test-dial-translation.ps1`, `query-gpt4.py`
+  + This preserves demonstration history in `work/` folder
+  + Exception: Edit existing file ONLY when explicitly instructed in walkthrough.md
+
+- **Naming conventions for experiment files:**
+  + First demo: `test-dial.ps1` (as in walkthrough)
+  + Experiment 1: `test-dial-haiku.ps1` (descriptive name)
+  + Experiment 2: `test-dial-translation.ps1` (descriptive name)
+  + Experiment 3: `test-models-comparison.ps1` (new purpose = new file)
+
+- **Why this matters:**
+  + User can review all experiments later
+  + Demonstrates progressive learning
+  + Provides reference examples for future use
+  + Work folder becomes portfolio of completed exercises
+
+- **When to edit existing files:**
+  + Walkthrough explicitly says "Edit the file..."
+  + Fixing bugs or errors in current file
+  + Adding features to an ongoing project (not experiments)
+
 ## Explaining Complex Actions (CRITICAL)
 
 - **Before running installation scripts or complex commands:**
