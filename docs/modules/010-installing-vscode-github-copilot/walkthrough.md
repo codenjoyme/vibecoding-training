@@ -125,11 +125,12 @@ In this walkthrough, you'll install Visual Studio Code, set up GitHub Copilot, a
    - Full path on macOS/Linux: `~/workspace/`
 
 1. Inside the `workspace` folder, create another folder: `hello-genai`
-   - Full path: `c:/workspace/hello-genai/`
+   - Full path on Windows: `c:/workspace/hello-genai/`
+   - Full path on macOS/Linux: `~/workspace/hello-genai/`
 
 1. In VS Code, go to **File > Open Folder**
 
-1. Navigate to `c:/workspace/hello-genai/` and click **Select Folder**
+1. Navigate to `c:/workspace/hello-genai/` (Windows) or `~/workspace/hello-genai/` (macOS/Linux) and click **Select Folder**
 
 1. VS Code will open this as your workspace
 

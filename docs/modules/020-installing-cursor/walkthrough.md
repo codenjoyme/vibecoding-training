@@ -74,7 +74,8 @@ In this walkthrough, you'll install Cursor IDE, an AI-native code editor, and se
 1. Navigate to `c:/workspace/` (or `~/workspace/` on macOS/Linux)
 
 1. Create a new folder: `hello-genai`
-   - Full path: `c:/workspace/hello-genai/`
+   - Full path on Windows: `c:/workspace/hello-genai/`
+   - Full path on macOS/Linux: `~/workspace/hello-genai/`
 
 1. Open this folder in Cursor
 
@@ -112,7 +113,7 @@ Congratulations! You've successfully completed this module if:
 
 ✅ Cursor is installed and running on your computer  
 ✅ You've signed in to Cursor  
-✅ You've created and opened the test workspace at `c:/workspace/hello-genai/`  
+✅ You've created and opened the test workspace at `c:/workspace/hello-genai/` (Windows) or `~/workspace/hello-genai/` (macOS/Linux)  
 ✅ AI Command Palette generates code  
 ✅ AI Chat responds to your questions  
 ✅ You understand the key differences between Cursor and VS Code

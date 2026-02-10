@@ -330,7 +330,7 @@ Now let's practice everything we've learned with a hands-on exercise.
 
 **Setup:**
 
-1. Open VS Code or Cursor with your `c:/workspace/hello-genai/` workspace
+1. Open VS Code or Cursor with your `c:/workspace/hello-genai/` (Windows) or `~/workspace/hello-genai/` (macOS/Linux) workspace
 
 1. Open the AI chat panel
 

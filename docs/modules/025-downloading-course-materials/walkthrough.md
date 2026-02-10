@@ -7,7 +7,7 @@ In this walkthrough, you'll download the complete course repository and set it u
 - Completed Module 010 (Installing VSCode + GitHub Copilot)
 - Completed Module 020 (Installing Cursor) - optional but recommended
 - IDE (VS Code or Cursor) installed and working
-- `c:/workspace/hello-genai/` folder created
+- `c:/workspace/hello-genai/` (Windows) or `~/workspace/hello-genai/` (macOS/Linux) folder created
 - Internet connection for downloading
 
 ---
@@ -26,7 +26,7 @@ Before we begin, let's understand what you'll be getting:
 
 **Size:** Approximately 5-10 MB  
 **Format:** ZIP archive from GitHub  
-**Destination:** Your existing `c:/workspace/hello-genai/` folder
+**Destination:** Your existing `c:/workspace/hello-genai/` (Windows) or `~/workspace/hello-genai/` (macOS/Linux) folder
 
 ---
 
@@ -173,7 +173,7 @@ Before we begin, let's understand what you'll be getting:
 Congratulations! You've successfully completed this module if:
 
 ✅ The repository ZIP file is downloaded to your computer  
-✅ All files are extracted to `c:/workspace/hello-genai/`  
+✅ All files are extracted to `c:/workspace/hello-genai/` (Windows) or `~/workspace/hello-genai/` (macOS/Linux)  
 ✅ Folder structure includes `docs/`, `work/`, `scripts/`, and other directories  
 ✅ Module folders (030, 040, 050, etc.) are visible in `docs/modules/`  
 ✅ You can open and read `about.md` and `walkthrough.md` files in your IDE  

@@ -148,7 +148,7 @@ Parameters: filePath
 Description: Reads content of existing file
 
 [Current Workspace]
-Path: c:/workspace/hello-genai/
+Path: `c:/workspace/hello-genai/` (Windows) or `~/workspace/hello-genai/` (macOS/Linux)
 Files: [empty directory]
 
 [User Message]
