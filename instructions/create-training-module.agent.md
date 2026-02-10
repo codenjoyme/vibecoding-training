@@ -73,7 +73,11 @@
 - Optional: When to Use section for practical guidance
 - **Next Steps section** - Brief pointer to what comes next in the training
 - Keep language simple and direct
-- Use cross-platform paths: `c:/workspace/` (Windows) or `~/workspace/` (macOS/Linux)
+- Use cross-platform paths when specifying directories:
+  + Windows: `c:/workspace/hello-genai/`
+  + macOS/Linux: `~/workspace/hello-genai/`
+  + Always mention both versions: `c:/workspace/hello-genai/` (Windows) or `~/workspace/hello-genai/` (macOS/Linux)
+  + Never assume single OS - training audience uses different platforms
 - **Do not include keyboard shortcuts or hotkeys** - refer to menu items or generic descriptions instead
 - Use `./workspace/hello-genai/` as the default test workspace path for consistency across modules
 - Always mention alternative paths for different OS when giving directory examples
