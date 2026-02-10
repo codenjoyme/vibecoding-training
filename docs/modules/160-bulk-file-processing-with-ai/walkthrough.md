@@ -35,7 +35,7 @@ You should see: The agent starts well, processes 3-5 files accurately, but then 
 
 Now let's try being more explicit: tell the agent to re-read instructions for each file.
 
-1. Create a file `validation-task.md` in workspace root:
+1. Create a file `validation-task.md` in `c:/workspace/hello-genai/work/160-task/` (Windows) or `~/workspace/hello-genai/work/160-task/` (macOS/Linux):
    ```markdown
    ## Validation Rules
    

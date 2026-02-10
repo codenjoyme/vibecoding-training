@@ -3,7 +3,7 @@
 
 param(
     [string]$Script = "query_dial.py",
-    [string]$WorkspacePath = "work\python-ai-workspace",
+    [string]$WorkspacePath = "work\180-task",
     [string]$ExtraPackages = ""
 )
 

@@ -25,13 +25,13 @@ Before we run the installation script, let's understand what it will set up:
 - Cross-platform - same code works on Windows, Linux, macOS
 
 1. **Python 3.12.8 (Portable)** - Programming language runtime environment
-   - Downloaded to `work/python-ai-workspace/.tools/python`
+   - Downloaded to `work/180-task/.tools/python`
    - Doesn't interfere with your system Python installation
    - **Isolation benefit:** Your system Python stays clean - no risk of breaking other tools or projects that depend on different Python versions
    - Size: ~30 MB download
 
 2. **Virtual Environment (.venv)** - Isolated package space
-   - Created in `work/python-ai-workspace/.venv`
+   - Created in `work/180-task/.venv`
    - **Isolation benefit:** Each project has its own dependency versions - Project A can use langchain 0.1.0 while Project B uses langchain 0.3.0 without conflicts
    - **Protection:** If something breaks in this project, your other Python projects remain unaffected
    - **Clean removal:** Delete the `.venv` folder and everything is gone - no leftover packages polluting your system
@@ -84,7 +84,7 @@ cd docs\modules\180-dial-langchain-python-integration\tools
 .\install-python-windows.ps1
 ```
 
-This downloads portable Python 3.12.8, creates virtual environment, installs all dependencies, and copies example files to `work/python-ai-workspace`.
+This downloads portable Python 3.12.8, creates virtual environment, installs all dependencies, and copies example files to `work/180-task`.
 
 ### Option 2: Linux/macOS
 
@@ -112,7 +112,7 @@ cd docs/modules/180-dial-langchain-python-integration/tools
 Builds Docker container with isolated Python environment.
 
 **After automated setup completes:**
-1. Configure your DIAL API key in `work/python-ai-workspace/.env`
+1. Configure your DIAL API key in `work/180-task/.env`
 2. Continue to **Part 2: Understanding the Demo Script** to learn what was installed
 3. Then proceed to **Part 3: Running Your First AI Query**
 
@@ -163,7 +163,7 @@ Before diving in, let's understand what we're building with and why these choice
 
 The automated setup script already copied `query_dial.py` and `color.py` to your workspace. Let's understand what they do.
 
-Open `query_dial.py` in your editor (location: `work/python-ai-workspace/query_dial.py`):
+Open `query_dial.py` in your editor (location: `work/180-task/query_dial.py`):
 
 **Import section:**
 ```python
@@ -212,7 +212,7 @@ print(response)
 
 Now let's configure your API key and run the script.
 
-1. Open `.env` file in `work/python-ai-workspace/.env`
+1. Open `.env` file in `work/180-task/.env`
 
 2. Replace `YOUR_API_KEY_HERE` with your actual DIAL API key from Module 170:
    ```env
@@ -225,13 +225,13 @@ Now let's configure your API key and run the script.
    
    **Windows:**
    ```powershell
-   cd work\python-ai-workspace
+   cd work\180-task
    .\.venv\Scripts\Activate.ps1
    ```
    
    **macOS/Linux:**
    ```bash
-   cd work/python-ai-workspace
+   cd work/180-task
    source .venv/bin/activate
    ```
 
@@ -245,9 +245,9 @@ Now let's configure your API key and run the script.
    ======================================
    Query on Azure example
    ======================================
-   Python executable: C:\Java\CopipotTraining\vibecoding-for-managers\work\python-ai-workspace\.venv\Scripts\python.exe
+   Python executable: C:\Java\CopipotTraining\vibecoding-for-managers\work\180-task\.venv\Scripts\python.exe
    Python version: 3.12.x
-   Current directory: C:\Java\CopipotTraining\vibecoding-for-managers\work\python-ai-workspace
+   Current directory: C:\Java\CopipotTraining\vibecoding-for-managers\work\180-task
    
    Query
    -----
@@ -340,7 +340,7 @@ query = "Tell me about artificial intelligence in the style of a pirate."
 ## Success Criteria
 
 ✅ Ran automated installation script successfully  
-✅ Python environment configured in `work/python-ai-workspace`  
+✅ Python environment configured in `work/180-task`  
 ✅ Virtual environment created with langchain and dependencies installed  
 ✅ Configured DIAL API key in `.env` file  
 ✅ Ran `query_dial.py` successfully and received AI response  
@@ -410,13 +410,13 @@ Once your environment is set up, you have multiple options for executing Python 
 
 **Prerequisites:**
 - Completed Part 2-5 (Python installed, venv created, dependencies installed, .env configured)
-- Virtual environment exists in `work/python-ai-workspace/.venv`
+- Virtual environment exists in `work/180-task/.venv`
 
 **Steps:**
 
 1. Navigate to workspace:
    ```powershell
-   cd work\python-ai-workspace
+   cd work\180-task
    ```
 
 2. Activate virtual environment:
@@ -454,13 +454,13 @@ Once your environment is set up, you have multiple options for executing Python 
 **Prerequisites:**
 - Linux/macOS operating system
 - Python 3.10+ installed on system
-- Workspace created in `work/python-ai-workspace`
+- Workspace created in `work/180-task`
 
 **Steps:**
 
 1. Navigate to workspace:
    ```bash
-   cd work/python-ai-workspace
+   cd work/180-task
    ```
 
 2. Activate virtual environment:
@@ -534,7 +534,7 @@ This script performs all setup steps automatically (venv creation, dependencies 
 
 3. What happens:
    - Builds Docker image (cached after first build - ~1-3 seconds on subsequent runs)
-   - Mounts `work/python-ai-workspace` as volume
+   - Mounts `work/180-task` as volume
    - Runs specified script inside container
    - Container removes automatically after execution
 
@@ -604,7 +604,7 @@ cd docs\modules\180-dial-langchain-python-integration\tools
 
 This script performs:
 - Downloads portable Python 3.12.8 to workspace `.tools/python`
-- Creates virtual environment in `work/python-ai-workspace/.venv`
+- Creates virtual environment in `work/180-task/.venv`
 - Installs langchain, langchain-openai, python-dotenv
 - Copies example scripts (query_dial.py, color.py) to workspace
 - Sets up `.env` template from `.env.example`
@@ -621,7 +621,7 @@ cd docs/modules/180-dial-langchain-python-integration/tools
 
 This script performs:
 - Detects and validates system Python 3.10+ installation
-- Creates virtual environment in `work/python-ai-workspace/.venv`
+- Creates virtual environment in `work/180-task/.venv`
 - Installs langchain, langchain-openai, python-dotenv
 - Copies example scripts (query_dial.py, color.py) to workspace
 - Sets up `.env` template from `.env.example`
@@ -646,7 +646,7 @@ cd docs/modules/180-dial-langchain-python-integration/tools
 
 This script performs:
 - Builds Docker image with Python 3.10 + langchain (Ubuntu 22.04 base)
-- Mounts `work/python-ai-workspace` as volume
+- Mounts `work/180-task` as volume
 - Runs specified script inside container
 - Container auto-removes after execution
 - First build ~120 seconds, subsequent builds ~1-3 seconds (cached)

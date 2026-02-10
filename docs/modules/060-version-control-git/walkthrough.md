@@ -47,7 +47,8 @@ Notice how new words push out earlier ones? This is your cognitive limit in acti
 
 Before starting, verify you have:
 
-- [ ] Empty project folder (or create new one)
+- [ ] Course materials downloaded (Module 025 completed)
+- [ ] `work/` folder exists in your course directory
 - [ ] Git installed (run `git --version` in terminal)
 - [ ] GitHub account (optional but recommended)
 - [ ] Code editor (VSCode or Cursor)
@@ -58,29 +59,39 @@ If Git not installed, see [git-workflow.agent.md](../../../instructions/git-work
 
 ## Part 1: Project Setup (5 minutes)
 
-### Step 1: Create Test Project
+### Step 1: Create Practice Project Folder
+
+Create practice folder `work/060-task` - all course exercises go in `work/[module-number]-task`.
+
+- Navigate to: `c:/workspace/hello-genai/work/` (Windows) or `~/workspace/hello-genai/work/` (macOS/Linux)
+- Create folder: `060-task`
+- Open in IDE terminal
+
+### Step 2: Create Test Project Files
 
 Create a simple project to practice Git workflow. We'll use Python as example, but you can use any language.
 
 **Prompt for AI:**
 ```
 Create a simple Python calculator project with:
-- calculator.py with add() and subtract() functions
+- calculator.py with add() and subtract() functions  
 - main.py that uses the calculator
 - README.md with project description
+
+Place these files in the current directory.
 ```
 
 **Expected structure:**
 ```
-my-project/
+work/060-task/
 ├── calculator.py
 ├── main.py
 └── README.md
 ```
 
-### Step 2: Initialize Git Repository
+### Step 3: Initialize Git Repository
 
-**In terminal (from project folder):**
+**In terminal (make sure you're in `work/060-task/` folder):**
 ```powershell
 # Initialize Git
 git init

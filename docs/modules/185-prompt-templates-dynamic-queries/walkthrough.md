@@ -5,7 +5,7 @@ In this walkthrough, you'll learn how to use Langchain's prompt templates to cre
 ## Prerequisites
 
 - Completed **Module 180: DIAL Integration with Python and Langchain**
-- Python virtual environment set up in `work/python-ai-workspace`
+- Python virtual environment set up in `work/180-task`
 - DIAL API credentials configured in `.env` file
 - Virtual environment activated (showing `.venv` prefix in terminal)
 
@@ -15,13 +15,13 @@ This module reuses the Python environment from Module 180 - no reinstallation ne
 
 **Windows:**
 ```powershell
-cd work\python-ai-workspace
+cd work\180-task
 Copy-Item ..\..\docs\modules\185-prompt-templates-dynamic-queries\tools\prompt_template.py .
 ```
 
 **macOS/Linux:**
 ```bash
-cd work/python-ai-workspace
+cd work/180-task
 cp ../../docs/modules/185-prompt-templates-dynamic-queries/tools/prompt_template.py .
 ```
 
@@ -340,7 +340,7 @@ Once you've created template scripts, you have multiple execution options depend
 **Best for:** Daily development, debugging, quick iterations
 
 **Prerequisites:**
-- Completed Module 180 setup (venv exists in `work/python-ai-workspace`)
+- Completed Module 180 setup (venv exists in `work/180-task`)
 - Virtual environment has langchain dependencies installed
 - `.env` file configured
 
@@ -348,7 +348,7 @@ Once you've created template scripts, you have multiple execution options depend
 
 1. Navigate to workspace:
    ```powershell
-   cd work\python-ai-workspace
+   cd work\180-task
    ```
 
 2. Activate virtual environment:
@@ -381,7 +381,7 @@ Once you've created template scripts, you have multiple execution options depend
 
 1. Navigate to workspace:
    ```bash
-   cd work/python-ai-workspace
+   cd work/180-task
    ```
 
 2. Activate virtual environment:
@@ -413,7 +413,7 @@ cd docs/modules/180-dial-langchain-python-integration/tools
 
 **Prerequisites:**
 - Docker Desktop installed and running
-- Scripts exist in `work/python-ai-workspace`
+- Scripts exist in `work/180-task`
 
 **Steps:**
 

@@ -135,8 +135,8 @@ cURL is a command-line tool that makes HTTP requests. It's pre-installed on most
 
 3. Create a test directory:
    ```powershell
-   mkdir work\dial-test
-   cd work\dial-test
+   mkdir work\170-task
+   cd work\170-task
    ```
 
 4. Create a simple cURL test script. Copy the script from module tools:

@@ -96,11 +96,15 @@
 
 ## Workspace and Project Setup
 
-- Default workspace for exercises: `./work/hello-genai/` unless module specifies otherwise.
-- When module requires new project folder: create `./work/[project-name]/`.
-- Check walkthrough.md for specific folder requirements.
-- Create folders proactively when starting module that needs them.
-- Use paths relative to workspace root.
+- Default course workspace: `c:/workspace/hello-genai/` (Windows) or `~/workspace/hello-genai/` (macOS/Linux)
+- **Practice folders:** All module exercises go in `work/[module-number]-task/` pattern
+  + Example: Module 060 → `work/060-task/`
+  + Example: Module 180 → `work/180-task/`
+  + Special case: Modules 185 and 190 reuse `work/180-task/` (same Python environment)
+- The `work/` folder is gitignored - safe for student experiments
+- Check `walkthrough.md` for specific folder requirements
+- Create folders proactively when starting module that needs them
+- Use paths relative to workspace root
 
 ## Skill Formation Assessment
 

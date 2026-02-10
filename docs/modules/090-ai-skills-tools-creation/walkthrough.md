@@ -17,7 +17,7 @@ You'll witness AI hallucinating simple math calculations, then create a proper t
 
 1. **Create a workspace folder for this exercise**
    
-   Create a new folder: `c:/workspace/ai-calculator-skill/` (Windows) or `~/workspace/ai-calculator-skill/` (macOS/Linux)
+   Create a new folder: `c:/workspace/hello-genai/work/090-task/` (Windows) or `~/workspace/hello-genai/work/090-task/` (macOS/Linux)
    
    Inside, create two folders:
    - `instructions/` for instruction files

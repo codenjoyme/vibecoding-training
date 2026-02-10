@@ -2,8 +2,8 @@
 # Simple Python Environment Setup for DIAL Integration
 # This script installs system Python, creates virtual environment, and installs dependencies
 
-# Accept workspace path parameter (default: work/python-ai-workspace)
-WORKSPACE_PATH="${1:-work/python-ai-workspace}"
+# Accept workspace path parameter (default: work/180-task)
+WORKSPACE_PATH="${1:-work/180-task}"
 
 set -e
 

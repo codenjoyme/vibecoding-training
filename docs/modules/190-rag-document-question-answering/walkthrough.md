@@ -6,7 +6,7 @@ In this walkthrough, you'll build a Retrieval-Augmented Generation (RAG) system 
 
 - Completed **Module 180: DIAL Integration with Python and Langchain**
 - Completed **Module 185: Prompt Templates for Dynamic Queries**
-- Python virtual environment set up in `work/python-ai-workspace`
+- Python virtual environment set up in `work/180-task`
 - DIAL API credentials with embedding model configured in `.env`
 - Virtual environment activated (showing `.venv` prefix in terminal)
 
@@ -16,7 +16,7 @@ This module reuses the Python environment from Module 180. Only need to install 
 
 **Windows:**
 ```powershell
-cd work\python-ai-workspace
+cd work\180-task
 .\.venv\Scripts\Activate.ps1
 pip install faiss-cpu
 Copy-Item ..\..\docs\modules\190-rag-document-question-answering\tools\rag.py .
@@ -24,7 +24,7 @@ Copy-Item ..\..\docs\modules\190-rag-document-question-answering\tools\rag.py .
 
 **macOS/Linux:**
 ```bash
-cd work/python-ai-workspace
+cd work/180-task
 source .venv/bin/activate
 pip install faiss-cpu
 cp ../../docs/modules/190-rag-document-question-answering/tools/rag.py .
@@ -479,7 +479,7 @@ RAG scripts require FAISS vector database. Here's how to run them in different e
 **Best for:** Daily development, debugging, quick iterations
 
 **Prerequisites:**
-- Completed Module 180 setup (venv exists in `work/python-ai-workspace`)
+- Completed Module 180 setup (venv exists in `work/180-task`)
 - **FAISS installed** (see Part 3 - `pip install faiss-cpu`)
 - `.env` file configured with embedding model
 
@@ -487,7 +487,7 @@ RAG scripts require FAISS vector database. Here's how to run them in different e
 
 1. Navigate to workspace:
    ```powershell
-   cd work\python-ai-workspace
+   cd work\180-task
    ```
 
 2. Activate virtual environment:
@@ -528,7 +528,7 @@ RAG scripts require FAISS vector database. Here's how to run them in different e
 
 1. Navigate to workspace:
    ```bash
-   cd work/python-ai-workspace
+   cd work/180-task
    ```
 
 2. Activate virtual environment:
@@ -567,7 +567,7 @@ cd docs/modules/180-dial-langchain-python-integration/tools
 
 **Prerequisites:**
 - Docker Desktop installed and running
-- Scripts exist in `work/python-ai-workspace`
+- Scripts exist in `work/180-task`
 
 **Steps:**
 

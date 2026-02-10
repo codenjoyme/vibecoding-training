@@ -2,7 +2,7 @@
 # This script downloads portable Python, creates virtual environment, and installs dependencies
 
 param(
-    [string]$WorkspacePath = "work\python-ai-workspace"
+    [string]$WorkspacePath = "work\180-task"
 )
 
 $ErrorActionPreference = "Stop"

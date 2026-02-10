@@ -4,7 +4,7 @@
 
 # Accept script name and workspace path parameters
 SCRIPT_NAME="${1:-query_dial.py}"
-WORKSPACE_PATH="${2:-work/python-ai-workspace}"
+WORKSPACE_PATH="${2:-work/180-task}"
 EXTRA_PACKAGES="${3:-}"
 
 set -e

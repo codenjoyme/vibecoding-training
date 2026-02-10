@@ -16,7 +16,7 @@ You'll create a new instruction file for generating quiz questions, discover whe
 
 1. **Create a workspace folder for this exercise**
    
-   Create a new folder to practice in: `c:/workspace/instruction-refinement/` (Windows) or `~/workspace/instruction-refinement/` (macOS/Linux)
+   Create a new folder to practice in: `c:/workspace/hello-genai/work/080-task/` (Windows) or `~/workspace/hello-genai/work/080-task/` (macOS/Linux)
    
    Inside, create an `instructions/` folder for your instruction files.
 
