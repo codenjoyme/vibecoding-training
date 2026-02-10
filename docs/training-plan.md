@@ -16,7 +16,6 @@ This training is highly practical. Each video provides a new actionable skill th
 1. [Effective Prompting](modules/050-effective-prompting-without-arguing/about.md) - Iterate prompts instead of arguing with AI
 1. [Clarifying Requirements with AI](modules/055-clarifying-requirements-before-start/about.md) - Ask AI questions when starting unclear tasks
 1. [Version Control with Git](modules/060-version-control-git/about.md) - Track changes with baby steps approach
-1. [Connecting Course Folder to GitHub](modules/065-connecting-course-to-github/about.md) - Connect local course to GitHub for updates (optional)
 1. [Custom Instructions](modules/070-custom-instructions/about.md) - Create instructions for AI assistants
 1. [Learning from Hallucinations](modules/080-learning-from-hallucinations/about.md) - Use AI mistakes to improve instructions
 1. [AI Skills - Context, Tools & Memory](modules/090-ai-skills-tools-creation/about.md) - Understand AI's eyes, hands, and memory

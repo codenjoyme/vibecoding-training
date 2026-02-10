@@ -526,3 +526,29 @@ Topics covered:
 - .gitignore templates for all languages
 - GitHub SSH setup
 - Advanced recovery scenarios
+
+---
+
+## Optional: Connect Course Folder to GitHub
+
+**⚠️ This is optional and recommended only after you're comfortable with Git basics.**
+
+If you completed Module 025 (downloaded course as ZIP) and want to receive updates via `git pull` instead of re-downloading ZIP files:
+
+**Follow the instructions:** [connect-course-to-github.agent.md](../../../instructions/connect-course-to-github.agent.md)
+
+**What this does:**
+- Creates backup of your current course folder
+- Connects to official GitHub repository
+- Syncs course files (your `work/` folder stays safe - it's gitignored)
+- Enables `git pull` for future updates
+
+**When to do this:**
+- After completing this module (060) and feeling comfortable with Git
+- Before starting modules 070+ to easily receive any course updates
+- Only if you want automatic updates instead of manual ZIP downloads
+
+**Skip if:**
+- Still learning Git basics and don't want extra complexity
+- Prefer manual control over course file updates
+- Want to keep course completely offline
