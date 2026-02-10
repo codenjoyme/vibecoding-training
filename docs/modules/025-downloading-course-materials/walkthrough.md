@@ -38,15 +38,14 @@ Before we begin, let's understand what you'll be getting:
 
 1. Navigate to the course repository on GitHub:
    ```
-   https://github.com/YOUR-ORG/vibecoding-for-managers
+   https://github.com/codenjoyme/vibecoding-training
    ```
-   *(Replace with actual repository URL)*
 
 1. Click the green **Code** button (top-right area of the file list)
 
 1. In the dropdown menu, click **Download ZIP**
 
-1. Your browser will download a file named `vibecoding-for-managers-main.zip`
+1. Your browser will download a file named `vibecoding-training-main.zip`
 
 1. Note where the file was saved (usually your Downloads folder)
 
@@ -68,12 +67,12 @@ Before we begin, let's understand what you'll be getting:
 
    ```powershell
    # Navigate to workspace and extract
-   cd c:/workspace/hello-genai/ ; Expand-Archive -Path "$HOME/Downloads/vibecoding-for-managers-main.zip" -DestinationPath . -Force ; Move-Item -Path ./vibecoding-for-managers-main/* -Destination . -Force ; Remove-Item -Path ./vibecoding-for-managers-main -Recurse -Force
+   cd c:/workspace/hello-genai/ ; Expand-Archive -Path "$HOME/Downloads/vibecoding-training-main.zip" -DestinationPath . -Force ; Move-Item -Path ./vibecoding-training-main/* -Destination . -Force ; Remove-Item -Path ./vibecoding-training-main -Recurse -Force
    ```
 
    **For macOS/Linux users**, use this version:
    ```bash
-   cd ~/workspace/hello-genai/ && unzip -o ~/Downloads/vibecoding-for-managers-main.zip && mv vibecoding-for-managers-main/* . && rm -rf vibecoding-for-managers-main
+   cd ~/workspace/hello-genai/ && unzip -o ~/Downloads/vibecoding-training-main.zip && mv vibecoding-training-main/* . && rm -rf vibecoding-training-main
    ```
 
 1. Press `Enter` to execute
@@ -88,7 +87,7 @@ Before we begin, let's understand what you'll be getting:
 
 1. Navigate to your Downloads folder
 
-1. Right-click on `vibecoding-for-managers-main.zip`
+1. Right-click on `vibecoding-training-main.zip`
 
 1. Select **Extract All...** (Windows) or double-click (macOS)
 
@@ -98,15 +97,15 @@ Before we begin, let's understand what you'll be getting:
 
 1. Click **Extract**
 
-1. After extraction, you'll see a folder `vibecoding-for-managers-main`
+1. After extraction, you'll see a folder `vibecoding-training-main`
 
 1. Open that folder and **move all its contents** to `c:/workspace/hello-genai/`
-   - Select all files and folders inside `vibecoding-for-managers-main`
+   - Select all files and folders inside `vibecoding-training-main`
    - Cut (Ctrl+X or Cmd+X)
    - Navigate to `c:/workspace/hello-genai/`
    - Paste (Ctrl+V or Cmd+V)
 
-1. Delete the now-empty `vibecoding-for-managers-main` folder
+1. Delete the now-empty `vibecoding-training-main` folder
 
 1. Verify: You should see folders like `docs/`, `work/`, `scripts/` directly in `hello-genai/`
 
@@ -169,7 +168,7 @@ Congratulations! You've successfully completed this module if:
 ✅ Module folders (030, 040, 050, etc.) are visible in `docs/modules/`  
 ✅ You can open and read `about.md` and `walkthrough.md` files in your IDE  
 ✅ The file tree in your IDE shows the complete course structure  
-✅ No `vibecoding-for-managers-main` folder remains (all contents moved to root)
+✅ No `vibecoding-training-main` folder remains (all contents moved to root)
 
 ## Understanding Check
 
