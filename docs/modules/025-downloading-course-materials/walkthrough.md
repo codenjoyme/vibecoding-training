@@ -32,84 +32,94 @@ Before we begin, let's understand what you'll be getting:
 
 ## Step-by-Step Instructions
 
-### Part 1: Download the Repository
+### Part 1: Download and Extract in One Command
 
-1. Open your web browser
+**What we'll do:** We'll use a single command to automatically download the repository and extract it to your workspace.
 
-1. Navigate to the course repository on GitHub:
-   ```
-   https://github.com/codenjoyme/vibecoding-training
-   ```
-
-1. Click the green **Code** button (top-right area of the file list)
-
-1. In the dropdown menu, click **Download ZIP**
-
-1. Your browser will download a file named `vibecoding-training-main.zip`
-
-1. Note where the file was saved (usually your Downloads folder)
-
-1. Verify: Check that the ZIP file appears in your Downloads folder
-
-### Part 2: Extract to Workspace
-
-**What we'll do:** We'll extract the ZIP archive contents directly into your `hello-genai` workspace folder, making all course materials accessible in your IDE.
-
-#### Option A: Using PowerShell (Cross-platform, One Command)
+#### For Windows (PowerShell):
 
 1. Open your IDE (VS Code or Cursor)
 
 1. Open a terminal in your IDE:
    - Go to menu: **Terminal > New Terminal**
-   - Or click the terminal icon in the bottom panel
 
-1. Copy and paste this command (works on Windows, macOS, Linux):
+1. Copy and paste this one-line command:
 
    ```powershell
-   # Navigate to workspace and extract
-   cd c:/workspace/hello-genai/ ; Expand-Archive -Path "$HOME/Downloads/vibecoding-training-main.zip" -DestinationPath . -Force ; Move-Item -Path ./vibecoding-training-main/* -Destination . -Force ; Remove-Item -Path ./vibecoding-training-main -Recurse -Force
-   ```
-
-   **For macOS/Linux users**, use this version:
-   ```bash
-   cd ~/workspace/hello-genai/ && unzip -o ~/Downloads/vibecoding-training-main.zip && mv vibecoding-training-main/* . && rm -rf vibecoding-training-main
+   $url = "https://codeload.github.com/codenjoyme/vibecoding-training/zip/refs/heads/main"; $dest = "c:/workspace/hello-genai"; New-Item -ItemType Directory -Force -Path $dest; (New-Object System.Net.WebClient).DownloadFile($url, "$dest\project.zip"); Expand-Archive -Path "$dest\project.zip" -DestinationPath "$dest\tmp" -Force; Remove-Item "$dest\project.zip"; Move-Item "$dest\tmp\vibecoding-training-main\*" "$dest" -Force; Remove-Item "$dest\tmp" -Recurse -Force
    ```
 
 1. Press `Enter` to execute
 
-1. Wait for the extraction to complete (should take 5-10 seconds)
+1. Wait for the download and extraction to complete (10-30 seconds depending on your internet speed)
 
-1. Verify: You should see a success message in the terminal
+1. Verify: You should see folders like `docs/`, `work/`, `scripts/` in your IDE's file explorer
 
-#### Option B: Manual Extraction (GUI)
+#### For macOS:
 
-1. Open your file manager (File Explorer on Windows, Finder on macOS)
+1. Open your IDE (VS Code or Cursor)
 
-1. Navigate to your Downloads folder
+1. Open a terminal in your IDE:
+   - Go to menu: **Terminal > New Terminal**
 
-1. Right-click on `vibecoding-training-main.zip`
+1. Copy and paste this one-line command:
 
-1. Select **Extract All...** (Windows) or double-click (macOS)
+   ```bash
+   url="https://codeload.github.com/codenjoyme/vibecoding-training/zip/refs/heads/main"; dest="$HOME/workspace/hello-genai"; mkdir -p "$dest"; curl -L -o "$dest/project.zip" "$url"; cd "$dest"; unzip -q project.zip; mv vibecoding-training-main/* .; mv vibecoding-training-main/.* . 2>/dev/null || true; rmdir vibecoding-training-main; rm project.zip
+   ```
 
-1. When prompted for destination, browse to `c:/workspace/hello-genai/`
+1. Press `Enter` to execute
 
-1. Check the option **"Extract here"** or ensure destination is correct
+1. Wait for the download and extraction to complete (10-30 seconds depending on your internet speed)
 
-1. Click **Extract**
+1. Verify: You should see folders like `docs/`, `work/`, `scripts/` in your IDE's file explorer
 
-1. After extraction, you'll see a folder `vibecoding-training-main`
+#### For Linux:
 
-1. Open that folder and **move all its contents** to `c:/workspace/hello-genai/`
-   - Select all files and folders inside `vibecoding-training-main`
-   - Cut (Ctrl+X or Cmd+X)
-   - Navigate to `c:/workspace/hello-genai/`
-   - Paste (Ctrl+V or Cmd+V)
+1. Open your IDE (VS Code or Cursor)
+
+1. Open a terminal in your IDE:
+   - Go to menu: **Terminal > New Terminal**
+
+1. Copy and paste this one-line command:
+
+   ```bash
+   url="https://codeload.github.com/codenjoyme/vibecoding-training/zip/refs/heads/main"; dest="$HOME/workspace/hello-genai"; mkdir -p "$dest"; wget -O "$dest/project.zip" "$url"; cd "$dest"; unzip -q project.zip; mv vibecoding-training-main/* .; mv vibecoding-training-main/.* . 2>/dev/null || true; rmdir vibecoding-training-main; rm project.zip
+   ```
+
+1. Press `Enter` to execute
+
+1. Wait for the download and extraction to complete (10-30 seconds depending on your internet speed)
+
+1. Verify: You should see folders like `docs/`, `work/`, `scripts/` in your IDE's file explorer
+
+**What just happened:** The command automatically:
+1. Created the workspace directory if it didn't exist
+2. Downloaded the repository as a ZIP file
+3. Extracted it to a temporary location
+4. Moved all contents from `vibecoding-training-main` folder to your workspace root
+5. Cleaned up temporary files
+
+### Part 2: Manual Download (If Automatic Method Fails)
+
+**If the automatic command didn't work**, follow these steps:
+
+1. Open your web browser and navigate to:
+   ```
+   https://github.com/codenjoyme/vibecoding-training
+   ```
+
+1. Click the green **Code** button → **Download ZIP**
+
+1. Download `vibecoding-training-main.zip` to your Downloads folder
+
+1. Extract the ZIP file to `c:/workspace/hello-genai/` (Windows) or `~/workspace/hello-genai/` (macOS/Linux)
+
+1. **Important:** After extraction, move all contents from the `vibecoding-training-main` folder into the root of `hello-genai/` workspace
 
 1. Delete the now-empty `vibecoding-training-main` folder
 
-1. Verify: You should see folders like `docs/`, `work/`, `scripts/` directly in `hello-genai/`
-
-**What just happened:** You extracted the ZIP archive and moved all course materials into your workspace root. The repository structure is now integrated with your `hello-genai` folder, making it easy to access everything in your IDE.
+1. Verify: Folders like `docs/`, `work/`, `scripts/` should be directly in `hello-genai/`, not inside a subfolder
 
 ### Part 3: Verify Installation in IDE
 
@@ -197,31 +207,27 @@ Congratulations! You've successfully completed this module if:
 
 **Download failed or ZIP file is corrupted?**
 - Check your internet connection
-- Try downloading again from GitHub
-- Clear browser cache and retry
-- Try a different browser
+- Try running the command again
+- If using PowerShell, make sure you're not in Command Prompt
+- Try the manual download method in Part 2
 
-**Can't find the downloaded ZIP file?**
-- Check your browser's download settings for the save location
-- Look in default Downloads folder: `C:\Users\YourName\Downloads` (Windows) or `~/Downloads` (macOS/Linux)
-- Check browser's download history (Ctrl+J or Cmd+Shift+J)
+**Command execution fails?**
+- Make sure you're in the correct terminal (PowerShell for Windows, Bash for macOS/Linux)
+- Check you have write permissions to the workspace folder
+- Try running your IDE as administrator (Windows)
+- Use the manual download method as fallback
 
-**Extraction command fails in PowerShell?**
-- Make sure you're in PowerShell, not Command Prompt
-- Verify the ZIP file path is correct
-- Try the manual extraction method instead
-- Check you have write permissions to `c:/workspace/hello-genai/`
-
-**"Access Denied" or permission errors during extraction?**
+**"Access Denied" or permission errors?**
 - Close any files from that folder open in your IDE or other programs
 - Run your IDE as administrator (Windows)
 - Check folder permissions
-- Try manual extraction instead of command line
+- Try manual download method instead
 
 **Don't see all folders after extraction?**
-- Make sure you moved contents from `vibecoding-for-managers-main/` to workspace root
+- Refresh your IDE's file explorer (right-click → Refresh)
+- Make sure contents were moved from `vibecoding-training-main/` to workspace root
 - Check if files are hidden (enable "Show hidden files" in your file manager)
-- Verify extraction completed without errors
+- Try closing and reopening the workspace folder in your IDE
 
 **Module files won't open in IDE?**
 - Make sure you have the workspace folder open in IDE (File > Open Folder)
@@ -230,9 +236,14 @@ Congratulations! You've successfully completed this module if:
 - Verify files are not corrupted (try opening in a text editor)
 
 **PowerShell command doesn't work on macOS/Linux?**
-- Use the Bash version of the command provided in Option A
-- Or use the manual extraction method (Option B)
-- Make sure to use `~/workspace/hello-genai/` instead of `c:/workspace/hello-genai/`
+- Use the Bash version of the command provided for your OS
+- Make sure you're using Bash/Zsh terminal, not PowerShell
+- Or use the manual download method (Part 2)
+
+**`curl` or `wget` not found?**
+- macOS: `curl` should be pre-installed; if not, install Xcode Command Line Tools
+- Linux: Install wget with `sudo apt install wget` (Ubuntu/Debian) or `sudo yum install wget` (Red Hat/CentOS)
+- Or use the manual download method
 
 ## When to Use This vs Git Clone
 
