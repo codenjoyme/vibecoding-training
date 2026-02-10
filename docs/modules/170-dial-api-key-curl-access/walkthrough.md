@@ -87,6 +87,39 @@ Before making requests, let's understand what we're doing:
 5. Model processes and generates response
 6. DIAL sends response back to you
 
+### What is DIAL API?
+
+DIAL is EPAM's platform that provides **unified** access to multiple AI models through a simple REST API. It acts as a gateway to various AI providers including OpenAI, Anthropic, Google and others.
+
+**Key Benefits:**
+- Single API interface for multiple AI providers
+- Consistent parameter structure across different models
+- Easy switching between models without code changes
+
+> **📚 Full API Documentation:**
+> See all supported parameters for DIAL `/chat/completions` API:
+> [https://dialx.ai/dial_api#operation/sendChatCompletionRequest](https://dialx.ai/dial_api#operation/sendChatCompletionRequest)
+
+### Available Models
+
+DIAL API provides access to three major AI providers:
+
+| Provider | Models |
+|----------|--------|
+| **OpenAI** | • `gpt-4o`<br>• `gpt-4.1-mini-2025-04-14`<br>• `gpt-4o-mini-2024-07-18` |
+| **Anthropic (Claude)** | • `anthropic.claude-v3-haiku`<br>• `claude-3-7-sonnet@20250219`<br>• `claude-sonnet-4@20250514` |
+| **Google (Gemini)** | • `gemini-2.5-pro`<br>• `gemini-2.5-flash`<br>• `gemini-2.0-flash-lite` |
+
+**To use a specific model**, replace the model name in your endpoint URL:
+```
+https://ai-proxy.lab.epam.com/openai/deployments/{MODEL_NAME}/chat/completions
+```
+
+Example with Claude:
+```
+https://ai-proxy.lab.epam.com/openai/deployments/claude-sonnet-4@20250514/chat/completions
+```
+
 ## Part 4: Testing with cURL
 
 cURL is a command-line tool that makes HTTP requests. It's pre-installed on most systems.
@@ -207,7 +240,159 @@ curl -X POST https://ai-proxy.lab.epam.com/openai/deployments/gpt-4o-mini-2024-0
 - `role: user` means this is a human's message
 - `content` is your actual question
 
-## Part 6: Experiment with Different Prompts
+## Part 6: Understanding DIAL API Parameters
+
+DIAL API provides various parameters to control model behavior. Understanding these parameters allows you to fine-tune AI responses for your specific needs.
+
+### 🔄 **stream** - Controls response delivery method
+
+- **Default:** `false`
+- **When to use streaming:** Real-time applications, chatbots, long responses
+- **When to use non-streaming:** Batch processing, simple Q&A
+
+### 🌡️ **temperature** - Controls creativity vs. consistency
+
+- **Range:** 0.0 to 2.0
+- **Default:** 1.0
+- **Low values (0.0-0.3):** Deterministic, factual responses
+- **Medium values (0.4-0.8):** Balanced creativity and consistency
+- **High values (0.9-2.0):** Very creative, unpredictable responses
+
+**Example:**
+```json
+{
+  "messages": [{"role": "user", "content": "Explain AI"}],
+  "temperature": 0.2
+}
+```
+
+### 🎯 **top_p** - Nucleus Sampling (alternative to temperature)
+
+- **Range:** 0.0 to 1.0
+- **Default:** 1.0
+- **How it works:**
+  - `top_p: 0.1` = Consider only top 10% most likely tokens
+  - `top_p: 0.5` = Consider tokens making up 50% of probability mass
+  - `top_p: 1.0` = Consider all possible tokens
+
+**⚠️ Recommendation:** Use either `temperature` OR `top_p`, not both
+
+### 📏 **max_tokens** - Limits response length
+
+- **Default:** No limit (model-dependent maximum)
+- **Use cases:**
+  - Short summaries: 50-100 tokens
+  - Detailed explanations: 500-1000 tokens
+  - Long-form content: 2000+ tokens
+
+**Example:**
+```json
+{
+  "messages": [{"role": "user", "content": "Summarize AI"}],
+  "max_tokens": 100
+}
+```
+
+### 🆕 **presence_penalty** - Encourages discussing new topics
+
+- **Range:** -2.0 to 2.0
+- **Default:** 0.0
+- **Positive values:** Encourage novelty and new topics
+- **Negative values:** Allow more repetition of concepts
+- **How it works:** Penalizes tokens that have appeared before (yes/no basis)
+
+**⚠️ Note:** This feature works only with OpenAI GPT models. According to the DIAL specification, you can use it with all models, but for those that do not support it, the parameter will be ignored.
+
+### 🔁 **frequency_penalty** - Reduces repetitive word usage
+
+- **Range:** -2.0 to 2.0
+- **Default:** 0.0
+- **Positive values:** Reduce word repetition
+- **Negative values:** Increase word repetition
+- **How it works:** Penalizes tokens proportionally to their frequency
+
+**⚠️ Note:** This feature works only with OpenAI GPT models. According to the DIAL specification, you can use it with all models, but for those that do not support it, the parameter will be ignored.
+
+### ⏹️ **stop** - Defines when to stop generation
+
+- **Default:** `null`
+- **Use cases:**
+  - Structured output (stop at specific markers)
+  - Dialogue systems (stop at speaker changes)
+  - List generation (stop at natural breaks)
+
+**Examples:**
+```json
+{
+  "stop": ["\n", "END", "###"]
+}
+```
+
+```json
+{
+  "stop": "DIAL"
+}
+```
+
+### 🔢 **n** - Generate multiple response options
+
+- **Default:** 1
+- **Use cases:**
+  - A/B testing different responses
+  - Providing multiple creative options
+  - Ensuring response quality through selection
+
+**Example:**
+```json
+{
+  "messages": [{"role": "user", "content": "Write a tagline"}],
+  "n": 3
+}
+```
+
+### 🌱 **seed** - Ensures reproducible results
+
+- **Use cases:**
+  - Testing and debugging
+  - Consistent results across runs
+  - Research and experimentation
+
+**⚠️ Note:** This feature works only with OpenAI GPT and Gemini models. According to the DIAL specification, you can use it with all models, but for those that do not support it, the parameter will be ignored.
+
+**Example:**
+```json
+{
+  "messages": [{"role": "user", "content": "Generate code"}],
+  "seed": 42
+}
+```
+
+### Parameter Combinations Example
+
+Here's a complete example with multiple parameters:
+
+```json
+{
+  "messages": [
+    {"role": "user", "content": "Write a professional email about AI benefits"}
+  ],
+  "temperature": 0.7,
+  "max_tokens": 300,
+  "presence_penalty": 0.5,
+  "frequency_penalty": 0.3,
+  "stop": ["\n\nBest regards"]
+}
+```
+
+**Understanding DIAL API parameters allows you to:**
+- Control AI model behavior precisely
+- Optimize for specific use cases
+- Create consistent, high-quality outputs
+- Experiment with different AI providers seamlessly
+
+**💡 Key Takeaway:** The key to mastering these parameters is experimentation. Try different combinations to see how they affect output for your specific use case.
+
+## Part 7: Experiment with Different Prompts
 
 Now that you have a working connection, try modifying the prompt:
 
