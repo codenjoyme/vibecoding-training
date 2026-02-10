@@ -2,6 +2,12 @@
 
 In this walkthrough, you'll install Cursor IDE, an AI-native code editor, and set it up for effective vibecoding.
 
+## ⚠️ Important Note for EPAM Employees
+
+**If you are an EPAM employee**, please use **Part 1.2** below for installation instructions. All other users should follow **Part 1.1**.
+
+---
+
 ## Prerequisites
 
 - Computer with Windows, macOS, or Linux
@@ -13,7 +19,7 @@ In this walkthrough, you'll install Cursor IDE, an AI-native code editor, and se
 
 ## Step-by-Step Instructions
 
-### Part 1: Download and Install Cursor
+### Part 1.1: Download and Install Cursor (Personal Use)
 
 1. Open your web browser and navigate to [https://cursor.sh/](https://cursor.sh/)
 
@@ -27,6 +33,27 @@ In this walkthrough, you'll install Cursor IDE, an AI-native code editor, and se
 1. Launch Cursor after installation completes
 
 1. Verify installation: You should see the Cursor welcome screen
+
+### Part 1.2: Download and Install Cursor (EPAM Employees)
+
+**For EPAM employees only:**
+
+1. Open your web browser and navigate to [https://leap.epam.com/news/5039](https://leap.epam.com/news/5039)
+
+1. Follow the installation manual provided on that page
+
+1. Use the approved download link provided in the EPAM guide
+
+1. Complete the installation according to EPAM's internal procedures:
+   - Follow any additional security requirements
+   - Use company-approved installation settings
+   - Complete any required registration or approval steps
+
+1. Launch Cursor after installation completes
+
+1. Verify installation: You should see the Cursor welcome screen
+
+1. Proceed to **Part 2: Initial Configuration** below
 
 ### Part 2: Initial Configuration
 
