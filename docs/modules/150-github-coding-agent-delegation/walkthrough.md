@@ -129,54 +129,30 @@ We'll use the issue created in Module 105 as our task. In Module 105, you alread
 ### Step 1: Create or Locate GitHub Issue
 
 **If you already have an issue from Module 105:**
-- Locate the issue about JavaScript execution tools or any well-defined task
+- Locate the issue you created for a new training module (e.g., "New Module: AI-Generated API Documentation" - Module 165)
+- This issue contains requirements for creating a new training module about generating API documentation
 - Note the issue number (e.g., #5)
 - Skip to Step 2
 
 **If you need to create a new issue:**
 
-This is the same process you learned in Module 105. We'll use GitHub MCP to create the issue directly from AI chat.
+Use the same process you learned in Module 105 - conduct an interactive requirements interview with AI and create a GitHub issue through MCP. 
 
-Ask your AI assistant:
-```
-Create a GitHub issue for implementing JavaScript execution tools (lng_javascript) with these requirements:
+In Module 105, you practiced creating an issue for a new training module by interviewing AI about module requirements. Now you'll delegate the implementation of that module to GitHub Coding Agent.
 
-Title: Implement JavaScript execution tools (lng_javascript)
+For details on the interview process, refer to [Module 105, Part 5: Interactive Requirements Interview](../105-mcp-github-integration-issues/walkthrough.md#part-5-interactive-requirements-interview).
 
-Description:
-Create the lng_javascript tool with three commands (add, execute, list) for managing and executing JavaScript functions. The tool should:
+The issue should have:
+- Clear title describing the task
+- Detailed requirements and acceptance criteria
+- Links to relevant instruction files (if applicable)
+- Proper labels
 
-1. Create mcp_server/tools/lng_javascript/ directory with:
-   - settings.yaml with PyMiniRacer dependency
-   - tool.py implementing all three commands
-
-2. Use PyMiniRacer library for JavaScript execution (via engine, no Node.js required)
-
-3. Save JavaScript functions to mcp_server/javascript/ directory using file_state_manager
-
-4. Support parameter passing as JSON strings (parsed to objects) or plain strings
-
-Technical requirements:
-- Follow ./activate-virtualenv.agent.md for environment setup
-- Follow ./check-mcp-enabled.agent.md if no MCP enabled
-- Follow ./update-install.agent.md for pip install
-- Follow ./read-debug.agent.md when problems occur
-- Follow ./testing-tool.agent.md for testing the tool
-- Follow ./create-tool.agent.md when creating new tool
-
-Use issue labels: enhancement, mcp-tool
-```
-
-**Approval dialog shows:**
-- Tool: `mcp_github_issue_write`
-- Method: `create`
-- Repository, title, body, labels
-
-**Click "Allow"** - The issue is created.
+**Once you have an issue ready, continue to Step 2.**
 
 ### Step 2: Review Issue Quality
 
-Navigate to your GitHub repository's Issues tab and open the issue you just created.
+Open the issue you created (either in Module 105 or just now) on GitHub.
 
 **Check that the issue has:**
 - ✅ Clear, descriptive title
