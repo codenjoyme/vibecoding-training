@@ -3,6 +3,8 @@
 **Duration:** 5-7 minutes  
 **Skill:** Delegate tasks to GitHub coding agent for autonomous implementation
 
+**👉 [Start hands-on walkthrough](walkthrough.md)**
+
 ## Topics
 
 - Introduction to GitHub Copilot Coding Agent
