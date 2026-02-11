@@ -3,6 +3,8 @@
 **Duration:** 5-7 minutes  
 **Skill:** Connect AI to any data source
 
+**👉 [Start hands-on walkthrough](walkthrough.md)**
+
 ## Topics
 
 - What is MCP
