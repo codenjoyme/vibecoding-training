@@ -160,120 +160,139 @@ Agent: Calls tool correctly on first try, gets structured response
 
 ---
 
-## Part 2: Create Boilerplate MCP Server
+## Part 2: Create MCP Server for Your Backend
 
 ### What We'll Do
 
-Create a reference MCP server implementation with 3 example tools. This serves as a template you can adapt for your actual application.
+Study the reference MCP server implementation, then create a custom MCP server integrated into your application's backend. The reference code serves as a template - you'll adapt it for your actual application.
 
 ---
 
-### Step 1: Copy Boilerplate Files
+### Step 1: Review Reference Implementation
 
-The reference MCP server implementation is provided in this module's `tools/` directory.
+The reference MCP server is provided in this module's `tools/` directory for study.
 
 **Ask your AI agent:**
 
 ```
-Copy the MCP server boilerplate from Module 140 to my project.
+Show me the reference MCP server implementation from:
+docs/modules/140-advanced-mcp-integration-in-poc/tools/example-mcp-server.ts
 
-Source: docs/modules/140-advanced-mcp-integration-in-poc/tools/
-Destination: work/120-task/tools/
-
-Copy these files:
-- example-mcp-server.ts
-- package.json
-- tsconfig.json
-- README.md
+Explain how it's structured:
+- Tool definitions with schemas
+- Handler functions
+- MCP server setup
+- Error handling patterns
 ```
 
-**What gets copied:**
-- **example-mcp-server.ts** - Complete MCP server with 3 example tools
-- **package.json** - Dependencies and build scripts
-- **tsconfig.json** - TypeScript configuration
-- **README.md** - Usage instructions
+**What to understand:**
+
+The reference shows 3 tool patterns:
+1. **`app_get_status`** - No parameters, returns data
+2. **`app_get_user`** - With parameter, returns data or error
+3. **`app_create_item`** - Multiple parameters, creates resource
+
+These patterns cover all common MCP tool use cases.
 
 ---
 
-### Step 2: Install Dependencies
+### Step 2: Create MCP Server for Your Backend
 
-Navigate to your project's tools directory:
+Now create a custom MCP server integrated into your backend application.
+
+**Ask your AI agent:**
+
+```
+Based on the reference MCP server in Module 140, create a custom MCP server for my backend application.
+
+My backend structure:
+work/120-task/backend/src/
+
+Create:
+work/120-task/backend/src/mcp/server.ts
+
+My application is: [describe your app from Module 120]
+
+Create MCP tools for these operations:
+[List 3-5 operations your app provides]
+
+Requirements:
+- Use the same MCP SDK patterns as the reference
+- Adapt tool names to my domain (not app_*, use my_app_*)
+- Use mock data initially (we'll connect real API later)
+- Include proper TypeScript types
+- Add error handling for each tool
+```
+
+**Example for TODO app:**
+```
+Create MCP tools for:
+- todo_list - Get all todos
+- todo_get - Get todo by ID
+- todo_create - Create new todo
+- todo_update - Update todo (mark complete, change text)
+- todo_delete - Delete todo by ID
+```
+
+---
+
+### Step 3: Install MCP SDK in Backend
+
+The agent will need MCP SDK in your backend project.
+
+Navigate to backend directory:
 
 ```bash
 # Windows
-cd c:/workspace/hello-genai/work/120-task/tools
+cd c:/workspace/hello-genai/work/120-task/backend
 
 # macOS/Linux
-cd ~/workspace/hello-genai/work/120-task/tools
+cd ~/workspace/hello-genai/work/120-task/backend
 ```
 
-Install dependencies:
+**Ask your AI agent:**
 
-```bash
-npm install
+```
+Add @modelcontextprotocol/sdk to my backend dependencies and install.
 ```
 
-**Expected output:**
-```
-added 15 packages, and audited 16 packages in 3s
-found 0 vulnerabilities
-```
+The agent should update `package.json` and run `npm install`.
 
 ---
 
-### Step 3: Review the Boilerplate Code
+### Step 4: Build Your MCP Server
 
-Open `work/120-task/tools/example-mcp-server.ts` in your editor.
-
-**The boilerplate includes 3 example tools:**
-
-1. **`app_get_status`** - No parameters, returns application status data
-   - Demonstrates simple data retrieval
-   - Mock implementation returns server stats
-
-2. **`app_get_user`** - Takes `userId` parameter, returns user data
-   - Demonstrates parameterized queries
-   - Mock implementation with error handling (user not found)
-
-3. **`app_create_item`** - Takes multiple parameters (`title`, `description`, `priority`)
-   - Demonstrates data creation/mutation
-   - Shows required vs optional parameters
-   - Returns success response with created item
-
-**Key patterns in the code:**
-
-- **Tool definitions** with JSON Schema for input validation
-- **Handler functions** that implement actual logic (currently mock data)
-- **Error handling** that returns proper error messages to MCP client
-- **MCP server setup** with stdio transport (runs as subprocess)
-
-See the full code in `work/120-task/tools/example-mcp-server.ts`.
-
-See the full code in `work/120-task/tools/example-mcp-server.ts`.
-
----
-
-### Step 4: Build the MCP Server
+If your backend uses TypeScript, ensure MCP code compiles:
 
 ```bash
 npm run build
 ```
 
-**Expected output:**
-```
-> mcp-tools@1.0.0 build
-> tsc
-
-[No errors means successful compilation]
-```
-
-Check that `dist/example-mcp-server.js` was created:
+Check that your MCP server compiled successfully:
 
 ```bash
-ls dist/
+# Example location - adjust for your project structure
+ls backend/dist/mcp/server.js
 ```
 
-**Boilerplate MCP server is ready! ✅**
+---
+
+### Step 5: Test MCP Server Standalone
+
+Before integrating with IDE, test that MCP server runs:
+
+```bash
+node backend/dist/mcp/server.js
+```
+
+**Expected output:**
+```
+[Your App] MCP server running on stdio
+```
+
+Press `Ctrl+C` to stop.
+
+**Your custom MCP server is ready! ✅**
 
 ---
 
@@ -308,15 +327,15 @@ Add your MCP server to IDE configuration so the AI agent can discover and use it
   "mcpServers": {
     "my-app": {
       "command": "node",
-      "args": ["c:/workspace/hello-genai/work/120-task/tools/dist/example-mcp-server.js"]
+      "args": ["c:/workspace/hello-genai/work/120-task/backend/dist/mcp/server.js"]
     }
   }
 }
 ```
 
-**Adjust the path** for your OS:
-- Windows: `c:/workspace/hello-genai/work/120-task/tools/dist/example-mcp-server.js`
-- macOS/Linux: `~/workspace/hello-genai/work/120-task/tools/dist/example-mcp-server.js`
+**Adjust the path** for your OS and actual backend structure:
+- Windows: `c:/workspace/hello-genai/work/120-task/backend/dist/mcp/server.js`
+- macOS/Linux: `~/workspace/hello-genai/work/120-task/backend/dist/mcp/server.js`
 
 **If you have other MCP servers**, add to the list:
 
@@ -329,7 +348,7 @@ Add your MCP server to IDE configuration so the AI agent can discover and use it
     },
     "my-app": {
       "command": "node",
-      "args": ["c:/workspace/hello-genai/work/120-task/tools/dist/example-mcp-server.js"]
+      "args": ["c:/workspace/hello-genai/work/120-task/backend/dist/mcp/server.js"]
     }
   }
 }
@@ -350,13 +369,13 @@ Add your MCP server to IDE configuration so the AI agent can discover and use it
   "servers": {
     "my-app": {
       "command": "node",
-      "args": ["c:/workspace/hello-genai/work/120-task/tools/dist/example-mcp-server.js"]
+      "args": ["c:/workspace/hello-genai/work/120-task/backend/dist/mcp/server.js"]
     }
   }
 }
 ```
 
-Adjust path for your OS as shown above.
+Adjust path for your OS and actual backend structure as shown above.
 
 ---
 
@@ -378,10 +397,14 @@ Do you have access to "my-app" MCP server? List the available tools.
 ```
 Yes, I have access to the my-app MCP server with these tools:
 
-1. app_get_status - Get current application status and statistics
-2. app_get_user - Get user details by ID (requires userId parameter)
-3. app_create_item - Create a new item (requires title and priority)
+1. todo_list - Get all todos
+2. todo_get - Get todo by ID (requires id parameter)
+3. todo_create - Create new todo (requires title parameter)
+4. todo_update - Update existing todo
+5. todo_delete - Delete todo by ID
 ```
+
+(Tool names will match what you created for your specific application)
 
 **If tools are listed → MCP server configured successfully! ✅**
 
@@ -391,242 +414,165 @@ Yes, I have access to the my-app MCP server with these tools:
 
 ### What We'll Do
 
-Test each of the 3 example tools to verify MCP integration works correctly.
+Test the tools you created for your specific application to verify MCP integration works correctly.
 
 ---
 
-### Test 1: Tool with No Parameters
+### Test Your Custom Tools
 
-**Ask your AI agent:**
+The specific tests depend on what tools you created. Here's the general approach:
+
+**Test 1: Tool with No Parameters (if you have one)**
+
+Example for TODO app:
 
 ```
-Use the app_get_status tool to get application status.
+Use the todo_list tool to get all todos.
 ```
 
 **Agent should:**
-- Call `app_get_status` tool
-- Receive mock status data
+- Call your list tool
+- Receive mock data
 
-**Expected output:**
-```json
-{
-  "status": "online",
-  "uptime": "24h 15m",
-  "users_online": 42,
-  "requests_today": 1337,
-  "database": "connected",
-  "cache": "healthy"
-}
-```
-
-**✅ Test 1 passed if agent shows this data.**
+**✅ Test passed if agent shows your mock data.**
 
 ---
 
-### Test 2: Tool with Parameters (Success Case)
+**Test 2: Tool with Parameters (Success Case)**
 
-**Ask your AI agent:**
+Example for TODO app:
 
 ```
-Use app_get_user tool to get details for user ID "1".
+Use todo_get tool to get details for todo ID "1".
 ```
 
 **Agent should:**
-- Call `app_get_user` with parameter `userId: "1"`
-- Receive user data
+- Call your get tool with parameter
+- Receive todo data
 
-**Expected output:**
-```json
-{
-  "id": "1",
-  "name": "Alice Johnson",
-  "email": "alice@example.com",
-  "role": "admin"
-}
-```
-
-**✅ Test 2 passed if agent shows Alice's data.**
+**✅ Test passed if agent shows the todo.**
 
 ---
 
-### Test 3: Tool with Parameters (Error Case)
-
-**Ask your AI agent:**
+**Test 3: Tool with Parameters (Error Case)**
 
 ```
-Try to get user with ID "999" (should not exist).
+Try to get todo with ID "999" (should not exist).
 ```
 
 **Agent should:**
-- Call `app_get_user` with parameter `userId: "999"`
-- Receive error
+- Call your get tool
+- Receive error from your error handling
 
-**Expected output:**
-```
-Error: User with ID 999 not found
-```
-
-**✅ Test 3 passed if agent reports error correctly.**
+**✅ Test passed if agent reports error correctly.**
 
 ---
 
-### Test 4: Tool with Multiple Parameters
+**Test 4: Tool that Creates/Modifies Data**
 
-**Ask your AI agent:**
+Example for TODO app:
 
 ```
-Create a new item with title "Test Task", priority "high", and description "Testing MCP integration".
+Create a new todo with title "Test MCP Integration".
 ```
 
 **Agent should:**
-- Call `app_create_item` with all parameters
+- Call your create tool
 - Receive success response with created item
 
-**Expected output:**
-```json
-{
-  "success": true,
-  "item": {
-    "id": "item_1234567890",
-    "title": "Test Task",
-    "description": "Testing MCP integration",
-    "priority": "high",
-    "created_at": "2026-02-12T10:30:00.000Z",
-    "status": "active"
-  },
-  "message": "Item \"Test Task\" created successfully"
-}
-```
-
-**✅ Test 4 passed if item is created with correct data.**
+**✅ Test passed if item is created successfully.**
 
 ---
 
-### Test 5: Tool Validation (Missing Required Parameter)
-
-**Ask your AI agent:**
+**Test 5: Tool Validation**
 
 ```
-Try to create an item without specifying priority (it's required).
+Try to create a todo without required parameters.
 ```
 
 **Agent should:**
-- Recognize that `priority` is required (from schema)
-- Either ask you for the value, or report that it cannot proceed without it
+- Recognize missing required parameters from schema
+- Ask you for the values or report that it cannot proceed
 
-**The MCP schema prevents invalid calls, so agent should handle this gracefully.**
-
-**✅ Test 5 passed if agent correctly handles the missing required parameter.**
+**✅ Test passed if agent handles validation correctly.**
 
 ---
 
-## Part 5: Adapt to Your Real Application
+**If all your custom tools work → MCP integration successful! ✅**
+
+---
+
+## Part 5: Connect to Real Backend API
 
 ### What We'll Do
 
-Now that you have a working MCP server boilerplate, adapt it to your actual application from Module 120.
+Now that your MCP tools work with mock data, connect them to your actual backend API.
 
 ---
 
-### Step 1: Identify Your Application's Operations
+### Step 1: Understand Your Backend Architecture
 
-Think about what operations your application provides:
-
-**Example for a TODO app:**
-- Get all todos
-- Get todo by ID
-- Create new todo
-- Update todo (mark complete, change text)
-- Delete todo
-
-**Example for a blog app:**
-- List posts
-- Get post by ID
-- Create post
-- Update post
-- Delete post
-- List comments for post
-
-**Example for a contact form app:**
-- List submitted contacts
-- Get contact by ID
-- Delete contact
-- Export contacts to CSV
+**Ask yourself:**
+- Where is my backend API logic? (controllers, services, routes?)
+- Does my backend use a database? (in-memory, SQLite, PostgreSQL?)
+- What functions already exist that I can reuse?
 
 ---
 
-### Step 2: Define Tools for Your Application
+### Step 2: Connect MCP Tools to Backend Logic
 
 **Ask your AI agent:**
 
 ```
-My application is [describe your app from Module 120].
+Update my MCP server in backend/src/mcp/server.ts to call my real backend logic instead of mock data.
 
-Based on the example MCP server in tools/src/example-mcp-server.ts, create a new MCP server file tools/src/my-app-mcp-server.ts with tools for:
+My backend structure:
+- API routes: backend/src/routes/
+- Business logic: backend/src/services/ (or controllers/)
+- Database: [describe your setup]
 
-[List 3-5 operations your app should support]
+For each MCP tool:
+- Import the corresponding service/controller function
+- Call it instead of returning mock data
+- Handle errors from backend properly
+- Return real data to MCP client
 
-Follow the same pattern as example-mcp-server.ts:
-- Define tools array with proper schemas
-- Implement handler functions
-- Use the same MCP server setup code
-
-For now, use mock data like in the example. We'll connect to real API later.
+Maintain the same MCP tool interface (names, parameters, schemas).
 ```
+
+**The agent will:**
+- Import your backend modules
+- Replace mock data with real function calls
+- Add database queries if needed
+- Preserve error handling
 
 ---
 
-### Step 3: Build and Test Your Application MCP Server
+### Step 3: Test with Real Data
+
+Rebuild your backend:
 
 ```bash
-cd tools
+cd backend
 npm run build
 ```
 
-Update IDE MCP configuration to use your new server:
+Restart your IDE to reload MCP server.
 
-```json
-{
-  "mcpServers": {
-    "my-app": {
-      "command": "node",
-      "args": ["c:/workspace/hello-genai/work/120-task/tools/dist/my-app-mcp-server.js"]
-    }
-  }
-}
-```
+Test your tools again - now they should work with real data from your backend!
 
-Restart IDE and test your tools with AI agent.
-
----
-
-### Step 4: Connect to Real Backend API
-
-Once tools work with mock data, connect to your actual backend:
-
-**Ask your AI agent:**
+**Example test:**
 
 ```
-Update my-app-mcp-server.ts to call my real backend API instead of mock data.
-
-My backend runs at: http://localhost:3000
-API endpoints:
-- GET /api/todos - list all todos
-- GET /api/todos/:id - get todo by ID
-- POST /api/todos - create todo
-- PUT /api/todos/:id - update todo
-- DELETE /api/todos/:id - delete todo
-
-Use fetch() to make HTTP requests to these endpoints.
-Handle errors properly.
+Create a new todo with title "Real MCP Test".
+Then list all todos to verify it was created.
 ```
 
-**Agent will:**
-- Replace mock data with real HTTP calls
-- Add error handling
-- Preserve the same MCP tool interface
+**Agent should:**
+- Create real todo in your database
+- List real todos including the one just created
 
-Rebuild, restart IDE, and test again—now with real data!
+**✅ Connected to real backend successfully!**
 
 ---
 
@@ -862,17 +808,14 @@ Agent migrates data with progress updates
 
 You've successfully completed this module when you can check off:
 
-✅ Understand why MCP integration makes applications AI-controllable  
-✅ Created boilerplate MCP server with 3 example tools  
+✅ Created custom MCP server in backend structure (not copied boilerplate)  
+✅ MCP server integrated with backend (backend/src/mcp/server.ts)  
 ✅ Successfully built TypeScript MCP server  
 ✅ Configured IDE to connect to MCP server  
 ✅ AI agent can discover and list MCP tools  
-✅ Tested tool with no parameters (get_status)  
-✅ Tested tool with parameters (get_user)  
-✅ Tested error handling (user not found)  
-✅ Tested tool with multiple parameters (create_item)  
-✅ Adapted MCP server for your actual application  
-✅ Connected MCP server to real backend API  
+✅ Tested custom tools with mock data  
+✅ Connected MCP tools to real backend logic  
+✅ Tested tools with real data from backend  
 ✅ Understanding of MCP integration patterns  
 
 ---
@@ -919,20 +862,21 @@ Answer these questions to verify comprehension:
 
 **Solutions:**
 1. **Verify MCP config file path is correct:**
-   - Windows: Use forward slashes: `c:/workspace/...`
-   - macOS/Linux: Use `~/workspace/...`
+   - Windows: Use forward slashes: `c:/workspace/.../backend/dist/mcp/server.js`
+   - macOS/Linux: Use `~/workspace/.../backend/dist/mcp/server.js`
+   - Check your actual backend build output location
 2. **Check file exists:**
    ```bash
-   ls tools/dist/example-mcp-server.js
+   ls backend/dist/mcp/server.js
    ```
 3. **Test MCP server manually:**
    ```bash
-   node tools/dist/example-mcp-server.js
+   node backend/dist/mcp/server.js
    ```
-   Should show: "Example MCP server running on stdio"
+   Should show: "[Your App] MCP server running on stdio"
 4. **Check for TypeScript compilation errors:**
    ```bash
-   cd tools
+   cd backend
    npm run build
    ```
 5. **Restart IDE completely** (not just reload window)
@@ -944,9 +888,9 @@ Answer these questions to verify comprehension:
 **Symptoms:** Error mentions `@modelcontextprotocol/sdk` not found
 
 **Solutions:**
-1. **Install dependencies in tools directory:**
+1. **Install dependencies in backend directory:**
    ```bash
-   cd tools
+   cd backend
    npm install
    ```
 2. **Verify package.json has the SDK:**
@@ -973,7 +917,7 @@ Answer these questions to verify comprehension:
    - Look in IDE output panel for MCP server logs
 2. **Verify tool handler switch statement includes all tool names:**
    ```typescript
-   case 'app_get_status':  // Must match tool name exactly
+   case 'todo_get':  // Must match tool name exactly
    ```
 3. **Test tool logic independently:**
    ```typescript
@@ -982,39 +926,38 @@ Answer these questions to verify comprehension:
    ```
 4. **Validate parameter types match schema:**
    ```typescript
-   // If schema says userId is string, don't pass number
+   // If schema says id is string, don't pass number
    ```
 
 ---
 
-### Problem: MCP server can't connect to backend API
+### Problem: MCP server can't connect to backend logic
 
-**Symptoms:** Tools work with mock data but fail when calling real API
+**Symptoms:** Tools work with mock data but fail when calling real backend
 
 **Solutions:**
-1. **Verify backend is running:**
+1. **Verify backend modules are properly imported:**
+   ```typescript
+   import { TodoService } from '../services/TodoService.js';
+   ```
+2. **Check if backend is running (if MCP calls HTTP endpoints):**
    ```bash
    curl http://localhost:3000/api/status
    ```
-2. **Check CORS if making browser requests:**
-   - Backend needs CORS headers for cross-origin requests
-   - Or run MCP server on same domain
-3. **Add request logging:**
+3. **Add logging in MCP tool handlers:**
    ```typescript
-   console.error(`[MCP] Calling API: ${url}`);
-   const response = await fetch(url);
-   console.error(`[MCP] Response status: ${response.status}`);
+   console.error(`[MCP] Calling backend function:`, functionName);
+   const result = await backendFunction(args);
+   console.error(`[MCP] Backend response:`, result);
    ```
-4. **Handle network errors:**
+4. **Handle backend errors:**
    ```typescript
    try {
-     const response = await fetch(url);
-     if (!response.ok) {
-       throw new Error(`API error: ${response.status}`);
-     }
+     const result = await todoService.create(args);
+     return result;
    } catch (error) {
-     console.error('[MCP] Network error:', error);
-     throw error;
+     console.error('[MCP] Backend error:', error);
+     throw new Error(`Backend error: ${error.message}`);
    }
    ```
 
