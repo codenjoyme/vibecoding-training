@@ -297,22 +297,31 @@ You'll see **three approval dialogs**—one for each tool call. This demonstrate
 
 ## Part 4: Managing MCP Tools and Context
 
-### Enabling and Disabling MCP Servers
+### Enabling and Disabling Individual Tools (VS Code)
 
-1. **Check active servers**
-   
-   Open the Output panel (View → Output) and select "Model Context Protocol"
-   
-   You'll see connection logs:
-   ```
-   [info] Starting server echo-windows
-   [info] Connection state: Running
-   [info] Discovered 3 tools
-   ```
+VS Code provides a **visual interface** to selectively enable/disable individual tools from MCP servers!
 
-2. **Disable a server temporarily**
+1. **Open the Configure Tools dialog**
    
-   Edit your `mcp.json` file and comment out the server:
+   - Click the **gear icon** (⚙️) in the chat input area (next to model selection)
+   - Select "Configure Tools"
+   
+   You'll see a dialog with:
+   - **Built-In** section - VS Code's default tools
+   - **MCP server sections** (e.g., "echo-windows") - Your custom servers
+   - **Checkboxes** next to each tool
+
+2. **Disable specific tools**
+   
+   - Uncheck tools you don't need (e.g., uncheck `echo` but keep `calculate` and `get_time`)
+   - Click "OK"
+   - AI will no longer see unchecked tools in its context
+   
+   **Example:** If you only need the calculator, uncheck `echo` and `get_time` to reduce context usage.
+
+3. **Disable entire MCP server**
+   
+   You can also disable servers completely by editing `mcp.json`:
    
    ```json
    {
@@ -325,16 +334,27 @@ You'll see **three approval dialogs**—one for each tool call. This demonstrate
    }
    ```
    
-   Reload window. The server stops, and tools disappear from AI's context.
+   Reload window. The entire server stops.
 
-3. **Why disable tools?**
+4. **Why manage tool visibility?**
    
-   Each MCP tool's description is added to the AI's context. With many servers:
+   Each MCP tool's description is added to the AI's context. With many tools:
    - **Context window fills up faster** (tool schemas take space)
    - **Slower response times** (more tools to evaluate)
    - **Higher costs** (if using paid API)
    
-   **Best practice:** Enable only the MCP servers you're actively using.
+   **Best practice:** Enable only the tools you're actively using.
+
+### Check Active Servers
+
+Open the Output panel (View → Output) and select "Model Context Protocol"
+
+You'll see connection logs:
+```
+[info] Starting server echo-windows
+[info] Connection state: Running
+[info] Discovered 3 tools
+```
 
 ### Managing Tool Approvals
 
