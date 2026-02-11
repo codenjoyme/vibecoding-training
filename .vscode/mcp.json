@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "demo": {
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "./docs/modules/100-mcp-model-context-protocol/tools/mcp-demo.ps1"]
+    }
+  }
+}
