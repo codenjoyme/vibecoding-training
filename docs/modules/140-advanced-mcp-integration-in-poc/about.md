@@ -8,7 +8,7 @@
 ## Topics
 
 - Why add MCP interface to your application
-- Creating custom MCP server for your backend API
+- Creating custom MCP server integrated with backend
 - Registering MCP tools with input/output schemas
 - HTTP transport for MCP servers
 - Configuring IDE to use your MCP server

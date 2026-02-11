@@ -22,8 +22,8 @@ Before starting, ensure you have:
 
 In this walkthrough, you'll:
 - Understand why MCP integration matters for applications
-- Create boilerplate MCP server with 3 example tools
-- Add MCP endpoint to your backend API
+- Study reference MCP server implementation patterns
+- Create custom MCP server integrated with your backend
 - Configure IDE to connect to your MCP server
 - Test MCP integration with AI agent
 - See real-world patterns for MCP-enabled applications
@@ -115,15 +115,15 @@ Agent: Calls tool correctly on first try, gets structured response
 │  └────────┬───────┘                            │
 └───────────┼─────────────────────────────────────┘
             │
-            │ MCP Protocol (HTTP or stdio)
+            │ HTTP: POST http://localhost:3001/api/mcp
             │
 ┌───────────┼─────────────────────────────────────┐
-│  Your Web Application Backend                  │
+│  Your Web Application Backend (port 3001)      │
 │           │                                     │
 │           ↓                                     │
 │  ┌────────────────┐                            │
-│  │  MCP Server    │                            │
-│  │  Endpoint      │                            │
+│  │  MCP HTTP      │                            │
+│  │  Endpoint      │  /api/mcp                  │
 │  └────────┬───────┘                            │
 │           │                                     │
 │           │ Translates to internal API calls   │
@@ -136,10 +136,11 @@ Agent: Calls tool correctly on first try, gets structured response
 ```
 
 **Key points:**
-- MCP server runs as part of your backend application
-- Exposes tools that wrap your existing API logic
-- Agent calls tools through MCP protocol
-- MCP server translates to your internal API calls
+- MCP server runs as HTTP endpoint in your backend application
+- Backend typically runs on port 3001 (or your chosen port)
+- MCP endpoint handles POST requests at `/api/mcp`
+- Agent calls tools through HTTP requests
+- MCP endpoint translates to your internal API calls
 
 ---
 
@@ -277,20 +278,21 @@ ls backend/dist/mcp/server.js
 
 ---
 
-### Step 5: Test MCP Server Standalone
+### Step 5: Start Your Backend Server
 
-Before integrating with IDE, test that MCP server runs:
+Your MCP endpoint is part of your backend server. Start your backend:
 
 ```bash
-node backend/dist/mcp/server.js
+cd backend
+npm start
+# or npm run dev for development mode
 ```
 
 **Expected output:**
 ```
-[Your App] MCP server running on stdio
+Server running on http://localhost:3001
+MCP endpoint available at /api/mcp
 ```
-
-Press `Ctrl+C` to stop.
 
 **Your custom MCP server is ready! ✅**
 
@@ -326,16 +328,16 @@ Add your MCP server to IDE configuration so the AI agent can discover and use it
 {
   "mcpServers": {
     "my-app": {
-      "command": "node",
-      "args": ["c:/workspace/hello-genai/work/120-task/backend/dist/mcp/server.js"]
+      "type": "http",
+      "url": "http://localhost:3001/api/mcp"
     }
   }
 }
 ```
 
-**Adjust the path** for your OS and actual backend structure:
-- Windows: `c:/workspace/hello-genai/work/120-task/backend/dist/mcp/server.js`
-- macOS/Linux: `~/workspace/hello-genai/work/120-task/backend/dist/mcp/server.js`
+**Adjust the port and path** if your backend uses different settings:
+- Default: `http://localhost:3001/api/mcp`
+- Custom port: `http://localhost:YOUR_PORT/api/mcp`
 
 **If you have other MCP servers**, add to the list:
 
@@ -347,8 +349,8 @@ Add your MCP server to IDE configuration so the AI agent can discover and use it
       "args": ["-y", "@modelcontextprotocol/server-filesystem@latest", "c:/workspace/hello-genai"]
     },
     "my-app": {
-      "command": "node",
-      "args": ["c:/workspace/hello-genai/work/120-task/backend/dist/mcp/server.js"]
+      "type": "http",
+      "url": "http://localhost:3001/api/mcp"
     }
   }
 }
@@ -368,14 +370,14 @@ Add your MCP server to IDE configuration so the AI agent can discover and use it
 {
   "servers": {
     "my-app": {
-      "command": "node",
-      "args": ["c:/workspace/hello-genai/work/120-task/backend/dist/mcp/server.js"]
+      "type": "http",
+      "url": "http://localhost:3001/api/mcp"
     }
   }
 }
 ```
 
-Adjust path for your OS and actual backend structure as shown above.
+Adjust port and path if your backend uses different settings.
 
 ---
 
@@ -828,9 +830,9 @@ Answer these questions to verify comprehension:
    
    Expected answer: REST API is for human-readable HTTP endpoints with documentation that humans read and manually call. MCP tools are self-describing with schemas that AI agents can automatically discover and call. MCP provides type safety, validation, and discovery built-in, while REST requires detailed documentation. MCP is optimized for AI consumption, REST for human consumption.
 
-2. **Why use stdio transport for MCP server in this example?**
+2. **Why use HTTP transport for MCP server in this example?**
    
-   Expected answer: Stdio (standard input/output) transport means MCP server communicates through stdin/stdout pipes. This is simple, doesn't require network configuration, and works well for local development. The IDE spawns the MCP server process and communicates directly through pipes. For production or remote access, HTTP transport would be more appropriate.
+   Expected answer: HTTP transport means MCP server exposes an HTTP endpoint (e.g., `/api/mcp`) that handles MCP protocol requests. This is ideal for web applications because the backend already runs as HTTP server. IDE makes POST requests to the endpoint. Benefits: (1) Integrates naturally with existing backend, (2) No need to spawn separate process, (3) Can reuse backend's database connections and services, (4) Easy to test with curl/Postman. Alternative is stdio transport where IDE spawns subprocess.
 
 3. **What information goes into a tool's inputSchema?**
    
@@ -861,25 +863,29 @@ Answer these questions to verify comprehension:
 **Symptoms:** Agent says "I don't have access to my-app MCP server"
 
 **Solutions:**
-1. **Verify MCP config file path is correct:**
-   - Windows: Use forward slashes: `c:/workspace/.../backend/dist/mcp/server.js`
-   - macOS/Linux: Use `~/workspace/.../backend/dist/mcp/server.js`
-   - Check your actual backend build output location
-2. **Check file exists:**
+1. **Verify MCP config has correct URL:**
+   - Default: `http://localhost:3001/api/mcp`
+   - Check your backend's actual port number
+   - Ensure URL includes `/api/mcp` path
+2. **Check backend server is running:**
    ```bash
-   ls backend/dist/mcp/server.js
+   curl http://localhost:3001/api/mcp
    ```
-3. **Test MCP server manually:**
+   Should return MCP protocol response (not 404)
+3. **Test MCP endpoint manually:**
    ```bash
-   node backend/dist/mcp/server.js
+   curl -X POST http://localhost:3001/api/mcp \
+     -H "Content-Type: application/json" \
+     -d '{"method": "tools/list"}'
    ```
-   Should show: "[Your App] MCP server running on stdio"
+   Should return list of tools
 4. **Check for TypeScript compilation errors:**
    ```bash
    cd backend
    npm run build
    ```
 5. **Restart IDE completely** (not just reload window)
+6. **Check backend logs for errors** when IDE tries to connect
 
 ---
 
