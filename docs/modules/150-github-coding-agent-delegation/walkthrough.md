@@ -1146,7 +1146,7 @@ Answer these questions to verify comprehension:
 
 1. **What model does GitHub Copilot Coding Agent use, and why does it matter?**
    
-   Expected answer: The agent uses GPT-4, while the IDE uses Claude Sonnet 4.5. This matters because different models have different behaviors, reasoning patterns, and strengths. Instructions that work perfectly in the IDE may need adjustment for the agent. You need to test agent behavior and refine instructions accordingly.
+   Expected answer: The agent can use multiple models (Auto mode, GPT-5.2-Codex, Claude Opus 4.6, Claude Sonnet 4.5, etc.), while the IDE typically uses Claude Sonnet 4.5. This matters because different models have different behaviors, reasoning patterns, and strengths. Instructions that work perfectly in the IDE may need adjustment for the agent. You need to test agent behavior with your chosen model and refine instructions accordingly.
 
 2. **Why should you collect all review comments before submitting, rather than submitting each comment individually?**
    
@@ -1189,7 +1189,7 @@ Answer these questions to verify comprehension:
 
 ### Problem: Agent creates PR with temporary/test files
 
-**Symptoms:** PR includes files like test.sh, test.txt, calculator.js
+**Symptoms:** PR includes files like test-module.md, draft.md, notes.txt
 
 **Root cause:** Agent didn't clean up after testing
 
