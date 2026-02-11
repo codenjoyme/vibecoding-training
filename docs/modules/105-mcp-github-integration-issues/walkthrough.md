@@ -188,6 +188,33 @@ List my GitHub repositories using the GitHub MCP server
 - Solution: Sign out and re-sign in to GitHub in your IDE
 - Verify GitHub Copilot subscription is active
 
+### Switching GitHub Accounts (Important!)
+
+If you need to switch to a different GitHub account for the MCP server:
+
+**VS Code method (recommended):**
+1. Open your `.vscode/mcp.json` file
+2. Hover over the GitHub server configuration
+3. Click the **"More..."** link that appears above the server name
+4. Select **"Disconnect Account"** from the menu
+5. The server will restart and prompt you to authenticate with a different account
+6. Complete authentication in the browser with your desired GitHub account
+
+**Alternative method:**
+1. Open Command Palette (`Ctrl+Shift+P`)
+2. Type "MCP" to see MCP-related commands
+3. Look for options to manage server connections
+
+**Why this matters:**
+- GitHub MCP uses its own authentication, separate from VS Code's GitHub login
+- Changing the account in VS Code's bottom-left corner does NOT change MCP authentication
+- You must disconnect the MCP server account specifically using the steps above
+
+**After switching accounts:**
+- Reload the IDE window if needed
+- Verify new account by asking AI to check current user
+- Create repositories under the correct account
+
 ### Step 3: Review Available GitHub Tools
 
 To see all GitHub MCP tools, ask AI:
@@ -628,10 +655,43 @@ Answer these questions to verify comprehension:
 **Symptoms:** Tool calls fail with "Unauthorized" or "Authentication required"
 
 **Solutions:**
-- Sign out and re-sign in to GitHub in your IDE
-- Verify GitHub Copilot subscription is active
-- Check internet connection (HTTP-based server requires network)
-- Try reloading IDE window
+1. **Disconnect MCP server account (recommended):**
+   - Open `.vscode/mcp.json` file
+   - Hover over GitHub server configuration
+   - Click **"More..."** link above server name
+   - Select **"Disconnect Account"**
+   - Re-authenticate when prompted
+   
+2. **Alternative solutions:**
+   - Verify GitHub Copilot subscription is active
+   - Check internet connection (HTTP-based server requires network)
+   - Try reloading IDE window
+   - Check Output panel (View → Output → Model Context Protocol) for detailed errors
+
+**Important:** Changing the GitHub account in VS Code's bottom-left corner does NOT affect MCP authentication. You must disconnect the MCP server account specifically.
+
+### Problem: Repository created under wrong GitHub account
+
+**Symptoms:** 
+- Repository appears under unexpected GitHub account (e.g., `coparent` instead of `codenjoyme`)
+- MCP uses different account than shown in VS Code
+
+**Root cause:** GitHub MCP has its own authentication, separate from VS Code's GitHub login
+
+**Solution:**
+1. Open `.vscode/mcp.json` in your workspace
+2. Hover over the `"github"` server configuration
+3. Click the **"More..."** link that appears above the server
+4. From the dropdown menu, select **"Disconnect Account (coparent)"** (shows current account)
+5. Server will restart and prompt for authentication
+6. Complete authentication with your desired GitHub account in browser
+7. Reload IDE window: `Ctrl+Shift+P` → "Reload Window"
+8. Verify account changed by asking AI to check current user
+
+**Alternative workaround:**
+- Manually create repository on GitHub under desired account
+- Add it as remote: `git remote add fork https://github.com/your-username/repo.git`
+- Continue with the walkthrough
 
 ### Problem: Git push fails with "permission denied"
 
