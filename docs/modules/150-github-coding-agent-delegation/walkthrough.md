@@ -41,7 +41,8 @@ GitHub Copilot has multiple components:
 - **Full repository access**: Reads entire codebase for context
 - **Creates PRs**: Generates pull requests with complete implementation
 - **Session logs**: Provides detailed work log for transparency
-- **Different model**: Uses GPT-4 (not Claude), different from IDE experience
+- **Model selection**: Can choose from multiple models (GPT-5.2-Codex, Claude Opus 4.6, Claude Sonnet 4.5, etc.) or use Auto mode
+- **Different from IDE**: Server-side models may behave differently than your IDE's Claude assistant
 
 ### When to Use Coding Agent
 
@@ -255,15 +256,15 @@ https://github.com/codenjoyme/vibecoding-training/issues/1
 
 You should see your issue with all the details you created.
 
-### Step 2: Locate "Assign Copilot" Button
+### Step 2: Locate "Assign to Copilot" Button
 
-On the issue page, look for the **"Assign an Agent to complete this task"** button or similar.
+On the issue page, look in the **right sidebar** under the **"Assignees"** section.
 
-**Location varies by GitHub UI:**
-- May appear at the top-right of issue
-- May be in the right sidebar under "Assignees"
-- May require clicking "..." menu for more options
-- Look for robot icon 🤖 or "Copilot" label
+You'll see:
+- "No one — Assign yourself" link
+- **"Assign to Copilot"** button with Copilot icon
+
+The button is clearly visible in the Assignees section and doesn't require any additional clicks or menu navigation.
 
 ### Step 3: Click "Assign Copilot"
 
@@ -276,21 +277,61 @@ Click the button to start the assignment dialog.
 
 ### Step 4: Configure Agent Assignment
 
-The assignment dialog shows several options:
+The assignment dialog opens with the title **"Assign Copilot to issue"**.
 
-**Base reference (branch):**
-- Default: Repository's default branch (usually `main`)
-- You can select a different branch if needed
-- Agent will start work from this branch
+**Dialog components:**
 
-**Custom instructions (optional):**
+**1. Description at the top:**
+"Copilot will open a pull request using the issue's description, comments, and the additional prompt if you provide one. Choose a custom agent to tailor Copilot for specific tasks."
+
+**2. Optional prompt:**
+- Large text area with placeholder: "Provide additional instructions for Copilot"
 - Additional context beyond the issue description
 - Constraints or preferences for this specific task
 - Examples: "Use pytest for testing" or "Follow existing code style in X module"
 
+**3. Models selection (dropdown):**
+- **Auto** (default, marked with checkmark) - Let Copilot choose the best model
+- **Claude Opus 4.6** (3×) - More powerful, uses more resources
+- **GPT-5.2-Codex** (1×) - GitHub's specialized coding model
+- **GPT-5.1-Codex-Max** (1×) - Extended context version
+- **Claude Sonnet 4.5** (1×) - Balance of speed and capability
+
+The multipliers (1×, 3×) indicate how many premium requests the model consumes.
+
+**4. Agents selection:**
+- **Copilot** (default) - Standard GitHub Copilot agent
+- **Create a custom agent** - Configure specialized agent for specific tasks
+
+**5. Repository selection:**
+- Dropdown showing your repository (e.g., `codenjoyme/vibecoding-for-managers...`)
+- Can select different repository if working across multiple repos
+- Search functionality to find specific repository
+
+**6. Base branch selection:**
+- Click to open "Select base branch" dialog
+- Shows: "Pick the starting point that Copilot will use when it creates a new branch"
+- Default: `main` (marked as "default")
+- Search field to find specific branch
+- Agent will create new branch from selected base
+
+**7. Action buttons:**
+- **Cancel** - Close dialog without assigning
+- **Assign** - Confirm and start agent work
+
 **For this walkthrough:**
-- Leave base reference as `main`
-- Custom instructions: Leave empty (we'll rely on instruction files)
+- Leave model as **"Auto"** (recommended for learning)
+- Keep agent as **"Copilot"** (standard agent)
+- Keep repository as your current repository
+- Keep base branch as **"main"**
+- Leave "Optional prompt" empty (we'll rely on instruction files from Module 070)
+- Ready to click "Assign"
+
+**Advanced usage notes:**
+- **Model selection**: Choose specific model when you know task requirements (e.g., Claude Opus for complex logic, GPT-5.2-Codex for standard coding)
+- **Custom agents**: Create specialized agents for recurring task types (e.g., "Testing Agent", "Documentation Agent")
+- **Repository selection**: Useful when agent needs to work across multiple repos or forks
+- **Branch selection**: Select feature branch if you want agent to build on existing work
 
 ### Step 5: Confirm Assignment
 
@@ -427,20 +468,26 @@ If you see the concerning pattern, you may want to:
 
 **Critical insight:**
 
-The GitHub Copilot Coding Agent uses **GPT-4**, not Claude Sonnet 4.5 like your IDE.
+The GitHub Copilot Coding Agent can use **different models** than your IDE. While your IDE typically uses Claude Sonnet 4.5, the agent offers multiple model choices:
+- **Auto mode** (default) - GitHub selects the best model for the task
+- **GPT-5.2-Codex** / **GPT-5.1-Codex-Max** - Specialized for code generation
+- **Claude Opus 4.6** / **Claude Sonnet 4.5** - Strong reasoning capabilities
 
 **Key implications:**
-- Different model = different behavior and capabilities
-- Instructions that work perfectly in IDE (Claude) may need adjustment for Agent (GPT-4)
-- GPT-4 specifics:
-  - Fine-tuned for code generation
-  - Trained on billions of lines of public GitHub code
-  - Different reasoning patterns than Claude
+- Different models = different behavior and capabilities
+- Instructions that work perfectly in IDE (Claude) may need adjustment for Agent models
+- Each model has different strengths:
+  - **GPT Codex**: Extensive training on public GitHub code, excellent for common patterns
+  - **Claude**: Strong reasoning, better for complex logic and architecture decisions
+- Environment differences: Server-side execution vs. your local IDE environment
 - You may need separate instructions for IDE vs Agent
-- Test agent behavior and refine instructions accordingly
+- Test agent behavior with your chosen model and refine instructions accordingly
 
 **Important note:**
-You may need to tune the instruction files that you fine-tuned for working with GitHub Copilot in the IDE, since a different model is used in Copilot Agent and the environment on the server is not the same as yours in the IDE. This will lead to errors that you'll need to investigate and respond to.
+You may need to tune the instruction files that you fine-tuned for working with GitHub Copilot in the IDE, since different models are available in Copilot Agent and the environment on the server is not the same as yours in the IDE. This will lead to errors that you'll need to investigate and respond to.
+
+**Recommendation for learning:**
+Start with **Auto mode** to let GitHub choose the optimal model. As you gain experience, experiment with specific models for different task types (e.g., Claude Opus for complex architecture, GPT Codex for standard implementations).
 
 ### Step 4: Continue Your Work
 
