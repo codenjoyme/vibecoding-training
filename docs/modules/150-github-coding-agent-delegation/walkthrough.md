@@ -265,8 +265,6 @@ On the issue page, look for the **"Assign an Agent to complete this task"** butt
 - May require clicking "..." menu for more options
 - Look for robot icon 🤖 or "Copilot" label
 
-**Screenshot reference:** In your presentation, this is shown as step 3 in the first image.
-
 ### Step 3: Click "Assign Copilot"
 
 Click the button to start the assignment dialog.
@@ -303,8 +301,6 @@ Click **"Assign"** or **"Assign GitHub Copilot to issue #5"**
 2. Copilot comments: "Thanks for asking me to work on this. I will get started..."
 3. Issue status remains Open
 4. Agent begins working in the background
-
-**Screenshot reference:** See step 3 in your presentation images - Copilot commenting on the issue.
 
 ### Step 6: Verify Assignment
 
@@ -390,8 +386,6 @@ https://github.com/YOUR-USERNAME/YOUR-REPO/issues/ISSUE-NUMBER
 - Progress updates (if any)
 - Links to view the work session
 
-**Screenshot reference:** See the conversation timeline in your presentation images (labeled 1, 2).
-
 ### Step 2: View Work Session (Optional)
 
 Some comments include a **"View session"** button.
@@ -402,8 +396,6 @@ Some comments include a **"View session"** button.
 - Decisions being made
 - Code being written
 - Tools being executed
-
-**Screenshot reference:** Your presentation shows this with label 1 in the fourth image.
 
 **What to look for in the session log:**
 - Does agent start by reading instruction files? (Good sign!)
@@ -433,7 +425,7 @@ If you see the concerning pattern, you may want to:
 
 ### Step 3: Understand Agent Model Differences
 
-**Critical insight from your presentation (labeled 1, 2 in model explanation image):**
+**Critical insight:**
 
 The GitHub Copilot Coding Agent uses **GPT-4**, not Claude Sonnet 4.5 like your IDE.
 
@@ -447,8 +439,8 @@ The GitHub Copilot Coding Agent uses **GPT-4**, not Claude Sonnet 4.5 like your 
 - You may need separate instructions for IDE vs Agent
 - Test agent behavior and refine instructions accordingly
 
-**From your presentation:**
-> "Remember that you may need to tune the instruction files that you fine tuned for working with Github Copilot in the IDE, since a different model is used in Copilot Agent and the environment on the server is not the same as yours in the IDE. This will lead to errors. You will need to investigate and respond to them."
+**Important note:**
+You may need to tune the instruction files that you fine-tuned for working with GitHub Copilot in the IDE, since a different model is used in Copilot Agent and the environment on the server is not the same as yours in the IDE. This will lead to errors that you'll need to investigate and respond to.
 
 ### Step 4: Continue Your Work
 
@@ -495,8 +487,6 @@ The agent has finished and created a pull request. Now we'll review its work tho
 - Author: Copilot
 - Reviewers: May auto-request you
 
-**Screenshot reference:** See PR timeline in your presentation images (labeled 1, 2).
-
 ### Step 2: Review PR Description
 
 Open the pull request and read the description.
@@ -508,9 +498,7 @@ Open the pull request and read the description.
 - Testing performed
 - Links to related issue
 
-**Screenshot reference:** Your seventh presentation image shows the agent's summary with checkmarks.
-
-**Example from your presentation:**
+**Example PR description:**
 ```
 ✅ Complete Implementation
 
@@ -544,8 +532,6 @@ Click the **"Files changed"** tab in the pull request.
 - Does it follow project conventions?
 - Are there any security concerns?
 
-**Screenshot reference:** Your eighth presentation image shows file tree with test files marked (labeled 1).
-
 **Example review checklist:**
 - ✅ `mcp_server/tools/lng_javascript/settings.yaml` - Configuration looks correct
 - ✅ `mcp_server/tools/lng_javascript/tool.py` - Implementation follows patterns
@@ -558,8 +544,6 @@ Before diving into code review, check the agent's work session for insights.
 
 **Navigate back to the issue and find "View session" link.**
 
-**Screenshot reference:** Your fourth presentation image (labeled 1).
-
 **Look for:**
 - Did agent follow instruction files?
 - What files did it read for context?
@@ -567,7 +551,7 @@ Before diving into code review, check the agent's work session for insights.
 - Did it run tests? What were the results?
 - Any commands executed?
 
-**From your presentation (labeled 1):**
+**Example session log:**
 ```
 View mcp_server
   View ./activate-virtualenv.agent.md
@@ -586,10 +570,8 @@ View mcp_server
 
 Now perform detailed code review with specific feedback.
 
-**Important advice from your presentation:**
-> "Also, a word of advice: don't send (2) a single commit, as this will start a new session, which will cost you 1 premium request. Collect all your comments and send them in a single transaction (3)."
-
-**Screenshot reference:** Your eighth presentation image shows review workflow (labeled 1, 2, 3).
+**Important advice:**
+Don't submit each comment individually, as this will start a new session, which will cost you 1 premium request. Collect all your comments and send them in a single transaction.
 
 **Step-by-step commenting:**
 
@@ -611,13 +593,10 @@ Now perform detailed code review with specific feedback.
 
 5. **After adding ALL comments, finalize review** (next step)
 
-**Screenshot reference:** Your ninth presentation image shows the "Select files to discuss" dialog (labeled 1, 2).
-
 **Pro tip:** You can also chat with Copilot about specific files:
-- Click "Ask Copilot" button (1)
-- Select files to discuss (2)
+- Click "Ask Copilot" button
+- Select files to discuss
 - Ask questions about implementation decisions
-- Screenshot reference: Your ninth image (labeled 3, 4, 5)
 
 ### Step 6: Submit Review with Request Changes
 
@@ -627,29 +606,25 @@ After adding all inline comments, submit your review.
 
 **In the review dialog:**
 
-1. **Write summary comment** (labeled 2 in your tenth presentation image):
+1. **Write summary comment:**
    ```
    Please fix comments:
    - Remove temporary files (test.sh, calculator.js)
    - Add more comprehensive error handling
    ```
 
-2. **Select "Request changes"** (labeled 3 in your tenth presentation image)
+2. **Select "Request changes"**
    - NOT "Approve" (we need fixes first)
    - NOT "Comment" (just feedback, no action required)
    - "Request changes" = agent will work on fixes
 
-3. **Click "Submit review"** (labeled 4 in your tenth presentation image)
-
-**Screenshot reference:** Your tenth presentation image shows the complete review submission dialog.
+3. **Click "Submit review"**
 
 **What happens next:**
 - Copilot receives your review
 - Copilot comments on the PR acknowledging the feedback
 - Copilot starts working on requested changes
 - Copilot updates the same PR with new commits
-
-**Screenshot reference:** Your eleventh presentation image shows Copilot's response (labeled 1, 2).
 
 **Example Copilot response:**
 ```
@@ -674,8 +649,6 @@ Navigate to the PR's **"Commits"** tab or conversation timeline.
 - New commit(s) from Copilot
 - Commit messages referencing your review comments
 - Timestamps showing when work was done
-
-**Screenshot reference:** Your eleventh presentation image shows commit history (labeled 1, 2).
 
 **Example commit messages:**
 ```
@@ -709,8 +682,6 @@ Look at the PR overview for status indicators:
 - PR is in Draft mode
 - Copilot may not be finished with requested changes
 - May need to mark as "Ready for review" manually
-
-**Screenshot reference:** Your twelfth presentation image shows merge status area.
 
 ### Step 4: Approve the Pull Request
 
@@ -755,8 +726,6 @@ On the PR page, scroll to the bottom merge section.
 - ✅ "No conflicts with base branch" - Merging can be performed automatically
 - ✅ All checks passed (if CI/CD configured)
 
-**Screenshot reference:** Your thirteenth presentation image shows merge section.
-
 ### Step 2: Choose Merge Strategy
 
 GitHub offers several merge strategies:
@@ -778,7 +747,7 @@ GitHub offers several merge strategies:
 - Linear history
 - More advanced, use with caution
 
-**For this walkthrough, use "Squash and merge"** (labeled 3 in your thirteenth presentation image):
+**For this walkthrough, use "Squash and merge":**
 
 **Why squash?**
 - Agent may create multiple small commits
@@ -791,7 +760,7 @@ When you click "Squash and merge", a dialog appears.
 
 **Customize the commit message:**
 
-**Title** (labeled 4 in your thirteenth presentation image):
+**Title:**
 ```
 Implement JavaScript execution tools: lng_javascript_add and lng_javascript_execute
 ```
@@ -834,8 +803,6 @@ Click **"Confirm squash and merge"** button.
 Pull request successfully merged and closed
 ```
 
-**Screenshot reference:** Your thirteenth presentation image shows the complete merge workflow.
-
 ### Step 5: Verify Merge
 
 **Check the main branch:**
@@ -862,10 +829,8 @@ Verify the new files appear in your local workspace.
 
 ### Understanding Agent Failures
 
-Your presentation emphasizes an important point:
-> "If the Agent fails to resolve the issue or if there are any errors, you will see this in the message (1). Review it and comment on what it should do. However, it is better to correct the instruction files for the future so that it does not stop in the future. Our task is to make Agent completely independent."
-
-**Screenshot reference:** Your sixth presentation image shows error notification.
+**Important point:**
+If the Agent fails to resolve the issue or if there are any errors, you will see this in the message. Review it and comment on what it should do. However, it is better to correct the instruction files for the future so that it does not stop in the future. Our task is to make Agent completely independent.
 
 ### Common Agent Errors
 
@@ -976,10 +941,8 @@ Run tests after creating a tool.
 
 ### Running Multiple Agents in Parallel
 
-**Key insight from your presentation:**
-> "You can run several agents at once, each working on its own issue. You get your own junior staff."
-
-**Screenshot reference:** Your fourteenth presentation image shows construction workers (metaphor for parallel work).
+**Key insight:**
+You can run several agents at once, each working on its own issue. You get your own junior staff.
 
 **How to parallelize:**
 
@@ -1019,10 +982,8 @@ Run tests after creating a tool.
 
 ### Asking About Task Progress from IDE
 
-**Key insight from your presentation:**
-> "For example, after some time, I can ask the copilot in the IDE, 'What is the progress of this task?' and receive a comprehensive answer."
-
-**Screenshot reference:** Your last presentation image shows IDE with three panels showing task progress.
+**Key insight:**
+After some time, you can ask Copilot in the IDE, "What is the progress of this task?" and receive a comprehensive answer.
 
 **How to check progress from IDE:**
 
