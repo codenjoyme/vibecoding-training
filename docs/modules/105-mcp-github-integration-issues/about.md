@@ -1,30 +1,37 @@
-# MCP GitHub Integration
+# MCP GitHub Integration - Issues Management
 
 **Duration:** 5-7 minutes  
-**Skill:** Use MCP to manage GitHub issues as project backlog
+**Skill:** Connect AI to GitHub repositories for automated issue management
+
+**👉 [Start hands-on walkthrough](walkthrough.md)**
 
 ## Topics
 
-- Setting up GitHub MCP server
-- Connecting AI assistant to GitHub repository
-- CRUD operations with issues (Create, Read, Update, Delete)
-- Using issues as backlog for ideas
-- Creating issues from AI conversations
-- Fetching issues for implementation
-- Automating issue management workflow
-- Practical examples of AI-GitHub integration
+- Configuring GitHub MCP server (HTTP-based)
+- GitHub authentication for MCP
+- Listing repositories through AI chat
+- Creating new GitHub repositories
+- Managing Git remotes and pushing code
+- Creating GitHub issues from AI interviews
+- Delegating tasks to AI through GitHub Issues
 
 ## Learning Outcome
 
-Ability to manage GitHub issues through AI assistant using MCP
+Automate GitHub repository and issue management through AI chat, eliminating manual context-switching between IDE and browser.
 
 ## Prerequisites
 
-- Understanding of MCP concept (Module 100)
-- GitHub account and repository
-- Basic Git knowledge
+- Completed [Module 100: Model Context Protocol (MCP)](../100-mcp-model-context-protocol/about.md)
+- Understanding of MCP configuration (mcp.json files)
+- Basic Git knowledge from [Module 060: Version Control](../060-version-control-git/about.md)
+- Active GitHub account
+- Current workspace connected to Git
 
-## Resources
+## When to Use
 
-- GitHub MCP server documentation
-- GitHub API basics
+- Planning new features or tasks as GitHub issues
+- Creating repositories without leaving IDE
+- Managing Git remotes programmatically
+- Conducting requirement interviews and capturing results as issues
+- Delegating implementation work to future AI sessions
+- Maintaining project backlog through AI-assisted workflows
