@@ -446,17 +446,18 @@ Some comments include a **"View session"** button.
 
 **Example good session start:**
 ```
-I'll start by exploring the repository structure to understand the codebase...
+I'll start by exploring the repository structure to understand the training modules...
 
 Reading: ./instructions/main.agent.md
-Reading: ./activate-virtualenv.agent.md
-Reading: mcp_server/tools/lng_python/tool.py (for reference)
+Reading: ./instructions/create-training-module.agent.md
+Reading: docs/modules/160-bulk-file-processing-with-ai/about.md (for reference)
+Reading: docs/training-plan.md (to determine module number)
 ```
 
 **Example concerning session start:**
 ```
-I'll implement the JavaScript execution tool...
-[Directly starts coding without reading instructions]
+I'll create the new training module about API documentation...
+[Directly starts creating files without reading create-training-module.agent.md instructions]
 ```
 
 If you see the concerning pattern, you may want to:
@@ -526,7 +527,7 @@ The agent has finished and created a pull request. Now we'll review its work tho
 **Option 2: From Pull Requests tab**
 - Navigate to: `https://github.com/YOUR-USERNAME/YOUR-REPO/pulls`
 - Look for PR with title matching your issue
-- Example: "[WIP] Implement JavaScript execution tools (lng_javascript) #3"
+- Example: "[WIP] Create Module 165: AI-Generated API Documentation #3"
 
 **PR indicators:**
 - Title includes `[WIP]` or `[Draft]` - Work In Progress
@@ -549,23 +550,29 @@ Open the pull request and read the description.
 ```
 ✅ Complete Implementation
 
-Created lng_javascript tool with the following structure:
-- mcp_server/tools/lng_javascript/settings.yaml - Configuration with PyMiniRacer dependency
-- mcp_server/tools/lng_javascript/tool.py - Complete implementation with all three commands
+Created new training module with the following structure:
+- docs/modules/165-ai-generated-api-documentation/about.md - Module overview and metadata
+- docs/modules/165-ai-generated-api-documentation/walkthrough.md - Hands-on step-by-step guide
+- Updated docs/training-plan.md - Added module to sequence
 
-✅ All Required Commands Implemented
+✅ Module Components Implemented
 
-1. add command - Save JavaScript functions to filesystem
-   - Validates function name matches declaration
-   - Enforces declared functions only (no arrow functions)
-   - Saves to mcp_server/javascript/ directory with .js extension
+1. about.md - Module description
+   - Duration: 5-7 minutes
+   - Skill description: Generate comprehensive API documentation using AI
+   - Learning outcomes and prerequisites
+   - Topics covered
 
-2. execute command - Run saved JavaScript functions
-   - Intelligent parameter parsing (JSON object or string)
-   - V8 JavaScript execution via PyMiniRacer
-   - Full support for modern JavaScript features
+2. walkthrough.md - Practical guide
+   - Complete hands-on instructions
+   - Step-by-step exercises
+   - Success criteria checklist
+   - Understanding check questions
+   - Troubleshooting section
 
-3. list command - List available JavaScript functions
+3. training-plan.md - Integration
+   - Added module link in correct sequence
+   - Proper numbering (Module 165)
 ```
 
 ### Step 3: Review Changed Files
@@ -580,10 +587,11 @@ Click the **"Files changed"** tab in the pull request.
 - Are there any security concerns?
 
 **Example review checklist:**
-- ✅ `mcp_server/tools/lng_javascript/settings.yaml` - Configuration looks correct
-- ✅ `mcp_server/tools/lng_javascript/tool.py` - Implementation follows patterns
-- ❌ `test.sh` - Temporary file, should not be in PR
-- ❌ `mcp_server/javascript/calculator.js` - Test file, should not be committed
+- ✅ `docs/modules/165-ai-generated-api-documentation/about.md` - Module overview looks correct
+- ✅ `docs/modules/165-ai-generated-api-documentation/walkthrough.md` - Step-by-step guide is comprehensive
+- ✅ `docs/training-plan.md` - Module properly added to sequence
+- ❌ `test-module.md` - Temporary file, should not be in PR
+- ❌ `docs/modules/165-ai-generated-api-documentation/draft.md` - Draft file, should not be committed
 
 ### Step 4: Check Work Session Log
 
@@ -600,13 +608,14 @@ Before diving into code review, check the agent's work session for insights.
 
 **Example session log:**
 ```
-View mcp_server
-  View ./activate-virtualenv.agent.md
-  Follow ./check-mcp-enabled.agent.md if there is no MCP enabled
-  Follow ./update-install.agent.md if you suggest any pip install xxx
-  Follow ./read-debug.agent.md when there are some problems
-  Follow ./testing-tool.agent.md if you need to test the tool after creation or modification
-  Follow ./create-tool.agent.md when you create a new tool
+View docs/modules
+  View ./instructions/main.agent.md
+  View ./instructions/create-training-module.agent.md
+  Read existing modules for structure reference
+  Read docs/training-plan.md to determine module number
+  Create about.md following template
+  Create walkthrough.md with hands-on steps
+  Update training-plan.md with new module link
 ```
 
 **Good sign:** Agent systematically read relevant instruction files.
@@ -633,9 +642,10 @@ Don't submit each comment individually, as this will start a new session, which 
 3. **Don't submit yet!** Just click "Add single comment" for now
 
 4. **Continue adding comments for all issues:**
-   - "Remove test.sh - temporary file"
-   - "Remove calculator.js from javascript/ directory"
-   - "Add error handling for invalid JSON parameters"
+   - "Remove test-module.md - temporary file"
+   - "Remove draft.md from module directory"
+   - "Add Understanding Check section to walkthrough.md"
+   - "Fix module numbering in training-plan.md"
    - etc.
 
 5. **After adding ALL comments, finalize review** (next step)
@@ -656,8 +666,9 @@ After adding all inline comments, submit your review.
 1. **Write summary comment:**
    ```
    Please fix comments:
-   - Remove temporary files (test.sh, calculator.js)
-   - Add more comprehensive error handling
+   - Remove temporary files (test-module.md, draft.md)
+   - Add Understanding Check section with 5-7 questions
+   - Fix module numbering inconsistency
    ```
 
 2. **Select "Request changes"**
@@ -699,8 +710,8 @@ Navigate to the PR's **"Commits"** tab or conversation timeline.
 
 **Example commit messages:**
 ```
-2f1a285  Implement complete lng_javascript tool with add, execute, and list commands
-95d796e  Final cleanup and verification of lng_javascript tool implementation
+2f1a285  Create Module 165: AI-Generated API Documentation with complete structure
+95d796e  Final cleanup and add Understanding Check section to walkthrough
 ```
 
 ### Step 2: Review Changes
@@ -708,8 +719,9 @@ Navigate to the PR's **"Commits"** tab or conversation timeline.
 Go back to **"Files changed"** tab.
 
 **Check that your requested changes were made:**
-- ❌ Were temporary files removed? (test.sh, calculator.js)
-- ❌ Was error handling improved?
+- ❌ Were temporary files removed? (test-module.md, draft.md)
+- ❌ Was Understanding Check section added?
+- ❌ Was module numbering fixed?
 - ❌ Were all review comments addressed?
 
 **Use the file filter if needed:**
@@ -740,8 +752,9 @@ If all issues are resolved:
    ```
    Changes reviewed:
    ✅ Temporary files removed
-   ✅ Error handling improved
-   ✅ Implementation matches requirements
+   ✅ Understanding Check section added with 7 questions
+   ✅ Module structure follows training-module guidelines
+   ✅ training-plan.md properly updated
    
    LGTM! (Looks Good To Me)
    ```
@@ -809,24 +822,25 @@ When you click "Squash and merge", a dialog appears.
 
 **Title:**
 ```
-Implement JavaScript execution tools: lng_javascript_add and lng_javascript_execute
+Create Module 165: AI-Generated API Documentation
 ```
 
 **Description:**
 ```
-Implements JavaScript execution tools as described in issue #5
+Creates new training module as described in issue #1
 
 Summary of what's added:
-✅ Complete Implementation
-- Created lng_javascript tool structure
-- Added PyMiniRacer integration
+✅ Complete Module Structure
+- Created docs/modules/165-ai-generated-api-documentation/ directory
+- Added about.md with module overview
+- Added walkthrough.md with hands-on guide
 
-✅ All Required Commands
-- add command - Save JavaScript functions to filesystem
-- execute command - Run saved JavaScript functions
-- list command - List available functions
+✅ Module Components
+- about.md - Duration, skill description, topics, prerequisites
+- walkthrough.md - Step-by-step instructions, success criteria, understanding check
+- training-plan.md - Updated with Module 165 link
 
-Closes #5
+Closes #1
 ```
 
 **Why customize?**
@@ -994,10 +1008,10 @@ You can run several agents at once, each working on its own issue. You get your 
 **How to parallelize:**
 
 1. **Create multiple well-defined issues:**
-   - Issue #1: Implement Python execution tools
-   - Issue #2: Implement JavaScript execution tools
-   - Issue #3: Add error handling to existing tools
-   - Issue #4: Write integration tests
+   - Issue #1: Create Module 165: AI-Generated API Documentation
+   - Issue #2: Create Module 170: DIAL API Key and cURL Access
+   - Issue #3: Update Module 055 with new examples
+   - Issue #4: Add screenshots to Module 150
 
 2. **Assign agent to each issue:**
    - Navigate to each issue
@@ -1038,7 +1052,7 @@ After some time, you can ask Copilot in the IDE, "What is the progress of this t
 
 2. **Ask about task status:**
    ```
-   What is the progress on issue #5 (JavaScript execution tools)?
+   What is the progress on issue #1 (New training module about API documentation)?
    ```
 
 3. **AI assistant checks GitHub:**
@@ -1049,15 +1063,15 @@ After some time, you can ask Copilot in the IDE, "What is the progress of this t
 
 4. **You receive comprehensive answer:**
    ```
-   Issue #5 Status: ✅ Completed and Merged
+   Issue #1 Status: ✅ Completed and Merged
    
    - Agent finished implementation 2 hours ago
-   - Created PR #3 with complete solution
-   - You requested changes (remove temporary files)
+   - Created PR #3 with complete module structure
+   - You requested changes (remove temporary files, add Understanding Check)
    - Agent addressed all comments
    - PR merged into main branch 1 hour ago
    
-   The JavaScript execution tools are now available in main branch.
+   The new Module 165: AI-Generated API Documentation is now available in main branch.
    ```
 
 **Use cases:**
