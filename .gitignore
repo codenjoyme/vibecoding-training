@@ -5,3 +5,4 @@ __pycache__/
 work/
 training-progress.md
 .env
+.vscode/mcp.json
