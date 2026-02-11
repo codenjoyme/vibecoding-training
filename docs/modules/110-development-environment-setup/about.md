@@ -1,21 +1,25 @@
 # Development Environment Setup
 
-**Duration:** 5-7 minutes  
-**Skill:** Install essential tools for vibecoding
+**Duration:** 15-20 minutes  
+**Skill:** Set up Node.js and Docker development environment
+
+**👉 [Start hands-on walkthrough](walkthrough.md)**
 
 ## Topics
 
-- Installing Node.js
-- Docker basics and installation
-- Package managers (npm, pnpm)
-- Terminal basics for Windows/Mac
-- Verifying installations
+- Installing Node.js on Windows/macOS/Linux
+- Installing nvm (Node Version Manager) for version control
+- Docker and Docker Compose installation across platforms
+- Verifying installations with simple tests
+- Running first containers and Node.js scripts
 
 ## Learning Outcome
 
-Complete development environment ready
+Complete Node.js and Docker development environment ready for vibecoding projects
 
 ## Prerequisites
 
+- Completed [Module 060: Version Control with Git](../060-version-control-git/about.md)
 - Administrator access to your computer
-- Basic command line knowledge
+- Basic terminal/command line knowledge
+- Active internet connection for downloads
