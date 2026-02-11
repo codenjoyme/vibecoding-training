@@ -64,10 +64,12 @@ GitHub Copilot has multiple components:
 
 The agent's behavior is guided by instruction files in your repository. These files **must be created and maintained** for the agent to work correctly.
 
-**Critical instruction files:**
+**Critical instruction files (learned in [Module 070: Custom Instructions](../070-custom-instructions/about.md)):**
 - `.github/copilot-instructions.md` - Main entry point for agent
-- `./instructions/*.agent.md` - Domain-specific instruction files
+- `./instructions/*.agent.md` - Domain-specific instruction files (e.g., `create-tool.agent.md`, `testing-tool.agent.md`)
 - Project-specific configuration files
+
+In Module 070, you learned how to create reusable instruction files that guide AI behavior consistently. GitHub Coding Agent uses these same instruction files to understand your project conventions and coding standards.
 
 **Without proper instructions:**
 - Agent may misunderstand requirements
@@ -169,6 +171,8 @@ The agent will use this issue as its primary source of truth. Poor issue quality
 
 The agent will read your instruction files to understand project conventions. Let's verify they exist.
 
+**These are the instruction files you created in Module 070.** They guide both your IDE assistant and GitHub Coding Agent to work consistently with your project standards.
+
 Ask your AI assistant:
 ```
 Check if we have these instruction files and show me their locations:
@@ -180,14 +184,15 @@ Check if we have these instruction files and show me their locations:
 ```
 Found instruction files:
 - .github/copilot-instructions.md
-- instructions/create-tool.agent.md
-- instructions/testing-tool.agent.md
-- instructions/activate-virtualenv.agent.md
-... (other instruction files)
+- instructions/main.agent.md
+- instructions/create-training-module.agent.md
+- instructions/git-workflow.agent.md
+... (other instruction files from Module 070)
 ```
 
 **If instruction files are missing:**
-- Create `.github/copilot-instructions.md` with links to instruction files
+- Review [Module 070: Custom Instructions](../070-custom-instructions/about.md) to create them
+- Create `.github/copilot-instructions.md` as the main entry point
 - Ensure instruction files follow the pattern you want the agent to use
 
 **Example .github/copilot-instructions.md:**
@@ -198,6 +203,9 @@ Found instruction files:
 - This file contains links to all other instruction files
 - Follow instructions for the specific task type
 ```
+
+**Why this matters:**
+In Module 070, you learned to create instructions that work in the IDE. The same instruction files guide GitHub Coding Agent on the server. This ensures consistent behavior across all AI tools in your workflow.
 
 ### Step 4: Commit and Push Latest Changes
 
@@ -242,7 +250,7 @@ https://github.com/YOUR-USERNAME/YOUR-REPO/issues/ISSUE-NUMBER
 
 For example:
 ```
-https://github.com/codenjoyme/copilot-mcp-langchain/issues/5
+https://github.com/codenjoyme/vibecoding-training/issues/1
 ```
 
 You should see your issue with all the details you created.
