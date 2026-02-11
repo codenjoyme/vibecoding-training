@@ -1,8 +1,12 @@
 {
   "servers": {
-    "demo": {
+    "echo-windows": {
       "command": "powershell",
-      "args": ["-ExecutionPolicy", "Bypass", "-File", "./docs/modules/100-mcp-model-context-protocol/tools/mcp-demo.ps1"]
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "./docs/modules/100-mcp-model-context-protocol/tools/mcp-echo.ps1"]
+    },
+    "echo-unix": {
+      "command": "C:\\Java\\git\\bin\\bash.exe",
+      "args": ["./docs/modules/100-mcp-model-context-protocol/tools/mcp-echo.sh"]
     }
   }
 }
