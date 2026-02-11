@@ -20,7 +20,7 @@ if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
     Write-Host "Error: Docker is not installed!" -ForegroundColor Red
     Write-Host ""
     Write-Host "Please install Docker Desktop first:" -ForegroundColor Yellow
-    Write-Host "  https://www`docker.com/products/docker-desktop" -ForegroundColor Gray
+    Write-Host "  https://www.docker.com/products/docker-desktop" -ForegroundColor Gray
     Write-Host ""
     exit 1
 }
@@ -28,6 +28,19 @@ if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
 $dockerVersion = docker --version
 Write-Host "Docker found: $dockerVersion" -ForegroundColor Green
 Write-Host ""
+
+# Check .env.example has real API key (script will copy it to .env in workspace)
+if (Test-Path ".env.example") {
+    $envContent = Get-Content ".env.example" -Raw
+    if ($envContent -match "YOUR_API_KEY_HERE") {
+        Write-Host "ERROR: .env.example contains placeholder API key!" -ForegroundColor Red
+        Write-Host "Please edit .env.example and replace YOUR_API_KEY_HERE with your actual DIAL API key" -ForegroundColor Yellow
+        Write-Host ""
+        exit 1
+    }
+    Write-Host "PASS: .env.example has configured API key" -ForegroundColor Green
+    Write-Host ""
+}
 
 # Clean up any existing container
 $existingContainer = docker ps -a --format '{{.Names}}' | Where-Object { $_ -eq $CONTAINER_NAME }
