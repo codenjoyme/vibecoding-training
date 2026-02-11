@@ -86,13 +86,14 @@ The agent's behavior is guided by instruction files in your repository. These fi
 Here's the complete workflow you'll learn:
 
 1. **Preparation** (in IDE):
-   - Create a well-defined GitHub issue
+   - Create a well-defined GitHub issue (already learned in Module 105)
    - Ensure instruction files are up to date
    - Commit and push latest code
 
-2. **Assignment** (GitHub web interface):
-   - Navigate to the issue on GitHub
-   - Assign GitHub Copilot to the issue
+2. **Assignment** (two options):
+   - **Option A:** Through GitHub web interface (shown in this walkthrough)
+   - **Option B:** Using GitHub MCP from IDE (same as Module 105)
+   - Navigate to the issue and assign GitHub Copilot
    - Provide optional custom instructions
 
 3. **Monitoring** (background):
@@ -123,7 +124,7 @@ Let's walk through each step in detail.
 
 ### What We'll Do
 
-We'll use the issue created in Module 105 as our task. If you don't have an issue yet, we'll create one now.
+We'll use the issue created in Module 105 as our task. In Module 105, you already learned how to create GitHub issues through MCP integration using AI chat. If you don't have an issue yet, we'll create one now using the same technique.
 
 ### Step 1: Create or Locate GitHub Issue
 
@@ -133,6 +134,8 @@ We'll use the issue created in Module 105 as our task. If you don't have an issu
 - Skip to Step 2
 
 **If you need to create a new issue:**
+
+This is the same process you learned in Module 105. We'll use GitHub MCP to create the issue directly from AI chat.
 
 Ask your AI assistant:
 ```
@@ -238,7 +241,21 @@ The agent works with the latest code on GitHub. Any uncommitted local changes wo
 
 ### What We'll Do
 
-Now we'll assign GitHub Copilot Coding Agent to our issue through the GitHub web interface.
+Now we'll assign GitHub Copilot Coding Agent to our issue. You have two options:
+
+**Option A: GitHub Web Interface** (shown in this walkthrough)
+- Visual, intuitive interface
+- Good for learning and understanding the process
+- See all assignment options clearly
+
+**Option B: GitHub MCP from IDE** (learned in Module 105)
+- Stay in your IDE, no browser context-switching
+- Use AI assistant to assign agent with a simple command
+- Faster once you're familiar with the process
+
+**For this walkthrough, we'll use Option A (web interface)** to see the complete process visually. After mastering it, you can switch to Option B for efficiency.
+
+### Option A: Assigning Through Web Interface
 
 ### Step 1: Navigate to Issue on GitHub
 
@@ -321,6 +338,51 @@ After clicking assign, you should see:
 - Delegated a complete implementation task to an autonomous agent
 - Agent has full context (issue + instruction files + codebase)
 - You're free to work on other tasks while agent works
+
+---
+
+### Option B: Assigning Through GitHub MCP (Alternative)
+
+If you prefer to stay in your IDE (as learned in Module 105), you can assign the agent using GitHub MCP.
+
+**Ask your AI assistant:**
+```
+Assign GitHub Copilot coding agent to issue #5 in this repository
+```
+
+**What happens:**
+- AI uses GitHub MCP tool: `mcp_github_assign_copilot_to_issue`
+- Parameters: repository, issue number, optional base branch, optional custom instructions
+- Approval dialog shows the assignment details
+- Click "Allow" to confirm
+
+**Approval dialog shows:**
+- Tool: `mcp_github_assign_copilot_to_issue`
+- Parameters:
+  ```json
+  {
+    "owner": "YOUR-USERNAME",
+    "repo": "YOUR-REPO",
+    "issue_number": 5,
+    "base_ref": "main"
+  }
+  ```
+
+**Benefits of MCP approach:**
+- No context-switching to browser
+- Faster workflow once familiar
+- Can script multiple agent assignments
+- Consistent with other MCP operations learned in Module 105
+
+**Result is the same:**
+- Agent is assigned to the issue
+- Agent comments on the issue
+- Agent begins working in background
+- You receive the same notifications and PR
+
+**Choose the approach that fits your workflow:**
+- Web interface: Better for learning, visual feedback
+- GitHub MCP: Better for efficiency, staying in flow
 
 ---
 
