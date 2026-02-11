@@ -168,309 +168,92 @@ Create a reference MCP server implementation with 3 example tools. This serves a
 
 ---
 
-### Step 1: Create Tools Directory
+### Step 1: Copy Boilerplate Files
 
-Navigate to your project:
+The reference MCP server implementation is provided in this module's `tools/` directory.
+
+**Ask your AI agent:**
+
+```
+Copy the MCP server boilerplate from Module 140 to my project.
+
+Source: docs/modules/140-advanced-mcp-integration-in-poc/tools/
+Destination: work/120-task/tools/
+
+Copy these files:
+- example-mcp-server.ts
+- package.json
+- tsconfig.json
+- README.md
+```
+
+**What gets copied:**
+- **example-mcp-server.ts** - Complete MCP server with 3 example tools
+- **package.json** - Dependencies and build scripts
+- **tsconfig.json** - TypeScript configuration
+- **README.md** - Usage instructions
+
+---
+
+### Step 2: Install Dependencies
+
+Navigate to your project's tools directory:
 
 ```bash
 # Windows
-cd c:/workspace/hello-genai/work/120-task
+cd c:/workspace/hello-genai/work/120-task/tools
 
 # macOS/Linux
-cd ~/workspace/hello-genai/work/120-task
+cd ~/workspace/hello-genai/work/120-task/tools
 ```
 
-Create `tools/` directory for MCP server code:
+Install dependencies:
 
 ```bash
-mkdir tools
+npm install
 ```
 
-This directory will contain reference MCP server implementations.
-
----
-
-### Step 2: Initialize TypeScript Project in Tools
-
-```bash
-cd tools
-npm init -y
-npm install --save-dev typescript @types/node
-npm install @modelcontextprotocol/sdk
+**Expected output:**
 ```
-
-Create `tsconfig.json`:
-
-```json
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "lib": ["ES2020"],
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "declaration": true
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
-}
-```
-
-Create directory structure:
-
-```bash
-mkdir src
+added 15 packages, and audited 16 packages in 3s
+found 0 vulnerabilities
 ```
 
 ---
 
-### Step 3: Create Boilerplate MCP Server
+### Step 3: Review the Boilerplate Code
 
-Create `src/example-mcp-server.ts`:
+Open `work/120-task/tools/example-mcp-server.ts` in your editor.
 
-```typescript
-#!/usr/bin/env node
-import { Server } from '@modelcontextprotocol/sdk/server/index.js';
-import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import {
-  CallToolRequestSchema,
-  ListToolsRequestSchema,
-  Tool,
-} from '@modelcontextprotocol/sdk/types.js';
+**The boilerplate includes 3 example tools:**
 
-/**
- * Example MCP Server - Boilerplate Reference
- * 
- * This is a reference implementation showing 3 types of tools:
- * 1. Tool with no parameters, returns data (get_status)
- * 2. Tool with parameters, returns data (get_user)
- * 3. Tool with parameters, returns success (create_item)
- * 
- * Adapt this pattern to your actual application.
- */
+1. **`app_get_status`** - No parameters, returns application status data
+   - Demonstrates simple data retrieval
+   - Mock implementation returns server stats
 
-// === Tool Definitions ===
+2. **`app_get_user`** - Takes `userId` parameter, returns user data
+   - Demonstrates parameterized queries
+   - Mock implementation with error handling (user not found)
 
-const tools: Tool[] = [
-  // Tool 1: No parameters, returns data
-  {
-    name: 'app_get_status',
-    description: 'Get current application status and statistics',
-    inputSchema: {
-      type: 'object',
-      properties: {},
-      required: [],
-    },
-  },
+3. **`app_create_item`** - Takes multiple parameters (`title`, `description`, `priority`)
+   - Demonstrates data creation/mutation
+   - Shows required vs optional parameters
+   - Returns success response with created item
 
-  // Tool 2: With parameters, returns data
-  {
-    name: 'app_get_user',
-    description: 'Get user details by ID',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        userId: {
-          type: 'string',
-          description: 'User ID to retrieve',
-        },
-      },
-      required: ['userId'],
-    },
-  },
+**Key patterns in the code:**
 
-  // Tool 3: With parameters, returns success/failure
-  {
-    name: 'app_create_item',
-    description: 'Create a new item in the system',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        title: {
-          type: 'string',
-          description: 'Item title',
-        },
-        description: {
-          type: 'string',
-          description: 'Item description (optional)',
-        },
-        priority: {
-          type: 'string',
-          enum: ['low', 'medium', 'high'],
-          description: 'Item priority level',
-        },
-      },
-      required: ['title', 'priority'],
-    },
-  },
-];
+- **Tool definitions** with JSON Schema for input validation
+- **Handler functions** that implement actual logic (currently mock data)
+- **Error handling** that returns proper error messages to MCP client
+- **MCP server setup** with stdio transport (runs as subprocess)
 
-// === Tool Implementations ===
+See the full code in `work/120-task/tools/example-mcp-server.ts`.
 
-async function handleGetStatus(): Promise<any> {
-  // In real app: query your database, check services, etc.
-  return {
-    status: 'online',
-    uptime: '24h 15m',
-    users_online: 42,
-    requests_today: 1337,
-    database: 'connected',
-    cache: 'healthy',
-  };
-}
-
-async function handleGetUser(userId: string): Promise<any> {
-  // In real app: query your database
-  // Mock data for demonstration
-  const mockUsers: Record<string, any> = {
-    '1': { id: '1', name: 'Alice Johnson', email: 'alice@example.com', role: 'admin' },
-    '2': { id: '2', name: 'Bob Smith', email: 'bob@example.com', role: 'user' },
-    '3': { id: '3', name: 'Carol White', email: 'carol@example.com', role: 'user' },
-  };
-
-  const user = mockUsers[userId];
-  if (!user) {
-    throw new Error(`User with ID ${userId} not found`);
-  }
-
-  return user;
-}
-
-async function handleCreateItem(
-  title: string,
-  description: string | undefined,
-  priority: 'low' | 'medium' | 'high'
-): Promise<any> {
-  // In real app: insert into database
-  // Mock implementation for demonstration
-  const newItem = {
-    id: `item_${Date.now()}`,
-    title,
-    description: description || null,
-    priority,
-    created_at: new Date().toISOString(),
-    status: 'active',
-  };
-
-  console.error(`[MCP] Created item: ${JSON.stringify(newItem)}`);
-
-  return {
-    success: true,
-    item: newItem,
-    message: `Item "${title}" created successfully`,
-  };
-}
-
-// === MCP Server Setup ===
-
-const server = new Server(
-  {
-    name: 'example-mcp-server',
-    version: '1.0.0',
-  },
-  {
-    capabilities: {
-      tools: {},
-    },
-  }
-);
-
-// Handle tool listing
-server.setRequestHandler(ListToolsRequestSchema, async () => {
-  return { tools };
-});
-
-// Handle tool execution
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
-  const { name, arguments: args } = request.params;
-
-  try {
-    let result: any;
-
-    switch (name) {
-      case 'app_get_status':
-        result = await handleGetStatus();
-        break;
-
-      case 'app_get_user':
-        result = await handleGetUser(args.userId);
-        break;
-
-      case 'app_create_item':
-        result = await handleCreateItem(args.title, args.description, args.priority);
-        break;
-
-      default:
-        throw new Error(`Unknown tool: ${name}`);
-    }
-
-    return {
-      content: [
-        {
-          type: 'text',
-          text: JSON.stringify(result, null, 2),
-        },
-      ],
-    };
-  } catch (error: any) {
-    return {
-      content: [
-        {
-          type: 'text',
-          text: `Error: ${error.message}`,
-        },
-      ],
-      isError: true,
-    };
-  }
-});
-
-// === Start Server ===
-
-async function main() {
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
-  console.error('Example MCP server running on stdio');
-}
-
-main().catch((error) => {
-  console.error('Fatal error:', error);
-  process.exit(1);
-});
-```
+See the full code in `work/120-task/tools/example-mcp-server.ts`.
 
 ---
 
-### Step 4: Add Build Script
-
-Update `tools/package.json` to add build script:
-
-```json
-{
-  "name": "mcp-tools",
-  "version": "1.0.0",
-  "scripts": {
-    "build": "tsc",
-    "start": "node dist/example-mcp-server.js"
-  },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^0.5.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20.0.0",
-    "typescript": "^5.3.0"
-  }
-}
-```
-
----
-
-### Step 5: Build the MCP Server
+### Step 4: Build the MCP Server
 
 ```bash
 npm run build
