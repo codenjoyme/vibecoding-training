@@ -160,8 +160,16 @@ echo ""
 # Step 6: Copy Python scripts to workspace
 echo "Step 6: Copying example scripts to workspace..."
 
-cp "${SCRIPT_DIR}/query_dial.py" "${WORKSPACE_DIR}/"
-cp "${SCRIPT_DIR}/color.py" "${WORKSPACE_DIR}/"
+# Copy all .py files if they don't exist in workspace
+for pyfile in "${SCRIPT_DIR}"/*.py; do
+    if [ -f "$pyfile" ]; then
+        filename=$(basename "$pyfile")
+        if [ ! -f "${WORKSPACE_DIR}/${filename}" ]; then
+            cp "$pyfile" "${WORKSPACE_DIR}/"
+            echo "  Copied: $filename"
+        fi
+    fi
+done
 
 # Copy .env.example if .env doesn't exist
 ENV_EXAMPLE="${SCRIPT_DIR}/.env.example"

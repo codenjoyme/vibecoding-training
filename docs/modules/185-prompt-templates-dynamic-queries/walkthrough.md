@@ -344,6 +344,12 @@ Once you've created template scripts, you have multiple execution options depend
 - Virtual environment has langchain dependencies installed
 - `.env` file configured
 
+**If Module 180 not completed, run installation first:**
+```powershell
+cd docs\modules\180-dial-langchain-python-integration\tools
+.\install-python-windows.ps1 -WorkspacePath "work\180-task" -ExtraPackages "python-dotenv langchain langchain-openai langchain-community"
+```
+
 **Steps:**
 
 1. Navigate to workspace:
@@ -376,6 +382,12 @@ Once you've created template scripts, you have multiple execution options depend
 - Linux/macOS operating system
 - Completed Module 180 setup (venv exists with dependencies)
 - Scripts exist in `work/python-ai-workspace`
+
+**If Module 180 not completed, run installation first:**
+```bash
+cd docs/modules/180-dial-langchain-python-integration/tools
+./install-python-linux.sh work/180-task "python-dotenv langchain langchain-openai langchain-community"
+```
 
 **Steps:**
 
@@ -422,20 +434,17 @@ cd docs/modules/180-dial-langchain-python-integration/tools
    cd docs\modules\180-dial-langchain-python-integration\tools
    ```
 
-2. Run any template script in Docker:
+2. Run template scripts in Docker:
    
    **Windows:**
    ```powershell
-   .\install-python-docker.ps1 -Script "prompt_template.py"
-   .\install-python-docker.ps1 -Script "advanced_template.py"
-   .\install-python-docker.ps1 -Script "template_library.py"
+   .\install-python-docker.ps1 -WorkspacePath "work\180-task" -Script "prompt_template.py" -ExtraPackages "python-dotenv langchain langchain-openai langchain-community"
    ```
    
    **Linux/macOS:**
    ```bash
-   ./install-python-docker.sh prompt_template.py
-   ./install-python-docker.sh advanced_template.py
-   ./install-python-docker.sh template_library.py
+   ./install-python-docker.sh prompt_template.py work/180-task "python-dotenv langchain langchain-openai langchain-community"
+   # Or any other .py script
    ```
 
 3. First run builds Docker image (~120 seconds), subsequent runs use cache (~1-3 seconds)

@@ -74,6 +74,34 @@ $dockerVersion = docker --version
 Write-Host "Docker found: $dockerVersion" -ForegroundColor Green
 Write-Host ""
 
+# Copy files to workspace
+Write-Host "Preparing workspace..." -ForegroundColor Yellow
+
+# Copy all .py files if they don't exist in workspace
+Get-ChildItem -Path $SCRIPT_DIR -Filter "*.py" | ForEach-Object {
+    $targetFile = Join-Path $WORKSPACE_DIR $_.Name
+    if (-not (Test-Path $targetFile)) {
+        Copy-Item $_.FullName -Destination $targetFile -Force
+        Write-Host "  Copied: $($_.Name)" -ForegroundColor Gray
+    }
+}
+
+# Copy .env.example if .env doesn't exist
+$envExample = Join-Path $SCRIPT_DIR ".env.example"
+$envTarget = Join-Path $WORKSPACE_DIR ".env"
+if ((Test-Path $envExample) -and (-not (Test-Path $envTarget))) {
+    Copy-Item $envExample -Destination $envTarget -Force
+    Write-Host "  Created .env from template" -ForegroundColor Gray
+}
+
+# Copy Dockerfile to workspace
+$dockerfileSource = Join-Path $SCRIPT_DIR "install-python-docker.dockerfile"
+$dockerfileTarget = Join-Path $WORKSPACE_DIR "Dockerfile"
+Copy-Item $dockerfileSource -Destination $dockerfileTarget -Force
+Write-Host "  Copied: Dockerfile" -ForegroundColor Gray
+
+Write-Host ""
+
 # Clean up any existing container
 $existingContainer = docker ps -a --format '{{.Names}}' | Where-Object { $_ -eq $CONTAINER_NAME }
 if ($existingContainer) {
@@ -88,7 +116,9 @@ if ($ExtraPackages) {
 }
 Write-Host ""
 
-$buildArgs = @("-f", "install-python-docker.dockerfile", "--build-arg", "SCRIPT_NAME=$Script")
+Set-Location $WORKSPACE_DIR
+
+$buildArgs = @("-f", "Dockerfile", "--build-arg", "SCRIPT_NAME=$Script")
 if ($ExtraPackages) {
     $buildArgs += "--build-arg"
     $buildArgs += "EXTRA_PACKAGES=$ExtraPackages"
@@ -97,20 +127,22 @@ $buildArgs += @("-t", $IMAGE_NAME, ".")
 
 & docker build @buildArgs
 
+Set-Location $SCRIPT_DIR
+
 Write-Host ""
 Write-Host "=============================================" -ForegroundColor Cyan
 Write-Host "Running DIAL application in Docker..." -ForegroundColor White
 Write-Host "=============================================" -ForegroundColor Cyan
 Write-Host ""
 
-# Run the container with tools directory mounted (contains scripts and .env)
+# Run the container with workspace directory mounted
 docker run --rm `
     --name $CONTAINER_NAME `
     --add-host "host.docker.internal:host-gateway" `
-    -v "${SCRIPT_DIR}:/workspace" `
+    -v "${WORKSPACE_DIR}:/workspace" `
     -it `
     $IMAGE_NAME `
-    bash -c "if [ -f .env.example ] && [ ! -f .env ]; then cp .env.example .env; fi && python $Script"
+    bash -c "python $Script"
 
 Write-Host ""
 Write-Host "=============================================" -ForegroundColor Cyan

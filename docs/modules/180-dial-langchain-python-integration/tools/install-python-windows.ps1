@@ -158,8 +158,15 @@ Write-Host ""
 Write-Host "Step 6: Copying example scripts to workspace..." -ForegroundColor Yellow
 
 $sourceDir = $PSScriptRoot
-Copy-Item (Join-Path $sourceDir "query_dial.py") -Destination $WORKSPACE_DIR -Force
-Copy-Item (Join-Path $sourceDir "color.py") -Destination $WORKSPACE_DIR -Force
+
+# Copy all .py files if they don't exist in workspace
+Get-ChildItem -Path $sourceDir -Filter "*.py" | ForEach-Object {
+    $targetFile = Join-Path $WORKSPACE_DIR $_.Name
+    if (-not (Test-Path $targetFile)) {
+        Copy-Item $_.FullName -Destination $targetFile -Force
+        Write-Host "  Copied: $($_.Name)" -ForegroundColor Gray
+    }
+}
 
 # Copy .env.example if .env doesn't exist
 $envExample = Join-Path $sourceDir ".env.example"

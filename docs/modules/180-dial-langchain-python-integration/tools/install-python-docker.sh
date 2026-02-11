@@ -80,6 +80,34 @@ DOCKER_VERSION=$(docker --version)
 echo "Docker found: $DOCKER_VERSION"
 echo ""
 
+# Copy files to workspace
+echo "Preparing workspace..."
+
+# Copy all .py files if they don't exist in workspace
+for pyfile in "${SCRIPT_DIR}"/*.py; do
+    if [ -f "$pyfile" ]; then
+        filename=$(basename "$pyfile")
+        if [ ! -f "${WORKSPACE_DIR}/${filename}" ]; then
+            cp "$pyfile" "${WORKSPACE_DIR}/"
+            echo "  Copied: $filename"
+        fi
+    fi
+done
+
+# Copy .env.example if .env doesn't exist
+ENV_EXAMPLE="${SCRIPT_DIR}/.env.example"
+ENV_TARGET="${WORKSPACE_DIR}/.env"
+if [ -f "$ENV_EXAMPLE" ] && [ ! -f "$ENV_TARGET" ]; then
+    cp "$ENV_EXAMPLE" "$ENV_TARGET"
+    echo "  Created .env from template"
+fi
+
+# Copy Dockerfile to workspace
+cp "${SCRIPT_DIR}/install-python-docker.dockerfile" "${WORKSPACE_DIR}/Dockerfile"
+echo "  Copied: Dockerfile"
+
+echo ""
+
 # Clean up any existing container
 if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
     echo "Cleaning up existing container..."
@@ -93,8 +121,10 @@ if [ -n "$EXTRA_PACKAGES" ]; then
 fi
 echo ""
 
+cd "${WORKSPACE_DIR}"
+
 BUILD_ARGS=(
-    "-f" "install-python-docker.dockerfile"
+    "-f" "Dockerfile"
     "--build-arg" "SCRIPT_NAME=$SCRIPT_NAME"
 )
 
@@ -106,20 +136,22 @@ BUILD_ARGS+=("-t" "$IMAGE_NAME" ".")
 
 docker build "${BUILD_ARGS[@]}"
 
+cd "${SCRIPT_DIR}"
+
 echo ""
 echo "============================================="
 echo "Running DIAL application in Docker..."
 echo "============================================="
 echo ""
 
-# Run the container with tools directory mounted (contains scripts and .env)
+# Run the container with workspace directory mounted
 docker run --rm \
     --name "$CONTAINER_NAME" \
     --add-host "host.docker.internal:host-gateway" \
-    -v "${SCRIPT_DIR_DOCKER}:/workspace" \
+    -v "${WORKSPACE_DIR}:/workspace" \
     -it \
     "$IMAGE_NAME" \
-    bash -c "if [ -f .env.example ] && [ ! -f .env ]; then cp .env.example .env; fi && python $SCRIPT_NAME"
+    bash -c "python $SCRIPT_NAME"
 
 echo ""
 echo "============================================="

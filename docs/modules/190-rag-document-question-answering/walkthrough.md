@@ -490,6 +490,12 @@ RAG scripts require FAISS vector database. Here's how to run them in different e
 - **FAISS installed** (see Part 3 - `pip install faiss-cpu`)
 - `.env` file configured with embedding model
 
+**If Module 180 not completed, run installation with FAISS first:**
+```powershell
+cd docs\modules\180-dial-langchain-python-integration\tools
+.\install-python-windows.ps1 -WorkspacePath "work\180-task" -ExtraPackages "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
+```
+
 **Steps:**
 
 1. Navigate to workspace:
@@ -530,6 +536,12 @@ RAG scripts require FAISS vector database. Here's how to run them in different e
 - Completed Module 180 setup (venv exists with dependencies)
 - **FAISS installed** (see Part 3)
 - Scripts exist in `work/python-ai-workspace`
+
+**If Module 180 not completed, run installation with FAISS first:**
+```bash
+cd docs/modules/180-dial-langchain-python-integration/tools
+./install-python-linux.sh work/180-task "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
+```
 
 **Steps:**
 
@@ -587,16 +599,12 @@ cd docs/modules/180-dial-langchain-python-integration/tools
    
    **Windows:**
    ```powershell
-   .\install-python-docker.ps1 -Script "rag.py" -ExtraPackages "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
-   .\install-python-docker.ps1 -Script "custom_rag.py" -ExtraPackages "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
-   .\install-python-docker.ps1 -Script "file_rag.py" -ExtraPackages "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
+   .\install-python-docker.ps1 -WorkspacePath "work\180-task" -Script "rag.py" -ExtraPackages "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
    ```
    
    **Linux/macOS:**
    ```bash
-   ./install-python-docker.sh rag.py "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
-   ./install-python-docker.sh custom_rag.py "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
-   ./install-python-docker.sh file_rag.py "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
+   ./install-python-docker.sh rag.py work/180-task "python-dotenv langchain langchain-openai langchain-community faiss-cpu"
    ```
 
 3. What happens:

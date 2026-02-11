@@ -42,8 +42,18 @@ RUN .venv/bin/pip list
 # Set environment to use virtual environment by default
 ENV PATH="/app/.venv/bin:$PATH"
 
-# Working directory for mounted scripts
+# Save SCRIPT_NAME as environment variable for runtime
+ARG SCRIPT_NAME
+ENV SCRIPT_NAME=${SCRIPT_NAME}
+
+# Working directory for scripts (will be workspace root when building)
 WORKDIR /workspace
 
-# Default command: create .env if needed, then run script
-CMD ["bash", "-c", "if [ -f .env.example ] && [ ! -f .env ]; then cp .env.example .env; fi && python query_dial.py"]
+# Copy all Python scripts from current directory (workspace)
+COPY *.py ./
+
+# Copy .env if exists (created by host script, optional)
+COPY .env* ./
+
+# Default command: run script
+CMD ["bash", "-c", "python ${SCRIPT_NAME}"]
