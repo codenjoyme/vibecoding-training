@@ -18,7 +18,7 @@ In this hands-on walkthrough, you'll:
 - List your repositories through AI chat
 - Create a new empty repository on GitHub
 - Add a new Git remote named `fork` pointing to the new repository
-- Push code to the new remote: `git push fork master`
+- Push code to the new remote: `git push fork main`
 - Verify the code appeared on GitHub
 - Conduct an **interactive requirements interview** (like Module 055)
 - Create a GitHub issue with interview findings for future implementation
@@ -242,7 +242,7 @@ This hands-on section walks through the complete workflow:
 1. List existing repositories
 2. Create a new empty repository
 3. Add new remote named `fork` to current workspace
-4. Push code to the new remote
+4. Push code to the new remote: `git push fork main`
 5. Verify code appeared on GitHub
 
 ### Step 1: List Your Repositories
@@ -337,16 +337,16 @@ fork      https://github.com/your-username/vibecoding-fork-test.git (push)
 
 Ask AI:
 ```
-Push the current branch (master) to the fork remote
+Push the current branch (main) to the fork remote
 ```
 
 **What happens:**
-- AI determines current branch (likely `master` or `main`)
-- Executes: `git push fork master`
+- AI determines current branch (likely `main`)
+- Executes: `git push fork main`
 - Pushes all commits to the new repository
 
 **Approval dialog:**
-- Command: `git push fork master`
+- Command: `git push fork main`
 - Explanation: Pushing local commits to remote
 
 **Click "Allow"** and watch the output. You should see:
@@ -356,7 +356,7 @@ Delta compression using up to Y threads.
 Compressing objects: 100% (Z/Z), done.
 Writing objects: 100% (X/X), done.
 To https://github.com/your-username/vibecoding-fork-test.git
- * [new branch]      master -> master
+ * [new branch]      main -> main
 ```
 
 ### Step 6: Verify on GitHub
@@ -596,7 +596,7 @@ You've successfully completed this module when you can check off:
 ✅ List repositories using GitHub MCP tools  
 ✅ Create a new GitHub repository through AI chat  
 ✅ Add a new Git remote (`fork`) pointing to the new repository  
-✅ Push code to the fork remote using `git push fork master`  
+✅ Push code to the fork remote using `git push fork main`  
 ✅ Verify code appeared on GitHub  
 ✅ Conduct an interactive requirements interview (Module 055 pattern)  
 ✅ Create a GitHub issue with interview findings  
@@ -695,7 +695,7 @@ Answer these questions to verify comprehension:
 
 ### Problem: Git push fails with "permission denied"
 
-**Symptoms:** `git push fork master` fails
+**Symptoms:** `git push fork main` fails
 
 **Solutions:**
 - Verify Git authentication is configured (SSH keys or credential manager)
