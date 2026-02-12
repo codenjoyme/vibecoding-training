@@ -127,31 +127,50 @@ Let's walk through each step in detail.
 
 ### What We'll Do
 
-We'll use the issue created in Module 105 as our task. In Module 105, you already learned how to create GitHub issues through MCP integration using AI chat. If you don't have an issue yet, we'll create one now using the same technique.
+We'll use an existing GitHub issue to delegate to the agent. The best approach is to use the issue you created in Module 105.
 
-### Step 1: Create or Locate GitHub Issue
+### Step 1: Check if Module 105 is Completed
 
-**If you already have an issue from Module 105:**
-- Locate the issue you created for a new training module (e.g., "New Module: AI-Generated API Documentation" - Module 165)
-- This issue contains requirements for creating a new training module about generating API documentation
+**First, let's check your training progress:**
+
+Ask your AI assistant:
+```
+Check training-progress.md - did I complete module 105?
+```
+
+**If Module 105 is completed:**
+- You already have a GitHub issue created through MCP integration
+- This issue was for creating a new training module
+- We'll use that exact issue to delegate to the Coding Agent
+- Ask AI: "Show me the GitHub issues in my repository from Module 105"
 - Note the issue number (e.g., #5)
 - Skip to Step 2
 
-**If you need to create a new issue:**
+**If Module 105 is NOT completed:**
+- Module 105 teaches how to create GitHub issues through MCP integration
+- It's a prerequisite for this module
+- **Recommended:** Complete [Module 105: MCP GitHub Integration - Issues](../105-mcp-github-integration-issues/about.md) first
+- **Alternative:** If you want to continue now, create a simple issue manually (Step 1b below)
 
-Use the same process you learned in Module 105 - conduct an interactive requirements interview with AI and create a GitHub issue through MCP. 
+### Step 1b: Create Issue Without Module 105 (Alternative Path)
 
-In Module 105, you practiced creating an issue for a new training module by interviewing AI about module requirements. Now you'll delegate the implementation of that module to GitHub Coding Agent.
+**If you choose to skip Module 105 for now, we'll create a simple issue:**
 
-For details on the interview process, refer to [Module 105, Part 5: Interactive Requirements Interview](../105-mcp-github-integration-issues/walkthrough.md#part-5-interactive-requirements-interview).
+Ask your AI assistant:
+```
+Create a GitHub issue for a new training module:
+- Module 195: Advanced Agent Workflows
+- Description: Create training module teaching advanced patterns for working with multiple agents in parallel
+- Requirements:
+  * Create about.md with module overview
+  * Create walkthrough.md with hands-on guide
+  * Update training-plan.md with module link
+  * Follow create-training-module.agent.md instructions
+```
 
-The issue should have:
-- Clear title describing the task
-- Detailed requirements and acceptance criteria
-- Links to relevant instruction files (if applicable)
-- Proper labels
+The AI will use GitHub MCP to create the issue directly from your IDE.
 
-**Once you have an issue ready, continue to Step 2.**
+**Once you have an issue ready (from Module 105 or newly created), continue to Step 2.**
 
 ### Step 2: Review Issue Quality
 
