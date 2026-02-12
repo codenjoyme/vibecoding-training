@@ -29,30 +29,30 @@ We'll login to Elitea platform, navigate to the Agents section, and create a sim
 
 1. Open your web browser and navigate to https://next.elitea.ai/
 
-2. Click "Login" button and authenticate with your EPAM credentials
+1. Click "Login" button and authenticate with your EPAM credentials
 
-3. After successful login, you'll see the Elitea dashboard with various sections
+1. After successful login, you'll see the Elitea dashboard with various sections
 
-4. In the left sidebar, click on "Agents" section
+1. In the left sidebar, click on "Agents" section
 
-5. Click the "Create" or "New Agent" button to start creating a new agent
+1. Click the "Create" or "New Agent" button to start creating a new agent
 
-6. In the agent creation form, fill in the following details:
+1. In the agent creation form, fill in the following details:
    - **Agent Name**: `Hello World Agent`
    - **Description** (optional): `Simple processor for testing MCP integration`
 
-7. In the "Instructions" field, add this exact text:
+1. In the "Instructions" field, add this exact text:
    ```
    You are a simple text processor. When you receive text input, convert it to uppercase and return only the uppercase version without any explanations or additional text.
    ```
 
-8. **CRITICAL STEP**: In the "Tags" field, add the tag `mcp`
+1. **CRITICAL STEP**: In the "Tags" field, add the tag `mcp`
    - This tag is required for the agent to be discoverable through MCP protocol
    - Without this tag, your agent will not be accessible via VS Code even with correct configuration
 
-9. Select a model for your agent (recommended: `gpt-4o` or `Claude Sonnet 4.5`)
+1. Select a model for your agent (recommended: `gpt-4o` or `Claude Sonnet 4.5`)
 
-10. Click "Save" or "Create" button to create the agent
+1. Click "Save" or "Create" button to create the agent
 
 ### What Just Happened
 You created a cloud-based AI agent with specific instructions. The "mcp" tag registered this agent for MCP protocol access. The agent now exists on Elitea infrastructure and can be invoked through API calls.
@@ -61,13 +61,13 @@ You created a cloud-based AI agent with specific instructions. The "mcp" tag reg
 
 1. In the Agents list, locate your "Hello World Agent"
 
-2. Click on the agent to open its chat interface
+1. Click on the agent to open its chat interface
 
-3. Send this test message: `Hello world`
+1. Send this test message: `Hello world`
 
-4. Verify the agent response shows `HELLO WORLD!` in uppercase
+1. Verify the agent response shows `HELLO WORLD!` in uppercase
 
-5. If the agent works correctly in Elitea UI, proceed to the next part
+1. If the agent works correctly in Elitea UI, proceed to the next part
 
 ## Part 2: Generating MCP Personal Token
 
@@ -76,25 +76,25 @@ We'll generate an authentication token that allows the Elitea MCP client to acce
 
 1. In Elitea platform, click on "Settings" in the left sidebar
 
-2. Navigate to "Configuration" tab
+1. Navigate to "Configuration" tab
 
-3. Scroll down to find "Personal Tokens" section
+1. Scroll down to find "Personal Tokens" section
 
-4. Click "New personal token" or "Generate token" button
+1. Click "New personal token" or "Generate token" button
 
-5. Fill in token details:
+1. Fill in token details:
    - **Token Name**: `MCP Token`
    - **Expiration**: Select `30 days` (recommended for security)
    - You can choose longer expiration if needed, but shorter periods are more secure
 
-6. Click "Generate" button
+1. Click "Generate" button
 
-7. **IMPORTANT**: Copy the generated token immediately and save it securely
+1. **IMPORTANT**: Copy the generated token immediately and save it securely
    - The token will only be shown once
    - If you lose it, you'll need to generate a new one
    - Do not commit this token to version control
 
-8. Store the token in a secure location (password manager recommended)
+1. Store the token in a secure location (password manager recommended)
 
 ### What Just Happened
 You created an API access token with specific permissions and expiration. This token will be used by the MCP client to authenticate requests to Elitea API. Treat this token as a password - anyone with this token can access your Elitea agents.
@@ -108,7 +108,7 @@ We'll create an isolated Python environment and install the Elitea MCP client to
 
 1. Open terminal or command prompt
 
-2. Navigate to a suitable location for your Python environments:
+1. Navigate to a suitable location for your Python environments:
    ```bash
    # Windows
    cd c:/workspace/
@@ -117,14 +117,14 @@ We'll create an isolated Python environment and install the Elitea MCP client to
    cd ~/workspace/
    ```
 
-3. Create a new virtual environment:
+1. Create a new virtual environment:
    ```bash
    python -m venv python_env
    ```
    
    This creates a folder `python_env` with isolated Python installation.
 
-4. Activate the virtual environment:
+1. Activate the virtual environment:
    ```bash
    # Windows (Command Prompt)
    .\python_env\Scripts\activate
@@ -145,24 +145,24 @@ We'll create an isolated Python environment and install the Elitea MCP client to
    pip install pipx
    ```
 
-2. Configure pipx path:
+1. Configure pipx path:
    ```bash
    python -m pipx ensurepath
    ```
 
-3. Install Elitea MCP client:
+1. Install Elitea MCP client:
    ```bash
    pipx install alita-mcp
    ```
 
-4. Ensure pipx is in PATH:
+1. Ensure pipx is in PATH:
    ```bash
    pipx ensurepath
    ```
 
-5. **IMPORTANT**: Close and reopen your terminal/command prompt to refresh PATH
+1. **IMPORTANT**: Close and reopen your terminal/command prompt to refresh PATH
 
-6. Verify installation:
+1. Verify installation:
    ```bash
    alita-mcp --version
    ```
@@ -179,12 +179,12 @@ We'll run the bootstrap command to configure the MCP client with your Elitea cre
 
 1. Open a new terminal (to ensure PATH is updated)
 
-2. Run the bootstrap command:
+1. Run the bootstrap command:
    ```bash
    alita-mcp bootstrap
    ```
 
-3. The command will prompt you for several values. Enter them as follows:
+1. The command will prompt you for several values. Enter them as follows:
 
    **Deployment URL**: 
    ```
@@ -218,9 +218,9 @@ We'll run the bootstrap command to configure the MCP client with your Elitea cre
    **Server Name** (optional): 
    You can leave this blank or enter a custom name like `my-elitea-server`. Press Enter.
 
-4. The bootstrap command will save configuration to a config file (location will be displayed)
+1. The bootstrap command will save configuration to a config file (location will be displayed)
 
-5. Note the configuration file location for troubleshooting if needed
+1. Note the configuration file location for troubleshooting if needed
 
 ### What Just Happened
 The bootstrap process created a configuration file containing your Elitea credentials and server settings. The `alita-mcp` command will read this file automatically when connecting to Elitea. The configuration is stored locally on your machine.
@@ -232,7 +232,7 @@ We'll add Elitea server configuration to VS Code's MCP settings, telling VS Code
 
 1. In VS Code, open your workspace (any project folder)
 
-2. Create or open the file `.vscode/mcp.json` in your workspace root:
+1. Create or open the file `.vscode/mcp.json` in your workspace root:
    ```bash
    # Windows
    c:/workspace/hello-genai/.vscode/mcp.json
@@ -241,9 +241,9 @@ We'll add Elitea server configuration to VS Code's MCP settings, telling VS Code
    ~/workspace/hello-genai/.vscode/mcp.json
    ```
 
-3. If the file doesn't exist, create it. If it exists, add to the "servers" section.
+1. If the file doesn't exist, create it. If it exists, add to the "servers" section.
 
-4. Add this configuration (replace `123` with your actual Project ID and `YOUR_AGENT_ID` with your agent's ID):
+1. Add this configuration (replace `123` with your actual Project ID and `YOUR_AGENT_ID` with your agent's ID):
    ```json
    {
      "servers": {
@@ -257,15 +257,15 @@ We'll add Elitea server configuration to VS Code's MCP settings, telling VS Code
    
    **Note**: If you already have other MCP servers configured, add the "elitea-mcp" entry to your existing "servers" object.
 
-5. **Important**: Replace `123` with your actual Project ID from Part 4
+1. **Important**: Replace `123` with your actual Project ID from Part 4
 
-6. **Important**: Replace `YOUR_AGENT_ID` with your agent's ID. To find your agent ID:
+1. **Important**: Replace `YOUR_AGENT_ID` with your agent's ID. To find your agent ID:
    - In Elitea platform, click on your "Hello World Agent"
    - Look at the URL in your browser - it will contain the agent ID
    - Or check the agent settings page for the ID field
    - The ID typically looks like `i1818` or similar alphanumeric code
 
-7. Save the file
+1. Save the file
 
 ### What Just Happened
 You configured VS Code to launch the `alita-mcp` process with specific parameters. When VS Code starts, it will run this command, which connects to Elitea API using the bootstrap configuration. The MCP server discovers agents tagged with "mcp" and exposes them as tools to VS Code AI chat.
@@ -277,47 +277,47 @@ We'll reload VS Code to activate the new MCP server, verify the connection is wo
 
 ### Step 6.1: Reload VS Code
 
-1. Press the command palette shortcut (menu: View → Command Palette)
+1. Open Command Palette (menu: View → Command Palette)
 
-2. Type `Reload Window` and press Enter
+1. Type `Reload Window` and press Enter
 
-3. Wait for VS Code to reload (takes 5-10 seconds)
+1. Wait for VS Code to reload (takes 5-10 seconds)
 
 ### Step 6.2: Verify Server Connection
 
 1. Open the Output panel (menu: View → Output)
 
-2. In the Output panel dropdown, select "Model Context Protocol"
+1. In the Output panel dropdown, select "Model Context Protocol"
 
-3. Look for messages about "elitea-mcp" server
+1. Look for messages about "elitea-mcp" server
 
-4. You should see a line like:
+1. You should see a line like:
    ```
    [elitea-mcp] Discovered Tools: ...
    ```
    
    This indicates the server connected successfully and discovered your agents.
 
-5. If you see error messages, proceed to Troubleshooting section
+1. If you see error messages, proceed to Troubleshooting section
 
 ### Step 6.3: Test Agent Through AI Chat
 
 1. Open AI chat in VS Code (GitHub Copilot chat panel or Cursor AI chat)
 
-2. Send this message:
+1. Send this message:
    ```
    Send "Hello World" to my Elitea agent
    ```
 
-3. The AI should detect available tools from elitea-mcp server
+1. The AI should detect available tools from elitea-mcp server
 
-4. You may see a prompt asking to approve tool execution - click "Allow" or "Approve"
+1. You may see a prompt asking to approve tool execution - click "Allow" or "Approve"
 
-5. Wait for the agent to process (may take 5-15 seconds for first request)
+1. Wait for the agent to process (may take 5-15 seconds for first request)
 
-6. Verify the response shows "HELLO WORLD!" from your agent
+1. Verify the response shows "HELLO WORLD!" from your agent
 
-7. The response should come from the cloud-based agent, not from the local AI model
+1. The response should come from the cloud-based agent, not from the local AI model
 
 ### What Just Happened
 VS Code spawned the `alita-mcp` process which connected to Elitea API. The server discovered your agent (tagged with "mcp") and registered it as an available tool. When you sent a message through AI chat, VS Code invoked the Elitea agent tool, which made an API call to your cloud agent, received the response, and displayed it in the chat.
@@ -327,13 +327,13 @@ VS Code spawned the `alita-mcp` process which connected to Elitea API. The serve
 Now that everything is working, let's understand what happens when you interact with your Elitea agent:
 
 1. **You send a message** in VS Code AI chat requesting to use Elitea agent
-2. **VS Code AI** recognizes the request and checks available MCP tools
-3. **MCP Server** (alita-mcp process) exposes Elitea agent as a tool
-4. **Tool invocation** sends request to Elitea API with your authentication token
-5. **Elitea platform** receives request, executes your agent with provided input
-6. **Agent processes** input according to its instructions (e.g., converts to uppercase)
-7. **Response returns** through API → MCP server → VS Code → AI chat
-8. **You see the result** directly in your IDE without leaving the development environment
+1. **VS Code AI** recognizes the request and checks available MCP tools
+1. **MCP Server** (alita-mcp process) exposes Elitea agent as a tool
+1. **Tool invocation** sends request to Elitea API with your authentication token
+1. **Elitea platform** receives request, executes your agent with provided input
+1. **Agent processes** input according to its instructions (e.g., converts to uppercase)
+1. **Response returns** through API → MCP server → VS Code → AI chat
+1. **You see the result** directly in your IDE without leaving the development environment
 
 This architecture enables:
 - **Zero local resources** used for AI processing (runs in Elitea cloud)
@@ -398,11 +398,11 @@ Test your comprehension with these questions:
 
 **Solutions**:
 1. Ensure pipx is installed: `pip install pipx`
-2. Run ensurepath: `python -m pipx ensurepath`
-3. Close and restart terminal/CLI after installation
-4. Verify installation: `pipx list` (should show alita-mcp)
-5. Check if pipx binary directory is in PATH
-6. On Windows, try running as administrator if permission issues occur
+1. Run ensurepath: `python -m pipx ensurepath`
+1. Close and restart terminal/CLI after installation
+1. Verify installation: `pipx list` (should show alita-mcp)
+1. Check if pipx binary directory is in PATH
+1. On Windows, try running as administrator if permission issues occur
 
 ### Problem: "Authentication failed" in bootstrap
 
@@ -410,11 +410,11 @@ Test your comprehension with these questions:
 
 **Solutions**:
 1. Verify token was copied correctly (no extra spaces or newlines)
-2. Check token hasn't expired in Elitea Settings → Personal Tokens
-3. Ensure deployment URL is exactly: `https://nexus.elitea.ai` (no trailing slash)
-4. Confirm EPAM account has Elitea platform access
-5. Try generating a new token and running bootstrap again
-6. Check if there are any network/proxy restrictions blocking access to Elitea
+1. Check token hasn't expired in Elitea Settings → Personal Tokens
+1. Ensure deployment URL is exactly: `https://nexus.elitea.ai` (no trailing slash)
+1. Confirm EPAM account has Elitea platform access
+1. Try generating a new token and running bootstrap again
+1. Check if there are any network/proxy restrictions blocking access to Elitea
 
 ### Problem: "No tools discovered" in VS Code
 
@@ -422,12 +422,12 @@ Test your comprehension with these questions:
 
 **Solutions**:
 1. **Most common**: Verify agent has "mcp" tag in Elitea UI
-2. Check project ID matches in `mcp.json` and bootstrap config
-3. Reload VS Code window (Command Palette → Reload Window)
-4. Check Output panel (Model Context Protocol) for error messages
-5. Verify server shows "Running" status or similar in MCP output
-6. Ensure you're using correct agent ID in mcp.json args
-7. Confirm bootstrap configuration completed successfully
+1. Check project ID matches in `mcp.json` and bootstrap config
+1. Reload VS Code window (menu: View → Command Palette → Reload Window)
+1. Check Output panel (Model Context Protocol) for error messages
+1. Verify server shows "Running" status or similar in MCP output
+1. Ensure you're using correct agent ID in mcp.json args
+1. Confirm bootstrap configuration completed successfully
 
 ### Problem: Agent created but not showing in MCP
 
@@ -435,12 +435,12 @@ Test your comprehension with these questions:
 
 **Solutions**:
 1. **Critical**: Ensure "mcp" tag is set on agent (check in Elitea agent settings)
-2. Wait 1-2 minutes for agent indexing in Elitea system
-3. Reload VS Code window completely
-4. Verify project ID is correct in configuration
-5. Check agent is not in Draft status (must be published/active)
-6. Try removing and re-adding the agent tag
-7. Check if agent ID in mcp.json matches the actual agent ID
+1. Wait 1-2 minutes for agent indexing in Elitea system
+1. Reload VS Code window completely
+1. Verify project ID is correct in configuration
+1. Check agent is not in Draft status (must be published/active)
+1. Try removing and re-adding the agent tag
+1. Check if agent ID in mcp.json matches the actual agent ID
 
 ### Problem: MCP server fails to start
 
@@ -448,12 +448,12 @@ Test your comprehension with these questions:
 
 **Solutions**:
 1. Verify Python virtual environment is activated when running tests
-2. Re-run `alita-mcp bootstrap` to reconfigure
-3. Check `mcp.json` syntax is valid JSON (use online JSON validator)
-4. Verify project ID and agent ID are provided as strings in the args array
-5. Try absolute path to alita-mcp executable in mcp.json command field
-6. Check if port 8000 is already in use (change port in bootstrap if needed)
-7. Review bootstrap configuration file for any obvious errors
+1. Re-run `alita-mcp bootstrap` to reconfigure
+1. Check `mcp.json` syntax is valid JSON (use online JSON validator)
+1. Verify project ID and agent ID are provided as strings in the args array
+1. Try absolute path to alita-mcp executable in mcp.json command field
+1. Check if port 8000 is already in use (change port in bootstrap if needed)
+1. Review bootstrap configuration file for any obvious errors
 
 ### Problem: Agent response is slow or times out
 
@@ -461,11 +461,11 @@ Test your comprehension with these questions:
 
 **Solutions**:
 1. Elitea cloud processing may take 10-30 seconds for first request (cold start)
-2. Subsequent requests should be faster (warm state)
-3. Check your internet connection speed
-4. Verify Elitea platform status (not under maintenance)
-5. Try with a simpler agent instruction or lighter model
-6. Check if your organization has any network throttling policies
+1. Subsequent requests should be faster (warm state)
+1. Check your internet connection speed
+1. Verify Elitea platform status (not under maintenance)
+1. Try with a simpler agent instruction or lighter model
+1. Check if your organization has any network throttling policies
 
 ## Next Steps
 
@@ -479,12 +479,12 @@ After completing this module, you should:
    - Test case creation agent
    - Data transformation agent
 
-2. **Test various models**:
+1. **Test various models**:
    - Compare GPT-4 vs Claude vs other models
    - Evaluate response quality and speed
    - Find best model for your use cases
 
-3. **Explore agent toolkits**:
+1. **Explore agent toolkits**:
    - Add tools to your agents in Elitea UI
    - Enable file access, API calls, or database queries
    - Create multi-capability agents
@@ -497,12 +497,12 @@ After completing this module, you should:
    - Data validation and transformation
    - Report generation
 
-2. **Team collaboration**:
+1. **Team collaboration**:
    - Share agents with team members
    - Create organization-wide agents
    - Standardize processing logic
 
-3. **Build production workflows**:
+1. **Build production workflows**:
    - Integrate agents into CI/CD pipelines
    - Use for automated quality checks
    - Create specialized processing services
@@ -527,14 +527,14 @@ Proceed to **[Module 170: DIAL API Key CURL Access](../170-dial-api-key-curl-acc
    - Use separate tokens for different environments
    - Revoke tokens immediately if compromised
 
-2. **Agent Design**:
+1. **Agent Design**:
    - Keep agent instructions clear and specific
    - Test agents thoroughly in Elitea UI before MCP deployment
    - Document agent capabilities for team members
    - Consider agent purpose: simple processing vs complex workflows
    - Use appropriate model for task complexity
 
-3. **Access Control**:
+1. **Access Control**:
    - Limit project access to authorized team members
    - Review agent permissions regularly
    - Use project-level isolation for sensitive data
@@ -545,11 +545,11 @@ Proceed to **[Module 170: DIAL API Key CURL Access](../170-dial-api-key-curl-acc
 The Elitea MCP integration works through these components:
 
 1. **Elitea Platform**: Cloud infrastructure hosting your AI agents
-2. **RESTful API**: Provides programmatic access to agents
-3. **MCP Client** (`alita-mcp`): Bridge between VS Code and Elitea API
-4. **Bootstrap Config**: Local file storing credentials and settings
-5. **VS Code MCP Extension**: Spawns and manages MCP server processes
-6. **AI Chat Interface**: User interface for interacting with tools
+1. **RESTful API**: Provides programmatic access to agents
+1. **MCP Client** (`alita-mcp`): Bridge between VS Code and Elitea API
+1. **Bootstrap Config**: Local file storing credentials and settings
+1. **VS Code MCP Extension**: Spawns and manages MCP server processes
+1. **AI Chat Interface**: User interface for interacting with tools
 
 When you send a request:
 - VS Code AI detects tool invocation
