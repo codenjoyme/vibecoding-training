@@ -208,6 +208,11 @@ Agent: "Part 2: Installing dependencies..."
 ## Marking Module Complete
 
 - Only mark complete when all Success Criteria verified in current session.
+- **Before marking complete, provide brief summary (3-5 bullet points)** of what was accomplished:
+  + Key topics covered in this module
+  + Main skills practiced
+  + Tools or techniques learned
+  + What user can now do independently
 - Update `./training-progress.md`:
   + Check the checkbox: `- [x] module-name`
   + Add completion date
