@@ -28,6 +28,7 @@ This training is highly practical. Each video provides a new actionable skill th
 1. [Advanced MCP Integration](modules/140-advanced-mcp-integration-in-poc/about.md) - Add MCP interface to your application
 1. [GitHub Coding Agent Delegation](modules/150-github-coding-agent-delegation/about.md) - Delegate tasks to GitHub agent for autonomous PR creation
 1. [Bulk File Processing with AI](modules/160-bulk-file-processing-with-ai/about.md) - Process multiple files efficiently with AI agent automation
+1. [Elitea Platform MCP Integration](modules/165-elitea-platform-mcp-integration/about.md) - Connect to Elitea platform and manage AI agents through MCP from VS Code
 1. [DIAL API Key and cURL Access](modules/170-dial-api-key-curl-access/about.md) - Get EPAM AI DIAL API key and test with cURL requests
 1. [DIAL Integration with Python and Langchain](modules/180-dial-langchain-python-integration/about.md) - Build AI applications with Python, langchain, and virtual environments
 1. [Prompt Templates for Dynamic Queries](modules/185-prompt-templates-dynamic-queries/about.md) - Create reusable parameterized prompts for scalable AI applications
