@@ -43,7 +43,7 @@ We'll login to Elitea platform, navigate to the Agents section, and create a sim
 
 7. In the "Instructions" field, add this exact text:
    ```
-   You are a simple processor. Please do not show any explanations. Do not run any tools. Just print the result.
+   You are a simple text processor. When you receive text input, convert it to uppercase and return only the uppercase version without any explanations or additional text.
    ```
 
 8. **CRITICAL STEP**: In the "Tags" field, add the tag `mcp`
@@ -243,13 +243,13 @@ We'll add Elitea server configuration to VS Code's MCP settings, telling VS Code
 
 3. If the file doesn't exist, create it. If it exists, add to the "servers" section.
 
-4. Add this configuration (replace `123` with your actual Project ID):
+4. Add this configuration (replace `123` with your actual Project ID and `YOUR_AGENT_ID` with your agent's ID):
    ```json
    {
      "servers": {
        "elitea-mcp": {
          "command": "alita-mcp",
-         "args": ["run", "--project-id", "123", "i1818"]
+         "args": ["run", "--project-id", "123", "YOUR_AGENT_ID"]
        }
      }
    }
@@ -259,7 +259,11 @@ We'll add Elitea server configuration to VS Code's MCP settings, telling VS Code
 
 5. **Important**: Replace `123` with your actual Project ID from Part 4
 
-6. **Important**: Replace `i1818` with your agent's ID (find it in Elitea agent URL or settings)
+6. **Important**: Replace `YOUR_AGENT_ID` with your agent's ID. To find your agent ID:
+   - In Elitea platform, click on your "Hello World Agent"
+   - Look at the URL in your browser - it will contain the agent ID
+   - Or check the agent settings page for the ID field
+   - The ID typically looks like `i1818` or similar alphanumeric code
 
 7. Save the file
 
@@ -446,7 +450,7 @@ Test your comprehension with these questions:
 1. Verify Python virtual environment is activated when running tests
 2. Re-run `alita-mcp bootstrap` to reconfigure
 3. Check `mcp.json` syntax is valid JSON (use online JSON validator)
-4. Ensure project ID format is correct (should be number, not string in args)
+4. Verify project ID and agent ID are provided as strings in the args array
 5. Try absolute path to alita-mcp executable in mcp.json command field
 6. Check if port 8000 is already in use (change port in bootstrap if needed)
 7. Review bootstrap configuration file for any obvious errors
