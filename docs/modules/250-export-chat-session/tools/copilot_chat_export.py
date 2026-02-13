@@ -577,9 +577,50 @@ def format_tool_call_html(item, response_list=None, idx=0):
   <pre class="terminal-output">{escape_html(term_output.strip()) if term_output.strip() else '(no output)'}</pre>
 </div>'''
     
+    # Todo list rendering (manage_todo_list)
+    todo_html = ""
+    if 'toolSpecificData' in item:
+        tsd = item.get('toolSpecificData', {})
+        if isinstance(tsd, dict) and tsd.get('kind') == 'todoList':
+            todo_items = tsd.get('todoList', [])
+            if isinstance(todo_items, list) and todo_items:
+                todo_rows = []
+                for t in todo_items:
+                    if isinstance(t, dict):
+                        t_status = t.get('status', 'unknown')
+                        t_title = t.get('title', '')
+                        t_id = t.get('id', '')
+                        status_icon = {'completed': '✅', 'in-progress': '🔄', 'not-started': '⬜'}.get(t_status, '❓')
+                        status_class = {'completed': 'todo-done', 'in-progress': 'todo-progress', 'not-started': 'todo-pending'}.get(t_status, '')
+                        todo_rows.append(f'<tr class="{status_class}"><td>{status_icon}</td><td>{escape_html(str(t_id))}</td><td>{escape_html(t_title)}</td><td>{escape_html(t_status)}</td></tr>')
+                todo_html = '<div class="todo-list-block"><table class="todo-table"><tr><th></th><th>#</th><th>Task</th><th>Status</th></tr>' + ''.join(todo_rows) + '</table></div>'
+
+    # Search results rendering (findTextInFiles resultDetails with uri+range)
+    search_results_html = ""
+    if 'resultDetails' in item and isinstance(item['resultDetails'], list):
+        rd_list = item['resultDetails']
+        if rd_list and isinstance(rd_list[0], dict) and 'uri' in rd_list[0]:
+            result_rows = []
+            for sr in rd_list[:50]:  # limit to 50
+                sr_uri = sr.get('uri', {})
+                sr_path = sr_uri.get('fsPath', sr_uri.get('path', '')) if isinstance(sr_uri, dict) else str(sr_uri)
+                sr_file = os.path.basename(sr_path) if sr_path else '?'
+                sr_range = sr.get('range', {})
+                if isinstance(sr_range, dict):
+                    start_line = sr_range.get('startLineNumber', sr_range.get('start', {}).get('line', '?'))
+                    end_line = sr_range.get('endLineNumber', sr_range.get('end', {}).get('line', ''))
+                else:
+                    start_line = '?'
+                    end_line = ''
+                line_str = f'L{start_line}' + (f'-L{end_line}' if end_line and end_line != start_line else '')
+                result_rows.append(f'<div class="search-result-item">📄 <span class="search-file">{escape_html(sr_file)}</span> <span class="search-line">{escape_html(str(line_str))}</span> <span class="search-path">{escape_html(sr_path)}</span></div>')
+            if len(rd_list) > 50:
+                result_rows.append(f'<div class="search-result-item" style="color:var(--text-muted);">... and {len(rd_list) - 50} more results</div>')
+            search_results_html = '<div class="search-results-block">' + ''.join(result_rows) + '</div>'
+
     # MCP input/output
     io_html = ""
-    if 'resultDetails' in item:
+    if 'resultDetails' in item and isinstance(item['resultDetails'], dict):
         rd = item['resultDetails']
         if 'input' in rd:
             inp = rd['input']
@@ -629,9 +670,21 @@ def format_tool_call_html(item, response_list=None, idx=0):
                     'copilot_semanticSearch': 'Semantic Search', 'copilot_grepSearch': 'Grep Search',
                     'copilot_fileSearch': 'File Search', 'copilot_runNotebookCell': 'Run Notebook Cell'}
         display_name = name_map.get(tool_id, tool_id.replace('copilot_', '').replace('_', ' ').title())
+    elif tool_id == 'manage_todo_list':
+        tool_icon = '📋'
+        display_name = 'Todo List'
     elif tool_id == 'list_code_usages':
         tool_icon = '🔍'
         display_name = 'List Code Usages'
+    elif tool_id == 'copilot_findTextInFiles':
+        tool_icon = '🔍'
+        display_name = 'Find in Files'
+    elif tool_id == 'copilot_replaceString':
+        tool_icon = '✏️'
+        display_name = 'Replace String'
+    elif tool_id == 'copilot_multiReplaceString':
+        tool_icon = '✏️'
+        display_name = 'Multi Replace'
     
     # Summary line (shown in header)
     summary = ""
@@ -646,6 +699,10 @@ def format_tool_call_html(item, response_list=None, idx=0):
         details_parts.append(f'<div class="tool-detail-section"><strong>📋 Invocation:</strong><pre class="tool-detail-pre">{escape_html(inv_msg)}</pre></div>')
     if terminal_html:
         details_parts.append(terminal_html)
+    if todo_html:
+        details_parts.append(todo_html)
+    if search_results_html:
+        details_parts.append(search_results_html)
     if io_html:
         details_parts.append(io_html)
     details_content = '\n'.join(details_parts) if details_parts else '<span style="color:#8c8c8c;">No additional details</span>'
@@ -931,8 +988,53 @@ def _format_request_metadata_html(req, req_idx):
         except:
             pass
     
-    # Timing
+    # Result details string (e.g. "Claude Opus 4.6 • 3x")
     result = req.get('result', {})
+    if isinstance(result, dict):
+        details_str = result.get('details', '')
+        if details_str and isinstance(details_str, str):
+            parts.append(f'<span class="meta-badge meta-details">📌 {escape_html(details_str)}</span>')
+
+    # Model state
+    model_state = req.get('modelState', {})
+    if isinstance(model_state, dict):
+        state_val = model_state.get('value')
+        completed_at = model_state.get('completedAt')
+        state_labels = {0: '⬜ Pending', 1: '🔄 In Progress', 2: '❌ Canceled', 4: '✅ Completed'}
+        if state_val is not None:
+            label = state_labels.get(state_val, f'State: {state_val}')
+            parts.append(f'<span class="meta-badge meta-state">{label}</span>')
+
+    # Agent info
+    agent = req.get('agent', {})
+    if isinstance(agent, dict):
+        agent_name = agent.get('name', '')
+        agent_ext_ver = agent.get('extensionVersion', '')
+        agent_slash = agent.get('slashCommands', [])
+        if agent_name:
+            agent_str = f'🤖 Agent: {agent_name}'
+            if agent_ext_ver:
+                agent_str += f' v{agent_ext_ver}'
+            parts.append(f'<span class="meta-badge">{escape_html(agent_str)}</span>')
+
+    # Error details
+    if isinstance(result, dict):
+        error_details = result.get('errorDetails', {})
+        if isinstance(error_details, dict) and error_details:
+            error_msg = error_details.get('message', '')
+            error_code = error_details.get('code', '')
+            is_incomplete = error_details.get('responseIsIncomplete', False)
+            error_text = ''
+            if error_msg:
+                error_text = error_msg
+            elif error_code:
+                error_text = str(error_code)
+            if is_incomplete:
+                error_text = (error_text + ' (incomplete)') if error_text else 'Response incomplete'
+            if error_text:
+                parts.append(f'<span class="meta-badge meta-error">⚠️ {escape_html(error_text)}</span>')
+
+    # Timing
     if isinstance(result, dict):
         timings = result.get('timings', {})
         if isinstance(timings, dict):
@@ -948,6 +1050,20 @@ def _format_request_metadata_html(req, req_idx):
                     parts.append(f'<span class="meta-badge">⚡ {first/1000:.1f}s first token</span>')
                 else:
                     parts.append(f'<span class="meta-badge">⚡ {first}ms first token</span>')
+
+    # Token counts
+    if isinstance(result, dict):
+        metadata = result.get('metadata', {})
+        if isinstance(metadata, dict):
+            prompt_tokens = metadata.get('promptTokens')
+            output_tokens = metadata.get('outputTokens')
+            tool_rounds = metadata.get('toolCallRounds')
+            if prompt_tokens is not None:
+                parts.append(f'<span class="meta-badge meta-tokens">📥 {prompt_tokens:,} prompt tokens</span>')
+            if output_tokens is not None:
+                parts.append(f'<span class="meta-badge meta-tokens">📤 {output_tokens:,} output tokens</span>')
+            if tool_rounds is not None:
+                parts.append(f'<span class="meta-badge">🔄 {tool_rounds} tool call rounds</span>')
     
     # Content references (instructions loaded)
     refs = req.get('contentReferences', [])
@@ -1190,6 +1306,30 @@ body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, A
 .attachment-meta {{ color: var(--text-muted); font-size: 11px; }}
 .attachment-content {{ padding: 8px; background: var(--bg-deep); border: 1px solid var(--border-light); border-radius: 4px; max-height: 400px; overflow: auto; margin-bottom: 4px; }}
 .attachment-pre {{ white-space: pre-wrap; margin: 0; font-size: 11px; }}
+
+/* Todo list */
+.todo-list-block {{ margin: 6px 0; border: 1px solid var(--border-light); border-radius: 6px; overflow: hidden; }}
+.todo-table {{ width: 100%; border-collapse: collapse; font-size: 12px; }}
+.todo-table th {{ background: var(--bg-elevated); padding: 4px 8px; text-align: left; color: var(--text-muted); font-weight: 600; border-bottom: 1px solid var(--border); }}
+.todo-table td {{ padding: 4px 8px; border-bottom: 1px solid var(--border-subtle); }}
+.todo-done {{ opacity: 0.7; }}
+.todo-done td:nth-child(3) {{ text-decoration: line-through; color: var(--text-muted); }}
+.todo-progress td:nth-child(3) {{ color: var(--yellow); }}
+.todo-pending td:nth-child(3) {{ color: var(--text); }}
+
+/* Search results */
+.search-results-block {{ margin: 6px 0; padding: 8px; background: var(--bg-deep); border: 1px solid var(--border-subtle); border-radius: 6px; max-height: 300px; overflow: auto; }}
+.search-result-item {{ padding: 2px 4px; font-size: 12px; display: flex; align-items: center; gap: 6px; }}
+.search-result-item:hover {{ background: var(--bg-input); }}
+.search-file {{ color: var(--blue); font-weight: 600; }}
+.search-line {{ color: var(--yellow); font-size: 11px; }}
+.search-path {{ color: var(--text-muted); font-size: 10px; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
+
+/* Additional meta badges */
+.meta-error {{ color: var(--red); border-color: var(--red); background: #3a1a1a; }}
+.meta-tokens {{ color: var(--cyan); border-color: #2a4a5a; }}
+.meta-details {{ color: var(--yellow); border-color: var(--yellow); }}
+.meta-state {{ }}
 
 /* Footer */
 .footer {{ padding: 12px 24px; border-top: 1px solid var(--border); background: var(--bg-elevated); font-size: 12px; color: var(--text-muted); text-align: center; }}
