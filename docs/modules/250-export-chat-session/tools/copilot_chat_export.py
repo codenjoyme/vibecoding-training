@@ -16,7 +16,7 @@ Usage:
 Options:
     --vscode-path PATH    Override VS Code settings path
     --output-dir DIR      Output directory for exports (default: ./copilot_export)
-    --format FORMAT       Output format: html, json, text (default: html)
+    --format FORMAT       Output format: html, json, jsonl, text (default: html)
 """
 
 import json
@@ -1383,18 +1383,25 @@ def export_session(workspace_id, session_id, vscode_path=None, output_dir='./cop
         print(f"  ❌ Session file not found: {session_id}")
         return None
     
-    # Read session
+    # Create output directory
+    os.makedirs(output_dir, exist_ok=True)
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    
+    # JSONL: copy original file as-is (raw, lossless) — no parsing needed
+    if fmt == 'jsonl':
+        import shutil
+        ext = os.path.splitext(session_file)[1]  # .jsonl or .json
+        out_file = os.path.join(output_dir, f'chat_{session_id[:12]}_{timestamp}{ext}')
+        shutil.copy2(session_file, out_file)
+        return out_file
+    
+    # Read & parse session for other formats
     session_data = read_session_file(session_file)
     if not session_data:
         print(f"  ❌ Failed to parse session: {session_id}")
         return None
     
-    # Create output directory
-    os.makedirs(output_dir, exist_ok=True)
-    
     # Export
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    
     if fmt == 'html':
         content = export_session_to_html(session_data, session_id, workspace_id)
         out_file = os.path.join(output_dir, f'chat_{session_id[:12]}_{timestamp}.html')
@@ -1526,8 +1533,8 @@ def main():
                        help='Override VS Code settings path')
     common.add_argument('--output-dir', default='./copilot_export',
                        help='Output directory for exports (default: ./copilot_export)')
-    common.add_argument('--format', choices=['html', 'json', 'text'], default='html',
-                       help='Export format (default: html)')
+    common.add_argument('--format', choices=['html', 'json', 'jsonl', 'text'], default='html',
+                       help='Export format: html, json (parsed), jsonl (raw original), text (default: html)')
 
     parser = argparse.ArgumentParser(
         description='GitHub Copilot Chat Session Export Tool',
@@ -1537,7 +1544,8 @@ Examples:
   %(prog)s workspaces                                     List all workspaces
   %(prog)s sessions abc123def456                           List sessions in workspace
   %(prog)s export abc123def456 session-id-here             Export a session to HTML
-  %(prog)s export abc123def456 * --format json             Export all sessions as JSON
+  %(prog)s export abc123def456 * --format json             Export all sessions as JSON (parsed)
+  %(prog)s export abc123def456 session-id --format jsonl   Export raw original JSONL file
   %(prog)s search "some text"                              Search across all sessions
         '''
     )
