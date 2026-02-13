@@ -1184,7 +1184,13 @@ def _format_request_metadata_html(req, req_idx):
             if output_tokens is not None:
                 parts.append(f'<span class="meta-badge meta-tokens">📤 {output_tokens:,} output tokens</span>')
             if tool_rounds is not None:
-                parts.append(f'<span class="meta-badge">🔄 {tool_rounds} tool call rounds</span>')
+                # toolCallRounds can be a list of objects (not a number) — show count only
+                if isinstance(tool_rounds, list):
+                    parts.append(f'<span class="meta-badge">🔄 {len(tool_rounds)} tool call rounds</span>')
+                elif isinstance(tool_rounds, (int, float)):
+                    parts.append(f'<span class="meta-badge">🔄 {int(tool_rounds)} tool call rounds</span>')
+                else:
+                    parts.append(f'<span class="meta-badge">🔄 {escape_html(str(tool_rounds))} tool call rounds</span>')
     
     # Content references (instructions loaded)
     refs = req.get('contentReferences', [])
