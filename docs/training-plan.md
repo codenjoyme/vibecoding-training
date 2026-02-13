@@ -33,6 +33,7 @@ This training is highly practical. Each video provides a new actionable skill th
 1. [DIAL Integration with Python and Langchain](modules/180-dial-langchain-python-integration/about.md) - Build AI applications with Python, langchain, and virtual environments
 1. [Prompt Templates for Dynamic Queries](modules/185-prompt-templates-dynamic-queries/about.md) - Create reusable parameterized prompts for scalable AI applications
 1. [RAG: Document Question Answering](modules/190-rag-document-question-answering/about.md) - Build retrieval-augmented generation systems for factual AI responses
+1. [Export Chat Session](modules/250-export-chat-session/about.md) - Extract, preserve, and share AI chat sessions for knowledge retention and team collaboration
 
 ---
 
