@@ -854,67 +854,111 @@ def format_inline_reference_html(item):
 def _group_tool_calls(parts):
     """
     Post-process HTML parts to group consecutive tool-call divs
-    that share the same data-gentitle into collapsible group blocks.
+    into collapsible group blocks, matching VS Code's UI grouping.
+    
+    Two strategies:
+    1. Named groups: items with data-gentitle → always wrap (even single items)
+    2. Auto-groups: 2+ consecutive tool-calls without data-gentitle → auto-titled
     """
     import re
     import random
-    gentitle_re = re.compile(r'^<div class="tool-call" data-gentitle="([^"]+)">')
+    from html import unescape as html_unescape
+    
+    # Match any tool-call div (with or without data-gentitle)
+    toolcall_re = re.compile(r'^<div class="tool-call"')
+    gentitle_re = re.compile(r'data-gentitle="([^"]*)"')
+    toolname_re = re.compile(r'<span class="tool-name">([^<]+)</span>')
     
     grouped = []
     i = 0
-    # Use random prefix to ensure unique IDs across multiple response renders
-    id_prefix = f'{random.randint(1000,9999)}'
+    id_prefix = f'{random.randint(1000, 9999)}'
     group_counter = 0
+    
+    def _auto_title(tool_names):
+        """Generate auto-title for unnamed tool groups based on tool types."""
+        unique = set(tool_names)
+        if unique <= {'Terminal'}:
+            return 'Executed terminal command'
+        if unique <= {'Read File', 'List Directory'}:
+            return 'Read files'
+        if unique <= {'Create File'}:
+            return 'Created files'
+        if unique <= {'Replace String', 'Multi Replace'}:
+            return 'Edited files'
+        if unique <= {'Find in Files', 'Grep Search', 'Semantic Search', 'File Search'}:
+            return 'Searched files'
+        if unique <= {'Todo List'}:
+            return 'Executed manage_todo_list'
+        return 'Executed tools'
+    
+    def _get_tool_name(html_str):
+        m = toolname_re.search(html_str)
+        return m.group(1) if m else 'unknown'
+    
+    def _get_gentitle(html_str):
+        m = gentitle_re.search(html_str)
+        return html_unescape(m.group(1)) if m else None
+    
+    def _build_group(run, title):
+        nonlocal group_counter
+        gid = f'tg_{id_prefix}_{group_counter}'
+        group_counter += 1
+        ok = sum(1 for r in run if '<span style="font-size:12px;">\u2705</span>' in r)
+        fail = len(run) - ok
+        status_parts = []
+        if ok: status_parts.append(f'{ok} \u2705')
+        if fail: status_parts.append(f'{fail} \u23f3')
+        check = '\u2714' if fail == 0 and ok > 0 else '\u25cb'
+        return f'''<div class="tool-group">
+<div onclick="toggle('{gid}')" class="tool-group-header">
+  <span class="tool-group-chevron" id="chevron_{gid}">\u25b6</span>
+  <span class="tool-group-check">{check}</span>
+  <span class="tool-group-title">{title}</span>
+  <span class="tool-group-count">{len(run)} tools</span>
+  <span class="tool-group-status">{" ".join(status_parts)}</span>
+</div>
+<div id="{gid}" style="display:none;" class="tool-group-content">
+''' + '\n'.join(run) + '\n</div>\n</div>'
     
     while i < len(parts):
         part = parts[i]
-        match = gentitle_re.match(part)
         
-        if not match:
+        if not toolcall_re.match(part):
             grouped.append(part)
             i += 1
             continue
         
-        # Found a tool-call with gentitle — look ahead for consecutive same-title tools
-        title = match.group(1)
-        run = [part]
-        j = i + 1
-        while j < len(parts):
-            nxt_match = gentitle_re.match(parts[j])
-            if nxt_match and nxt_match.group(1) == title:
-                run.append(parts[j])
-                j += 1
-            else:
-                break
+        gentitle = _get_gentitle(part)
         
-        if len(run) >= 2:
-            # Wrap group in collapsible block
-            group_id = f'toolgroup_{id_prefix}_{group_counter}'
-            group_counter += 1
-            # Count statuses
-            ok_count = sum(1 for r in run if '✅' in r)
-            pending_count = len(run) - ok_count
-            status_summary = ''
-            if ok_count:
-                status_summary += f'{ok_count} ✅'
-            if pending_count:
-                status_summary += f' {pending_count} ⏳' if status_summary else f'{pending_count} ⏳'
-            
-            group_html = f'''<div class="tool-group">
-<div onclick="toggle('{group_id}')" class="tool-group-header">
-  <span class="tool-group-chevron" id="chevron_{group_id}">▶</span>
-  <span class="tool-group-title">{title}</span>
-  <span class="tool-group-count">{len(run)} tools</span>
-  <span class="tool-group-status">{status_summary}</span>
-</div>
-<div id="{group_id}" style="display:none;" class="tool-group-content">
-''' + '\n'.join(run) + '\n</div>\n</div>'
-            grouped.append(group_html)
+        if gentitle:
+            # Strategy 1: Named group — collect consecutive with same gentitle
+            run = [part]
+            j = i + 1
+            while j < len(parts):
+                if toolcall_re.match(parts[j]) and _get_gentitle(parts[j]) == gentitle:
+                    run.append(parts[j])
+                    j += 1
+                else:
+                    break
+            grouped.append(_build_group(run, gentitle))
+            i = j
         else:
-            # Single tool — no wrapping
-            grouped.append(part)
-        
-        i = j
+            # Strategy 2: Auto-group consecutive tool-calls without gentitle
+            run = [part]
+            names = [_get_tool_name(part)]
+            j = i + 1
+            while j < len(parts):
+                if toolcall_re.match(parts[j]) and not _get_gentitle(parts[j]):
+                    run.append(parts[j])
+                    names.append(_get_tool_name(parts[j]))
+                    j += 1
+                else:
+                    break
+            if len(run) >= 2:
+                grouped.append(_build_group(run, _auto_title(names)))
+            else:
+                grouped.append(part)
+            i = j
     
     return '\n'.join(grouped)
 
@@ -1355,6 +1399,7 @@ body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, A
 .tool-group-header {{ padding: 8px 12px; background: var(--bg-elevated); cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 13px; border-bottom: 1px solid var(--border-subtle); }}
 .tool-group-header:hover {{ background: #2a2a2a; }}
 .tool-group-chevron {{ font-size: 10px; color: var(--text-muted); transition: transform 0.15s; }}
+.tool-group-check {{ color: var(--green); font-size: 13px; }}
 .tool-group-title {{ font-weight: 600; color: var(--text); flex: 1; }}
 .tool-group-count {{ font-size: 11px; color: var(--text-muted); padding: 1px 8px; background: var(--bg-deep); border-radius: 8px; }}
 .tool-group-status {{ font-size: 11px; color: var(--text-muted); }}
