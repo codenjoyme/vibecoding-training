@@ -1417,7 +1417,7 @@ body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, A
 .tool-header:hover {{ background: #2a2a2a; }}
 .tool-name {{ font-weight: 600; color: var(--cyan); }}
 .tool-summary {{ color: var(--text-muted); font-size: 12px; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
-.tool-badges {{ display: flex; gap: 6px; align-items: center; flex-shrink: 0; }}
+.tool-badges {{ display: flex; gap: 6px; align-items: center; flex-shrink: 0; margin-left: auto; }}
 .tool-meta-badge {{ font-size: 10px; padding: 1px 6px; border-radius: 8px; background: var(--bg-deep); color: var(--text-muted); }}
 .tool-details {{ padding: 12px; background: var(--bg-deep); border-top: 1px solid var(--border-light); font-size: 12px; max-height: 600px; overflow: auto; }}
 .tool-detail-section {{ margin-bottom: 8px; }}
