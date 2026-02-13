@@ -24,3 +24,4 @@ This file serves as a catalog of all project instructions. Each instruction cove
 - `connect-course-to-github.agent.md` - Connect local course folder (downloaded as ZIP) to GitHub repository for automatic updates while preserving work folder.
 - `github-copilot-cli-installation.agent.md` - Step-by-step guide for installing and configuring GitHub Copilot CLI on Windows, including nvm-windows setup and troubleshooting common issues.
 - `git-workflow.agent.md` - Comprehensive Git workflow guide for AI-assisted development with baby steps methodology, installation instructions, .gitignore setup, and best practices.
+- `export-chat-session.agent.md` - Export, list, and search GitHub Copilot chat sessions from VS Code using standalone Python script with HTML/JSON/text output formats.
