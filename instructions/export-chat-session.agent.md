@@ -1,17 +1,20 @@
-- Export GitHub Copilot chat sessions from VS Code / VS Code Insiders using standalone Python script.
-- Script location: `./docs/modules/250-export-chat-session/tools/copilot_chat_export.py`.
+- Export GitHub Copilot chat sessions from VS Code / VS Code Insiders using standalone Python scripts.
+- Scripts location: `./docs/modules/250-export-chat-session/tools/copilot/` package.
+  + `chat_export.py` — main export tool (single session export, list, search).
+  + `export_all.py` — batch export ALL sessions from ALL workspaces at once.
+- Previously was a single file `copilot_chat_export.py` — now reorganized into `copilot/` package.
 - No external dependencies required — uses only Python standard library.
 - Supports both legacy `.json` and modern `.jsonl` (delta/CRDT) session formats.
 - Auto-detects VS Code and VS Code Insiders installations on Windows, macOS, and Linux.
 
-## Available Commands
+## Available Commands (chat_export.py)
 
 - `workspaces` — list all VS Code workspaces that have chat sessions.
 - `sessions <workspace_id>` — list all sessions in a specific workspace with title, message count, size, date.
 - `export <workspace_id> <session_id>` — export one or more sessions to file.
 - `search <text>` — full-text search across all sessions in all workspaces.
 
-## Typical Workflow
+## Typical Workflow (Single Session Export)
 
 - Step 1: find the workspace by running `workspaces` command.
   + Copy the workspace ID from the output (32-char hex string).
@@ -25,11 +28,53 @@
 - Alternative: search for a session by text content using `search "keyword"`.
   + Returns matching session IDs, workspace names, and VS Code variant.
 
-## Command Examples
+## Batch Export All Sessions (export_all.py)
+
+- Exports ALL sessions from ALL workspaces in one command.
+- Preserves directory structure: `<output_dir>/<VSCode Variant>/<workspace_name>/chat_<id>_<ts>.html`.
+- Automatically skips sessions that have already been exported (idempotent re-runs).
+- Default output directory: `./work/copilot_export_all/`.
+- Supports `--format`, `--output-dir`, `--vscode-path` options.
+
+### Batch Export Examples
+
+```powershell
+$batch = "./docs/modules/250-export-chat-session/tools/copilot/export_all.py"
+
+# Export everything to default location (./work/copilot_export_all/)
+python $batch
+
+# Export to a custom directory
+python $batch --output-dir ./my_exports
+
+# Export all sessions as JSON instead of HTML
+python $batch --format json
+
+# Export only from specific VS Code variant
+python $batch --vscode-path "C:/Users/user/AppData/Roaming/Code - Insiders"
+```
+
+### Batch Export Output Structure
+
+```
+work/copilot_export_all/
+├── Code/
+│   ├── my-project/
+│   │   ├── chat_abc123def456_20260213_120000.html
+│   │   └── chat_fed654cba321_20260213_120001.html
+│   └── another-project/
+│       └── ...
+├── Code_-_Insiders/
+│   ├── main-workspace/
+│   │   └── ...
+│   └── ...
+```
+
+## Single Session Command Examples
 
 ```powershell
 # Set script path for convenience
-$script = "./docs/modules/250-export-chat-session/tools/copilot_chat_export.py"
+$script = "./docs/modules/250-export-chat-session/tools/copilot/chat_export.py"
 
 # List all workspaces
 python $script workspaces
@@ -67,6 +112,9 @@ python $script workspaces --vscode-path "C:/Users/user/AppData/Roaming/Code - In
 - `json` — raw reconstructed session data as JSON.
   + Full session object after JSONL delta reconstruction.
   + Useful for programmatic processing or archival.
+- `jsonl` — raw original JSONL file copy (lossless, no parsing).
+  + Exact copy of the source session file.
+  + Useful for archival or migration.
 - `text` — plain text conversation log.
   + User and assistant messages with timestamps.
   + Tool calls listed by name only (no input/output details).
@@ -86,7 +134,7 @@ python $script workspaces --vscode-path "C:/Users/user/AppData/Roaming/Code - In
 - `--vscode-path PATH` — manually specify VS Code settings directory.
   + Useful when auto-detection fails or you want a specific VS Code variant.
 - `--output-dir DIR` — output directory for exported files (default: `./copilot_export`).
-- `--format {html,json,text}` — export format (default: `html`).
+- `--format {html,json,jsonl,text}` — export format (default: `html`).
 - All options can be placed after the subcommand name.
 
 ## Troubleshooting
