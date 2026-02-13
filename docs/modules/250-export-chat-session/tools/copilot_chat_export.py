@@ -472,8 +472,12 @@ def simple_markdown_to_html(text):
 
 
 def _strip_ansi(text):
-    """Remove ANSI escape codes from terminal output."""
-    return re.sub(r'\x1b\[[0-9;]*[a-zA-Z]', '', text) if text else text
+    """Remove ANSI escape codes and normalize line endings from terminal output."""
+    if not text:
+        return text
+    text = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]', '', text)
+    text = text.replace('\r\n', '\n').replace('\r', '\n')  # normalize Windows line endings
+    return text
 
 
 def format_tool_call_html(item, response_list=None, idx=0):
@@ -1151,10 +1155,43 @@ def _format_variable_attachments_html(variables):
             else:
                 preview_html = f'<div style="color:#8c8c8c;font-size:11px;">Image data ({size_str})</div>'
         
-        # Truncate value for display
-        display_val = str(value)[:2000]
-        if len(str(value)) > 2000:
-            display_val += f'\n\n... (truncated, total {size_str})'
+        # Truncate value for display with JSON pretty-print
+        display_val = ''
+        if isinstance(value, (dict, list)):
+            try:
+                display_val = json.dumps(value, indent=2, ensure_ascii=False)
+            except (TypeError, ValueError):
+                display_val = str(value)
+        elif isinstance(value, str):
+            # Try to parse as JSON string
+            try:
+                parsed = json.loads(value)
+                if isinstance(parsed, (dict, list)):
+                    display_val = json.dumps(parsed, indent=2, ensure_ascii=False)
+                else:
+                    display_val = value
+            except (json.JSONDecodeError, ValueError):
+                display_val = value
+        else:
+            display_val = str(value)
+        
+        # Truncate if too long
+        if len(display_val) > 5000:
+            display_val = display_val[:5000] + f'\n\n... (truncated, total {size_str})'
+        
+        # Also prepare full var metadata as JSON
+        var_meta = {k: v for k, v in var.items() if k != 'value'}
+        var_meta_json = ''
+        if var_meta:
+            try:
+                var_meta_json = json.dumps(var_meta, indent=2, ensure_ascii=False)
+            except (TypeError, ValueError):
+                var_meta_json = ''
+        
+        meta_block = ''
+        if var_meta_json:
+            meta_id = f"{att_id}_meta"
+            meta_block = f'''<div style="margin-top:4px;"><span onclick="toggle('{meta_id}')" style="color:var(--text-muted);font-size:10px;cursor:pointer;">📋 metadata ▸</span><pre id="{meta_id}" style="display:none;" class="attachment-pre" style="font-size:10px;color:var(--text-muted);">{escape_html(var_meta_json)}</pre></div>'''
         
         parts.append(f'''<div class="attachment-item">
 <div onclick="toggle('{att_id}')" class="attachment-header">
@@ -1162,7 +1199,7 @@ def _format_variable_attachments_html(variables):
 </div>
 <div id="{att_id}" style="display:none;" class="attachment-content">
   {preview_html}
-  <pre class="attachment-pre">{escape_html(display_val)}</pre>
+  <pre class="attachment-pre">{escape_html(display_val)}</pre>{meta_block}
 </div>
 </div>''')
     
