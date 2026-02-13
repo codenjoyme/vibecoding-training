@@ -860,10 +860,12 @@ def _group_tool_calls(parts):
     (from the generatedTitle field in JSONL data). Items without
     generatedTitle are rendered as-is, without any auto-grouping.
     
-    When a named group is found, preceding non-text items (thinking blocks,
-    progress tasks, MCP servers, tool-calls without generatedTitle) are
-    pulled into the group — matching VS Code's behavior where the group
-    header visually wraps all consecutive non-text items.
+    When a named group is found:
+    - Preceding non-text items (thinking, progress, MCP, tool-calls w/o GT)
+      are pulled backward into the group.
+    - Following non-text, non-GT items (textEditGroup, tool-calls w/o GT,
+      codeblockUri) are absorbed forward into the group — matching VS Code's
+      behavior where the group wraps all items in the same "round".
     """
     import re
     import random
@@ -871,9 +873,9 @@ def _group_tool_calls(parts):
     
     toolcall_re = re.compile(r'^<div class="tool-call"')
     gentitle_re = re.compile(r'data-gentitle="([^"]*)"')
-    # Non-text items that can be absorbed into a group (not markdown/text)
+    # Non-text items that can be absorbed into a group
     nontextblock_re = re.compile(
-        r'^<div class="(tool-call|thinking-block|progress-task|mcp-servers)"'
+        r'^<div class="(tool-call|thinking-block|progress-task|mcp-servers|file-edit-block|codeblock-uri)"'
     )
     
     grouped = []
@@ -886,7 +888,7 @@ def _group_tool_calls(parts):
         return html_unescape(m.group(1)) if m else None
     
     def _is_nontext_block(html_str):
-        """Check if HTML part is a non-text block (tool, thinking, progress, mcp)."""
+        """Check if HTML part is a non-text block (tool, thinking, progress, mcp, file-edit, codeblock)."""
         return bool(nontextblock_re.match(html_str))
     
     def _build_group(run, title):
@@ -935,10 +937,17 @@ def _group_tool_calls(parts):
                 else:
                     break
             
-            # Look backward: pull preceding non-text blocks into the group.
-            # These are thinking, progressTask, mcpServersStarting, or
-            # tool-calls without generatedTitle that VS Code shows inside
-            # the group header. Stop at text/markdown content or start of list.
+            # Forward lookback: absorb following non-text, non-GT items
+            # (textEditGroup, tool-calls without GT, codeblockUri, etc.)
+            # until hitting text content or another GT-tagged tool.
+            while j < len(parts):
+                if _is_nontext_block(parts[j]) and not _get_gentitle(parts[j]):
+                    run.append(parts[j])
+                    j += 1
+                else:
+                    break
+            
+            # Backward lookback: pull preceding non-text blocks into the group.
             pulled = []
             while grouped and _is_nontext_block(grouped[-1]):
                 pulled.append(grouped.pop())
