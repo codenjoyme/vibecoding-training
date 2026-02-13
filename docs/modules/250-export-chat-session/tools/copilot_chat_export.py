@@ -471,11 +471,25 @@ def simple_markdown_to_html(text):
     return html
 
 
+def _strip_ansi(text):
+    """Remove ANSI escape codes from terminal output."""
+    return re.sub(r'\x1b\[[0-9;]*[a-zA-Z]', '', text) if text else text
+
+
 def format_tool_call_html(item, response_list=None, idx=0):
-    """Format a tool call item as collapsible HTML."""
+    """Format a tool call item as collapsible HTML with full details."""
     tool_id = item.get('toolId', item.get('toolName', 'unknown'))
     tool_call_id = item.get('toolCallId', f'tc_{idx}')
     is_complete = item.get('isComplete', False)
+    
+    # Past-tense message (shown as summary when collapsed)
+    past_msg = ""
+    if 'pastTenseMessage' in item:
+        pm = item['pastTenseMessage']
+        if isinstance(pm, dict):
+            past_msg = pm.get('value', '')
+        elif pm:
+            past_msg = str(pm)
     
     # Invocation message
     inv_msg = ""
@@ -486,13 +500,82 @@ def format_tool_call_html(item, response_list=None, idx=0):
         else:
             inv_msg = str(inv)
     
-    # Tool-specific info
-    extra_info = ""
+    # Confirmation info
+    confirmation_html = ""
+    is_confirmed = item.get('isConfirmed', {})
+    if isinstance(is_confirmed, dict):
+        conf_type = is_confirmed.get('type', 0)
+        conf_labels = {1: 'Auto-approved', 2: 'User approved', 3: 'User rejected', 4: 'Auto-approved'}
+        if conf_type in conf_labels:
+            confirmation_html = f'<span class="tool-meta-badge">{conf_labels[conf_type]}</span>'
+
+    # Source info
+    source_html = ""
+    source = item.get('source', {})
+    if isinstance(source, dict):
+        s_label = source.get('label', '')
+        s_type = source.get('type', '')
+        if s_label:
+            source_html = f'<span class="tool-meta-badge">{escape_html(s_label)}</span>'
+    
+    # Tool-specific info (terminal commands)
+    terminal_html = ""
     if 'toolSpecificData' in item:
         tsd = item['toolSpecificData']
-        if tsd.get('kind') == 'terminal' and 'commandLine' in tsd:
-            cmd = tsd['commandLine'].get('original', '')
-            extra_info = f'<div style="padding:6px 12px;background:#0d1117;border-top:1px solid #404040;font-size:12px;"><code style="color:#7dd3fc;">{escape_html(cmd)}</code></div>'
+        if tsd.get('kind') == 'terminal':
+            # Command line
+            cmd = ''
+            if 'commandLine' in tsd:
+                cmd_data = tsd['commandLine']
+                cmd = cmd_data.get('original', '') if isinstance(cmd_data, dict) else str(cmd_data)
+            
+            # CWD
+            cwd = ''
+            if 'cwd' in tsd:
+                cwd_data = tsd['cwd']
+                if isinstance(cwd_data, dict):
+                    cwd = cwd_data.get('fsPath', cwd_data.get('path', ''))
+                else:
+                    cwd = str(cwd_data)
+            
+            # Terminal state (exit code, duration)
+            exit_code = None
+            duration_ms = None
+            if 'terminalCommandState' in tsd:
+                state = tsd['terminalCommandState']
+                if isinstance(state, dict):
+                    exit_code = state.get('exitCode')
+                    duration_ms = state.get('duration')
+            
+            # Terminal output
+            term_output = ''
+            if 'terminalCommandOutput' in tsd:
+                out_data = tsd['terminalCommandOutput']
+                if isinstance(out_data, dict):
+                    term_output = out_data.get('text', '')
+                elif out_data:
+                    term_output = str(out_data)
+                term_output = _strip_ansi(term_output)
+            
+            # Build terminal block
+            exit_class = 'exit-success' if exit_code == 0 else 'exit-error' if exit_code is not None else ''
+            exit_badge = ''
+            if exit_code is not None:
+                exit_badge = f'<span class="{exit_class}">exit: {exit_code}</span>'
+            duration_badge = ''
+            if duration_ms is not None:
+                if duration_ms > 1000:
+                    duration_badge = f'<span class="tool-meta-badge">{duration_ms/1000:.1f}s</span>'
+                else:
+                    duration_badge = f'<span class="tool-meta-badge">{duration_ms}ms</span>'
+            
+            cwd_line = f'<div class="terminal-cwd">📂 {escape_html(cwd)}</div>' if cwd else ''
+            
+            terminal_html = f'''<div class="terminal-block">
+  <div class="terminal-header">{cwd_line}<div class="terminal-cmd">$ {escape_html(cmd)}</div></div>
+  <div class="terminal-badges">{exit_badge}{duration_badge}</div>
+  <pre class="terminal-output">{escape_html(term_output.strip()) if term_output.strip() else '(no output)'}</pre>
+</div>'''
     
     # MCP input/output
     io_html = ""
@@ -506,7 +589,7 @@ def format_tool_call_html(item, response_list=None, idx=0):
                 except:
                     pass
             inp_str = json.dumps(inp, indent=2, ensure_ascii=False) if isinstance(inp, (dict, list)) else str(inp)
-            io_html += f'<div style="margin:6px 0;"><strong>📥 Input:</strong><pre style="background:#161b22;padding:6px;border:1px solid #30363d;border-radius:4px;font-size:11px;white-space:pre-wrap;overflow-x:auto;">{escape_html(inp_str)}</pre></div>'
+            io_html += f'<div class="mcp-io"><strong>📥 Input:</strong><pre class="mcp-io-pre">{escape_html(inp_str)}</pre></div>'
         if 'output' in rd:
             out = rd['output']
             if isinstance(out, list):
@@ -521,34 +604,190 @@ def format_tool_call_html(item, response_list=None, idx=0):
                                 pass
                         err = block.get('error', False)
                         icon = "❌" if err else "✅"
-                        io_html += f'<div style="margin:6px 0;"><strong>📤 Output {icon}:</strong><pre style="background:#161b22;padding:6px;border:1px solid #30363d;border-radius:4px;font-size:11px;white-space:pre-wrap;overflow-x:auto;">{escape_html(str(val))}</pre></div>'
+                        io_html += f'<div class="mcp-io"><strong>📤 Output {icon}:</strong><pre class="mcp-io-pre">{escape_html(str(val))}</pre></div>'
             elif isinstance(out, str):
-                io_html += f'<div style="margin:6px 0;"><strong>📤 Output:</strong><pre style="background:#161b22;padding:6px;border:1px solid #30363d;border-radius:4px;font-size:11px;white-space:pre-wrap;overflow-x:auto;">{escape_html(out)}</pre></div>'
+                io_html += f'<div class="mcp-io"><strong>📤 Output:</strong><pre class="mcp-io-pre">{escape_html(out)}</pre></div>'
     
     status = '✅' if is_complete else '⏳'
     safe_id = f"tool_{tool_call_id.replace('-', '_')}_{idx}"
     
-    # Display name
+    # Display name mapping
     display_name = tool_id
+    tool_icon = '🔧'
     if tool_id.startswith('mcp_') and '-mcp_' in tool_id:
         parts = tool_id.split('-mcp_')
         if len(parts) == 2:
             display_name = f"[MCP] {parts[0]}: {parts[1]}"
+        tool_icon = '🔌'
+    elif tool_id == 'run_in_terminal':
+        tool_icon = '💻'
+        display_name = 'Terminal'
+    elif tool_id.startswith('copilot_'):
+        tool_icon = '📝'
+        name_map = {'copilot_createFile': 'Create File', 'copilot_readFile': 'Read File',
+                    'copilot_editFile': 'Edit File', 'copilot_listDirectory': 'List Directory',
+                    'copilot_semanticSearch': 'Semantic Search', 'copilot_grepSearch': 'Grep Search',
+                    'copilot_fileSearch': 'File Search', 'copilot_runNotebookCell': 'Run Notebook Cell'}
+        display_name = name_map.get(tool_id, tool_id.replace('copilot_', '').replace('_', ' ').title())
+    elif tool_id == 'list_code_usages':
+        tool_icon = '🔍'
+        display_name = 'List Code Usages'
     
-    return f'''<div style="margin:8px 0;border:1px solid #404040;border-radius:4px;background:#1e1e1e;">
-<div onclick="toggle('{safe_id}')" style="padding:8px 12px;background:#252526;border-radius:4px 4px 0 0;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:13px;">
-  <span>🔧</span><span style="flex:1;font-weight:500;">{escape_html(display_name)}</span><span style="font-size:12px;">{status}</span>
+    # Summary line (shown in header)
+    summary = ""
+    if past_msg:
+        summary = f'<span class="tool-summary">{escape_html(past_msg)}</span>'
+    elif inv_msg:
+        summary = f'<span class="tool-summary">{escape_html(inv_msg[:120])}</span>'
+    
+    # Build expandable content
+    details_parts = []
+    if inv_msg:
+        details_parts.append(f'<div class="tool-detail-section"><strong>📋 Invocation:</strong><pre class="tool-detail-pre">{escape_html(inv_msg)}</pre></div>')
+    if terminal_html:
+        details_parts.append(terminal_html)
+    if io_html:
+        details_parts.append(io_html)
+    details_content = '\n'.join(details_parts) if details_parts else '<span style="color:#8c8c8c;">No additional details</span>'
+    
+    return f'''<div class="tool-call">
+<div onclick="toggle('{safe_id}')" class="tool-header">
+  <span>{tool_icon}</span><span class="tool-name">{escape_html(display_name)}</span>{summary}<span class="tool-badges">{confirmation_html}{source_html}<span style="font-size:12px;">{status}</span></span>
 </div>
-{extra_info}
-<div id="{safe_id}" style="display:none;padding:12px;background:#0d1117;border-top:1px solid #404040;font-size:11px;max-height:400px;overflow:auto;">
-  <strong>📋 Invocation:</strong><pre style="white-space:pre-wrap;margin:4px 0;padding:6px;background:#161b22;border:1px solid #30363d;border-radius:3px;font-size:11px;">{escape_html(inv_msg)}</pre>
-  {io_html}
+<div id="{safe_id}" style="display:none;" class="tool-details">
+  {details_content}
 </div>
 </div>'''
 
 
+def format_thinking_html(item, think_idx):
+    """Format a thinking/reasoning block as collapsible HTML."""
+    value = item.get('value', '')
+    title = item.get('generatedTitle', '')
+    metadata = item.get('metadata', {})
+    
+    if not value and not title:
+        return ""
+    
+    safe_id = f"think_{think_idx}"
+    
+    # Check if this is the "done" marker
+    if isinstance(metadata, dict) and metadata.get('vscodeReasoningDone'):
+        stop_reason = metadata.get('stopReason', '')
+        return f'<div class="thinking-done">💭 Reasoning complete{" (" + escape_html(stop_reason) + ")" if stop_reason else ""}</div>'
+    
+    if not value:
+        return ""
+    
+    title_text = f': {escape_html(title)}' if title else ''
+    # Show first 100 chars as preview
+    preview = value[:150].replace('\n', ' ')
+    if len(value) > 150:
+        preview += '...'
+    
+    return f'''<div class="thinking-block">
+<div onclick="toggle('{safe_id}')" class="thinking-header">
+  <span>💭</span><span class="thinking-title">Thinking{title_text}</span><span class="thinking-preview">{escape_html(preview)}</span>
+</div>
+<div id="{safe_id}" style="display:none;" class="thinking-content">
+  <pre class="thinking-pre">{escape_html(value)}</pre>
+</div>
+</div>'''
+
+
+def format_text_edit_group_html(item, edit_idx):
+    """Format a textEditGroup (file creation/edit) as collapsible HTML."""
+    uri = item.get('uri', {})
+    path = uri.get('path', uri.get('fsPath', 'unknown'))
+    file_name = os.path.basename(path) or path
+    done = item.get('done', False)
+    edits = item.get('edits', [])
+    
+    # Collect all edit text
+    edit_texts = []
+    total_edits = 0
+    for edit_group in edits:
+        if isinstance(edit_group, list):
+            for edit in edit_group:
+                if isinstance(edit, dict) and 'text' in edit:
+                    edit_texts.append(edit['text'])
+                    total_edits += 1
+        elif isinstance(edit_group, dict) and 'text' in edit_group:
+            edit_texts.append(edit_group['text'])
+            total_edits += 1
+    
+    full_text = ''.join(edit_texts)
+    lines_count = full_text.count('\n') + 1 if full_text else 0
+    safe_id = f"edit_{edit_idx}"
+    status = '✅' if done else '⏳'
+    
+    return f'''<div class="file-edit-block">
+<div onclick="toggle('{safe_id}')" class="file-edit-header">
+  <span>📝</span><span class="file-edit-name">{escape_html(file_name)}</span>
+  <span class="file-edit-meta">{total_edits} edits, ~{lines_count} lines</span>
+  <span class="file-edit-path">{escape_html(path)}</span>
+  <span>{status}</span>
+</div>
+<div id="{safe_id}" style="display:none;" class="file-edit-content">
+  <pre class="file-edit-pre">{escape_html(full_text)}</pre>
+</div>
+</div>'''
+
+
+def format_progress_task_html(item):
+    """Format a progressTaskSerialized item."""
+    content = item.get('content', {})
+    value = ''
+    if isinstance(content, dict):
+        value = content.get('value', '')
+    elif isinstance(content, str):
+        value = content
+    
+    title = item.get('title', '')
+    is_complete = item.get('isComplete', False)
+    status = '✅' if is_complete else '⏳'
+    
+    display = value or title or 'Processing...'
+    return f'<div class="progress-task">{status} <span>{escape_html(display)}</span></div>'
+
+
+def format_mcp_servers_html(item):
+    """Format an mcpServersStarting item."""
+    server_ids = item.get('didStartServerIds', [])
+    if not server_ids:
+        return '<div class="mcp-servers">🔌 MCP servers initialized</div>'
+    servers_str = ', '.join(str(s) for s in server_ids)
+    return f'<div class="mcp-servers">🔌 MCP servers started: {escape_html(servers_str)}</div>'
+
+
+def format_codeblock_uri_html(item):
+    """Format a codeblockUri item."""
+    uri = item.get('uri', {})
+    path = ''
+    if isinstance(uri, dict):
+        path = uri.get('path', uri.get('fsPath', ''))
+    elif isinstance(uri, str):
+        path = uri
+    file_name = os.path.basename(path) or path
+    is_edit = item.get('isEdit', False)
+    icon = '✏️' if is_edit else '📄'
+    return f'<div class="codeblock-uri">{icon} <span class="codeblock-path">{escape_html(file_name)}</span></div>'
+
+
+def format_inline_reference_html(item):
+    """Format an inlineReference to a file/symbol."""
+    ref = item.get('inlineReference', item)
+    name = ''
+    if isinstance(ref, dict):
+        fs_path = ref.get('fsPath', ref.get('path', ref.get('name', '')))
+        name = os.path.basename(fs_path) if fs_path else str(ref)
+    else:
+        name = str(ref)
+    return f'<span class="inline-ref">📁 {escape_html(name)}</span>'
+
+
 def build_response_html(response):
-    """Build HTML for the assistant response, interleaving text and tool calls."""
+    """Build HTML for the assistant response, rendering all item kinds."""
     if not isinstance(response, list):
         if isinstance(response, dict) and 'value' in response:
             return simple_markdown_to_html(str(response['value']))
@@ -557,92 +796,285 @@ def build_response_html(response):
     parts = []
     text_buffer = []
     tool_idx = 0
+    think_idx = 0
+    edit_idx = 0
+    # Track already-rendered tool invocations by toolCallId
+    rendered_tools = set()
     i = 0
+    
+    def flush_text():
+        nonlocal text_buffer
+        if text_buffer:
+            parts.append(simple_markdown_to_html(''.join(text_buffer)))
+            text_buffer = []
     
     while i < len(response):
         item = response[i]
+        if not isinstance(item, dict):
+            i += 1
+            continue
         
-        if isinstance(item, dict) and 'value' in item:
+        kind = item.get('kind', '')
+        
+        # --- Text fragments (no kind, has value) ---
+        if not kind and 'value' in item:
             text_buffer.append(str(item['value']))
             i += 1
-        elif isinstance(item, dict) and item.get('kind') == 'inlineReference':
-            # File reference
-            fs_path = item.get('inlineReference', {}).get('fsPath', '')
-            if fs_path:
-                name = os.path.basename(fs_path) or fs_path
-                text_buffer.append(f' 📁{name} ')
+        
+        # --- Thinking / Reasoning ---
+        elif kind == 'thinking':
+            flush_text()
+            html = format_thinking_html(item, think_idx)
+            if html:
+                parts.append(html)
+                think_idx += 1
             i += 1
-        elif isinstance(item, dict) and item.get('kind') == 'prepareToolInvocation':
-            # Flush text buffer
-            if text_buffer:
-                parts.append(simple_markdown_to_html(''.join(text_buffer)))
-                text_buffer = []
-            
-            # Find matching serialized
-            tool_name = item.get('toolName')
+        
+        # --- Inline file reference ---
+        elif kind == 'inlineReference':
+            text_buffer.append(' ' + format_inline_reference_html(item) + ' ')
+            i += 1
+        
+        # --- Tool preparation -> find matching serialized ---
+        elif kind == 'prepareToolInvocation':
+            flush_text()
+            tool_name = item.get('toolName', '')
+            tool_call_id = item.get('toolCallId', '')
             serialized = None
             j = i + 1
             while j < len(response):
                 nxt = response[j]
-                if isinstance(nxt, dict) and nxt.get('kind') == 'toolInvocationSerialized' and nxt.get('toolId') == tool_name:
-                    serialized = nxt
-                    break
+                if isinstance(nxt, dict) and nxt.get('kind') == 'toolInvocationSerialized':
+                    if nxt.get('toolId') == tool_name or nxt.get('toolCallId') == tool_call_id:
+                        serialized = nxt
+                        break
                 j += 1
             
             if serialized:
                 parts.append(format_tool_call_html(serialized, response, tool_idx))
+                rendered_tools.add(serialized.get('toolCallId', ''))
                 tool_idx += 1
                 i = j + 1
             else:
                 parts.append(format_tool_call_html(item, response, tool_idx))
                 tool_idx += 1
                 i += 1
-        elif isinstance(item, dict) and item.get('kind') == 'toolInvocationSerialized':
-            # Orphaned serialized tool call
-            if text_buffer:
-                parts.append(simple_markdown_to_html(''.join(text_buffer)))
-                text_buffer = []
-            parts.append(format_tool_call_html(item, response, tool_idx))
-            tool_idx += 1
+        
+        # --- Orphaned serialized tool call ---
+        elif kind == 'toolInvocationSerialized':
+            tcid = item.get('toolCallId', '')
+            if tcid not in rendered_tools:
+                flush_text()
+                parts.append(format_tool_call_html(item, response, tool_idx))
+                rendered_tools.add(tcid)
+                tool_idx += 1
             i += 1
+        
+        # --- File edits (textEditGroup) ---
+        elif kind == 'textEditGroup':
+            flush_text()
+            parts.append(format_text_edit_group_html(item, edit_idx))
+            edit_idx += 1
+            i += 1
+        
+        # --- Progress tasks ---
+        elif kind == 'progressTaskSerialized' or kind == 'progressTask':
+            flush_text()
+            parts.append(format_progress_task_html(item))
+            i += 1
+        
+        # --- MCP servers starting ---
+        elif kind == 'mcpServersStarting':
+            flush_text()
+            parts.append(format_mcp_servers_html(item))
+            i += 1
+        
+        # --- Codeblock URI ---
+        elif kind == 'codeblockUri':
+            flush_text()
+            parts.append(format_codeblock_uri_html(item))
+            i += 1
+        
+        # --- Undo stop (skip) ---
+        elif kind == 'undoStop':
+            i += 1
+        
+        # --- Unknown kinds with value -> treat as text ---
+        elif 'value' in item:
+            text_buffer.append(str(item['value']))
+            i += 1
+        
         else:
             i += 1
     
     # Flush remaining text
-    if text_buffer:
-        parts.append(simple_markdown_to_html(''.join(text_buffer)))
+    flush_text()
     
     return '\n'.join(parts)
 
 
-def format_attachments_html(variables):
-    """Format user message attachments."""
+def _format_request_metadata_html(req, req_idx):
+    """Format request-level metadata as a collapsible info bar."""
+    parts = []
+    
+    # Model
+    model_id = req.get('modelId', '')
+    if model_id:
+        parts.append(f'<span class="meta-badge meta-model">🤖 {escape_html(model_id)}</span>')
+    
+    # Timestamp
+    timestamp = req.get('timestamp')
+    if timestamp:
+        try:
+            ts_str = datetime.fromtimestamp(timestamp / 1000).strftime('%H:%M:%S')
+            parts.append(f'<span class="meta-badge">🕐 {ts_str}</span>')
+        except:
+            pass
+    
+    # Timing
+    result = req.get('result', {})
+    if isinstance(result, dict):
+        timings = result.get('timings', {})
+        if isinstance(timings, dict):
+            total = timings.get('totalElapsed')
+            first = timings.get('firstProgress')
+            if total:
+                if total > 1000:
+                    parts.append(f'<span class="meta-badge">⏱️ {total/1000:.1f}s total</span>')
+                else:
+                    parts.append(f'<span class="meta-badge">⏱️ {total}ms total</span>')
+            if first:
+                if first > 1000:
+                    parts.append(f'<span class="meta-badge">⚡ {first/1000:.1f}s first token</span>')
+                else:
+                    parts.append(f'<span class="meta-badge">⚡ {first}ms first token</span>')
+    
+    # Content references (instructions loaded)
+    refs = req.get('contentReferences', [])
+    if refs:
+        ref_names = []
+        for r in refs:
+            if isinstance(r, dict):
+                ref_data = r.get('reference', r)
+                if isinstance(ref_data, dict):
+                    p = ref_data.get('fsPath', ref_data.get('path', ''))
+                    if p:
+                        ref_names.append(os.path.basename(p))
+        if ref_names:
+            parts.append(f'<span class="meta-badge">📎 {escape_html(", ".join(ref_names))}</span>')
+    
+    # Edited files
+    edited = req.get('editedFileEvents', [])
+    if edited:
+        file_names = []
+        for e in edited:
+            if isinstance(e, dict):
+                uri = e.get('uri', {})
+                if isinstance(uri, dict):
+                    p = uri.get('fsPath', uri.get('path', ''))
+                    if p:
+                        file_names.append(os.path.basename(p))
+        if file_names:
+            parts.append(f'<span class="meta-badge meta-edited">✏️ Edited: {escape_html(", ".join(file_names))}</span>')
+    
+    # Followups
+    followups = req.get('followups', [])
+    if followups:
+        parts.append(f'<span class="meta-badge">{len(followups)} follow-ups</span>')
+    
+    if not parts:
+        return ""
+    
+    safe_id = f"meta_{req_idx}"
+    return f'''<div class="request-meta">
+  <div onclick="toggle('{safe_id}')" class="meta-toggle">ℹ️ Request info</div>
+  <div id="{safe_id}" style="display:none;" class="meta-details">{' '.join(parts)}</div>
+</div>'''
+
+
+def _format_variable_attachments_html(variables):
+    """Format variable data (attachments, screenshots, prompt files) with size info."""
     if not variables:
         return ""
     
     parts = []
     for j, var in enumerate(variables):
-        kind = var.get('kind', 'unknown')
+        var_id = var.get('id', '')
         name = var.get('name', 'Unknown')
-        desc = var.get('modelDescription', '')
+        value = var.get('value', '')
+        value_len = len(str(value)) if value else 0
         
-        icon = {'file': '📄', 'promptFile': '📋'}.get(kind, '🔗')
-        att_id = f"att_{j}_{hash(str(var)) % 100000}"
+        # Determine type and icon
+        icon = '🔗'
+        type_label = ''
+        if 'prompt' in var_id.lower() or 'prompt' in name.lower():
+            icon = '📋'
+            type_label = 'prompt'
+        elif 'image' in name.lower() or 'pasted' in name.lower() or 'screenshot' in name.lower():
+            icon = '🖼️'
+            type_label = 'image'
+        elif 'copilot-instructions' in var_id.lower():
+            icon = '⚙️'
+            type_label = 'instructions'
+        elif value_len > 100000:
+            icon = '📦'
+            type_label = 'large attachment'
+        else:
+            icon = '📄'
+            type_label = 'file'
         
-        parts.append(f'''<div onclick="toggle('{att_id}')" style="display:flex;align-items:center;gap:8px;padding:6px 10px;margin:3px 0;background:#1a1a1a;border:1px solid #404040;border-radius:4px;font-size:12px;color:#9cdcfe;cursor:pointer;">
-  <span>{icon}</span><span style="flex:1;">{escape_html(name)}</span><span style="color:#8c8c8c;font-size:11px;">{escape_html(desc)}</span>
+        size_str = _human_size(value_len) if value_len else ''
+        att_id = f"att_{j}_{hash(str(var_id)) % 100000}"
+        
+        # For images, show as data URI preview if base64
+        preview_html = ''
+        if type_label == 'image' and isinstance(value, str) and len(value) > 1000:
+            # Check if it looks like base64
+            if value.startswith('data:image'):
+                preview_html = f'<div style="margin:4px 0;"><img src="{value}" style="max-width:100%;max-height:300px;border-radius:4px;" /></div>'
+            else:
+                preview_html = f'<div style="color:#8c8c8c;font-size:11px;">Image data ({size_str})</div>'
+        
+        # Truncate value for display
+        display_val = str(value)[:2000]
+        if len(str(value)) > 2000:
+            display_val += f'\n\n... (truncated, total {size_str})'
+        
+        parts.append(f'''<div class="attachment-item">
+<div onclick="toggle('{att_id}')" class="attachment-header">
+  <span>{icon}</span><span class="attachment-name">{escape_html(name)}</span><span class="attachment-meta">{escape_html(type_label)} • {size_str}</span>
 </div>
-<div id="{att_id}" style="display:none;padding:8px;background:#0d1117;border:1px solid #404040;border-radius:4px;font-size:11px;max-height:300px;overflow:auto;margin-bottom:4px;">
-  <pre style="white-space:pre-wrap;margin:0;font-size:11px;">{escape_html(json.dumps(var, indent=2, ensure_ascii=False))}</pre>
+<div id="{att_id}" style="display:none;" class="attachment-content">
+  {preview_html}
+  <pre class="attachment-pre">{escape_html(display_val)}</pre>
+</div>
 </div>''')
     
     return '\n'.join(parts)
 
 
 def export_session_to_html(session_data, session_id='unknown', workspace_info=''):
-    """Export a session to HTML string."""
+    """Export a session to a comprehensive HTML document with all metadata."""
     requests = session_data.get('requests', [])
     title = session_data.get('customTitle', f'Session {session_id[:8]}')
+    
+    # Collect model info
+    models_used = set()
+    total_time_ms = 0
+    for req in requests:
+        m = req.get('modelId', '')
+        if m:
+            models_used.add(m)
+        result = req.get('result', {})
+        if isinstance(result, dict):
+            timings = result.get('timings', {})
+            if isinstance(timings, dict):
+                t = timings.get('totalElapsed', 0)
+                if t:
+                    total_time_ms += t
+    
+    models_str = ', '.join(models_used) if models_used else 'unknown'
+    total_time_str = f'{total_time_ms/1000:.0f}s' if total_time_ms > 0 else 'N/A'
     
     html = f'''<!DOCTYPE html>
 <html lang="en">
@@ -651,39 +1083,153 @@ def export_session_to_html(session_data, session_id='unknown', workspace_info=''
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Copilot Chat - {escape_html(title)}</title>
 <style>
-body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: #1e1e1e; color: #cccccc; margin: 0; padding: 0; line-height: 1.6; }}
-.container {{ max-width: 860px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }}
-.header {{ background: #252526; padding: 16px 20px; border-bottom: 1px solid #3c3c3c; display: flex; align-items: center; gap: 12px; }}
-.header h1 {{ margin: 0; font-size: 16px; font-weight: 600; }}
-.messages {{ flex: 1; padding: 20px; }}
-.msg {{ margin-bottom: 24px; display: flex; gap: 12px; }}
+:root {{
+  --bg: #1e1e1e; --bg-elevated: #252526; --bg-input: #2d2d30; --bg-deep: #0d1117;
+  --border: #3c3c3c; --border-light: #404040; --border-subtle: #30363d;
+  --text: #cccccc; --text-muted: #8c8c8c; --text-bright: #f0f6fc;
+  --accent: #0078d4; --accent2: #005a9e; --blue: #58a6ff; --green: #3fb950;
+  --red: #f85149; --yellow: #d29922; --cyan: #7dd3fc; --purple: #bc8cff;
+}}
+body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.6; }}
+.container {{ max-width: 960px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }}
+
+/* Header */
+.header {{ background: var(--bg-elevated); padding: 16px 24px; border-bottom: 1px solid var(--border); }}
+.header-top {{ display: flex; align-items: center; gap: 12px; }}
+.header h1 {{ margin: 0; font-size: 16px; font-weight: 600; color: var(--text-bright); }}
+.header-stats {{ display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap; }}
+.header-stat {{ font-size: 11px; color: var(--text-muted); background: var(--bg-deep); padding: 2px 8px; border-radius: 10px; }}
+
+/* Messages */
+.messages {{ flex: 1; padding: 20px 24px; }}
+.msg {{ margin-bottom: 28px; display: flex; gap: 12px; }}
 .avatar {{ width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 600; font-size: 12px; color: white; }}
 .user-av {{ background: #0e639c; }}
-.ai-av {{ background: linear-gradient(135deg, #0078d4, #005a9e); }}
+.ai-av {{ background: linear-gradient(135deg, var(--accent), var(--accent2)); }}
 .msg-content {{ flex: 1; min-width: 0; }}
 .msg-header {{ display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }}
-.author {{ font-weight: 600; font-size: 14px; }}
-.msg-body {{ background: #2d2d30; padding: 12px 16px; border-radius: 8px; border: 1px solid #3c3c3c; word-break: break-word; font-size: 14px; }}
+.author {{ font-weight: 600; font-size: 14px; color: var(--text-bright); }}
+.msg-number {{ font-size: 11px; color: var(--text-muted); background: var(--bg-deep); padding: 1px 6px; border-radius: 8px; }}
+.msg-body {{ background: var(--bg-input); padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border); word-break: break-word; font-size: 14px; }}
 .msg-body pre {{ white-space: pre-wrap; word-wrap: break-word; }}
 .assistant .msg-body {{ background: #262626; }}
-.footer {{ padding: 12px 20px; border-top: 1px solid #3c3c3c; background: #252526; font-size: 12px; color: #8c8c8c; text-align: center; }}
+
+/* Request metadata */
+.request-meta {{ margin-top: 6px; }}
+.meta-toggle {{ font-size: 11px; color: var(--text-muted); cursor: pointer; padding: 2px 8px; display: inline-block; }}
+.meta-toggle:hover {{ color: var(--blue); }}
+.meta-details {{ display: flex; flex-wrap: wrap; gap: 6px; padding: 6px 0; }}
+.meta-badge {{ font-size: 11px; padding: 2px 8px; border-radius: 10px; background: var(--bg-deep); color: var(--text-muted); border: 1px solid var(--border-subtle); white-space: nowrap; }}
+.meta-model {{ color: var(--purple); border-color: var(--purple); }}
+.meta-edited {{ color: var(--green); border-color: var(--green); }}
+
+/* Tool calls */
+.tool-call {{ margin: 8px 0; border: 1px solid var(--border-light); border-radius: 6px; background: var(--bg); }}
+.tool-header {{ padding: 8px 12px; background: var(--bg-elevated); border-radius: 6px 6px 0 0; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 13px; }}
+.tool-header:hover {{ background: #2a2a2a; }}
+.tool-name {{ font-weight: 600; color: var(--cyan); }}
+.tool-summary {{ color: var(--text-muted); font-size: 12px; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
+.tool-badges {{ display: flex; gap: 6px; align-items: center; flex-shrink: 0; }}
+.tool-meta-badge {{ font-size: 10px; padding: 1px 6px; border-radius: 8px; background: var(--bg-deep); color: var(--text-muted); }}
+.tool-details {{ padding: 12px; background: var(--bg-deep); border-top: 1px solid var(--border-light); font-size: 12px; max-height: 600px; overflow: auto; }}
+.tool-detail-section {{ margin-bottom: 8px; }}
+.tool-detail-pre {{ white-space: pre-wrap; margin: 4px 0; padding: 8px; background: #161b22; border: 1px solid var(--border-subtle); border-radius: 4px; font-size: 11px; }}
+
+/* Terminal blocks */
+.terminal-block {{ margin: 6px 0; border: 1px solid #1a3a1a; border-radius: 6px; background: #0d1117; overflow: hidden; }}
+.terminal-header {{ padding: 6px 12px; background: #161b22; border-bottom: 1px solid #21262d; }}
+.terminal-cwd {{ font-size: 10px; color: var(--text-muted); margin-bottom: 2px; }}
+.terminal-cmd {{ font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace; font-size: 12px; color: var(--green); }}
+.terminal-badges {{ padding: 4px 12px; display: flex; gap: 8px; }}
+.terminal-output {{ margin: 0; padding: 8px 12px; font-size: 11px; color: #d4d4d4; background: #0d1117; white-space: pre-wrap; word-wrap: break-word; max-height: 400px; overflow: auto; font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace; border-top: 1px solid #21262d; }}
+.exit-success {{ font-size: 10px; padding: 1px 6px; border-radius: 8px; background: #1a3a1a; color: var(--green); }}
+.exit-error {{ font-size: 10px; padding: 1px 6px; border-radius: 8px; background: #3a1a1a; color: var(--red); }}
+
+/* Thinking blocks */
+.thinking-block {{ margin: 8px 0; border: 1px solid #3d3080; border-radius: 6px; background: #1a1535; }}
+.thinking-header {{ padding: 8px 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 12px; }}
+.thinking-header:hover {{ background: #221d45; }}
+.thinking-title {{ font-weight: 600; color: var(--purple); }}
+.thinking-preview {{ color: var(--text-muted); font-size: 11px; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
+.thinking-content {{ padding: 12px; background: #12102a; border-top: 1px solid #3d3080; }}
+.thinking-pre {{ white-space: pre-wrap; margin: 0; font-size: 12px; color: #c4b5fd; line-height: 1.5; }}
+.thinking-done {{ font-size: 11px; color: var(--purple); padding: 4px 12px; opacity: 0.6; }}
+
+/* File edit blocks */
+.file-edit-block {{ margin: 8px 0; border: 1px solid #1a3a1a; border-radius: 6px; background: #0d1117; }}
+.file-edit-header {{ padding: 8px 12px; background: #161b22; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 13px; flex-wrap: wrap; }}
+.file-edit-header:hover {{ background: #1c2128; }}
+.file-edit-name {{ font-weight: 600; color: var(--green); }}
+.file-edit-meta {{ font-size: 11px; color: var(--text-muted); }}
+.file-edit-path {{ font-size: 10px; color: var(--text-muted); flex: 1; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
+.file-edit-content {{ border-top: 1px solid #21262d; max-height: 600px; overflow: auto; }}
+.file-edit-pre {{ margin: 0; padding: 12px; font-size: 11px; color: #adbac7; white-space: pre-wrap; font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace; }}
+
+/* MCP IO */
+.mcp-io {{ margin: 6px 0; }}
+.mcp-io-pre {{ background: #161b22; padding: 6px; border: 1px solid var(--border-subtle); border-radius: 4px; font-size: 11px; white-space: pre-wrap; overflow-x: auto; }}
+
+/* Progress tasks */
+.progress-task {{ font-size: 12px; color: var(--text-muted); padding: 4px 12px; }}
+
+/* MCP servers */
+.mcp-servers {{ font-size: 12px; color: var(--purple); padding: 4px 12px; background: #1a1535; border-radius: 4px; margin: 4px 0; }}
+
+/* Codeblock URI */
+.codeblock-uri {{ font-size: 12px; padding: 2px 12px; }}
+.codeblock-path {{ color: var(--blue); }}
+
+/* Inline reference */
+.inline-ref {{ color: var(--blue); font-size: 13px; }}
+
+/* Attachment items */
+.attachment-item {{ margin: 3px 0; }}
+.attachment-header {{ display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: #1a1a1a; border: 1px solid var(--border-light); border-radius: 4px; font-size: 12px; cursor: pointer; }}
+.attachment-header:hover {{ background: #222; }}
+.attachment-name {{ color: var(--cyan); flex: 1; }}
+.attachment-meta {{ color: var(--text-muted); font-size: 11px; }}
+.attachment-content {{ padding: 8px; background: var(--bg-deep); border: 1px solid var(--border-light); border-radius: 4px; max-height: 400px; overflow: auto; margin-bottom: 4px; }}
+.attachment-pre {{ white-space: pre-wrap; margin: 0; font-size: 11px; }}
+
+/* Footer */
+.footer {{ padding: 12px 24px; border-top: 1px solid var(--border); background: var(--bg-elevated); font-size: 12px; color: var(--text-muted); text-align: center; }}
+
 pre {{ margin: 0; }}
 code {{ font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace; }}
-a {{ color: #58a6ff; }}
+a {{ color: var(--blue); }}
+
+/* Expand all / collapse all buttons */
+.controls {{ padding: 8px 24px; background: var(--bg-elevated); border-bottom: 1px solid var(--border); display: flex; gap: 8px; }}
+.controls button {{ background: var(--bg-deep); color: var(--text-muted); border: 1px solid var(--border-subtle); padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }}
+.controls button:hover {{ color: var(--text); border-color: var(--blue); }}
 </style>
 </head>
 <body>
 <div class="container">
 <div class="header">
-  <div style="width:24px;height:24px;background:linear-gradient(135deg,#0078d4,#005a9e);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:11px;">AI</div>
-  <h1>{escape_html(title)}</h1>
-  <span style="color:#8c8c8c;font-size:12px;margin-left:auto;">{len(requests)} messages</span>
+  <div class="header-top">
+    <div style="width:24px;height:24px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:11px;">AI</div>
+    <h1>{escape_html(title)}</h1>
+    <span style="color:var(--text-muted);font-size:12px;margin-left:auto;">{len(requests)} exchanges</span>
+  </div>
+  <div class="header-stats">
+    <span class="header-stat">🤖 {escape_html(models_str)}</span>
+    <span class="header-stat">⏱️ Total: {total_time_str}</span>
+    <span class="header-stat">📝 Session: {escape_html(session_id[:16])}...</span>
+    <span class="header-stat">📁 Workspace: {escape_html(workspace_info)}</span>
+  </div>
+</div>
+<div class="controls">
+  <button onclick="expandAll()">▼ Expand all</button>
+  <button onclick="collapseAll()">▲ Collapse all</button>
+  <button onclick="expandByClass('thinking-content')">💭 All thinking</button>
+  <button onclick="expandByClass('terminal-block')">💻 All terminal</button>
 </div>
 <div class="messages">
 '''
     
     if not requests:
-        html += '<div style="text-align:center;padding:60px;color:#8c8c8c;"><p>No messages in this session</p></div>'
+        html += '<div style="text-align:center;padding:60px;color:var(--text-muted);"><p>No messages in this session</p></div>'
     else:
         for i, req in enumerate(requests):
             # User message
@@ -702,15 +1248,24 @@ a {{ color: #58a6ff; }}
             
             user_html = simple_markdown_to_html(user_text)
             
-            # Attachments
+            # Attachments (from variableData)
             attachments_html = ""
             if 'variableData' in req and 'variables' in req['variableData']:
-                attachments_html = format_attachments_html(req['variableData']['variables'])
+                attachments_html = _format_variable_attachments_html(req['variableData']['variables'])
+            
+            # Timestamp for user message
+            ts_str = ""
+            timestamp = req.get('timestamp')
+            if timestamp:
+                try:
+                    ts_str = f'<span style="color:var(--text-muted);font-size:11px;margin-left:auto;">{datetime.fromtimestamp(timestamp/1000).strftime("%H:%M:%S")}</span>'
+                except:
+                    pass
             
             html += f'''<div class="msg user">
   <div class="avatar user-av">U</div>
   <div class="msg-content">
-    <div class="msg-header"><span class="author">You</span></div>
+    <div class="msg-header"><span class="author">You</span><span class="msg-number">#{i+1}</span>{ts_str}</div>
     <div class="msg-body">{user_html}</div>
     {attachments_html}
   </div>
@@ -721,24 +1276,46 @@ a {{ color: #58a6ff; }}
             response = req.get('response', '')
             response_html = build_response_html(response)
             
+            # Request metadata (model, timing, etc.)
+            meta_html = _format_request_metadata_html(req, i)
+            
             html += f'''<div class="msg assistant">
   <div class="avatar ai-av">AI</div>
   <div class="msg-content">
     <div class="msg-header"><span class="author">GitHub Copilot</span></div>
     <div class="msg-body">{response_html}</div>
+    {meta_html}
   </div>
 </div>
 '''
     
     html += f'''</div>
 <div class="footer">
-  Session: {escape_html(session_id)} &bull; Workspace: {escape_html(workspace_info)} &bull; Exported: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+  Session: {escape_html(session_id)} &bull; Workspace: {escape_html(workspace_info)} &bull; Model: {escape_html(models_str)} &bull; Exported: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 </div>
 </div>
 <script>
 function toggle(id) {{
   var el = document.getElementById(id);
-  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}}
+function expandAll() {{
+  document.querySelectorAll('[id^="tool_"],[id^="think_"],[id^="edit_"],[id^="meta_"],[id^="att_"]').forEach(function(el) {{ el.style.display = 'block'; }});
+}}
+function collapseAll() {{
+  document.querySelectorAll('[id^="tool_"],[id^="think_"],[id^="edit_"],[id^="meta_"],[id^="att_"]').forEach(function(el) {{ el.style.display = 'none'; }});
+}}
+function expandByClass(cls) {{
+  // Toggle visibility of all elements of a given class
+  var els = document.querySelectorAll('.' + cls);
+  if (!els.length) return;
+  var allVisible = true;
+  els.forEach(function(el) {{ if (el.closest('[style*="display: none"]') || el.closest('[style*="display:none"]')) allVisible = false; }});
+  // For collapsible parents, toggle their corresponding id
+  document.querySelectorAll('[id^="think_"],[id^="tool_"],[id^="edit_"]').forEach(function(el) {{
+    var hasChild = el.querySelector('.' + cls) || el.classList.contains(cls);
+    if (hasChild) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  }});
 }}
 </script>
 </body>
