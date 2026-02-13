@@ -711,7 +711,11 @@ def format_tool_call_html(item, response_list=None, idx=0):
         details_parts.append(io_html)
     details_content = '\n'.join(details_parts) if details_parts else '<span style="color:#8c8c8c;">No additional details</span>'
     
-    return f'''<div class="tool-call">
+    # Propagate generatedTitle as data attribute for grouping in build_response_html
+    gen_title = item.get('generatedTitle', '')
+    data_attr = f' data-gentitle="{escape_html(gen_title)}"' if gen_title else ''
+    
+    return f'''<div class="tool-call"{data_attr}>
 <div onclick="toggle('{safe_id}')" class="tool-header">
   <span>{tool_icon}</span><span class="tool-name">{escape_html(display_name)}</span>{summary}<span class="tool-badges">{confirmation_html}{source_html}<span style="font-size:12px;">{status}</span></span>
 </div>
@@ -847,6 +851,74 @@ def format_inline_reference_html(item):
     return f'<span class="inline-ref">📁 {escape_html(name)}</span>'
 
 
+def _group_tool_calls(parts):
+    """
+    Post-process HTML parts to group consecutive tool-call divs
+    that share the same data-gentitle into collapsible group blocks.
+    """
+    import re
+    import random
+    gentitle_re = re.compile(r'^<div class="tool-call" data-gentitle="([^"]+)">')
+    
+    grouped = []
+    i = 0
+    # Use random prefix to ensure unique IDs across multiple response renders
+    id_prefix = f'{random.randint(1000,9999)}'
+    group_counter = 0
+    
+    while i < len(parts):
+        part = parts[i]
+        match = gentitle_re.match(part)
+        
+        if not match:
+            grouped.append(part)
+            i += 1
+            continue
+        
+        # Found a tool-call with gentitle — look ahead for consecutive same-title tools
+        title = match.group(1)
+        run = [part]
+        j = i + 1
+        while j < len(parts):
+            nxt_match = gentitle_re.match(parts[j])
+            if nxt_match and nxt_match.group(1) == title:
+                run.append(parts[j])
+                j += 1
+            else:
+                break
+        
+        if len(run) >= 2:
+            # Wrap group in collapsible block
+            group_id = f'toolgroup_{id_prefix}_{group_counter}'
+            group_counter += 1
+            # Count statuses
+            ok_count = sum(1 for r in run if '✅' in r)
+            pending_count = len(run) - ok_count
+            status_summary = ''
+            if ok_count:
+                status_summary += f'{ok_count} ✅'
+            if pending_count:
+                status_summary += f' {pending_count} ⏳' if status_summary else f'{pending_count} ⏳'
+            
+            group_html = f'''<div class="tool-group">
+<div onclick="toggle('{group_id}')" class="tool-group-header">
+  <span class="tool-group-chevron" id="chevron_{group_id}">▶</span>
+  <span class="tool-group-title">{title}</span>
+  <span class="tool-group-count">{len(run)} tools</span>
+  <span class="tool-group-status">{status_summary}</span>
+</div>
+<div id="{group_id}" style="display:none;" class="tool-group-content">
+''' + '\n'.join(run) + '\n</div>\n</div>'
+            grouped.append(group_html)
+        else:
+            # Single tool — no wrapping
+            grouped.append(part)
+        
+        i = j
+    
+    return '\n'.join(grouped)
+
+
 def build_response_html(response):
     """Build HTML for the assistant response, rendering all item kinds."""
     if not isinstance(response, list):
@@ -971,7 +1043,8 @@ def build_response_html(response):
     # Flush remaining text
     flush_text()
     
-    return '\n'.join(parts)
+    # Post-process: group consecutive tool-call divs with same generatedTitle
+    return _group_tool_calls(parts)
 
 
 def _format_request_metadata_html(req, req_idx):
@@ -1277,6 +1350,17 @@ body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, A
 .meta-edited {{ color: var(--green); border-color: var(--green); }}
 
 /* Tool calls */
+/* Tool groups */
+.tool-group {{ margin: 8px 0; border: 1px solid var(--border-light); border-radius: 8px; background: var(--bg); overflow: hidden; }}
+.tool-group-header {{ padding: 8px 12px; background: var(--bg-elevated); cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 13px; border-bottom: 1px solid var(--border-subtle); }}
+.tool-group-header:hover {{ background: #2a2a2a; }}
+.tool-group-chevron {{ font-size: 10px; color: var(--text-muted); transition: transform 0.15s; }}
+.tool-group-title {{ font-weight: 600; color: var(--text); flex: 1; }}
+.tool-group-count {{ font-size: 11px; color: var(--text-muted); padding: 1px 8px; background: var(--bg-deep); border-radius: 8px; }}
+.tool-group-status {{ font-size: 11px; color: var(--text-muted); }}
+.tool-group-content {{ padding: 4px 8px; }}
+.tool-group-content .tool-call {{ margin: 4px 0; }}
+
 .tool-call {{ margin: 8px 0; border: 1px solid var(--border-light); border-radius: 6px; background: var(--bg); }}
 .tool-header {{ padding: 8px 12px; background: var(--bg-elevated); border-radius: 6px 6px 0 0; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 13px; }}
 .tool-header:hover {{ background: #2a2a2a; }}
@@ -1474,13 +1558,19 @@ a {{ color: var(--blue); }}
 <script>
 function toggle(id) {{
   var el = document.getElementById(id);
-  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  if (el) {{
+    var show = el.style.display === 'none';
+    el.style.display = show ? 'block' : 'none';
+    var chev = document.getElementById('chevron_' + id);
+    if (chev) chev.textContent = show ? '\u25bc' : '\u25b6';
+  }}
 }}
 function expandAll() {{
-  document.querySelectorAll('[id^="tool_"],[id^="think_"],[id^="edit_"],[id^="meta_"],[id^="att_"]').forEach(function(el) {{ el.style.display = 'block'; }});
+  document.querySelectorAll('[id^="tool_"],[id^="think_"],[id^="edit_"],[id^="meta_"],[id^="att_"],[id^="toolgroup_"]').forEach(function(el) {{ el.style.display = 'block'; }});
+  document.querySelectorAll('[id^="chevron_toolgroup_"]').forEach(function(el) {{ el.textContent = '\u25bc'; }});
 }}
 function collapseAll() {{
-  document.querySelectorAll('[id^="tool_"],[id^="think_"],[id^="edit_"],[id^="meta_"],[id^="att_"]').forEach(function(el) {{ el.style.display = 'none'; }});
+  document.querySelectorAll('[id^="tool_"],[id^="think_"],[id^="edit_"],[id^="meta_"],[id^="att_"],[id^="toolgroup_"]').forEach(function(el) {{ el.style.display = 'none'; }});
 }}
 function expandByClass(cls) {{
   // Toggle visibility of all elements of a given class
