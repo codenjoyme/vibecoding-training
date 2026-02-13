@@ -14,7 +14,23 @@
 - `export <workspace_id> <session_id>` — export one or more sessions to file.
 - `search <text>` — full-text search across all sessions in all workspaces.
 
-## Typical Workflow (Single Session Export)
+## Typical Workflow: Export CURRENT Session (Fastest)
+
+When user asks to save/export the current chat session:
+
+- Step 1: Generate a unique marker — random string of 10 uppercase Latin letters (e.g., `QWZXJKLMRT`).
+  + Post this marker as a plain text message in the chat so it gets written to the session file.
+  + Example: just write `Session marker: QWZXJKLMRT` in your response.
+- Step 2: Search for the marker using `search "QWZXJKLMRT"`.
+  + This instantly returns the workspace ID and session ID — no need to browse workspaces or sessions lists.
+- Step 3: Export the session by running `export <workspace_id> <session_id>`.
+  + Default format is HTML with dark theme, collapsible tool calls, and syntax highlighting.
+  + Use `--format json` for raw JSON data or `--format text` for plain text.
+  + Use `--output-dir <path>` to specify where to save exports.
+
+**Why this works:** VS Code writes chat content to disk in near-real-time. The unique marker guarantees a single search hit pointing exactly to this session.
+
+## Typical Workflow: Export ANY Session (Manual)
 
 - Step 1: find the workspace by running `workspaces` command.
   + Copy the workspace ID from the output (32-char hex string).
