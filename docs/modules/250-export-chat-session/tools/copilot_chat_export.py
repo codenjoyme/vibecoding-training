@@ -856,65 +856,58 @@ def _group_tool_calls(parts):
     Post-process HTML parts to group consecutive tool-call divs
     into collapsible group blocks, matching VS Code's UI grouping.
     
-    Two strategies:
-    1. Named groups: items with data-gentitle → always wrap (even single items)
-    2. Auto-groups: 2+ consecutive tool-calls without data-gentitle → auto-titled
+    Only groups items that have an explicit data-gentitle attribute
+    (from the generatedTitle field in JSONL data). Items without
+    generatedTitle are rendered as-is, without any auto-grouping.
+    
+    When a named group is found, preceding non-text items (thinking blocks,
+    progress tasks, MCP servers, tool-calls without generatedTitle) are
+    pulled into the group — matching VS Code's behavior where the group
+    header visually wraps all consecutive non-text items.
     """
     import re
     import random
     from html import unescape as html_unescape
     
-    # Match any tool-call div (with or without data-gentitle)
     toolcall_re = re.compile(r'^<div class="tool-call"')
     gentitle_re = re.compile(r'data-gentitle="([^"]*)"')
-    toolname_re = re.compile(r'<span class="tool-name">([^<]+)</span>')
+    # Non-text items that can be absorbed into a group (not markdown/text)
+    nontextblock_re = re.compile(
+        r'^<div class="(tool-call|thinking-block|progress-task|mcp-servers)"'
+    )
     
     grouped = []
     i = 0
     id_prefix = f'{random.randint(1000, 9999)}'
     group_counter = 0
     
-    def _auto_title(tool_names):
-        """Generate auto-title for unnamed tool groups based on tool types."""
-        unique = set(tool_names)
-        if unique <= {'Terminal'}:
-            return 'Executed terminal command'
-        if unique <= {'Read File', 'List Directory'}:
-            return 'Read files'
-        if unique <= {'Create File'}:
-            return 'Created files'
-        if unique <= {'Replace String', 'Multi Replace'}:
-            return 'Edited files'
-        if unique <= {'Find in Files', 'Grep Search', 'Semantic Search', 'File Search'}:
-            return 'Searched files'
-        if unique <= {'Todo List'}:
-            return 'Executed manage_todo_list'
-        return 'Executed tools'
-    
-    def _get_tool_name(html_str):
-        m = toolname_re.search(html_str)
-        return m.group(1) if m else 'unknown'
-    
     def _get_gentitle(html_str):
         m = gentitle_re.search(html_str)
         return html_unescape(m.group(1)) if m else None
+    
+    def _is_nontext_block(html_str):
+        """Check if HTML part is a non-text block (tool, thinking, progress, mcp)."""
+        return bool(nontextblock_re.match(html_str))
     
     def _build_group(run, title):
         nonlocal group_counter
         gid = f'tg_{id_prefix}_{group_counter}'
         group_counter += 1
-        ok = sum(1 for r in run if '<span style="font-size:12px;">\u2705</span>' in r)
-        fail = len(run) - ok
+        # Count success/pending only among tool-call divs in the group
+        tool_parts = [r for r in run if toolcall_re.match(r)]
+        ok = sum(1 for r in tool_parts if '<span style="font-size:12px;">\u2705</span>' in r)
+        fail = len(tool_parts) - ok
         status_parts = []
         if ok: status_parts.append(f'{ok} \u2705')
         if fail: status_parts.append(f'{fail} \u23f3')
         check = '\u2714' if fail == 0 and ok > 0 else '\u25cb'
+        count = len(tool_parts)
         return f'''<div class="tool-group">
 <div onclick="toggle('{gid}')" class="tool-group-header">
   <span class="tool-group-chevron" id="chevron_{gid}">\u25b6</span>
   <span class="tool-group-check">{check}</span>
   <span class="tool-group-title">{title}</span>
-  <span class="tool-group-count">{len(run)} tools</span>
+  <span class="tool-group-count">{count} tool{"s" if count != 1 else ""}</span>
   <span class="tool-group-status">{" ".join(status_parts)}</span>
 </div>
 <div id="{gid}" style="display:none;" class="tool-group-content">
@@ -923,6 +916,7 @@ def _group_tool_calls(parts):
     while i < len(parts):
         part = parts[i]
         
+        # Only attempt grouping for tool-call divs with generatedTitle
         if not toolcall_re.match(part):
             grouped.append(part)
             i += 1
@@ -931,7 +925,7 @@ def _group_tool_calls(parts):
         gentitle = _get_gentitle(part)
         
         if gentitle:
-            # Strategy 1: Named group — collect consecutive with same gentitle
+            # Named group — collect consecutive tool-calls with same generatedTitle
             run = [part]
             j = i + 1
             while j < len(parts):
@@ -940,25 +934,22 @@ def _group_tool_calls(parts):
                     j += 1
                 else:
                     break
-            grouped.append(_build_group(run, gentitle))
+            
+            # Look backward: pull preceding non-text blocks into the group.
+            # These are thinking, progressTask, mcpServersStarting, or
+            # tool-calls without generatedTitle that VS Code shows inside
+            # the group header. Stop at text/markdown content or start of list.
+            pulled = []
+            while grouped and _is_nontext_block(grouped[-1]):
+                pulled.append(grouped.pop())
+            pulled.reverse()
+            
+            grouped.append(_build_group(pulled + run, gentitle))
             i = j
         else:
-            # Strategy 2: Auto-group consecutive tool-calls without gentitle
-            run = [part]
-            names = [_get_tool_name(part)]
-            j = i + 1
-            while j < len(parts):
-                if toolcall_re.match(parts[j]) and not _get_gentitle(parts[j]):
-                    run.append(parts[j])
-                    names.append(_get_tool_name(parts[j]))
-                    j += 1
-                else:
-                    break
-            if len(run) >= 2:
-                grouped.append(_build_group(run, _auto_title(names)))
-            else:
-                grouped.append(part)
-            i = j
+            # No generatedTitle — render as-is, no auto-grouping
+            grouped.append(part)
+            i += 1
     
     return '\n'.join(grouped)
 
