@@ -1,8 +1,20 @@
 # Vibecoding for Managers - Training Plan
 
+## How It Works
+
+This program redefines how technical learning is delivered.
+
+The curriculum is fully modular. **1 module = 1 actionable skill**, acquired through a single interactive chat session with an AI agent. The agent walks you through scripts, hands-on exercises, theory, asks verification questions, and helps you adapt each solution to your specific environment. Every module serves as a self-contained reference — a concrete skill with the supporting code around it.
+
+The content is based on real-world experience from production projects, combined with best practices refined through the vibecoding for managers program. New modules are added on a regular basis.
+
+> This format is the result of 2.5 years of experimentation. Your feedback is highly valued and directly contributes to its improvement.
+
+---
+
 ## Course Philosophy
 
-This training is highly practical. Each video provides a new actionable skill that managers can immediately apply to their work. The progression builds from basic setup to advanced integration, enabling participants to go from zero to building functional prototypes with AI assistance.
+This training is highly practical. Each module provides a new actionable skill that managers can immediately apply to their work. The progression builds from basic setup to advanced integration, enabling participants to go from zero to building functional prototypes with AI assistance.
 
 ---
 
