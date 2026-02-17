@@ -153,6 +153,26 @@ This server is written in **PowerShell** (Windows) and **Bash** (Linux/macOS), r
    
    This activates the MCP server.
 
+6. **⚠️ IMPORTANT: Verify and manually start server if needed (VS Code only)**
+   
+   After reload, look at the **bottom status bar** of VS Code. You should see:
+   
+   ```
+   mcp.json > echo-windows: Running | Stop | Restart | 3 tools | More...
+   ```
+   
+   **If the server didn't start automatically:**
+   - Click on **"mcp.json"** in the status bar
+   - Click **"Restart"** button to start the server manually
+   - Wait until status shows **"Running"**
+   
+   **If you don't see the status bar at all:**
+   - The MCP server may still be starting (wait 5-10 seconds)
+   - Or your VS Code version doesn't support MCP status indicators
+   - Check the Output panel instead (View → Output → "Model Context Protocol")
+   
+   **Visual guide:** When working, the status bar shows server name, state (Running/Stopped), and tool count ("3 tools").
+
 ### 2.2 Configuration for Cursor
 
 **Important:** Cursor uses a different configuration format and location!
@@ -217,6 +237,31 @@ After reloading, your IDE:
 ### What We'll Do
 
 Now that your MCP server is running, let's test each tool through AI chat and understand the approval workflow.
+
+### ⚠️ CRITICAL: Enable Tools First!
+
+**Before testing, you MUST enable the MCP tools manually!** By default, all MCP tools are **disabled** after first connection.
+
+**VS Code:**
+1. In GitHub Copilot Chat panel, find the **🔧 tools icon** (next to model selection)
+2. Click **"Configure Tools"**
+3. Find section **"echo-windows"** (your MCP server)
+4. **Check the boxes** next to:
+   - ✅ `echo`
+   - ✅ `get_time`
+   - ✅ `calculate`
+5. Click **"OK"**
+
+**Cursor:**
+1. Open Settings (File → Preferences → Settings)
+2. Search for "MCP"
+3. Enable tools for your server
+
+**Why disabled by default?** Security. MCP tools can execute code and access files, so you explicitly choose which ones to allow.
+
+---
+
+### Testing Steps
 
 1. **Open AI chat in your IDE**
    
@@ -361,6 +406,8 @@ MCP server receives the JSON request, executes the operation, returns result.
 ### Enabling and Disabling Individual Tools (VS Code)
 
 VS Code provides a **visual interface** to selectively enable/disable individual tools from MCP servers!
+
+**Note:** You already did this in Part 3 to enable tools initially. This section explains how to manage them later.
 
 1. **Open the Configure Tools dialog**
    
