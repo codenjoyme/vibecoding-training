@@ -2,7 +2,10 @@
 # Implements JSON-RPC 2.0 protocol
 
 $ErrorActionPreference = "SilentlyContinue"
+# Set UTF-8 encoding for both input and output to handle non-ASCII characters
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+[Console]::InputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding = [System.Text.Encoding]::UTF8
 
 function Send-Response {
     param($id, $result)

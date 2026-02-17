@@ -251,8 +251,6 @@ Now that your MCP server is running, let's test each tool through AI chat and un
    
    You should see: `Echo: Hello MCP!`
    
-   **Note:** If you see garbled characters (encoding issues) with non-English text, this is a known limitation of PowerShell's console output encoding. The tool works correctly—it's just a display issue. In production MCP servers, you'd configure UTF-8 encoding properly.
-   
    **What happened:**
    - Your approval triggered the tool execution
    - IDE sent JSON-RPC request to MCP server
