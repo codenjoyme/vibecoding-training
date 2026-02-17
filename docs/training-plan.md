@@ -28,6 +28,7 @@ This training is highly practical. Each module provides a new actionable skill t
 1. [Agent Mode & AI Mechanics](modules/040-agent-mode-under-the-hood/about.md) - Understand how AI coding assistants work
 1. [Effective Prompting](modules/050-effective-prompting-without-arguing/about.md) - Iterate prompts instead of arguing with AI
 1. [Clarifying Requirements with AI](modules/055-clarifying-requirements-before-start/about.md) - Ask AI questions when starting unclear tasks
+1. [Agent Memory Management](modules/057-agent-memory-management/about.md) - Use todo lists to give AI agents persistent memory for complex tasks
 1. [Version Control with Git](modules/060-version-control-git/about.md) - Track changes with baby steps approach
 1. [Custom Instructions](modules/070-custom-instructions/about.md) - Create instructions for AI assistants
 1. [Learning from Hallucinations](modules/080-learning-from-hallucinations/about.md) - Use AI mistakes to improve instructions
