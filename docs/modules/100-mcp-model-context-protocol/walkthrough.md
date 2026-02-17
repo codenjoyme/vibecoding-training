@@ -251,6 +251,8 @@ Now that your MCP server is running, let's test each tool through AI chat and un
    
    You should see: `Echo: Hello MCP!`
    
+   **Note:** If you see garbled characters (encoding issues) with non-English text, this is a known limitation of PowerShell's console output encoding. The tool works correctly—it's just a display issue. In production MCP servers, you'd configure UTF-8 encoding properly.
+   
    **What happened:**
    - Your approval triggered the tool execution
    - IDE sent JSON-RPC request to MCP server
@@ -293,6 +295,67 @@ You'll see **three approval dialogs**—one for each tool call. This demonstrate
 - Each tool call requires separate approval
 - Tools execute in sequence
 
+### Understanding: How Does AI Choose the Right Tool?
+
+**Let's explore what happens behind the scenes when you make a request.**
+
+When you ask: *"Calculate 25 multiplied by 4"*
+
+**Step 1: MCP server announces available tools**
+
+When VS Code connects to an MCP server, the server describes its tools:
+
+```json
+{
+  "name": "calculate",
+  "description": "Performs basic arithmetic operations",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "a": {"type": "number", "description": "First number"},
+      "b": {"type": "number", "description": "Second number"},
+      "operation": {"type": "string", "enum": ["add", "subtract", "multiply", "divide"]}
+    }
+  }
+}
+```
+
+This tool description becomes part of the AI's context—like a menu in a restaurant!
+
+**Step 2: AI analyzes your request**
+
+You write: *"Calculate 25 multiplied by 4"*
+
+AI thinks:
+1. User wants arithmetic → need `calculate` tool
+2. Numbers are 25 and 4 → `a=25, b=4`
+3. Operation is "multiplied" → `operation="multiply"`
+
+**Step 3: AI constructs the tool call**
+
+```json
+{
+  "tool": "calculate",
+  "parameters": {
+    "a": 25,
+    "b": 4,
+    "operation": "multiply"
+  }
+}
+```
+
+**Step 4: VS Code shows approval dialog**
+
+You see the tool name and parameters BEFORE execution—this is the security layer!
+
+**Step 5: After approval, execution happens**
+
+MCP server receives the JSON request, executes the operation, returns result.
+
+**Key insight:** AI doesn't guess—it reads tool descriptions (schemas) and matches them to your request. Just like you choose a dish from a menu by reading descriptions!
+
+**Discussion question:** Now that you understand this, why do you think having too many MCP tools can slow down the AI? (Hint: think about reading a 500-page menu!)
+
 ---
 
 ## Part 4: Managing MCP Tools and Context
@@ -303,7 +366,7 @@ VS Code provides a **visual interface** to selectively enable/disable individual
 
 1. **Open the Configure Tools dialog**
    
-   - Click the **gear icon** (⚙️) in the chat input area (next to model selection)
+   - Click the **tools icon** (🔧 two wrenches) in the chat input area (next to model selection)
    - Select "Configure Tools"
    
    You'll see a dialog with:
@@ -377,6 +440,19 @@ You'll see connection logs:
    - **Check parameters** - Do they match your request?
    - **Check file paths** - No access to sensitive directories?
    
+   **Pro tip: Expand the details!**
+   
+   In the approval dialog, look for an **expand arrow** (▼) or **"Show details"** button. Clicking it reveals:
+   - **Request JSON** - The exact data being sent to the MCP server
+   - **Response JSON** (after execution) - What the server returned
+   
+   This is incredibly valuable for:
+   - Learning how MCP protocol works under the hood
+   - Debugging when tools don't work as expected
+   - Understanding what data flows between AI and tools
+   
+   **Exercise:** Next time you approve a tool call, expand the details and examine the JSON structure. You'll see the raw MCP communication!
+   
    **Security tip:** If a tool call looks suspicious, click "Skip" and investigate why AI chose that tool.
 
 ---
@@ -392,6 +468,34 @@ Create a custom MCP server with file system operations:
 - `search_files` - Search for text within files
 
 This demonstrates how to build production-grade MCP tools for real workflows.
+
+### Natural Language vs Explicit Tool Names
+
+**Important insight:** You don't always need to say *"Use the list_files tool to..."*
+
+AI understands natural language! You can simply say:
+- ✅ *"Show me all files in the docs folder"* → AI picks `list_files`
+- ✅ *"Read the first file"* → AI picks `read_file` and infers which file from context
+- ✅ *"Search for 'MCP' in that directory"* → AI picks `search_files`
+- ✅ *"Do it again"* → AI repeats the last tool call with same parameters
+
+**Trade-offs:**
+
+| Approach | Pros | Cons |
+|----------|------|------|
+| **Natural language** (*"show files"*) | Convenient, feels conversational | Slightly higher chance of misinterpretation |
+| **Explicit tool names** (*"use list_files"*) | Precise, no ambiguity | More verbose, less natural |
+
+**Best practices:**
+- **For exploration and ad-hoc work:** Use natural language—it's faster and more intuitive
+- **For instruction files and automation:** Use explicit tool names—guarantees correct tool selection
+- **When in doubt:** Be explicit! You can always start explicit and switch to natural language once you're comfortable
+
+**Try it:** After setting up the filesystem server, test both approaches:
+1. *"Use list_files to show work/100-task/"* (explicit)
+2. *"Show me what's in that folder"* (natural—relies on context)
+
+Both work! Choose what feels right for the situation.
 
 ### Setup Steps
 
