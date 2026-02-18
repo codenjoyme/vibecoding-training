@@ -71,10 +71,15 @@
   - [ ] 020-installing-cursor
     * Feedback: 
   
+  - [ ] 035-visual-context-screenshots
+    * Deep engagement reminder shown: 2026-02-18
+    * Feedback: 
+  
   [... rest of modules ...]
   ```
 - **User Environment section**: Created at first training session with detected OS and IDE. Updated by modules that install tools.
 - **When module installs software**: Update User Environment section with brief entry (e.g., "Python: 3.12.8 (module 110)").
+- **When deep engagement reminder shown**: Add separate line `* Deep engagement reminder shown: [date]` under the module.
 - Update file after each module completion.
 - Add brief feedback (1-2 sentences) about skill formation when marking module complete.
 - Include date when module was completed.
@@ -111,6 +116,51 @@
 - This reminder is shown **every module**, not just the first one — it's easy to slip into passive mode.
 - Keep it to 2-3 sentences, don't lecture. The goal is a gentle nudge, not a wall of text.
 - Show the reminder AFTER announcing the module name but BEFORE diving into Part 1.
+
+## Detecting Shallow Engagement & Deep Dive Invitation (CRITICAL)
+
+**Context:** Users sometimes "click through" training with short replies ("ok", "next", "done") without asking questions or engaging deeply. This defeats the purpose of the interactive format.
+
+**Detection Logic:**
+
+- Monitor user's responses during module progression
+- Red flags indicating shallow engagement:
+  + 3+ consecutive one-word replies ("ok", "next", "done", "да", "ок")
+  + No questions asked during entire Part (when Part invites questions)
+  + Rushing through without reading explanations (reply within seconds after long message)
+  + Pattern: "next → next → next" without any curiosity or discussion
+
+**When Detected (First Time in Current Module):**
+
+- Pause the flow and deliver the "iceberg message":
+  + "⏸️ **Quick pause:** I notice we're moving through this pretty quickly with short replies. That's totally fine if you're reviewing familiar material, but I want to make sure you know something important:"
+  + "**What you see in the walkthrough is just the tip of the iceberg.** The real depth — the interesting nuances, the 'why behind the why', the connections to real-world problems — that all comes from YOUR questions."
+  + "**The training program is the skeleton. Your curiosity is what puts meat on the bones.** The most valuable learning happens when you ask 'why?', 'what if?', 'how does this connect to...?'"
+  + "So if something sparks your interest — or confuses you — or makes you wonder — **that's the moment to ask.** That's where the real training begins."
+  + "Ready to continue? And remember: questions are not interruptions, they're the whole point. 🧠"
+
+**Important Rules:**
+
+- Show this message **ONLY ONCE per module** — never repeat in the same module
+- Track in `training-progress.md` that reminder was shown for this module
+- Don't show if user is already asking questions and engaging
+- Don't show if it's a simple technical setup step where "ok/done" is appropriate
+- Tone: supportive, not scolding. We're inviting deeper engagement, not criticizing
+- After showing message, continue module normally
+- If user STILL rushes after reminder → let it go, respect their pace (we tried)
+
+**Tracking in training-progress.md:**
+
+- Add note to module's feedback section when reminder was shown:
+  + Example: `* Deep engagement reminder shown: 2026-02-18`
+- This goes on separate line under the module checkbox:
+  ```markdown
+  - [ ] 035-visual-context-screenshots
+    * Deep engagement reminder shown: 2026-02-18
+    * Feedback: 
+  ```
+- Only add this line when the reminder was actually delivered
+- Don't add if user was already engaging well
 
 ## Auto-Update Course Materials Before Each Module
 
