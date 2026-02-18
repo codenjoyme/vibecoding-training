@@ -86,6 +86,12 @@
 - **One task at a time** - give single concrete action to do now.
 - **No lengthy explanations** - user can read details in walkthrough.md.
 - **Emoji allowed** - use for structure (🎯, ✅, 📝, 🚀, etc).
+- **Personalize instructions to user's environment** - use OS and IDE info from `training-progress.md`:
+  + If user has Windows → say "Ctrl+Shift+P" not "Ctrl+Shift+P (or Cmd+Shift+P on Mac)"
+  + If user has macOS → say "Cmd+Shift+P" not "Ctrl+Shift+P (or Cmd+Shift+P on Mac)"
+  + If user has VS Code → don't mention Cursor alternatives
+  + If user has Cursor → don't mention VS Code alternatives
+  + Focus on their specific setup, skip irrelevant options
 - Example good response: "🎯 Open VS Code settings (File → Preferences → Settings)"
 - Example bad response: Long paragraph explaining why settings matter and what all options do.
 
