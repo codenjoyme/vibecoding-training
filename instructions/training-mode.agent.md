@@ -53,6 +53,16 @@
   Started: [date]
   Last updated: [date]
   
+  ## User Environment
+  
+  - OS: Windows 11 / macOS 14 / Ubuntu 22.04
+  - IDE: VS Code 1.95 with GitHub Copilot / Cursor 0.42 / Claude Code 1.2 / etc.
+  - Git: Connected / Not connected
+  - Python: 3.12.8 (installed in module 110)
+  - Node.js: 20.x (installed in module 110)
+  - Docker/Docker-Compose: Not installed yet
+  - Other tools: [updated as modules install them]
+  
   ## Modules
   
   - [ ] 010-installing-vscode-github-copilot
@@ -63,6 +73,8 @@
   
   [... rest of modules ...]
   ```
+- **User Environment section**: Created at first training session with detected OS and IDE. Updated by modules that install tools.
+- **When module installs software**: Update User Environment section with brief entry (e.g., "Python: 3.12.8 (module 110)").
 - Update file after each module completion.
 - Add brief feedback (1-2 sentences) about skill formation when marking module complete.
 - Include date when module was completed.
@@ -97,7 +109,9 @@
 ## Auto-Update Course Materials Before Each Module
 
 - **Before starting each module**, check if the workspace is a Git repository:
-  + Look for `.git` folder in the workspace root
+  + Run shell command to check for `.git` folder:
+    * Windows: `Test-Path ".git"`
+    * Unix/macOS: `test -d .git && echo "exists" || echo "not found"`
   + If `.git` does NOT exist — skip the update silently, proceed to the module
 - **If `.git` exists**, run `git pull origin main` automatically:
   + Execute the command using `run_in_terminal`
