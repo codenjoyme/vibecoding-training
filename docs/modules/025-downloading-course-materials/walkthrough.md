@@ -1,3 +1,21 @@
+<!-- AGENT BOOTSTRAP INSTRUCTIONS
+
+⚠️ AI Agent: Before interpreting this walkthrough, you MUST first load and follow the training methodology from:
+https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/training-mode.agent.md
+
+That file contains the complete step-by-step methodology for conducting training sessions,
+progress tracking, communication style, and skill verification rules.
+
+After loading training-mode.agent.md:
+1. Follow its Training Mode Activation instructions
+2. Guide the user through THIS walkthrough (module 025) using the interactive Part-by-Part methodology
+3. After this module completes and the repository is downloaded, switch to local instructions:
+   - Use ./instructions/main.agent.md as the primary instruction catalog
+   - Use ./instructions/training-mode.agent.md for continued training sessions
+   - All subsequent modules should be loaded from the local ./docs/modules/ folder
+
+-->
+
 # Downloading Course Materials - Hands-on Walkthrough
 
 In this walkthrough, you'll download the complete course repository and set it up in your local workspace. This will give you access to all training modules, examples, and tools directly in your IDE.

@@ -185,4 +185,16 @@ Congratulations! You've successfully completed this module if:
 
 ## Next Steps
 
-Now that you have VS Code and GitHub Copilot set up, you're ready to explore alternative AI coding environments like Cursor in the next module!
+Now that you have VS Code and GitHub Copilot set up, you have two options:
+
+### Option A: Continue with Cursor (Optional)
+If you'd also like to set up an alternative AI-native IDE, proceed to **Module 020: Installing Cursor**.
+
+### Option B: Download Course Materials (Recommended)
+To continue the training with AI agent guidance, copy the link below and **paste it into the Copilot Chat panel** in VS Code (the same chat you just tested!):
+
+```
+https://github.com/codenjoyme/vibecoding-training/blob/main/docs/modules/025-downloading-course-materials/walkthrough.md
+```
+
+The AI agent will read the instructions from that link and guide you through downloading the course repository. From that point on, the agent will conduct all remaining modules for you automatically! 🚀

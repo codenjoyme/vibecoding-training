@@ -152,4 +152,12 @@ Congratulations! You've successfully completed this module if:
 
 ## Next Steps
 
-Now that you have both VS Code and Cursor set up, you're ready to learn about selecting the right AI model and configuring optimal settings in the next module!
+Now that you have both VS Code and Cursor set up, it's time to download the course materials and let the AI agent guide you through the rest of the training!
+
+Copy the link below and **paste it into the AI Chat panel** in your IDE (VS Code Copilot Chat or Cursor Chat):
+
+```
+https://github.com/codenjoyme/vibecoding-training/blob/main/docs/modules/025-downloading-course-materials/walkthrough.md
+```
+
+The AI agent will read the instructions from that link and guide you through downloading the course repository. From that point on, the agent will conduct all remaining modules for you automatically! 🚀
