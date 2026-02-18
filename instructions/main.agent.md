@@ -2,6 +2,18 @@
 
 This file serves as a catalog of all project instructions. Each instruction covers a specific SDLC workflow or development practice.
 
+## ⚠️ LANGUAGE RULES (CRITICAL)
+
+- **Respond to the user in their language.** If they write in non-English — answer in the same language. If in English — answer in English.
+- **All project content must be written in English only** — this includes:
+  + Module files (`about.md`, `walkthrough.md`)
+  + Instruction files (`*.agent.md`)
+  + Code, scripts, comments in code
+  + Commit messages
+  + Any text that goes into project files
+- **If the user provides input in a non-English language** (e.g. describes a feature in non-English, gives feedback in non-English) — **translate it to English** before writing into any project file.
+- The chat conversation language ≠ the project content language. Keep them separate.
+
 ## ⚠️ CRITICAL: When User Wants Training
 
 **If user requests to:**
