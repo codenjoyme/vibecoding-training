@@ -12,7 +12,36 @@
 - Create or update `./training-progress.md` file in project root.
 - Initialize file with all modules from `./docs/training-plan.md`.
 - Format: unchecked checkboxes for all modules + empty feedback sections.
+- **Before starting first module:** run Auto-Detection (see below).
 - Start with first unchecked module unless user specifies different one.
+
+## Auto-Detection of Completed Onboarding (CRITICAL)
+
+**Context:** When a user opens a fresh IDE session in the course workspace (e.g., after downloading course materials via module 025 and reopening the IDE), the chat history is empty. The agent needs to detect that onboarding modules are already completed.
+
+**Detection Logic — run this when creating or initializing `training-progress.md`:**
+
+1. **Check if course files already exist in the current workspace:**
+   - Look for `./docs/modules/` folder
+   - Look for `./instructions/main.agent.md` file
+   - Look for `./training-progress.md` file
+
+2. **If course files exist AND `training-progress.md` doesn't exist yet (first-time fresh session):**
+   - This means the user has already:
+     + Installed an IDE (module 010 or 020)
+     + Downloaded course materials (module 025)
+   - Auto-mark these modules as completed:
+     + `010-installing-vscode-github-copilot` → mark `[x]` with feedback: "Auto-detected: IDE is installed and working (user opened this workspace in it)."
+     + `025-downloading-course-materials` → mark `[x]` with feedback: "Auto-detected: Course materials present in workspace."
+   - Leave `020-installing-cursor` unmarked (optional module).
+   - **Inform the user:** "📋 I see the course materials are already set up in this workspace. I've marked modules 010 and 025 as completed since your IDE and course are ready. We'll start with the next module!"
+
+3. **If `training-progress.md` already exists:**
+   - Read it and continue from the first unchecked module (normal flow).
+   - Do NOT re-run auto-detection.
+
+4. **If course files do NOT exist:**
+   - Normal first-time flow — start from module 010 or wherever appropriate.
 
 ## Progress Tracking File
 

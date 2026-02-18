@@ -19,3 +19,5 @@ https://github.com/codenjoyme/vibecoding-training/blob/main/docs/modules/025-dow
 ```
 
 The agent will download the course repository, set everything up, and start guiding you through the modules — fully automatically.
+
+> ⚠️ **Note:** After downloading, the agent will try to reopen your IDE in the course folder (`c:/workspace/hello-genai/`). If it doesn't switch automatically, open the folder manually: **File → Open Folder** → navigate to `c:/workspace/hello-genai/`. Then open a new AI Chat and type "Let's start training" — the agent will detect that the course is already set up and continue from the right place.

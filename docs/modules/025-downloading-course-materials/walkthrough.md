@@ -14,6 +14,13 @@ After loading training-mode.agent.md:
    - Use ./instructions/training-mode.agent.md for continued training sessions
    - All subsequent modules should be loaded from the local ./docs/modules/ folder
 
+⚠️ WORKSPACE SWITCH: After downloading, the agent MUST try to reopen the IDE in the course
+workspace folder. If automatic switch fails, provide manual instructions (see Part 5 below).
+The user will need to start a NEW chat session in the reopened workspace.
+
+See also: training-mode.agent.md → "Auto-Detection of Completed Onboarding" section
+for handling fresh sessions where the course is already downloaded.
+
 -->
 
 # Downloading Course Materials - Hands-on Walkthrough
@@ -183,6 +190,73 @@ Before we begin, let's understand what you'll be getting:
    - `walkthrough.md` - Step-by-step hands-on practice
 
 1. Verify: You can navigate freely through all folders and open files
+
+### Part 5: Open IDE in Course Workspace (CRITICAL)
+
+**Why this step matters:** If your IDE is currently open in a different folder (e.g., your home directory or another project), you need to switch to the course workspace so the AI assistant can see all the course files.
+
+#### Automatic Method (Agent should try this first)
+
+The agent should attempt to reopen the IDE automatically:
+
+**For VS Code (Windows):**
+```powershell
+code "c:/workspace/hello-genai" --reuse-window
+```
+
+**For VS Code (macOS/Linux):**
+```bash
+code ~/workspace/hello-genai --reuse-window
+```
+
+**For Cursor (Windows):**
+```powershell
+cursor "c:/workspace/hello-genai" --reuse-window
+```
+
+**For Cursor (macOS/Linux):**
+```bash
+cursor ~/workspace/hello-genai --reuse-window
+```
+
+> **Note:** After switching the workspace, the current chat session will be lost. This is expected — see Part 6 for what to do next.
+
+#### Manual Method (If Automatic Didn't Work)
+
+If the command above didn't switch your workspace, follow these steps manually:
+
+1. In your IDE, go to **File → Open Folder** (or **File → Open...** on macOS)
+
+1. Navigate to:
+   - **Windows:** `c:\workspace\hello-genai`
+   - **macOS/Linux:** `~/workspace/hello-genai`
+
+1. Click **Open** or **Select Folder**
+
+1. If prompted "Do you trust the authors?", click **Yes, I trust the authors**
+
+1. Verify: The file explorer sidebar should now show `docs/`, `work/`, `scripts/`, `instructions/` and other course folders
+
+### Part 6: Starting Training in the New Workspace
+
+After reopening the IDE in the course workspace, your previous chat session is gone. That's completely normal!
+
+**What to do now:**
+
+1. Open a **new AI Chat** in your IDE:
+   - **VS Code:** Press `Ctrl+Shift+I` (Windows/Linux) or `Cmd+Shift+I` (macOS), or click the Copilot Chat icon
+   - **Cursor:** Press `Ctrl+L` (Windows/Linux) or `Cmd+L` (macOS)
+
+1. Type one of these messages to start training:
+   - `Let's start training` / `Начнём обучение`
+   - `Continue training` / `Продолжить тренинг`
+
+1. The AI agent will automatically:
+   - Detect that course materials are already downloaded
+   - Mark modules 010/020 and 025 as completed (since you already have the IDE + course)
+   - Start you from the next uncompleted module
+
+> 💡 **How does the agent know?** The agent checks for the presence of `docs/modules/`, `instructions/`, and other course folders in the workspace. If they exist, it knows the course was already downloaded and the initial setup modules are done.
 
 ---
 
