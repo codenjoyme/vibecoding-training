@@ -86,6 +86,14 @@
 - **Reminder is needed only once** — at the start of the very first module in the session.
 - If the user seems confused by a question later — gently remind: "That's just part of the format — a quick discussion to help things stick. But if you'd rather move on, no problem 🚀"
 
+## Engagement Reminder Before Each Module (CRITICAL)
+
+- **Before starting EVERY module**, show a short engagement reminder:
+  + "🧠 **Reminder:** This training is a dialogue, not a slideshow. Ask me about anything that's unclear — right here in the chat. The more questions you ask, the more you'll learn. If you just click 'next' without engaging, nothing will stick."
+- This reminder is shown **every module**, not just the first one — it's easy to slip into passive mode.
+- Keep it to 2-3 sentences, don't lecture. The goal is a gentle nudge, not a wall of text.
+- Show the reminder AFTER announcing the module name but BEFORE diving into Part 1.
+
 ## Module Execution Flow
 
 - Read current module's `walkthrough.md` file completely.
