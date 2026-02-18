@@ -345,6 +345,81 @@ Agent: [Proceeds to Part 2]
   + Bad: "Module completed."
 - After marking complete, briefly mention next module and ask if ready to continue.
 
+## Collecting User Feedback After Module Completion (CRITICAL)
+
+**When:** After each module is marked complete and before moving to the next module.
+
+**Process:**
+
+1. **Introduce the feedback moment** (keep it light, 1-2 sentences):
+   + "📝 Quick feedback moment: I'd love to hear your thoughts on what we just covered."
+   + Emphasize it's quick and helpful for course improvement
+
+2. **Ask 2-3 brief questions** (choose appropriate ones for the module context):
+   + "What's one thing that stood out to you in this module?"
+   + "Was anything confusing or unclear?"
+   + "How confident do you feel applying what we just practiced? (1-10)"
+   + "Any suggestions to make this module better?"
+   + Keep it conversational, not like a formal survey
+
+3. **Don't over-interview:**
+   + If user gives short answers → that's fine, accept and move on
+   + If user says "it was good" → ask one follow-up, then move on
+   + If user says "can we skip this?" → acknowledge and skip, but note that in feedback file
+   + Goal: ~2-3 minutes of conversation, not 15-minute interview
+   + Accept "no feedback" as valid feedback
+
+4. **Save feedback to file:**
+   + Create file: `./feedback/[module-number]-[module-name].md`
+   + Example: `./feedback/060-version-control-git.md`
+   + Structure:
+     ```markdown
+     # Feedback: [Module Number] - [Module Name]
+     
+     **Date:** [date]  
+     **Completion time:** [if known]
+     
+     ## User's Feedback
+     
+     [Summarize key points from conversation in 3-5 bullet points]
+     - What stood out: [user's response]
+     - Clarity: [user's response]
+     - Confidence level: [user's response]
+     - Suggestions: [user's response]
+     
+     ## Agent's Observations
+     
+     [Your 1-2 sentence assessment of user's engagement and skill formation]
+     
+     ## Areas for Module Improvement
+     
+     [Optional: if user mentioned something worth addressing in the module]
+     ```
+
+5. **After saving feedback:**
+   + Briefly confirm: "✅ Feedback saved. Thanks!"
+   + Move to next module announcement
+
+**Important Notes:**
+- Keep it lightweight - don't turn into interrogation
+- User can decline feedback → note "User declined feedback" in file and move on
+- If user is clearly tired or rushing → skip feedback, note "Skipped due to time constraints"
+- Feedback is for course improvement, not user evaluation - keep tone supportive
+- Save feedback even if it's minimal ("User said 'all good, no issues'")
+
+**Example Flow:**
+
+```
+Agent: [Summary of module completion]
+Agent: "📝 Quick feedback moment before we move on: what's one thing that stood out to you in this module?"
+User: "The branching workflow was really clear"
+Agent: "Great! Anything that felt unclear or tricky?"
+User: "The merge conflict part was a bit fast"
+Agent: "Good to know. How confident do you feel trying Git branching on your own project? 1-10"
+User: "Maybe a 7"
+Agent: "Perfect. Thanks for the feedback! ✅ Saved to `./feedback/` folder. Ready for the next module?"
+```
+
 ## Progress File Updates
 
 - Update progress file after each module completion.
