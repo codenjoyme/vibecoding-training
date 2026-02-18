@@ -18,6 +18,10 @@ This training is highly practical. Each module provides a new actionable skill t
 
 ---
 
+## 🚀 [How to Start](../quickstart.md)
+
+---
+
 ## Module Sequence
 
 1. [Installing VSCode + GitHub Copilot](modules/010-installing-vscode-github-copilot/about.md) - Set up your first AI coding environment

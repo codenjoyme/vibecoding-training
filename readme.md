@@ -8,6 +8,10 @@ This training is highly practical and hands-on. Each video module provides a new
 
 Read more about the project motivation and approach: [Motivation](motivation.md)
 
+## 🚀 [Quick Start](quickstart.md)
+
+---
+
 ## Structure
 
 - **videos/** - Video scripts, storyboards, and content plans for training modules (5-7 min each)
