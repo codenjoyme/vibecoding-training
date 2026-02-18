@@ -119,23 +119,36 @@ In this walkthrough, you'll learn how to choose the right AI model for your vibe
 
 ### Part 7: Test Your Model Selection
 
-1. With Claude Sonnet 4.5 selected and Agent Mode enabled, open the chat
+Now let's verify that your AI assistant (the one you're chatting with right now) works correctly with the selected model and Agent Mode.
 
-1. Ask a coding question to verify setup:
+1. **Test 1 - Technical Explanation:**
+   
+   Ask your AI assistant (in this chat):
    ```
    Explain the difference between async/await and promises in JavaScript
    ```
+   
+   ✅ **Verify:** You receive a detailed, well-structured response with code examples
 
-1. Verify: You receive a detailed, well-structured response
-
-1. Try a code generation request:
+1. **Test 2 - Code Generation:**
+   
+   Ask your AI assistant (in this chat):
    ```
    Create a Python function that reads a CSV file and converts it to JSON
    ```
+   
+   ✅ **Verify:** AI generates working code with explanations and proper error handling
 
-1. Verify: Model generates working code with explanations
+1. **Test 3 - Agent Mode in Action:**
+   
+   Ask your AI assistant (in this chat):
+   ```
+   Find the training-progress.md file and tell me how many modules I've completed
+   ```
+   
+   ✅ **Verify:** AI reads the file automatically and gives you the answer (this proves Agent Mode works)
 
-1. Verify: Agent mode indicator shows it's actively processing
+If all three tests pass - your setup is perfect and ready for productive work!
 
 ---
 
