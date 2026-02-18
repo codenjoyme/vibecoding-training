@@ -7,7 +7,7 @@
 
 ## Module Structure
 
-- All modules located in `./docs/modules/[number]-[name]/` directory.
+- All modules located in `./modules/[number]-[name]/` directory.
 - Each module contains two required files:
   + `about.md` - Module description, topics, outcomes, prerequisites
   + `walkthrough.md` - Step-by-step hands-on instructions to practice the skill
@@ -87,7 +87,7 @@
 ## Integration Steps
 
 - After creating module folder and about.md file:
-  + Update `./docs/training-plan.md` Module Sequence list
+  + Update `./training-plan.md` Module Sequence list
   + Insert new module link in correct position (all items use `1.` for auto-numbering)
   + Format: `1. [Module Name](modules/[number]-[name]/about.md) - Brief description`
   + No need to renumber other items - Markdown auto-numbers from `1.` markers

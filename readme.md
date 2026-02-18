@@ -14,9 +14,10 @@ Read more about the project motivation and approach: [Motivation](motivation.md)
 
 ## Structure
 
-- **docs/** - [Course plans](docs/training-plan.md), curriculum, and general documentation
+- **modules/** - All training modules with theory and hands-on walkthroughs
 - **instructions/** - Helper agents and prompts for course development
 - **work/** - Workspace for practice projects and exercises
+- [training-plan.md](training-plan.md) - Course plan, curriculum, and module sequence
 
 ## Training Format
 
@@ -64,8 +65,8 @@ The training uses its own instructions, scripts, and AI agents for development a
 
 ### Getting Started with Contributing
 
-1. Read the [training plan](docs/training-plan.md) to understand the course structure
-2. Check existing [modules](docs/modules/) to see the format
+1. Read the [training plan](training-plan.md) to understand the course structure
+2. Check existing [modules](modules/) to see the format
 3. Review [contribution guidelines](instructions/create-training-module.agent.md)
 4. Pick an area: new module, fix existing, or suggest improvements
 

@@ -10,7 +10,7 @@
 
 - When user requests to start training (any language).
 - Create or update `./training-progress.md` file in project root.
-- Initialize file with all modules from `./docs/training-plan.md`.
+- Initialize file with all modules from `./training-plan.md`.
 - Format: unchecked checkboxes for all modules + empty feedback sections.
 - **Before starting first module:** run Auto-Detection (see below).
 - Start with first unchecked module unless user specifies different one.
@@ -22,7 +22,7 @@
 **Detection Logic — run this when creating or initializing `training-progress.md`:**
 
 1. **Check if course files already exist in the current workspace:**
-   - Look for `./docs/modules/` folder
+   - Look for `./modules/` folder
    - Look for `./instructions/main.agent.md` file
    - Look for `./training-progress.md` file
 

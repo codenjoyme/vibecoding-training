@@ -1,5 +1,5 @@
 - Export GitHub Copilot chat sessions from VS Code / VS Code Insiders using standalone Python scripts.
-- Scripts location: `./docs/modules/250-export-chat-session/tools/copilot/` package.
+- Scripts location: `./modules/250-export-chat-session/tools/copilot/` package.
   + `chat_export.py` — main export tool (single session export, list, search).
   + `export_all.py` — batch export ALL sessions from ALL workspaces at once.
 - Previously was a single file `copilot_chat_export.py` — now reorganized into `copilot/` package.
@@ -55,7 +55,7 @@ When user asks to save/export the current chat session:
 ### Batch Export Examples
 
 ```powershell
-$batch = "./docs/modules/250-export-chat-session/tools/copilot/export_all.py"
+$batch = "./modules/250-export-chat-session/tools/copilot/export_all.py"
 
 # Export everything to default location (./work/copilot_export_all/)
 python $batch
@@ -90,7 +90,7 @@ work/copilot_export_all/
 
 ```powershell
 # Set script path for convenience
-$script = "./docs/modules/250-export-chat-session/tools/copilot/chat_export.py"
+$script = "./modules/250-export-chat-session/tools/copilot/chat_export.py"
 
 # List all workspaces
 python $script workspaces
