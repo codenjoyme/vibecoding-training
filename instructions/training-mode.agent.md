@@ -94,6 +94,19 @@
 - Keep it to 2-3 sentences, don't lecture. The goal is a gentle nudge, not a wall of text.
 - Show the reminder AFTER announcing the module name but BEFORE diving into Part 1.
 
+## Auto-Update Course Materials Before Each Module
+
+- **Before starting each module**, check if the workspace is a Git repository:
+  + Look for `.git` folder in the workspace root
+  + If `.git` does NOT exist — skip the update silently, proceed to the module
+- **If `.git` exists**, run `git pull origin main` automatically:
+  + Execute the command using `run_in_terminal`
+  + If pull succeeds with new changes — briefly inform: "📥 Pulled latest course updates."
+  + If already up to date — no message needed, proceed silently
+  + If pull fails (merge conflicts, network issues, etc.) — inform user briefly but don't block the training: "⚠️ Couldn't pull updates (reason). We'll continue with the current version. You can try updating later."
+- This ensures users always get the latest module content and fixes without manual effort.
+- Do NOT ask user for permission — just pull. It's a read-only operation for course materials.
+
 ## Module Execution Flow
 
 - Read current module's `walkthrough.md` file completely.
