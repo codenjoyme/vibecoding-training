@@ -4,7 +4,7 @@ A comprehensive training program teaching managers how to effectively use AI cod
 
 ## Philosophy
 
-This training is highly practical and hands-on. Each video module provides a new actionable skill that you can immediately apply to your work, building your capabilities step by step.
+This training is highly practical and hands-on. Each module provides a new actionable skill that you can immediately apply to your work, building your capabilities step by step.
 
 Read more about the project motivation and approach: [Motivation](motivation.md)
 
@@ -14,19 +14,14 @@ Read more about the project motivation and approach: [Motivation](motivation.md)
 
 ## Structure
 
-- **videos/** - Video scripts, storyboards, and content plans for training modules (5-7 min each)
-- **project/** - End-to-end project combining web application and automation scripts
-- **evaluation/** - AI-powered evaluation agent and assessment criteria
-- **quizz/** - Knowledge check quizzes for each module
-- **instructions/** - Helper agents and prompts for course development
 - **docs/** - [Course plans](docs/training-plan.md), curriculum, and general documentation
+- **instructions/** - Helper agents and prompts for course development
+- **work/** - Workspace for practice projects and exercises
 
 ## Training Format
 
-- Multiple short videos (5-7 minutes each) covering specific vibecoding skills
-- One comprehensive hands-on project that applies all learned skills
-- AI-powered automated evaluation system
-- Interactive quizzes for knowledge validation
+- Interactive AI-guided modules — each teaches one actionable skill
+- Hands-on exercises with real tools and code
 
 ## Target Audience
 
@@ -65,7 +60,7 @@ Each module is self-contained with:
 - **walkthrough.md** - Step-by-step hands-on practice
 - **tools/** - Scripts, instructions, and artifacts (when applicable)
 
-The training uses its own instructions, automation scripts, and AI agents for development and quality control.
+The training uses its own instructions, scripts, and AI agents for development and quality control.
 
 ### Getting Started with Contributing
 

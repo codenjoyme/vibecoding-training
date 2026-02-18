@@ -44,10 +44,7 @@ Before we begin, let's understand what you'll be getting:
 **Course Repository Structure:**
 - **docs/modules/** - All training modules (030 onwards) with theory and walkthroughs
 - **work/** - Workspace for your practice projects and exercises
-- **scripts/** - Automation scripts and validation tools
 - **instructions/** - AI agent instructions for advanced workflows
-- **project/** - Sample projects and templates
-- **evaluation/** - Assessment materials and quizzes
 
 **Size:** Approximately 5-10 MB  
 **Format:** ZIP archive from GitHub  
@@ -78,7 +75,7 @@ Before we begin, let's understand what you'll be getting:
 
 1. Wait for the download and extraction to complete (10-30 seconds depending on your internet speed)
 
-1. Verify: You should see folders like `docs/`, `work/`, `scripts/` in your IDE's file explorer
+1. Verify: You should see folders like `docs/`, `work/`, `instructions/` in your IDE's file explorer
 
 #### For macOS:
 
@@ -97,7 +94,7 @@ Before we begin, let's understand what you'll be getting:
 
 1. Wait for the download and extraction to complete (10-30 seconds depending on your internet speed)
 
-1. Verify: You should see folders like `docs/`, `work/`, `scripts/` in your IDE's file explorer
+1. Verify: You should see folders like `docs/`, `work/`, `instructions/` in your IDE's file explorer
 
 #### For Linux:
 
@@ -116,7 +113,7 @@ Before we begin, let's understand what you'll be getting:
 
 1. Wait for the download and extraction to complete (10-30 seconds depending on your internet speed)
 
-1. Verify: You should see folders like `docs/`, `work/`, `scripts/` in your IDE's file explorer
+1. Verify: You should see folders like `docs/`, `work/`, `instructions/` in your IDE's file explorer
 
 **What just happened:** The command automatically:
 1. Created the workspace directory if it didn't exist
@@ -144,7 +141,7 @@ Before we begin, let's understand what you'll be getting:
 
 1. Delete the now-empty `vibecoding-training-main` folder
 
-1. Verify: Folders like `docs/`, `work/`, `scripts/` should be directly in `hello-genai/`, not inside a subfolder
+1. Verify: Folders like `docs/`, `work/`, `instructions/` should be directly in `hello-genai/`, not inside a subfolder
 
 ### Part 3: Verify Installation in IDE
 
@@ -153,10 +150,7 @@ Before we begin, let's understand what you'll be getting:
 1. You should see the following folders in `hello-genai`:
    - `docs/`
    - `work/`
-   - `scripts/`
    - `instructions/`
-   - `project/`
-   - `evaluation/`
 
 1. Expand the `docs/modules/` folder
 
@@ -178,7 +172,6 @@ Before we begin, let's understand what you'll be getting:
 
    - **docs/modules/** - Each numbered folder is a training module
    - **work/** - Your personal workspace for exercises
-   - **scripts/** - Helper scripts for automation
    - **instructions/** - AI agent configuration files (used in advanced modules)
 
 1. Notice that module folders are numbered: 030, 040, 050, etc.
@@ -235,7 +228,7 @@ If the command above didn't switch your workspace, follow these steps manually:
 
 1. If prompted "Do you trust the authors?", click **Yes, I trust the authors**
 
-1. Verify: The file explorer sidebar should now show `docs/`, `work/`, `scripts/`, `instructions/` and other course folders
+1. Verify: The file explorer sidebar should now show `docs/`, `work/`, `instructions/` and other course folders
 
 ### Part 6: Starting Training in the New Workspace
 
@@ -266,7 +259,7 @@ Congratulations! You've successfully completed this module if:
 
 ✅ The repository ZIP file is downloaded to your computer  
 ✅ All files are extracted to `c:/workspace/hello-genai/` (Windows) or `~/workspace/hello-genai/` (macOS/Linux)  
-✅ Folder structure includes `docs/`, `work/`, `scripts/`, and other directories  
+✅ Folder structure includes `docs/`, `work/`, `instructions/`, and other directories  
 ✅ Module folders (030, 040, 050, etc.) are visible in `docs/modules/`  
 ✅ You can open and read `about.md` and `walkthrough.md` files in your IDE  
 ✅ The file tree in your IDE shows the complete course structure  
@@ -278,7 +271,7 @@ Congratulations! You've successfully completed this module if:
    - Enables offline work, IDE integration, hands-on experimentation, and prepares for Git workflows later
 
 1. **What are the main folders in the repository and their purposes?**
-   - `docs/modules/` - training content; `work/` - practice space; `scripts/` - automation tools; `instructions/` - AI agent configs
+   - `docs/modules/` - training content; `work/` - practice space; `instructions/` - AI agent configs
 
 1. **Why are modules numbered 030, 040, 050 instead of 03, 04, 05?**
    - Allows inserting new modules between existing ones (e.g., 035 between 030 and 040) without renumbering
