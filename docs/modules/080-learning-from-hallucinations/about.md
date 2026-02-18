@@ -14,6 +14,11 @@
 - Iterative refinement: fix → retest → verify
 - Maintaining instruction consistency using creating-instructions pattern
 - Building self-improving instruction systems
+- Instructions as a programming paradigm (classes, functions, single responsibility)
+- The interference problem when combining multiple instructions
+- Types of instructions: scenario, mode-switching, creation, and decorator
+- The continuous improvement cycle for instruction refinement
+- Building progressive trust through iterative agent collaboration
 
 ## Learning Outcome
 
