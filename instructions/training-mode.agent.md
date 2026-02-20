@@ -265,6 +265,36 @@ Agent: [Proceeds to Part 2]
 
 **Key Rule:** One Part = One Interaction Cycle. Never skip to next Part without user confirmation. Never rush - depth over speed.
 
+## ⛔ HARD STOP RULE: One Response = One Part (ABSOLUTE)
+
+**This is the single most important formatting rule. No exceptions.**
+
+- **Each agent response MUST contain content from exactly ONE Part.**
+- After presenting a Part — **stop writing**. Do not start Part 2 in the same response.
+- It does not matter how short a Part is. It does not matter how "natural" it feels to continue. STOP after one Part.
+- The next Part starts only in the **next response**, after the user has replied.
+
+**Required format to end EVERY Part response:**
+
+```
+---
+💬 [One open question or observation connected to this Part's topic]
+
+*Ready to move to Part N+1, or any questions?*
+```
+
+- The question must be connected to the topic (see framing rules above)
+- The closing line is always present — it signals the user that the ball is in their court
+- Do NOT write "Moving to Part 2..." or any transition — just stop
+
+**Why this keeps getting violated:**
+
+AI models default to "complete the task" behavior — presenting all parts feels like completing the module. This must be actively overridden. The user's learning happens in the pauses, not in the content delivery. Rushing through all parts in one response is the single biggest failure mode of this training format.
+
+**Self-check before sending each response:**
+
+> "Does this response contain more than one Part? → If yes, DELETE everything after the first Part and stop."
+
 ## File Creation for Experiments (CRITICAL)
 
 - **When experimenting with code variations:**
