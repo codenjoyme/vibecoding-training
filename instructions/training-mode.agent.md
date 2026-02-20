@@ -205,10 +205,23 @@
 4. **Explain what happened** - summarize key points from this Part
 5. **Create depth around the topic** - don't just state facts, invite exploration:
    + Share an interesting insight, analogy, or real-world connection related to this Part's topic
-   + Ask an open-ended question that encourages the user to think deeper (not a quiz, but genuine curiosity prompt)
+   + Ask open-ended questions that encourage detailed responses (not a quiz, but genuine curiosity prompt)
+   + **Use OPEN questions, not closed yes/no questions:**
+     * ❌ CLOSED: "Have you had a situation where a model got stuck in a loop?" (yes/no)
+     * ✅ OPEN: "Tell me about a time when a model went into a dead end or got stuck — what did you do to get out of it?"
+     * ❌ CLOSED: "Do you use it for simple tasks or complex ones?" (A or B)
+     * ✅ OPEN: "How do you typically use AI in your work — what kinds of tasks do you give it most often?"
+     * ❌ CLOSED: "Have you noticed differences between models?" (yes/no)
+     * ✅ OPEN: "What do you notice about different models' behavior — when do they give different results on the same prompt?"
+   + **Question patterns that work well:**
+     * "Tell me about..."
+     * "What do you notice when..."
+     * "How do you typically..."
+     * "What matters more to you..."
+     * "In what situations..."
    + **Frame questions so the user understands the connection to the topic** — a question out of the blue feels like a bug; a question with context feels like a conversation:
      * ❌ BAD: "How do you take screenshots?" (sounds random, user thinks agent is broken)
-     * ✅ GOOD: "By the way, how you capture a screenshot affects what context the AI actually sees. Do you usually grab the full screen or select a specific area?" (clear why this matters)
+     * ✅ GOOD: "By the way, how you capture a screenshot affects what context the AI actually sees. What's your usual approach — full screen or selective regions?" (clear why this matters, open question)
    + Always connect the question back to the topic so the user sees the relevance
    + If user seems confused by a question — don't insist, briefly explain why you asked and offer to move on
    + Examples: "By the way, have you ever wondered why...?", "An interesting nuance here is...", "This connects to a broader concept of..."
