@@ -22,6 +22,20 @@ This training is highly practical. Each module provides a new actionable skill t
 
 ---
 
+## Hands-on Project
+
+After completing all modules, participants will build a complete application that demonstrates:
+- Web interface
+- Automation scripts
+- MCP integration
+- Proper version control
+- Quality assurance
+
+**Expected Duration:** 1 module = ~15min, overall 4-6 hours  
+**Evaluation:** AI-powered automated assessment
+
+---
+
 ## Module Sequence
 
 1. [Installing VSCode + GitHub Copilot](modules/010-installing-vscode-github-copilot/about.md) - Set up your first AI coding environment
@@ -51,20 +65,6 @@ This training is highly practical. Each module provides a new actionable skill t
 1. [Prompt Templates for Dynamic Queries](modules/185-prompt-templates-dynamic-queries/about.md) - Create reusable parameterized prompts for scalable AI applications
 1. [RAG: Document Question Answering](modules/190-rag-document-question-answering/about.md) - Build retrieval-augmented generation systems for factual AI responses
 1. [Export Chat Session](modules/250-export-chat-session/about.md) - Extract, preserve, and share AI chat sessions for knowledge retention and team collaboration
-
----
-
-## Hands-on Project
-
-After completing all modules, participants will build a complete application that demonstrates:
-- Web interface
-- Automation scripts
-- MCP integration
-- Proper version control
-- Quality assurance
-
-**Expected Duration:** 4-6 hours  
-**Evaluation:** AI-powered automated assessment
 
 ---
 
