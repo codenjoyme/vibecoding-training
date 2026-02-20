@@ -311,18 +311,32 @@ Agent: "Exactly! Clean visual workspace, but the environment is right there when
 - It does not matter how short a Part is. It does not matter how "natural" it feels to continue. STOP after one Part.
 - The next Part starts only in the **next response**, after the user has replied.
 
-**Required format to end EVERY Part response:**
+**How to end each response during Part discussion:**
 
-```
----
-💬 [One open question or observation connected to this Part's topic]
+- **First message about a Part**: End with ONE meaningful question connected to the topic
+  + Do NOT ask "ready to move on?" yet - you just started discussing!
+  + Just ask the topic question and wait for answer
+  + Example: "How you capture a screenshot affects what context the AI sees. Do you usually grab the full screen or select a specific area?"
+  + No divider line, no "ready?" - just the question
 
-*Ready to move to Part N+1, or any questions?*
-```
+- **Follow-up messages (exchanges 2-4)**: Continue the conversation naturally
+  + Build on user's answers
+  + Share insights, ask follow-ups
+  + No "ready to move on?" yet - keep the discussion going
+  + Remember: aim for 4-5 exchanges minimum
 
-- The question must be connected to the topic (see framing rules above)
-- The closing line is always present — it signals the user that the ball is in their court
-- Do NOT write "Moving to Part 2..." or any transition — just stop
+- **After 4-5 exchanges**: Offer to move forward
+  + Now you can use the transition format:
+  ```
+  ---
+  
+  *Ready to move to Part N+1, or any other questions about this?*
+  ```
+  + This comes AFTER you've explored the topic, not immediately after first question
+
+**Critical Rule: Never ask two questions in one message**
+- ❌ BAD: "What do you think about X? Ready to move on?"
+- ✅ GOOD: "What do you think about X?" [wait for answer, discuss, then later ask about moving on]
 
 **Why this keeps getting violated:**
 
