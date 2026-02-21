@@ -16,6 +16,30 @@
   + "Following instruction for creating instructions, update instruction (name) with new knowledge from this chat session"
 - Once general idea described in one file, can follow it with light prompt adjustments for different contexts.
 
+## Bootstrap Installation (New Project Setup)
+
+- If this instruction file was shared into an empty agent session in a project that has no instruction infrastructure — **this is a signal to install everything from scratch**.
+- Detect which IDE is used by checking folder markers:
+  + `.github/` folder present → VSCode + GitHub Copilot
+  + `.cursor/` folder present → Cursor
+  + Neither present → ask user which IDE they use, then create the appropriate folder structure
+- For **VSCode + GitHub Copilot**, create the following:
+  + `.github/copilot-instructions.md` — with the standard entry-point content (see VSCode section below)
+  + `.github/prompts/` — folder for prompt files
+  + `.vscode/settings.json` — with required settings (see VSCode section below)
+  + `instructions/main.agent.md` — catalog file listing all available instructions
+  + `instructions/creating-instructions.agent.md` — this file itself (copy from source)
+- For **Cursor**, create the following:
+  + `.cursor/rules/mcpyrex.mdc` — main rules file with entry-point content (see Cursor section below)
+  + `.cursor/rules/` — folder for per-instruction rule files
+  + `instructions/main.agent.md` — catalog file
+  + `instructions/creating-instructions.agent.md` — this file itself
+- After creating all files, verify:
+  + Entry-point file correctly references `./instructions/main.agent.md`
+  + `main.agent.md` exists and lists at least `creating-instructions.agent.md`
+  + IDE settings/rules are configured to load instructions on every prompt
+- Confirm to user: "Instruction infrastructure installed. You can now add more instructions following `creating-instructions.agent.md`."
+
 ## General Concepts
 
 - If you don't know exactly which IDE (with which Agent system) is used in the project, there are always the markers described below.
