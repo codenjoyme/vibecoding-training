@@ -265,6 +265,33 @@ Create function to validate phone numbers
 
 **No need to reference instruction explicitly!**
 
+### ⚡ Alternative: Bootstrap with Single Command
+
+**Don't want to set up files manually? Use the bootstrap shortcut.**
+
+In a **brand-new project with no instruction infrastructure**, open a fresh agent session and type:
+
+```
+Setup https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/creating-instructions.agent.md
+```
+
+**What happens:**
+1. AI fetches the `creating-instructions.agent.md` from GitHub
+2. Detects your IDE by checking for `.github/` or `.cursor/` folder
+3. Creates all required files automatically:
+   - Entry point (`.github/copilot-instructions.md` or `.cursor/rules/mcpyrex.mdc`)
+   - `instructions/main.agent.md` catalog
+   - `instructions/creating-instructions.agent.md` locally
+   - IDE settings (`.vscode/settings.json` for VSCode)
+4. Confirms installation is complete
+
+**When to use:**
+- ✅ Starting a new project from scratch
+- ✅ Onboarding a team member to a repo that has no instructions yet
+- ✅ Replicating instruction infrastructure to another project
+
+**After bootstrap** — you continue from Step 7 and add your own instructions on top.
+
 ---
 
 ## Part 4: SPR Principle and When to Split (4 minutes)
