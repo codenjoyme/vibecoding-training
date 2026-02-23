@@ -53,6 +53,7 @@ After completing all modules, participants will build a complete application tha
 1. [AI Skills - Context, Tools & Memory](modules/090-ai-skills-tools-creation/about.md) - Understand AI's eyes, hands, and memory
 1. [Model Context Protocol (MCP)](modules/100-mcp-model-context-protocol/about.md) - Connect AI to any data source
 1. [CLI: Command Line Interface](modules/103-cli-command-line-interface/about.md) - Call REST APIs directly from terminal, bypass LLM for deterministic, token-efficient execution without hallucination risk
+1. [Port Existing Code into Skills](modules/104-port-to-skills/about.md) - Convert any backend service into a portable CLI tool and package it as a reusable AI Skill
 1. [MCP GitHub Integration](modules/105-mcp-github-integration-issues/about.md) - Manage GitHub issues as backlog through AI
 1. [Development Environment Setup](modules/110-development-environment-setup/about.md) - Install essential tools for vibecoding
 1. [Rapid Prototyping](modules/120-rapid-poc-prototyping/about.md) - Build a PoC in 2 hours
