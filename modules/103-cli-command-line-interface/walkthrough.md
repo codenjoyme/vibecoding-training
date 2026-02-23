@@ -38,6 +38,12 @@ Open a terminal and run:
 powershell -ExecutionPolicy Bypass -File ./modules/103-cli-command-line-interface/tools/rest-server.ps1
 ```
 
+To **stop the server** at any time (run in a second terminal):
+
+```powershell
+Get-CimInstance Win32_Process -Filter "CommandLine LIKE '%rest-server%'" | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
+```
+
 You should see:
 ```
 REST server running at http://localhost:8080
