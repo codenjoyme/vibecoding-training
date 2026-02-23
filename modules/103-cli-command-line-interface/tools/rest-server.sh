@@ -36,25 +36,35 @@ class RestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         if self.path == "/echo":
-            body = json.loads(self.read_body())
-            self.send_json({"result": f"Echo: {body.get('text', '')}"})
+            raw = self.read_body()
+            try:
+                body = json.loads(raw)
+                if "text" not in body:
+                    raise ValueError("Missing required field: text")
+                self.send_json({"result": f"Echo: {body['text']}"})
+            except Exception as e:
+                print(f"  [ERROR] /echo: {e}")
+                self.send_json({"error": f"Bad request: {e}", "received": raw.decode("utf-8", errors="replace")}, 400)
 
         elif self.path == "/calculate":
-            body = json.loads(self.read_body())
-            a = body.get("a", 0)
-            b = body.get("b", 0)
-            op = body.get("operation", "")
-            ops = {
-                "add":      a + b,
-                "subtract": a - b,
-                "multiply": a * b,
-                "divide":   a / b if b != 0 else None,
-            }
-            if op not in ops or ops[op] is None:
-                self.send_json({"error": f"Invalid operation or division by zero: {op}"}, 400)
-            else:
-                result = ops[op]
+            raw = self.read_body()
+            try:
+                body = json.loads(raw)
+                a = body.get("a")
+                b = body.get("b")
+                op = body.get("operation")
+                if a is None or b is None or op is None:
+                    raise ValueError("Missing required fields: a, b, operation")
+                ops = {"add", "subtract", "multiply", "divide"}
+                if op not in ops:
+                    raise ValueError(f"Unknown operation: {op}. Use: add, subtract, multiply, divide")
+                if op == "divide" and b == 0:
+                    raise ValueError("Division by zero")
+                result = {"add": a+b, "subtract": a-b, "multiply": a*b, "divide": a/b}[op]
                 self.send_json({"result": f"Result: {a} {op} {b} = {result}"})
+            except Exception as e:
+                print(f"  [ERROR] /calculate: {e}")
+                self.send_json({"error": f"Bad request: {e}", "received": raw.decode("utf-8", errors="replace")}, 400)
 
         elif self.path == "/upload":
             # Read raw bytes - works for any binary content
