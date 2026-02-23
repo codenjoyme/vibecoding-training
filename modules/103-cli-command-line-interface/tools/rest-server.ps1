@@ -43,9 +43,15 @@ while ($listener.IsListening) {
 
             "POST /echo" {
                 $body = [System.IO.StreamReader]::new($request.InputStream).ReadToEnd()
-                $data = $body | ConvertFrom-Json
-                Write-JsonResponse -context $context -data @{
-                    result = "Echo: $($data.text)"
+                try {
+                    $data = $body | ConvertFrom-Json -ErrorAction Stop
+                    if (-not $data.text) { throw "Missing required field: text" }
+                    Write-JsonResponse -context $context -data @{
+                        result = "Echo: $($data.text)"
+                    }
+                } catch {
+                    Write-Host "  [ERROR] /echo: $_"
+                    Write-JsonResponse -context $context -data @{ error = "Bad request: $_"; received = $body } -statusCode 400
                 }
             }
 
@@ -57,20 +63,27 @@ while ($listener.IsListening) {
 
             "POST /calculate" {
                 $body = [System.IO.StreamReader]::new($request.InputStream).ReadToEnd()
-                $data = $body | ConvertFrom-Json
-                $calcResult = switch ($data.operation) {
-                    "add"      { $data.a + $data.b }
-                    "subtract" { $data.a - $data.b }
-                    "multiply" { $data.a * $data.b }
-                    "divide"   { $data.a / $data.b }
-                    default    { $null }
-                }
-                if ($null -eq $calcResult) {
-                    Write-JsonResponse -context $context -data @{ error = "Unknown operation: $($data.operation)" } -statusCode 400
-                } else {
+                try {
+                    $data = $body | ConvertFrom-Json -ErrorAction Stop
+                    if ($null -eq $data.a -or $null -eq $data.b -or -not $data.operation) {
+                        throw "Missing required fields: a, b, operation"
+                    }
+                    $calcResult = switch ($data.operation) {
+                        "add"      { $data.a + $data.b }
+                        "subtract" { $data.a - $data.b }
+                        "multiply" { $data.a * $data.b }
+                        "divide"   {
+                            if ($data.b -eq 0) { throw "Division by zero" }
+                            $data.a / $data.b
+                        }
+                        default    { throw "Unknown operation: $($data.operation). Use: add, subtract, multiply, divide" }
+                    }
                     Write-JsonResponse -context $context -data @{
                         result = "Result: $($data.a) $($data.operation) $($data.b) = $calcResult"
                     }
+                } catch {
+                    Write-Host "  [ERROR] /calculate: $_"
+                    Write-JsonResponse -context $context -data @{ error = "Bad request: $_"; received = $body } -statusCode 400
                 }
             }
 
