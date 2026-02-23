@@ -68,7 +68,7 @@ After completing all modules, participants will build a complete application tha
 1. [Prompt Templates for Dynamic Queries](modules/185-prompt-templates-dynamic-queries/about.md) - Create reusable parameterized prompts for scalable AI applications
 1. [RAG: Document Question Answering](modules/190-rag-document-question-answering/about.md) - Build retrieval-augmented generation systems for factual AI responses
 1. [Export Chat Session](modules/250-export-chat-session/about.md) - Extract, preserve, and share AI chat sessions for knowledge retention and team collaboration
-1. [Installing Third-Party Agent Skills (DMtools)](modules/300-dmtools-agent-skill/about.md) - Install a third-party agent skill and gain the foundational DMtools architecture mental model
+1. [DMtools — Agent Skill & Automation Catalog](modules/300-dmtools-agent-skill/about.md) - Install the DMtools agent skill, explore 152+ tools across 16 integrations, and choose your first automation task
 
 ---
 

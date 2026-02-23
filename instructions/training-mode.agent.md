@@ -449,6 +449,46 @@ AI models default to "complete the task" behavior — presenting all parts feels
 - Create folders proactively when starting module that needs them
 - Use paths relative to workspace root
 
+## External Module Pattern (Separate Workspace Modules)
+
+Some modules work with external projects that have their own AI configuration files (custom instructions, skills, etc.). Running them inside the training workspace would cause conflicts between the course instructions and the project's own instructions.
+
+**When does this apply?**
+- The module's `walkthrough.md` contains a YAML frontmatter field: `external_workspace: true`
+- OR the walkthrough explicitly says to open the project in a separate IDE window
+
+**How it works:**
+
+1. **Clone/create the external project** inside `work/[module-number]-task/`:
+   + Example: Module 300 → `work/300-task/` (clone DMtools repo here)
+   + Example: Module 120 → `work/120-task/` (initialize SpecKit project here)
+
+2. **Copy training files** into the external project:
+   + Create a `.training/` folder inside `work/[module-number]-task/`
+   + Copy the module's `walkthrough.md` and `about.md` into `.training/`
+   + Copy `instructions/training-mode.agent.md` into `.training/`
+   + These files allow the AI in the new workspace to conduct the training
+
+3. **User opens the external project in a separate IDE window:**
+   + The user now has two IDE windows: training workspace (reference) and external project (practice)
+   + In the external project, the user starts a new AI chat and pastes the launch prompt:
+     ```
+     Use the instructions in the .training/ folder to start the training module.
+     ```
+
+4. **Context detection for re-runs:**
+   + If the walkthrough is being run and the external project is already set up (e.g., skill already installed, repo already cloned), skip the initialization steps and go directly to the content/catalog section
+   + The walkthrough should include a detection check: "If [artifact] already exists → skip to Part N"
+
+5. **Git pull for freshness:**
+   + If the external project is a Git repository, run `git pull` before starting the module content
+   + This ensures the user always works with the latest version of the external tool's documentation
+
+**Agent behavior in external workspace:**
+- The `.training/training-mode.agent.md` provides the same training methodology (Part-by-Part progression, engagement checks, etc.)
+- The AI in the external workspace has access to BOTH the training instructions AND the project's own skills/docs
+- Progress tracking still happens in the main training workspace's `training-progress.md` — the user updates it manually or when returning to the main workspace
+
 ## Skill Formation Assessment
 
 - Module complete only when ALL Success Criteria items verified in current chat session.

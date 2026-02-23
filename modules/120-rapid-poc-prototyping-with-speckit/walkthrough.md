@@ -1,6 +1,12 @@
+---
+external_workspace: true
+---
+
 # Rapid Prototyping with SpecKit - Hands-on Walkthrough
 
 In this module, you will learn and practice the **SpecKit** spec-driven development methodology. First, you will go through the theory of each SpecKit phase. Then you will open a second IDE window as a fresh workspace and run through the full SpecKit workflow to build a real full-stack Node.js application deployed in Docker.
+
+This module runs in a **separate workspace** (`work/120-task/`) because SpecKit installs its own AI instruction files that would conflict with the course instructions.
 
 ## Prerequisites
 
@@ -355,12 +361,6 @@ The checklist is a living document — you mark items as verified after manual o
 
 You will now apply everything from Parts 1–9 in a real project. The practice runs in a **second IDE window** — a separate, clean workspace — while this training window stays open for reference.
 
-**Why a separate workspace?**
-
-SpecKit installs its own instruction files that take control of the AI agent's behavior in that workspace. Running it in the training workspace would conflict with the existing course instructions. By opening a second IDE window, you keep both environments clean and independent.
-
-You can share context between windows using screenshots (see [Module 035: Visual Context with Screenshots](../035-visual-context-screenshots/about.md)).
-
 ---
 
 ### Step 1: Prepare the Second Workspace
@@ -370,17 +370,15 @@ You can share context between windows using screenshots (see [Module 035: Visual
 - In VSCode: Menu → **File → New Window**
 - In Cursor: Menu → **File → New Window**
 
-**Create an empty workspace folder:**
+**Create the workspace folder:**
 
-```
-# Windows
-c:/workspace/speckit-poc/
+From the course root, create the practice folder:
 
-# macOS/Linux
-~/workspace/speckit-poc/
+```bash
+mkdir -p work/120-task
 ```
 
-Open this empty folder in the new IDE window.
+Open the `work/120-task/` folder in the new IDE window.
 
 **Verify you have `uv` installed** (needed for SpecKit CLI):
 
