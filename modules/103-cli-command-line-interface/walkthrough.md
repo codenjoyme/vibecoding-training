@@ -78,9 +78,9 @@ These commands mirror what MCP did in Module 100 — but now you're calling the 
 
 ```powershell
 # Windows PowerShell
-curl -s -X POST http://localhost:8080/echo `
-  -H "Content-Type: application/json" `
-  -d '{"text": "Hello CLI!"}'
+(Invoke-WebRequest -Uri http://localhost:8080/echo -Method POST `
+  -ContentType "application/json" `
+  -Body '{"text": "Hello CLI!"}' -UseBasicParsing).Content
 ```
 
 ```bash
@@ -97,7 +97,13 @@ Expected response:
 
 ### get_time
 
+```powershell
+# Windows PowerShell
+(Invoke-WebRequest -Uri http://localhost:8080/time -UseBasicParsing).Content
+```
+
 ```bash
+# macOS / Linux
 curl -s http://localhost:8080/time
 ```
 
@@ -110,9 +116,9 @@ Expected response:
 
 ```powershell
 # Windows PowerShell
-curl -s -X POST http://localhost:8080/calculate `
-  -H "Content-Type: application/json" `
-  -d '{"a": 42, "b": 17, "operation": "multiply"}'
+(Invoke-WebRequest -Uri http://localhost:8080/calculate -Method POST `
+  -ContentType "application/json" `
+  -Body '{"a": 42, "b": 17, "operation": "multiply"}' -UseBasicParsing).Content
 ```
 
 ```bash
@@ -137,24 +143,27 @@ This is where CLI outperforms MCP. Create a test file and send it:
 # Windows - create a test file
 "Hello binary world" | Out-File -Encoding utf8 ./work/test-upload.txt
 
-# Upload it
-curl -s -X POST http://localhost:8080/upload `
-  -F "file=@./work/test-upload.txt"
+# Upload it as raw bytes
+$bytes = [System.IO.File]::ReadAllBytes("$PWD/work/test-upload.txt")
+$r = Invoke-WebRequest -Uri http://localhost:8080/upload -Method POST `
+  -ContentType "application/octet-stream" -Body $bytes -UseBasicParsing
+$r.Content
 ```
 
 ```bash
 # macOS / Linux
 echo "Hello binary world" > /tmp/test-upload.txt
 curl -s -X POST http://localhost:8080/upload \
-  -F "file=@/tmp/test-upload.txt"
+  --data-binary @/tmp/test-upload.txt \
+  -H "Content-Type: application/octet-stream"
 ```
 
 Expected response:
 ```json
 {
   "result": "File received successfully",
-  "bytes": 20,
-  "content_type": "multipart/form-data; boundary=...",
+  "bytes": 45,
+  "content_type": "application/octet-stream",
   "note": "Binary data arrived intact - no encoding needed"
 }
 ```
@@ -284,10 +293,14 @@ With curl `-F "file=@..."`:
 ```bash
 # macOS / Linux - find and kill process on port 8080
 lsof -ti:8080 | xargs kill
-
-# Windows PowerShell
-Stop-Process -Id (Get-NetTCPConnection -LocalPort 8080).OwningProcess -Force
 ```
+
+```powershell
+# Windows PowerShell - kill by script name (safer than by port)
+Get-CimInstance Win32_Process -Filter "CommandLine LIKE '%rest-server%'" | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
+```
+
+> **Note:** Killing by port on Windows may hit system processes (PID 4). Always stop by script name instead.
 
 ### Problem: curl not found on Windows
 
