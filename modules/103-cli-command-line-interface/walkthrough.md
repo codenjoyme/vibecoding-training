@@ -241,14 +241,15 @@ With curl `-F "file=@..."`:
 | | MCP (via LLM) | CLI (curl) |
 |---|---|---|
 | Hallucination risk | ⚠️ LLM re-generates results | ✅ Zero — direct output |
+| Determinism | ❌ Same prompt may produce different calls | ✅ Same command = same result always |
 | Token cost | 🔴 High — schema + reasoning + output | ✅ Zero |
-| Binary files | ❌ Requires Base64 encoding | ✅ Native multipart |
+| Binary files | ❌ Requires Base64 encoding | ✅ Native octet-stream |
 | Human-readable | ✅ Natural language in/out | ⚠️ JSON in/out |
 | AI chaining tools | ✅ AI decides what to call | ❌ You decide explicitly |
 
 **Rule of thumb:**
 - Use **MCP** when you want AI to reason, chain tools, or translate natural language to actions
-- Use **CLI** when you need precision, speed, binary data, or zero hallucination risk
+- Use **CLI** when you need **deterministic** execution, speed, binary data, or zero hallucination risk
 
 ---
 
