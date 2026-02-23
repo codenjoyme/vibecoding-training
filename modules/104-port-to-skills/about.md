@@ -1,7 +1,7 @@
 # Port Existing Code into Skills
 
 **Duration:** 15-20 minutes  
-**Skill:** Convert an existing backend service into a portable CLI tool and package it as a reusable AI Skill — using the original code as the specification
+**Skill:** Port an existing backend service into a portable CLI tool and package it as a reusable AI Skill — using the original code as the specification, with no prompt engineering required
 
 **👉 [Start hands-on walkthrough](walkthrough.md)**
 
@@ -9,14 +9,15 @@
 
 - Using existing code as a specification (better than text descriptions)
 - Why LLMs read code better than natural language requirements
-- Porting Java service logic to a cross-platform Python CLI script
+- Porting familiar Java service logic (`echo`, `get_time`, `calculate`) to a cross-platform Python CLI
 - Writing the instruction file — the "manual for your LLM"
 - Packaging instruction + tool as a reusable Skill following AgentSkills.io principles
+- Comparing MCP vs REST vs CLI Skill — three forms of the same three tools
 - When porting is faster than building from scratch
 
 ## Learning Outcome
 
-Take any existing backend service (Java, C#, Python, etc.) and convert it into a portable, deterministic CLI tool packaged as a reusable AI Skill — without running or compiling the original code. The existing code encodes your requirements so you skip prompt engineering entirely.
+Port a Java Spring service (the same `echo`, `get_time`, `calculate` tools from modules 100 and 103) into a standalone Python CLI tool packaged as an AI Skill — without running or compiling the original code. Understand why three forms of the same tools (MCP, REST, CLI Skill) exist and when to choose each.
 
 ## Prerequisites
 

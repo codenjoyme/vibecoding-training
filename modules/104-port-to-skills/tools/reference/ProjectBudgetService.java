@@ -1,132 +1,76 @@
-package com.example.projectmanager.service;
+package com.example.demo.service;
 
 import org.springframework.stereotype.Service;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
- * Service for project budget calculations.
- * Used internally by ProjectController REST endpoints.
+ * Core tools service — the same three operations exposed in Module 100 (MCP)
+ * and Module 103 (REST/CLI): echo, get_time, and calculate.
  *
- * NOTE: This is the canonical source of budget calculation logic.
- * All calculation rules, rounding behavior, and edge case handling
- * are defined here. Downstream clients (CLI tools, scripts, reports)
+ * NOTE: This is the canonical source of tool logic.
+ * All formatting rules, operation behavior, and edge case handling
+ * are defined here. Downstream clients (CLI scripts, MCP servers)
  * must reproduce this logic exactly.
  */
 @Service
-public class ProjectBudgetService {
+public class ToolsService {
 
     /**
-     * Calculate total project cost including labor and overhead.
+     * Echo the input text back with a prefix.
      *
-     * Assumes 8 working hours per person per day.
-     * Overhead is calculated as a percentage of labor cost only (not total).
+     * Output format: "Echo: {text}"
+     * This is intentionally trivial — used to verify the tool pipeline works end-to-end.
      *
-     * @param teamSize      number of team members
-     * @param hourlyRate    cost per person per hour (USD)
-     * @param durationDays  project duration in working days
-     * @param overheadPct   overhead percentage (e.g. 20 for 20%)
-     * @return ProjectCostResult with labor, overhead, and total cost
+     * @param text  any non-null string
+     * @return "Echo: " + text
      */
-    public ProjectCostResult calculateProjectCost(
-            int teamSize, double hourlyRate, int durationDays, double overheadPct) {
-
-        double totalHours = teamSize * durationDays * 8.0;
-        double laborCost = round(totalHours * hourlyRate);
-        double overheadCost = round(laborCost * overheadPct / 100.0);
-        double totalCost = round(laborCost + overheadCost);
-
-        return new ProjectCostResult(totalHours, laborCost, overheadCost, totalCost);
+    public String echo(String text) {
+        return "Echo: " + text;
     }
 
     /**
-     * Calculate Return on Investment (ROI) as a percentage.
+     * Return the current server timestamp as a formatted string.
      *
-     * Formula: ROI = (netProfit / investment) * 100
-     * Result is rounded to 2 decimal places.
+     * Output format: "Current time: yyyy-MM-dd HH:mm:ss"
+     * Uses the server's local timezone (no UTC conversion).
      *
-     * @param investment  total investment amount (USD)
-     * @param netProfit   net profit generated (USD, may be negative)
-     * @return ROI as a percentage (e.g. 25.0 means 25%)
-     * @throws IllegalArgumentException if investment is zero
+     * @return formatted current datetime string
      */
-    public double calculateROI(double investment, double netProfit) {
-        if (investment == 0) {
-            throw new IllegalArgumentException("Investment cannot be zero");
-        }
-        return round((netProfit / investment) * 100.0);
+    public String getTime() {
+        String formatted = LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return "Current time: " + formatted;
     }
 
     /**
-     * Calculate project burn rate and budget forecast.
+     * Perform a basic arithmetic operation on two numbers.
      *
-     * Daily burn rate = spentSoFar / daysElapsed
-     * Projected total = dailyBurnRate * totalDays
-     * Days until budget empty = remainingBudget / dailyBurnRate
+     * Supported operations: add, subtract, multiply, divide
+     * Output format: "Result: {a} {operation} {b} = {result}"
+     * Result is a double; no rounding is applied.
      *
-     * @param budget        total approved budget (USD)
-     * @param spentSoFar    amount spent to date (USD)
-     * @param daysElapsed   working days elapsed since project start
-     * @param totalDays     total project duration in working days
-     * @return BurnRateResult with daily rate, projection, and risk flags
-     * @throws IllegalArgumentException if daysElapsed is zero
+     * @param a          first operand
+     * @param b          second operand
+     * @param operation  one of: "add", "subtract", "multiply", "divide"
+     * @return formatted result string
+     * @throws IllegalArgumentException if operation is unknown or b is zero for divide
      */
-    public BurnRateResult calculateBurnRate(
-            double budget, double spentSoFar, int daysElapsed, int totalDays) {
-
-        if (daysElapsed == 0) {
-            throw new IllegalArgumentException("Days elapsed cannot be zero");
+    public String calculate(double a, double b, String operation) {
+        double result;
+        switch (operation) {
+            case "add":      result = a + b; break;
+            case "subtract": result = a - b; break;
+            case "multiply": result = a * b; break;
+            case "divide":
+                if (b == 0) throw new IllegalArgumentException("Division by zero");
+                result = a / b;
+                break;
+            default:
+                throw new IllegalArgumentException(
+                    "Unknown operation: " + operation +
+                    ". Allowed: add, subtract, multiply, divide");
         }
-
-        double dailyBurnRate = round(spentSoFar / daysElapsed);
-        double projectedTotal = round(dailyBurnRate * totalDays);
-        double remainingBudget = round(budget - spentSoFar);
-        int daysUntilEmpty = (int) (remainingBudget / dailyBurnRate);
-        boolean overBudget = projectedTotal > budget;
-
-        return new BurnRateResult(dailyBurnRate, projectedTotal, remainingBudget,
-                daysUntilEmpty, overBudget);
-    }
-
-    // --- Utility ---
-
-    private double round(double value) {
-        return BigDecimal.valueOf(value)
-                .setScale(2, RoundingMode.HALF_UP)
-                .doubleValue();
-    }
-
-    // --- Result classes ---
-
-    public static class ProjectCostResult {
-        public final double totalHours;
-        public final double laborCost;
-        public final double overheadCost;
-        public final double totalCost;
-
-        public ProjectCostResult(double totalHours, double laborCost,
-                                  double overheadCost, double totalCost) {
-            this.totalHours = totalHours;
-            this.laborCost = laborCost;
-            this.overheadCost = overheadCost;
-            this.totalCost = totalCost;
-        }
-    }
-
-    public static class BurnRateResult {
-        public final double dailyBurnRate;
-        public final double projectedTotal;
-        public final double remainingBudget;
-        public final int daysUntilEmpty;
-        public final boolean overBudget;
-
-        public BurnRateResult(double dailyBurnRate, double projectedTotal,
-                               double remainingBudget, int daysUntilEmpty, boolean overBudget) {
-            this.dailyBurnRate = dailyBurnRate;
-            this.projectedTotal = projectedTotal;
-            this.remainingBudget = remainingBudget;
-            this.daysUntilEmpty = daysUntilEmpty;
-            this.overBudget = overBudget;
-        }
+        return String.format("Result: %s %s %s = %s", a, operation, b, result);
     }
 }
