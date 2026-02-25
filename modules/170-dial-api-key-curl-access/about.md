@@ -22,7 +22,7 @@ You will successfully request and receive your EPAM AI DIAL API key, then execut
 
 ### Required Modules
 
-None — this is an entry-point module for the DIAL track.
+- [080 — Learning from Hallucinations](../080-learning-from-hallucinations/about.md)
 
 ### Required Skills & Tools
 
