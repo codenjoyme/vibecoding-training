@@ -145,33 +145,25 @@ This server is written in **PowerShell** (Windows) and **Bash** (Linux/macOS), r
    chmod +x ./modules/100-mcp-model-context-protocol/tools/mcp-echo.sh
    ```
 
-5. **Reload VS Code window**
+5. **Start the MCP server**
    
-   - Open Command Palette (Ctrl+Shift+P / Cmd+Shift+P)
-   - Type "Reload Window"
-   - Press Enter
-   
-   This activates the MCP server.
-
-6. **⚠️ IMPORTANT: Verify and manually start server if needed (VS Code only)**
-   
-   After reload, look at the **bottom status bar** of VS Code. You should see:
+   After saving `mcp.json`, VS Code automatically detects the file and shows an inline action bar directly inside the editor:
    
    ```
-   mcp.json > echo-windows: Running | Stop | Restart | 3 tools | More...
+   ✓ Running | Stop | Restart | 3 tools | More...
    ```
    
-   **If the server didn't start automatically:**
-   - Click on **"mcp.json"** in the status bar
-   - Click **"Restart"** button to start the server manually
-   - Wait until status shows **"Running"**
+   **If the server is not running yet:**
+   - Click **"Start"** or **"Restart"** in the inline bar inside `mcp.json`
+   - Wait a moment until status changes to **"Running"**
    
-   **If you don't see the status bar at all:**
-   - The MCP server may still be starting (wait 5-10 seconds)
-   - Or your VS Code version doesn't support MCP status indicators
-   - Check the Output panel instead (View → Output → "Model Context Protocol")
+   **No window reload required!** VS Code picks up `mcp.json` changes automatically.
    
-   **Visual guide:** When working, the status bar shows server name, state (Running/Stopped), and tool count ("3 tools").
+   **Verify in Output panel** (View → Output → "Model Context Protocol"):
+   ```
+   [info] Connection state: Running
+   [info] Discovered 3 tools
+   ```
 
 ### 2.2 Configuration for Cursor
 
