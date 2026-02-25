@@ -22,11 +22,17 @@ You will be able to create and configure AI agents on Elitea no-code platform, c
 
 ## Prerequisites
 
-- Completed [Module 100: Model Context Protocol (MCP)](../100-mcp-model-context-protocol/about.md)
-- Completed [Module 105: MCP GitHub Integration - Issues Management](../105-mcp-github-integration-issues/about.md)
+### Required Modules
+
+- [100 — Model Context Protocol (MCP)](../100-mcp-model-context-protocol/about.md)
+- [105 — MCP GitHub Integration — Issues](../105-mcp-github-integration-issues/about.md)
+
+### Required Skills & Tools
+
 - Active EPAM account with access to Elitea platform
-- Python installed on local machine
+- Python 3.10+ installed on local machine
 - Basic understanding of virtual environments
+- Internet connection for Elitea platform access
 
 ## When to Use
 

@@ -5,9 +5,7 @@ Large Language Models are amazing at generating text, but they can hallucinate w
 
 ## Prerequisites
 
-- Complete [Learning from Hallucinations](../080-learning-from-hallucinations/about.md) module
-- Familiar with creating and refining instruction files
-- Basic understanding of scripting (Python, PowerShell, or Bash)
+See [module overview](about.md) for full prerequisites list.
 
 ## Exercise Overview
 

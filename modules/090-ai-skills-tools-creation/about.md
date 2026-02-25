@@ -21,7 +21,12 @@ Transform unreliable AI calculations into accurate, repeatable skills by packagi
 
 ## Prerequisites
 
-- Complete [Learning from Hallucinations](../080-learning-from-hallucinations/about.md) module
+### Required Modules
+
+- [080 — Learning from Hallucinations](../080-learning-from-hallucinations/about.md)
+
+### Required Skills & Tools
+
 - Familiar with creating and refining instruction files
 - Basic understanding of scripting (Python, PowerShell, or Bash)
 

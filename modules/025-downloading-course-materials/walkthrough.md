@@ -29,11 +29,7 @@ In this walkthrough, you'll download the complete course repository and set it u
 
 ## Prerequisites
 
-- Completed Module 010 (Installing VSCode + GitHub Copilot)
-- Completed Module 020 (Installing Cursor) - optional but recommended
-- IDE (VS Code or Cursor) installed and working
-- `c:/workspace/hello-genai/` (Windows) or `~/workspace/hello-genai/` (macOS/Linux) folder created
-- Internet connection for downloading
+See [module overview](about.md) for full prerequisites list.
 
 ---
 

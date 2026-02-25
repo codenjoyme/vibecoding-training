@@ -4,10 +4,7 @@ In this walkthrough, you'll learn how to use Langchain's prompt templates to cre
 
 ## Prerequisites
 
-- Completed **Module 180: DIAL Integration with Python and Langchain**
-- Python virtual environment set up in `work/180-task`
-- DIAL API credentials configured in `.env` file
-- Virtual environment activated (showing `.venv` prefix in terminal)
+See [module overview](about.md) for full prerequisites list.
 
 ## Quick Start: Copy Example Script
 

@@ -43,17 +43,9 @@ Notice how new words push out earlier ones? This is your cognitive limit in acti
 
 ---
 
-## Prerequisites Check
+## Prerequisites
 
-Before starting, verify you have:
-
-- [ ] Course materials downloaded (Module 025 completed)
-- [ ] `work/` folder exists in your course directory
-- [ ] Git installed (run `git --version` in terminal)
-- [ ] GitHub account (optional but recommended)
-- [ ] Code editor (VSCode or Cursor)
-
-If Git not installed, see [git-workflow.agent.md](../../instructions/git-workflow.agent.md#git-installation-and-setup).
+See [module overview](about.md) for full prerequisites list.
 
 ---
 

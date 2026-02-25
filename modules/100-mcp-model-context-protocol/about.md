@@ -19,5 +19,12 @@ Understand MCP and its potential
 
 ## Prerequisites
 
-- Understanding of AI Skills concept
+### Required Modules
+
+- [090 — AI Skills & Tools Creation](../090-ai-skills-tools-creation/about.md)
+
+### Required Skills & Tools
+
 - Familiarity with APIs and data sources
+- Familiarity with JSON configuration files
+- Access to VS Code or Cursor IDE

@@ -4,10 +4,7 @@ You've learned how to create skills by pairing instruction files with tools. But
 
 ## Prerequisites
 
-- Basic understanding of AI Skills concept from [Module 090](../090-ai-skills-tools-creation/about.md)
-- Familiarity with JSON configuration files
-- Access to VS Code or Cursor IDE
-- PowerShell (Windows) or Bash (Linux/macOS) available
+See [module overview](about.md) for full prerequisites list.
 
 ## What We'll Build
 

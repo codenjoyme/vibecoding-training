@@ -4,11 +4,7 @@ You've learned how to set up MCP servers and understand the protocol. Now it's t
 
 ## Prerequisites
 
-- Completed [Module 100: Model Context Protocol (MCP)](../100-mcp-model-context-protocol/about.md)
-- Understanding of `mcp.json` configuration for your IDE
-- Active GitHub account with authentication token
-- Git installed and configured in your environment
-- Current workspace with Git repository initialized
+See [module overview](about.md) for full prerequisites list.
 
 ## What We'll Build
 

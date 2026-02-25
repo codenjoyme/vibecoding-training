@@ -20,9 +20,14 @@ You will be able to find, export, and share your GitHub Copilot chat sessions. Y
 
 ## Prerequisites
 
-- Completed Module 070: Custom Instructions
-- VS Code with GitHub Copilot installed and used for at least one chat session
-- Python 3 installed (no external dependencies required)
+### Required Modules
+
+- [070 — Custom Instructions](../070-custom-instructions/about.md)
+
+### Required Skills & Tools
+
+- VS Code with GitHub Copilot — at least one chat session in history
+- Python 3 installed (`python --version` should work in terminal)
 - Basic understanding of command line operations
 
 ## When to Use

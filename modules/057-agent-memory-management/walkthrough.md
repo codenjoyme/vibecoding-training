@@ -4,11 +4,7 @@ In this module, you'll learn how to give AI agents persistent memory for multi-s
 
 ## Prerequisites
 
-- Completed module 040 (Agent Mode basics)
-- Completed module 050 (Effective Prompting)
-- Completed module 055 (Clarifying Requirements)
-- VS Code with GitHub Copilot installed OR Cursor IDE
-- An empty test project or workspace folder
+See [module overview](about.md) for full prerequisites list.
 
 ## What We'll Practice
 

@@ -26,7 +26,12 @@ Stop editing instructions manually—delegate refinements to your AI agent, crea
 
 ## Prerequisites
 
-- Complete [Custom Instructions](../070-custom-instructions/about.md) module
+### Required Modules
+
+- [070 — Custom Instructions](../070-custom-instructions/about.md)
+
+### Required Skills & Tools
+
 - Understanding of instruction file structure
 - Experience with AI agent workflows
 

@@ -4,9 +4,7 @@ When AI generates something unexpected, it's not always an error—it's often a 
 
 ## Prerequisites
 
-- Complete [Custom Instructions](../070-custom-instructions/about.md) module
-- Familiar with creating and organizing instruction files
-- Understanding of how AI agents work with instructions
+See [module overview](about.md) for full prerequisites list.
 
 ## Exercise Overview
 

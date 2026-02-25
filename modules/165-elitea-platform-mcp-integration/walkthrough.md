@@ -4,11 +4,7 @@ In this walkthrough, you'll learn how to integrate Elitea platform agents into y
 
 ## Prerequisites
 
-- VS Code installed with GitHub Copilot or Cursor IDE
-- Active EPAM account with access to Elitea platform
-- Python 3.10+ installed on your machine
-- Completed Module 100 and Module 105 on MCP basics
-- Internet connection for Elitea platform access
+See [module overview](about.md) for full prerequisites list.
 
 ## What We'll Set Up
 

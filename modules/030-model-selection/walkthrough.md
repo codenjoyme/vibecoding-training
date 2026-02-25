@@ -4,10 +4,7 @@ In this walkthrough, you'll learn how to choose the right AI model for your vibe
 
 ## Prerequisites
 
-- Completed Module 1 (Installing VSCode + GitHub Copilot)
-- Completed Module 2 (Installing Cursor)
-- Active GitHub Copilot or Cursor subscription
-- Understanding of basic AI assistant concepts
+See [module overview](about.md) for full prerequisites list.
 
 ---
 

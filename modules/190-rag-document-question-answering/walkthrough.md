@@ -4,11 +4,7 @@ In this walkthrough, you'll build a Retrieval-Augmented Generation (RAG) system 
 
 ## Prerequisites
 
-- Completed **Module 180: DIAL Integration with Python and Langchain**
-- Completed **Module 185: Prompt Templates for Dynamic Queries**
-- Python virtual environment set up in `work/180-task`
-- DIAL API credentials with embedding model configured in `.env`
-- Virtual environment activated (showing `.venv` prefix in terminal)
+See [module overview](about.md) for full prerequisites list.
 
 ## Quick Start: Install FAISS and Copy Script
 

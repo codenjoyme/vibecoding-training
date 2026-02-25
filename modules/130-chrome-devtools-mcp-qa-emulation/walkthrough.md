@@ -6,11 +6,7 @@ The real power comes from **hot reload**: when the agent fixes code, changes app
 
 ## Prerequisites
 
-Before starting, ensure you have:
-- Completed [Module 120: Rapid POC Prototyping](../120-rapid-poc-prototyping/about.md)
-- Working web application in `work/120-task/` directory
-- VS Code or Cursor IDE with MCP integration enabled
-- Internet connection for installing Chrome DevTools MCP
+See [module overview](about.md) for full prerequisites list.
 
 ## What We'll Build
 

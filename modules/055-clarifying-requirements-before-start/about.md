@@ -20,8 +20,14 @@ Ability to transform vague ideas into actionable plans through AI-driven questio
 
 ## Prerequisites
 
-- Basic prompting skills
-- Understanding of effective prompting principles
+### Required Modules
+
+- [050 — Effective Prompting](../050-effective-prompting-without-arguing/about.md)
+
+### Required Skills & Tools
+
+- Understanding of how to write precise prompts with statements
+- Basic experience with AI coding assistants
 
 ## When to Use
 

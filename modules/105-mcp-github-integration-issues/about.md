@@ -21,10 +21,15 @@ Automate GitHub repository and issue management through AI chat, eliminating man
 
 ## Prerequisites
 
-- Completed [Module 100: Model Context Protocol (MCP)](../100-mcp-model-context-protocol/about.md)
+### Required Modules
+
+- [100 — Model Context Protocol (MCP)](../100-mcp-model-context-protocol/about.md)
+- [060 — Version Control with Git](../060-version-control-git/about.md)
+
+### Required Skills & Tools
+
 - Understanding of MCP configuration (mcp.json files)
-- Basic Git knowledge from [Module 060: Version Control](../060-version-control-git/about.md)
-- Active GitHub account
+- Active GitHub account with authentication token
 - Current workspace connected to Git
 
 ## When to Use

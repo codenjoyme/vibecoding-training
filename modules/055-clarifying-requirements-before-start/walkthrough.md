@@ -4,9 +4,7 @@ In this walkthrough, you'll learn how to use AI as an interviewer to transform v
 
 ## Prerequisites
 
-- Completed Module 050 (Effective Prompting Without Arguing)
-- Understanding of how to write precise prompts with statements
-- Basic experience with AI coding assistants
+See [module overview](about.md) for full prerequisites list.
 
 ---
 

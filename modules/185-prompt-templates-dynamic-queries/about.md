@@ -20,8 +20,13 @@ You'll create dynamic prompt templates that accept variables (topic, style, form
 
 ## Prerequisites
 
-- **180-dial-langchain-python-integration** - Python environment with Langchain installed
-- Python virtual environment activated in `work/python-ai-workspace`
+### Required Modules
+
+- [180 — DIAL Integration with Python and Langchain](../180-dial-langchain-python-integration/about.md)
+
+### Required Skills & Tools
+
+- Python virtual environment activated in `work/180-task`
 - DIAL API credentials configured in `.env` file
 - Basic understanding of string formatting and variables
 

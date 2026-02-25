@@ -179,6 +179,9 @@
 
 ## Module Execution Flow
 
+- Read current module's `about.md` to check `## Prerequisites` → `### Required Modules` section.
+  + If any required modules are not marked complete in `training-progress.md`, **recommend** completing them first (advisory, not blocking).
+  + Prerequisites use standardized format — see `create-training-module.agent.md` for details.
 - Read current module's `walkthrough.md` file completely.
 - Guide user through walkthrough from top to bottom.
 - Follow structure in walkthrough.md exactly - it's the lesson plan.
@@ -509,8 +512,11 @@ Some modules work with external projects that have their own AI configuration fi
   + Explain briefly why it's important for skill formation.
   + If user insists - note in progress file that module skipped, not completed.
 - If user asks to jump to different module:
-  + Check prerequisites in that module's about.md.
-  + Warn if prerequisites not met, but allow if user wants to try.
+  + Check the `## Prerequisites` → `### Required Modules` section in that module's `about.md`.
+  + Each required module is listed as a markdown link: `[{ID} — {Name}](../path/about.md)`.
+  + Cross-reference with `training-progress.md` to verify which required modules are completed.
+  + If any required modules are NOT completed — **recommend** (not block) completing them first. Explain which specific modules are missing and why they matter for the target module. Example: "⚠️ Module 120 requires modules 110, 070, and 040. I see 040 is done, but 110 and 070 are not yet completed. I'd recommend doing them first — 110 sets up Node.js and Docker which you'll need, and 070 covers custom instructions used by SpecKit. Want to start with one of those, or proceed to 120 anyway?"
+  + If user insists on skipping prerequisites — allow it, but note in progress file.
 
 ## Marking Module Complete
 

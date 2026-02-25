@@ -19,7 +19,13 @@ Complete Node.js and Docker development environment ready for vibecoding project
 
 ## Prerequisites
 
-- Completed [Module 060: Version Control with Git](../060-version-control-git/about.md)
-- Administrator access to your computer
+### Required Modules
+
+- [060 — Version Control with Git](../060-version-control-git/about.md)
+
+### Required Skills & Tools
+
+- Administrator/sudo access on your computer
 - Basic terminal/command line knowledge
 - Active internet connection for downloads
+- At least 5 GB free disk space

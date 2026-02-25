@@ -11,12 +11,7 @@ With MCP integration, the AI agent can:
 
 ## Prerequisites
 
-Before starting, ensure you have:
-- Completed [Module 120: Rapid POC Prototyping](../120-rapid-poc-prototyping/about.md)
-- Working web application in `work/120-task/`
-- Node.js backend (Express, Fastify, or similar)
-- Understanding of REST APIs
-- Familiarity with MCP from Module 100
+See [module overview](about.md) for full prerequisites list.
 
 ## What We'll Build
 

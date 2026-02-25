@@ -10,10 +10,7 @@ This module runs in a **separate workspace** (`work/300-task/`) to avoid conflic
 
 ## Prerequisites
 
-- Cursor or VS Code with GitHub Copilot installed
-- Git installed
-- Git Bash (Windows) or Terminal (macOS/Linux)
-- Completed Module 090: AI Skills - Context, Tools & Memory
+See [module overview](about.md) for full prerequisites list.
 
 ---
 

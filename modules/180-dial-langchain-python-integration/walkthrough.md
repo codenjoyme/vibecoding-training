@@ -4,10 +4,7 @@ In this walkthrough, you'll build a complete Python project that connects to EPA
 
 ## Prerequisites
 
-- Python 3.10 or higher installed
-- Valid EPAM AI DIAL API key (from Module 170)
-- Command line access (PowerShell or Terminal)
-- Text editor or IDE (VS Code recommended)
+See [module overview](about.md) for full prerequisites list.
 
 ## Quick Start: Automated Setup (RECOMMENDED)
 

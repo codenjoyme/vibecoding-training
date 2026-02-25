@@ -6,9 +6,7 @@ The tools are deliberately the same. This lets you focus on *the porting techniq
 
 ## Prerequisites
 
-- Complete [AI Skills & Tools Creation](../090-ai-skills-tools-creation/about.md) — you must understand the Skill formula (instruction + tool)
-- Complete [CLI: Command Line Interface](../103-cli-command-line-interface/about.md) — you must understand why CLI bypasses LLM for deterministic results
-- Python 3 available in your terminal (`python --version` or `python3 --version`)
+See [module overview](about.md) for full prerequisites list.
 
 ---
 

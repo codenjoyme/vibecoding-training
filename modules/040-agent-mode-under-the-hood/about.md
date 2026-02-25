@@ -19,4 +19,11 @@ Mental model of AI assistant behavior
 
 ## Prerequisites
 
+### Required Modules
+
+- [030 — Model Selection](../030-model-selection/about.md)
+
+### Required Skills & Tools
+
 - Experience using AI assistant for basic tasks
+- Basic understanding of how AI chat interfaces work

@@ -4,10 +4,7 @@ In this walkthrough, you'll discover that every AI chat session you've had in VS
 
 ## Prerequisites
 
-- Completed Module 070: Custom Instructions
-- VS Code with GitHub Copilot — at least one chat session in history
-- Python 3 installed (`python --version` should work in terminal)
-- No external Python packages needed — script uses only standard library
+See [module overview](about.md) for full prerequisites list.
 
 ---
 

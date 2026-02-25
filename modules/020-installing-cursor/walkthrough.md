@@ -10,10 +10,7 @@ In this walkthrough, you'll install Cursor IDE, an AI-native code editor, and se
 
 ## Prerequisites
 
-- Computer with Windows, macOS, or Linux
-- Internet connection
-- Completed Module 1 (Installing VSCode + GitHub Copilot)
-- Understanding of basic IDE concepts
+See [module overview](about.md) for full prerequisites list.
 
 ---
 

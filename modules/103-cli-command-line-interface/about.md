@@ -20,6 +20,12 @@ Understand the difference between MCP (LLM-mediated tool calls) and CLI (direct 
 
 ## Prerequisites
 
-- Completed [Module 100: Model Context Protocol (MCP)](../100-mcp-model-context-protocol/about.md)
+### Required Modules
+
+- [100 — Model Context Protocol (MCP)](../100-mcp-model-context-protocol/about.md)
+
+### Required Skills & Tools
+
 - Basic familiarity with terminal/PowerShell
 - curl available (pre-installed on Windows 10+, macOS, Linux)
+- Python 3 available (`python --version`)

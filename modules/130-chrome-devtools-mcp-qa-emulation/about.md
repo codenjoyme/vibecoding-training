@@ -21,7 +21,13 @@ AI agent autonomously tests your web application features, catches bugs, and bui
 
 ## Prerequisites
 
-- Completed [Module 120: Rapid POC Prototyping](../120-rapid-poc-prototyping/about.md)
+### Required Modules
+
+- [120 — Rapid Prototyping with SpecKit](../120-rapid-poc-prototyping-with-speckit/about.md)
+
+### Required Skills & Tools
+
 - Working web application in `work/120-task/`
-- VS Code or Cursor IDE with MCP integration
+- VS Code or Cursor IDE with MCP integration enabled
 - Basic understanding of web development and testing
+- Internet connection for installing Chrome DevTools MCP

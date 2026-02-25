@@ -6,10 +6,7 @@ You'll run the same three tools (`echo`, `get_time`, `calculate`) on a local RES
 
 ## Prerequisites
 
-- Completed [Module 100: Model Context Protocol (MCP)](../100-mcp-model-context-protocol/about.md)
-- Terminal (PowerShell on Windows, or any shell on macOS/Linux)
-- curl — pre-installed on Windows 10+, macOS, and all Linux distros
-- Python 3 — pre-installed on macOS/Linux; on Windows check with `python --version`
+See [module overview](about.md) for full prerequisites list.
 
 ---
 

@@ -17,5 +17,12 @@ Use Git to safely iterate with AI
 
 ## Prerequisites
 
-- Git installed
+### Required Modules
+
+- [025 — Downloading Course Materials](../025-downloading-course-materials/about.md)
+
+### Required Skills & Tools
+
+- Git installed (run `git --version` in terminal)
 - Basic command line familiarity
+- Code editor (VSCode or Cursor)

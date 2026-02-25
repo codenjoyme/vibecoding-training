@@ -21,9 +21,16 @@ Ability to guide AI agents through multi-step tasks by providing persistent memo
 
 ## Prerequisites
 
-- Basic prompting skills from module 050
-- Understanding of agent mode from module 040
-- Familiarity with clarifying requirements from module 055
+### Required Modules
+
+- [040 — Agent Mode & AI Mechanics](../040-agent-mode-under-the-hood/about.md)
+- [050 — Effective Prompting](../050-effective-prompting-without-arguing/about.md)
+- [055 — Clarifying Requirements with AI](../055-clarifying-requirements-before-start/about.md)
+
+### Required Skills & Tools
+
+- VS Code with GitHub Copilot installed OR Cursor IDE
+- An empty test project or workspace folder
 
 ## When to Use
 

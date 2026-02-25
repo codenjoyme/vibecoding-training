@@ -20,9 +20,16 @@ Ability to apply the SpecKit spec-driven workflow to build a full-stack Node.js 
 
 ## Prerequisites
 
-- [Module 110: Development Environment Setup](../110-development-environment-setup/about.md) — Node.js and Docker must be installed
-- [Module 070: Custom Instructions](../070-custom-instructions/about.md) — Understanding of AI agent instructions
-- [Module 040: Agent Mode & AI Mechanics](../040-agent-mode-under-the-hood/about.md) — Agent Mode required for SpecKit slash commands
+### Required Modules
+
+- [110 — Development Environment Setup](../110-development-environment-setup/about.md) — Node.js and Docker must be installed
+- [070 — Custom Instructions](../070-custom-instructions/about.md)
+- [040 — Agent Mode & AI Mechanics](../040-agent-mode-under-the-hood/about.md)
+
+### Required Skills & Tools
+
+- GitHub Copilot with Agent Mode enabled (VSCode or Cursor)
+- Node.js ≥ 20 and Docker installed and working
 
 ## When to Use
 

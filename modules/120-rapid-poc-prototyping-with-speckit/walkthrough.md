@@ -10,12 +10,7 @@ This module runs in a **separate workspace** (`work/120-task/`) because SpecKit 
 
 ## Prerequisites
 
-Before starting, ensure you have:
-- Completed [Module 110: Development Environment Setup](../110-development-environment-setup/about.md) — Node.js ≥ 20 and Docker must be working
-- Completed [Module 070: Custom Instructions](../070-custom-instructions/about.md)
-- Completed [Module 040: Agent Mode & AI Mechanics](../040-agent-mode-under-the-hood/about.md)
-- GitHub Copilot with Agent Mode enabled (VSCode or Cursor)
-- `uv` package manager available (see installation in Part 1)
+See [module overview](about.md) for full prerequisites list.
 
 ## What We'll Learn and Build
 

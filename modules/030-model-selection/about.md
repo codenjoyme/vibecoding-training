@@ -19,4 +19,12 @@ Understand when to use which model
 
 ## Prerequisites
 
-- Installed IDE with AI assistant (VSCode/Cursor)
+### Required Modules
+
+- [010 — Installing VSCode + GitHub Copilot](../010-installing-vscode-github-copilot/about.md)
+- [020 — Installing Cursor](../020-installing-cursor/about.md) *(optional, alternative to 010)*
+
+### Required Skills & Tools
+
+- Installed IDE with AI assistant (VSCode or Cursor)
+- Active GitHub Copilot or Cursor subscription

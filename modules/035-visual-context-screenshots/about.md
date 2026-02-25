@@ -19,10 +19,15 @@ Use screenshots to show AI exactly what you see, enabling accurate assistance wh
 
 ## Prerequisites
 
-- Completed Module 030 (Model Selection)
+### Required Modules
+
+- [030 — Model Selection](../030-model-selection/about.md)
+
+### Required Skills & Tools
+
 - Active AI assistant (VSCode with GitHub Copilot or Cursor)
 - Understanding of Agent Mode
-- Any web browser installed
+- Any web browser installed (Chrome, Firefox, Edge, Safari)
 
 ## When to Use
 

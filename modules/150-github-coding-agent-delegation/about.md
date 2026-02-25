@@ -22,10 +22,16 @@ Ability to delegate well-defined tasks to GitHub coding agent for autonomous imp
 
 ## Prerequisites
 
-- Understanding of GitHub issues (Module 105)
+### Required Modules
+
+- [105 — MCP GitHub Integration — Issues](../105-mcp-github-integration-issues/about.md)
+- [120 — Rapid Prototyping with SpecKit](../120-rapid-poc-prototyping-with-speckit/about.md)
+
+### Required Skills & Tools
+
+- Active GitHub Copilot subscription with access to GitHub Coding Agent
 - Experience with Git and pull requests
-- Completed rapid prototyping module
-- Understanding of MCP and AI capabilities
+- GitHub repository with at least one issue created
 
 ## When to Use
 

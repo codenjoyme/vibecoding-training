@@ -27,14 +27,15 @@
   + What specific skill will this module teach?
   + Where should it be placed in learning sequence (after which module)?
   + What are the main topics to cover (3-5 bullet points)?
-  + What are the prerequisites (which modules should be completed first)?
+  + What are the prerequisites? Specifically:
+    * Which module IDs must be completed first? (these become `### Required Modules` links)
+    * What tools/accounts/knowledge are needed? (these become `### Required Skills & Tools`)
   + What practical outcome should learner achieve?
   + What are the concrete hands-on steps to practice this skill?
 - Determine module number based on placement (use existing number + 5 if between modules).
 - Create descriptive folder name that reflects skill being taught.
-- Generate both `about.md` and `walkthrough.md` filesbased on placement (use existing number + 5 if between modules).
-- Create descriptive folder name that reflects skill being taught.
-- Generate `about.md` file with proper structure.
+- Generate `about.md` with standardized Prerequisites format (see Prerequisites Section Format below).
+- Generate `walkthrough.md` with prerequisites reference to about.md (not duplicated).
 
 ## about.md File Structure
 
@@ -44,15 +45,49 @@
 - Link to walkthrough: `**👉 [Start hands-on walkthrough](walkthrough.md)**` (placed after Skill section)
 - Topics section with bullet list of main topics covered
 - Learning Outcome section with clear result statement
-- Prerequisites section listing required prior modules/knowledge
+- **Prerequisites section** — standardized, machine-parseable (see below)
 - Optional: When to Use section for practical application guidance
 - Optional: Resources section with links to tools/documentation
+
+## Prerequisites Section Format (Standardized)
+
+The `## Prerequisites` in `about.md` is the **single source of truth** for module dependencies. Format must be machine-parseable for dependency graph extraction.
+
+**Required structure:**
+
+- **`### Required Modules`** — each dependency as `- [{3-digit ID} — {Title}](../folder-name/about.md)`
+  + Optional deps get ` *(optional, recommended)*` suffix.
+  + Entry-point modules: `None — this is an entry-point module.` (optionally add track name).
+- **`### Required Skills & Tools`** — bullet list of tools, accounts, knowledge (advisory, no links needed).
+
+**Example:**
+
+```markdown
+## Prerequisites
+
+### Required Modules
+
+- [100 — Model Context Protocol (MCP)](../100-mcp-model-context-protocol/about.md)
+- [060 — Version Control with Git](../060-version-control-git/about.md) *(optional, recommended)*
+
+### Required Skills & Tools
+
+- Active GitHub account with authentication token
+- Current workspace connected to Git
+```
+
+**Parsing regex:** `^\- \[(\d{3}) — (.+?)\]\((.+?)\)` extracts ID, name, and path from each `### Required Modules` link.
 
 ## walkthrough.md File Structure
 
 - Title: `# [Module Name] - Hands-on Walkthrough`
 - Brief introduction paragraph explaining what you'll accomplish
-- Prerequisites section listing what needs to be completed first
+- Prerequisites: **Do NOT duplicate prerequisites in walkthrough.md**. Instead, use a single reference line:
+  ```markdown
+  ## Prerequisites
+
+  See [module overview](about.md) for full prerequisites list.
+  ```
 - **"What We'll Install/Build" section** - Explain components before installation
   + List each component with brief description
   + Explain why it's needed
@@ -108,6 +143,8 @@
 - Skill statement should be actionable and specific.
 - Topics should be concrete, not abstract.
 - Learning Outcome should be measurable/verifiable.
+- **Prerequisites must follow standardized format** — `### Required Modules` with markdown links + `### Required Skills & Tools`. No free-form text.
+- **walkthrough.md must NOT contain its own prerequisites list** — only a reference: `See [module overview](about.md) for full prerequisites list.`
 - Prerequisites should reference actual prior modules when applicable.
 - Check that module fits logically in learning sequence.
 - Verify Success Criteria section includes all key accomplishments with ✅ checkboxes.

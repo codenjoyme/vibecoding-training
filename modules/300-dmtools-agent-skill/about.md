@@ -21,7 +21,12 @@ You will be able to install any third-party agent skill into your AI IDE (Cursor
 
 ## Prerequisites
 
-- Completed Module 090: AI Skills - Context, Tools & Memory
+### Required Modules
+
+- [090 — AI Skills & Tools Creation](../090-ai-skills-tools-creation/about.md)
+
+### Required Skills & Tools
+
 - Cursor or VS Code with GitHub Copilot installed
 - Git installed (for cloning the DMtools repository)
 - Git Bash (Windows) or Terminal (macOS/Linux)

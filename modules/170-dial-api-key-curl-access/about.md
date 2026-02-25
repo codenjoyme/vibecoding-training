@@ -20,9 +20,16 @@ You will successfully request and receive your EPAM AI DIAL API key, then execut
 
 ## Prerequisites
 
+### Required Modules
+
+None — this is an entry-point module for the DIAL track.
+
+### Required Skills & Tools
+
 - Access to EPAM AI DIAL chat interface: https://chat.lab.epam.com/
 - Ability to create support tickets on EPAM support portal
 - Basic command line skills (PowerShell on Windows or Terminal on macOS/Linux)
+- VPN connection to EPAM internal network
 - No programming knowledge required
 
 ## When to Use

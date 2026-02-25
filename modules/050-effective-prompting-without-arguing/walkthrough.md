@@ -4,9 +4,7 @@ In this walkthrough, you'll learn how to control AI model output through precise
 
 ## Prerequisites
 
-- Completed Module 040 (Agent Mode Under the Hood)
-- Understanding of how AI models generate text token by token
-- Experience with basic AI prompting
+See [module overview](about.md) for full prerequisites list.
 
 ---
 

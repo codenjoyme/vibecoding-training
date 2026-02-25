@@ -21,8 +21,13 @@ Port a Java Spring service (the same `echo`, `get_time`, `calculate` tools from 
 
 ## Prerequisites
 
-- Complete [AI Skills & Tools Creation](../090-ai-skills-tools-creation/about.md) module
-- Complete [CLI: Command Line Interface](../103-cli-command-line-interface/about.md) module
+### Required Modules
+
+- [090 — AI Skills & Tools Creation](../090-ai-skills-tools-creation/about.md)
+- [103 — CLI: Command Line Interface](../103-cli-command-line-interface/about.md)
+
+### Required Skills & Tools
+
 - Basic familiarity with running Python scripts from terminal
 
 ## When to Use

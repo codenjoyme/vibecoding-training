@@ -20,9 +20,15 @@ You will understand three evolutionary approaches to bulk file processing with A
 
 ## Prerequisites
 
-- Completed Module 150: GitHub Coding Agent Delegation
-- GitHub Copilot extension installed in VS Code
+### Required Modules
+
+- [150 — GitHub Coding Agent Delegation](../150-github-coding-agent-delegation/about.md)
+
+### Required Skills & Tools
+
+- GitHub Copilot extension installed and authorized in VS Code
 - Basic understanding of command line and Python scripts
+- Python 3.10+ installed
 - Familiarity with prompt engineering concepts
 
 ## When to Use

@@ -21,11 +21,16 @@ You will create a fully functional Python application with isolated virtual envi
 
 ## Prerequisites
 
-- Module 170: DIAL API Key and cURL Access completed
+### Required Modules
+
+- [170 — DIAL API Key and cURL Access](../170-dial-api-key-curl-access/about.md)
+
+### Required Skills & Tools
+
 - Valid DIAL API key obtained from EPAM support
 - Python 3.10+ installed on your system
 - Basic understanding of command line operations
-- No advanced programming knowledge required
+- Text editor or IDE (VS Code recommended)
 
 ## When to Use
 

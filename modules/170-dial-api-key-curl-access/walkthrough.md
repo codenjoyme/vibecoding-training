@@ -4,9 +4,7 @@ In this walkthrough, you'll request your EPAM AI DIAL API key and make your firs
 
 ## Prerequisites
 
-- Active EPAM employee account with access to internal portals
-- PowerShell (Windows) or Terminal (macOS/Linux) access
-- **VPN connection to EPAM internal network is required** (DIAL is only accessible from EPAM network)
+See [module overview](about.md) for full prerequisites list.
 
 ## Part 1: Understanding DIAL and API Keys
 

@@ -4,11 +4,7 @@ You've learned how to create GitHub issues through MCP integration in Module 105
 
 ## Prerequisites
 
-- Completed [Module 105: MCP GitHub Integration - Issues](../105-mcp-github-integration-issues/about.md)
-- Active GitHub Copilot subscription with access to GitHub Coding Agent
-- GitHub repository with at least one issue created
-- Understanding of Git pull requests and code review workflow
-- Workspace with `.github/copilot-instructions.md` or instruction files
+See [module overview](about.md) for full prerequisites list.
 
 ## What We'll Build
 

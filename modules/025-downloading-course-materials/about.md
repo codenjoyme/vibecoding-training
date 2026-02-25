@@ -22,10 +22,16 @@ By the end of this module, you will have the complete course repository download
 
 ## Prerequisites
 
-- **Module 010**: Installing VSCode + GitHub Copilot
-- **Module 020**: Installing Cursor (optional, but recommended)
+### Required Modules
+
+- [010 — Installing VSCode + GitHub Copilot](../010-installing-vscode-github-copilot/about.md)
+- [020 — Installing Cursor](../020-installing-cursor/about.md) *(optional, recommended)*
+
+### Required Skills & Tools
+
 - Basic familiarity with file system navigation
 - `c:/workspace/hello-genai/` folder created
+- Internet connection for downloading
 
 ## Why Download Locally?
 

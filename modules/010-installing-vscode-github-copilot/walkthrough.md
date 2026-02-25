@@ -10,9 +10,7 @@ In this walkthrough, you'll install Visual Studio Code, set up GitHub Copilot, a
 
 ## Prerequisites
 
-- Computer with Windows, macOS, or Linux
-- Internet connection
-- Administrator access to install software
+See [module overview](about.md) for full prerequisites list.
 
 ---
 

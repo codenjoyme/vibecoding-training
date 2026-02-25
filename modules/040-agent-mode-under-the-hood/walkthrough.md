@@ -4,9 +4,7 @@ In this walkthrough, you'll build a mental model of how AI coding assistants act
 
 ## Prerequisites
 
-- Completed Module 030 (Model Selection)
-- Experience using AI assistant for basic coding tasks
-- Basic understanding of how AI chat interfaces work
+See [module overview](about.md) for full prerequisites list.
 
 ---
 

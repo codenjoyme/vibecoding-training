@@ -4,12 +4,7 @@ In this module, you'll set up the essential development tools needed for vibecod
 
 ## Prerequisites
 
-Before starting, ensure you have:
-- Completed [Module 060: Version Control with Git](../060-version-control-git/about.md)
-- Administrator/sudo access on your computer
-- Active internet connection
-- At least 5 GB free disk space
-- Basic familiarity with terminal/command line
+See [module overview](about.md) for full prerequisites list.
 
 ## What We'll Install
 

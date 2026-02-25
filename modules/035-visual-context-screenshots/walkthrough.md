@@ -4,11 +4,7 @@ In this walkthrough, you'll learn how to effectively share visual context with y
 
 ## Prerequisites
 
-- Completed Module 030 (Model Selection)
-- Active AI assistant (VSCode with GitHub Copilot or Cursor)
-- Agent Mode enabled
-- Any web browser installed (Chrome, Firefox, Edge, Safari)
-- Basic familiarity with taking screenshots on your OS
+See [module overview](about.md) for full prerequisites list.
 
 ---
 

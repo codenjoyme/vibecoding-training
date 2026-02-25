@@ -21,8 +21,13 @@ Custom MCP server that gives AI agents direct access to your application's funct
 
 ## Prerequisites
 
-- Completed [Module 120: Rapid POC Prototyping](../120-rapid-poc-prototyping/about.md)
-- Working web application with backend API
+### Required Modules
+
+- [120 — Rapid Prototyping with SpecKit](../120-rapid-poc-prototyping-with-speckit/about.md)
+- [100 — Model Context Protocol (MCP)](../100-mcp-model-context-protocol/about.md)
+
+### Required Skills & Tools
+
+- Working web application with backend API in `work/120-task/`
 - Understanding of REST APIs and JSON
 - Node.js and TypeScript basics
-- Familiarity with MCP concepts from Module 100

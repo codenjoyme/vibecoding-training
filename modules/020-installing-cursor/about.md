@@ -19,7 +19,15 @@ Cursor IDE installed and configured
 
 ## Prerequisites
 
+### Required Modules
+
+None — this is an entry-point module.
+
+### Required Skills & Tools
+
 - Basic understanding of code editors
+- Computer with Windows, macOS, or Linux
+- Internet connection
 
 ## Resources
 

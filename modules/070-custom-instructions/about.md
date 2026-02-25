@@ -22,6 +22,11 @@ Build personal instruction system that captures and reuses knowledge from AI ses
 
 ## Prerequisites
 
-- Module 050 (Effective Prompting)
+### Required Modules
+
+- [050 — Effective Prompting](../050-effective-prompting-without-arguing/about.md)
+
+### Required Skills & Tools
+
 - Basic markdown knowledge (or willingness to learn)
 - Experience iterating with AI assistant

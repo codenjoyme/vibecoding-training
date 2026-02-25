@@ -4,10 +4,7 @@ In this walkthrough, you'll learn three evolutionary approaches to processing mu
 
 ## Prerequisites
 
-- GitHub Copilot extension installed and authorized in VS Code
-- Access to a project with 6+ similar files (we'll use the training modules)
-- Basic command line skills
-- Python 3.10+ installed
+See [module overview](about.md) for full prerequisites list.
 
 ## Part 1: Approach #1 - Single IDE Agent Request (Context Drift Problem)
 

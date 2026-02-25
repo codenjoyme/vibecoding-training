@@ -19,5 +19,11 @@ Ability to refine prompts for better results
 
 ## Prerequisites
 
-- Understanding of AI mechanics
+### Required Modules
+
+- [040 — Agent Mode & AI Mechanics](../040-agent-mode-under-the-hood/about.md)
+
+### Required Skills & Tools
+
+- Understanding of how AI models generate text token by token
 - Experience with basic AI interactions

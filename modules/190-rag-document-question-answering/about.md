@@ -21,9 +21,14 @@ You'll build a working RAG system that converts documents to vector embeddings, 
 
 ## Prerequisites
 
-- **180-dial-langchain-python-integration** - Python environment with Langchain installed
-- **185-prompt-templates-dynamic-queries** - Understanding prompt templates
-- Python virtual environment activated in `work/python-ai-workspace`
+### Required Modules
+
+- [180 — DIAL Integration with Python and Langchain](../180-dial-langchain-python-integration/about.md)
+- [185 — Prompt Templates for Dynamic Queries](../185-prompt-templates-dynamic-queries/about.md)
+
+### Required Skills & Tools
+
+- Python virtual environment activated in `work/180-task`
 - DIAL API credentials configured in `.env` file with embedding model
 - Basic understanding of semantic similarity concepts
 
