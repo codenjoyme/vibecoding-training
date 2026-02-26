@@ -18,7 +18,7 @@ This training is highly practical. Each module provides a new actionable skill t
 
 ---
 
-## 🚀 [How to Start](../quickstart.md)
+## 🚀 [How to Start](quickstart.md)
 
 ---
 
