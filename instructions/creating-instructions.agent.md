@@ -10,19 +10,19 @@
 - `main.agent.md` serves as catalog of all instructions with brief descriptions - when asked about (what to do), follow this instruction (with file path).
   + Each entry has optional sub-fields after `+`: **Keywords** (trigger words), **Target** (file glob pattern), **Exceptions** (edge cases).
   + When adding new instruction to catalog, fill in at least Keywords to help model match user requests to instructions.
-- Platform-specific entry points (`.github/copilot-instructions.md` for Copilot, `.cursor/rules/*.mdc` for Cursor) reference `main.agent.md` to load with every prompt.
+- Platform-specific entry points (`.github/copilot-instructions.md` for Copilot, `.cursor/rules/*.mdc` for Cursor, `.claude/CLAUDE.md` for Claude Code) reference `main.agent.md` to load with every prompt.
 - Optionally, `AGENTS.md` in project root with same content as entry point — universal fallback recognized by Claude, Copilot, Cursor agents.
-  + Important when `.github/` or `.cursor/` are not committed — without them other non-IDE agents have no entry point to discover `instructions/` folder.
+  + Important when `.github/`, `.cursor/`, or `.claude/` are not committed — without them other non-IDE agents have no entry point to discover `instructions/` folder.
   + Decision is up to the team.
 - `instructions/` can live in the project repo or be extracted into a separate sub-repository (git submodule, etc.).
   + `.github/`, `.cursor/` stay local per team member's IDE choice — not committed.
-  + For cloud agents (Claude, etc.) — add `AGENTS.md` in project root as described above.
+  + For cloud agents — add `AGENTS.md` in project root as described above.
   + Or commit instructions together with the project — simpler, fewer moving parts.
   + Each team decides what fits their workflow.
 - Why tool-agnostic over native systems (GitHub `.instructions.md`, Cursor `.mdc`):
-  + Native formats are incompatible: Copilot's `applyTo` globs, `excludeAgent` fields, Cursor's `alwaysApply`, `globs`, `description` frontmatter — none of these are portable.
+  + Native formats are incompatible: Copilot's `applyTo` globs, `excludeAgent` fields, Cursor's `alwaysApply`, `globs`, `description` frontmatter, Claude Code's `paths:` frontmatter in `.claude/rules/*.md` — none of these are portable.
   + Vendor lock-in: rewriting dozens of instruction files when switching IDE or when vendor changes format is wasted effort.
-  + This approach: one source of truth in `instructions/`, thin adapter wrappers per IDE (`.github/prompts/*.prompt.md`, `.cursor/rules/*.mdc`) — only wrappers change on IDE switch.
+  + This approach: one source of truth in `instructions/`, thin adapter wrappers per IDE (`.github/prompts/*.prompt.md`, `.cursor/rules/*.mdc`, `.claude/commands/*.md`) — only wrappers change on IDE switch.
   + Pure markdown instructions work with any LLM agent (CLI, API, CI pipelines) — not tied to IDE runtime at all.
   + Team members on different IDEs (Copilot, Cursor, Windsurf, etc.) share identical workflow knowledge without translation.
 - Architectural advantage — separation of concerns:
@@ -34,7 +34,7 @@
 - Place instructions where they make sense for your project — then build a tree of `main.agent.md` nodes from root to leaves:
   + Hierarchical layout: `instructions/backend/main.agent.md`, `instructions/frontend/main.agent.md` — each sub-catalog follows same structure, root `main.agent.md` links to them.
   + Alternative: co-located layout — `backend/instructions/*.agent.md`, `frontend/instructions/*.agent.md` — but then IDE entry point must reference multiple roots, which adds complexity.
-  + Key idea: tree-shaped chain from IDE entry point (`.github/copilot-instructions.md`, `.cursor/rules/*.mdc`) → root `main.agent.md` → sub-catalogs → leaf instructions.
+  + Key idea: tree-shaped chain from IDE entry point (`.github/copilot-instructions.md`, `.cursor/rules/*.mdc`, `.claude/CLAUDE.md`) → root `main.agent.md` → sub-catalogs → leaf instructions.
   + This is context management — model navigates the tree on demand instead of loading all instructions at once, avoiding context overload and interference between unrelated instructions.
 - Extract essence from completed chat sessions into new instructions to avoid repeating same troubleshooting in future.
   + After achieving desired outcome through multiple iterations with agent, capture workflow as instruction.
@@ -52,7 +52,8 @@
 - Detect which IDE is used by checking folder markers:
   + `.github/` folder present → VSCode + GitHub Copilot
   + `.cursor/` folder present → Cursor
-  + Neither present → ask user which IDE they use, then create the appropriate folder structure
+  + `.claude/` folder present → Claude Code (CLI / IDE with Claude Code extension)
+  + None present → ask user which IDE they use, then create the appropriate folder structure
 - For **VSCode + GitHub Copilot**, create the following:
   + `.github/copilot-instructions.md` — with the standard entry-point content (see VSCode section below)
   + `.github/prompts/` — folder for prompt files
@@ -64,6 +65,12 @@
   + `.cursor/rules/` — folder for per-instruction rule files
   + `instructions/main.agent.md` — catalog file
   + `instructions/creating-instructions.agent.md` — this file itself
+- For **Claude Code**, create the following:
+  + `.claude/CLAUDE.md` — project memory file with entry-point content (see Claude Code section below)
+  + `.claude/commands/` — folder for custom slash-command files (equivalent to prompt files)
+  + `.claude/rules/` — folder for modular path-scoped rule files
+  + `instructions/main.agent.md` — catalog file
+  + `instructions/creating-instructions.agent.md` — this file itself
 - After creating all files, verify:
   + Entry-point file correctly references `./instructions/main.agent.md`
   + `main.agent.md` exists and lists at least `creating-instructions.agent.md`
@@ -72,7 +79,7 @@
 
 ## General Concepts
 
-- If you don't know exactly which IDE (with which Agent system) is used in the project, there are always the markers described below.
+- If you don't know exactly which IDE (with which Agent system) is used in the project, there are always the markers described below (`.github/` → Copilot, `.cursor/` → Cursor, `.claude/` → Claude Code).
 - Always can create missing components when asked:
   + Make all missing prompts/rules based on existing instructions and selected IDE.
   + Create `main.agent.md` file with proper structure and links
@@ -179,6 +186,23 @@ globs:
 alwaysApply: true
 ---
 
+- Important! Always follow the instructions in `./instructions/main.agent.md` file.
+- It contains links to other files with instructions.
+- You should reload it in **every prompt** to get the latest instructions - because of the dynamic nature of the project.
+```
+
+## Claude Code
+
+- You can identify this case by `.claude` folder inside your workspace.
+- Add new file to `./.claude/commands/` with name `to-[name].md` and reference to instruction file:
+```markdown
+Follow the instructions in `./instructions/[name].agent.md`.
+
+$ARGUMENTS
+```
+- `$ARGUMENTS` is a special placeholder — gets replaced with user input after the slash command. User invokes via `/project:to-[name]`.
+- The project memory file `.claude/CLAUDE.md` should contain the following:
+```markdown
 - Important! Always follow the instructions in `./instructions/main.agent.md` file.
 - It contains links to other files with instructions.
 - You should reload it in **every prompt** to get the latest instructions - because of the dynamic nature of the project.
