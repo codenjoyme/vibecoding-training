@@ -4,6 +4,9 @@
 - Team alignment on LLM model choice is more critical than IDE choice - IDE switching is less disruptive.
 - Instructions are pure markdown docs describing SDLC workflows without platform-specific adaptors like `alwaysApply: true` or `mode: agent`.
 - Following Single Responsibility Principle (SRP) - one SDLC workflow piece per instruction file.
+  + Recommended soft limit: ~700 lines per file. Exceeding this is a signal to split.
+  + Complex instructions can reference other instructions — composability over monoliths.
+  + Terminology hint: large multi-step workflows → "agents", small focused actions → "instructions". Naming may vary by author.
 - `main.agent.md` serves as catalog of all instructions with brief descriptions - when asked about (what to do), follow this instruction (with file path).
 - Platform-specific entry points (`.github/copilot-instructions.md` for Copilot, `.cursor/rules/*.mdc` for Cursor) reference `main.agent.md` to load with every prompt.
 - Optionally, `AGENTS.md` in project root with same content as entry point — universal fallback recognized by Claude, Copilot, Cursor agents.
