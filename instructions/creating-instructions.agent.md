@@ -17,6 +17,11 @@
   + For cloud agents (Claude, etc.) — add `AGENTS.md` in project root as described above.
   + Or commit instructions together with the project — simpler, fewer moving parts.
   + Each team decides what fits their workflow.
+- `instructions/` can live in the project repo or be extracted into a separate sub-repository (git submodule, etc.).
+  + `.github/`, `.cursor/` stay local per team member's IDE choice — not committed.
+  + For cloud agents (Claude, etc.) — add `AGENTS.md` in project root as described above.
+  + Or commit instructions together with the project — simpler, fewer moving parts.
+  + Each team decides what fits their workflow.
 - Why tool-agnostic over native systems (GitHub `.instructions.md`, Cursor `.mdc`):
   + Native formats are incompatible: Copilot's `applyTo` globs, `excludeAgent` fields, Cursor's `alwaysApply`, `globs`, `description` frontmatter — none of these are portable.
   + Vendor lock-in: rewriting dozens of instruction files when switching IDE or when vendor changes format is wasted effort.
