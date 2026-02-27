@@ -6,6 +6,17 @@
 - Following Single Responsibility Principle (SRP) - one SDLC workflow piece per instruction file.
 - `main.agent.md` serves as catalog of all instructions with brief descriptions - when asked about (what to do), follow this instruction (with file path).
 - Platform-specific entry points (`.github/copilot-instructions.md` for Copilot, different for Cursor) reference `main.agent.md` to load with every prompt.
+- Why tool-agnostic over native systems (GitHub `.instructions.md`, Cursor `.mdc`):
+  + Native formats are incompatible: Copilot's `applyTo` globs, `excludeAgent` fields, Cursor's `alwaysApply`, `globs`, `description` frontmatter — none of these are portable.
+  + Vendor lock-in: rewriting dozens of instruction files when switching IDE or when vendor changes format is wasted effort.
+  + This approach: one source of truth in `instructions/`, thin adapter wrappers per IDE (`.github/prompts/*.prompt.md`, `.cursor/rules/*.mdc`) — only wrappers change on IDE switch.
+  + Pure markdown instructions work with any LLM agent (CLI, API, CI pipelines) — not tied to IDE runtime at all.
+  + Team members on different IDEs (Copilot, Cursor, Windsurf, etc.) share identical workflow knowledge without translation.
+- Architectural advantage — separation of concerns:
+  + Instructions = **what to do** (platform-agnostic SDLC knowledge).
+  + Wrappers = **how to load** (platform-specific glue, 2–3 lines each).
+  + Catalog (`main.agent.md`) = **when to use** (routing by task description).
+  + Adding a new IDE means only adding a new set of thin wrappers — zero changes to instruction content.
 - Extract essence from completed chat sessions into new instructions to avoid repeating same troubleshooting in future.
   + After achieving desired outcome through multiple iterations with agent, capture workflow as instruction.
   + Prevents repeating same back-and-forth when similar task appears later.
