@@ -21,6 +21,11 @@
   + Catalog (`main.agent.md`) = **when to use** (routing by task description).
   + Adding a new IDE means only adding a new set of thin wrappers — zero changes to instruction content.
 - Hybrid approach is always welcome: use full power of your IDE's native features (`applyTo`, `globs`, `excludeAgent`, etc.) in wrappers that reference files in `instructions/`. Just keep in mind — those IDE-specific features only work for users of that particular IDE.
+- Place instructions where they make sense for your project — then build a tree of `main.agent.md` nodes from root to leaves:
+  + Hierarchical layout: `instructions/backend/main.agent.md`, `instructions/frontend/main.agent.md` — each sub-catalog follows same structure, root `main.agent.md` links to them.
+  + Alternative: co-located layout — `backend/instructions/*.agent.md`, `frontend/instructions/*.agent.md` — but then IDE entry point must reference multiple roots, which adds complexity.
+  + Key idea: tree-shaped chain from IDE entry point (`.github/copilot-instructions.md`, `.cursor/rules/*.mdc`) → root `main.agent.md` → sub-catalogs → leaf instructions.
+  + This is context management — model navigates the tree on demand instead of loading all instructions at once, avoiding context overload and interference between unrelated instructions.
 - Extract essence from completed chat sessions into new instructions to avoid repeating same troubleshooting in future.
   + After achieving desired outcome through multiple iterations with agent, capture workflow as instruction.
   + Prevents repeating same back-and-forth when similar task appears later.
