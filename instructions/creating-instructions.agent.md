@@ -20,6 +20,7 @@
   + Wrappers = **how to load** (platform-specific glue, 2–3 lines each).
   + Catalog (`main.agent.md`) = **when to use** (routing by task description).
   + Adding a new IDE means only adding a new set of thin wrappers — zero changes to instruction content.
+- Hybrid approach is always welcome: use full power of your IDE's native features (`applyTo`, `globs`, `excludeAgent`, etc.) in wrappers that reference files in `instructions/`. Just keep in mind — those IDE-specific features only work for users of that particular IDE.
 - Extract essence from completed chat sessions into new instructions to avoid repeating same troubleshooting in future.
   + After achieving desired outcome through multiple iterations with agent, capture workflow as instruction.
   + Prevents repeating same back-and-forth when similar task appears later.
