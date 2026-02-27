@@ -8,15 +8,12 @@
   + Complex instructions can reference other instructions — composability over monoliths.
   + Terminology hint: large multi-step workflows → "agents", small focused actions → "instructions". Naming may vary by author.
 - `main.agent.md` serves as catalog of all instructions with brief descriptions - when asked about (what to do), follow this instruction (with file path).
+  + Each entry has optional sub-fields after `+`: **Keywords** (trigger words), **Target** (file glob pattern), **Exceptions** (edge cases).
+  + When adding new instruction to catalog, fill in at least Keywords to help model match user requests to instructions.
 - Platform-specific entry points (`.github/copilot-instructions.md` for Copilot, `.cursor/rules/*.mdc` for Cursor) reference `main.agent.md` to load with every prompt.
 - Optionally, `AGENTS.md` in project root with same content as entry point — universal fallback recognized by Claude, Copilot, Cursor agents.
   + Important when `.github/` or `.cursor/` are not committed — without them other non-IDE agents have no entry point to discover `instructions/` folder.
   + Decision is up to the team.
-- `instructions/` can live in the project repo or be extracted into a separate sub-repository (git submodule, etc.).
-  + `.github/`, `.cursor/` stay local per team member's IDE choice — not committed.
-  + For cloud agents (Claude, etc.) — add `AGENTS.md` in project root as described above.
-  + Or commit instructions together with the project — simpler, fewer moving parts.
-  + Each team decides what fits their workflow.
 - `instructions/` can live in the project repo or be extracted into a separate sub-repository (git submodule, etc.).
   + `.github/`, `.cursor/` stay local per team member's IDE choice — not committed.
   + For cloud agents (Claude, etc.) — add `AGENTS.md` in project root as described above.
@@ -93,6 +90,22 @@
 - Write short, concise statements - minimize words, maximize usefulness.
 - Each point should be specific and actionable, not explanatory.
 - Add new instruction reference to `./instructions/main.agent.md` with one-line description of what it covers.
+- `main.agent.md` format example:
+```markdown
+# Instructions Catalog
+
+Each entry below is an instruction file with a one-line description. Optional sub-fields after `+`:
+- **Keywords** — trigger words/phrases: if user's request matches, load this instruction.
+- **Target** — file glob pattern: if current file or context matches, consider this instruction relevant.
+- **Exceptions** — edge cases or clarifications that don't fit in the one-liner.
+
+---
+
+- [`./instructions/example.agent.md`](./example.agent.md) — one-line description.
+  + Keywords: word1, word2, phrase
+  + Target: `src/**/*.ts`, `config.*`
+  + Exceptions: does not apply when ...
+```
 - Use backticks for code examples, file paths, and commands.
 - Include practical examples when necessary, but keep them minimal.
 - Structure: bullet points with sub-bullets using `+` when needed.
