@@ -5,7 +5,10 @@
 - Instructions are pure markdown docs describing SDLC workflows without platform-specific adaptors like `alwaysApply: true` or `mode: agent`.
 - Following Single Responsibility Principle (SRP) - one SDLC workflow piece per instruction file.
 - `main.agent.md` serves as catalog of all instructions with brief descriptions - when asked about (what to do), follow this instruction (with file path).
-- Platform-specific entry points (`.github/copilot-instructions.md` for Copilot, different for Cursor) reference `main.agent.md` to load with every prompt.
+- Platform-specific entry points (`.github/copilot-instructions.md` for Copilot, `.cursor/rules/*.mdc` for Cursor) reference `main.agent.md` to load with every prompt.
+- Optionally, `AGENTS.md` in project root with same content as entry point — universal fallback recognized by Claude, Copilot, Cursor agents.
+  + Important when `.github/` or `.cursor/` are not committed — without them other non-IDE agents have no entry point to discover `instructions/` folder.
+  + Decision is up to the team.
 - Why tool-agnostic over native systems (GitHub `.instructions.md`, Cursor `.mdc`):
   + Native formats are incompatible: Copilot's `applyTo` globs, `excludeAgent` fields, Cursor's `alwaysApply`, `globs`, `description` frontmatter — none of these are portable.
   + Vendor lock-in: rewriting dozens of instruction files when switching IDE or when vendor changes format is wasted effort.
