@@ -615,26 +615,32 @@ Congratulations! You've successfully completed this module if:
 
 ## Understanding Check
 
-1. **The Mirror Metaphor:** Why does the same question produce a junior-level answer for one person and a CTO-level answer for another? What specifically controls this?
-   - *Key point:* The words, framing, and vocabulary you use signal your expertise level. The model calibrates its response depth, assumptions, and vocabulary to match.
+> **Note for trainers:** These questions test understanding of **when and why** to use techniques — not recall of their names. Each technique is referenced with a short metaphor so the user can recognize it without memorizing terminology.
 
-2. **The Room of Requirement:** How do you get answers about concepts you've never heard of? Name two techniques from this module that solve this.
-   - *Key point:* Meta-Learning ("what do I need to know?") and Asking What Was Omitted ("what didn't you tell me?") both reveal unknown unknowns. Role Assignment can also help by pointing the model at an expert's knowledge.
+1. **The Mirror:** Why does the same question give a shallow answer to one person and a deep, systems-level answer to another? What exactly controls this?
+   - *Key point:* The words, framing, and vocabulary you use signal your expertise level. The model calibrates its response depth, assumptions, and vocabulary to match. Your words select which "bookshelf" the model pulls from.
 
-3. **Technique Selection:** When should you use Adversarial Critique vs Socratic Questioning? What's the core difference?
-   - *Key point:* Adversarial Critique evaluates a specific plan/idea for risks. Socratic Questioning helps you think through a problem from scratch. Critique is for validating; Socratic is for discovering.
+2. **The Room of Requirement:** You want to explore a topic but you don't know the right terminology. You can't ask for what you don't know exists. What two things can you do — one BEFORE getting an answer, one AFTER?
+   - *Hint:* Before = "Draw me a map of this territory" (Meta-Learning). After = "What did you NOT tell me?" (Asking What Was Omitted). Together they crack open unknown unknowns.
 
-4. **Persona Stacking:** What happens when you combine Role Assignment + Audience Framing + Output Format + Constraints in one prompt? Why is this more powerful than using them separately?
-   - *Key point:* Each layer removes noise from a different angle. Role selects the knowledge domain, audience calibrates depth, format structures the thinking, constraints force prioritization. Together they produce surgically precise output.
+3. **Situations, not names:** Here are two situations. Which technique fits each?
+   - **Situation A:** You have a ready plan and want to find out what could go wrong. → "Poke holes in this, be a skeptic" (Adversarial Critique)
+   - **Situation B:** You don't have a plan. You're not even sure what the problem is. → "Don't give me answers — ask me questions to help me figure it out" (Socratic Questioning)
+   - *Key point:* Critique validates what exists. Questions help discover from scratch.
 
-5. **Few-Shot vs Instructions:** When is showing an example more effective than describing what you want in words?
+4. **The compound lens:** What happens when you stack "You are [expert]" + "I am [my context]" + "Think step by step" + "Format as table" + "Top 5 only" in one prompt? Why is this more powerful than using them one at a time?
+   - *Key point:* Each layer removes noise from a different angle — like stacking camera lenses. Role selects the knowledge domain, audience calibrates depth, chain-of-thought structures reasoning, format organizes output, constraints force prioritization. Together: surgical precision.
+
+5. **Show, don't tell:** When is giving one example ("here's what I want, do more like this") more effective than writing a paragraph of instructions?
+   - *Hint:* Think of it like a boilerplate in code — the template IS the spec.
    - *Key point:* When the desired output has a specific style, tone, structure, or level of specificity that's hard to put into words. One example sets the quality bar more reliably than a paragraph of description.
 
-6. **Iterative Refinement vs Arguing:** What's the difference between "No, that's wrong, try again" and "Good, now give me the same thing but for a different audience"? Why does one work and the other pollute context?
+6. **Refactor, don't rewrite:** What's the difference between "No, that's wrong, try again" and "Good, now give me the same thing but for a different audience"? Why does one break things and the other improves them?
+   - *Hint:* Think refactoring vs rewriting from scratch.
    - *Key point:* Arguing introduces negative examples, apologies, and confusion into context. Refinement builds on a good foundation and steers it. One adds noise, the other adds signal.
 
-7. **The Starter Kit:** Why is a personal 3-5 technique template more practical than memorizing all 15 techniques?
-   - *Key point:* You won't remember all 15 in the moment. A small, internalized kit becomes automatic — like a pre-flight checklist. You can always pull in more techniques when needed, but the kit ensures your baseline quality is high.
+7. **The pre-flight checklist:** Why is a personal 3-5 technique starter template more practical than memorizing all 15 techniques?
+   - *Key point:* You won't remember all 15 in the moment. A small, internalized kit becomes automatic — like a pre-flight checklist. You can always pull in more techniques when needed, but the kit ensures your baseline quality is consistently high.
 
 ## Troubleshooting
 
