@@ -123,6 +123,14 @@ I want to improve team communication. Give me actionable advice.
 
 If you feel AI gives you "shallow" answers, it might be because you haven't told it who you are. State your context explicitly, and the depth follows.
 
+**Bonus Insight — De Bono's Six Thinking Hats:**
+
+Role Assignment and Audience Framing are essentially **Edward de Bono's Six Thinking Hats** applied to AI prompting. De Bono's core idea: you can't wear two hats at once. The Critic and the Dreamer interfere with each other. Same with prompts — if you ask the model to "brainstorm ideas AND critique them" in one prompt, the output gets muddled. Better to separate: first one role, then another.
+
+Similarly, **Walt Disney's Creative Strategy** (Dreamer → Realist → Critic) works as a prompting workflow: first ask the model as a Dreamer ("give me wild ideas"), then as a Realist ("which of these are feasible?"), then as a Critic ("what could go wrong?"). Each pass through a different lens sharpens the result — just like switching hats in de Bono's framework.
+
+The practical takeaway: **don't ask the model to be everything at once.** Assign one perspective per prompt, get the output, then switch hats and run another pass.
+
 ### Part 3: Chain of Thought — "Think Step by Step"
 
 **The Technique:**
