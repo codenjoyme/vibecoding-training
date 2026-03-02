@@ -291,6 +291,14 @@ Now give me 5 more recommendations in exactly this format.
 
 One good example teaches the model more than a paragraph of instructions. Show, don't tell. The example **is** the spec.
 
+**Bonus Insight — The Boilerplate Parallel:**
+
+If you're a developer, you already use few-shot thinking every day. A boilerplate template says: "Here's the structure — fill it with your content." You don't explain to a new developer in words how a service should look — you hand them a boilerplate and say "follow the pattern."
+
+Few-shot prompting works identically: your example is a boilerplate for the model. It sees the structure and replicates it with new content. And just like in code — the quality of the boilerplate determines the quality of everything built from it. A bad boilerplate breeds bad code. A good one sets the standard.
+
+So the highest-ROI investment in few-shot prompting is **crafting one great example.** Spend 2 minutes on one perfect example, and you'll get 10 outputs at the same quality level.
+
 ### Part 8: Adversarial Critique — "Poke Holes in This"
 
 **The Technique:**
