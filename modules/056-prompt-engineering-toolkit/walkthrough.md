@@ -47,6 +47,8 @@ This is intentionally abstract. It could mean anything — Slack channels, meeti
 
 Watch how each technique pulls a completely different response from the model — from the same starting point.
 
+> **🌍 Localization Note for Trainers:** When presenting examples in chat, **localize all explanatory text and example responses** to the user's language. Only the **prompt templates** should stay in English (since models respond best to English prompts). The goal is that the user's understanding is built in their native language, while prompt crafting skills are practiced in English. If there's more English than the user's language in a chat message — you're doing it wrong.
+
 ---
 
 ## Step-by-Step Instructions

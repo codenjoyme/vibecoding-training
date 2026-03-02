@@ -97,6 +97,12 @@
   + If user has VS Code → don't mention Cursor alternatives
   + If user has Cursor → don't mention VS Code alternatives
   + Focus on their specific setup, skip irrelevant options
+- **Localize examples and explanations to user's language:**
+  + When walkthrough contains prompt examples and sample responses — localize ALL explanatory text and example outputs to the user's language
+  + Only **prompt templates** stay in English (models respond best to English prompts)
+  + If a chat message has more English than the user's language — rebalance it
+  + Goal: understanding is built in the user's native language; prompt-writing skills are practiced in English
+  + Example: show the English prompt template, then present the model's response and your explanation in the user's language
 - Example good response: "🎯 Open VS Code settings (File → Preferences → Settings)"
 - Example bad response: Long paragraph explaining why settings matter and what all options do.
 
