@@ -59,6 +59,7 @@ After completing all modules, participants will build a complete application tha
 1. [Development Environment Setup](modules/110-development-environment-setup/about.md) - Install essential tools for vibecoding
 1. [Rapid Prototyping](modules/120-rapid-poc-prototyping/about.md) - Build a PoC in 2 hours
 1. [Rapid Prototyping with SpecKit](modules/120-rapid-poc-prototyping-with-speckit/about.md) - Build a spec-driven PoC from idea to working full-stack prototype using SpecKit methodology
+1. [SpecKit for Legacy Projects](modules/125-speckit-legacy-project-documentation/about.md) - Reverse-document an existing codebase with SpecKit and manage it with spec-driven workflow going forward
 1. [QA with Chrome DevTools MCP](modules/130-chrome-devtools-mcp-qa-emulation/about.md) - Test web applications with AI assistance
 1. [Advanced MCP Integration](modules/140-advanced-mcp-integration-in-poc/about.md) - Add MCP interface to your application
 1. [GitHub Coding Agent Delegation](modules/150-github-coding-agent-delegation/about.md) - Delegate tasks to GitHub agent for autonomous PR creation
