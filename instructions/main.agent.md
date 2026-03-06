@@ -37,3 +37,5 @@ This file serves as a catalog of all project instructions. Each instruction cove
 - `github-copilot-cli-installation.agent.md` - Step-by-step guide for installing and configuring GitHub Copilot CLI on Windows, including nvm-windows setup and troubleshooting common issues.
 - `git-workflow.agent.md` - Comprehensive Git workflow guide for AI-assisted development with baby steps methodology, installation instructions, .gitignore setup, and best practices.
 - `export-chat-session.agent.md` - Export, list, and search GitHub Copilot chat sessions from VS Code using standalone Python script with HTML/JSON/text output formats.
+- `interview-sdlc.agent.md` - **[SDLC COACHING INTERVIEW]** Conduct an interactive one-on-one interview with a colleague to understand their project SDLC and identify AI/agent adoption opportunities. Asks open-ended questions one at a time, follows up with genuine curiosity, and produces a structured summary for the coach at the end.
+  + Keywords: interview, опрос, интервью, SDLC, coaching interview, colleague interview, sdlc assessment
