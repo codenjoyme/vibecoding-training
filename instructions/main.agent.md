@@ -39,3 +39,5 @@ This file serves as a catalog of all project instructions. Each instruction cove
 - `export-chat-session.agent.md` - Export, list, and search GitHub Copilot chat sessions from VS Code using standalone Python script with HTML/JSON/text output formats.
 - `interview-sdlc.agent.md` - **[SDLC COACHING INTERVIEW]** Conduct an interactive one-on-one interview with a colleague to understand their project SDLC and identify AI/agent adoption opportunities. Asks open-ended questions one at a time, follows up with genuine curiosity, and produces a structured summary for the coach at the end.
   + Keywords: interview, опрос, интервью, SDLC, coaching interview, colleague interview, sdlc assessment
+- `generate-lnd-modules.agent.md` - **[LND MODULE GENERATION]** Generate LMS-ready markdown files from existing training modules following LND formatting rules, reference examples, and the approved module plan in `lnd/lnd-module-plan.md`.
+  + Keywords: LND, LMS, module generation, learning content, lesson storyboard, elearn, course creation
