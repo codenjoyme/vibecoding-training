@@ -145,11 +145,11 @@ Page 7: Push to GitHub (Optional)
 Background
 Pushing your repository to GitHub creates a remote backup. If your local machine has issues, your code is safe in the cloud. This step is optional but recommended — you will use GitHub features in later modules.
 
-This is also the moment to initialize the repository you will use for the practical project throughout the course. If you already have a project idea (or will define one in Module 08), create the repo now and keep using the baby steps workflow for every future module.
+This is also the moment to initialize the repository you will use for the practical project throughout the course. In Module 08, you will define a Jira/Confluence automation project — but you can create the repo for it now.
 
 Steps
 1. Go to https://github.com/new in your browser.
-2. Name the repository: git-baby-steps-practice.
+2. Name the repository: jira-confluence-automation (or git-baby-steps-practice if you prefer to start with a generic name and rename later).
 3. Choose Public or Private (your preference).
 4. Do NOT check "Initialize this repository" — you already have local files.
 5. Click Create repository.
@@ -163,6 +163,8 @@ Steps
 
 ✅ Result
 Your project is backed up to GitHub. You can continue making baby steps and push regularly.
+
+**Practical project note:** This repository will become the home for your Jira/Confluence Automation Toolkit — a project you will define in Module 08 and build throughout the rest of the course. Every module from here on uses the baby steps workflow you just learned: change → test → stage → commit → push.
 
 Summary
 Remember the scenario from the introduction — two hours of work destroyed by one careless AI refactoring? With the baby steps workflow, that situation is impossible. Every working change is staged, every complete feature is committed, and recovery is one command away.

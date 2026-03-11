@@ -124,10 +124,11 @@ Agent Mode cannot: access files outside your workspace without permission, run c
 Steps
 1. Think about a recent AI interaction that surprised you (unexpected result, slow response, or inconsistent behavior).
 2. Using what you learned in this module, identify which mechanism explains that behavior (temperature? sequential tool calls? context overload?).
-3. Commit any files you created during this module's exercises using the git workflow from Module 3.
+3. Try a project-relevant exercise: ask the AI in Agent Mode — "Create a file called PROJECT_IDEAS.md with 3 possible Jira/Confluence automation ideas for a manager. For each idea, describe the problem it solves and what data it needs." Watch the agent mode cycle as it creates the file — notice the tool calls, the sequential generation, the canvas at work.
+4. Commit any files you created during this module's exercises using the git workflow from Module 3.
 
 ✅ Result
-You have a mental model of AI agent behavior that helps you predict and troubleshoot issues.
+You have a mental model of AI agent behavior that helps you predict and troubleshoot issues. You also have a PROJECT_IDEAS.md file that will feed into your project planning in Module 08.
 
 Summary
 So — what actually happens when you click "Send"? Now you know. Your prompt lands on a shared canvas, the Agent System injects tool descriptions, the model predicts one token at a time, and when it "decides" a tool is needed, the Agent System intercepts and executes it. The result goes back to the canvas, and the model continues generating its response to you.

@@ -135,11 +135,15 @@ Steps
 1. Think about your most recent frustrating AI interaction.
 2. Rewrite the prompt you used, adding at least 3 more specific statements.
 3. Try the refined prompt. Is the result closer to what you need?
-4. Practice prompting on a management scenario: "Create a one-page project status summary for stakeholders. Project: internal dashboard migration. Include: timeline status (on track), key risks (2 items), next milestone (March demo). Tone: professional, concise."
+4. Practice prompting on a project-relevant scenario. Start vague and progressively add statements:
+   - Vague: "Create a status report template."
+   - Better: "Create a weekly status report template that summarizes Jira sprint progress for stakeholders."
+   - Specific: "Create a weekly status report template for an engineering manager. Pull data from a Jira sprint board. Include sections: completed issues, in-progress items, blockers, next sprint goals. Use bullet points. Markdown format. Keep it under 30 lines."
+   Compare the three outputs — notice how each statement narrows the result.
 5. Commit any files you created in this exercise.
 
 ✅ Result
-You have shifted from blaming the AI to refining your prompts — and you are in control of the results.
+You have shifted from blaming the AI to refining your prompts — and you are in control of the results. You also practiced prompting on a Jira-related task, building familiarity with the domain you will automate starting in Module 08.
 
 Summary
 Remember the scenario from the introduction — you asked the AI to do something, the result was wrong, and your instinct was to type "No, that is not what I meant"? Now you know a better approach. Instead of arguing, you stop, edit your original prompt to be more specific, and regenerate from a clean canvas.
