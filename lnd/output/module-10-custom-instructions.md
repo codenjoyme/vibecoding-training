@@ -150,6 +150,7 @@ Key takeaways:
 - Naming convention: [verb]-[subject].agent.md in the instructions/ folder.
 - The catalog (main.agent.md) lets the AI discover instructions without explicit references.
 - Follow the Single Responsibility Principle: one instruction per workflow.
+- After every productive AI session, ask yourself: "Should I create or update an instruction from this?" The session contained iterations, failures, and refinements — capturing the result means you never repeat that trial-and-error.
 - Your Jira/Confluence workflow instructions are the first building blocks of your automation toolkit.
 
 Quiz

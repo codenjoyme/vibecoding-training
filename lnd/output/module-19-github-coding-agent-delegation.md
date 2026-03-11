@@ -23,6 +23,8 @@ Key characteristics:
 - **Session logs:** Provides a detailed work log so you can see every decision it made.
 - **Model selection:** Can use different AI models (GPT-5.2-Codex, Claude Opus, Claude Sonnet, or Auto mode).
 
+**Important note on model differences:** The Coding Agent runs on GitHub's servers with different models than your IDE. Instructions that work perfectly with Claude Sonnet in VS Code may need adjustment for the agent's server environment. Start with Auto mode, and if the agent makes unexpected decisions, check whether the model difference is the cause.
+
 **When to use it:**
 - Well-defined tasks with clear requirements (from your backlog).
 - Repetitive implementation work (similar patterns across features).
@@ -141,6 +143,7 @@ Key takeaways:
 - The Coding Agent works autonomously on GitHub's servers — no need to watch it work.
 - Issue quality directly determines implementation quality. Clear requirements = clean PR.
 - Instruction files from Module 10 guide the agent's behavior on the server just as they guide the IDE assistant locally.
+- **Parallel delegation:** You can assign multiple issues to different agent sessions simultaneously. While 4 agents implement 4 features, you focus on architecture, planning, or code review. This is the "junior staff" pattern — the agents work in parallel, each producing a PR for your review.
 - Always review the work session log to understand the agent's decision process.
 - Submit all review comments at once to avoid multiple agent sessions.
 - Treat every agent mistake as an instruction improvement opportunity.

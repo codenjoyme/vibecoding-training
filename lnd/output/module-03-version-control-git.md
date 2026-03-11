@@ -108,6 +108,10 @@ Steps
 
 The feature took three small steps instead of one big confusing change. Each step was verified before moving on.
 
+**Tip: not every AI-generated file belongs in Git.** As your project grows, the AI may create temporary scripts, test data, or scaffolding files. Before staging everything with git add ., ask the AI:
+   Which of my project files are production code and which are temporary scaffolding? List them in two groups.
+Then stage only the production files and add scaffolding patterns to .gitignore.
+
 ✅ Result
 You completed a feature using baby steps: three small changes, each tested and staged, then committed as one unit.
 
@@ -128,8 +132,14 @@ Steps
 6. Notice that your divide() function is also gone — it was never staged.
 7. This demonstrates the lesson: if you had staged divide() when it worked, you could recover it now. Always stage working code immediately.
 
+**What if you already committed the bad change?** If you committed the refactoring before realizing it broke things, you have two options:
+- git revert HEAD — creates a new commit that undoes the last one (safe, preserves history).
+- git reset --hard HEAD~1 — removes the last commit entirely (destructive, use with caution).
+
+Page 6 covers the more common case (discarding unstaged changes), but knowing both recovery paths ensures you are never stuck.
+
 ✅ Result
-You practiced recovering from an AI mistake using git checkout. You understand why staging after each working change is critical.
+You practiced recovering from an AI mistake using git checkout. You understand why staging after each working change is critical — and you know how to undo a committed mistake if needed.
 
 Page 7: Push to GitHub (Optional)
 Background
@@ -161,6 +171,7 @@ Key takeaways:
 - Git is your safety net when working with an AI assistant. Stage and commit after every successful change.
 - Baby steps keep your working memory manageable and your project always recoverable.
 - If the AI breaks something, discard the changes and try again — never lose working code.
+- The AI generates code and suggests changes, but you control Git. You decide what gets staged, committed, and pushed.
 - The workflow: change → test → stage → (repeat) → commit.
 
 Quiz

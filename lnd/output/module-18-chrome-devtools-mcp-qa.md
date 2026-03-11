@@ -94,7 +94,7 @@ Steps
 3. If the AI finds an error (broken button, missing validation, server error):
    - Read the error details.
    - Ask the AI: "Fix this issue" — the AI can switch from QA mode to developer mode and fix the bug.
-   - Re-test after the fix.
+   - **Hot reload loop:** If your application uses a development server (like Vite), the browser refreshes automatically when the AI saves the fixed code. The AI then immediately re-tests — creating a rapid cycle: code → auto-refresh → test → fix → verify. This self-correcting loop is the real power of combining MCP with hot reload.
 4. Ask: "Check the browser console for any JavaScript errors or warnings."
 5. The AI will read the console output and report anything suspicious.
 6. For each bug found and fixed, commit with a descriptive message (e.g., "fix: form validation error on submit").
@@ -102,9 +102,17 @@ Steps
 ✅ Result
 You have tested interactive elements, caught and fixed bugs, and verified the fixes.
 
-Page 5: Building QA Documentation
+Page 5: Building QA Documentation and Regression Suite
 Background
-Testing is only useful if the results are documented. In this step, you will ask the AI to compile a QA report from the testing session — a document that lists what was tested, what passed, what failed, and what was fixed.
+Testing is only useful if the results are documented. A single-session QA report captures what was tested today. A regression suite is a growing document that accumulates test scenarios across all features — so you can re-run them whenever you change code, ensuring new features do not break existing ones.
+
+Advanced QA patterns to be aware of:
+- **Test-Driven Development (TDD):** Write test scenarios first, then ask the AI to implement the feature until all tests pass.
+- **Continuous Regression:** Run the full test suite before every deploy — catch regressions before users do.
+- **Visual Regression:** Take baseline screenshots, then compare after changes to detect unintended visual differences.
+- **Accessibility Testing:** Use Chrome DevTools to check ARIA labels, keyboard navigation, and color contrast.
+
+A typical development day with this workflow: start the morning by running regression tests, develop a new feature with AI-driven QA mid-day, fix any bugs found, and end the day with a final regression pass before pushing to GitHub.
 
 Steps
 1. Ask the AI: "Create a QA report for my application based on everything we tested in this session. Include: pages visited, elements tested, bugs found, fixes applied, current status. Save to docs/qa-report.md."

@@ -68,10 +68,12 @@ With the MCP server running, you interact with its tools through your normal AI 
 
 The approval workflow:
 1. You ask the AI to perform a task.
-2. The AI sees the MCP tool descriptions (like a menu) and selects the appropriate tool.
+2. The AI sees the MCP tool descriptions and selects the appropriate tool. Each MCP server announces its tools with a JSON schema — name, description, and input parameters. Think of it as a restaurant menu: the AI reads the menu, matches your request to a dish, and fills in the order form with the right parameters (e.g., a=42, b=17, operation=multiply).
 3. A dialog appears showing the tool name, parameters, and a security warning.
 4. You review and click "Allow."
 5. The tool executes, and the result appears in the chat.
+
+This is why having too many tools can slow the AI — it is like reading a 500-page restaurant menu before ordering.
 
 Steps
 1. Open your AI chat and type: "Use the echo tool to send the message 'Hello MCP!'"

@@ -50,6 +50,10 @@ Example progression:
 
 Rule: More statements = less variability = more control. Each statement narrows the space of possible solutions.
 
+Two things to keep in mind about prompt language:
+- Natural language does not matter. You can write prompts in English, Russian, or any language. Typos and informal phrasing are fine — the model understands all of these equally well.
+- Technical terms matter a lot. "Python" vs "Java" produces completely different code. "Bubble sort" vs "quicksort" selects a different algorithm. Each precise technical term locks in a specific aspect of the solution. When results seem poor, check whether you used the right technical terms, not whether your grammar was correct.
+
 Steps
 1. Open your AI chat in Agent Mode.
 2. Type a very abstract prompt: "Create a file with a sorting function."

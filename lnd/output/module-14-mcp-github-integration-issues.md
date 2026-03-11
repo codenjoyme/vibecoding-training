@@ -66,6 +66,8 @@ Steps
 5. Verify your GitHub login in the IDE. In VS Code, check the bottom-left corner for the GitHub account indicator. Sign in if needed.
 6. Enable GitHub MCP tools in the chat panel tools configuration.
 
+**Important: switching GitHub accounts.** If you need to use a different GitHub account for MCP, changing the account in VS Code's bottom-left corner is NOT enough — MCP uses its own authentication. To switch: open your mcp.json, hover over the GitHub server entry, click "More..." → "Disconnect Account." The server restarts and prompts you to authenticate with a different account.
+
 ✅ Result
 The GitHub MCP server is configured and connected in your IDE.
 
@@ -112,7 +114,11 @@ GitHub issues are more than a todo list — they are a project management system
 
 As you progress through the remaining modules, use GitHub issues to track your work. When you complete a task, close the corresponding issue through the AI chat: "Close issue #3 with comment 'Completed in Module 15.'"
 
-In Module 19 (GitHub Coding Agent), you will learn to delegate implementation of these issues to an autonomous coding agent — making the workflow even more powerful.
+This workflow follows the **Agent Delegation Pattern** — a two-session approach:
+- **Session 1 (now):** You create structured, well-described issues — capturing context, requirements, and acceptance criteria.
+- **Session 2 (later):** A future AI session (or the GitHub coding agent in Module 19) reads the issue, has complete context, implements the solution, and closes the issue.
+
+The key benefit: no information loss between sessions. The issue preserves everything needed for implementation, whether the implementer is you, another person, or an autonomous agent.
 
 Steps
 1. Explore the issue management tools: "What GitHub issue management tools are available through MCP?"

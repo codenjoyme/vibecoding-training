@@ -46,6 +46,8 @@ The Constitution file defines the non-negotiable rules for your project: tech st
 - Database: PostgreSQL 15 (run via Docker).
 - Infrastructure: Docker + docker-compose.
 
+**Important principle:** The specification captures WHAT the product does and WHY — without mentioning specific technologies. The plan (next page) captures HOW, with specific tech choices. This separation is intentional: a non-technical stakeholder can review and validate the spec without understanding React or PostgreSQL. And if you later change the tech stack, the spec remains valid.
+
 Steps
 1. Ask the AI: "Create a SpecKit constitution file for my Jira/Confluence automation project. Tech stack: React 18 + Vite frontend, Node.js + Express backend, PostgreSQL 15 database via Docker. Save it to spec/constitution.md."
 2. Review the file. It should define:
@@ -94,8 +96,14 @@ The Analyze phase reviews tasks for risks before you start coding. The Implement
 
 Implementation follows the "baby steps" pattern from Module 03: implement one task → verify it works → commit → move to the next task. Never implement multiple tasks at once.
 
+The analysis should surface four types of issues:
+- **Gaps** — requirements mentioned in the spec but not covered by any task.
+- **Contradictions** — conflicting statements across the specification, plan, or task list.
+- **Missing artifacts** — API contracts or data model elements needed by tasks but not yet defined.
+- **Risk flags** — tasks that are unusually complex or have unclear dependencies.
+
 Steps
-1. Ask the AI: "Analyze the tasks in spec/tasks.md. For each task, assess: complexity (low/medium/high), risks, and dependencies. Save to spec/analyze.md."
+1. Ask the AI: "Analyze the tasks in spec/tasks.md. For each task, assess: complexity (low/medium/high), risks, and dependencies. Check for gaps, contradictions, and missing artifacts across spec, plan, and tasks. Save to spec/analyze.md."
 2. Review the analysis. Reorder tasks if needed (lower risk first, dependencies resolved).
 3. Start implementing: "Implement task 1 from spec/tasks.md. Follow the constitution and specification. Show me what you are going to do before you do it."
 4. Review the AI's plan for the task. Approve or adjust.

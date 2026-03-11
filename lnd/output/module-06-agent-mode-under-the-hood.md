@@ -117,6 +117,10 @@ Understanding the agent architecture has practical consequences for how effectiv
 4. Context is everything. The model sees all previous text on the canvas. More context means better responses, but too much context can slow down or confuse the model.
 5. Temperature explains variability. Same prompt, different results — this is normal and expected. If you need consistency, be more specific.
 
+Agent Mode can: read and write files in your workspace, search for code patterns, execute terminal commands (when you approve), create directories, and refactor code across multiple files.
+
+Agent Mode cannot: access files outside your workspace without permission, run commands that require elevated privileges, modify system settings, access the internet (unless you configure specific tools like MCP), or remember previous conversations — each session starts fresh.
+
 Steps
 1. Think about a recent AI interaction that surprised you (unexpected result, slow response, or inconsistent behavior).
 2. Using what you learned in this module, identify which mechanism explains that behavior (temperature? sequential tool calls? context overload?).
