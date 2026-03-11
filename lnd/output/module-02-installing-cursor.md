@@ -99,10 +99,16 @@ Quiz
    a) Cursor is built with AI features deeply integrated from the ground up, while VS Code adds AI capabilities through extensions.
    b) Cursor uses a completely different programming language support system than VS Code.
    c) Cursor requires a separate AI subscription for each programming language you work with.
-   Correct answer: a. Cursor was designed as an AI-native editor where AI is part of the core experience, while VS Code achieves AI capabilities through extensions like GitHub Copilot. Option (b) is incorrect — Cursor is built on the same VS Code engine and supports the same languages. Option (c) is incorrect — Cursor’s AI works across all languages with a single subscription.
+   Correct answer: a.
+   - (a) is correct because Cursor was designed as an AI-native editor where AI is part of the core experience, while VS Code achieves AI capabilities through extensions like GitHub Copilot.
+   - (b) is incorrect because Cursor is built on the same VS Code engine and supports the same languages. The difference is in AI integration depth, not language support.
+   - (c) is incorrect because Cursor's AI works across all languages with a single subscription. There is no per-language licensing.
 
 2. When is VS Code with GitHub Copilot a better choice than Cursor?
    a) When your team standardizes on VS Code and you need specific extensions not yet available in Cursor.
    b) When you want AI-first experience without managing individual extensions.
    c) When you are starting a new project from scratch with no existing codebase.
-   Correct answer: a. VS Code has the largest extension ecosystem and is the industry standard for team collaboration. If your team or organization standardizes on it, staying consistent reduces friction. Option (b) describes a strength of Cursor, not VS Code. Option (c) also favors Cursor, which excels at project scaffolding.
+   Correct answer: a.
+   - (a) is correct because VS Code has the largest extension ecosystem and is the industry standard for team collaboration. If your team or organization standardizes on it, staying consistent reduces friction.
+   - (b) is incorrect because an AI-first experience without managing extensions is a strength of Cursor, not VS Code.
+   - (c) is incorrect because starting a new project from scratch with no existing codebase actually favors Cursor, which excels at project scaffolding.

@@ -179,16 +179,25 @@ Quiz
    a) Because each commit creates a recovery point you can return to if the AI breaks something in a later change.
    b) Because Git repositories have a maximum file size and frequent commits keep files small.
    c) Because the AI assistant reads the commit history to understand your project better.
-   Correct answer: a. Each commit is a snapshot you can restore if a subsequent AI-generated change breaks your project. Option (b) is incorrect — Git does not require frequent commits for file size reasons; it handles large files independently of commit frequency. Option (c) is incorrect — while some AI tools can read Git history, the primary reason for frequent commits is recoverability, not AI context.
+   Correct answer: a.
+   - (a) is correct because each commit is a snapshot you can restore if a subsequent AI-generated change breaks your project.
+   - (b) is incorrect because Git does not require frequent commits for file size reasons — it handles large files independently of commit frequency.
+   - (c) is incorrect because while some AI tools can read Git history, the primary reason for frequent commits is recoverability, not AI context.
 
 2. Your AI assistant refactored calculator.py and broke the existing functionality. You have not staged or committed the refactoring. What is the most appropriate next step?
    a) Ask the AI to undo its own changes by describing what the code looked like before.
    b) Discard the uncommitted changes using git checkout to restore the last staged or committed version, then try a different approach.
    c) Copy the broken code into a separate file for reference, then manually rewrite the original.
-   Correct answer: b. Discarding uncommitted changes restores the last known working state instantly, which is faster and more reliable than any other recovery method. Option (a) risks introducing additional errors — the AI may not accurately remember the previous state. Option (c) wastes time on manual work when Git can restore the file in one command.
+   Correct answer: b.
+   - (a) is incorrect because asking the AI to undo its own changes risks introducing additional errors — the AI may not accurately remember the previous state.
+   - (b) is correct because discarding uncommitted changes restores the last known working state instantly, which is faster and more reliable than any other recovery method.
+   - (c) is incorrect because manually copying and rewriting wastes time when Git can restore the file in one command.
 
 3. What is the purpose of a .gitignore file in a project repository?
    a) It lists file patterns that Git should not track — such as API keys, environment files, temporary caches, and IDE configuration.
    b) It speeds up Git operations by indexing only the files listed inside it.
    c) It encrypts sensitive files so they can be safely committed to the repository.
-   Correct answer: a. The .gitignore file tells Git to exclude files matching specific patterns from version control, preventing secrets and machine-specific files from being accidentally committed. Option (b) is incorrect — .gitignore has no effect on Git’s speed or indexing mechanism. Option (c) is incorrect — .gitignore does not encrypt anything; it simply prevents files from being tracked. Encryption requires separate tools.
+   Correct answer: a.
+   - (a) is correct because the .gitignore file tells Git to exclude files matching specific patterns from version control, preventing secrets and machine-specific files from being accidentally committed.
+   - (b) is incorrect because .gitignore has no effect on Git's speed or indexing mechanism. It only controls which files are tracked.
+   - (c) is incorrect because .gitignore does not encrypt anything — it simply prevents files from being tracked. Encryption requires separate tools.
