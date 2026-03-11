@@ -5,6 +5,12 @@ You spent 30 minutes in a productive AI session — the agent understood your pr
 
 AI agents do not naturally remember anything between sessions. Each conversation starts from zero. This is not a bug — it is how the technology works. But it is also a problem you can solve. In this module, you will learn three techniques for giving AI agents persistent memory, and you will apply one of them to convert your Technical Specification into a structured task backlog for the rest of the course.
 
+Upon completion of this module, you will be able to:
+- Explain why AI agents lose context between sessions and how external memory solves this.
+- Use the built-in todo tool for real-time progress tracking within a single session.
+- Create and maintain external markdown todo lists that persist between sessions.
+- Convert a Technical Specification into a structured project backlog (BACKLOG.md).
+
 Page 1: Why AI Agents Forget
 Background
 AI models process each message independently within a single conversation. When you close the chat, the context window — the shared canvas from Module 6 — is discarded. The next conversation starts with an empty canvas.
@@ -128,7 +134,7 @@ Tips for maintaining these documents:
 You understand how to combine specification and backlog documents for persistent project memory across multiple AI sessions.
 
 Summary
-In this module, you learned that AI agents do not remember anything between sessions — the context window is discarded when the chat closes. You practiced three techniques for giving agents persistent memory: built-in todo tools for single-session tracking, external markdown todo lists for multi-session persistence, and combined project documents for complex work. You applied these techniques to create a project backlog from your Technical Specification.
+Remember the scenario from the introduction — 30 minutes of productive work, then you close the chat and come back to an agent that has forgotten everything? That frustration is now behind you. With external markdown files (PROJECT_SPEC.md and BACKLOG.md), you give the AI persistent memory that survives across any number of sessions. Every new conversation starts with "Read @BACKLOG.md and continue where we left off" — and the agent picks up right where it stopped.
 
 Key takeaways:
 - AI agents forget everything between sessions — this is by design, not a bug.
@@ -139,19 +145,28 @@ Key takeaways:
 
 Quiz
 1. Why does the AI agent not remember what you discussed in a previous chat session?
-   a) It has a memory limit that resets every hour
-   b) The context window (shared canvas) is discarded when the chat closes — each new conversation starts from zero
-   c) You need to pay for a premium plan to enable memory
-   Correct answer: b. AI models process text within a context window that exists only for the duration of the conversation. Closing the chat means losing that context entirely.
+   a) The context window (shared canvas) is discarded when the chat closes — each new conversation starts from zero
+   b) The agent stores context for one hour, then clears it to free up server resources
+   c) Memory persistence requires enabling a specific setting in your IDE that is off by default
+   Correct answer: a.
+   - (a) is correct because AI models process text within a context window that exists only for the duration of the conversation. Closing the chat means losing that context entirely.
+   - (b) is incorrect because context is not stored on a timer. It exists only within the active conversation and is discarded immediately when the session ends, not after an hour.
+   - (c) is incorrect because there is no hidden "memory" setting to toggle. The context window limitation is fundamental to how current AI models work, not a configuration option.
 
 2. What is the most effective way to maintain project context across multiple AI sessions?
-   a) Copy and paste your entire previous conversation into the new chat
+   a) Copy and paste the key parts of your previous conversation into each new chat
    b) Use external markdown files (like PROJECT_SPEC.md and BACKLOG.md) that the AI reads at the start of each session and updates at the end
-   c) Keep the same chat window open permanently and never close it
-   Correct answer: b. External files provide persistent, updateable context. The AI reads them to understand project state and updates them to reflect progress, creating reliable memory across sessions.
+   c) Keep the same chat window open and never close it so the context is preserved
+   Correct answer: b.
+   - (a) is incorrect because manually copying conversation fragments is error-prone and tedious. You may miss important context, and the pasted text lacks structure for the AI to parse efficiently.
+   - (b) is correct because external files provide persistent, updateable context. The AI reads them to understand project state and updates them to reflect progress, creating reliable memory across sessions.
+   - (c) is incorrect because even if you keep a chat open, the context window has a token limit. Long conversations eventually overflow this limit, causing the AI to lose earlier context anyway.
 
 3. What should a good project backlog include?
-   a) Only a list of features with no details
+   a) A flat list of feature names without priority, phases, or completion status
    b) Specific, actionable tasks organized in phases with checkboxes, plus a progress notes section for AI updates
-   c) A copy of the project specification without any changes
-   Correct answer: b. A backlog breaks down high-level requirements into specific, trackable tasks with clear completion criteria and progress tracking.
+   c) A verbatim copy of the project specification reformatted as a numbered list
+   Correct answer: b.
+   - (a) is incorrect because a flat list without structure or checkboxes gives the AI no way to track progress or determine what to work on next. Phases and priorities are essential for sequencing.
+   - (b) is correct because a backlog breaks down high-level requirements into specific, trackable tasks with clear completion criteria and progress tracking that the AI can read and update.
+   - (c) is incorrect because a backlog serves a different purpose than a specification. The spec defines "what" and "why"; the backlog defines "how" and "when" with actionable, granular tasks.

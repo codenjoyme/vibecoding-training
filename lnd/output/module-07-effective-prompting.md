@@ -5,6 +5,12 @@ You asked the AI to do something, and the result is wrong. Your instinct is to t
 
 In this module, you will learn why arguing with the AI pollutes the context window, why restarting with a refined prompt produces better results, and how to control output variability through precise prompting. These techniques will dramatically improve your effectiveness in every future module.
 
+Upon completion of this module, you will be able to:
+- Explain how prompt specificity controls the variability of AI output.
+- Structure prompts as a series of constraint statements to narrow the solution space.
+- Apply the edit-and-regenerate workflow instead of arguing with the AI.
+- Take ownership of AI output quality by refining prompts rather than blaming the model.
+
 Page 1: The Artist Metaphor — Understanding Prompt Precision
 Background
 Imagine you ask 10 world-class artists to paint a still life. The precision of your request determines how similar or different their paintings will be.
@@ -132,7 +138,7 @@ Steps
 You have shifted from blaming the AI to refining your prompts — and you are in control of the results.
 
 Summary
-In this module, you learned the most important prompting principle: do not argue with the AI — refine and regenerate instead. Prompt specificity directly controls output quality: more statements mean less variability and more predictable results. When results are wrong, the solution is not to send corrections but to edit your original prompt with more precise statements and start fresh.
+Remember the scenario from the introduction — you asked the AI to do something, the result was wrong, and your instinct was to type "No, that is not what I meant"? Now you know a better approach. Instead of arguing, you stop, edit your original prompt to be more specific, and regenerate from a clean canvas.
 
 Key takeaways:
 - Prompt specificity controls variability: fewer details = creative chaos, more details = consistent output.
@@ -142,19 +148,28 @@ Key takeaways:
 
 Quiz
 1. Why does arguing with the AI (sending corrections in follow-up messages) make results worse?
-   a) The AI model gets offended and stops trying
-   b) Each message adds to the context window, polluting it with failed attempts, negative constraints, and noise — the model sees all of this and gets increasingly confused
-   c) The AI has a limited number of retries per session
-   Correct answer: b. The context window accumulates everything — failed attempts, corrections, and negations. This pollution makes each subsequent response worse, not better.
+   a) Each message adds to the context window, polluting it with failed attempts, negative constraints, and noise — the model sees all of this and gets increasingly confused
+   b) The AI deprioritizes users who send multiple corrections and allocates fewer resources to their requests
+   c) Follow-up messages reset the model's memory, so it loses the original requirements and starts from scratch
+   Correct answer: a.
+   - (a) is correct because the context window accumulates everything — failed attempts, corrections, and negations. This pollution makes each subsequent response worse because the model cannot distinguish your latest intent from the noise.
+   - (b) is incorrect because AI models do not track user behavior or deprioritize users. Each request is processed with the same resources regardless of how many corrections you have sent.
+   - (c) is incorrect because follow-up messages do NOT reset memory — they ADD to the existing context. That is precisely the problem: the model retains all the noise from failed attempts.
 
 2. What is the correct approach when the AI generates something wrong?
    a) Write a follow-up message explaining what was wrong and ask the AI to try again
    b) Stop immediately, go back and edit your original prompt with more specific statements, then regenerate
-   c) Close the chat and open a new session without changing anything
-   Correct answer: b. Editing the original prompt gives the model a clean canvas with better instructions. Continuing the conversation builds on polluted context.
+   c) Delete the current chat session and start a new one with the exact same prompt
+   Correct answer: b.
+   - (a) is incorrect because writing a follow-up continues the conversation on a polluted canvas. The accumulated failed attempts and corrections make each iteration worse.
+   - (b) is correct because editing the original prompt gives the model a clean canvas with better instructions. You start fresh without the noise of failed attempts.
+   - (c) is incorrect because restarting with the same prompt will produce a similar (likely still wrong) result. The issue is not the session — it is the prompt. You need to refine the prompt, not just restart.
 
 3. How does adding more specific statements to a prompt affect the result?
-   a) It makes the AI slower but does not change the output quality
-   b) Each additional statement narrows the space of possible solutions, reducing variability and increasing consistency
-   c) It confuses the AI because there are too many constraints
-   Correct answer: b. Each statement acts as a constraint that reduces the model's degrees of freedom, leading to more predictable and consistent results.
+   a) Each additional statement narrows the space of possible solutions, reducing variability and increasing consistency
+   b) It slows the model's response time proportionally but does not change the output quality
+   c) It helps only when the statements include technical keywords — plain-language constraints have no effect
+   Correct answer: a.
+   - (a) is correct because each statement acts as a constraint that reduces the model’s degrees of freedom, leading to more predictable and consistent results.
+   - (b) is incorrect because while longer prompts may slightly increase processing time, the primary effect is on output quality and consistency, not just speed.
+   - (c) is incorrect because plain-language constraints ("keep it under 20 lines," "use bullet points") are equally effective. The model understands natural language constraints just as well as technical keywords.

@@ -3,6 +3,14 @@ Module 16: Development Environment Setup
 Background
 You have a backlog of tasks, instruction files, skills, and even MCP integrations. But to build a working web application — something you can actually open in a browser — you need developer tools installed on your machine. This module walks you through installing Node.js, npm, nvm, and Docker, step by step, with the AI doing the heavy lifting. You do not need to understand programming to complete this module. Every tool is explained in plain language before you install it.
 
+**Learning Objectives**
+
+Upon completion of this module, you will be able to:
+- Explain the purpose of Node.js, npm, nvm, and Docker in plain language.
+- Install and verify Node.js and npm using nvm on your operating system.
+- Install and verify Docker Desktop for running containers locally.
+- Prepare a project skeleton structure for web application prototyping.
+
 Page 1: What Are These Tools and Why Do You Need Them
 Background
 Before installing anything, you should understand what each tool does and why your project needs it.
@@ -109,30 +117,41 @@ Steps
 Your project has a clean structure ready for implementation in Module 17.
 
 Summary
-In this module, you installed the core development tools needed for building web applications: Node.js (the runtime engine), npm (the package manager), nvm (the version manager), and Docker (the container platform). Each tool was explained in plain language before installation, and the AI handled all the technical commands. You verified that everything works and prepared a project skeleton for the prototyping module.
+At the start of this module, you had a backlog full of tasks and ideas — but no way to turn them into a working application you could open in a browser. Now you have the tools to make that happen.
+
+You installed Node.js (the engine that runs JavaScript), npm (the library manager), nvm (the version switcher), and Docker (the container platform). Each tool was explained in plain language before installation, and the AI handled the technical commands. Your verified environment is ready for prototyping in Module 17.
 
 Key takeaways:
 - Node.js runs JavaScript code on your machine — it is the engine behind web applications.
 - npm downloads and manages code libraries — your "app store" for building blocks.
 - nvm manages Node.js versions — install once, switch freely.
 - Docker packages applications into portable containers — run databases and services with one command.
-- Always verify the full environment before starting a new project phase.
+- Verifying the full environment before starting a new project phase prevents wasted time on broken dependencies.
 
 Quiz
 1. What is the purpose of Node.js in a web application project?
    a) It is a text editor for writing JavaScript files
    b) It runs JavaScript code outside the browser, powering the server side of web applications
    c) It is a database management system for storing user data
-   Correct answer: b. Node.js is a runtime that executes JavaScript on your machine, enabling you to build server-side applications, connect to APIs, and handle requests — all without a browser.
+   Correct answer: b.
+   - (a) Incorrect. Node.js is a runtime, not an editor. You write code in VS Code or another editor; Node.js executes that code on your machine.
+   - (b) Correct. Node.js is a runtime that executes JavaScript on your machine, enabling you to build server-side applications, connect to APIs, and handle requests — all without a browser.
+   - (c) Incorrect. Node.js does not store data. Databases like PostgreSQL handle data storage. Node.js connects to databases but does not replace them.
 
 2. Why is nvm recommended over installing Node.js directly?
-   a) nvm is faster than Node.js
+   a) nvm includes additional security patches that the standard Node.js installer does not provide
    b) nvm lets you install and switch between multiple Node.js versions without uninstalling anything — useful when different projects require different versions
    c) nvm is required by Docker to function correctly
-   Correct answer: b. nvm (Node Version Manager) keeps multiple Node.js versions on your machine and lets you switch instantly. This avoids compatibility issues when working on projects with different version requirements.
+   Correct answer: b.
+   - (a) Incorrect. nvm does not add security patches. It installs the same official Node.js binaries — the advantage is managing multiple versions side by side.
+   - (b) Correct. nvm keeps multiple Node.js versions on your machine and lets you switch instantly. This avoids compatibility issues when working on projects with different version requirements.
+   - (c) Incorrect. Docker operates independently of nvm. Docker has its own runtime and does not depend on how Node.js is installed.
 
 3. What does Docker do for your development workflow?
-   a) It replaces Node.js and npm with a single tool
+   a) It replaces Node.js and npm with a single unified tool
    b) It packages applications and their dependencies into portable containers that run consistently on any machine — allowing you to start databases and services with one command
-   c) It automatically writes code for your project
-   Correct answer: b. Docker creates isolated containers that bundle your application with everything it needs. This ensures your prototype runs the same way on your machine, a colleague's machine, and a server.
+   c) It monitors your code for errors and suggests fixes in real time
+   Correct answer: b.
+   - (a) Incorrect. Docker does not replace Node.js or npm. Your application still uses Node.js inside the container. Docker wraps the application and its environment together.
+   - (b) Correct. Docker creates isolated containers that bundle your application with everything it needs. This ensures your prototype runs the same way on your machine, a colleague's machine, and a server.
+   - (c) Incorrect. Docker does not analyze or monitor code. It handles packaging and running applications. Code analysis is done by linters, the IDE, or the AI assistant.

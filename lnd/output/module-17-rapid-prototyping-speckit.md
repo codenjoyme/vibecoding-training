@@ -3,6 +3,14 @@ Module 17: Rapid Prototyping with SpecKit
 Background
 You have a technical specification, a backlog of tasks, instruction files, and a fully configured development environment. Now it is time to build the actual working prototype. But how do you go from a text spec to a running web application when you have never coded before? The answer is SpecKit — a structured methodology that turns a specification document into a working application through a series of AI-guided phases: specify → clarify → plan → tasks → analyze → implement → checklist. In this module, you will follow the full SpecKit workflow and, by the end, have a working web application connected to your Jira/Confluence APIs.
 
+**Learning Objectives**
+
+Upon completion of this module, you will be able to:
+- Explain the SpecKit phases (constitution, specify, clarify, plan, tasks, analyze, implement, checklist) and what each produces.
+- Create a constitution and specification document that guides AI-assisted implementation.
+- Use the clarify phase to catch gaps and contradictions before writing code.
+- Follow the one-task-at-a-time discipline to build a working prototype incrementally.
+
 Page 1: What is SpecKit and Why It Matters
 Background
 SpecKit is a spec-driven development methodology designed for AI-assisted prototyping. Instead of jumping into code immediately (which leads to hallucinations, inconsistent architecture, and endless rework), SpecKit forces a structured preparation phase before a single line of code is written.
@@ -121,7 +129,9 @@ Steps
 Your working prototype is verified against the specification, committed, and pushed to GitHub.
 
 Summary
-In this module, you followed the full SpecKit workflow to build a working web application from your technical specification. The eight phases — constitution, specify, clarify, plan, tasks, analyze, implement, checklist — ensured that the AI had clear instructions at every step, minimizing hallucinations and rework. The result is a Jira/Confluence automation prototype with a React frontend, Node.js backend, and PostgreSQL database.
+Remember the question from the introduction — how do you go from a text spec to a running web application when you have never coded before? SpecKit is the answer: a structured methodology that turns your specification into working code through eight disciplined phases.
+
+You followed the full workflow: constitution defined the rules, specification described the product, clarify caught gaps, plan and tasks broke the work into baby steps, and implementation turned each task into verified, committed code. The result is a working prototype built without prior coding experience — because the AI had clear instructions at every step.
 
 Key takeaways:
 - SpecKit's structured phases prevent the AI from making assumptions that lead to rework.
@@ -132,19 +142,28 @@ Key takeaways:
 
 Quiz
 1. Why does SpecKit require a detailed specification before writing any code?
-   a) It makes the project look professional for stakeholders
+   a) It helps the team estimate the project timeline more accurately
    b) The more precisely you define what to build, the fewer assumptions the AI makes — reducing hallucinations, rework, and inconsistent architecture
-   c) Writing a specification is required by EPAM's development policy
-   Correct answer: b. AI assistants generate better code when given detailed, unambiguous instructions. Without a spec, the AI fills in gaps with assumptions that often do not match your intent, causing costly rework.
+   c) It generates documentation that can replace user testing
+   Correct answer: b.
+   - (a) Incorrect. While a spec can help with estimation, that is not SpecKit's primary purpose. The spec exists to give the AI clear, unambiguous instructions so it generates correct code, not to predict timelines.
+   - (b) Correct. AI assistants generate better code when given detailed, unambiguous instructions. Without a spec, the AI fills in gaps with assumptions that often do not match your intent, causing costly rework.
+   - (c) Incorrect. Documentation and testing serve different purposes. The spec guides implementation; user testing validates that the implementation meets real user needs. One does not replace the other.
 
 2. What is the purpose of the Clarify phase in the SpecKit workflow?
-   a) To translate the specification into a different language
+   a) To reduce the spec to only the most critical requirements so the AI can work faster
    b) To ask the AI to find gaps, contradictions, and unclear requirements in the specification before any code is written — catching mistakes early when they are cheap to fix
-   c) To simplify the specification by removing unnecessary details
-   Correct answer: b. The Clarify phase is a pre-implementation review. The AI acts as a critical reviewer, surfacing problems that would otherwise become bugs. Fixing a gap in a text document takes minutes; fixing it in code takes hours.
+   c) To convert the specification from business language into technical terminology
+   Correct answer: b.
+   - (a) Incorrect. The Clarify phase does not remove requirements. It adds precision by resolving ambiguities and filling gaps. Removing details would make the spec less useful, not more.
+   - (b) Correct. The Clarify phase is a pre-implementation review. The AI acts as a critical reviewer, surfacing problems that would otherwise become bugs. Fixing a gap in a text document takes minutes; fixing it in code takes hours.
+   - (c) Incorrect. The Clarify phase works in the same language as the spec. It does not translate — it questions. The output remains in business-understandable terms so non-technical stakeholders can still review it.
 
 3. Why should you implement one task at a time instead of asking the AI to build the whole application at once?
-   a) The AI can only process one file at a time
+   a) The AI's context window cannot hold a full application's code, so it needs smaller pieces to work with
    b) Implementing one task at a time lets you verify each step works before moving on — if something breaks, you know exactly which change caused it and can fix or rollback quickly
-   c) Building everything at once requires a paid AI subscription
-   Correct answer: b. The baby-steps approach gives you a working checkpoint after each task. If task 5 breaks something, you know task 5 is the cause. If you implemented 10 tasks at once and it breaks, you have no idea which change caused the problem.
+   c) Each task requires a separate approval from the project manager before implementation
+   Correct answer: b.
+   - (a) Incorrect. While context windows have limits, this is not the primary reason. Even with a large context window, implementing everything at once creates a debugging nightmare because you cannot isolate which change caused a failure.
+   - (b) Correct. The baby-steps approach gives you a working checkpoint after each task. If task 5 breaks something, you know task 5 is the cause. If you implemented 10 tasks at once and it breaks, you have no idea which change caused the problem.
+   - (c) Incorrect. SpecKit is a development methodology, not a governance process. You control the pace of implementation. The one-task-at-a-time discipline is about quality and debuggability, not approvals.

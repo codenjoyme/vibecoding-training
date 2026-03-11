@@ -5,6 +5,12 @@ What if a code editor was built from the ground up for AI-assisted work? That is
 
 This module is optional. If you are satisfied with your VS Code + Copilot setup from Module 1, you may skip ahead. If you are curious about alternatives or want a backup IDE, install Cursor alongside VS Code. Both can coexist on the same machine.
 
+**Learning objectives.** Upon completion of this module, you will be able to:
+- Install and configure Cursor IDE on your operating system.
+- Import existing VS Code settings into Cursor.
+- Use Cursor’s AI features to generate code and answer questions.
+- Choose between Cursor and VS Code based on task requirements.
+
 Page 1: Install Cursor
 Background
 Cursor uses the same core as VS Code, so the interface will feel familiar. The key difference is that AI features are deeply integrated — not bolted on as extensions. Cursor can import your VS Code settings, themes, and extensions so you do not lose any customization.
@@ -81,7 +87,7 @@ Both tools are capable — the course works fully with either one.
 You understand when each IDE is most useful and can make an informed choice for your workflow.
 
 Summary
-In this module, you installed Cursor — an AI-native IDE — alongside VS Code. You imported settings, tested AI features on the same workspace, and learned when to use each tool. For the remainder of the course, use whichever IDE you prefer — all instructions work in both.
+In this module, you installed Cursor — the AI-native IDE that answers the question "what if the editor was built around AI from day one?" You imported settings, tested AI features on the same workspace, and learned when each tool excels. For the remainder of the course, use whichever IDE you prefer — all instructions work in both.
 
 Key takeaways:
 - Cursor is built on the VS Code engine but with deeper AI integration.
@@ -90,13 +96,13 @@ Key takeaways:
 
 Quiz
 1. What is the main difference between Cursor and VS Code?
-   a) Cursor can only run on macOS
-   b) Cursor is built with AI features deeply integrated from the ground up, while VS Code uses extensions
-   c) Cursor does not support any VS Code extensions
-   Correct answer: b. Cursor was designed as an AI-native editor, while VS Code gains AI capabilities through extensions like GitHub Copilot.
+   a) Cursor is built with AI features deeply integrated from the ground up, while VS Code adds AI capabilities through extensions.
+   b) Cursor uses a completely different programming language support system than VS Code.
+   c) Cursor requires a separate AI subscription for each programming language you work with.
+   Correct answer: a. Cursor was designed as an AI-native editor where AI is part of the core experience, while VS Code achieves AI capabilities through extensions like GitHub Copilot. Option (b) is incorrect — Cursor is built on the same VS Code engine and supports the same languages. Option (c) is incorrect — Cursor’s AI works across all languages with a single subscription.
 
-2. Can Cursor import your existing VS Code settings?
-   a) No, you must configure everything from scratch
-   b) Yes, Cursor offers to import VS Code settings, themes, and extensions during setup
-   c) Only if you uninstall VS Code first
-   Correct answer: b. Cursor can import your VS Code configuration during the initial setup, preserving your familiar environment.
+2. When is VS Code with GitHub Copilot a better choice than Cursor?
+   a) When your team standardizes on VS Code and you need specific extensions not yet available in Cursor.
+   b) When you want AI-first experience without managing individual extensions.
+   c) When you are starting a new project from scratch with no existing codebase.
+   Correct answer: a. VS Code has the largest extension ecosystem and is the industry standard for team collaboration. If your team or organization standardizes on it, staying consistent reduces friction. Option (b) describes a strength of Cursor, not VS Code. Option (c) also favors Cursor, which excels at project scaffolding.

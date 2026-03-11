@@ -7,6 +7,12 @@ These are not bugs. They are hallucinations — creative interpretations of ambi
 
 In this module, you will learn to treat hallucinations as a systematic improvement tool: observe the deviation, delegate the fix to the AI, and verify the result. You will apply this technique to improve the Jira/Confluence workflow instructions you created in Module 10.
 
+Upon completion of this module, you will be able to:
+- Interpret AI hallucinations as feedback about ambiguous or missing constraints in your instructions.
+- Apply the Run → Observe → Delegate fix → Verify cycle to iteratively improve instructions.
+- Delegate instruction corrections to the AI instead of editing files manually.
+- Diagnose the interference problem when combining multiple instructions.
+
 Page 1: Hallucinations Are Feedback
 Background
 When the AI produces unexpected output, the natural reaction is frustration. But a hallucination is simply the AI filling in gaps you left in your instructions. If you said "generate quiz questions" without specifying the number of answer options, the AI chose 5 because that seemed reasonable based on its training data.
@@ -120,7 +126,7 @@ Steps
 You have a process for building trust in your instructions through iterative improvement.
 
 Summary
-In this module, you learned to treat AI hallucinations as systematic feedback rather than failures. Each unexpected output reveals a gap in your instructions — and by delegating the fix to the AI itself, you create a continuous improvement cycle. You applied this technique to refine your Jira/Confluence workflow instructions, making them more robust and reliable.
+Remember the quiz with five answer options instead of three? Or the report format with that extra section you never asked for? Those surprises are no longer frustrating mysteries — they are improvement signals. Each hallucination told you exactly what was missing from your instruction, and by delegating the fix to the AI, you closed the gap permanently.
 
 Key takeaways:
 - Hallucinations are feedback, not failures. Each one reveals an ambiguity in your instruction.
@@ -131,19 +137,28 @@ Key takeaways:
 
 Quiz
 1. What does a hallucination typically reveal about your instructions?
-   a) That the AI model is broken and needs to be replaced
-   b) That your instruction has an ambiguity or gap that the AI filled in with its own interpretation
-   c) That you need to switch to a different programming language
-   Correct answer: b. Hallucinations occur when the AI encounters ambiguity in your instructions and fills the gap with a reasonable but unintended interpretation. Fixing the ambiguity prevents the hallucination from recurring.
+   a) That your instruction has an ambiguity or gap that the AI filled in with its own interpretation
+   b) That the AI model’s training data is outdated and it needs to be retrained on newer examples
+   c) That the instruction file is too long and the AI stopped reading it before reaching the relevant rule
+   Correct answer: a.
+   - (a) is correct because hallucinations occur when the AI encounters ambiguity in your instructions and fills the gap with a reasonable but unintended interpretation. Fixing the ambiguity prevents the hallucination from recurring.
+   - (b) is incorrect because hallucinations are not caused by stale training data. They happen because the instruction did not specify a constraint, so the AI chose a default from its general knowledge — retraining would not help.
+   - (c) is incorrect because AI models do not stop reading mid-file due to length (unless the file exceeds the context window). The issue is ambiguity in the instruction, not the AI skipping content.
 
 2. Why should you delegate instruction fixes to the AI instead of editing manually?
-   a) Because manual editing is not allowed in the IDE
-   b) Because the AI maintains consistency with the existing instruction style, understands the context of the failure, and produces more precise corrections
-   c) Because the AI always writes better English than humans
-   Correct answer: b. Delegating fixes leverages the AI's understanding of both the instruction context and the failure, producing corrections that are consistent in style and precise in addressing the root cause.
+   a) Because the AI maintains consistency with the existing instruction style, understands the context of the failure, and produces more precise corrections
+   b) Because manually edited instruction files are not recognized by the AI agent and must be re-indexed
+   c) Because the AI records each fix in a change log so you can track the instruction’s evolution over time
+   Correct answer: a.
+   - (a) is correct because delegating fixes leverages the AI's understanding of both the instruction context and the failure, producing corrections that are consistent in style and precise in addressing the root cause.
+   - (b) is incorrect because the AI reads instruction files the same way regardless of how they were edited. Manual changes are recognized just like AI-generated changes.
+   - (c) is incorrect because the AI does not automatically maintain a change log unless you explicitly ask it to. The benefit of delegation is consistency and contextual awareness, not automatic logging.
 
 3. What is the interference problem with instructions?
-   a) Instructions slow down the computer when too many are loaded
-   b) When multiple instructions are active together, they can interact unpredictably — the AI must reconcile them, and the result may differ from what each instruction produces in isolation
-   c) Instructions from different files always override each other completely
-   Correct answer: b. Instructions are context-sensitive. Combining multiple instructions or adding extra prompts changes how the AI interprets each instruction, potentially producing unexpected results.
+   a) When multiple instructions are active together, they can interact unpredictably — the AI must reconcile them, and the result may differ from what each instruction produces in isolation
+   b) When an instruction file references another instruction, the referenced file’s rules take complete priority and the original file’s rules are ignored
+   c) When you add your own prompt alongside an instruction, the AI treats your prompt as a correction and rewrites the instruction file
+   Correct answer: a.
+   - (a) is correct because instructions are context-sensitive. Combining multiple instructions or adding extra prompts changes how the AI interprets each instruction, potentially producing unexpected results.
+   - (b) is incorrect because referenced instructions do not override the original. Both sets of rules are active simultaneously, which is precisely what causes the reconciliation challenge.
+   - (c) is incorrect because adding a prompt alongside an instruction does not rewrite the instruction file. The AI treats both as input for the current task, but the instruction file on disk remains unchanged.

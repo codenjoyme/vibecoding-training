@@ -5,6 +5,12 @@ In the previous module, you built skills by pairing instructions with tools — 
 
 That is exactly what the Model Context Protocol (MCP) provides. Think of MCP as USB for AI: a single standard connector that works with any data source — GitHub, databases, file systems, APIs — through pluggable servers that the community has already built. In this module, you will set up your first MCP server, test it through your AI chat, and understand when to use MCP versus custom skills.
 
+Upon completion of this module, you will be able to:
+- Explain how MCP standardizes the connection between AI assistants and external data sources.
+- Configure and start an MCP server in your IDE (VS Code or Cursor).
+- Invoke MCP tools through AI chat, including the approval workflow.
+- Decide when to use an existing MCP server versus building a custom skill.
+
 Page 1: Why MCP Matters
 Background
 Before MCP, connecting your AI assistant to an external service required:
@@ -132,7 +138,7 @@ Steps
 You have a strategy for combining MCP and custom skills in your project.
 
 Summary
-In this module, you learned about the Model Context Protocol (MCP) — a standard way to connect AI assistants to external data sources and tools. You set up an MCP server, tested its tools through chat, managed tool visibility, and compared MCP with custom skills. MCP provides plug-and-play connectivity for standard integrations, while custom skills handle specialized business logic.
+Remember the problem from the introduction — writing a custom script, creating an instruction, and testing the combination for every single data source? MCP solves this the same way USB solved the cable chaos of the 1990s: one standard connector that works with everything. You set up a server, the AI auto-discovers its tools, and you approve each call through a security dialog.
 
 Key takeaways:
 - MCP is a standard protocol (like USB) for connecting AI to external tools and data sources.
@@ -143,19 +149,28 @@ Key takeaways:
 
 Quiz
 1. What problem does the Model Context Protocol (MCP) solve?
-   a) It makes AI models run faster
-   b) It provides a standard way to connect AI assistants to external data sources and tools without writing custom integration code for each service
-   c) It replaces the need for programming languages entirely
-   Correct answer: b. MCP standardizes how AI assistants connect to external services, enabling plug-and-play integrations through community-built servers instead of custom code for each data source.
+   a) It provides a standard way to connect AI assistants to external data sources and tools without writing custom integration code for each service
+   b) It compresses the AI model’s context window so more conversation history fits into a single session
+   c) It encrypts communication between the AI model and the cloud server to protect proprietary prompts
+   Correct answer: a.
+   - (a) is correct because MCP standardizes how AI assistants connect to external services, enabling plug-and-play integrations through community-built servers instead of custom code for each data source.
+   - (b) is incorrect because MCP does not affect context window compression. In fact, each enabled MCP tool’s schema takes up space in the context window.
+   - (c) is incorrect because MCP is a connectivity protocol for tools and data sources, not an encryption layer. Communication security is handled at the transport level, not by MCP itself.
 
 2. Why are MCP tools disabled by default after configuration?
-   a) Because MCP servers are still in beta testing
-   b) For security — MCP tools can execute code and access files, so you must explicitly enable and approve each tool before it can be used
-   c) Because the AI needs time to learn about the tools
-   Correct answer: b. MCP tools can perform real actions (execute code, read/write files, access APIs), so security requires explicit user activation and per-call approval.
+   a) For security — MCP tools can execute code and access files, so you must explicitly enable and approve each tool before it can be used
+   b) Because the IDE needs to verify that the MCP server is compatible with the current AI model before enabling tools
+   c) To reduce startup time — each enabled MCP tool adds overhead to the IDE’s initialization process
+   Correct answer: a.
+   - (a) is correct because MCP tools can perform real actions (execute code, read/write files, access APIs), so security requires explicit user activation and per-call approval.
+   - (b) is incorrect because MCP tools use a standard JSON-RPC protocol that works with any AI model. There is no compatibility check between the server and the model.
+   - (c) is incorrect because while tools do consume context window space, the primary reason they are disabled by default is security, not performance optimization during startup.
 
 3. When should you use a custom skill instead of an MCP server?
-   a) Always — custom skills are always better than MCP
-   b) When no MCP server exists for your service, or when you need custom business logic that standard MCP servers do not provide
-   c) Only when working offline without internet access
-   Correct answer: b. Custom skills fill gaps where MCP servers do not exist and handle specialized logic specific to your project or business needs.
+   a) When no MCP server exists for your service, or when you need custom business logic that standard MCP servers do not provide
+   b) When the external service requires authentication, since MCP servers cannot handle API tokens or credentials
+   c) When you want better performance, since local scripts execute faster than MCP’s JSON-RPC protocol
+   Correct answer: a.
+   - (a) is correct because custom skills fill gaps where MCP servers do not exist and handle specialized logic specific to your project or business needs.
+   - (b) is incorrect because MCP servers can handle authentication — credentials are typically passed through environment variables or configuration parameters.
+   - (c) is incorrect because the performance difference between a local script and an MCP tool call is negligible for most tasks. The choice depends on whether a standard server exists and whether you need custom logic, not raw speed.

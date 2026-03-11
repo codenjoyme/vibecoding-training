@@ -7,6 +7,12 @@ In this module, you will install Visual Studio Code (VS Code) — a free, lightw
 
 Think of VS Code as your workbench, and GitHub Copilot as an always-available colleague who can write code, answer questions, and help you solve problems on the spot.
 
+**Learning objectives.** Upon completion of this module, you will be able to:
+- Install and launch Visual Studio Code on your operating system.
+- Activate a GitHub Copilot subscription (personal or EPAM license path).
+- Authorize GitHub Copilot inside VS Code and verify the connection.
+- Create a dedicated workspace folder and interact with Copilot Chat.
+
 Page 1: Install Visual Studio Code
 Background
 Visual Studio Code is a free editor created by Microsoft. It runs on Windows, macOS, and Linux. Unlike heavyweight development environments, VS Code is lightweight, fast, and supports thousands of extensions — including GitHub Copilot. It is the most popular code editor in the world and the primary tool you will use throughout this course.
@@ -109,6 +115,8 @@ Copilot Chat is responding to your questions. Your AI-powered workspace is fully
 Summary
 In this module, you installed Visual Studio Code, activated a GitHub Copilot subscription, authorized the AI assistant inside the editor, created a dedicated workspace folder, and verified that Copilot Chat responds to your requests. This workspace and AI assistant will be your primary tools for every remaining module in the course.
 
+Remember the 55% productivity boost from the introduction? That advantage starts right here — with a working editor and an AI assistant ready to help. Every module that follows builds on this foundation.
+
 Key takeaways:
 - VS Code is the editor; GitHub Copilot is the AI assistant that lives inside it.
 - The hello-genai workspace folder is where all course exercises will take place.
@@ -116,19 +124,19 @@ Key takeaways:
 
 Quiz
 1. What is the primary role of GitHub Copilot in VS Code?
-   a) It replaces the file explorer with an AI-powered browser
-   b) It provides an AI assistant that can generate code, answer questions, and perform tasks inside the editor
-   c) It automatically saves your files to GitHub
-   Correct answer: b. GitHub Copilot is an AI assistant integrated into VS Code that helps with code generation, Q&A, and task automation.
+   a) It provides an AI assistant that can generate code, answer questions, and perform tasks inside the editor.
+   b) It automatically syncs your local files with a cloud backup on GitHub.
+   c) It monitors your code for security vulnerabilities and blocks unsafe commits.
+   Correct answer: a. GitHub Copilot is an AI assistant that helps with code generation, Q&A, and task automation directly inside the editor. Option (b) describes a backup feature that Copilot does not provide — syncing to GitHub requires separate Git commands. Option (c) describes a security scanner, which is a different category of tool.
 
-2. After installing VS Code and Copilot, what is the first thing you should verify?
-   a) That the Copilot icon in the status bar shows as active with no errors
-   b) That VS Code is using dark theme
-   c) That you have at least 10 extensions installed
-   Correct answer: a. The Copilot icon in the status bar confirms the AI assistant is properly authorized and ready to use.
+2. You have installed VS Code and subscribed to GitHub Copilot, but the Copilot Chat panel does not respond. Which action is most likely to resolve the issue?
+   a) Reinstall VS Code from scratch.
+   b) Check that the Copilot icon in the status bar shows as active and re-authorize your GitHub account if it shows an error.
+   c) Install a third-party AI extension from the marketplace.
+   Correct answer: b. The Copilot icon in the status bar is the primary indicator of connection status. If it shows an error, re-authorizing your GitHub account resolves most issues. Option (a) is excessive — a full reinstall is unnecessary when the problem is likely an authorization issue. Option (c) is incorrect because Copilot is a first-party GitHub extension, not a third-party one.
 
-3. Why do you create a dedicated workspace folder for the course?
-   a) VS Code requires at least one folder to start
-   b) To keep all course exercises organized in one place and scoped for AI interactions
-   c) To increase hard drive performance
-   Correct answer: b. A dedicated workspace keeps your course files organized and ensures AI assistant context stays relevant to your work.
+3. Why do you create a dedicated workspace folder for the course instead of opening files individually?
+   a) A workspace folder scopes all AI interactions, settings, and instruction files to one project, keeping context relevant and organized.
+   b) VS Code cannot open individual files — it only works with folders.
+   c) A workspace folder enables Copilot to access the internet during chat sessions.
+   Correct answer: a. A dedicated workspace scopes AI context and project settings, ensuring Copilot's suggestions remain relevant to your course work. Option (b) is incorrect — VS Code can open individual files, but this loses the project-level context. Option (c) is incorrect — internet access is unrelated to folder structure.

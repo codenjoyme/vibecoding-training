@@ -7,6 +7,12 @@ The solution: do not ask the AI to calculate — ask it to create a tool that ca
 
 In this module, you will witness AI hallucinating calculations, create a proper tool, pair it with an instruction, and build your first skills for the Jira/Confluence automation project.
 
+Upon completion of this module, you will be able to:
+- Explain why AI models predict text patterns instead of performing real calculations.
+- Build a skill by pairing a parameterized tool (script) with an instruction file.
+- Determine when a task requires a skill versus when a prompt is sufficient.
+- Create and test reusable skills for your Jira/Confluence automation project.
+
 Page 1: AI Does Not Calculate — It Predicts
 Background
 Large Language Models generate text token by token. When asked "what is 15,847 × 1.0734^8.583?", the model does not perform arithmetic. It predicts what the answer should look like based on patterns in its training data. The result is close, plausible, and sometimes wrong.
@@ -114,7 +120,7 @@ Optional: the AgentSkills.io standard proposes a machine-readable format for pac
 You understand how to build and maintain a growing skill library.
 
 Summary
-In this module, you learned that AI models do not calculate — they predict text patterns. For any task that requires precision, you need a tool. The skill formula (Instruction + Tool = Skill) ensures the AI uses reliable scripts instead of hallucinating answers. You built skills for your Jira/Confluence project and verified they produce accurate, reproducible results.
+Remember the compound interest question from the introduction? The AI confidently produced a number — and it was wrong. Now you know why: the model predicts what an answer should look like, it does not compute. For any task where precision matters, you build a skill — an instruction that tells the AI when and how, paired with a tool that does the actual work.
 
 Key takeaways:
 - LLMs generate text — they do not compute. Never trust AI with calculations or precise data operations.
@@ -125,19 +131,28 @@ Key takeaways:
 
 Quiz
 1. Why does the AI sometimes produce wrong answers for calculation tasks?
-   a) The AI has a broken calculator that needs to be fixed
-   b) The AI does not perform calculations — it predicts what a correct answer looks like based on text patterns, which can be plausible but incorrect
-   c) The AI is intentionally giving wrong answers to test you
-   Correct answer: b. LLMs generate text token by token using pattern prediction. They do not have built-in arithmetic capabilities, so "calculations" are actually text predictions that may or may not match the real result.
+   a) The AI does not perform calculations — it predicts what a correct answer looks like based on text patterns, which can be plausible but incorrect
+   b) The AI rounds intermediate steps to save processing time, which introduces cumulative rounding errors in complex formulas
+   c) The AI uses an outdated math library that has not been updated with recent corrections
+   Correct answer: a.
+   - (a) is correct because LLMs generate text token by token using pattern prediction. They do not have built-in arithmetic capabilities, so "calculations" are actually text predictions that may or may not match the real result.
+   - (b) is incorrect because the AI does not perform intermediate calculation steps that could accumulate rounding errors. It does not calculate at all — it generates text that resembles a calculation.
+   - (c) is incorrect because there is no math library involved. The model generates numbers as text tokens based on training patterns, not by invoking a computation engine.
 
 2. What is the formula for building a reliable AI skill?
-   a) Prompt + Hope = Skill
-   b) Instruction (when and how to use the tool) + Tool (a script or program that performs the action) = Skill
-   c) Multiple prompts combined into one long message = Skill
-   Correct answer: b. A skill combines an instruction file that guides the AI on when and how to invoke the tool, with a parameterized script or program that performs the actual computation or API call.
+   a) Instruction (when and how to use the tool) + Tool (a script or program that performs the action) = Skill
+   b) A detailed prompt with step-by-step reasoning instructions that force the AI to show its work = Skill
+   c) A retry loop that runs the same prompt multiple times and selects the most common answer = Skill
+   Correct answer: a.
+   - (a) is correct because a skill combines an instruction file that guides the AI on when and how to invoke the tool, with a parameterized script or program that performs the actual computation or API call.
+   - (b) is incorrect because even with step-by-step reasoning, the AI still predicts text rather than computing. Showing work does not make the underlying arithmetic accurate.
+   - (c) is incorrect because running the same hallucination multiple times and voting does not produce reliable results. Consistency across runs does not equal correctness — the model may consistently predict the same wrong answer.
 
 3. When should you build a skill instead of using a prompt directly?
-   a) Only for programming tasks in Python
-   b) When the task requires precise calculations, API calls, or reproducible results that cannot tolerate hallucination
-   c) Only when working with a team of more than 5 people
-   Correct answer: b. Skills are needed when precision matters — calculations, data queries, API integrations, and any task where a "close enough" answer is not acceptable.
+   a) When the task requires precise calculations, API calls, or reproducible results that cannot tolerate hallucination
+   b) When the prompt exceeds 10 lines and becomes difficult to manage in a single chat message
+   c) When you need the output in a specific file format such as JSON or CSV rather than plain text
+   Correct answer: a.
+   - (a) is correct because skills are needed when precision matters — calculations, data queries, API integrations, and any task where a “close enough” answer is not acceptable.
+   - (b) is incorrect because prompt length does not determine whether a skill is needed. Long prompts are better addressed with instruction files (Module 10), not necessarily with tools.
+   - (c) is incorrect because the AI can generate JSON or CSV format from a prompt alone. File format is a formatting concern, not a precision concern that requires a tool.

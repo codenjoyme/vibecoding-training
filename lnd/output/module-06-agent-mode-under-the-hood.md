@@ -5,6 +5,12 @@ When you click "Send" in your AI chat, what actually happens? Most people treat 
 
 In this module, you will build a mental model of how AI coding assistants work behind the scenes: how text is generated, who the key players are, and how the agent orchestrates tools on your behalf. This knowledge is the foundation for everything that follows in the course.
 
+Upon completion of this module, you will be able to:
+- Describe how AI models generate text token by token and explain the role of temperature.
+- Identify the four participants in Agent Mode (User, Model, Agent System, Tools) and their interactions.
+- Trace the orchestration flow from prompt to tool execution to response.
+- Explain why the AI model's context (the canvas) contains more information than what you see in the chat.
+
 Page 1: How AI Generates Text — Token by Token
 Background
 AI models are sophisticated text prediction engines. They do not "think" or "understand" the way humans do — they predict the most likely next word based on everything they have seen so far. This single concept explains most AI behavior you will observe.
@@ -120,7 +126,7 @@ Steps
 You have a mental model of AI agent behavior that helps you predict and troubleshoot issues.
 
 Summary
-In this module, you learned how AI coding assistants work under the hood. The AI model generates text one token at a time, predicting each word from all previous context. In Agent Mode, four players collaborate: You, the Model, the Agent System, and Tools. The Agent System orchestrates tool calls invisibly, showing you only the high-level results while the model works with a richer shared canvas.
+So — what actually happens when you click "Send"? Now you know. Your prompt lands on a shared canvas, the Agent System injects tool descriptions, the model predicts one token at a time, and when it "decides" a tool is needed, the Agent System intercepts and executes it. The result goes back to the canvas, and the model continues generating its response to you.
 
 Key takeaways:
 - AI models predict text — they do not think or plan.
@@ -133,17 +139,26 @@ Quiz
 1. What is the role of the Agent System in agent mode?
    a) It generates the text responses you see in the chat
    b) It orchestrates communication between you, the AI model, and the tools — intercepting tool calls and executing them
-   c) It stores your conversation history permanently
-   Correct answer: b. The Agent System is the invisible coordinator that detects when the model wants to use a tool, executes the tool, and returns the result to the model.
+   c) It selects which AI model to use for each request based on task complexity
+   Correct answer: b.
+   - (a) is incorrect because text generation is the AI model's job, not the Agent System's. The model predicts tokens; the Agent System coordinates tool execution.
+   - (b) is correct because the Agent System is the invisible coordinator that detects when the model wants to use a tool, executes the tool, and returns the result to the model.
+   - (c) is incorrect because model selection is a user setting, not something the Agent System decides dynamically. You choose the model in your IDE configuration.
 
 2. Why does the same prompt sometimes produce different results?
-   a) The AI model is unreliable and makes random errors
-   b) The model has built-in randomness (temperature) that causes natural variation — all outputs are valid, just expressed differently
-   c) Your internet connection affects the quality of responses
-   Correct answer: b. Temperature is a built-in feature that introduces slight randomness in token selection, producing varied but equivalent responses.
+   a) The AI model has built-in randomness (temperature) that causes natural variation — all outputs are valid, just expressed differently
+   b) The Agent System caches previous responses and returns slightly modified versions to save processing time
+   c) The model's training data is updated between requests, leading to different knowledge each time
+   Correct answer: a.
+   - (a) is correct because temperature is a built-in feature that introduces slight randomness in token selection, producing varied but semantically equivalent responses.
+   - (b) is incorrect because the Agent System does not cache or reuse previous outputs — each request triggers fresh token generation from the model.
+   - (c) is incorrect because the model's training data is fixed at training time and does not change between requests. The variation comes from randomness in token selection, not from updated knowledge.
 
 3. Why do complex multi-step tasks take longer for the AI agent to complete?
-   a) The AI model needs to rest between tasks
-   b) Each tool call requires a sequential round trip: model generates a request, agent executes the tool, result returns to model, and the model continues — this happens for every step
-   c) The agent is downloading additional data from the internet
-   Correct answer: b. Agent mode tasks are sequential. Each tool use involves multiple steps, and the model cannot parallelize them — it generates one token at a time.
+   a) Each tool call requires a sequential round trip: model generates a request, agent executes the tool, result returns to model, and the model continues — this happens for every step
+   b) The model pauses to verify each step's output against its training data before proceeding
+   c) The Agent System queues all tool calls and processes them in a separate background thread
+   Correct answer: a.
+   - (a) is correct because agent mode tasks are sequential. Each tool use involves multiple steps (model → agent → tool → result → model), and the model cannot proceed until each round trip completes.
+   - (b) is incorrect because the model does not verify outputs against training data. It sees the tool result as new text on the canvas and generates the next token based on the full context.
+   - (c) is incorrect because tool calls are executed in sequence, not in a background queue. The model waits for each tool result before generating the next step.

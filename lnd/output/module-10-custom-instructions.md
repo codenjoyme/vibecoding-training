@@ -7,6 +7,12 @@ If you cannot recover it, you start from scratch — re-discovering the same con
 
 In this module, you will learn how prompts evolve into instructions, how to organize them into a system the AI reads automatically, and you will create your first instruction files for the Jira/Confluence workflows in your practical project.
 
+Upon completion of this module, you will be able to:
+- Create reusable instruction files in markdown format following the [verb]-[subject].agent.md naming convention.
+- Build an instruction catalog (main.agent.md) that lets the AI discover relevant instructions automatically.
+- Apply the Single Responsibility Principle to keep instructions focused and maintainable.
+- Create custom instruction files for your Jira/Confluence project workflows.
+
 Page 1: Evolution from Prompts to Instructions
 Background
 There are four stages of prompt maturity, and most people stay at stage 1:
@@ -137,7 +143,7 @@ Steps
 You understand the Single Responsibility Principle for instructions and can organize them effectively.
 
 Summary
-In this module, you learned how one-time prompts evolve into reusable custom instructions that the AI follows automatically. You created an instruction catalog (main.agent.md) that helps the AI find the right instruction for each task, and you built your first instruction files for Jira/Confluence workflows. Instructions are the foundation of consistent, repeatable AI-assisted work.
+Remember that perfect prompt you spent 20 minutes refining — the one you could not find when the same task came up a week later? That problem is now solved. Your prompts live as structured instruction files in the instructions/ folder, indexed by a catalog the AI reads automatically. No more searching through old chats or re-discovering constraints from memory.
 
 Key takeaways:
 - Instructions transform one-time prompts into reusable rules the AI follows automatically.
@@ -148,19 +154,28 @@ Key takeaways:
 
 Quiz
 1. What is the main advantage of custom instructions over copy-pasting prompts?
-   a) Instructions make the AI faster
-   b) Instructions are applied automatically, ensuring consistent results every time without manual copy-paste or re-discovery of constraints
-   c) Instructions replace the need for writing any prompts
-   Correct answer: b. Instructions provide persistent, reusable rules that the AI loads and applies automatically. This eliminates the need to remember and manually re-enter constraints for recurring tasks.
+   a) Instructions are applied automatically, ensuring consistent results every time without manual copy-paste or re-discovery of constraints
+   b) Instructions reduce the AI model’s processing time because structured markdown is parsed faster than plain text
+   c) Instructions allow the AI to bypass the context window limit and handle longer conversations
+   Correct answer: a.
+   - (a) is correct because instructions provide persistent, reusable rules that the AI loads and applies automatically. This eliminates the need to remember and re-enter constraints for recurring tasks.
+   - (b) is incorrect because the AI processes both instruction files and plain text in the same way. The advantage is consistency and reusability, not parsing speed.
+   - (c) is incorrect because instructions are loaded into the same context window as everything else. They do not increase the window size — they just provide consistent starting context.
 
 2. What is the purpose of the main.agent.md catalog file?
-   a) It contains all the code for your project
-   b) It lists all available instructions with brief descriptions so the AI can find the relevant instruction for each task
-   c) It replaces the need for individual instruction files
-   Correct answer: b. The catalog file is a directory of all instruction files. The AI checks it on every prompt to determine which instructions are relevant to the current task.
+   a) It lists all available instructions with descriptions so the AI can find the relevant instruction for each task
+   b) It stores the AI’s conversation history so context is preserved between sessions
+   c) It defines global project settings such as programming language and code style preferences
+   Correct answer: a.
+   - (a) is correct because the catalog file is a directory of all instruction files. The AI checks it on every prompt to determine which instructions are relevant to the current task.
+   - (b) is incorrect because conversation history is managed by the context window, not by files. The catalog serves as an index of available instructions, not a memory store.
+   - (c) is incorrect because while instructions may include style preferences, the catalog itself is an index — it points to specific instruction files rather than defining settings directly.
 
 3. When should you create a new instruction file instead of adding rules to an existing one?
-   a) Every time you write a new prompt, regardless of similarity
-   b) When the task has a distinct workflow that repeats 3+ times and would make an existing instruction too broad or unfocused
-   c) Only when the existing file reaches exactly 100 lines
-   Correct answer: b. Following the Single Responsibility Principle, each instruction should cover one distinct workflow. Splitting prevents instructions from becoming overly broad and ensures they are applied only when relevant.
+   a) When the task has a distinct workflow that repeats 3+ times and would make an existing instruction too broad or unfocused
+   b) Whenever you discover a new AI capability, to document it for future reference
+   c) Only after the existing instruction file has been used in at least 10 separate sessions
+   Correct answer: a.
+   - (a) is correct because following the Single Responsibility Principle, each instruction should cover one distinct workflow. Splitting prevents instructions from becoming overly broad and ensures they are applied only when relevant.
+   - (b) is incorrect because instruction files capture reusable workflows, not AI feature documentation. A new capability does not automatically warrant a new instruction unless it forms a repeatable workflow.
+   - (c) is incorrect because the trigger for splitting is not a usage count threshold. It depends on whether the instruction has become too broad or whether a distinct, repeatable workflow has emerged.

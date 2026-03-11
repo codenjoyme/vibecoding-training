@@ -3,6 +3,14 @@ Module 19: GitHub Coding Agent Delegation
 Background
 Up to this point, every task was completed by you and your AI assistant working together in the IDE. You described the task, the AI proposed a solution, you reviewed and approved it — all in real time. But what if you could delegate a task to an autonomous AI agent that works independently on GitHub's servers while you do something else? GitHub Copilot Coding Agent does exactly that: you assign it a GitHub issue, and it reads the codebase, writes the code, and creates a pull request — without your involvement until it is time for code review. This module teaches you how to delegate effectively, monitor progress, and review the results.
 
+**Learning Objectives**
+
+Upon completion of this module, you will be able to:
+- Explain the difference between GitHub Copilot IDE assistant and Coding Agent and when to use each.
+- Prepare a well-defined GitHub issue with clear requirements and acceptance criteria for autonomous implementation.
+- Assign a task to GitHub Copilot Coding Agent and monitor its progress.
+- Review an agent-generated pull request and improve instruction files based on the agent's mistakes.
+
 Page 1: What is GitHub Coding Agent
 Background
 GitHub Copilot has several components. The **IDE assistant** (what you have been using in VS Code) provides real-time suggestions and chat. The **Coding Agent** is different — it runs on GitHub's servers, works autonomously, and creates pull requests.
@@ -125,7 +133,9 @@ Steps
 You have improved your instruction files based on agent feedback, making future delegations more effective.
 
 Summary
-In this module, you delegated a coding task to GitHub Copilot Coding Agent — an autonomous AI that works on GitHub's servers while you are free to do other things. You prepared a well-defined issue, assigned the agent, monitored its progress, and reviewed the resulting pull request. Most importantly, you learned that the agent's quality depends on the quality of your instruction files and issue descriptions — and improved those based on the experience.
+Remember the question from the introduction — what if you could delegate a task to an AI agent that works on its own while you attend meetings or plan the next sprint? That is exactly what you did in this module.
+
+You prepared a well-defined issue, assigned it to GitHub Copilot Coding Agent, and received a pull request with a complete implementation — all without sitting in the IDE. The quality of the result depended on the quality of your issue description and instruction files, and you improved both based on the experience.
 
 Key takeaways:
 - The Coding Agent works autonomously on GitHub's servers — no need to watch it work.
@@ -137,19 +147,28 @@ Key takeaways:
 
 Quiz
 1. What is the key difference between GitHub Copilot in the IDE and GitHub Copilot Coding Agent?
-   a) The IDE version is free while the Coding Agent requires a paid subscription
+   a) The IDE assistant provides suggestions in real time, while the Coding Agent processes tasks in a scheduled batch at the end of each day
    b) The IDE assistant works in real-time with your guidance, while the Coding Agent runs autonomously on GitHub's servers — reading the codebase, implementing tasks, and creating pull requests without your involvement until review
-   c) The Coding Agent can only write Python code
-   Correct answer: b. The IDE assistant is interactive — you prompt, it responds, you approve. The Coding Agent is autonomous — you assign a task and it works independently, delivering a complete PR for your review. They complement each other.
+   c) The IDE assistant works with the full repository, while the Coding Agent can access only the files mentioned in the issue
+   Correct answer: b.
+   - (a) Incorrect. The Coding Agent does not batch tasks or wait for a schedule. It starts working immediately after assignment and typically completes within 15-30 minutes.
+   - (b) Correct. The IDE assistant is interactive — you prompt, it responds, you approve. The Coding Agent is autonomous — you assign a task and it works independently, delivering a complete PR for your review. They complement each other.
+   - (c) Incorrect. The Coding Agent has full repository access. It reads the entire codebase for context, including instruction files, configuration, and all source files — not just the ones mentioned in the issue.
 
 2. What should you do if the Coding Agent makes mistakes in its implementation?
    a) Stop using the agent and implement everything yourself
    b) Analyze whether the mistake was caused by a vague issue description or unclear instruction files — then improve the instructions so the agent does not repeat the mistake in future tasks
    c) Reassign the same issue to the agent repeatedly until it gets it right
-   Correct answer: b. Agent mistakes are feedback on your documentation. A vague issue → improve the issue template. Missing convention → update your instruction files. Each improvement makes all future delegations more effective.
+   Correct answer: b.
+   - (a) Incorrect. Abandoning the agent wastes its potential. Most mistakes are caused by unclear inputs, not by agent limitations. Improving your instructions makes the agent more effective over time.
+   - (b) Correct. Agent mistakes are feedback on your documentation. A vague issue → improve the issue template. Missing convention → update your instruction files. Each improvement makes all future delegations more effective.
+   - (c) Incorrect. Reassigning without changing the inputs is likely to produce the same result. The agent reads the same issue and the same instructions each time. To get different output, you need to improve the input.
 
 3. Why should you submit all review comments at once instead of one at a time?
-   a) GitHub does not allow multiple review submissions
+   a) GitHub displays review comments as a batch, so submitting them individually makes the conversation harder to follow
    b) Each "Request changes" submission triggers a new agent session that costs a premium request — submitting all feedback at once means only one session is needed to address all comments
-   c) The agent can only read one comment per pull request
-   Correct answer: b. Every review submission starts a new agent work session. If you submit 5 comments one by one, the agent runs 5 separate sessions. Submitting them together means one session handles everything — saving time and premium request quota.
+   c) The agent prioritizes the first comment and may ignore comments submitted later in separate reviews
+   Correct answer: b.
+   - (a) Incorrect. While readability matters, the primary concern is resource usage. GitHub does display individual comments fine, but each review submission triggers a new agent work session.
+   - (b) Correct. Every review submission starts a new agent work session. If you submit 5 comments one by one, the agent runs 5 separate sessions. Submitting them together means one session handles everything — saving time and premium request quota.
+   - (c) Incorrect. The agent reads all comments in a review submission equally. It does not prioritize or ignore based on submission order. The issue is that separate submissions trigger separate sessions, not that comments are lost.

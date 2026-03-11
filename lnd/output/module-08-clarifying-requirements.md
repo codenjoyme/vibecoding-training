@@ -7,6 +7,12 @@ This is the most common blocker for non-developers starting an automation projec
 
 In this module, you will learn the interview technique and use it to create a Technical Specification (ТЗ) for your Jira/Confluence automation project — the central artifact for the rest of the course.
 
+Upon completion of this module, you will be able to:
+- Use the "ask me clarifying questions" pattern to transform vague ideas into specific requirements.
+- Control the pace, focus, and depth of an AI-led interview.
+- Create a structured Technical Specification (ТЗ) from interview results.
+- Determine when the interview technique is useful versus when to write prompts directly.
+
 Page 1: The Empty Head Problem
 Background
 When you start writing a detailed prompt, you often reach a point where you run out of things to specify. This happens for three reasons:
@@ -126,7 +132,7 @@ For this course, your ТЗ document is the reference artifact. You will revisit 
 You know when to use the interview technique and when to skip it.
 
 Summary
-In this module, you learned the interview technique — a method for transforming vague ideas into clear, actionable requirements by asking the AI to interview you before implementing. You applied this technique to create a Technical Specification (ТЗ) for your Jira/Confluence automation project, which will serve as the foundation for all practical work in the remaining modules.
+Remember the feeling from the introduction — you had a general idea about automating status reports, but after two sentences your head felt empty? Now you have a reliable solution: ask the AI to interview you first. Through that conversation, the AI pulls out the details you did not know you had, and the result is a structured Technical Specification ready for implementation.
 
 Key takeaways:
 - When you cannot think of what to specify, ask the AI: "Before we start, ask me clarifying questions."
@@ -137,19 +143,28 @@ Key takeaways:
 
 Quiz
 1. What is the main purpose of the interview technique?
-   a) To test whether the AI understands your programming language
-   b) To help you discover and articulate requirements you did not know you had, by letting the AI ask clarifying questions before implementation
-   c) To teach the AI about your company's processes
-   Correct answer: b. The interview technique transforms a vague idea into specific requirements through AI-guided questioning. The AI identifies gaps you would not have noticed on your own.
+   a) To help you discover and articulate requirements you did not know you had, by letting the AI ask clarifying questions before implementation
+   b) To verify that the AI model can handle your specific programming language and framework
+   c) To train the AI on your company’s internal terminology so it produces more accurate results in future sessions
+   Correct answer: a.
+   - (a) is correct because the interview technique transforms a vague idea into specific requirements through AI-guided questioning. The AI identifies gaps you would not have noticed on your own.
+   - (b) is incorrect because model capabilities do not depend on an interview — the model already supports all major languages and frameworks. The interview is about clarifying your requirements, not testing the model.
+   - (c) is incorrect because AI models do not retain learning between sessions. The interview enriches the current context window with your specific requirements, not the model’s long-term knowledge.
 
 2. What should you do after the AI finishes asking clarifying questions?
-   a) Delete the entire conversation and start over with a new prompt
+   a) Delete the entire conversation and start over with a new prompt based on what you learned
    b) Ask the AI to create a structured requirements document (like a ТЗ), review it, and commit it to your repository
-   c) Immediately start coding without documenting the requirements
-   Correct answer: b. The interview produces valuable requirements that should be captured in a structured document. This document becomes the reference for all future implementation work.
+   c) Proceed directly to implementation and rely on the AI to remember all the discussed details
+   Correct answer: b.
+   - (a) is incorrect because the conversation already contains valuable context. Deleting it and rewriting from memory risks losing details that emerged naturally during the interview.
+   - (b) is correct because the interview produces valuable requirements that should be captured in a structured document. This document becomes the reference for all future implementation work.
+   - (c) is incorrect because relying solely on conversational context is fragile — if the chat resets or the context window fills up, those requirements are lost. A committed document persists.
 
 3. When should you skip the interview technique and write specific statements directly?
-   a) Always — the interview technique is only for beginners
-   b) When you already know exactly what you want and can articulate all the details in your prompt
-   c) When the task is complex and has many unknowns
-   Correct answer: b. If you already have a clear picture of the requirements, writing specific statements directly is more efficient. The interview technique is most valuable when you have gaps in your understanding.
+   a) When you already know exactly what you want and can articulate all the details in your prompt
+   b) When the task is complex and has many unknowns
+   c) When you are working on a task for the first time and have no experience in the domain
+   Correct answer: a.
+   - (a) is correct because if you already have a clear picture of the requirements, writing specific statements directly is more efficient. The interview adds value only when you have gaps.
+   - (b) is incorrect because complex tasks with many unknowns are precisely when the interview technique is most valuable — the AI helps you surface questions you would not think of alone.
+   - (c) is incorrect because first-time tasks in unfamiliar domains are ideal candidates for the interview technique, not for skipping it. The less you know, the more the AI’s questions help.

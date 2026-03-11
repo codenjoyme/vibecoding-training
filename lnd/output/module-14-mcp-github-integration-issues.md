@@ -5,6 +5,14 @@ You know how to set up MCP servers and use their tools through chat. Now it is t
 
 In this module, you will configure the GitHub MCP server, create issues in your project repository from the task backlog, and practice managing project work through AI-driven GitHub interactions.
 
+**Learning Objectives**
+
+Upon completion of this module, you will be able to:
+- Configure the GitHub MCP server in your IDE using HTTP-based connection.
+- Create and manage GitHub repositories through the AI chat interface.
+- Convert a project backlog file into structured GitHub issues without leaving the IDE.
+- Manage the full issue lifecycle (create, comment, filter, close) through MCP tools.
+
 Page 1: Why GitHub MCP
 Background
 The traditional workflow for managing GitHub involves constant switching: open the browser, navigate to the repository, click through menus, fill in forms, switch back to the IDE, resume coding. This context switching adds up.
@@ -117,30 +125,41 @@ Steps
 You can manage your project's issue lifecycle entirely through AI chat.
 
 Summary
-In this module, you configured the GitHub MCP server and used it to manage your project directly from the AI chat. You created GitHub issues from your project backlog, managed issue lifecycle (create, comment, close), and established a workflow for tracking all project tasks through GitHub issues.
+Remember the context-switching problem from the introduction — browser tabs, GitHub menus, copy-pasting URLs, switching back to the IDE? With the GitHub MCP server configured, that entire loop collapses into one conversation in your AI chat.
+
+In this module, you configured the GitHub MCP server using an HTTP endpoint, created GitHub issues directly from your project backlog, managed the issue lifecycle (create, comment, filter, close), and established a single-window workflow for project management.
 
 Key takeaways:
 - The GitHub MCP server provides HTTP-based access to repositories, issues, PRs, and more.
 - Authentication uses your GitHub Copilot subscription — no personal access tokens needed.
 - Creating issues from a backlog file is one of the most practical MCP workflows.
 - GitHub issues will serve as the foundation for task delegation in Module 19.
-- All project management can happen in one place — your AI chat.
+- The context switching that slowed you down is now eliminated — everything happens in one place.
 
 Quiz
 1. How does the GitHub MCP server differ from a local MCP server like the echo server?
    a) It does not require any configuration at all
    b) It connects to a remote HTTP endpoint (GitHub's API) rather than running a local script, and authenticates through your GitHub Copilot subscription
-   c) It only works in Cursor, not in VS Code
-   Correct answer: b. The GitHub MCP server uses "type": "http" to connect to GitHub's cloud infrastructure, while local servers run scripts on your machine. Authentication leverages your existing Copilot subscription.
+   c) It works the same way but supports fewer tools
+   Correct answer: b.
+   - (a) Incorrect. The GitHub MCP server still requires an entry in mcp.json with the server type and URL — configuration is simpler but not absent.
+   - (b) Correct. The GitHub MCP server uses "type": "http" to connect to GitHub's cloud infrastructure, while local servers run scripts on your machine. Authentication leverages your existing Copilot subscription.
+   - (c) Incorrect. The GitHub MCP server actually provides a rich set of tools (repositories, issues, PRs, branches). The difference is in connection type (HTTP vs local), not in the number of tools.
 
 2. What is the practical benefit of creating GitHub issues from your BACKLOG.md through AI chat?
-   a) It is faster because the AI types faster than you
+   a) It ensures that issue descriptions follow a standardized template from GitHub
    b) You can manage project tasks without leaving the IDE — the AI reads the backlog, creates properly formatted issues, and lets you track everything in one workflow
-   c) GitHub gives you extra storage for AI-created issues
-   Correct answer: b. The workflow eliminates context switching between browser and IDE. The AI creates structured issues from your backlog, enabling seamless project management.
+   c) It automatically assigns priority levels to each issue based on the backlog order
+   Correct answer: b.
+   - (a) Incorrect. The AI formats the issue based on the content you provide in the backlog file, not based on a predefined GitHub template.
+   - (b) Correct. The workflow eliminates context switching between browser and IDE. The AI creates structured issues from your backlog, enabling seamless project management.
+   - (c) Incorrect. GitHub issues do not have built-in priority levels assigned automatically. You would need to add labels or milestones manually or through an explicit prompt.
 
 3. Why is the GitHub MCP integration important for Module 19 (GitHub Coding Agent)?
    a) The coding agent requires MCP to understand your programming language
    b) The issues you create now become tasks that can be delegated to an autonomous coding agent for implementation — the agent picks up issues and creates pull requests
-   c) The coding agent only works with repositories created through MCP
-   Correct answer: b. GitHub issues serve as task descriptions for the coding agent. You write the issue, the agent implements the solution and opens a PR for your review.
+   c) The coding agent uses MCP to report its progress back to your IDE in real time
+   Correct answer: b.
+   - (a) Incorrect. The coding agent understands programming languages through its training, not through MCP. MCP provides access to GitHub services, not language comprehension.
+   - (b) Correct. GitHub issues serve as task descriptions for the coding agent. You write the issue, the agent implements the solution and opens a PR for your review.
+   - (c) Incorrect. The coding agent works asynchronously on GitHub's infrastructure. You review results through pull requests, not through real-time MCP updates in the IDE.

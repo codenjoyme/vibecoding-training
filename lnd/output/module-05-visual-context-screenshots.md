@@ -7,6 +7,12 @@ AI assistants face the same problem. They are trained on data up to a certain da
 
 In this module, you will learn to share visual context with your AI assistant using screenshots. You will practice this skill by creating API tokens for Jira and Confluence — credentials you will need for the practical project in later modules.
 
+Upon completion of this module, you will be able to:
+- Capture and paste screenshots into the AI chat to provide visual context.
+- Determine when a screenshot adds value versus when text alone is sufficient.
+- Use screenshot-assisted guidance to navigate unfamiliar software interfaces.
+- Create and securely store API tokens for Jira and Confluence.
+
 Page 1: Why Visual Context Matters
 Background
 AI models rely on their training data to describe software interfaces, but that data may not reflect the latest UI updates. Screenshots bridge this gap by showing the AI exactly what you see on your screen right now.
@@ -121,29 +127,38 @@ Combine both when:
 You have a clear decision framework for when screenshots add value to AI interactions.
 
 Summary
-In this module, you learned to share visual context with your AI assistant using screenshots. You practiced the technique on two tasks: opening a browser console and creating API tokens for Jira/Confluence. Screenshots eliminate miscommunication when software interfaces change or when you cannot find the element the AI describes.
+Remember the phone-call scenario from the introduction — "click the button, no, not that one, the blue one in the top right"? You now have a better way. By sharing a screenshot, you skip the guessing game and let the AI see exactly what you see.
 
 Key takeaways:
-- A screenshot often communicates more than paragraphs of text description.
+- A screenshot often communicates more than paragraphs of text description — it eliminates the ambiguity of describing UI elements in words.
 - The AI adapts its guidance to your specific interface when it can see your screen.
 - Use screenshots for UI tasks, error messages, and unfamiliar interfaces. Use text for conceptual questions and code.
 - API tokens are sensitive — store them securely and never commit them to Git.
 
 Quiz
 1. When is a screenshot more effective than a text description when working with an AI assistant?
-   a) When asking the AI to explain a programming concept
-   b) When the software interface looks different from what the AI expects, or when you cannot find a UI element the AI describes
-   c) When writing a commit message
-   Correct answer: b. Screenshots bridge the gap between the AI's training data and your current interface, enabling precise guidance.
+   a) When the software interface looks different from what the AI expects, or when you cannot find a UI element the AI describes
+   b) When asking the AI to explain the difference between two programming concepts
+   c) When requesting the AI to generate a code snippet from a verbal description
+   Correct answer: a.
+   - (a) is correct because screenshots bridge the gap between the AI's training data and your current interface, letting it give you precise, up-to-date guidance.
+   - (b) is incorrect because conceptual explanations are language-based — a screenshot of code adds little value when the question is about abstract concepts.
+   - (c) is incorrect because code generation works best from a clear text prompt. A screenshot of a verbal description would actually be harder for the AI to parse than typed text.
 
 2. What should you do with the API tokens you created in this module?
-   a) Commit them to your Git repository so they are backed up
+   a) Commit them to your Git repository so they are version-controlled alongside your code
    b) Store them in a secure location (password manager or .env file excluded from Git) and never share them in screenshots or chat histories
-   c) Email them to yourself for safekeeping
-   Correct answer: b. API tokens are sensitive credentials. They must be stored securely and excluded from version control using .gitignore.
+   c) Paste them into the AI chat so the assistant can use them in future sessions
+   Correct answer: b.
+   - (a) is incorrect because Git repositories — especially public or shared ones — expose credentials to anyone with access. Tokens in version control are a common security breach vector.
+   - (b) is correct because API tokens are sensitive credentials that grant access to your accounts. Storing them in a password manager or a .env file (excluded via .gitignore) keeps them secure.
+   - (c) is incorrect because chat histories may be logged, shared, or used for model training. Pasting tokens into a chat risks exposing them beyond your control.
 
 3. Why might the AI suggest a button or menu item that does not exist on your screen?
-   a) The AI is always wrong about user interfaces
-   b) The AI's training data may reflect an older version of the software, and the interface has since changed
-   c) Your screen resolution is too low to display it
-   Correct answer: b. AI models are trained on data up to a certain date. Software interfaces evolve, so the AI's knowledge may not match the current UI.
+   a) The AI's training data may reflect an older version of the software, and the interface has since changed
+   b) Your IDE extension is outdated and needs to be updated to the latest version
+   c) The feature requires a paid subscription tier that you have not activated yet
+   Correct answer: a.
+   - (a) is correct because AI models are trained on data up to a certain date. Software interfaces evolve, so the AI's knowledge may reference UI elements that have been moved, renamed, or removed.
+   - (b) is incorrect because the IDE extension version does not affect the AI's knowledge of third-party software interfaces — the issue is the AI's training data, not your local installation.
+   - (c) is incorrect because while subscription tiers can hide features, the most common reason for a mismatch is that the software UI has changed since the AI's training cutoff, not a licensing issue.

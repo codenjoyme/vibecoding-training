@@ -6,7 +6,11 @@ Imagine spending two hours building something that works perfectly — then aski
 This scenario happens to everyone who works with AI assistants without a safety net. Git is that safety net. It is a version control system that saves snapshots of your project at any point. If something goes wrong, you restore the last working snapshot in seconds.
 
 In this module, you will learn the "baby steps" methodology: make one small change, verify it works, save a snapshot, then move on. This approach keeps your working memory manageable and your project always recoverable. You will use Git for every subsequent module in this course.
-
+**Learning objectives.** Upon completion of this module, you will be able to:
+- Initialize a Git repository and configure your identity.
+- Apply the baby steps workflow: change → test → stage → commit.
+- Recover from an AI-generated mistake by discarding uncommitted changes.
+- Create a .gitignore file to exclude sensitive and temporary files.
 Page 1: Why Baby Steps Matter
 Background
 Your brain can hold roughly 7±2 items in working memory simultaneously. When you try to implement three features at once, each new detail pushes out an earlier one, leading to confusion and mistakes. The baby steps approach respects this cognitive limit.
@@ -131,6 +135,8 @@ Page 7: Push to GitHub (Optional)
 Background
 Pushing your repository to GitHub creates a remote backup. If your local machine has issues, your code is safe in the cloud. This step is optional but recommended — you will use GitHub features in later modules.
 
+This is also the moment to initialize the repository you will use for the practical project throughout the course. If you already have a project idea (or will define one in Module 08), create the repo now and keep using the baby steps workflow for every future module.
+
 Steps
 1. Go to https://github.com/new in your browser.
 2. Name the repository: git-baby-steps-practice.
@@ -149,7 +155,7 @@ Steps
 Your project is backed up to GitHub. You can continue making baby steps and push regularly.
 
 Summary
-In this module, you learned the baby steps methodology for working with AI assistants: make one small change, test it, stage it, commit it, then move on. You also practiced the most critical skill — recovering from an AI mistake by discarding uncommitted changes.
+Remember the scenario from the introduction — two hours of work destroyed by one careless AI refactoring? With the baby steps workflow, that situation is impossible. Every working change is staged, every complete feature is committed, and recovery is one command away.
 
 Key takeaways:
 - Git is your safety net when working with an AI assistant. Stage and commit after every successful change.
@@ -159,19 +165,19 @@ Key takeaways:
 
 Quiz
 1. Why is it important to commit after every small successful change when working with an AI assistant?
-   a) To generate a longer commit history
-   b) Because each commit creates a recovery point you can return to if the AI breaks something
-   c) Because Git requires frequent commits to function properly
-   Correct answer: b. Each commit is a snapshot you can restore if a subsequent AI-generated change breaks your project.
+   a) Because each commit creates a recovery point you can return to if the AI breaks something in a later change.
+   b) Because Git repositories have a maximum file size and frequent commits keep files small.
+   c) Because the AI assistant reads the commit history to understand your project better.
+   Correct answer: a. Each commit is a snapshot you can restore if a subsequent AI-generated change breaks your project. Option (b) is incorrect — Git does not require frequent commits for file size reasons; it handles large files independently of commit frequency. Option (c) is incorrect — while some AI tools can read Git history, the primary reason for frequent commits is recoverability, not AI context.
 
-2. What should you do if the AI refactors your code and breaks existing functionality?
-   a) Ask the AI to fix it, adding more changes on top
-   b) Discard the uncommitted changes using git checkout and try a different approach
-   c) Delete the project and start over
-   Correct answer: b. Discarding uncommitted changes restores the last known working state, which is faster and safer than trying to fix broken refactoring.
+2. Your AI assistant refactored calculator.py and broke the existing functionality. You have not staged or committed the refactoring. What is the most appropriate next step?
+   a) Ask the AI to undo its own changes by describing what the code looked like before.
+   b) Discard the uncommitted changes using git checkout to restore the last staged or committed version, then try a different approach.
+   c) Copy the broken code into a separate file for reference, then manually rewrite the original.
+   Correct answer: b. Discarding uncommitted changes restores the last known working state instantly, which is faster and more reliable than any other recovery method. Option (a) risks introducing additional errors — the AI may not accurately remember the previous state. Option (c) wastes time on manual work when Git can restore the file in one command.
 
-3. What is the purpose of a .gitignore file?
-   a) It tells Git to ignore all files in the project
-   b) It lists file patterns that Git should not track — such as secrets, temporary files, and IDE configuration
-   c) It prevents other developers from reading your code
-   Correct answer: b. The .gitignore file excludes sensitive, temporary, and machine-specific files from version control.
+3. What is the purpose of a .gitignore file in a project repository?
+   a) It lists file patterns that Git should not track — such as API keys, environment files, temporary caches, and IDE configuration.
+   b) It speeds up Git operations by indexing only the files listed inside it.
+   c) It encrypts sensitive files so they can be safely committed to the repository.
+   Correct answer: a. The .gitignore file tells Git to exclude files matching specific patterns from version control, preventing secrets and machine-specific files from being accidentally committed. Option (b) is incorrect — .gitignore has no effect on Git’s speed or indexing mechanism. Option (c) is incorrect — .gitignore does not encrypt anything; it simply prevents files from being tracked. Encryption requires separate tools.
