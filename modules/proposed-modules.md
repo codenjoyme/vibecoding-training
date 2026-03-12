@@ -47,7 +47,7 @@ Available gaps: `062-069`, `075-079`, `085-089`, `106-109`, `126-129`, `131-139`
 
 ---
 
-## Module 1: AI-Assisted Test Generation & Snapshot Testing
+## ✅ Module 1: AI-Assisted Test Generation & Snapshot Testing
 
 **Proposed ID:** `132`  
 **Proposed Name:** AI-Assisted Test Generation & Snapshot Testing
@@ -82,7 +82,7 @@ You built a working prototype — but how do you know it still works after the n
 
 ---
 
-## Module 2: AI Code Security Review
+## ✅ Module 2: AI Code Security Review
 
 **Proposed ID:** `134`  
 **Proposed Name:** AI Code Security Review
@@ -113,7 +113,7 @@ AI writes code fast. But does it write _safe_ code? This module teaches you to u
 
 ---
 
-## Module 3: Token & API Key Management
+## ✅ Module 3: Token & API Key Management
 
 **Proposed ID:** `108`  
 **Proposed Name:** Token & API Key Management
@@ -144,7 +144,7 @@ Every module in this course uses API keys. But where do you put them? This modul
 
 ---
 
-## Module 4: Evaluating AI Output Quality
+## ✅ Module 4: Evaluating AI Output Quality
 
 **Proposed ID:** `085`  
 **Proposed Name:** Evaluating AI Output Quality
@@ -175,7 +175,7 @@ How do you know the AI's answer is good? Not "feels right" — actually good. Th
 
 ---
 
-## Module 5: CI/CD Pipeline with AI Agents
+## ✅ Module 5: CI/CD Pipeline with AI Agents
 
 **Proposed ID:** `155`  
 **Proposed Name:** CI/CD Pipeline with AI Agents
@@ -206,7 +206,7 @@ You've delegated tasks to the GitHub coding agent. Now automate the whole loop. 
 
 ---
 
-## Module 6: AI-Assisted Code Review
+## ✅ Module 6: AI-Assisted Code Review
 
 **Proposed ID:** `152`  
 **Proposed Name:** AI-Assisted Code Review
@@ -237,7 +237,7 @@ Reading someone else's code — or code AI wrote for you — is hard. This modul
 
 ---
 
-## Module 7: Shared Instructions & Team Conventions
+## ✅ Module 7: Shared Instructions & Team Conventions
 
 **Proposed ID:** `075`  
 **Proposed Name:** Shared Instructions & Team Conventions
@@ -268,7 +268,7 @@ You've built personal instructions that work for you. But your team reinvents th
 
 ---
 
-## Module 8: AI Cost Optimization
+## ✅ Module 8: AI Cost Optimization
 
 **Proposed ID:** `037`  
 **Proposed Name:** AI Cost Optimization & Token Economics
@@ -299,7 +299,7 @@ Every AI call costs money. This module teaches you to read the meter: how tokens
 
 ---
 
-## Module 9: Onboarding with AI
+## ✅ Module 9: Onboarding with AI
 
 **Proposed ID:** `197`  
 **Proposed Name:** Onboarding New Team Members with AI
@@ -330,7 +330,7 @@ New team member joins. Instead of 2 weeks of reading wikis, they open the IDE an
 
 ---
 
-## Module 10: Multi-Agent Orchestration
+## ✅ Module 10: Multi-Agent Orchestration
 
 **Proposed ID:** `195`  
 **Proposed Name:** Multi-Agent Orchestration
@@ -361,7 +361,7 @@ One agent writes code. Another reviews it. A third runs tests. You're the manage
 
 ---
 
-## Module 11: AI for Data Analysis & Reporting
+## ✅ Module 11: AI for Data Analysis & Reporting
 
 **Proposed ID:** `200`  
 **Proposed Name:** AI for Data Analysis & Reporting
@@ -392,7 +392,7 @@ You have a CSV export from Jira, a spreadsheet of test results, or a log file wi
 
 ---
 
-## Module 12: Structured Output & JSON Mode
+## ✅ Module 12: Structured Output & JSON Mode
 
 **Proposed ID:** `187`  
 **Proposed Name:** Structured Output & JSON Mode
@@ -423,7 +423,7 @@ AI gives you prose. Your code needs JSON. This module teaches you to get structu
 
 ---
 
-## Module 13: AI-Assisted Refactoring
+## ✅ Module 13: AI-Assisted Refactoring
 
 **Proposed ID:** `126`  
 **Proposed Name:** AI-Assisted Refactoring
@@ -454,7 +454,7 @@ Your PoC works but the code is a mess — AI generated it in one pass and it sho
 
 ---
 
-## Module 14: Database Schema Design with AI
+## ✅ Module 14: Database Schema Design with AI
 
 **Proposed ID:** `128`  
 **Proposed Name:** Database Schema Design with AI
@@ -485,7 +485,7 @@ Every app needs data. This module teaches you to design database schemas, genera
 
 ---
 
-## Module 15: Debugging AI-Generated Code
+## ✅ Module 15: Debugging AI-Generated Code
 
 **Proposed ID:** `064`  
 **Proposed Name:** Debugging AI-Generated Code
