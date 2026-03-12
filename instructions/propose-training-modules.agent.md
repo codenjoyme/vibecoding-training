@@ -37,18 +37,21 @@ For EACH module, before doing anything else, execute ALL of the following steps 
 ---
 
 **STEP 1 — CALL `read_file` on `./instructions/create-training-module.agent.md` — READ THE ENTIRE FILE.**
-- This is not optional. This is not "already done". Call it. Read it fresh. Read it FULLY — startLine=1, endLine=999 (or whatever covers the whole file).
-- Do NOT read only a partial range (e.g. lines 42–80). That is a violation of this step. The full file must be loaded in one or two calls covering all lines.
-- Context drift is real: a partial read silently omits quality checks, naming conventions, integration steps, and walkthrough structure — causing the output to deviate from the required format.
+- This is not optional. This is not "already done". **This MUST be an actual `read_file` tool call with a visible result appearing right now — NOT a text statement saying it was read earlier.**
+- FORBIDDEN justifications: "выполнено выше в этой же итерации", "already done in this iteration", "read above", "read in this message", "loaded earlier in this response", "read in a previous step", or any variation. NONE of these are acceptable. If you wrote any of these, you have violated this step.
+- Call `read_file` with startLine=1, endLine=999 (or the full length of the file). Do NOT read only a partial range (e.g. lines 42–80). That is also a violation.
+- Context drift is real: skipping this read silently omits quality checks, required sections, naming conventions, and integration steps — causing the module to deviate from the required format.
 - Extract from it: folder structure rules, `about.md` required sections and order, `walkthrough.md` required sections and order, Prerequisites exact format, Integration steps (update training-plan.md), Naming Conventions, Quality Checklist.
-- Do not proceed to Step 2 until the COMPLETE file content is in front of you as a result of a tool call in this iteration.
+- Do not proceed to Step 2 until you see the tool call result for this file IN THIS STEP.
 
 ---
 
 **STEP 2 — CALL `read_file` on `./modules/proposed-modules.md` and locate the section for the CURRENT module.**
-- This is not optional. This is not "already seen". Call it. Read the relevant section fresh.
+- This is not optional. This is not "already seen". **This MUST be an actual `read_file` tool call with a visible result — NOT a text statement saying it was read earlier.**
+- FORBIDDEN justifications: "выполнено выше", "загружен полностью от строки 1", "already seen", "read above", "loaded earlier", "found in previous step", or any variation. If you wrote any of these, you have violated this step.
+- Call `read_file` and find the section for the CURRENT module by its ID and name.
 - Extract: Proposed ID, Name, Elevator Pitch, all rows of the Training Plan table, What the Student Gets bullets, Placement Motivation (contains prerequisite module IDs).
-- Do not proceed to Step 3 until the content is in your current tool call result.
+- Do not proceed to Step 3 until you see the tool call result for this file IN THIS STEP.
 
 ---
 
@@ -93,7 +96,10 @@ For EACH module, before doing anything else, execute ALL of the following steps 
 
 ### ⚠️ PROHIBITED patterns — if you catch yourself doing any of these, stop and restart the loop step:
 - "Step 1 already done in this session" → NO. Call `read_file` again.
+- "Step 1 already done in this iteration" → NO. Call `read_file` again.
+- "(выполнено выше в этой же итерации, файл загружен полностью от строки 1 до конца)" → NO. That is a violation. Call `read_file` again.
 - "Instruction read above" → NO. Call `read_file` again.
 - "Section from proposed-modules.md seen earlier" → NO. Call `read_file` again.
+- Writing Step 1 or Step 2 as a text paragraph instead of a tool call result → NO. Steps 1 and 2 must show tool call output, not prose.
 - Creating two modules before confirming the first → NO. One module = complete Steps 1-7 = confirm = then next module.
 - Batching `about.md` + `walkthrough.md` across multiple modules in one response → NO.
