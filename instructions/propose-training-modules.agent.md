@@ -28,55 +28,71 @@
 
 - After presenting the proposal, ask the user: "Which modules would you like to create? List the IDs, or say 'all' to create all proposed modules."
 - Wait for explicit user confirmation before proceeding.
-- Build a list of modules to create from the user's answer. Work through them **one at a time**, in ID order.
-- For EACH module in the list, execute this exact loop — **do not skip any step, do not batch steps across modules**:
+- Build the list of approved modules in ID order. Then process them **one module at a time**.
 
-  ### Loop iteration for one module:
+### ⚠️ MANDATORY LOOP — one full iteration per module, no exceptions
 
-  + **Step 1 — READ instruction file (MANDATORY, every iteration).**
-    * Call `read_file` on `./instructions/create-training-module.agent.md`.
-    * Do NOT skip this even if you read it in a previous iteration. Each iteration is independent.
-    * This gives you: folder structure, `about.md` format, `walkthrough.md` format, Prerequisites format, Integration steps, Quality checks.
+For EACH module, before doing anything else, execute ALL of the following steps in order. **No step may be skipped. No step may reference "already read above" or "read in a previous iteration". Every step is a fresh read.**
 
-  + **Step 2 — READ the module section from proposal (MANDATORY, every iteration).**
-    * Call `read_file` on `./modules/proposed-modules.md` and extract the full section for the current module.
-    * Identify: Proposed ID, Name, Elevator Pitch, Training Plan table, What the Student Gets, Placement Motivation (which contains prerequisite module IDs and dependency reasoning).
+---
 
-  + **Step 3 — CREATE the module folder and files.**
-    * Derive folder name from ID and module name: `./modules/[ID]-[descriptive-name]/`.
-    * Create `about.md` following exactly the structure from Step 1:
-      - Title, Duration (15 min based on course standard), Skill (one actionable sentence), walkthrough link.
-      - Topics section — derived from Training Plan steps.
-      - Learning Outcome — derived from "What the Student Gets".
-      - Prerequisites section with `### Required Modules` (links to actual module folders) and `### Required Skills & Tools` — derived from Placement Motivation dependency list.
-    * Create `walkthrough.md` following exactly the structure from Step 1:
-      - Introduction paragraph, Prerequisites reference to `about.md`.
-      - "What We'll Build/Learn" section.
-      - All numbered steps — one step per row in the Training Plan table, expanded into actionable instructions with commands, examples, verification points.
-      - Success Criteria section with ✅ checkboxes.
-      - Understanding Check section with 5-7 questions and expected answers.
-      - Troubleshooting section.
-      - Next Steps section.
+**STEP 1 — CALL `read_file` on `./instructions/create-training-module.agent.md` RIGHT NOW.**
+- This is not optional. This is not "already done". Call it. Read it fresh.
+- Context drift is real: without this read, the output will silently deviate from the required format.
+- Extract from it: folder structure rules, `about.md` required sections, `walkthrough.md` required sections, Prerequisites format, Integration steps, Quality checklist.
+- Do not proceed to Step 2 until the file content is in front of you as a result of a tool call in this iteration.
 
-  + **Step 4 — UPDATE `training-plan.md`.**
-    * Read current `./training-plan.md` to find the correct insertion point (based on module ID order).
-    * Insert the new module link in the Module Sequence list at the correct position.
-    * Format: `1. [Module Name](modules/[folder-name]/about.md) - Brief description`
+---
 
-  + **Step 5 — MARK as done in proposal file.**
-    * Edit `./modules/proposed-modules.md`: add `✅` prefix to the module's heading line (e.g., `## ✅ Module N: Name`).
-    * This tracks progress and makes it easy to resume if interrupted.
+**STEP 2 — CALL `read_file` on `./modules/proposed-modules.md` and locate the section for the CURRENT module.**
+- This is not optional. This is not "already seen". Call it. Read the relevant section fresh.
+- Extract: Proposed ID, Name, Elevator Pitch, all rows of the Training Plan table, What the Student Gets bullets, Placement Motivation (contains prerequisite module IDs).
+- Do not proceed to Step 3 until the content is in your current tool call result.
 
-  + **Step 6 — CONFIRM to user.**
-    * Report: "✅ **[Module Name]** (`[ID]`) — created. → [modules/folder/about.md](modules/folder/about.md)"
-    * Then immediately begin the next module's loop from Step 1.
+---
 
-- After ALL modules in the list are created:
-  + Report a summary table: ID | Name | Folder | Status.
-  + Remind user to review `training-plan.md` and commit changes to Git.
+**STEP 3 — CREATE `about.md` for this module.**
+- Folder: `./modules/[ID]-[descriptive-name]/about.md`
+- Use the structure from Step 1 (create-training-module instruction), content from Step 2 (proposal).
+- Required sections in order: Title, Duration (15 min), Skill (one actionable sentence), walkthrough link, Topics, Learning Outcome, Prerequisites.
+- Prerequisites format EXACTLY as specified in the instruction from Step 1:
+  - `### Required Modules` — each as `- [ID — Title](../folder/about.md)`
+  - `### Required Skills & Tools` — plain bullet list
 
-- **Critical rules:**
-  + Never batch-create multiple modules in one step — always complete Steps 1-6 for one module before starting the next.
-  + Never skip Step 1 (read instruction) or Step 2 (read proposal) — stale context causes format drift.
-  + Always use the actual prerequisite module folder names (check `./modules/` listing if unsure).
-  + `walkthrough.md` must NOT contain a prerequisites list — only a reference line to `about.md`.
+---
+
+**STEP 4 — CREATE `walkthrough.md` for this module.**
+- File: `./modules/[ID]-[descriptive-name]/walkthrough.md`
+- Use the structure from Step 1 (create-training-module instruction), content from Step 2 (proposal).
+- Required sections: title, intro paragraph, Prerequisites (reference to `about.md` only — no list), What We'll Cover, one section per Training Plan row (expanded with commands, examples, verification), Success Criteria (✅ checkboxes), Understanding Check (5-7 questions with answers), Troubleshooting, Next Steps.
+- `walkthrough.md` must NOT duplicate the prerequisites list — only: `See [module overview](about.md) for full prerequisites list.`
+
+---
+
+**STEP 5 — UPDATE `./training-plan.md`.**
+- Read the current file to find the correct insertion point by module ID order.
+- Insert: `1. [Module Name](modules/[folder]/about.md) - Brief description`
+- Use `replace_string_in_file` to insert at the exact correct position.
+
+---
+
+**STEP 6 — MARK the module as done in `./modules/proposed-modules.md`.**
+- Edit the heading of the current module section: `## Module N: Name` → `## ✅ Module N: Name`
+- This is the progress checkpoint. If the session is interrupted, this shows where to resume.
+
+---
+
+**STEP 7 — CONFIRM to user.**
+- Output exactly: "✅ **[Module Name]** (`[ID]`) — created. → [modules/folder/about.md](modules/folder/about.md)"
+- Then **go back to STEP 1** for the next module in the list. Do not skip STEP 1.
+
+---
+
+- After ALL modules are done: show a summary table (ID | Name | Folder | Status) and remind to commit to Git.
+
+### ⚠️ PROHIBITED patterns — if you catch yourself doing any of these, stop and restart the loop step:
+- "Step 1 already done in this session" → NO. Call `read_file` again.
+- "Instruction read above" → NO. Call `read_file` again.
+- "Section from proposed-modules.md seen earlier" → NO. Call `read_file` again.
+- Creating two modules before confirming the first → NO. One module = complete Steps 1-7 = confirm = then next module.
+- Batching `about.md` + `walkthrough.md` across multiple modules in one response → NO.
