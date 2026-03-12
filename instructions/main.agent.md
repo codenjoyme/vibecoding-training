@@ -43,3 +43,5 @@ This file serves as a catalog of all project instructions. Each instruction cove
   + Keywords: LND, LMS, module generation, learning content, lesson storyboard, elearn, course creation
 - `generate-module-catalog.agent.md` - Generate a structured markdown table of all training modules with №, ID, Name, and Description by scanning `./modules/` and reading each `about.md`.
   + Keywords: module list, catalog, table, overview, module summary, перелік модулів
+- `propose-training-modules.agent.md` - Analyze the current training program, identify gaps in GenAI/AI-assisted development coverage, and produce a structured proposal document with elevator pitches, training plans, and placement rationale for new modules. Output saved to `./modules/proposed-modules.md`.
+  + Keywords: propose modules, new modules, curriculum gaps, expand training, что добавить, предложить модули, gap analysis
