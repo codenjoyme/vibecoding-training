@@ -18,13 +18,13 @@
   + `ID` — 3-digit module prefix from folder name.
   + `Name` — extracted title from `about.md`.
   + `Description` — extracted skill/description from `about.md`.
-- Add total count summary below the table: `Total: **N modules** in the course.`
+- Do NOT add any summary line, total count, or commentary — output only the table.
 
 ## Output Format
 
-- Default: display table in chat response.
-- If user asks to save — write to a file they specify (e.g. `readme.md`, `docs/module-list.md`).
-- Language: English (module content is always in English per project rules).
+- Display the table in chat response — table only, no extra text or reflection.
+- Always save the same table to `./work/module-catalog.md`.
+- Table headers must be in English: `№`, `ID`, `Name`, `Description`.
 
 ## Example Output
 
@@ -34,6 +34,4 @@
 | 1 | 010 | Installing VSCode + GitHub Copilot | Set up your first AI coding environment |
 | 2 | 020 | Installing Cursor | Set up alternative AI-native IDE |
 | ... | ... | ... | ... |
-
-Total: **33 modules** in the course.
 ```
