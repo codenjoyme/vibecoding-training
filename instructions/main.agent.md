@@ -41,3 +41,5 @@ This file serves as a catalog of all project instructions. Each instruction cove
   + Keywords: interview, опрос, интервью, SDLC, coaching interview, colleague interview, sdlc assessment
 - `generate-lnd-modules.agent.md` - **[LND MODULE GENERATION]** Generate LMS-ready markdown files from existing training modules following LND formatting rules, reference examples, and the approved module plan in `lnd/lnd-module-plan.md`.
   + Keywords: LND, LMS, module generation, learning content, lesson storyboard, elearn, course creation
+- `generate-module-catalog.agent.md` - Generate a structured markdown table of all training modules with №, ID, Name, and Description by scanning `./modules/` and reading each `about.md`.
+  + Keywords: module list, catalog, table, overview, module summary, перелік модулів
