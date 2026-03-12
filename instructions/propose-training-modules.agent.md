@@ -36,11 +36,12 @@ For EACH module, before doing anything else, execute ALL of the following steps 
 
 ---
 
-**STEP 1 — CALL `read_file` on `./instructions/create-training-module.agent.md` RIGHT NOW.**
-- This is not optional. This is not "already done". Call it. Read it fresh.
-- Context drift is real: without this read, the output will silently deviate from the required format.
-- Extract from it: folder structure rules, `about.md` required sections, `walkthrough.md` required sections, Prerequisites format, Integration steps, Quality checklist.
-- Do not proceed to Step 2 until the file content is in front of you as a result of a tool call in this iteration.
+**STEP 1 — CALL `read_file` on `./instructions/create-training-module.agent.md` — READ THE ENTIRE FILE.**
+- This is not optional. This is not "already done". Call it. Read it fresh. Read it FULLY — startLine=1, endLine=999 (or whatever covers the whole file).
+- Do NOT read only a partial range (e.g. lines 42–80). That is a violation of this step. The full file must be loaded in one or two calls covering all lines.
+- Context drift is real: a partial read silently omits quality checks, naming conventions, integration steps, and walkthrough structure — causing the output to deviate from the required format.
+- Extract from it: folder structure rules, `about.md` required sections and order, `walkthrough.md` required sections and order, Prerequisites exact format, Integration steps (update training-plan.md), Naming Conventions, Quality Checklist.
+- Do not proceed to Step 2 until the COMPLETE file content is in front of you as a result of a tool call in this iteration.
 
 ---
 
