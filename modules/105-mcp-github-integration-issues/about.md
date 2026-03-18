@@ -9,6 +9,8 @@
 
 - Configuring GitHub MCP server (HTTP-based)
 - GitHub authentication for MCP
+- Handling Enterprise Managed User (EMU) account restrictions (EPAM)
+- Three separate GitHub connection points (MCP, Git remote, Copilot tokens)
 - Listing repositories through AI chat
 - Creating new GitHub repositories
 - Managing Git remotes and pushing code
