@@ -13,8 +13,7 @@
   + **Description** — the `**Skill:**` line value, or first paragraph after the title if Skill is missing.
 - Sort modules by folder name (alphabetical = numeric order due to zero-padded IDs).
 - Extract **ID** from folder name — the leading 3-digit number (e.g. `010`, `025`, `300`).
-- Generate a markdown table with columns: `№`, `ID`, `Name`, `Description`.
-  + `№` — sequential row number starting from 1.
+- Generate a markdown table with columns: `ID`, `Name`, `Description`.
   + `ID` — 3-digit module prefix from folder name.
   + `Name` — extracted title from `about.md`.
   + `Description` — extracted skill/description from `about.md`.
@@ -24,14 +23,14 @@
 
 - Display the table in chat response — table only, no extra text or reflection.
 - Always save the same table to `./work/module-catalog.md`.
-- Table headers must be in English: `№`, `ID`, `Name`, `Description`.
+- Table headers must be in English: `ID`, `Name`, `Description`.
 
 ## Example Output
 
 ```markdown
-| № | ID | Name | Description |
-|---|-----|------|-------------|
-| 1 | 010 | Installing VSCode + GitHub Copilot | Set up your first AI coding environment |
-| 2 | 020 | Installing Cursor | Set up alternative AI-native IDE |
-| ... | ... | ... | ... |
+| ID | Name | Description |
+|-----|------|-------------|
+| 010 | Installing VSCode + GitHub Copilot | Set up your first AI coding environment |
+| 020 | Installing Cursor | Set up alternative AI-native IDE |
+| ... | ... | ... |
 ```
