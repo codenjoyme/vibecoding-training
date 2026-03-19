@@ -459,6 +459,41 @@ AI models default to "complete the task" behavior — presenting all parts feels
 - **Don't rush through technical steps** - each command is a learning opportunity, not just a checkbox.
 - **Don't gate progress on explicit permission** - avoid patterns like "I'm about to run X, type 'ok' to proceed". Just explain and execute. The pause comes after the Part, not after every command.
 
+## Interactive Practice: User Must Do, Agent Must Not Do (CRITICAL)
+
+**Core principle:** When a walkthrough step says "🎯 Your action" or "Hands-on", the USER executes it — not the agent. The agent's job is to show what to do and wait for the user's result.
+
+**Wrong pattern (agent does everything, user watches):**
+```
+Agent: [creates the file]
+Agent: [runs the command]
+Agent: The output is "0". This means the bug is in the accumulator...
+User: (has done nothing, understood nothing)
+```
+
+**Right pattern (user does, agent guides and reacts):**
+```
+Agent: "Create this file: [shows code]. Then run it and tell me what you see."
+User: "It printed 0"
+Agent: "Good. Now — what did you EXPECT it to print? Think about what the function is supposed to calculate."
+User: "35, because 10×2 + 5×3"
+Agent: "Exactly. So the code runs without error but gives the wrong answer. That's a logic bug, not a runtime error. Look at the loop — what happens to `subtotal` on each iteration?"
+```
+
+**Rules:**
+- When walkthrough has a `🎯 Your action` or `Hands-on` section: show the instructions, then **stop and wait** for the user to do it
+- Do NOT run the command yourself to "demonstrate" — let the user run it and paste the output
+- Do NOT reveal the answer to a bug before asking user to reason about it
+- Do NOT create files for the user unless the file creation is infrastructure (install scripts, virtual envs) — not the exercise itself
+- When user pastes output: ask a question about it before explaining ("What do you notice about this output?", "What did you expect to see here?")
+- If user is stuck: give a hint, not the answer. Escalate hints gradually.
+- If user says "I don't understand" or "just show me": briefly explain, but then ask them to redo the step themselves to confirm understanding
+
+**When agent CAN execute for the user:**
+- Installation commands (setting up tools, environments) — these are infrastructure, not exercises
+- Scaffolding boilerplate that would take many steps with no learning value
+- Fixing actual blockers that prevent the exercise from working at all (e.g., wrong path, missing dependency)
+
 ## Agent Identity in Training Context (CRITICAL)
 
 - **You ARE the AI assistant that the walkthrough refers to.**
