@@ -146,6 +146,8 @@ Key takeaways:
 - Direct API access enables custom automation: batch processing, report generation, data classification.
 - This completes your toolkit: IDE assistant → instructions → skills → MCP → prototyping → QA → delegation → API access.
 
+[MG]: Давай этот весь модуль сделаем Optional, далеко не каждому он понадобится.
+
 Quiz
 1. What is the purpose of EPAM AI DIAL?
    a) It is a proxy that routes requests to the cheapest available AI provider to minimize costs

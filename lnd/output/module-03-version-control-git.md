@@ -40,6 +40,7 @@ Before learning Git commands, you need a small project to practice on. You will 
 Steps
 1. In your IDE, open the workspace folder: c:/workspace/hello-genai/ (Windows) or ~/workspace/hello-genai/ (macOS/Linux).
 2. Create a subfolder: work/060-task. All course exercises go in work/[module-number]-task.
+[MG]: Очень важно все такие степы сопроводить скриншотами, уверен не разберутся люди которые первый раз видят VS Code или Cursor.
 3. Open the terminal in your IDE (Terminal menu > New Terminal) and navigate to the work/060-task folder.
 4. Ask the AI assistant:
    Create a simple Python calculator project with:

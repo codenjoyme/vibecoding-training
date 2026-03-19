@@ -149,6 +149,7 @@ Key takeaways:
 - Enable only the tools you need to avoid filling the context window.
 - Use MCP for standard integrations and custom skills for specialized business logic.
 
+[MG]: Тут ещё тоже можем оставить квиз, т.к. просто даём основы, но в следующем уже нужно практическое занятие дать какое-то.
 Quiz
 1. What problem does the Model Context Protocol (MCP) solve?
    a) It provides a standard way to connect AI assistants to external data sources and tools without writing custom integration code for each service

@@ -135,6 +135,7 @@ Key takeaways:
 - Be aware of the interference problem when combining multiple instructions.
 - Progressive trust is earned through iterative testing and refinement.
 
+[MG]: Тоже можно вместо квиза сделать практическую проверку обновленного файла Instrctuions.
 Quiz
 1. What does a hallucination typically reveal about your instructions?
    a) That your instruction has an ambiguity or gap that the AI filled in with its own interpretation

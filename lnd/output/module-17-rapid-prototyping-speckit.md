@@ -34,6 +34,7 @@ Steps
 4. Locate your ТЗ from Module 08 — this will be the input to the SpecKit workflow.
 
 ✅ Result
+[MG]: Снова "ТЗ", попроси плз агенту по всему курсу в Context Aware режиме заменить это на что-то англоязычное.
 You understand the SpecKit phases and have your ТЗ ready as input.
 
 Page 2: Constitution and Specification
@@ -147,6 +148,8 @@ Key takeaways:
 - Plan and Tasks break the project into baby steps — each verified and committed.
 - Implementation follows one-task-at-a-time discipline: implement → verify → commit → next.
 - The Checklist phase is your final QA gate before declaring the prototype complete.
+
+[MG]: В этом модуле вообще прекрасно было бы попросить заэкстратить чат сессию, или же какие-то файлы которые были сгенерены в рамкуах чат сессии. Как минимум те на которые мы ссылаемся по конкретным адресам в шагах выше.
 
 Quiz
 1. Why does SpecKit require a detailed specification before writing any code?

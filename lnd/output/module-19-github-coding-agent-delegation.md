@@ -148,6 +148,8 @@ Key takeaways:
 - Submit all review comments at once to avoid multiple agent sessions.
 - Treat every agent mistake as an instruction improvement opportunity.
 
+[MG]: вот тут можно и квиз оставить :)
+
 Quiz
 1. What is the key difference between GitHub Copilot in the IDE and GitHub Copilot Coding Agent?
    a) The IDE assistant provides suggestions in real time, while the Coding Agent processes tasks in a scheduled batch at the end of each day

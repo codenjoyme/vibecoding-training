@@ -122,6 +122,7 @@ Key takeaways:
 - The hello-genai workspace folder is where all course exercises will take place.
 - Copilot Chat is your main interface for interacting with the AI — you can ask questions, request code, and delegate tasks.
 
+[MG]: Квизы хорошо в первых модулях, с тех пор как мы начинаем что-то практическое делать - нужно будет включить практические задачи.
 Quiz
 1. What is the primary role of GitHub Copilot in VS Code?
    a) It provides an AI assistant that can generate code, answer questions, and perform tasks inside the editor.

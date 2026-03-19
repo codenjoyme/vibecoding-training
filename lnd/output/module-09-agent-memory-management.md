@@ -143,6 +143,7 @@ Key takeaways:
 - The most effective pattern combines a specification document (the "why") with a backlog (the "how").
 - Your PROJECT_SPEC.md + BACKLOG.md pair will guide all remaining practical work.
 
+[MG]: Здесть тоже можно просить загрузить файл вместо квиза.
 Quiz
 1. Why does the AI agent not remember what you discussed in a previous chat session?
    a) The context window (shared canvas) is discarded when the chat closes — each new conversation starts from zero

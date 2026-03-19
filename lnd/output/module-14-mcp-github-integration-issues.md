@@ -142,6 +142,9 @@ Key takeaways:
 - GitHub issues will serve as the foundation for task delegation in Module 19.
 - The context switching that slowed you down is now eliminated — everything happens in one place.
 
+[MG]: Опять же вот тут мы обновили как минимум бэклог, можно его попросить обновленный скинуть, либо же добавить какой-то дополнительный практический стэп по использованию MCP.
+Ну или же, как мы в начале обсуждали - всегда же можно просто чат сессиию выгрузить, т.е. не обязательно сильно заморачиваться с практическими задачками, но как минимум проверить что человек поимел у себя в IDE чат сессию в агентном режиме на тему модуля, а не просто квиз натыкал.
+
 Quiz
 1. How does the GitHub MCP server differ from a local MCP server like the echo server?
    a) It does not require any configuration at all

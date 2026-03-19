@@ -141,6 +141,8 @@ Key takeaways:
 - Every bug found should be fixed and committed immediately — baby steps approach applies to QA too.
 - A QA report documents what was tested and what was found — essential for project tracking.
 
+[MG]: можно попросить скинуть QA report, или test suite сгенеренный, или опять же чат сессию
+
 Quiz
 1. What does Chrome DevTools MCP enable the AI assistant to do?
    a) It gives the AI direct access to Chrome's internal source code for modification

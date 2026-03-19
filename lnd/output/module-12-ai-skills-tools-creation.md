@@ -129,6 +129,7 @@ Key takeaways:
 - Build skills for tasks requiring precision: calculations, API calls, data processing.
 - Use prompts for creative tasks where approximate answers are acceptable.
 
+[MG]: Опять же, можно дать практическое задание на написание какого-то особенного тула и потом проверить два файла instruction+tool в качестве практического теста.
 Quiz
 1. Why does the AI sometimes produce wrong answers for calculation tasks?
    a) The AI does not perform calculations — it predicts what a correct answer looks like based on text patterns, which can be plausible but incorrect

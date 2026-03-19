@@ -141,6 +141,7 @@ Key takeaways:
 - A structured ТЗ document is more valuable than jumping straight to implementation.
 - Your ТЗ is now committed to the repository and will evolve as the course progresses.
 
+[MG]: Вот уже начиная отсюда, где студент начинает генерить какие-то файлы по инструкциям, предлагаю переходить от квизов к практическим задачам, формата "загрузите файл такой-то в аудитора, он должен соответствовать критериям таким-то".
 Quiz
 1. What is the main purpose of the interview technique?
    a) To help you discover and articulate requirements you did not know you had, by letting the AI ask clarifying questions before implementation

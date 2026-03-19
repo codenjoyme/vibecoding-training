@@ -69,6 +69,7 @@ Steps
 2. Take a screenshot of the entire browser window.
 3. Open your AI chat and paste the screenshot.
 4. Type this message along with the screenshot:
+[MG]: Нужно для LnD обязательно пометить каким-то маркапом, где куски текста/кода которые нужно будет выделить при переноси в Learn, как например промпт который нужно скопипастить ниже.
    I want to open the Developer Console in this browser and write "Hello World" in the console. Can you guide me step by step? Point out exactly where to click in my interface.
 5. Send the message. The AI will identify your browser and provide specific instructions.
 6. Follow the AI's instructions to open the Developer Console.
@@ -88,6 +89,7 @@ For the practical project running through this course, you will eventually conne
 If you do not have access to Jira/Confluence yet, you can skip this exercise and return to it when access becomes available. The screenshot technique itself is the skill being practiced.
 
 Steps
+[MG]: Нужно рассмортеть вариант с EPAM Jira, например если человек уже использовал бесплатную атлассиан Jira для других проектов. Либо указать что если у Вас уже использовалась она, то зарегайте новую временную почту чисто для обучения.
 1. Open your browser and navigate to your Atlassian account settings (https://id.atlassian.com/manage-profile/security/api-tokens).
 2. Take a screenshot of the page you see.
 3. Paste the screenshot into the AI chat and ask:

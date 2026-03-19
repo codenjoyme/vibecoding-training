@@ -104,6 +104,7 @@ Background
 With all tools installed, set up the project structure for the prototype you will build in Module 17. This ensures a smooth start in the next module.
 
 Steps
+[MG]: Наверное ТЗ надо чтобы не писал он в англоязычном курсе :)
 1. Ask the AI: "Based on my ТЗ (technical specification) from Module 08, what project structure will we need for a web application with React frontend and Node.js backend?"
 2. Review the AI's proposed structure. It should include folders like `frontend/`, `backend/`, and a `docker-compose.yml` file.
 3. Ask: "Create the basic project structure with empty placeholder files. Do not implement anything yet — just the folder skeleton."
@@ -128,6 +129,8 @@ Key takeaways:
 - Docker packages applications into portable containers — run databases and services with one command.
 - Verifying the full environment before starting a new project phase prevents wasted time on broken dependencies.
 
+
+[MG]: можно попросить запустить какую-то команду агента, типа а проверь какие версии зависимостей установлены, и попросить результат сбросить в модуль автокодер проверки, вместо квиза.
 Quiz
 1. What is the purpose of Node.js in a web application project?
    a) It is a text editor for writing JavaScript files

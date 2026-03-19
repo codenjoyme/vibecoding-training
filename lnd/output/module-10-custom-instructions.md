@@ -153,6 +153,7 @@ Key takeaways:
 - After every productive AI session, ask yourself: "Should I create or update an instruction from this?" The session contained iterations, failures, and refinements — capturing the result means you never repeat that trial-and-error.
 - Your Jira/Confluence workflow instructions are the first building blocks of your automation toolkit.
 
+[MG]: тоже можпо попросить загрузить свой instructions.md файл в качестве проверки вместо квизов.
 Quiz
 1. What is the main advantage of custom instructions over copy-pasting prompts?
    a) Instructions are applied automatically, ensuring consistent results every time without manual copy-paste or re-discovery of constraints

@@ -155,6 +155,7 @@ Key takeaways:
 - Each file processed in a fresh context = no accumulated history = no drift.
 - Use the decision framework to choose the right approach for each batch task.
 
+[MG]: Снова таки, можно попрсить сделать анализ файлов каких-то заранее загатовленных, в папочке условно module-15-task, описать ожидаемый результат для практического занятия, и проверить этот ожидаемый результат как итог чат сессии.
 Quiz
 1. What is context drift and why does it matter for bulk file processing?
    a) The AI model gradually shifts its interpretation of instructions as conversation history accumulates, reducing accuracy for later files
