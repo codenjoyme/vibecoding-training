@@ -45,3 +45,5 @@ This file serves as a catalog of all project instructions. Each instruction cove
   + Keywords: module list, catalog, table, overview, module summary, перелік модулів
 - `propose-training-modules.agent.md` - Analyze the current training program, identify gaps in GenAI/AI-assisted development coverage, and produce a structured proposal document with elevator pitches, training plans, and placement rationale for new modules. Output saved to `./modules/proposed-modules.md`.
   + Keywords: propose modules, new modules, curriculum gaps, expand training, что добавить, предложить модули, gap analysis
+- `generate-coaching-offer.agent.md` - **[COACHING OFFER GENERATION]** Generate a one-pager coaching proposal for a decision-maker based on interview results and selected training modules. Maps pain points to modules, frames outcomes in business language. Output saved to `work/coaching-offer-*.md`.
+  + Keywords: offer, proposal, one-pager, coaching offer, оффер, предложение, коучинг, стейкхолдер, decision-maker, engagement
