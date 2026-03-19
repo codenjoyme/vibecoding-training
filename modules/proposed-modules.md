@@ -270,7 +270,7 @@ You've built personal instructions that work for you. But your team reinvents th
 
 ## ✅ Module 8: AI Cost Optimization
 
-**Proposed ID:** `037`  
+**Proposed ID:** `083`  
 **Proposed Name:** AI Cost Optimization & Token Economics
 
 ### Elevator Pitch
@@ -295,7 +295,7 @@ Every AI call costs money. This module teaches you to read the meter: how tokens
 
 ### Placement Motivation
 
-> **After 035 (Visual Context) and before 040 (Agent Mode)** — by module 035 the student has used AI enough to appreciate cost. Module 037 gives economic context before module 040 explains the mechanics (context window, tool calls) that drive costs. Understanding cost makes the mechanics module more impactful.
+> **After 080 (Learning from Hallucinations) and before 085 (Evaluating AI Output Quality)** — by module 080 the student has solid AI usage experience across many tasks. Module 083 gives economic context at the right moment: when they're already experienced enough to appreciate cost implications for a team. Marked as optional — primarily relevant for managers and team leads. Depends on: 030 (Model Selection).
 
 ---
 
@@ -521,7 +521,7 @@ The code AI wrote doesn't work. The error message means nothing to you. And if y
 
 | ID | Name | Phase |
 |----|------|-------|
-| **037** | AI Cost Optimization & Token Economics | Setup & Understanding |
+| **083** | AI Cost Optimization & Token Economics | Setup & Understanding |
 | **064** | Debugging AI-Generated Code | Techniques |
 | **075** | Shared Instructions & Team Conventions | Tools |
 | **085** | Evaluating AI Output Quality | Tools |
@@ -545,7 +545,6 @@ The code AI wrote doesn't work. The error message means nothing to you. And if y
 025  Downloading Course Materials
 030  Model Selection
 035  Visual Context with Screenshots
-037  ★ AI Cost Optimization & Token Economics
 040  Agent Mode & AI Mechanics
 050  Effective Prompting
 055  Clarifying Requirements with AI
@@ -556,6 +555,7 @@ The code AI wrote doesn't work. The error message means nothing to you. And if y
 070  Custom Instructions
 075  ★ Shared Instructions & Team Conventions
 080  Learning from Hallucinations
+083  ★ AI Cost Optimization & Token Economics *(optional)*
 085  ★ Evaluating AI Output Quality
 090  AI Skills & Tools Creation
 100  MCP
@@ -593,7 +593,7 @@ The code AI wrote doesn't work. The error message means nothing to you. And if y
 ### Dependency Graph (new modules only)
 
 ```
-037 (Cost)         ← 030 (Model Selection)
+083 (Cost)         ← 030 (Model Selection)
 064 (Debugging)    ← 050 (Prompting) + 060 (Git)
 075 (Team Instr.)  ← 070 (Custom Instructions) + 060 (Git)
 085 (Quality Eval) ← 080 (Hallucinations)

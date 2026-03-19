@@ -5,17 +5,17 @@
 | 3 | 025 | Downloading Course Materials | Download and set up the course repository locally to access all training modules and examples in your IDE |
 | 4 | 030 | Model Selection | Choose the right AI model for your task |
 | 5 | 035 | Visual Context with Screenshots | Share visual context with AI using screenshots to get accurate help when interface differs from expectations |
-| 6 | 037 | AI Cost Optimization & Token Economics | Understand how tokens are counted, what context windows cost, and how to cut your AI bill without losing quality |
-| 7 | 040 | Agent Mode & AI Mechanics | Understand how AI coding assistants work |
-| 8 | 050 | Effective Prompting | Iterate prompts instead of arguing with AI |
-| 9 | 055 | Clarifying Requirements with AI | Get AI to help you define unclear tasks through questions |
-| 10 | 056 | Prompt Engineering Toolkit | Apply 15 prompt engineering techniques to unlock deeper, more relevant AI responses from a blank chat |
-| 11 | 057 | Agent Memory Management | Use todo lists and external documents to give AI agents persistent memory across complex tasks |
-| 12 | 060 | Version Control with Git | Track changes with baby steps approach |
-| 13 | 064 | Debugging AI-Generated Code | Break the infinite error loop with a systematic debugging workflow for AI-generated code |
-| 14 | 070 | Custom Instructions | Evolution from one-time prompts to instruction architecture |
-| 15 | 075 | Shared Instructions & Team Conventions | Scale personal AI instructions to your whole team via a Git-versioned shared repository |
-| 16 | 080 | Learning from Hallucinations | Transform AI output deviations into instruction improvements by delegating fixes to the agent itself |
+| 6 | 040 | Agent Mode & AI Mechanics | Understand how AI coding assistants work |
+| 7 | 050 | Effective Prompting | Iterate prompts instead of arguing with AI |
+| 8 | 055 | Clarifying Requirements with AI | Get AI to help you define unclear tasks through questions |
+| 9 | 056 | Prompt Engineering Toolkit | Apply 15 prompt engineering techniques to unlock deeper, more relevant AI responses from a blank chat |
+| 10 | 057 | Agent Memory Management | Use todo lists and external documents to give AI agents persistent memory across complex tasks |
+| 11 | 060 | Version Control with Git | Track changes with baby steps approach |
+| 12 | 064 | Debugging AI-Generated Code | Break the infinite error loop with a systematic debugging workflow for AI-generated code |
+| 13 | 070 | Custom Instructions | Evolution from one-time prompts to instruction architecture |
+| 14 | 075 | Shared Instructions & Team Conventions | Scale personal AI instructions to your whole team via a Git-versioned shared repository |
+| 15 | 080 | Learning from Hallucinations | Transform AI output deviations into instruction improvements by delegating fixes to the agent itself |
+| 16 | 083 | AI Cost Optimization & Token Economics *(optional)* | Understand how tokens are counted, what context windows cost, and how to cut your AI bill without losing quality — primarily for team leads and managers |
 | 17 | 085 | Evaluating AI Output Quality | Score and validate AI responses using a systematic quality framework including hallucination detection |
 | 18 | 090 | AI Skills & Tools Creation | Create reliable AI skills by combining instructions with parameterized tools to eliminate hallucinations |
 | 19 | 100 | Model Context Protocol (MCP) | Connect AI to any data source |

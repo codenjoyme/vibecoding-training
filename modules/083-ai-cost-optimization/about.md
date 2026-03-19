@@ -1,5 +1,7 @@
 # AI Cost Optimization & Token Economics
 
+> **Optional module.** Primarily aimed at team leads and managers who approve AI tooling budgets. Also valuable for individual practitioners who hit model-tier limits or want to understand what drives their usage.
+
 **Duration:** 15 minutes
 
 **Skill:** Measure, understand, and reduce AI API costs using token economics and model routing strategies.
@@ -22,7 +24,7 @@ You can read an AI usage bill, identify where money is going, apply at least thr
 
 ### Required Modules
 
-- [035 — Visual Context with Screenshots](../035-visual-context-screenshots/about.md)
+- [030 — Model Selection](../030-model-selection/about.md)
 
 ### Required Skills & Tools
 

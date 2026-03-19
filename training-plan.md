@@ -43,7 +43,6 @@ After completing all modules, participants will build a complete application tha
 1. [Downloading Course Materials](modules/025-downloading-course-materials/about.md) - Download and set up the course repository locally
 1. [Model Selection](modules/030-model-selection/about.md) - Choose the right AI model for your task
 1. [Visual Context with Screenshots](modules/035-visual-context-screenshots/about.md) - Share screenshots with AI for accurate visual guidance
-1. [AI Cost Optimization & Token Economics](modules/037-ai-cost-optimization/about.md) - Understand token economics and reduce AI costs for your team
 1. [Agent Mode & AI Mechanics](modules/040-agent-mode-under-the-hood/about.md) - Understand how AI coding assistants work
 1. [Effective Prompting](modules/050-effective-prompting-without-arguing/about.md) - Iterate prompts instead of arguing with AI
 1. [Clarifying Requirements with AI](modules/055-clarifying-requirements-before-start/about.md) - Ask AI questions when starting unclear tasks
@@ -54,6 +53,7 @@ After completing all modules, participants will build a complete application tha
 1. [Custom Instructions](modules/070-custom-instructions/about.md) - Create instructions for AI assistants
 1. [Shared Instructions & Team Conventions](modules/075-shared-instructions-team-conventions/about.md) - Scale personal instructions to your whole team via Git
 1. [Learning from Hallucinations](modules/080-learning-from-hallucinations/about.md) - Use AI mistakes to improve instructions
+1. [AI Cost Optimization & Token Economics](modules/083-ai-cost-optimization/about.md) - Understand token economics and reduce AI costs for your team *(optional — for team leads and managers)*
 1. [Evaluating AI Output Quality](modules/085-evaluating-ai-output-quality/about.md) - Score and validate AI responses with a systematic quality framework
 1. [AI Skills - Context, Tools & Memory](modules/090-ai-skills-tools-creation/about.md) - Understand AI's eyes, hands, and memory
 1. [Model Context Protocol (MCP)](modules/100-mcp-model-context-protocol/about.md) - Connect AI to any data source
