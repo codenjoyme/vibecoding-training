@@ -59,16 +59,21 @@ Use concrete details — numbers, timeframes, examples — not vague statements.
 
 ## Proposed Training Program
 
-[Table mapping modules to pain points:]
+[List modules as numbered paragraphs, NOT as a table. Each paragraph:]
+- Bold number + module name as header
+- 2–3 sentences: what the team will learn and what changes as a result
+- Connect to the pain point it addresses — but weave it in naturally, don't add a separate "Addresses" column
 
-| # | Module | Duration | Addresses |
-|---|--------|----------|-----------|
-| 1 | [Module Name] | 15 min | [Which pain point it solves — 3–5 words] |
-| 2 | ... | ... | ... |
+Example format:
+**1. Module Name.** What the team will learn — framed as outcome. How this connects to the identified pain point in 1–2 sentences.
 
-**Total estimated time:** [sum of durations] across [N] modules
-**Format:** Self-paced with agent-coach, no calendar dependency
-**Approach:** One module = one skill. Practice-first, no slides.
+[After all modules, add engagement details:]
+**Engagement duration:** [weeks] at ~[hours]/week per engineer (training + hands-on experiments)
+**Coach involvement:** [capacity] for the duration — live sessions, async Q&A, instruction reviews
+**Format:** Live coaching sessions + self-paced practice; weekly syncs for guidance and unblocking
+**Approach:** One module = one skill. Practice-first, no slides. If a topic is already mastered — skip and move on.
+
+[IMPORTANT: Do NOT include individual module durations (e.g. "7 min", "15 min"). Short durations undermine the perceived value of coaching. Frame the program as an engagement with weekly time investment, not a list of micro-exercises.]
 
 ## Expected Outcomes
 
@@ -80,11 +85,11 @@ Use "from → to" format where possible:]
 
 ## Why This Approach
 
-[3–4 sentences explaining the methodology differentiator:
-- Agent-coach instead of human dependency — scales without calendar pressure.
-- 15-minute modules — fits into any sprint without disruption.
-- Practice-first — skills stick because they're applied immediately.
-- Tested on non-technical managers — proven accessible for any audience.]
+[2–3 sentences MAX. No filler. State only:
+- Practice-first, no slides — engineers work in their IDE on real tasks.
+- Coach works directly with the team — live sessions, pair work, async support.
+- Mastered topics are skipped; additional modules activate on demand as the team identifies gaps.
+Do NOT over-emphasize the agent-coach or virtual training — the coach's direct involvement is the primary value. Agent-coach is one of the tools, not the headline.]
 
 ## Next Steps
 
@@ -111,7 +116,7 @@ Use "from → to" format where possible:]
 - [ ] Every pain point from the interview is either addressed by a module or explicitly noted as out of scope.
 - [ ] Every module in the list is connected to at least one pain point or framed as foundational.
 - [ ] "Expected Outcomes" are business outcomes (time saved, risk reduced, capability gained) — not feature lists.
-- [ ] Total duration is calculated correctly.
+- [ ] No individual module durations shown — only engagement-level time investment.
 - [ ] Document fits ~1 page when printed (600–800 words).
 - [ ] No jargon without context — if a technical term is used, it's immediately explained in business terms.
 - [ ] File saved to `work/` directory with proper naming.
