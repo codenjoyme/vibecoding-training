@@ -47,3 +47,5 @@ This file serves as a catalog of all project instructions. Each instruction cove
   + Keywords: propose modules, new modules, curriculum gaps, expand training, что добавить, предложить модули, gap analysis
 - `generate-coaching-offer.agent.md` - **[COACHING OFFER GENERATION]** Generate a one-pager coaching proposal for a decision-maker based on interview results and selected training modules. Maps pain points to modules, frames outcomes in business language. Output saved to `work/coaching-offer-*.md`.
   + Keywords: offer, proposal, one-pager, coaching offer, оффер, предложение, коучинг, стейкхолдер, decision-maker, engagement
+- `reverse-engineer-conventions.agent.md` - Extract project conventions from issue descriptions and commit diffs: naming, architecture, code style, technology choices, security patterns, testing conventions. Supports accumulation mode to build a living conventions document across multiple issues.
+  + Keywords: reverse engineer, conventions, extract, project knowledge, onboarding
