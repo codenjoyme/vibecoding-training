@@ -43,9 +43,12 @@
 | 185 | Prompt Templates for Dynamic Queries | Use Langchain prompt templates to create reusable, parameterized AI queries |
 | 187 | Structured Output & JSON Mode | Get reliable JSON from any LLM using Pydantic schemas and Langchain output parsers |
 | 190 | RAG: Document Question Answering | Build Retrieval-Augmented Generation systems that search your documents, find relevant context, and generate accurate answers |
+| 193 | LangGraph & Advanced Agent Frameworks | Build stateful multi-agent pipelines with conditional routing, persistence, and human-in-the-loop using LangGraph |
 | 195 | Multi-Agent Orchestration | Coordinate specialised AI agents (coder, reviewer, tester) for higher-quality results than single-agent work |
 | 196 | Reverse Engineering Project Knowledge | Extract project conventions, architecture rules, and instructions from issue+diff pairs using the text-triangle principle |
 | 197 | Onboarding New Team Members with AI | Set up AI-powered codebase Q&A so new joiners answer "how does X work?" in minutes, not days |
 | 200 | AI for Data Analysis & Reporting | Analyse any CSV dataset and generate executive reports through AI conversation — no data science skills required |
+| 220 | AI Study Buddy — Learning New Tech | Use AI as a structured learning partner to rapidly understand any unfamiliar technology through the Feynman method |
+| 230 | Creating Training Modules from Articles | Transform any article or resource into a structured, course-quality training module using AI agent |
 | 250 | Export Chat Session | Extract, preserve, and share AI chat sessions from VS Code as portable HTML files |
 | 300 | DMtools — Agent Skill & Automation Catalog | Install a third-party agent skill, explore a catalog of 152+ automation tools across 16 integrations |

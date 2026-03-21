@@ -608,4 +608,109 @@ The code AI wrote doesn't work. The error message means nothing to you. And if y
 195 (Multi-Agent)  ← 070 (Instructions) + 150 (Delegation)
 197 (Onboarding)   ← 070 + 125 (SpecKit) + 190 (RAG)
 200 (Data Analysis) ← 180 (Python) + 185 (Templates)
+193 (LangGraph)    ← 180 (Python) + 190 (RAG) + 195 (Multi-Agent)
+220 (Study Buddy)  ← 050 (Prompting) + 056 (Toolkit)
+230 (Module Create) ← 070 (Instructions) + 060 (Git)
 ```
+
+---
+
+## ✅ Module 16: LangGraph & Advanced Agent Frameworks
+
+**Proposed ID:** `193`  
+**Proposed Name:** LangGraph & Advanced Agent Frameworks
+
+### Elevator Pitch
+
+Module 195 teaches multi-agent patterns as concepts. This module gets your hands dirty with a real framework — LangGraph. You'll build a stateful multi-agent pipeline with conditional routing, persistence, and human-in-the-loop approval. When one agent's output is bad, the pipeline automatically retries with a different strategy. This is how production AI applications are built.
+
+### Training Plan
+
+| Step | What happens |
+|------|-------------|
+| 1 | **Why frameworks matter** — The gap between "two agents in chat" and a production pipeline. State management, error recovery, persistence. |
+| 2 | **LangGraph fundamentals** — Nodes, edges, state. Build a minimal graph: input → process → output. |
+| 3 | **Conditional routing** — Add branching: if quality score < threshold → retry with different prompt. |
+| 4 | **Multi-agent graph** — Three nodes: Coder → Reviewer → Fixer. Reviewer can send back to Coder. |
+| 5 | **Human-in-the-loop** — Add an interrupt point: graph pauses, asks human for approval, continues. |
+| 6 | **Persistence** — Save graph state to disk. Resume interrupted workflows. |
+| 7 | **Compare frameworks** — Brief overview of CrewAI, AutoGen, and when each fits. |
+
+### What the Student Gets
+
+- A working LangGraph pipeline with 3 agents and conditional logic
+- Understanding of stateful vs stateless agent orchestration
+- Ability to choose the right framework for their use case
+- A reusable multi-agent graph template
+
+### Placement Motivation
+
+> **After 190 (RAG) and before 195 (Multi-Agent Orchestration concepts)** — actually placed at 193 to complement 195. Module 195 gives the conceptual patterns (sequential, parallel, supervisor). Module 193 implements these patterns in a real framework. Together they form a complete multi-agent chapter. Depends on: 180 (Python + Langchain), 190 (RAG for grounded agents).
+
+---
+
+## ✅ Module 17: AI Study Buddy — Learning New Tech
+
+**Proposed ID:** `220`  
+**Proposed Name:** AI Study Buddy — Learning New Tech
+
+### Elevator Pitch
+
+You need to learn Kubernetes. Or Terraform. Or a new framework your team adopted. Instead of spending days on documentation, you open a chat and start a structured learning conversation. AI explains concepts at your level, quizzes you, gives practice tasks, and checks your solutions. This module teaches the Feynman method powered by AI — the fastest way to go from zero to functional understanding of any technology.
+
+### Training Plan
+
+| Step | What happens |
+|------|-------------|
+| 1 | **The learning problem** — Why traditional docs/tutorials fail for busy managers. The Feynman technique: explain it simply → find gaps → go deeper. |
+| 2 | **The Study Buddy prompt** — Create a structured prompt: "I need to learn X. My background is Y. Start with fundamentals, then quiz me." |
+| 3 | **Concept exploration** — Pick a real unfamiliar technology. Ask AI to explain core concepts. Practice the "explain like I'm five" → "now give me the real version" pattern. |
+| 4 | **Active recall** — Ask AI: "Give me 5 questions to test my understanding." Answer them. AI evaluates. |
+| 5 | **Practice tasks** — "Give me a hands-on exercise I can do in 10 minutes." Complete it. AI reviews your solution. |
+| 6 | **Knowledge map** — Ask AI to generate a topic map (Mermaid diagram) showing what you've learned and what's left. |
+| 7 | **Build a study instruction** — Create a reusable `.agent.md` instruction that automates this learning workflow for any topic. |
+
+### What the Student Gets
+
+- A proven methodology for AI-assisted learning of any technology
+- A reusable "study buddy" instruction file
+- Experience with active recall and Feynman technique via AI
+- A knowledge map visualization of their learning progress
+
+### Placement Motivation
+
+> **After 200 (Data Analysis) and before 250 (Export Chat)** — this is a standalone applied module. By module 220 the student has mastered all core AI skills. Now they learn to use AI for their own professional growth. Placed in the 200+ range as an "applied skill" module. Depends on: 050 (prompting basics), 056 (prompt engineering toolkit for advanced techniques).
+
+---
+
+## ✅ Module 18: Creating Training Modules from Articles
+
+**Proposed ID:** `230`  
+**Proposed Name:** Creating Training Modules from Articles
+
+### Elevator Pitch
+
+You found an amazing article about a new GenAI approach. Now you want to turn it into a training module for your team — with structure, walkthrough, prerequisites, and hands-on exercises. This module teaches you to feed an article (or any source material) to an AI agent and get back a complete, formatted training module that follows course conventions. One article in → one ready-to-use module out.
+
+### Training Plan
+
+| Step | What happens |
+|------|-------------|
+| 1 | **The module factory pattern** — How our course modules are structured: `about.md` + `walkthrough.md`. Required sections, formatting rules, prerequisites format. |
+| 2 | **Source material preparation** — How to feed an article/blog/video-transcript to AI: paste text, provide URL context, highlight the key concept to teach. |
+| 3 | **The creation prompt** — Build the master prompt: "Here's an article. Create a training module following these instructions. Module ID is X. Figure out dependencies." |
+| 4 | **Hands-on: Create a module** — Take a real article about a GenAI topic. Feed it to AI with the creation instructions. Get `about.md` + `walkthrough.md`. |
+| 5 | **Quality review** — Check generated module against the quality checklist: correct prerequisites format, understanding questions, troubleshooting section, cross-platform paths. |
+| 6 | **Integration** — Add the new module to `training-plan.md`, verify folder naming, commit to Git. |
+| 7 | **Fork & PR workflow** — For shared course repos: fork, add module, submit PR. The "contribute a module" workflow. |
+
+### What the Student Gets
+
+- Ability to create course-quality training modules from any source material
+- Understanding of the module structure and quality standards
+- A reusable "module creation" prompt/instruction
+- Experience with fork & PR contribution workflow
+
+### Placement Motivation
+
+> **After 220 (AI Study Buddy) and before 250 (Export Chat)** — this is a meta-module about creating content for the course itself. By module 230 the student has consumed many modules and understands the format intuitively. Now they learn to produce modules. Depends on: 070 (custom instructions — understanding instruction format), 060 (Git — for committing and PR workflow).
