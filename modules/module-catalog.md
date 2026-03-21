@@ -44,6 +44,7 @@
 | 187 | Structured Output & JSON Mode | Get reliable JSON from any LLM using Pydantic schemas and Langchain output parsers |
 | 190 | RAG: Document Question Answering | Build Retrieval-Augmented Generation systems that search your documents, find relevant context, and generate accurate answers |
 | 195 | Multi-Agent Orchestration | Coordinate specialised AI agents (coder, reviewer, tester) for higher-quality results than single-agent work |
+| 196 | Reverse Engineering Project Knowledge | Extract project conventions, architecture rules, and instructions from issue+diff pairs using the text-triangle principle |
 | 197 | Onboarding New Team Members with AI | Set up AI-powered codebase Q&A so new joiners answer "how does X work?" in minutes, not days |
 | 200 | AI for Data Analysis & Reporting | Analyse any CSV dataset and generate executive reports through AI conversation — no data science skills required |
 | 250 | Export Chat Session | Extract, preserve, and share AI chat sessions from VS Code as portable HTML files |
