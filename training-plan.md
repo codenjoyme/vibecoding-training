@@ -83,6 +83,7 @@ After completing all modules, participants will build a complete application tha
 1. [Structured Output & JSON Mode](modules/187-structured-output-json-mode/about.md) - Get reliable JSON from any LLM using Pydantic schemas and Langchain output parsers
 1. [RAG: Document Question Answering](modules/190-rag-document-question-answering/about.md) - Build retrieval-augmented generation systems for factual AI responses
 1. [Multi-Agent Orchestration](modules/195-multi-agent-orchestration/about.md) - Coordinate specialised AI agents for higher-quality results than single-agent work
+1. [Reverse Engineering Project Knowledge](modules/196-reverse-engineering-project-knowledge/about.md) - Extract project conventions and instructions from existing issue + commit diff pairs using the text-triangle principle
 1. [Onboarding New Team Members with AI](modules/197-onboarding-new-team-members-with-ai/about.md) - Set up AI-powered codebase Q&A so new joiners are productive from day one
 1. [AI for Data Analysis & Reporting](modules/200-ai-data-analysis-reporting/about.md) - Analyse CSV data and generate executive reports through AI conversation
 1. [Export Chat Session](modules/250-export-chat-session/about.md) - Extract, preserve, and share AI chat sessions for knowledge retention and team collaboration
