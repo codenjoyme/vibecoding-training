@@ -79,11 +79,11 @@ The same principle applies to texts. If the **issue** is $a$, the **diff** is $c
 
 **What we're about to do:** The core skill of this module. We'll give an AI model a completed task (issue + diff) and ask it to extract the project conventions that guided the implementation. Then we'll compare with the real conventions to see how accurate the extraction is.
 
-The `tools/` folder has three example files — one for each side of the triangle:
+The `tools/task1/` folder has three example files — one for each side of the triangle:
 
-- [tools/example-issue.md](tools/example-issue.md) — a task description (the "issue")
-- [tools/example-diff.md](tools/example-diff.md) — the implementation that was done (the "diff")
-- [tools/example-conventions.md](tools/example-conventions.md) — the real project conventions (the "answer key" — we'll use it ONLY for comparison after the experiment)
+- [tools/task1/example-issue.md](tools/task1/example-issue.md) — a task description (the "issue")
+- [tools/task1/example-diff.md](tools/task1/example-diff.md) — the implementation that was done (the "diff")
+- [tools/task1/example-conventions.md](tools/task1/example-conventions.md) — the real project conventions (the "answer key" — we'll use it ONLY for comparison after the experiment)
 
 ### ⚠️ Clean experiment protocol
 
@@ -100,8 +100,8 @@ The `tools/` folder has three example files — one for each side of the triangl
 
 ```
 Read these two files:
-- ./modules/196-reverse-engineering-project-knowledge/tools/example-issue.md
-- ./modules/196-reverse-engineering-project-knowledge/tools/example-diff.md
+- ./modules/196-reverse-engineering-project-knowledge/tools/task1/example-issue.md
+- ./modules/196-reverse-engineering-project-knowledge/tools/task1/example-diff.md
 
 Based ONLY on these two files, reverse-engineer the project conventions
 that guided this implementation.
@@ -131,7 +131,7 @@ Format it as an instruction file that could guide a new developer on this projec
 
 Open both files side by side:
 - `work/196-task/extracted-conventions.md` — what the AI reverse-engineered
-- `tools/example-conventions.md` — the actual project conventions (ground truth)
+- `tools/task1/example-conventions.md` — the actual project conventions (ground truth)
 
 Compare them section by section. Key questions to discuss:
 
@@ -165,8 +165,8 @@ This time the model should NOT have seen `example-issue.md` (the answer key).
 
 ```
 Read these two files:
-- ./modules/196-reverse-engineering-project-knowledge/tools/example-diff.md
-- ./modules/196-reverse-engineering-project-knowledge/tools/example-conventions.md
+- ./modules/196-reverse-engineering-project-knowledge/tools/task1/example-diff.md
+- ./modules/196-reverse-engineering-project-knowledge/tools/task1/example-conventions.md
 
 Based ONLY on these two files, reconstruct the original task/issue
 that likely led to this implementation.
@@ -182,7 +182,7 @@ Create a file ./work/196-task/reconstructed-issue.md
 with your reconstructed issue description.
 ```
 
-**After the user returns:** Compare `work/196-reconstructed-issue.md` with the original `tools/example-issue.md`. The match demonstrates that the triangle is complete — any two sides can reconstruct the third.
+**After the user returns:** Compare `work/196-task/reconstructed-issue.md` with the original `tools/task1/example-issue.md`. The match demonstrates that the triangle is complete — any two sides can reconstruct the third.
 
 ---
 
@@ -234,7 +234,9 @@ Following the [instruction creation guidelines](../../instructions/creating-inst
 3. Extracts project conventions from the gap between issue and diff
 4. Outputs a structured conventions document with source tracing
 
-**Your task:** Create the file `./instructions/reverse-engineer-conventions.agent.md` using this prompt in a new chat session (Ctrl+L):
+A reference example of such an instruction file is provided in [tools/task2/reverse-engineer-conventions.agent.md](tools/task2/reverse-engineer-conventions.agent.md).
+
+**Your task:** Create your own version of this instruction file at `./instructions/reverse-engineer-conventions.agent.md` using this prompt in a new chat session (Ctrl+L):
 
 ```
 Read the instruction creation guidelines:
@@ -284,7 +286,9 @@ with keywords: reverse engineer, conventions, extract, project knowledge, onboar
 
 ### Run the extraction iteratively
 
-For each issue-diff pair, open a new chat session and run:
+You can do this manually (opening new chats per commit) or use the automation script in [tools/task3/extract_conventions.py](tools/task3/extract_conventions.py) which calls GitHub Copilot CLI deterministically for each commit — the same approach as [Module 160](../160-bulk-file-processing-with-ai/about.md).
+
+**Manual approach** — for each issue-diff pair, open a new chat session and run:
 
 ```
 Follow the instruction ./instructions/reverse-engineer-conventions.agent.md

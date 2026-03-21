@@ -25,13 +25,14 @@ You can take a project with zero documentation, find completed issues and their 
 - [070 — Custom Instructions](../070-custom-instructions/about.md)
 - [060 — Version Control with Git](../060-version-control-git/about.md)
 - [105 — MCP GitHub Integration](../105-mcp-github-integration-issues/about.md) *(optional, recommended)*
-- [160 — Bulk File Processing with AI](../160-bulk-file-processing-with-ai/about.md) *(optional, recommended)*
+- [160 — Bulk File Processing with AI](../160-bulk-file-processing-with-ai/about.md)
 
 ### Required Skills & Tools
 
 - VS Code with GitHub Copilot (Agent Mode enabled)
 - Access to a Git repository with completed issues and commits
 - Basic understanding of diffs and commit history
+- Python 3.10+ installed (for bulk extraction script in Step 7)
 
 ## When to Use
 
