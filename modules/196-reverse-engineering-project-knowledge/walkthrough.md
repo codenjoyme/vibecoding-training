@@ -11,9 +11,9 @@ See [module overview](about.md) for full prerequisites list.
 By the end of this walkthrough you will have:
 
 - **Understanding of the text-triangle principle** — why any two related texts can generate the third
-- **A reverse-engineered instruction file** — extracted from real issue + diff pairs
+- **A reverse-engineered instruction file** — extracted from real issue + diff pairs in a clean experiment
+- **A comparison** — between AI-extracted conventions and real ones, showing what the technique captures and what it misses
 - **A repeatable workflow** — for extracting project knowledge commit by commit
-- **Practical experience** — with three different "triangle directions" on the same text set
 
 ---
 
@@ -51,6 +51,8 @@ But here's the key insight: **if any two of these three texts exist, an AI model
 
 The first direction — **extracting project knowledge from issue + diff** — is the most powerful for onboarding and documentation. And it's the one almost nobody uses.
 
+The second direction (issue + conventions → code) you already practiced in [Module 070 — Custom Instructions](../070-custom-instructions/about.md). This module focuses on the **first** direction — the reverse.
+
 ### Why this works
 
 An AI model is fundamentally a text-to-text transformation engine. When you give it two related texts:
@@ -73,95 +75,114 @@ The same principle applies to texts. If the **issue** is $a$, the **diff** is $c
 
 ---
 
-## Step 2: Try it on a concrete example — forward direction
+## Step 2: Reverse-engineer conventions from issue + diff
 
-**What we're about to do:** Start with the "normal" direction to build intuition before reversing it.
+**What we're about to do:** The core skill of this module. We'll give an AI model a completed task (issue + diff) and ask it to extract the project conventions that guided the implementation. Then we'll compare with the real conventions to see how accurate the extraction is.
 
-Open the example files in `tools/`:
+The `tools/` folder has three example files — one for each side of the triangle:
 
 - [tools/example-issue.md](tools/example-issue.md) — a task description (the "issue")
 - [tools/example-diff.md](tools/example-diff.md) — the implementation that was done (the "diff")
-- [tools/example-conventions.md](tools/example-conventions.md) — the project conventions (the "knowledge")
+- [tools/example-conventions.md](tools/example-conventions.md) — the real project conventions (the "answer key" — we'll use it ONLY for comparison after the experiment)
 
-First, try the standard direction. Give AI the **issue** + **conventions** and ask it to predict the implementation:
+### ⚠️ Clean experiment protocol
 
-```
-I have a task description and project conventions. Based on these two texts,
-predict what the implementation diff would look like.
+**IMPORTANT for trainers:** The training agent has likely already read all three files (or will be tempted to). To keep the experiment scientifically honest, the user must run the extraction in a **fresh chat session** where the model has NOT seen the "answer key" (`example-conventions.md`).
 
-Do NOT write actual code — instead, describe:
-1. Which files would be changed
-2. What patterns/structures would be used
-3. What naming conventions would apply
-4. What the key decisions would be
+**Instructions for the user:**
 
-## Task Description
-[paste content of tools/example-issue.md]
+1. **Open a new chat session** (Ctrl+L in VS Code / Cmd+L on Mac)
+2. **Paste the prompt below** into the new session
+3. **Wait for the result** — the model will create an extracted conventions file
+4. **Return to this session** to compare with the real conventions
 
-## Project Conventions
-[paste content of tools/example-conventions.md]
-```
-
-Now compare the AI's prediction with the actual diff in `tools/example-diff.md`. You'll notice the AI gets surprisingly close — because the conventions bridge the gap between "what to do" and "how to do it".
-
----
-
-## Step 3: Reverse the direction — extract conventions from issue + diff
-
-**What we're about to do:** This is the core skill. Feed the AI an issue and its implementation, and ask it to extract the project knowledge that connects them.
-
-Use this prompt:
+**Prompt to paste in the NEW session:**
 
 ```
-I have a completed task: the original issue description and the actual
-implementation diff. Your job is to reverse-engineer the project conventions,
-coding standards, and architecture decisions that guided this implementation.
+Read these two files:
+- ./modules/196-reverse-engineering-project-knowledge/tools/example-issue.md
+- ./modules/196-reverse-engineering-project-knowledge/tools/example-diff.md
+
+Based ONLY on these two files, reverse-engineer the project conventions
+that guided this implementation.
+
+Do NOT read or look at example-conventions.md — that's the answer key.
 
 Look at the GAP between what was asked (issue) and how it was done (diff).
 The decisions that fill that gap ARE the project knowledge.
 
-Extract:
+Create a file ./modules/196-reverse-engineering-project-knowledge/tools/extracted-conventions.md
+with the extracted conventions:
 1. Naming conventions (files, variables, functions, classes)
 2. Architecture patterns (folder structure, layering, separation of concerns)
 3. Code style rules (formatting, error handling, imports)
-4. Workflow conventions (commit style, PR patterns)
-5. Technology choices and their implications
+4. Technology choices and their usage patterns
+5. Security and authorization patterns
+6. Testing conventions
 
-Format the output as an instruction file (.agent.md) that could guide
-a new developer on this project.
-
-## Original Issue
-[paste content of tools/example-issue.md]
-
-## Implementation Diff
-[paste content of tools/example-diff.md]
+Format it as an instruction file that could guide a new developer on this project.
 ```
-
-**What just happened:** The AI analyzed the transformation from issue to code and identified the implicit rules. You now have an instruction file that was never written by a human — it was reverse-engineered from actual behavior.
 
 ---
 
-## Step 4: Third direction — reconstruct the issue from diff + conventions
+## Step 3: Compare extracted conventions with the real ones
+
+**After the user returns from the new session:**
+
+Open both files side by side:
+- `tools/extracted-conventions.md` — what the AI reverse-engineered
+- `tools/example-conventions.md` — the actual project conventions (ground truth)
+
+Compare them section by section. Key questions to discuss:
+
+1. **What did the AI get right?** — Which conventions were accurately extracted from just the issue + diff?
+2. **What did the AI miss?** — Which conventions exist in the ground truth but couldn't be inferred from a single issue-diff pair?
+3. **What did the AI invent?** — Did it hallucinate any conventions not actually present in the project?
+4. **What did the AI discover that isn't in the ground truth?** — Sometimes the AI spots patterns that the team follows but never documented.
+
+This comparison demonstrates both the power and the limitations of single-pair extraction — and motivates why processing multiple issue-diff pairs (Step 5) produces better results.
+
+---
+
+## Step 4: (Optional) Third direction — reconstruct the issue from diff + conventions
 
 **What we're about to do:** Complete the triangle by trying the third direction — useful for understanding undocumented changes.
 
+This direction is less common but valuable when you find commits without linked issues, or need to reconstruct lost context.
+
+### ⚠️ Clean experiment — new session
+
+This time the model should NOT have seen `example-issue.md` (the answer key).
+
+**Instructions for the user:**
+
+1. **Open a new chat session** (Ctrl+L / Cmd+L)
+2. **Paste the prompt below** into the new session
+3. **Wait for the result** — the model will create a reconstructed issue
+4. **Return to this session** to compare
+
+**Prompt to paste in the NEW session:**
+
 ```
-I have a code diff and the project conventions. Reconstruct the original
-task/issue that likely led to this implementation.
+Read these two files:
+- ./modules/196-reverse-engineering-project-knowledge/tools/example-diff.md
+- ./modules/196-reverse-engineering-project-knowledge/tools/example-conventions.md
+
+Based ONLY on these two files, reconstruct the original task/issue
+that likely led to this implementation.
+
+Do NOT read or look at example-issue.md — that's the answer key.
 
 Based on what was changed and how it follows the conventions, infer:
 1. What was the user-facing problem or feature request?
 2. What were the acceptance criteria?
 3. What technical context would have been in the issue?
 
-## Implementation Diff
-[paste content of tools/example-diff.md]
-
-## Project Conventions
-[paste content of tools/example-conventions.md]
+Create a file ./modules/196-reverse-engineering-project-knowledge/tools/reconstructed-issue.md
+with your reconstructed issue description.
 ```
 
-Compare the AI's reconstructed issue with the original `tools/example-issue.md`. The match demonstrates that the triangle is complete — any two sides can reconstruct the third.
+**After the user returns:** Compare `tools/reconstructed-issue.md` with the original `tools/example-issue.md`. The match demonstrates that the triangle is complete — any two sides can reconstruct the third.
 
 ---
 
@@ -230,9 +251,9 @@ each convention was discovered.
 
 After completing this walkthrough, verify:
 
-- ✅ You understand the text-triangle principle (1+2→3, 1+3→2, 2+3→1)
-- ✅ You extracted project conventions from at least one issue + diff pair
-- ✅ You tried all three triangle directions on the example texts
+- ✅ You understand the text-triangle principle and why issue+diff→conventions is the most useful direction
+- ✅ You extracted project conventions from an issue + diff pair in a clean experiment
+- ✅ You compared extracted conventions with real ones and understand what the technique captures vs. misses
 - ✅ You understand how to scale the technique across multiple commits
 - ✅ You produced an instruction file from reverse-engineered knowledge
 
