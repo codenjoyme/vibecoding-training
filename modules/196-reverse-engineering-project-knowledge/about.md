@@ -25,6 +25,7 @@ You can take a project with zero documentation, find completed issues and their 
 - [070 — Custom Instructions](../070-custom-instructions/about.md)
 - [060 — Version Control with Git](../060-version-control-git/about.md)
 - [105 — MCP GitHub Integration](../105-mcp-github-integration-issues/about.md) *(optional, recommended)*
+- [160 — Bulk File Processing with AI](../160-bulk-file-processing-with-ai/about.md) *(optional, recommended)*
 
 ### Required Skills & Tools
 

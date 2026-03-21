@@ -190,11 +190,9 @@ with your reconstructed issue description.
 
 **What we're about to do:** Apply the technique to multiple issue-diff pairs to build cumulative project knowledge. Each pair reveals new conventions; together they form a comprehensive instruction file.
 
-In a real project, you would:
+### The cumulative extraction prompt
 
-1. Pick 5-10 completed issues with clean, self-contained commits
-1. For each issue, get the diff: `git log --oneline` to find the commit, then `git show <hash>` for the diff
-1. Feed each issue + diff pair to the AI with this prompt:
+Here's the prompt pattern for iterative extraction. Each run adds only new insights to the growing conventions document:
 
 ```
 Here is a completed task (issue + diff) from our project.
@@ -216,34 +214,102 @@ Mark new additions with "Source: Issue #N" so we can trace where
 each convention was discovered.
 ```
 
-1. After processing all pairs, ask the AI to deduplicate and organize the accumulated conventions into a clean instruction file
+This prompt is a good template for understanding the logic — but manually pasting issue text and diffs doesn't scale. In practice, you need to:
 
-**What just happened:** You built a project instruction file entirely from behavioral evidence — not from anyone's memory or opinions, but from what the team actually does.
+1. **Get the issue text programmatically** — if your project uses GitHub Issues, you can fetch them via GitHub MCP integration ([Module 105](../105-mcp-github-integration-issues/about.md)) or GitHub CLI (`gh issue view <number>`)
+2. **Get the commit diff** — use `git log --oneline` to find the commit hash, then `git show <hash>` to see the diff. For squash-merged PRs, the diff is clean and self-contained.
+
+For a single pair, you can do this manually. But for 5-10 pairs, you need automation — which is exactly what we'll build in the next steps.
 
 ---
 
-## Step 6: Apply to your own project
+## Step 6: Create a reverse-engineering instruction file
 
-**What we're about to do:** Use the technique on a real project you work on.
+**What we're about to do:** Turn the extraction prompt into a proper instruction file that an AI agent can follow autonomously. This is the key step — an instruction file is reusable, composable, and can be fed to automation scripts.
+
+Following the [instruction creation guidelines](../../instructions/creating-instructions.agent.md), create an instruction file that:
+
+1. Takes an issue text and a commit diff as input
+2. Optionally accepts an existing conventions document to accumulate into
+3. Extracts project conventions from the gap between issue and diff
+4. Outputs a structured conventions document with source tracing
+
+**Your task:** Create the file `./instructions/reverse-engineer-conventions.agent.md` using this prompt in a new chat session (Ctrl+L):
+
+```
+Read the instruction creation guidelines:
+- ./instructions/creating-instructions.agent.md
+
+Then create a new instruction file ./instructions/reverse-engineer-conventions.agent.md
+that describes the following workflow:
+
+Given an issue description and a commit diff, extract project conventions
+that guided the implementation. The instruction should:
+
+- Accept two inputs: issue text and commit diff
+- Optionally accept existing conventions to accumulate into
+- Look at the gap between what was asked (issue) and how it was done (diff)
+- Extract: naming conventions, architecture patterns, code style rules,
+  technology choices, security patterns, testing conventions
+- Mark each discovered convention with its source (e.g., "Source: Issue #47")
+- Output a structured instruction file format
+- When accumulating, only add NEW insights not already present
+
+Also add the new instruction to ./instructions/main.agent.md catalog
+with keywords: reverse engineer, conventions, extract, project knowledge, onboarding
+```
+
+**After you create this file, return here.** We'll use it in the next step to process multiple issue-diff pairs automatically.
+
+---
+
+## Step 7: Run bulk extraction on your own project
+
+**What we're about to do:** Apply the instruction from Step 6 to multiple issue-diff pairs from a real project. This uses the same approach as [Module 160 — Bulk File Processing](../160-bulk-file-processing-with-ai/about.md) — running the same instruction repeatedly over different inputs.
+
+### Pick a repository and gather issue-diff pairs
 
 1. **Pick a repository** you have access to
 
-1. **Find 3-5 completed issues** with associated commits. If using GitHub MCP (module 105):
+1. **Find 5-10 completed issues** with associated commits. If using GitHub MCP ([Module 105](../105-mcp-github-integration-issues/about.md)):
    ```
    List the last 10 closed issues in [owner/repo] that have associated commits
    ```
 
 1. **Get the diffs** for each issue's commits:
    ```
-   git log --oneline --all | head -20
+   git log --oneline --all | Select-Object -First 20
    git show <commit-hash>
    ```
 
-1. **Run the extraction prompt** from Step 3 for each pair
+### Run the extraction iteratively
 
-1. **Accumulate and organize** the results into an instruction file
+For each issue-diff pair, open a new chat session and run:
 
-1. **Validate** — ask a teammate: "Does this match how we actually work?"
+```
+Follow the instruction ./instructions/reverse-engineer-conventions.agent.md
+
+## Issue #N
+[issue text or: fetch issue #N from owner/repo using GitHub MCP]
+
+## Diff
+[paste diff or: run git show <hash>]
+
+## Existing Conventions
+[paste accumulated result from previous iterations, or "None yet" for the first run]
+
+Save the result to ./work/196-task/accumulated-conventions.md
+```
+
+After processing all pairs, ask the AI to deduplicate and organize the accumulated conventions into a clean instruction file.
+
+### Validate the result
+
+1. Review `work/196-task/accumulated-conventions.md` — does it feel like a real project guide?
+1. Check source tracing — can you see which issue contributed which convention?
+1. Ask a teammate: "Does this match how we actually work?"
+
+**What just happened:** You built a project instruction file entirely from behavioral evidence — not from anyone's memory or opinions, but from what the team actually does. And you did it using a reusable instruction that can be run on any project.
 
 ---
 
@@ -254,7 +320,8 @@ After completing this walkthrough, verify:
 - ✅ You understand the text-triangle principle and why issue+diff→conventions is the most useful direction
 - ✅ You extracted project conventions from an issue + diff pair in a clean experiment
 - ✅ You compared extracted conventions with real ones and understand what the technique captures vs. misses
-- ✅ You understand how to scale the technique across multiple commits
+- ✅ You created a reusable instruction file for convention extraction
+- ✅ You understand how to scale the technique across multiple commits using bulk processing
 - ✅ You produced an instruction file from reverse-engineered knowledge
 
 ---
