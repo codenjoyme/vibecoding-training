@@ -27,8 +27,19 @@ modules/
   [NUMBER]-[descriptive-name]/
     about.md          ← Module description, prerequisites, learning outcome
     walkthrough.md    ← Step-by-step hands-on guide
-    tools/            ← (optional) Scripts, templates, configs
+    tools/            ← (optional) Practical files used during the module
 ```
+
+### tools/ Folder (Optional)
+
+Some modules include a `tools/` subfolder with files the student uses during the walkthrough:
+
+- **Scripts** — installation scripts, automation helpers, demo runners
+- **Templates** — starter files, config templates, boilerplate code
+- **Reference files** — sample data, example configs, pre-built artifacts
+- **Instructions** — supplementary `.agent.md` files for specific tasks within the module
+
+The walkthrough references these files directly (e.g., "Run the script at `./tools/install.ps1`"). If your module has hands-on exercises that need supporting files — put them in `tools/`. If the module is purely conversational or uses only inline code snippets — skip this folder.
 
 ### about.md Required Sections (in order)
 
@@ -230,7 +241,39 @@ git commit -m "Add module [ID]: [Module Name]"
 
 ---
 
-## Step 6: Fork & PR Workflow (for Shared Repos)
+## Step 6: Test-Walk the Module in a Fresh Session
+
+### What We'll Do
+
+Before considering the module "done", you need to walk through it yourself — as if you were a student seeing it for the first time. This is the most effective way to catch issues that the quality checklist misses.
+
+### How to Test
+
+1. **Open a new, empty chat session** in your IDE (no prior context)
+2. **Ask the AI agent to walk you through the module** — just like a real student would:
+   ```
+   Let's go through module [ID] — [Module Name]
+   ```
+3. **Follow the walkthrough step by step** — execute commands, read explanations, answer questions
+4. **Note anything that feels off** — unclear instructions, missing context, broken paths, wrong assumptions
+
+### Fixing Issues During the Walk-Through
+
+- When you spot a problem — **pause the walkthrough and fix it right there**
+  + Say something like: "Wait, this step is unclear. Let's fix the walkthrough — change X to Y."
+  + The AI agent will update the file, and you continue where you left off
+- This interleaving of "walk + fix" is the normal workflow — you don't need to finish the whole walkthrough before making corrections
+- **If you accumulate many fixes** (5+ edits across different sections), it's better to **start a fresh session** and walk through the module again from scratch
+  + Why: the AI's context gets cluttered with edit instructions and may lose track of where you are in the walkthrough
+  + A clean session ensures the fixed version reads well end-to-end
+
+### What Just Happened
+
+You've validated the module from the student's perspective. This step often catches 3-5 issues that looked fine during generation but break down during actual practice — wrong file paths, missing prerequisites, unclear transitions between steps.
+
+---
+
+## Step 7: Fork & PR Workflow (for Shared Repos)
 
 If the course lives in a shared GitHub repository, you contribute modules through Pull Requests.
 
@@ -277,7 +320,7 @@ Your module is now proposed as a contribution. The course maintainer will review
 
 ---
 
-## Step 7: The Repeatable Pattern
+## Step 8: The Repeatable Pattern
 
 You now have a repeatable workflow:
 
@@ -288,16 +331,18 @@ Save text to source-article.md
     ↓
 Send "create module" prompt with @source-article.md + @create-training-module.agent.md
     ↓
-AI generates about.md + walkthrough.md
+AI generates about.md + walkthrough.md (+ tools/ if needed)
     ↓
 Quality review against checklist
+    ↓
+Test-walk the module in a fresh session (fix as you go)
     ↓
 Integration (training-plan.md, module-catalog.md)
     ↓
 Git commit (or Fork + PR for shared repos)
 ```
 
-Each iteration takes about 15-20 minutes. You can produce a new training module from any good article in under half an hour.
+Each iteration takes about 15-20 minutes for generation and review, plus another 10-15 minutes to test-walk and fix. You can produce a polished training module from any good article in under an hour.
 
 ---
 
@@ -308,6 +353,7 @@ Each iteration takes about 15-20 minutes. You can produce a new training module 
 - ✅ Created a complete module from an article using the AI agent
 - ✅ Reviewed the generated module against the quality checklist
 - ✅ Fixed any quality issues found during review
+- ✅ Test-walked the module in a fresh chat session and fixed issues found
 - ✅ Integrated the module into `training-plan.md`
 - ✅ Understand the fork & PR contribution workflow
 
@@ -331,7 +377,10 @@ Each iteration takes about 15-20 minutes. You can produce a new training module 
 6. **Why do walkthrough steps use `1.` numbering instead of `1.`, `2.`, `3.`?**
    Markdown auto-numbers items when all use `1.`. This means you can insert, remove, or reorder steps without manually renumbering — Markdown handles it automatically.
 
-7. **When would you use the fork & PR workflow vs direct commit?**
+7. **Why test-walk the module in a fresh chat session, and when should you restart the session?**
+   A fresh session has no prior context, so it tests the module the way a real student would experience it. You can fix issues during the walk-through (pause → fix → continue), but if you've made 5+ fixes across different sections, start a new session — the AI's context gets cluttered with edit instructions and may lose its place in the walkthrough.
+
+8. **When would you use the fork & PR workflow vs direct commit?**
    Fork & PR for shared/team repositories where you don't have direct write access, or when you want the module reviewed before it's added. Direct commit when it's your own repository or you have maintainer permissions and the module is already reviewed.
 
 ## Troubleshooting
