@@ -111,7 +111,7 @@ Do NOT read or look at example-conventions.md — that's the answer key.
 Look at the GAP between what was asked (issue) and how it was done (diff).
 The decisions that fill that gap ARE the project knowledge.
 
-Create a file ./modules/196-reverse-engineering-project-knowledge/tools/extracted-conventions.md
+Create a file ./work/196-task/extracted-conventions.md
 with the extracted conventions:
 1. Naming conventions (files, variables, functions, classes)
 2. Architecture patterns (folder structure, layering, separation of concerns)
@@ -130,7 +130,7 @@ Format it as an instruction file that could guide a new developer on this projec
 **After the user returns from the new session:**
 
 Open both files side by side:
-- `tools/extracted-conventions.md` — what the AI reverse-engineered
+- `work/196-task/extracted-conventions.md` — what the AI reverse-engineered
 - `tools/example-conventions.md` — the actual project conventions (ground truth)
 
 Compare them section by section. Key questions to discuss:
@@ -178,11 +178,11 @@ Based on what was changed and how it follows the conventions, infer:
 2. What were the acceptance criteria?
 3. What technical context would have been in the issue?
 
-Create a file ./modules/196-reverse-engineering-project-knowledge/tools/reconstructed-issue.md
+Create a file ./work/196-task/reconstructed-issue.md
 with your reconstructed issue description.
 ```
 
-**After the user returns:** Compare `tools/reconstructed-issue.md` with the original `tools/example-issue.md`. The match demonstrates that the triangle is complete — any two sides can reconstruct the third.
+**After the user returns:** Compare `work/196-reconstructed-issue.md` with the original `tools/example-issue.md`. The match demonstrates that the triangle is complete — any two sides can reconstruct the third.
 
 ---
 
