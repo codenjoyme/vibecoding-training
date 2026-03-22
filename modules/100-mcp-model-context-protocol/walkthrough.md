@@ -227,26 +227,27 @@ After reloading, your IDE:
 
 Now that your MCP server is running, let's test each tool through AI chat and understand the approval workflow.
 
-### ⚠️ CRITICAL: Enable Tools First!
+### 💡 Optional: Enable Tools Manually (if tools are not working)
 
-**Before testing, you MUST enable the MCP tools manually!** By default, all MCP tools are **disabled** after first connection.
+In most cases, MCP tools are **enabled automatically** after the server starts. However, if you test the tools below and the AI doesn't recognize them, you may need to enable them manually.
 
-**VS Code:**
-1. In GitHub Copilot Chat panel, find the **🔧 tools icon** (next to model selection)
-2. Click **"Configure Tools"**
-3. Find section **"echo-windows"** (your MCP server)
-4. **Check the boxes** next to:
-   - ✅ `echo`
-   - ✅ `get_time`
-   - ✅ `calculate`
-5. Click **"OK"**
+**VS Code — where to find the toggle:**
+1. Open the **GitHub Copilot Chat panel** (click the chat icon in the left sidebar)
+2. Make sure you are in **Agent mode** (not "Ask" or "Edit" — select "Agent" from the dropdown at the top of the chat input)
+3. At the bottom of the chat input field, find the **🔧 tools icon** (wrench icon, located next to the model selector and "Add Context" button)
+4. Click it — a dropdown list of all available tools will appear
+5. Scroll down to find the **"echo-windows"** (or **"echo-unix"**) section — these are your MCP server tools
+6. **Turn each one on:** click the checkbox/toggle next to `echo`, `get_time`, and `calculate`
+7. Close the dropdown — the tools are now enabled
+
+> **Can't find the wrench icon?** Make sure you have the latest version of the GitHub Copilot extension. The tools icon only appears in Agent mode.
 
 **Cursor:**
-1. Open Settings (File → Preferences → Settings)
-2. Search for "MCP"
-3. Enable tools for your server
+1. Open Settings (**File → Preferences → Settings**)
+2. Search for **"MCP"**
+3. Find your server and enable its tools
 
-**Why disabled by default?** Security. MCP tools can execute code and access files, so you explicitly choose which ones to allow.
+**Why might tools be disabled?** Security. MCP tools can execute code and access files, so your IDE may require you to explicitly choose which ones to allow. If everything works without this step — great, skip it!
 
 ---
 
