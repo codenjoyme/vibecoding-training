@@ -55,6 +55,7 @@ After completing all modules, participants will build a complete application tha
 1. [Learning from Hallucinations](modules/080-learning-from-hallucinations/about.md) - Use AI mistakes to improve instructions
 1. [AI Cost Optimization & Token Economics](modules/083-ai-cost-optimization/about.md) - Understand token economics and reduce AI costs for your team *(optional — for team leads and managers)*
 1. [Evaluating AI Output Quality](modules/085-evaluating-ai-output-quality/about.md) - Score and validate AI responses with a systematic quality framework
+1. [IDE Workspace as Knowledge Base](modules/088-ide-workspace-as-knowledge-base/about.md) - Use workspace folders + AI chat to analyze documents without building a RAG pipeline
 1. [AI Skills - Context, Tools & Memory](modules/090-ai-skills-tools-creation/about.md) - Understand AI's eyes, hands, and memory
 1. [Model Context Protocol (MCP)](modules/100-mcp-model-context-protocol/about.md) - Connect AI to any data source
 1. [CLI: Command Line Interface](modules/103-cli-command-line-interface/about.md) - Call REST APIs directly from terminal, bypass LLM for deterministic, token-efficient execution without hallucination risk
