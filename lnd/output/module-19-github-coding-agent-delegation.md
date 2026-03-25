@@ -1,6 +1,6 @@
-Module 19: GitHub Coding Agent Delegation
+# Module 19: GitHub Coding Agent Delegation
 
-Background
+### Background
 Up to this point, every task was completed by you and your AI assistant working together in the IDE. You described the task, the AI proposed a solution, you reviewed and approved it — all in real time. But what if you could delegate a task to an autonomous AI agent that works independently on GitHub's servers while you do something else? GitHub Copilot Coding Agent does exactly that: you assign it a GitHub issue, and it reads the codebase, writes the code, and creates a pull request — without your involvement until it is time for code review. This module teaches you how to delegate effectively, monitor progress, and review the results.
 
 **Learning Objectives**
@@ -11,8 +11,8 @@ Upon completion of this module, you will be able to:
 - Assign a task to GitHub Copilot Coding Agent and monitor its progress.
 - Review an agent-generated pull request and improve instruction files based on the agent's mistakes.
 
-Page 1: What is GitHub Coding Agent
-Background
+## Page 1: What is GitHub Coding Agent
+### Background
 GitHub Copilot has several components. The **IDE assistant** (what you have been using in VS Code) provides real-time suggestions and chat. The **Coding Agent** is different — it runs on GitHub's servers, works autonomously, and creates pull requests.
 
 Key characteristics:
@@ -37,15 +37,15 @@ Key characteristics:
 - Urgent fixes (the agent takes 15-30 minutes to finish).
 - Vague or ambiguous requirements (the agent will guess, and guess wrong).
 
-Steps
+### Steps
 1. Ask the AI: "Explain the difference between GitHub Copilot IDE assistant and GitHub Copilot Coding Agent."
 2. Read the response and note the key differences: real-time vs. autonomous, local vs. server-side.
 
-✅ Result
+### ✅ Result
 You understand what the Coding Agent is and when to use it.
 
-Page 2: Preparing a Task for Delegation
-Background
+## Page 2: Preparing a Task for Delegation
+### Background
 The Coding Agent's quality depends entirely on the quality of input it receives. It reads three things: (1) the GitHub issue you assign it to, (2) the instruction files in your repository, and (3) the codebase itself.
 
 A poorly written issue produces a poor implementation. A well-written issue with good instruction files produces a clean PR that needs minimal review.
@@ -58,7 +58,7 @@ A poorly written issue produces a poor implementation. A well-written issue with
 - Links to relevant instruction files (e.g., "Follow instructions/create-training-module.agent.md").
 - Acceptance criteria (how to verify the task is done).
 
-Steps
+### Steps
 1. Open your project backlog (BACKLOG.md or GitHub Issues from Module 14).
 2. Choose a task that is well-defined and self-contained. Good candidates:
    - Add a new feature to the prototype (a new page, a new API endpoint).
@@ -68,14 +68,14 @@ Steps
 4. If the issue is too vague, update it: ask the AI "Improve this GitHub issue description to make it suitable for autonomous implementation by a coding agent. Add acceptance criteria."
 5. Verify your instruction files are committed and pushed. The agent reads them from GitHub — not from your local machine.
 
-✅ Result
+### ✅ Result
 You have a well-defined GitHub issue ready for delegation and instruction files pushed to GitHub.
 
-Page 3: Assigning the Coding Agent
-Background
+## Page 3: Assigning the Coding Agent
+### Background
 There are two ways to assign the Coding Agent to an issue: through the GitHub web interface or through the GitHub MCP from your IDE (as in Module 14). Both produce the same result. This walkthrough shows the web interface approach for clarity.
 
-Steps
+### Steps
 1. Open the GitHub issue in your browser.
 2. In the right sidebar, find the **Assignees** section.
 3. Click **"Assign to Copilot"** (the button with the Copilot icon).
@@ -90,14 +90,14 @@ Steps
 
 **Alternative — assign from IDE:** Ask the AI "Assign GitHub Copilot coding agent to issue #N in this repository." The AI will use GitHub MCP to send the assignment command without leaving your IDE.
 
-✅ Result
+### ✅ Result
 The Coding Agent is assigned and working. You can close the browser and do other work.
 
-Page 4: Monitoring and Reviewing the Pull Request
-Background
+## Page 4: Monitoring and Reviewing the Pull Request
+### Background
 The agent typically takes 15-30 minutes to finish. When it is done, it creates a pull request linked to the original issue. You will receive a GitHub notification. Your job now is to review the PR — the same code review process that happens in any software team.
 
-Steps
+### Steps
 1. Wait for the GitHub notification (email or GitHub web notification) that the PR is ready.
 2. Open the pull request on GitHub.
 3. Read the **PR description.** The agent writes a summary of what it implemented.
@@ -114,14 +114,14 @@ Steps
 
 **Important:** Collect all review comments before submitting. Each "Request changes" submission triggers a new agent session (costs one premium request). Submit all feedback at once.
 
-✅ Result
+### ✅ Result
 You have reviewed the agent's PR and either merged it or requested changes.
 
-Page 5: Learning from Agent Behavior
-Background
+## Page 5: Learning from Agent Behavior
+### Background
 The Coding Agent's mistakes are feedback on your instruction files. If the agent misunderstood a convention, your instruction files were not clear enough. If the agent missed a requirement, the issue description was incomplete. Every agent interaction is an opportunity to improve your instructions for future tasks.
 
-Steps
+### Steps
 1. After merging (or after requesting changes), reflect on what the agent did well and what it got wrong.
 2. For each mistake:
    - Was it caused by a vague issue description? → Improve the issue template.
@@ -131,10 +131,10 @@ Steps
 4. Apply the improvements and commit them.
 5. Next time you assign the agent, it will use the updated instructions — and make fewer mistakes.
 
-✅ Result
+### ✅ Result
 You have improved your instruction files based on agent feedback, making future delegations more effective.
 
-Summary
+## Summary
 Remember the question from the introduction — what if you could delegate a task to an AI agent that works on its own while you attend meetings or plan the next sprint? That is exactly what you did in this module.
 
 You prepared a well-defined issue, assigned it to GitHub Copilot Coding Agent, and received a pull request with a complete implementation — all without sitting in the IDE. The quality of the result depended on the quality of your issue description and instruction files, and you improved both based on the experience.
@@ -150,7 +150,7 @@ Key takeaways:
 
 [MG]: вот тут можно и квиз оставить :)
 
-Quiz
+## Quiz
 1. What is the key difference between GitHub Copilot in the IDE and GitHub Copilot Coding Agent?
    a) The IDE assistant provides suggestions in real time, while the Coding Agent processes tasks in a scheduled batch at the end of each day
    b) The IDE assistant works in real-time with your guidance, while the Coding Agent runs autonomously on GitHub's servers — reading the codebase, implementing tasks, and creating pull requests without your involvement until review

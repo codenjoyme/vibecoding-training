@@ -1,6 +1,6 @@
-Module 3: Version Control with Git
+# Module 3: Version Control with Git
 
-Background
+### Background
 Imagine spending two hours building something that works perfectly — then asking the AI to "make one small improvement" and watching everything break. You try to undo, but the AI has already changed too many files. Your working version is gone.
 
 This scenario happens to everyone who works with AI assistants without a safety net. Git is that safety net. It is a version control system that saves snapshots of your project at any point. If something goes wrong, you restore the last working snapshot in seconds.
@@ -11,8 +11,8 @@ In this module, you will learn the "baby steps" methodology: make one small chan
 - Apply the baby steps workflow: change → test → stage → commit.
 - Recover from an AI-generated mistake by discarding uncommitted changes.
 - Create a .gitignore file to exclude sensitive and temporary files.
-Page 1: Why Baby Steps Matter
-Background
+## Page 1: Why Baby Steps Matter
+### Background
 Your brain can hold roughly 7±2 items in working memory simultaneously. When you try to implement three features at once, each new detail pushes out an earlier one, leading to confusion and mistakes. The baby steps approach respects this cognitive limit.
 
 Consider two approaches to implementing three features:
@@ -30,14 +30,14 @@ The workflow is simple:
 - If no: discard the change and try again (git checkout).
 - Repeat.
 
-✅ Result
+### ✅ Result
 You understand why small, committed changes beat large, uncommitted ones — especially with AI assistants.
 
-Page 2: Set Up a Practice Project
-Background
+## Page 2: Set Up a Practice Project
+### Background
 Before learning Git commands, you need a small project to practice on. You will ask the AI assistant to generate a simple calculator project, then use Git to track changes to it throughout this module.
 
-Steps
+### Steps
 1. In your IDE, open the workspace folder: c:/workspace/hello-genai/ (Windows) or ~/workspace/hello-genai/ (macOS/Linux).
 2. Create a subfolder: work/060-task. All course exercises go in work/[module-number]-task.
 [MG]: Очень важно все такие степы сопроводить скриншотами, уверен не разберутся люди которые первый раз видят VS Code или Cursor.
@@ -50,14 +50,14 @@ Steps
    Place these files in the current directory.
 5. Verify that three files appear in work/060-task/: calculator.py, main.py, and README.md.
 
-✅ Result
+### ✅ Result
 You have a small practice project with three files ready for version control.
 
-Page 3: Initialize Git and Configure Identity
-Background
+## Page 3: Initialize Git and Configure Identity
+### Background
 Git needs to be initialized in your project folder before it can track changes. You also need to tell Git who you are — your name and email appear in every commit, creating an audit trail of who changed what.
 
-Steps
+### Steps
 1. In the terminal (make sure you are inside work/060-task/), run:
    git init
 2. Run:
@@ -71,14 +71,14 @@ Steps
 5. Run those commands, then verify:
    git config --global --list
 
-✅ Result
+### ✅ Result
 Git is initialized in your project folder. Your name and email are configured.
 
-Page 4: Create .gitignore and First Commit
-Background
+## Page 4: Create .gitignore and First Commit
+### Background
 Not every file belongs in version control. Secrets (API keys, passwords), temporary files, and IDE configuration should be excluded. A .gitignore file tells Git which files to skip.
 
-Steps
+### Steps
 1. Ask the AI:
    Create a .gitignore file for a Python project. Include virtual environments, cache files, secrets/environment files, IDE configuration, and any files in a temp/ directory.
 2. Review the generated .gitignore — make sure it includes .env and other sensitive file patterns.
@@ -87,14 +87,14 @@ Steps
 5. Type a commit message: Initial calculator with add and subtract.
 6. Click the commit button (or run git commit -m "Initial calculator with add and subtract" in terminal).
 
-✅ Result
+### ✅ Result
 Your first commit is saved. You now have a baseline snapshot to return to at any time.
 
-Page 5: Practice the Baby Steps Workflow
-Background
+## Page 5: Practice the Baby Steps Workflow
+### Background
 Now that you have a baseline, practice the core loop: make a change → test → stage → commit. You will also practice recovering from a mistake — the most valuable skill when working with AI.
 
-Steps
+### Steps
 1. Ask the AI:
    Add a multiply() function to calculator.py
 2. After the AI adds the function, test it — run the code and verify multiply works.
@@ -113,14 +113,14 @@ The feature took three small steps instead of one big confusing change. Each ste
    Which of my project files are production code and which are temporary scaffolding? List them in two groups.
 Then stage only the production files and add scaffolding patterns to .gitignore.
 
-✅ Result
+### ✅ Result
 You completed a feature using baby steps: three small changes, each tested and staged, then committed as one unit.
 
-Page 6: Recover from an AI Mistake
-Background
+## Page 6: Recover from an AI Mistake
+### Background
 This is the most important exercise in the module. You will deliberately create a situation where the AI breaks your code — and then recover using Git. This builds the muscle memory you need when it happens for real (and it will).
 
-Steps
+### Steps
 1. Ask the AI:
    Add a divide() function to calculator.py
 2. Do NOT stage or commit yet.
@@ -139,16 +139,16 @@ Steps
 
 Page 6 covers the more common case (discarding unstaged changes), but knowing both recovery paths ensures you are never stuck.
 
-✅ Result
+### ✅ Result
 You practiced recovering from an AI mistake using git checkout. You understand why staging after each working change is critical — and you know how to undo a committed mistake if needed.
 
-Page 7: Push to GitHub (Optional)
-Background
+## Page 7: Push to GitHub (Optional)
+### Background
 Pushing your repository to GitHub creates a remote backup. If your local machine has issues, your code is safe in the cloud. This step is optional but recommended — you will use GitHub features in later modules.
 
 This is also the moment to initialize the repository you will use for the practical project throughout the course. In Module 08, you will define a Jira/Confluence automation project — but you can create the repo for it now.
 
-Steps
+### Steps
 1. Go to https://github.com/new in your browser.
 2. Name the repository: jira-confluence-automation (or git-baby-steps-practice if you prefer to start with a generic name and rename later).
 3. Choose Public or Private (your preference).
@@ -162,12 +162,12 @@ Steps
    git push -u origin main
 8. Run the commands. Your code is now on GitHub.
 
-✅ Result
+### ✅ Result
 Your project is backed up to GitHub. You can continue making baby steps and push regularly.
 
 **Practical project note:** This repository will become the home for your Jira/Confluence Automation Toolkit — a project you will define in Module 08 and build throughout the rest of the course. Every module from here on uses the baby steps workflow you just learned: change → test → stage → commit → push.
 
-Summary
+## Summary
 Remember the scenario from the introduction — two hours of work destroyed by one careless AI refactoring? With the baby steps workflow, that situation is impossible. Every working change is staged, every complete feature is committed, and recovery is one command away.
 
 Key takeaways:
@@ -177,7 +177,7 @@ Key takeaways:
 - The AI generates code and suggests changes, but you control Git. You decide what gets staged, committed, and pushed.
 - The workflow: change → test → stage → (repeat) → commit.
 
-Quiz
+## Quiz
 1. Why is it important to commit after every small successful change when working with an AI assistant?
    a) Because each commit creates a recovery point you can return to if the AI breaks something in a later change.
    b) Because Git repositories have a maximum file size and frequent commits keep files small.

@@ -1,6 +1,6 @@
-Module 7: Effective Prompting Without Arguing
+# Module 7: Effective Prompting Without Arguing
 
-Background
+### Background
 You asked the AI to do something, and the result is wrong. Your instinct is to type "No, that is not what I meant..." and start a back-and-forth conversation trying to fix it. This is the single most common mistake people make with AI assistants — and it makes things worse, not better.
 
 In this module, you will learn why arguing with the AI pollutes the context window, why restarting with a refined prompt produces better results, and how to control output variability through precise prompting. These techniques will dramatically improve your effectiveness in every future module.
@@ -11,8 +11,8 @@ Upon completion of this module, you will be able to:
 - Apply the edit-and-regenerate workflow instead of arguing with the AI.
 - Take ownership of AI output quality by refining prompts rather than blaming the model.
 
-Page 1: The Artist Metaphor — Understanding Prompt Precision
-Background
+## Page 1: The Artist Metaphor — Understanding Prompt Precision
+### Background
 Imagine you ask 10 world-class artists to paint a still life. The precision of your request determines how similar or different their paintings will be.
 
 Scenario 1 — Abstract prompt: "Paint a still life."
@@ -29,11 +29,11 @@ The same principle applies to AI prompts:
 - More details = more consistent and controlled results (low temperature effect).
 - You choose the level of precision you need.
 
-✅ Result
+### ✅ Result
 You understand that prompt specificity directly controls the variability of AI output.
 
-Page 2: The Power of Statements
-Background
+## Page 2: The Power of Statements
+### Background
 The practical tool for controlling precision is breaking your requirements into statements — one sentence per requirement. Each statement adds one specific constraint.
 
 Statement structure:
@@ -54,7 +54,7 @@ Two things to keep in mind about prompt language:
 - Natural language does not matter. You can write prompts in English, Russian, or any language. Typos and informal phrasing are fine — the model understands all of these equally well.
 - Technical terms matter a lot. "Python" vs "Java" produces completely different code. "Bubble sort" vs "quicksort" selects a different algorithm. Each precise technical term locks in a specific aspect of the solution. When results seem poor, check whether you used the right technical terms, not whether your grammar was correct.
 
-Steps
+### Steps
 1. Open your AI chat in Agent Mode.
 2. Type a very abstract prompt: "Create a file with a sorting function."
 3. Observe the result: note the language, algorithm, extras (comments, tests, docstrings).
@@ -63,11 +63,11 @@ Steps
 6. Edit again, adding more constraints: "Create a Python file named bubble_sort.py. Implement a bubble_sort function that takes a list of integers and returns the sorted list. No comments, no docstrings."
 7. Compare all three results. Notice how each added statement reduced variability.
 
-✅ Result
+### ✅ Result
 You can control AI output precision by adding specific statements to your prompts.
 
-Page 3: Why You Should Never Argue with the Model
-Background
+## Page 3: Why You Should Never Argue with the Model
+### Background
 When the AI produces something wrong, the natural instinct is to write a follow-up: "No, that is not right. I wanted..." Then the AI apologizes and tries again. You correct again. This cycle is called "arguing," and here is why it fails:
 
 The context pollution problem:
@@ -80,18 +80,18 @@ Defining through negation does not work:
 - Try describing an object only by what it is not — "not red, not big, not soft, not round." What object is it? Impossible to tell.
 - Negative constraints are equally confusing for AI models.
 
-Steps
+### Steps
 1. Think about a recent interaction where you went back and forth with the AI trying to fix something.
 2. Count how many messages were in that exchange. If more than 3 — context was likely polluted.
 3. In your next AI session, when you see the model generating something wrong, stop immediately.
 4. Do not write a new message. Instead, go back and edit your original prompt with more specific statements.
 5. Regenerate from the edited prompt — the model starts fresh with a clean canvas.
 
-✅ Result
+### ✅ Result
 You understand that arguing pollutes the context window and that editing + regenerating is the correct approach.
 
-Page 4: The Right Workflow — Edit, Don't Continue
-Background
+## Page 4: The Right Workflow — Edit, Don't Continue
+### Background
 The effective workflow for correcting AI output follows a simple loop:
 
 1. Stop immediately when you see the model generating something wrong (do not wait for the complete response).
@@ -107,18 +107,18 @@ Why this works:
 - Each prompt refinement makes the solution better.
 - Each failed iteration without editing makes the problem worse.
 
-Steps
+### Steps
 1. Open your AI chat in Agent Mode.
 2. Ask: "Create a status report template."
 3. If the result is not what you expected (wrong format, missing sections, wrong tone), do NOT type a correction.
 4. Instead, edit your original prompt: "Create a weekly status report template for an engineering manager. Include sections: accomplishments, blockers, next week's plan. Use bullet points. Keep it under 20 lines. Markdown format."
 5. Notice how much better the result is with the refined prompt.
 
-✅ Result
+### ✅ Result
 You can apply the edit-and-regenerate workflow instead of arguing with the AI.
 
-Page 5: Locus of Control — You Are in Charge
-Background
+## Page 5: Locus of Control — You Are in Charge
+### Background
 When AI produces poor results, beginners often blame the tool: "The model is dumb," "AI does not understand me." This is external locus of control — believing the outcome depends on the tool, not on you.
 
 The reality:
@@ -131,7 +131,7 @@ The mindset shift:
 
 This shift puts you in control. The model is a powerful tool — like a room that gives you exactly what you ask for, but only if you know what to ask and ask correctly. Vague requests produce vague results. Specific requests produce specific results.
 
-Steps
+### Steps
 1. Think about your most recent frustrating AI interaction.
 2. Rewrite the prompt you used, adding at least 3 more specific statements.
 3. Try the refined prompt. Is the result closer to what you need?
@@ -142,10 +142,10 @@ Steps
    Compare the three outputs — notice how each statement narrows the result.
 5. Commit any files you created in this exercise.
 
-✅ Result
+### ✅ Result
 You have shifted from blaming the AI to refining your prompts — and you are in control of the results. You also practiced prompting on a Jira-related task, building familiarity with the domain you will automate starting in Module 08.
 
-Summary
+## Summary
 Remember the scenario from the introduction — you asked the AI to do something, the result was wrong, and your instinct was to type "No, that is not what I meant"? Now you know a better approach. Instead of arguing, you stop, edit your original prompt to be more specific, and regenerate from a clean canvas.
 
 Key takeaways:
@@ -154,7 +154,7 @@ Key takeaways:
 - Never argue. Edit the original prompt and regenerate from a clean context.
 - You are in control of the results. If the output is wrong, the prompt needs refinement, not the model.
 
-Quiz
+## Quiz
 1. Why does arguing with the AI (sending corrections in follow-up messages) make results worse?
    a) Each message adds to the context window, polluting it with failed attempts, negative constraints, and noise — the model sees all of this and gets increasingly confused
    b) The AI deprioritizes users who send multiple corrections and allocates fewer resources to their requests

@@ -1,6 +1,6 @@
-Module 8: Clarifying Requirements Before Start
+# Module 8: Clarifying Requirements Before Start
 
-Background
+### Background
 You have a general idea — "I want to automate my weekly status reports" — but when you sit down to write a prompt, you get stuck after two sentences. You know you need more details, but you cannot think of what to specify. Your head feels empty.
 
 This is the most common blocker for non-developers starting an automation project. The good news: the AI itself can solve this problem. Instead of asking the AI to implement something immediately, you ask it to interview you first. Through that conversation, the AI extracts the details you did not know you had.
@@ -13,8 +13,8 @@ Upon completion of this module, you will be able to:
 - Create a structured Technical Specification (ТЗ) from interview results.
 - Determine when the interview technique is useful versus when to write prompts directly.
 
-Page 1: The Empty Head Problem
-Background
+## Page 1: The Empty Head Problem
+### Background
 When you start writing a detailed prompt, you often reach a point where you run out of things to specify. This happens for three reasons:
 
 1. You are not an expert in everything — you may not know all the technical decisions that need to be made, what edge cases exist, or what best practices apply.
@@ -23,17 +23,17 @@ When you start writing a detailed prompt, you often reach a point where you run 
 
 This is not a personal failure. Professionals across all fields face this — requirements elicitation is an entire discipline in software engineering.
 
-Steps
+### Steps
 1. Open a text editor or your AI chat.
 2. Try writing a detailed prompt for this task: "Automate my weekly status report."
 3. Write as many specific statements as you can.
 4. Notice where you get stuck. What questions arise that you cannot answer? (Format? Source of data? Who receives it? What sections? How often?) Write them down — you will use them later.
 
-✅ Result
+### ✅ Result
 You have experienced the "empty head" problem firsthand and identified questions you could not answer on your own.
 
-Page 2: The Interview Mode Pattern
-Background
+## Page 2: The Interview Mode Pattern
+### Background
 The solution is a single phrase that transforms the AI from an implementer into a requirements analyst:
 
 "Before we start, ask me clarifying questions."
@@ -46,7 +46,7 @@ Why this works:
 - Your answers fill in the missing details naturally.
 - The context window accumulates precise information through dialogue rather than through guessing.
 
-Steps
+### Steps
 1. Open your AI chat in Agent Mode.
 2. Type a minimal prompt:
    "I want to automate my weekly status report for stakeholders. Before we start, ask me clarifying questions."
@@ -55,11 +55,11 @@ Steps
 5. After answering, type: "Are there any more questions?"
 6. Repeat until the AI says it has enough information.
 
-✅ Result
+### ✅ Result
 You have used the interview technique to transform a vague idea into a set of specific requirements.
 
-Page 3: Controlling the Interview
-Background
+## Page 3: Controlling the Interview
+### Background
 You are not just a passive interviewee — you control how the AI asks questions and what it focuses on.
 
 You can specify:
@@ -75,18 +75,18 @@ You can also ask your own questions during the interview:
 
 The AI will answer your question and then return to the interview.
 
-Steps
+### Steps
 1. Start a new chat and try this enhanced prompt:
    "I want to build a Jira dashboard that shows my team's sprint progress. Before we start, interview me to understand the requirements. Ask one question at a time. If I am unsure about an answer, explain the options and recommend one."
 2. Go through the interview process, answering questions and asking your own when needed.
 3. After the interview, ask the AI: "Summarize what we discussed as a requirements document."
 4. Review the summary — it should capture everything you discussed.
 
-✅ Result
+### ✅ Result
 You can control the interview process — setting the pace, focus, and depth of questions.
 
-Page 4: Create Your Technical Specification
-Background
+## Page 4: Create Your Technical Specification
+### Background
 Now you will apply the interview technique to a real task: creating a Technical Specification (ТЗ) for your Jira/Confluence automation project. This ТЗ will be the foundation for all practical work in the remaining modules.
 
 Choose your automation idea (pick one or propose your own):
@@ -95,7 +95,7 @@ Choose your automation idea (pick one or propose your own):
 - Contributor analytics dashboard showing team activity from Jira and Confluence.
 - Meeting notes processor that extracts action items and creates Jira tickets.
 
-Steps
+### Steps
 1. Open your AI chat in Agent Mode.
 2. Write your initial prompt:
    "I want to build [your chosen automation idea]. This is for my role as [your role] managing [team size] people working on [project type]. Before we start building anything, interview me to understand the full requirements. After the interview, create a structured Technical Specification in markdown format. Save it as PROJECT_SPEC.md in the project root."
@@ -104,11 +104,11 @@ Steps
 5. If anything is missing or incorrect, tell the AI directly (e.g., "Add a section about data refresh frequency — it should be daily.").
 6. When you are satisfied, commit the file: use the git workflow from Module 3.
 
-✅ Result
+### ✅ Result
 You have a Technical Specification (ТЗ) for your practical project, committed to your repository.
 
-Page 5: When to Use the Interview Technique
-Background
+## Page 5: When to Use the Interview Technique
+### Background
 The interview technique is not needed for every interaction. Use it strategically:
 
 Use the interview when:
@@ -128,10 +128,10 @@ After the interview — two paths:
 
 For this course, your ТЗ document is the reference artifact. You will revisit and refine it in future modules as you learn new techniques.
 
-✅ Result
+### ✅ Result
 You know when to use the interview technique and when to skip it.
 
-Summary
+## Summary
 Remember the feeling from the introduction — you had a general idea about automating status reports, but after two sentences your head felt empty? Now you have a reliable solution: ask the AI to interview you first. Through that conversation, the AI pulls out the details you did not know you had, and the result is a structured Technical Specification ready for implementation.
 
 Key takeaways:
@@ -142,7 +142,7 @@ Key takeaways:
 - Your ТЗ is now committed to the repository and will evolve as the course progresses.
 
 [MG]: Вот уже начиная отсюда, где студент начинает генерить какие-то файлы по инструкциям, предлагаю переходить от квизов к практическим задачам, формата "загрузите файл такой-то в аудитора, он должен соответствовать критериям таким-то".
-Quiz
+## Quiz
 1. What is the main purpose of the interview technique?
    a) To help you discover and articulate requirements you did not know you had, by letting the AI ask clarifying questions before implementation
    b) To verify that the AI model can handle your specific programming language and framework

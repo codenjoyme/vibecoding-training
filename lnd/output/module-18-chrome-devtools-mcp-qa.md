@@ -1,6 +1,6 @@
-Module 18: AI-Powered QA with Chrome DevTools MCP
+# Module 18: AI-Powered QA with Chrome DevTools MCP
 
-Background
+### Background
 You have a working web application from Module 17. Now you need to test it — but you are not a QA engineer. Manual testing (clicking through every screen, checking every button) is tedious and easy to do incompletely. What if the AI could open your application in a real browser, click buttons, fill forms, take screenshots, and report issues — all by itself? That is exactly what Chrome DevTools MCP enables. It connects your AI assistant to a real Chrome browser, turning the AI into an automated QA tester that can see and interact with your application.
 
 **Learning Objectives**
@@ -11,8 +11,8 @@ Upon completion of this module, you will be able to:
 - Run an AI-driven QA session that navigates pages, fills forms, clicks buttons, and captures screenshots.
 - Create a documented QA report from the AI testing session.
 
-Page 1: What is Chrome DevTools MCP
-Background
+## Page 1: What is Chrome DevTools MCP
+### Background
 MCP (Model Context Protocol) connects your AI assistant to external tools. In Module 13, you learned about MCP in general. Chrome DevTools MCP is a specific MCP server that gives the AI the ability to control a Chrome browser.
 
 What the AI can do through Chrome DevTools MCP:
@@ -26,21 +26,21 @@ What the AI can do through Chrome DevTools MCP:
 
 This means the AI can perform the same manual testing a human would — but faster, more consistently, and without getting bored.
 
-Steps
+### Steps
 1. Open your project in VS Code.
 2. Ask the AI: "What is Chrome DevTools MCP and how does it help with testing web applications?"
 3. Read the response. The key concept: MCP bridges the gap between the AI (which can reason about testing) and the browser (which runs your application).
 
-✅ Result
+### ✅ Result
 You understand what Chrome DevTools MCP does and why it is useful for QA.
 
-Page 2: Installing and Configuring Chrome DevTools MCP
-Background
+## Page 2: Installing and Configuring Chrome DevTools MCP
+### Background
 To use Chrome DevTools MCP, you need: (1) Google Chrome installed on your machine, and (2) the MCP server configured in VS Code.
 
 The Chrome browser must be launched in a special "debugging mode" that allows external tools to connect to it. The MCP server acts as a bridge between the AI assistant and the debugging interface.
 
-Steps
+### Steps
 1. Verify Chrome is installed: ask the AI "Check if Google Chrome is installed on my machine."
 2. If not installed, download it from the official website and install.
 3. Configure Chrome DevTools MCP server in VS Code:
@@ -55,14 +55,14 @@ If the MCP server does not appear, common issues include:
 - Port conflict — another application is using the debugging port.
 - Missing npx or Node.js — the MCP server requires Node.js (installed in Module 16).
 
-✅ Result
+### ✅ Result
 Chrome DevTools MCP is configured, and the AI has access to browser control tools.
 
-Page 3: Running Your First AI-Driven Test
-Background
+## Page 3: Running Your First AI-Driven Test
+### Background
 With the MCP server connected, the AI can now open your application and interact with it. This is your first automated QA session — the AI will navigate your application, check that key elements are present, and report what it finds.
 
-Steps
+### Steps
 1. Start your application from Module 17: ask the AI "Start docker-compose, then start the backend and frontend servers."
 2. Wait for all services to start. The frontend should be accessible at http://localhost:5173 (or similar).
 3. Ask the AI: "Open my application in Chrome and take a screenshot of the main page."
@@ -76,14 +76,14 @@ Steps
 7. The AI will walk through your application page by page, documenting what it sees.
 8. Review the output. This is your first QA report — a visual record of every screen.
 
-✅ Result
+### ✅ Result
 You have run your first AI-driven QA session and have screenshots of every page.
 
-Page 4: Interactive Testing — Forms, Buttons, Error Handling
-Background
+## Page 4: Interactive Testing — Forms, Buttons, Error Handling
+### Background
 Seeing the pages is the first step. Now the AI will interact with your application — filling forms, clicking buttons, and checking that actionable elements work correctly. This is where you catch real bugs: broken buttons, forms that do not submit, error messages that never appear.
 
-Steps
+### Steps
 1. Ask the AI: "Test the main user flow of my application: navigate to the starting page, fill in any required forms, click the submit button, and verify the result. Report any errors."
 2. The AI will:
    - Navigate to the form page.
@@ -99,11 +99,11 @@ Steps
 5. The AI will read the console output and report anything suspicious.
 6. For each bug found and fixed, commit with a descriptive message (e.g., "fix: form validation error on submit").
 
-✅ Result
+### ✅ Result
 You have tested interactive elements, caught and fixed bugs, and verified the fixes.
 
-Page 5: Building QA Documentation and Regression Suite
-Background
+## Page 5: Building QA Documentation and Regression Suite
+### Background
 Testing is only useful if the results are documented. A single-session QA report captures what was tested today. A regression suite is a growing document that accumulates test scenarios across all features — so you can re-run them whenever you change code, ensuring new features do not break existing ones.
 
 Advanced QA patterns to be aware of:
@@ -114,7 +114,7 @@ Advanced QA patterns to be aware of:
 
 A typical development day with this workflow: start the morning by running regression tests, develop a new feature with AI-driven QA mid-day, fix any bugs found, and end the day with a final regression pass before pushing to GitHub.
 
-Steps
+### Steps
 1. Ask the AI: "Create a QA report for my application based on everything we tested in this session. Include: pages visited, elements tested, bugs found, fixes applied, current status. Save to docs/qa-report.md."
 2. Review the report. It should contain:
    - Summary of tested pages.
@@ -126,10 +126,10 @@ Steps
 4. Commit the report: "docs: add QA report from AI-driven testing session."
 5. Push to GitHub.
 
-✅ Result
+### ✅ Result
 You have a documented QA report and a tested, verified prototype ready for the next module.
 
-Summary
+## Summary
 Remember the problem from the introduction — you have a working application but you are not a QA engineer, and manual testing is tedious and incomplete? Chrome DevTools MCP solved that by turning the AI into your QA team.
 
 The AI navigated pages, filled forms, clicked buttons, took screenshots, and read console logs — performing the same work a human tester would, but faster and more consistently. Bugs were caught, fixed, and verified in a single session. The result is a tested prototype with a documented QA report, built without QA expertise.
@@ -143,7 +143,7 @@ Key takeaways:
 
 [MG]: можно попросить скинуть QA report, или test suite сгенеренный, или опять же чат сессию
 
-Quiz
+## Quiz
 1. What does Chrome DevTools MCP enable the AI assistant to do?
    a) It gives the AI direct access to Chrome's internal source code for modification
    b) It connects the AI to a real Chrome browser, allowing it to navigate pages, click elements, fill forms, take screenshots, and read console errors — performing automated QA testing

@@ -1,6 +1,6 @@
-Module 15: Bulk File Processing with AI
+# Module 15: Bulk File Processing with AI
 
-Background
+### Background
 You need to review 20 markdown files for formatting issues. Or extract action items from 50 meeting notes. Or validate 30 configuration files against a checklist. You open the AI chat and paste your prompt — it works beautifully for the first 5 files, then the quality drops. By file 15, the AI is hallucinating information that was never in the source files.
 
 This is called context drift, and it is the core problem of bulk file processing with AI. In this module, you will learn why it happens, experience three different approaches to bulk processing, and implement the most efficient solution that scales to any number of files.
@@ -13,8 +13,8 @@ Upon completion of this module, you will be able to:
 - Implement script-based automation that processes each file in a fresh context.
 - Choose the appropriate approach for a given batch task based on file count, quality requirements, and repeatability.
 
-Page 1: Approach 1 — Single Request (Context Drift)
-Background
+## Page 1: Approach 1 — Single Request (Context Drift)
+### Background
 The simplest approach: ask the AI to process all files at once in a single conversation.
 
 What happens:
@@ -30,17 +30,17 @@ When to use this approach:
 - Acceptable quality loss is tolerable.
 - No automation needed.
 
-Steps
+### Steps
 1. Open your AI chat in Agent Mode.
 2. Ask: "Review all walkthrough.md files in the modules/ directory. For each file, check if it has a Summary section and a Quiz section. List any files that are missing either."
 3. Watch the agent work. If you have many modules, notice how the quality of analysis changes between the first files and the last files.
 4. Note at which point the analysis becomes less detailed or starts repeating generic observations.
 
-✅ Result
+### ✅ Result
 You have experienced context drift firsthand and understand its cause.
 
-Page 2: Approach 2 — Iterative Re-reading (Token Waste)
-Background
+## Page 2: Approach 2 — Iterative Re-reading (Token Waste)
+### Background
 A smarter approach: tell the AI to re-read the instruction for each file, resetting its focus.
 
 The prompt looks like this: "For each file: 1) Re-read the validation rules. 2) Read the file. 3) Check against rules. 4) Report issues. 5) Move to next file. 6) Repeat from step 1."
@@ -56,17 +56,17 @@ When to use this approach:
 - One-time operation (cost is acceptable).
 - No time to write an automation script.
 
-Steps
+### Steps
 1. Create a validation rules file (e.g., validation-rules.md) with 5-6 specific checks for any file type you work with.
 2. Ask the AI to process files iteratively with re-reading: "For each walkthrough.md in modules/: 1) Read validation-rules.md. 2) Read the file. 3) Check against rules. 4) Report issues. 5) Move to next file."
 3. Compare the quality of analysis with Approach 1. Is it more consistent across files?
 4. Think about the token cost: the instruction was read N times instead of once.
 
-✅ Result
+### ✅ Result
 You understand the tradeoff between quality and token cost in iterative processing.
 
-Page 3: Approach 3 — Script-Based Automation (Best Practice)
-Background
+## Page 3: Approach 3 — Script-Based Automation (Best Practice)
+### Background
 The optimal approach: write a script that calls the AI separately for each file with a fresh context. Each file is processed independently — no accumulated conversation history, no context drift, no token waste from re-reading.
 
 The pattern:
@@ -82,7 +82,7 @@ Why this wins:
 - Scalable — works for 100+ files.
 - Auditable — each result is saved in a separate file for review.
 
-Steps
+### Steps
 1. If you have GitHub Copilot CLI installed (or another AI CLI tool), test it with a single file:
    "copilot -p '@validation-rules.md Validate this file: @modules/010-installing-vscode-github-copilot/walkthrough.md' --allow-all -s"
 2. If you do not have a CLI tool, create a simple Python script that:
@@ -92,11 +92,11 @@ Steps
 3. Run the script on your target files.
 4. Compare results with Approach 1 and 2: is the quality consistent across all files?
 
-✅ Result
+### ✅ Result
 You can implement script-based bulk processing for consistent, scalable results.
 
-Page 4: Comparison and Decision Framework
-Background
+## Page 4: Comparison and Decision Framework
+### Background
 Here is a comparison of the three approaches:
 
 | Aspect | Single Request | Iterative Re-read | Script Automation |
@@ -115,23 +115,23 @@ Decision framework:
 
 For your Jira/Confluence project, any batch operation (processing meeting notes, validating documentation, generating reports from multiple data sources) should use Approach 3.
 
-Steps
+### Steps
 1. Think about the batch operations in your BACKLOG.md. Which ones involve processing multiple files or data items?
 2. For each, decide which approach is most appropriate based on the comparison table.
 3. Document your decision in BACKLOG.md (add a note: "Approach 1/2/3" next to relevant tasks).
 4. Commit the updated file.
 
-✅ Result
+### ✅ Result
 You have a decision framework for choosing the right bulk processing approach.
 
-Page 5: Practical Application — Process Project Files
-Background
+## Page 5: Practical Application — Process Project Files
+### Background
 Apply the best approach to a real task in your project. Choose one of these scenarios (or create your own):
 - Process all instruction files in instructions/ to verify they follow the Single Responsibility Principle.
 - Analyze meeting notes or project documents to extract action items.
 - Validate all markdown files in your project for consistent formatting.
 
-Steps
+### Steps
 1. Define the task: what files, what check, what output format.
 2. Create a validation or processing instruction file (e.g., instructions/validate-instructions.agent.md).
 3. If using Approach 3 (recommended), create a script that processes each file individually.
@@ -140,10 +140,10 @@ Steps
 6. If any results are inconsistent, review the instruction file and refine it.
 7. Commit the script and results.
 
-✅ Result
+### ✅ Result
 You have applied bulk processing to a real project task and can reuse the pattern for future batch operations.
 
-Summary
+## Summary
 Remember the scenario from the introduction — 20 markdown files to review, and by file 15 the AI is hallucinating content that was never there? That is context drift in action, and now you have three tools to handle it.
 
 Single-request processing works for quick checks on 3-5 files. Iterative re-reading improves consistency but multiplies token cost. Script-based automation eliminates context drift entirely by giving each file a fresh context window — making it the best choice for repeatable operations at scale.
@@ -156,7 +156,7 @@ Key takeaways:
 - Use the decision framework to choose the right approach for each batch task.
 
 [MG]: Снова таки, можно попрсить сделать анализ файлов каких-то заранее загатовленных, в папочке условно module-15-task, описать ожидаемый результат для практического занятия, и проверить этот ожидаемый результат как итог чат сессии.
-Quiz
+## Quiz
 1. What is context drift and why does it matter for bulk file processing?
    a) The AI model gradually shifts its interpretation of instructions as conversation history accumulates, reducing accuracy for later files
    b) As conversation history grows, the AI's attention to original instructions decays — causing quality degradation for later files in a long conversation

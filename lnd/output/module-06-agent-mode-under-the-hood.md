@@ -1,6 +1,6 @@
-Module 6: Agent Mode — How AI Works Under the Hood
+# Module 6: Agent Mode — How AI Works Under the Hood
 
-Background
+### Background
 When you click "Send" in your AI chat, what actually happens? Most people treat AI assistants as magic — type a question, get an answer. But understanding the mechanics behind agent mode transforms you from a passive user into someone who can predict, troubleshoot, and control AI behavior.
 
 In this module, you will build a mental model of how AI coding assistants work behind the scenes: how text is generated, who the key players are, and how the agent orchestrates tools on your behalf. This knowledge is the foundation for everything that follows in the course.
@@ -11,8 +11,8 @@ Upon completion of this module, you will be able to:
 - Trace the orchestration flow from prompt to tool execution to response.
 - Explain why the AI model's context (the canvas) contains more information than what you see in the chat.
 
-Page 1: How AI Generates Text — Token by Token
-Background
+## Page 1: How AI Generates Text — Token by Token
+### Background
 AI models are sophisticated text prediction engines. They do not "think" or "understand" the way humans do — they predict the most likely next word based on everything they have seen so far. This single concept explains most AI behavior you will observe.
 
 Key concepts:
@@ -22,17 +22,17 @@ Key concepts:
 - The model was trained on massive text datasets — code, documentation, books, articles — and learned patterns of how words and concepts relate.
 - Temperature (randomness) means the same prompt can produce slightly different outputs each time. All outputs are valid — just varied in expression.
 
-Steps
+### Steps
 1. Open your AI chat (Copilot Chat or Cursor Chat).
 2. Type the same simple prompt twice, for example: "Write a one-sentence definition of project management."
 3. Compare the two responses. Notice they say the same thing in different words — this is temperature at work.
 4. Try a very specific prompt: "Define project management in exactly 10 words." Notice the variability is much lower because you constrained the output.
 
-✅ Result
+### ✅ Result
 You understand that AI generates text token by token and that temperature causes natural variation in responses.
 
-Page 2: The Four Players in Agent Mode
-Background
+## Page 2: The Four Players in Agent Mode
+### Background
 When you use AI in Agent Mode, four participants collaborate behind the scenes. Understanding their roles helps you predict behavior and troubleshoot problems.
 
 The four players:
@@ -47,17 +47,17 @@ The shared canvas (context window):
 - You see only the high-level summary — technical details (tool calls, system prompts) are hidden from you.
 - The Agent System manages who writes what and when.
 
-Steps
+### Steps
 1. Open Agent Mode in your AI chat.
 2. Ask the AI to create a simple file: "Create a file called hello.txt with the text 'Hello World' inside."
 3. Watch the response. From your perspective — you asked, and a file appeared.
 4. Now think about what happened behind the scenes: You wrote on the canvas → Agent System added tool descriptions → Model generated a tool call → Agent System executed it → Model confirmed to you.
 
-✅ Result
+### ✅ Result
 You can name the four players (User, Model, Agent System, Tools) and explain how they interact on the shared canvas.
 
-Page 3: How the Agent Orchestrates Tool Use
-Background
+## Page 3: How the Agent Orchestrates Tool Use
+### Background
 The magic of agent mode is that the AI can do real things — create files, run commands, search code — not just chat. Here is the step-by-step orchestration process:
 
 1. You write a prompt (goes on the canvas).
@@ -72,17 +72,17 @@ From your perspective: you asked for a file, and it appeared.
 From the Model's perspective: it suggested using a tool, saw it worked, and confirmed to you.
 From the Agent System's perspective: it coordinated between you, the Model, and the tools.
 
-Steps
+### Steps
 1. Give the AI a multi-step prompt: "Create a folder called 'calculator', then inside it create two files: operations.py with add and subtract functions, and main.py that imports operations and uses both functions."
 2. Watch the agent work — notice multiple status updates as it makes several tool calls in sequence.
 3. Each step follows the pattern: Model suggests → Agent executes → Model sees result → Model continues.
 4. Verify the folder and files were created correctly.
 
-✅ Result
+### ✅ Result
 You can explain the orchestration process: prompt → hidden context → tool call → execution → result → response.
 
-Page 4: What the Model Sees vs What You See
-Background
+## Page 4: What the Model Sees vs What You See
+### Background
 One of the most important insights is the difference between what appears on your screen and what the AI model works with internally. The canvas contains far more information than you see.
 
 What you see (simplified):
@@ -99,16 +99,16 @@ What the model sees (full canvas):
 
 The Agent System manages this entire flow: injecting tool descriptions, detecting tool calls, executing tools, filtering what you see, and passing control between participants.
 
-Steps
+### Steps
 1. Ask the AI a question about a file in your workspace: "What files are in the current directory?"
 2. The AI will use a tool to list files, but you will only see the summary answer.
 3. Reflect: the model made a tool call, received a result, and then summarized it for you — all on the canvas you cannot see directly.
 
-✅ Result
+### ✅ Result
 You understand that the AI model works with a richer context than what appears in your chat window.
 
-Page 5: Why This Matters for Your Work
-Background
+## Page 5: Why This Matters for Your Work
+### Background
 Understanding the agent architecture has practical consequences for how effectively you use AI assistants:
 
 1. The Model does not "think" — it generates text. What looks like reasoning is pattern matching from training data. This explains unexpected choices and why specificity matters.
@@ -121,16 +121,16 @@ Agent Mode can: read and write files in your workspace, search for code patterns
 
 Agent Mode cannot: access files outside your workspace without permission, run commands that require elevated privileges, modify system settings, access the internet (unless you configure specific tools like MCP), or remember previous conversations — each session starts fresh.
 
-Steps
+### Steps
 1. Think about a recent AI interaction that surprised you (unexpected result, slow response, or inconsistent behavior).
 2. Using what you learned in this module, identify which mechanism explains that behavior (temperature? sequential tool calls? context overload?).
 3. Try a project-relevant exercise: ask the AI in Agent Mode — "Create a file called PROJECT_IDEAS.md with 3 possible Jira/Confluence automation ideas for a manager. For each idea, describe the problem it solves and what data it needs." Watch the agent mode cycle as it creates the file — notice the tool calls, the sequential generation, the canvas at work.
 4. Commit any files you created during this module's exercises using the git workflow from Module 3.
 
-✅ Result
+### ✅ Result
 You have a mental model of AI agent behavior that helps you predict and troubleshoot issues. You also have a PROJECT_IDEAS.md file that will feed into your project planning in Module 08.
 
-Summary
+## Summary
 So — what actually happens when you click "Send"? Now you know. Your prompt lands on a shared canvas, the Agent System injects tool descriptions, the model predicts one token at a time, and when it "decides" a tool is needed, the Agent System intercepts and executes it. The result goes back to the canvas, and the model continues generating its response to you.
 
 Key takeaways:
@@ -140,7 +140,7 @@ Key takeaways:
 - Temperature causes natural variation in responses — this is normal, not a bug.
 - Understanding these mechanics makes you a more effective AI user.
 
-Quiz
+## Quiz
 1. What is the role of the Agent System in agent mode?
    a) It generates the text responses you see in the chat
    b) It orchestrates communication between you, the AI model, and the tools — intercepting tool calls and executing them

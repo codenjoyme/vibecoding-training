@@ -1,6 +1,6 @@
-Module 5: Visual Context with Screenshots
+# Module 5: Visual Context with Screenshots
 
-Background
+### Background
 Have you ever tried to describe a software interface to a colleague over the phone? "Click the button — no, not that one, the blue one in the top right, next to the gear icon..." It is frustrating because words are imprecise when describing visual interfaces.
 
 AI assistants face the same problem. They are trained on data up to a certain date, and software interfaces change constantly. When the AI suggests a menu item that no longer exists or a button that has moved, a single screenshot resolves the confusion instantly.
@@ -13,8 +13,8 @@ Upon completion of this module, you will be able to:
 - Use screenshot-assisted guidance to navigate unfamiliar software interfaces.
 - Create and securely store API tokens for Jira and Confluence.
 
-Page 1: Why Visual Context Matters
-Background
+## Page 1: Why Visual Context Matters
+### Background
 AI models rely on their training data to describe software interfaces, but that data may not reflect the latest UI updates. Screenshots bridge this gap by showing the AI exactly what you see on your screen right now.
 
 Common scenarios where screenshots help:
@@ -26,11 +26,11 @@ Common scenarios where screenshots help:
 
 One image conveys more than paragraphs of text — and it works across language barriers.
 
-✅ Result
+### ✅ Result
 You understand when and why to share screenshots with your AI assistant.
 
-Page 2: Taking Screenshots on Your Operating System
-Background
+## Page 2: Taking Screenshots on Your Operating System
+### Background
 Every operating system provides built-in tools for capturing screenshots. You do not need to install any additional software. Choose the method that works best for you — the only requirement is that you can paste the captured image into the AI chat.
 
 Windows:
@@ -49,7 +49,7 @@ Linux:
 - Selected area: Press Shift + PrtScn — drag to select area.
 - Active window: Press Alt + PrtScn.
 
-Steps
+### Steps
 1. Practice taking a screenshot now using your preferred method.
 2. Open any application — for example, your web browser.
 3. Capture a screenshot of the browser window.
@@ -57,14 +57,14 @@ Steps
 5. Click in the message input field and paste the screenshot (Ctrl+V on Windows/Linux, Cmd+V on macOS).
 6. You should see the image appear as a thumbnail in the input field.
 
-✅ Result
+### ✅ Result
 You can take a screenshot and paste it into the AI chat.
 
-Page 3: Practical Exercise — Browser Developer Console
-Background
+## Page 3: Practical Exercise — Browser Developer Console
+### Background
 To practice the screenshot workflow, you will complete a real task: opening the browser Developer Console and writing "Hello World." This task varies between browsers (Chrome, Firefox, Edge, Safari), making it a perfect case for screenshot-assisted guidance — the AI can see which browser you are using and adapt its instructions.
 
-Steps
+### Steps
 1. Open any web browser and navigate to any website (for example, https://www.google.com).
 2. Take a screenshot of the entire browser window.
 3. Open your AI chat and paste the screenshot.
@@ -79,16 +79,16 @@ Steps
 9. Follow the AI's instructions. Typically, you will type console.log("Hello World") and press Enter.
 10. Verify: "Hello World" appears in the console output.
 
-✅ Result
+### ✅ Result
 You completed a browser task using screenshot-assisted AI guidance. The AI adapted its instructions to your specific browser.
 
-Page 4: Create API Tokens for Jira and Confluence
-Background
+## Page 4: Create API Tokens for Jira and Confluence
+### Background
 For the practical project running through this course, you will eventually connect your AI assistant to Jira and/or Confluence. Both services require API tokens for programmatic access. Creating these tokens involves navigating admin interfaces — exactly the kind of task where screenshots help, since Atlassian frequently updates their UI.
 
 If you do not have access to Jira/Confluence yet, you can skip this exercise and return to it when access becomes available. The screenshot technique itself is the skill being practiced.
 
-Steps
+### Steps
 [MG]: Нужно рассмортеть вариант с EPAM Jira, например если человек уже использовал бесплатную атлассиан Jira для других проектов. Либо указать что если у Вас уже использовалась она, то зарегайте новую временную почту чисто для обучения.
 1. Open your browser and navigate to your Atlassian account settings (https://id.atlassian.com/manage-profile/security/api-tokens).
 2. Take a screenshot of the page you see.
@@ -100,11 +100,11 @@ Steps
 
 Important: API tokens are sensitive credentials. Never share them in screenshots, chat histories, or code repositories.
 
-✅ Result
+### ✅ Result
 You have API tokens for Jira and/or Confluence stored securely. You will use them in later modules for automation.
 
-Page 5: When to Use Screenshots vs Text
-Background
+## Page 5: When to Use Screenshots vs Text
+### Background
 Not every interaction needs a screenshot. Using them selectively keeps your conversations efficient and ensures the AI focuses on the right information.
 
 Use screenshots when:
@@ -125,10 +125,10 @@ Combine both when:
 - Implementing UI: show a design mockup + ask for code.
 - Following a tutorial: show the tutorial page + your current state.
 
-✅ Result
+### ✅ Result
 You have a clear decision framework for when screenshots add value to AI interactions.
 
-Summary
+## Summary
 Remember the phone-call scenario from the introduction — "click the button, no, not that one, the blue one in the top right"? You now have a better way. By sharing a screenshot, you skip the guessing game and let the AI see exactly what you see.
 
 Key takeaways:
@@ -137,7 +137,7 @@ Key takeaways:
 - Use screenshots for UI tasks, error messages, and unfamiliar interfaces. Use text for conceptual questions and code.
 - API tokens are sensitive — store them securely and never commit them to Git.
 
-Quiz
+## Quiz
 1. When is a screenshot more effective than a text description when working with an AI assistant?
    a) When the software interface looks different from what the AI expects, or when you cannot find a UI element the AI describes
    b) When asking the AI to explain the difference between two programming concepts

@@ -1,6 +1,6 @@
-Module 20: DIAL API Key and cURL Access
+# Module 20: DIAL API Key and cURL Access
 
-Background
+### Background
 Throughout this course, you have used AI through graphical interfaces — VS Code, GitHub, Chrome. But AI models can also be accessed directly through code, using simple HTTP requests. EPAM AI DIAL is an internal platform that gives you API access to multiple AI models (GPT-4o, Claude, Gemini) through a single endpoint. In this final module, you will request an API key, make your first programmatic call to an AI model using cURL, and understand the parameters that control model behavior. This opens the door to custom automation that goes beyond what any IDE plugin can offer.
 
 **Learning Objectives**
@@ -11,8 +11,8 @@ Upon completion of this module, you will be able to:
 - Make a cURL request to an AI model and interpret the JSON response.
 - Adjust API parameters (temperature, max_tokens) to control model behavior for different use cases.
 
-Page 1: What is DIAL and Why Programmatic Access Matters
-Background
+## Page 1: What is DIAL and Why Programmatic Access Matters
+### Background
 EPAM AI DIAL is EPAM's internal AI gateway. It provides a unified API interface to multiple AI providers — OpenAI (GPT), Anthropic (Claude), and Google (Gemini) — through a single endpoint and a single API key.
 
 **Why would a manager need programmatic access?**
@@ -28,20 +28,20 @@ EPAM AI DIAL is EPAM's internal AI gateway. It provides a unified API interface 
 
 **What is a REST API?** A way for programs to talk to servers using HTTP. You send a request (your question) and receive a response (the AI's answer) — all in structured JSON format.
 
-Steps
+### Steps
 1. Ask the AI: "Explain what EPAM AI DIAL is, what a REST API is, and what cURL does — in simple terms for someone who has never programmed."
 2. Read the response. The key concepts: DIAL = AI gateway, API key = your identity, cURL = command-line HTTP client, REST API = structured request/response protocol.
 
-✅ Result
+### ✅ Result
 You understand what DIAL is, why you need an API key, and how cURL sends requests.
 
-Page 2: Requesting Your API Key
-Background
+## Page 2: Requesting Your API Key
+### Background
 To access DIAL programmatically, you need an API key. The key is requested through EPAM's support portal and is typically approved within 1-3 business days.
 
 **Security warning:** Your API key is like a password. Anyone with your key can make requests on your behalf, consume your quota, and all actions will be logged under your name. Never commit API keys to Git repositories, share them in chats, or store them in plain text files accessible to others.
 
-Steps
+### Steps
 1. Open your browser and navigate to https://chat.lab.epam.com/
 2. Scroll to the bottom of the page.
 3. Find and click the **"Request API key"** link in the footer.
@@ -55,11 +55,11 @@ Steps
    - The endpoint URL: `https://ai-proxy.lab.epam.com`
 8. Store the API key securely. Ask the AI: "What is the safest way to store an API key on my machine for local testing?" (Typical answer: environment variable, not a text file.)
 
-✅ Result
+### ✅ Result
 You have submitted the API key request and understand how to store the key securely.
 
-Page 3: Making Your First cURL Request
-Background
+## Page 3: Making Your First cURL Request
+### Background
 With the API key in hand, you can now send a request to an AI model. The request includes: (1) the endpoint URL with the model name, (2) your API key in the headers, and (3) your prompt in the request body.
 
 Available models include:
@@ -67,7 +67,7 @@ Available models include:
 - **Anthropic:** claude-sonnet-4, claude-3-7-sonnet
 - **Google:** gemini-2.5-pro, gemini-2.5-flash
 
-Steps
+### Steps
 1. Open PowerShell (Windows) or Terminal (macOS/Linux).
 2. Verify cURL is installed: `curl --version`. You should see version information.
 3. Set your API key as an environment variable (so you do not paste it repeatedly):
@@ -87,11 +87,11 @@ Steps
    - **Model not found:** Check the model name in the URL — it must match an available deployment.
 7. Try a different model: replace the model name in the URL with `claude-sonnet-4@20250514` and send the same prompt. Compare the responses.
 
-✅ Result
+### ✅ Result
 You have made your first programmatic AI request and received a response.
 
-Page 4: Understanding API Parameters
-Background
+## Page 4: Understanding API Parameters
+### Background
 The basic request sends only a prompt. But DIAL API supports parameters that control how the model generates its response. The most important ones:
 
 - **temperature** (0.0–2.0, default 1.0): Controls creativity. Low values (0.0–0.3) = deterministic, factual. High values (0.9–2.0) = creative, unpredictable. Use low for data analysis, high for brainstorming.
@@ -99,7 +99,7 @@ The basic request sends only a prompt. But DIAL API supports parameters that con
 - **stream** (true/false): If true, the response arrives word by word in real time. If false, the full response arrives at once. Use false for scripts, true for chat interfaces.
 - **n**: Number of response variations to generate. Default is 1. Set to 3 to get multiple options (useful for creative tasks).
 
-Steps
+### Steps
 1. Send a request with low temperature for a factual answer:
    ```json
    {"messages": [{"role": "user", "content": "What is the capital of France?"}], "temperature": 0.0}
@@ -109,14 +109,14 @@ Steps
 4. Try `n: 3` to get three different response variations for the same prompt.
 5. Document your observations: which parameter settings make sense for your project use cases?
 
-✅ Result
+### ✅ Result
 You understand the main API parameters and how they affect model behavior.
 
-Page 5: Practical Application — Test DIAL for Your Project
-Background
+## Page 5: Practical Application — Test DIAL for Your Project
+### Background
 Now connect what you learned to your Jira/Confluence automation project. DIAL API can power custom automation that goes beyond the IDE — for example, a script that reads Jira issue descriptions and generates summary reports, or a batch processor that classifies customer feedback.
 
-Steps
+### Steps
 1. Think about one task from your project backlog that could benefit from direct API access. Examples:
    - Summarize all issues in a Jira sprint using AI.
    - Classify a list of feedback items by category.
@@ -130,10 +130,10 @@ Steps
 5. Save your working cURL command as a script file (e.g., `work/170-task/test-dial.ps1`).
 6. Commit the script: "feat: DIAL API test script for project automation."
 
-✅ Result
+### ✅ Result
 You have tested DIAL API access for a practical project task and have a reusable script.
 
-Summary
+## Summary
 Remember how, at the start of this module, your entire AI experience happened through graphical interfaces — clicking buttons in VS Code, approving tool calls in chat, reviewing PRs on GitHub? Now you can go beyond those interfaces and talk to AI models directly through code.
 
 With a DIAL API key and a simple cURL command, you have access to GPT, Claude, and Gemini through a single endpoint. Parameters like temperature and max_tokens give you precise control over how the model responds. Combined with everything you learned in this course — prompting, instructions, skills, MCP, prototyping, QA, delegation — you now have a full toolkit for leveraging AI in your management workflows.
@@ -148,7 +148,7 @@ Key takeaways:
 
 [MG]: Давай этот весь модуль сделаем Optional, далеко не каждому он понадобится.
 
-Quiz
+## Quiz
 1. What is the purpose of EPAM AI DIAL?
    a) It is a proxy that routes requests to the cheapest available AI provider to minimize costs
    b) It is an internal AI gateway that provides unified API access to multiple AI providers (OpenAI, Anthropic, Google) through a single endpoint and API key

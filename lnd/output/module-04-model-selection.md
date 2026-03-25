@@ -1,6 +1,6 @@
-Module 4: Model Selection
+# Module 4: Model Selection
 
-Background
+### Background
 Not all AI models are created equal — and not all tasks require the most powerful model. Choosing the right AI model is like choosing the right tool from a toolbox: a sledgehammer works for demolition, but you need a screwdriver for assembling furniture.
 
 In this module, you will learn how AI model pricing works, how to select and switch models in your IDE, and a practical strategy for finding your go-to model. By the end, you will have your AI assistant configured with the optimal model and mode for productive work.
@@ -11,11 +11,11 @@ Upon completion of this module, you will be able to:
 - Enable Agent Mode and verify it works through practical tests.
 - Apply a consistent model selection strategy instead of switching randomly.
 
-Page 1: Understanding Model Types and Pricing
-Background
+## Page 1: Understanding Model Types and Pricing
+### Background
 AI coding assistants offer multiple models with different capabilities and costs. Most IDEs use a tier system where each model interaction consumes a certain number of "premium requests" from your monthly quota. Understanding this system helps you make informed choices without worrying about unexpected costs.
 
-Steps
+### Steps
 1. Open your AI coding assistant (VS Code with Copilot or Cursor).
 2. Navigate to Settings and find the Models or AI section.
 3. Review the available models — you will typically see labels like:
@@ -25,14 +25,14 @@ Steps
 4. The logic: higher multipliers consume quota faster but provide better quality responses.
 5. Check your account settings to see your current premium request balance.
 
-✅ Result
+### ✅ Result
 You can see the available models and understand the pricing tiers.
 
-Page 2: Select Your Primary Model
-Background
+## Page 2: Select Your Primary Model
+### Background
 With many models available, it is tempting to switch constantly. Research shows this is counterproductive — each model has its own strengths and quirks, and you only learn them through sustained use. The recommended strategy is to start with the best available model and switch only when you encounter a real limitation.
 
-Steps
+### Steps
 1. Open the Command Palette in your IDE:
    - VS Code: Open the Copilot menu or search for "Copilot: Chat Model."
    - Cursor: Go to Settings > Models.
@@ -49,14 +49,14 @@ The practical strategy:
 - Try the next best model, evaluate, and stay or move on.
 - Most users settle on one or two models for 90% of their work.
 
-✅ Result
+### ✅ Result
 Your AI assistant is configured with Claude Sonnet 4.5 (or your preferred model).
 
-Page 3: Enable Agent Mode
-Background
+## Page 3: Enable Agent Mode
+### Background
 Your AI assistant can operate in two modes. Ask Mode is simple Q&A — it answers questions but does not take actions. Agent Mode is autonomous — it can read files, search your codebase, create files, run commands, and perform multi-step tasks. For this course, Agent Mode is essential because you will delegate real tasks to the AI.
 
-Steps
+### Steps
 1. In your AI assistant settings, look for mode selection (usually in the chat panel or settings).
 2. Enable Agent Mode.
 3. Verify by testing all three capabilities:
@@ -72,11 +72,11 @@ Steps
 
 As a practical thread exercise, try a project-related prompt: ask your AI assistant to "Draft a list of Jira issue types that a project management automation toolkit might need." Compare the response quality — this gives you a feel for how the model handles domain-specific requests that you will encounter throughout this course.
 
-✅ Result
+### ✅ Result
 Agent Mode is enabled. Your AI assistant can answer questions, generate code, and interact with your file system autonomously.
 
-Page 4: Understanding Real Costs
-Background
+## Page 4: Understanding Real Costs
+### Background
 Cost anxiety is the most common barrier to using AI coding assistants effectively. Knowing the real numbers helps you focus on productivity instead of watching a usage meter.
 
 Real-world example from intensive usage:
@@ -87,10 +87,10 @@ Real-world example from intensive usage:
 
 Most learners will not exhaust their free premium requests during this course. The productivity gain far exceeds any cost.
 
-✅ Result
+### ✅ Result
 You understand real-world cost expectations and can focus on learning without cost anxiety.
 
-Summary
+## Summary
 Remember the toolbox analogy from the introduction? You now have the right tool selected and ready. You configured your AI assistant with Claude Sonnet 4.5 — the screwdriver for most of your daily coding tasks — and enabled Agent Mode so the AI can work autonomously with your files and codebase.
 
 Key takeaways:
@@ -98,7 +98,7 @@ Key takeaways:
 - Agent Mode is more powerful than Ask Mode — it can read files, create code, and perform multi-step tasks autonomously.
 - Real costs are modest relative to productivity gains — do not let cost anxiety slow your learning.
 
-Quiz
+## Quiz
 1. What is the recommended strategy for selecting an AI model?
    a) Switch models for every new task to find the best match
    b) Start with the best available model, use it consistently, and switch only when you encounter a real limitation
