@@ -90,6 +90,7 @@ After completing all modules, participants will build a complete application tha
 1. [AI for Data Analysis & Reporting](modules/200-ai-data-analysis-reporting/about.md) - Analyse CSV data and generate executive reports through AI conversation
 1. [AI Study Buddy — Learning New Tech](modules/220-ai-study-buddy-learning-new-tech/about.md) - Use AI as a structured learning partner to rapidly understand any unfamiliar technology through the Feynman method
 1. [Creating Training Modules from Articles](modules/230-creating-training-modules-from-articles/about.md) - Transform any article or resource into a structured, course-quality training module using AI agent
+1. [Engineering Career Evolution with AI](modules/240-engineering-career-evolution-with-ai/about.md) - Reframe AI disruption as a career accelerator and build a personal evolution plan from coder to agent team lead
 1. [Export Chat Session](modules/250-export-chat-session/about.md) - Extract, preserve, and share AI chat sessions for knowledge retention and team collaboration
 1. [DMtools — Agent Skill & Automation Catalog](modules/300-dmtools-agent-skill/about.md) - Install the DMtools agent skill, explore 152+ tools across 16 integrations, and choose your first automation task
 1. [OpenClaw — AI Personal Assistant Platform](modules/350-openclaw-ai-personal-assistant/about.md) - Install OpenClaw, connect an AI model, and chat with your assistant from browser, Telegram, or any messaging app
