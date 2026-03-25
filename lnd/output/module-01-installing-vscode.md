@@ -1,9 +1,11 @@
-Module 1: Installing VS Code + GitHub Copilot
+# Module 1: Installing VS Code + GitHub Copilot
 
-Background
+### Background
 According to GitHub's 2025 developer survey, developers using AI coding assistants report a 55% increase in productivity — and that advantage is no longer exclusive to developers. As a manager, you can leverage the same tools to automate repetitive tasks, generate reports, and build internal utilities — without writing code from scratch.
 
 In this module, you will install Visual Studio Code (VS Code) — a free, lightweight code editor — and set up GitHub Copilot, an AI assistant that lives inside the editor. By the end, you will have a working AI-powered workspace ready for the rest of the course.
+
+![VSCode IDE with Github Copilot](image.png)
 
 Although VS Code was originally designed for programmers, it is equally powerful for working with any text-based content: documents, reports, data files, configuration files, meeting notes, and other artifacts. Anything that is text — or can be converted to text — becomes material that the IDE and the AI agent can read, search, transform, and generate. And when you need to process non-text files (PDFs, spreadsheets, images), you can write small scripts — which are also just text — and let the agent help you create and run them. In this course, the workspace is your universal workbench for all kinds of content, not just code.
 
@@ -15,30 +17,30 @@ Think of VS Code as your workbench, and GitHub Copilot as an always-available co
 - Authorize GitHub Copilot inside VS Code and verify the connection.
 - Create a dedicated workspace folder and interact with Copilot Chat.
 
-Page 1: Install Visual Studio Code
-Background
+## Page 1: Install Visual Studio Code
+### Background
 Visual Studio Code is a free editor created by Microsoft. It runs on Windows, macOS, and Linux. Unlike heavyweight development environments, VS Code is lightweight, fast, and supports thousands of extensions — including GitHub Copilot. It is the most popular code editor in the world and the primary tool you will use throughout this course.
 
-Steps
-1. Open your web browser and navigate to https://code.visualstudio.com/.
+### Steps
+1. Open your web browser and navigate to [https://code.visualstudio.com](https://code.visualstudio.com).
 2. Click the Download button for your operating system (Windows, macOS, or Linux).
 3. Run the downloaded installer:
-   - Windows: Run the .exe file and follow the installation wizard. Accept default settings.
-   - macOS: Open the .dmg file and drag VS Code to the Applications folder.
-   - Linux: Follow the distribution-specific instructions on the download page.
+   - `Windows`: Run the `.exe` file and follow the installation wizard. Accept default settings.
+   - `macOS`: Open the .dmg file and drag VS Code to the Applications folder.
+   - `Linux`: Follow the distribution-specific instructions on the download page.
 4. Launch Visual Studio Code after the installation completes.
 5. You should see the VS Code Welcome tab — a screen with quick links and recent project shortcuts.
 
-✅ Result
+### ✅ Result
 VS Code is installed and running. You can see the Welcome tab.
 
-Page 2: Create a GitHub Account and Enable Copilot
-Background
+## Page 2: Create a GitHub Account and Enable Copilot
+### Background
 GitHub Copilot is an AI-powered coding assistant built by GitHub (a Microsoft company). It integrates directly into VS Code and can generate code, answer questions, explain concepts, and perform multi-step tasks autonomously. To use it, you need a GitHub account with an active Copilot subscription.
 
 There are two paths depending on whether you are using a personal account or an EPAM corporate account.
 
-Steps (Personal Use — Part A)
+### Steps (Personal Use — Part A)
 1. Open your browser and go to https://github.com/.
 2. If you do not have an account, click Sign up in the top-right corner.
 3. Enter your email, create a password, choose a username, and complete verification.
@@ -49,7 +51,7 @@ Steps (Personal Use — Part A)
 8. Complete the subscription process.
 9. Verify that Copilot is enabled in your account settings under the Copilot section.
 
-Steps (EPAM Employees — Part B)
+### Steps (EPAM Employees — Part B)
 1. Open the EPAM Support portal: https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses.
 2. In the Software Licenses request form, select GitHub Copilot from the available options.
 3. Choose the purpose: Education and Internal project only (for learning) or Project needs (for client work — requires manager approval).
@@ -59,14 +61,14 @@ Steps (EPAM Employees — Part B)
 7. Go to https://github.com/ and sign in with your EPAM GitHub account. You will be redirected to a Microsoft SSO page — enter your EPAM credentials there.
 8. After authentication, verify that Copilot is enabled in your GitHub account settings.
 
-✅ Result
+### ✅ Result
 You have a GitHub account with an active Copilot subscription.
 
-Page 3: Authorize GitHub Copilot in VS Code
-Background
+## Page 3: Authorize GitHub Copilot in VS Code
+### Background
 With your GitHub account and Copilot subscription ready, the next step is to connect VS Code to GitHub so the AI assistant can operate inside the editor.
 
-Steps
+### Steps
 1. In VS Code, look for the Copilot icon in the bottom status bar. Click it (or wait for the sign-in prompt to appear automatically).
 2. Click Sign in to GitHub.
 3. Your browser will open — sign in to your GitHub account if prompted.
@@ -74,14 +76,14 @@ Steps
 5. Return to VS Code. You should see a confirmation that the sign-in was successful.
 6. Check the Copilot icon in the bottom-right status bar — it should appear active with no error indicators.
 
-✅ Result
+### ✅ Result
 GitHub Copilot is authorized and active inside VS Code.
 
-Page 4: Create Your First Workspace
-Background
+## Page 4: Create Your First Workspace
+### Background
 A workspace is a folder on your computer that VS Code opens as a project. All files, settings, and AI interactions are scoped to this folder. Throughout the course, you will use a dedicated workspace folder for all hands-on exercises.
 
-Steps
+### Steps
 1. Open File Explorer (Windows) or Finder (macOS).
 2. Navigate to your C: drive (Windows) or home directory (macOS/Linux).
 3. Create a folder named workspace:
@@ -94,14 +96,14 @@ Steps
 6. Navigate to hello-genai and click Select Folder.
 7. If prompted "Do you trust the authors of the files in this folder?", click Yes, I trust the authors.
 
-✅ Result
+### ✅ Result
 VS Code opens the hello-genai folder as your workspace. You can see the folder name in the Explorer panel on the left.
 
-Page 5: Test GitHub Copilot Chat
-Background
+## Page 5: Test GitHub Copilot Chat
+### Background
 The quickest way to verify that everything works is to have a short conversation with Copilot. The Chat panel is where you will interact with the AI assistant throughout the entire course — asking questions, requesting code, and delegating tasks.
 
-Steps
+### Steps
 1. In VS Code, open the Copilot Chat panel by clicking the chat icon in the left sidebar (or in the status bar at the bottom).
 2. In the chat input field, type:
    Explain what is a variable in programming
@@ -111,10 +113,10 @@ Steps
    What is the difference between a list and a dictionary in Python?
 6. Verify that the AI responds clearly to both questions.
 
-✅ Result
+### ✅ Result
 Copilot Chat is responding to your questions. Your AI-powered workspace is fully operational.
 
-Summary
+## Summary
 In this module, you installed Visual Studio Code, activated a GitHub Copilot subscription, authorized the AI assistant inside the editor, created a dedicated workspace folder, and verified that Copilot Chat responds to your requests. This workspace and AI assistant will be your primary tools for every remaining module in the course.
 
 Remember the 55% productivity boost from the introduction? That advantage starts right here — with a working editor and an AI assistant ready to help. Every module that follows builds on this foundation.
@@ -124,8 +126,7 @@ Key takeaways:
 - The hello-genai workspace folder is where all course exercises will take place.
 - Copilot Chat is your main interface for interacting with the AI — you can ask questions, request code, and delegate tasks.
 
-[MG]: Квизы хорошо в первых модулях, с тех пор как мы начинаем что-то практическое делать - нужно будет включить практические задачи.
-Quiz
+## Quizz
 1. What is the primary role of GitHub Copilot in VS Code?
    a) It provides an AI assistant that can generate code, answer questions, and perform tasks inside the editor.
    b) It automatically syncs your local files with a cloud backup on GitHub.
