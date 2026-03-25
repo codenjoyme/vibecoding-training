@@ -379,11 +379,11 @@ Ask your AI assistant:
 
 ---
 
-## Step 11: Build Your Personal Evolution Roadmap
+## Step 11: Automate Your First Repetitive Task
 
 ### What we'll do
 
-Create a concrete, time-bound plan for your next 3 months of professional evolution.
+Before building the roadmap, do one more real thing. Take the most repetitive task in your work week and create a reusable instruction file that automates it.
 
 ### The roadmap template
 
@@ -394,9 +394,9 @@ Your roadmap should answer five questions:
 4. **What is my biggest daily time sink?** (the first thing to automate)
 5. **What will I do this week?** (one concrete action)
 
-### Hands-on — Part A: Automate your first time sink
+### Hands-on
 
-Before building the roadmap, let's do one more real thing. Think of the most repetitive task in your work week — something you do every week that takes 30+ minutes and always follows a similar pattern.
+Think of the most repetitive task in your work week — something you do every week that takes 30+ minutes and always follows a similar pattern.
 
 Examples: writing standup reports, updating a status doc, creating boilerplate for a new feature, filling out a test template, generating meeting notes.
 
@@ -412,9 +412,17 @@ Try it once: paste the instruction into a new agent session with real input data
 
 **Verify:** You have an instruction file for a real repetitive task and tested it at least once.
 
-### Hands-on — Part B: The roadmap
+---
 
-Now build the full plan:
+## Step 12: Build Your Personal Evolution Roadmap
+
+### What we'll do
+
+Combine everything from this session into a concrete, time-bound plan for the next 3 months — grounded in your actual fears, your acceleration factor from Step 2, and the task you automated in Step 11.
+
+### Hands-on
+
+Ask your AI assistant:
 
 > "Based on our conversation so far — my fears, my skill audit, my level, my scope expansion, and the task I just automated — create a personal career evolution roadmap. Use this structure:
 >
@@ -423,7 +431,7 @@ Now build the full plan:
 > **Current level:** [from our assessment]
 > **Target level (3 months):** [one level up]
 > **My acceleration factor:** [from Step 2 quick win]
-> **First automated task:** [from Part A above]
+> **First automated task:** [from Step 11 above]
 >
 > ### Month 1: Foundation
 > - Specific skill to learn
@@ -519,4 +527,4 @@ Save the roadmap to `./workspace/hello-genai/career-evolution-roadmap.md` (`c:/w
 
 ## Next Steps
 
-Continue to [Module 250 — Export Chat Session](../250-export-chat-session/about.md) where you will learn to preserve and share your AI conversations — including the career roadmap session you just completed — as portable documentation for your team.
+Continue to [Module 250 — Export Chat Session](../250-export-chat-session/about.md) where you will learn to preserve and share your AI conversations — including the career roadmap and instruction files you just created — as portable documentation for your team.
