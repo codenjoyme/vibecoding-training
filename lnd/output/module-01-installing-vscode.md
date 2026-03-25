@@ -97,7 +97,11 @@ GitHub Copilot is authorized and active inside VS Code.
 
 ## Page 4: Create Your First Workspace
 ### Background
-A workspace is a folder on your computer that `VS Code` opens as a project. All files, settings, and AI interactions are scoped to this folder. Throughout the course, you will use a dedicated workspace folder for all hands-on exercises.
+A `hello-genai` is a folder on your computer that `VS Code` opens as a project. All files, settings, and AI interactions are scoped to this folder. Throughout the course, you will use a dedicated workspace folder for all hands-on exercises.
+
+The `workspace` folder is the parent folder for all your projects. Each project gets its own subfolder inside `workspace`. For this course, you will create a project folder called `hello-genai`.
+
+**Important:** Never use spaces in folder or file names. Use hyphens (`-`) instead (for example, `hello-genai`, not `hello genai`). Spaces in paths cause problems with terminal commands, scripts, and many developer tools.
 
 ### Steps
 1. Open `File Explorer` (`Windows`) or `Finder` (`macOS`).
@@ -105,7 +109,7 @@ A workspace is a folder on your computer that `VS Code` opens as a project. All 
 3. Create a folder named `workspace`:
    - `Windows`: `c:\workspace\`
    - `macOS/Linux`: `~/workspace/`
-4. Inside workspace, create another folder named `hello-genai`:
+4. Inside `workspace`, create a project folder named `hello-genai`:
    - `Windows`: `c:\workspace\hello-genai\`
    - `macOS/Linux`: `~/workspace/hello-genai/`
 5. In `VS Code`, go to `File` > `Open Folder`.
