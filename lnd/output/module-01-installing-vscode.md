@@ -53,7 +53,7 @@ There are two paths depending on whether you are using a personal account or an 
 ![Start free trial](img/module-01/04-start-free-trial.png)
 8. Complete the subscription process.
 9. Verify that `Copilot` is enabled in your `GitHub` account settings by clicking [https://github.com/settings/copilot/features](https://github.com/settings/copilot/features)
-![Copilot status](image-7.png)
+![Copilot status](img/module-01/05-copilot-status.png)
 
 ### Steps (`EPAM` Employees — Part B)
 1. Open the `EPAM` `Support portal`: [https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses](https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses).
@@ -70,7 +70,7 @@ There are two paths depending on whether you are using a personal account or an 
 ![Epam sign in](img/module-01/10-epam-sign-in.png)
 ![Epam sign in 2](img/module-01/11-epam-sign-in-sso.png)
 8. After authentication, verify that `Copilot` is enabled in your `GitHub` account settings by clicking [https://github.com/settings/copilot/features](https://github.com/settings/copilot/features)
-![Copilot status](image-7.png)
+![Copilot status](img/module-01/05-copilot-status.png)
 
 ### ✅ Result
 You have a `GitHub account` with an active `Copilot subscription`.
