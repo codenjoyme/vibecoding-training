@@ -45,29 +45,36 @@
 - Follow the reference module structure from `./lnd/reference/`:
 
 ```
-Module [N]: [Title]
+# Module [N]: [Title]
 
-Background
+### Background
 [Introduction hook + context paragraph. Why this matters. What learner will be able to do.]
 
-Page 1: [Section Title]
-Background
+## Page 1: [Section Title]
+### Background
 [Context for this section]
-Steps
+### Steps
 [Numbered step-by-step instructions]
-✅ Result
+### ✅ Result
 [What learner should see/have after completing this page]
 
-Page 2: [Section Title]
+## Page 2: [Section Title]
 ...
 
-Page N: [Final Section]
+## Page N: [Final Section]
 ...
 
-Summary
+## Summary
 [Key takeaways, recap of what was accomplished, useful links]
+
+## Quiz
+[Quiz questions]
 ```
 
+- **Heading levels are mandatory** and must be applied consistently:
+  - `#` (H1) — Module title only (one per file): `# Module N: Title`
+  - `##` (H2) — Page headings, Summary, and Quiz: `## Page 1: Title`, `## Summary`, `## Quiz`
+  - `###` (H3) — Section headings within pages: `### Background`, `### Steps`, `### Steps (variant name)`, `### ✅ Result`
 - Each "Page" corresponds to a logical section that can be rendered as one LMS page/screen.
 - Keep pages focused: one concept or one hands-on task per page.
 - Aim for 3-7 pages per module depending on complexity.
