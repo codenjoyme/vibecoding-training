@@ -5,6 +5,8 @@ According to GitHub's 2025 developer survey, developers using AI coding assistan
 
 In this module, you will install Visual Studio Code (VS Code) — a free, lightweight code editor — and set up GitHub Copilot, an AI assistant that lives inside the editor. By the end, you will have a working AI-powered workspace ready for the rest of the course.
 
+Although VS Code was originally designed for programmers, it is equally powerful for working with any text-based content: documents, reports, data files, configuration files, meeting notes, and other artifacts. Anything that is text — or can be converted to text — becomes material that the IDE and the AI agent can read, search, transform, and generate. And when you need to process non-text files (PDFs, spreadsheets, images), you can write small scripts — which are also just text — and let the agent help you create and run them. In this course, the workspace is your universal workbench for all kinds of content, not just code.
+
 Think of VS Code as your workbench, and GitHub Copilot as an always-available colleague who can write code, answer questions, and help you solve problems on the spot.
 
 **Learning objectives.** Upon completion of this module, you will be able to:
