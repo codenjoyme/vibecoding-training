@@ -8,20 +8,73 @@ See [module overview](about.md) for full prerequisites list.
 
 ## What We'll Cover
 
+- **Name the fear** — acknowledge what actually scares you before trying to fix it
+- **Quick win** — experience AI acceleration on YOUR real task in 5 minutes
 - **The fear reframe** — why "AI will take my job" is the wrong question
 - **Skill audit** — mapping what you already know to the new workflow
-- **The evolution spectrum** — from coder to agent team lead
+- **The evolution spectrum** — from coder to agent team lead, with a day-in-the-life view
+- **The craft identity shift** — from "I write beautiful code" to "I write beautiful instructions"
 - **Scope expansion** — looking one step left and right in the SDLC chain
 - **Industry pattern recognition** — this happened before (Docker, Cloud, K8s)
-- **Personal roadmap** — a concrete plan you can act on
+- **Sustainable learning rhythm** — how to keep up when everything changes every 2 months
+- **Personal roadmap** — automate one real thing and plan the next 3 months
 
 ---
 
-## Step 1: Reframe the Question
+## Step 1: Name the Fear
 
 ### What we'll do
 
-Replace the anxiety-driven question "Will AI take my job?" with the productive question "How do I become more valuable with AI?"
+Before fixing anything, acknowledge what you're actually feeling. Fear of obsolescence is real and normal — ignoring it doesn't make it go away. Naming it precisely makes it manageable.
+
+### Why this matters
+
+Your brain can't process a solution while it's stuck in fight-or-flight mode. Research on change management shows that people who first acknowledge their resistance adapt faster than those who skip straight to "positive thinking." We're not here for motivational quotes. We're here to look the fear in the eye and then decide what to do about it.
+
+### Hands-on
+
+Ask your AI assistant:
+
+> "I want to name my specific fears about AI and my career. Don't reassure me or give me motivational advice. Instead, interview me: ask me 5 questions, one at a time, about what specifically worries me about AI in my professional life. After all questions, summarize my fears back to me in a structured list — raw, unfiltered, no sugarcoating. Then for each fear, classify it as: (A) this is already happening, (B) this will likely happen in 1-2 years, or (C) this is unlikely but feels scary."
+
+Let the AI interview you honestly. Don't edit yourself — say the uncomfortable things.
+
+**Verify:** You have a written list of your specific fears, each classified as A/B/C. You feel slightly lighter because vague anxiety is now a concrete list.
+
+---
+
+## Step 2: Quick Win — Feel the Acceleration
+
+### What we'll do
+
+Experience the power of AI assistance on a task from YOUR real work. Not a toy example — something that normally takes you real time. You need to feel the speed difference, not just think about it.
+
+### Why this step is critical
+
+Fear lives in the abstract. The best antidote is a concrete experience. When you take a task that normally takes you 2 hours and finish it in 10 minutes with an agent, the fear shifts: "This thing might replace me" becomes "This thing just made me 12x faster."
+
+### Hands-on
+
+Think of a real task from your recent work that:
+- You've done before (you know what the output should look like)
+- Takes at least 30-60 minutes normally
+- Is somewhat repetitive or well-defined
+
+Examples: writing a technical document, creating a test plan, writing boilerplate code, drafting an email summary of a meeting, creating a config file, writing release notes, refactoring a class.
+
+Now ask your AI assistant to do it. Give it full context — paste in the relevant code, describe the requirements, share the background. Be as specific as you would be when delegating to a competent colleague.
+
+Time how long it takes.
+
+**Verify:** You completed a real work task significantly faster with AI. Write down two numbers: how long it normally takes vs. how long it took now. That ratio is your personal acceleration factor.
+
+---
+
+## Step 3: Reframe the Question
+
+### What we'll do
+
+Now that you've named the fear (Step 1) and felt the power (Step 2), replace the anxiety-driven question "Will AI take my job?" with the productive question "How do I become the person who uses this power?"
 
 ### The wrong question vs. the right question
 
@@ -46,7 +99,7 @@ Read the response carefully. Highlight the parts that require human judgment —
 
 ---
 
-## Step 2: Skill Audit — What You Already Have
+## Step 4: Skill Audit — What You Already Have
 
 ### What we'll do
 
@@ -84,7 +137,7 @@ Save the response to `./workspace/hello-genai/skill-audit.md` (`c:/workspace/hel
 
 ---
 
-## Step 3: The Evolution Spectrum
+## Step 5: The Evolution Spectrum
 
 ### What we'll do
 
@@ -124,7 +177,94 @@ Be honest in your answers. The goal is an accurate assessment, not a flattering 
 
 ---
 
-## Step 4: Expand Your Scope — Look Left and Right
+## Step 6: A Day in the Life — What Each Level Actually Looks Like
+
+### What we'll do
+
+Remove the mystery from each level by showing what a typical workday looks like. Fear of the unknown is the strongest fear — making it concrete makes it manageable.
+
+### Level 2 Monday (AI-Assisted Coder)
+
+```
+ 9:00  Open Jira, pick ticket PROJ-1234
+ 9:15  Read requirements, start coding
+ 9:30  Stuck on API integration — ask Copilot Chat "how to call X API"
+ 9:35  Get code snippet, paste it in, modify
+10:00  Write tests manually, run them
+10:30  Fix bugs, commit, push PR
+11:00  Next ticket...
+```
+
+### Level 4 Monday (Agent Lead)
+
+```
+ 9:00  Open Jira, see 3 new tickets
+ 9:05  Write instruction file for ticket PROJ-1234 (context + constraints + acceptance criteria)
+ 9:15  Start agent session: "Follow this instruction, implement the feature"
+ 9:20  While agent works on PROJ-1234 — review yesterday's agent-generated PR for PROJ-1230
+ 9:40  Agent finished PROJ-1234. Review diff: architecture OK, but missed edge case.
+ 9:45  Tell agent: "Handle the case when user is not authenticated" — agent fixes it
+ 9:50  Run tests (agent wrote them too). Green. Push PR.
+ 9:55  Start agent on PROJ-1235 with another instruction file
+10:00  Review PROJ-1234 PR security implications while agent codes PROJ-1235
+10:15  3 tickets reviewed and pushed in 75 minutes. Normally this was 2 days of work.
+10:20  Update architecture decision record — this is where YOUR judgment matters
+```
+
+Notice: Level 4 engineer writes instructions, reviews output, ensures quality, manages the pipeline. The skill is orchestration, not typing.
+
+### Hands-on
+
+Ask your AI assistant:
+
+> "Based on my current level [your level from Step 5] and my specific role, write two detailed 'Day in the Life' scenarios for me: one showing a typical day at my current level, and one showing a typical day at ONE level above. Make them specific to my tech stack and domain — concrete enough that I can see myself doing it."
+
+**Verify:** You can clearly picture what your work looks like at the next level. It should feel achievable, not alien.
+
+---
+
+## Step 7: The Craft Identity Shift
+
+### What we'll do
+
+Address the emotional loss of professional identity. "I used to be proud of the elegant code I wrote. Now what am I — a prompt writer?"
+
+### The identity evolution
+
+This is the hardest part — not a skill gap, but an identity gap. Many experienced engineers feel:
+
+- **Loss of craft:** "I spent years perfecting my coding style, and now it doesn't matter"
+- **Imposter syndrome:** "Everyone seems to adapt faster than me"
+- **Grief for expertise:** "My deep knowledge of [framework X] feels less special"
+- **Role confusion:** "If I don't write code, what AM I?"
+
+These feelings are valid. Dismissing them as "resistance to change" misses the point. Your identity as a craftsman was earned through years of practice. The shift isn't losing that identity — it's expanding it.
+
+**The reframe:**
+
+| Old craft | New craft |
+|---|---|
+| Writing elegant code | Writing precise instructions that produce elegant code |
+| Knowing the language deeply | Knowing the system deeply |
+| Solving problems through code | Solving problems through orchestration |
+| Being the fastest coder | Being the person who makes the right decisions |
+| Pride in clean implementation | Pride in reliable, secure, maintainable outcomes |
+
+A master chef isn't diminished when they lead a kitchen instead of cooking every dish. They are elevated — because they shape the entire experience. You are becoming the chef, not the line cook.
+
+### Hands-on
+
+Ask your AI assistant:
+
+> "I want to explore my professional identity shift honestly. I've been a [your role] for [years]. My professional pride comes from [describe what makes you proud — clean code, solving hard bugs, elegant architectures, etc.].
+>
+> Help me articulate: what does professional craftsmanship look like for someone who orchestrates AI agents instead of writing code directly? Where does the pride come from? What does 'doing excellent work' mean at that level? Don't be patronizing — I need concrete, specific examples that resonate with someone who takes their craft seriously."
+
+**Verify:** You can articulate what professional pride looks like at the next level without feeling like you're losing something.
+
+---
+
+## Step 8: Expand Your Scope — Look Left and Right
 
 ### What we'll do
 
@@ -164,7 +304,7 @@ Ask your AI assistant:
 
 ---
 
-## Step 5: Recognize the Pattern — This Happened Before
+## Step 9: Recognize the Pattern — This Happened Before
 
 ### What we'll do
 
@@ -198,7 +338,48 @@ Ask your AI assistant:
 
 ---
 
-## Step 6: Build Your Personal Evolution Roadmap
+## Step 10: Sustainable Learning Rhythm
+
+### What we'll do
+
+Address the anxiety of "everything changes every 2 months" with a practical strategy. You don't need to learn everything — you need a sustainable rhythm.
+
+### The problem
+
+The AI ecosystem moves at a pace that makes it impossible to master everything. New models every week, new tools every month, new paradigms every quarter. If you try to keep up with everything, you burn out. If you ignore it, you fall behind.
+
+### The 15/1/1 rhythm
+
+A sustainable pace that keeps you current without drowning:
+
+- **15 minutes daily:** One hands-on thing with AI. Could be a module step, could be trying a new prompt pattern, could be reading a changelog. Small, daily, non-negotiable.
+- **1 hour weekly:** Go deeper on one topic. Try a new tool, write an instruction file, automate a repetitive task. Block it in your calendar.
+- **1 experiment monthly:** Do something ambitious. Build a PoC, write a multi-agent workflow, contribute a module, try a new MCP integration.
+
+### What to ignore
+
+Just as important as what you learn is what you skip:
+
+- **Ignore:** Twitter hype about unreleased features. Benchmarks you can't reproduce. "X will kill Y" predictions. Any tool you can't install and use in 15 minutes.
+- **Follow:** Official changelogs of tools you actually use. One curated newsletter. Your training module feed (pull latest, check what's new).
+
+### Hands-on
+
+Ask your AI assistant:
+
+> "Help me set up a sustainable AI learning schedule. Here's my context:
+> - I have [X] free hours per week for learning
+> - My current AI skill level is [Level from Step 5]
+> - My biggest gap is [from self-assessment]
+> - Tools I currently use: [list them]
+>
+> Create a 4-week learning schedule following the 15/1/1 rhythm (15 min daily, 1 hour weekly, 1 experiment monthly). Include specific modules from the vibecoding-for-managers training course where relevant. Make it realistic — if I miss a day, the plan shouldn't collapse."
+
+**Verify:** You have a 4-week schedule that feels sustainable, not overwhelming. You blocked the weekly 1-hour slot in your actual calendar.
+
+---
+
+## Step 11: Build Your Personal Evolution Roadmap
 
 ### What we'll do
 
@@ -206,56 +387,89 @@ Create a concrete, time-bound plan for your next 3 months of professional evolut
 
 ### The roadmap template
 
-Your roadmap should answer four questions:
-1. **Where am I now?** (your level from Step 3)
+Your roadmap should answer five questions:
+1. **Where am I now?** (your level from Step 5)
 2. **Where do I want to be in 3 months?** (one level up)
-3. **What specific skills do I need?** (from Steps 2 and 4)
-4. **What will I do this week?** (one concrete action)
+3. **What specific skills do I need?** (from Steps 4 and 8)
+4. **What is my biggest daily time sink?** (the first thing to automate)
+5. **What will I do this week?** (one concrete action)
 
-### Hands-on
+### Hands-on — Part A: Automate your first time sink
+
+Before building the roadmap, let's do one more real thing. Think of the most repetitive task in your work week — something you do every week that takes 30+ minutes and always follows a similar pattern.
+
+Examples: writing standup reports, updating a status doc, creating boilerplate for a new feature, filling out a test template, generating meeting notes.
 
 Ask your AI assistant:
 
-> "Based on our conversation so far, create a personal career evolution roadmap for me. Use this structure:
+> "I have a repetitive weekly task: [describe it in detail — what input you get, what output you produce, what steps you follow].
+>
+> Create a reusable instruction file that I can paste into an agent session to automate this task. The instruction should include: context, input format, expected output format, quality checks, and an example."
+
+Save the instruction to `./workspace/hello-genai/my-first-instruction.md` (`c:/workspace/hello-genai/` on Windows, `~/workspace/hello-genai/` on macOS/Linux).
+
+Try it once: paste the instruction into a new agent session with real input data. See if the output matches what you'd normally produce.
+
+**Verify:** You have an instruction file for a real repetitive task and tested it at least once.
+
+### Hands-on — Part B: The roadmap
+
+Now build the full plan:
+
+> "Based on our conversation so far — my fears, my skill audit, my level, my scope expansion, and the task I just automated — create a personal career evolution roadmap. Use this structure:
 >
 > ## My Career Evolution Roadmap
 >
 > **Current level:** [from our assessment]
 > **Target level (3 months):** [one level up]
+> **My acceleration factor:** [from Step 2 quick win]
+> **First automated task:** [from Part A above]
 >
 > ### Month 1: Foundation
 > - Specific skill to learn
 > - Specific module from the training course to complete
 > - One tool to start using daily
+> - Two more repetitive tasks to automate with instruction files
 >
 > ### Month 2: Practice
-> - A real work task to do with AI agents
-> - An instruction file to write for my most repetitive task
+> - A real work task to delegate fully to an agent
+> - Review and improve my instruction files based on actual usage
 > - A scope expansion experiment (one step left or right in SDLC)
 >
 > ### Month 3: Consolidation
-> - A measurable outcome to demonstrate growth
-> - A knowledge-sharing action (teach someone else)
-> - A self-assessment checkpoint
+> - A measurable outcome to demonstrate growth (with numbers)
+> - A knowledge-sharing action (teach someone else or create a module)
+> - Re-run this module as a self-assessment checkpoint
+>
+> ### My Learning Rhythm
+> - Daily 15-min habit: [specific]
+> - Weekly 1-hour deep dive: [specific]
+> - Monthly experiment: [specific]
 >
 > ### This Week
 > - One concrete action I can do today
 >
-> Make it specific to my situation, not generic motivational advice."
+> Make it specific to my situation, not generic motivational advice. Reference concrete modules by name where applicable."
 
 Save the roadmap to `./workspace/hello-genai/career-evolution-roadmap.md` (`c:/workspace/hello-genai/` on Windows, `~/workspace/hello-genai/` on macOS/Linux).
 
-**Verify:** You have a saved roadmap file with specific actions for each month and one action for this week.
+**Verify:** You have a saved roadmap that includes your acceleration factor, your first automated task, a sustainable learning rhythm, and specific monthly goals.
 
 ---
 
 ## Success Criteria
 
+- ✅ You named your specific fears about AI and career, and classified each as A/B/C
+- ✅ You completed a real task with AI and measured your personal acceleration factor
 - ✅ You reframed "Will AI take my job?" into a productive growth question
 - ✅ You mapped at least 5 existing skills to concrete AI-era advantages
 - ✅ You know your current level on the evolution spectrum (1-5)
+- ✅ You can picture what your workday looks like at the next level
+- ✅ You articulated what professional craftsmanship means at the orchestration level
 - ✅ You identified the SDLC steps before and after your role
 - ✅ You recognized the historical pattern from at least 2 past tech shifts
+- ✅ You have a sustainable 15/1/1 learning rhythm scheduled
+- ✅ You automated one real repetitive task with an instruction file
 - ✅ You have a saved career evolution roadmap with specific monthly goals
 
 ---
@@ -274,6 +488,8 @@ Save the roadmap to `./workspace/hello-genai/career-evolution-roadmap.md` (`c:/w
 
 6. **Your daily work is "receive Jira ticket → write code → push PR." Which parts of this workflow are most automatable, and what should you focus on instead?** *(Answer: The "write code → push PR" part is increasingly automatable with coding agents. What you should focus on: understanding WHY the ticket exists, validating requirements before coding, reviewing AI-generated PRs for quality/security, and expanding into testing strategy or deployment automation. The "judgment before and after code" becomes your value.)*
 
+7. **A colleague says "I feel like an imposter — everyone around me is adapting to AI faster than me." What do you tell them?** *(Answer: Everyone curates their public image. The person posting AI demos on LinkedIn struggled with the same tool for hours before getting it right. Focus on your own 15/1/1 rhythm, not on comparing your behind-the-scenes with others' highlight reel. Also — your years of experience mean you can evaluate quality that newcomers blindly accept. That's not being slow, that's being thorough.)*
+
 ---
 
 ## Troubleshooting
@@ -289,6 +505,12 @@ Save the roadmap to `./workspace/hello-genai/career-evolution-roadmap.md` (`c:/w
 
 **"My roadmap feels too ambitious."**  
 → Cut it to one action per month. The most important line is "This Week" — if you do one thing this week, you're ahead of 90% of people who just worried about AI.
+
+**"I feel like I'm grieving my old way of working."**  
+→ That's normal and valid. You spent years developing a craft. The feeling of loss is real. But notice: the best architects don't write every line of code, yet nobody calls them less technical. You're not losing your craft — you're graduating to a higher level of it. Give yourself permission to feel the transition.
+
+**"Everything changes so fast, I can't keep up."**  
+→ You don't need to keep up with everything. Follow the 15/1/1 rhythm: 15 minutes daily, 1 hour weekly, 1 experiment monthly. Ignore Twitter hype. Focus on tools you actually use. Pull latest course updates monthly and skim what's new.
 
 **"I'm a manager, not a coder — does this apply to me?"**  
 → Absolutely. Replace "write code" with "review work" and "push PR" with "approve deliverable." The evolution from manual reviewer to orchestrator of AI-assisted teams follows the same pattern. Your SDLC scope expansion matters even more.

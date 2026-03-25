@@ -1,6 +1,6 @@
 # Engineering Career Evolution with AI
 
-**Duration:** 15 minutes
+**Duration:** 20-25 minutes
 
 **Skill:** Reframe AI disruption as a career accelerator — map your current engineering strengths to the new agent-led workflow and build a personal evolution plan from individual contributor to agent team lead
 
@@ -8,17 +8,22 @@
 
 ## Topics
 
+- Naming and classifying your specific fears (not suppressing them)
+- Quick win: experiencing AI acceleration on a real task from YOUR work
 - The mindset shift: fear of replacement vs. opportunity to accelerate
 - From coder to agent team lead: writing instructions instead of code
+- Day in the life: what each evolution level actually looks like on a Monday
+- The craft identity shift: from "I write beautiful code" to "I write beautiful instructions"
 - The synergy advantage: why experienced engineers outperform junior vibecoders
 - Expanding your scope across the full SDLC chain
 - Industry evolution pattern: Docker → Kubernetes → Cloud → AI agents
-- Single agent → agent team → autonomous agent factory progression
+- Sustainable learning rhythm (15/1/1) for an ecosystem that changes every 2 months
+- Automating your first real repetitive task with an instruction file
 - Building a personal career evolution roadmap with AI assistance
 
 ## Learning Outcome
 
-You will articulate why your existing engineering experience is a competitive advantage in the AI era, map your current skills to the new agent-orchestration workflow, identify one concrete area to expand your scope, and produce a personal career evolution plan that you can revisit quarterly.
+You will name your specific fears and classify them by timeline, experience AI acceleration on a real task, articulate why your engineering experience is a competitive advantage, identify your level on the evolution spectrum, see what the next level looks like day-to-day, set up a sustainable learning rhythm, automate one real repetitive task, and produce a personal career evolution plan you can revisit quarterly.
 
 ## Prerequisites
 
