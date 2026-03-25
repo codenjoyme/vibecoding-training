@@ -5,7 +5,7 @@ According to `GitHub's` 2025 developer survey, developers using AI coding assist
 
 In this module, you will install `Visual Studio Code` (`VS Code`) — a free, lightweight code editor — and set up `GitHub Copilot`, an AI assistant that lives inside the editor. By the end, you will have a working AI-powered workspace ready for the rest of the course.
 
-![VSCode IDE with Github Copilot](image.png)
+![VSCode IDE with Github Copilot](img/module-01/01-vscode-ide-with-copilot.png)
 
 Although VS Code was originally designed for programmers, it is equally powerful for working with any text-based content: documents, reports, data files, configuration files, meeting notes, and other artifacts. Anything that is text — or can be converted to text — becomes material that the IDE and the AI agent can read, search, transform, and generate. And when you need to process non-text files (PDFs, spreadsheets, images), you can write small scripts — which are also just text — and let the agent help you create and run them. In this course, the workspace is your universal workbench for all kinds of content, not just code.
 
@@ -24,7 +24,7 @@ Think of `VS Code` as your workbench, and `GitHub Copilot` as an always-availabl
 ### Steps
 1. Open your web browser and navigate to [https://code.visualstudio.com](https://code.visualstudio.com).
 2. Click the `Download` button for your operating system (`Windows`, `macOS`, or `Linux`).
-![Download VSCode](image-10.png)
+![Download VSCode](img/module-01/02-download-vscode.png)
 3. Run the downloaded installer:
    - `Windows`: Run the `.exe` file and follow the installation wizard. Accept default settings.
    - `macOS`: Open the `.dmg` file and drag `VS Code` to the `Applications folder`.
@@ -45,30 +45,30 @@ There are two paths depending on whether you are using a personal account or an 
 1. Open your browser and go to [https://github.com/](https://github.com/).
 2. If you do not have an account, click `Sign up` in the top-right corner.
 3. Enter your email, create a password, choose a username, and complete verification.
-![Sign up form](image-8.png)
+![Sign up form](img/module-01/03-sign-up-form.png)
 4. Verify your email address by clicking the link `GitHub` sends to your inbox.
 5. Sign in to your `GitHub` account.
 6. Navigate to [https://github.com/features/copilot](https://github.com/features/copilot).
 7. Click `Start free trial` or `Subscribe` (`GitHub Copilot` offers a free trial period).
-![Start free trial](image-9.png)
+![Start free trial](img/module-01/04-start-free-trial.png)
 8. Complete the subscription process.
 9. Verify that `Copilot` is enabled in your `GitHub` account settings by clicking [https://github.com/settings/copilot/features](https://github.com/settings/copilot/features)
 ![Copilot status](image-7.png)
 
 ### Steps (`EPAM` Employees — Part B)
 1. Open the `EPAM` `Support portal`: [https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses](https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses).
-![Support portal - Ask for copilot](image-1.png)
+![Support portal - Ask for copilot](img/module-01/06-support-portal-ask-for-copilot.png)
 2. In the Software Licenses request form, select `GitHub Copilot` from the available options.
 3. Choose the purpose: `Education and Internal project only (for learning)` or `Project needs` (for client work — requires manager approval).
-![Support portal - Choose the purpose](image-2.png)
+![Support portal - Choose the purpose](img/module-01/07-support-portal-choose-purpose.png)
 4. Read and accept the `license agreements`.
-![Support portal - Accept the license agreements](image-3.png)
+![Support portal - Accept the license agreements](img/module-01/08-support-portal-accept-license.png)
 5. Submit the request and wait for the license to be provisioned (you will receive an email notification).
-![Check invitation email](image-4.png)
+![Check invitation email](img/module-01/09-check-invitation-email.png)
 6. Your `EPAM GitHub username` follows the format: `Name-Surname_epam` (for example, `Ivan-Petrov_epam`).
 7. Go to [https://github.com/](https://github.com/) and sign in with your `EPAM GitHub username`. You will be redirected to a `Microsoft SSO page` — enter your `EPAM` credentials there.
-![Epam sign in](image-5.png)
-![Epam sign in 2](image-6.png)
+![Epam sign in](img/module-01/10-epam-sign-in.png)
+![Epam sign in 2](img/module-01/11-epam-sign-in-sso.png)
 8. After authentication, verify that `Copilot` is enabled in your `GitHub` account settings by clicking [https://github.com/settings/copilot/features](https://github.com/settings/copilot/features)
 ![Copilot status](image-7.png)
 
@@ -81,16 +81,16 @@ With your `GitHub account` and `Copilot subscription` ready, the next step is to
 
 ### Steps
 1. In `VS Code`, look for the `Copilot` icon in the bottom status bar. Click it (or wait for the sign-in prompt to appear automatically).
-![Authorize](image-14.png)
+![Authorize](img/module-01/12-authorize-copilot-icon.png)
 2. Click Sign in to GitHub.
 3. Your browser will open — sign in to your `GitHub` account if prompted.
-![Sign In to GitHub](image-11.png)
+![Sign In to GitHub](img/module-01/13-sign-in-to-github.png)
 4. Click Authorize GitHub Copilot when asked.
-![Authorize Github](image-12.png)
+![Authorize Github](img/module-01/14-authorize-github-copilot.png)
 5. Return to VS Code. You should see a confirmation that the sign-in was successful.
-![Open VSCode after authorize](image-13.png)
+![Open VSCode after authorize](img/module-01/15-open-vscode-after-authorize.png)
 6. Check the Copilot icon in the bottom-right status bar — it should appear active with no error indicators. You can also ask something in the chat.
-![Check that Agent woors well](image-15.png)
+![Check that Agent works well](img/module-01/16-check-agent-works.png)
 
 ### ✅ Result
 GitHub Copilot is authorized and active inside VS Code.
@@ -99,7 +99,7 @@ GitHub Copilot is authorized and active inside VS Code.
 ### Background
 There is a folder on your computer that `VS Code` opens as a project. All files, settings, and AI interactions are scoped to this folder. Throughout the course, you will use a dedicated workspace folder for all hands-on exercises.
 
-![Workspace folders](image-16.png)
+![Workspace folders](img/module-01/17-workspace-folders.png)
 
 The `workspace` folder is the parent folder for all your projects. Each project gets its own subfolder inside `workspace`. For this course, you will create a project folder called `hello-genai`.
 
@@ -115,10 +115,10 @@ The `workspace` folder is the parent folder for all your projects. Each project 
    - `Windows`: `c:\workspace\hello-genai\`
    - `macOS/Linux`: `~/workspace/hello-genai/`
 5. In `VS Code`, go to `File` > `Open Folder`.
-![Open folder](image-17.png)
+![Open folder](img/module-01/18-open-folder.png)
 6. Navigate to `hello-genai` and click `Select Folder`.
 7. If prompted `Do you trust the authors of the files in this folder?`, click `Yes, I trust the authors`.
-![Trust Authors](image-18.png)
+![Trust Authors](img/module-01/19-trust-authors.png)
 
 ### ✅ Result
 `VS Code` opens the `hello-genai` folder as your workspace. You can see the folder name in the `Explorer` panel on the left.
@@ -129,12 +129,12 @@ The quickest way to verify that everything works is to have a short conversation
 
 ### Steps
 1. In VS Code, open the `Copilot Chat panel` by clicking the chat icon in the left sidebar (or in the status bar at the bottom).
-![Open chat](image-19.png)
+![Open chat](img/module-01/20-open-chat.png)
 2. In the chat input field, type:
    `Explain what is a variable in programming`
 3. Press `Enter` to send the message.
 4. Wait a moment — you should see a detailed, well-structured explanation from the AI.
-![First question](image-20.png)
+![First question](img/module-01/21-first-question.png)
 5. Try another question to confirm consistent responses:
    `What is the difference between a list and a dictionary in Python?`
 6. Verify that the AI responds clearly to both questions.
