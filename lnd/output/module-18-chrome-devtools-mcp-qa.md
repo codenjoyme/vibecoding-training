@@ -45,7 +45,7 @@ The `Chrome` browser must be launched in a special "debugging mode" that allows 
 2. If not installed, download it from the official website and install.
 3. Configure `Chrome DevTools MCP` server in `VS Code`:
    - Ask the AI: "Help me configure `Chrome DevTools MCP` server in `VS Code` settings."
-   - The AI will add the `MCP` server configuration to your `VS Code` `settings.json` or `.vscode/``mcp.json`.
+   - The AI will add the `MCP` server configuration to your `VS Code` `settings.json` or `.vscode/mcp.json`.
    - The configuration specifies how to launch `Chrome` in debugging mode and connect the `MCP` server.
 4. Restart `VS Code` to load the new `MCP` server.
 5. Verify the `MCP` server is available: ask the AI "List all available `MCP` tools." The `Chrome DevTools` tools should appear in the list (e.g., browser_navigate, browser_click, browser_screenshot).
@@ -115,7 +115,7 @@ Advanced QA patterns to be aware of:
 A typical development day with this workflow: start the morning by running regression tests, develop a new feature with AI-driven QA mid-day, fix any bugs found, and end the day with a final regression pass before pushing to `GitHub`.
 
 ### Steps
-1. Ask the AI: "Create a QA report for my application based on everything we tested in this session. Include: pages visited, elements tested, bugs found, fixes applied, current status. Save to `docs/``qa-report.md`."
+1. Ask the AI: "Create a QA report for my application based on everything we tested in this session. Include: pages visited, elements tested, bugs found, fixes applied, current status. Save to `docs/qa-report.md`."
 2. Review the report. It should contain:
    - Summary of tested pages.
    - List of interactive tests performed.

@@ -49,7 +49,7 @@ Key design principles:
 
 ### Steps
 1. Ask the AI to create a `Python` script:
-   "Create a `Python` script at `tools/``compound_interest.py` that calculates compound interest. Accept principal, annual rate, compounds per year, and total years as command-line arguments. Print the final amount and interest earned."
+   "Create a `Python` script at `tools/compound_interest.py` that calculates compound interest. Accept principal, annual rate, compounds per year, and total years as command-line arguments. Print the final amount and interest earned."
 2. Now create an instruction for using it:
    "Create an instruction file at instructions/calculate-compound-interest.agent.md that describes: when to use the `compound_interest.py` tool, how to invoke it with command-line arguments, and how to present results."
 3. Test the skill by asking the same question from Page 1, but referencing the instruction:
@@ -98,7 +98,7 @@ Example skills for a `Jira` automation project:
    "Create an instruction at instructions/use-[name].agent.md that describes when and how to use `tools/`[name].py."
 4. Test each skill by asking the AI to perform the task while referencing the instruction.
 5. If the AI does not use the tool correctly, apply the hallucination-fixing technique from Module 11 to improve the instruction.
-6. Update `instructions/``main.agent.md` with the new skill entries.
+6. Update `instructions/main.agent.md` with the new skill entries.
 7. Commit all new files.
 
 ### ✅ Result

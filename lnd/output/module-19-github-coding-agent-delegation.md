@@ -127,7 +127,7 @@ The Coding Agent's mistakes are feedback on your instruction files. If the agent
    - Was it caused by a vague issue description? → Improve the issue template.
    - Was it caused by missing instructions? → Update the relevant instruction file.
    - Was it caused by project conventions not documented? → Add them to the constitution or `copilot-instructions.md`.
-3. Ask the AI: "Based on the PR review from the coding agent, what improvements should I make to our instruction files? Check `.github/``copilot-instructions.md` and the `instructions/` folder."
+3. Ask the AI: "Based on the PR review from the coding agent, what improvements should I make to our instruction files? Check `.github/copilot-instructions.md` and the `instructions/` folder."
 4. Apply the improvements and commit them.
 5. Next time you assign the agent, it will use the updated instructions — and make fewer mistakes.
 

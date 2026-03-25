@@ -32,7 +32,7 @@ You understand the value of `GitHub` `MCP` for streamlining project management.
 ### Background
 The `GitHub` `MCP` server differs from the echo server in Module 13: it connects to a remote `HTTP` endpoint rather than a local script.
 
-Configuration for `VS Code` (`.vscode/``mcp.json`):
+Configuration for `VS Code` (`.vscode/mcp.json`):
 ```json
 {
   "servers": {
@@ -44,7 +44,7 @@ Configuration for `VS Code` (`.vscode/``mcp.json`):
 }
 ```
 
-Configuration for `Cursor` (`.cursor/``mcp.json`):
+Configuration for `Cursor` (`.cursor/mcp.json`):
 ```json
 {
   "mcpServers": {
@@ -59,7 +59,7 @@ Configuration for `Cursor` (`.cursor/``mcp.json`):
 Key differences from local servers: type is "http" (not a local command), the URL points to `GitHub`'s infrastructure, and authentication uses your `GitHub Copilot` subscription.
 
 ### Steps
-1. Open your `MCP` configuration file (`.vscode/``mcp.json` or `.cursor/``mcp.json`).
+1. Open your `MCP` configuration file (`.vscode/mcp.json` or `.cursor/mcp.json`).
 2. Add the `GitHub` server configuration shown above (add it alongside your existing echo server, not replace it).
 3. Save the file and reload the IDE window (`Command Palette` → "Reload Window").
 4. Check the Output panel (View → Output → "Model Context Protocol") for connection confirmation.

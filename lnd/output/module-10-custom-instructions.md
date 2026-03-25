@@ -59,7 +59,7 @@ You have created and tested your first instruction file.
 
 ## Page 3: The Instruction Catalog — `main.agent.md`
 ### Background
-As you accumulate instruction files, the AI needs a way to find the right one. The solution is a catalog file: `instructions/``main.agent.md`.
+As you accumulate instruction files, the AI needs a way to find the right one. The solution is a catalog file: `instructions/main.agent.md`.
 
 This file lists all available instructions with brief descriptions. The AI checks this catalog on every prompt to find relevant instructions.
 
@@ -73,14 +73,14 @@ Example structure:
 
 To make the AI load this catalog automatically, you need an entry point file:
 
-For `VS Code`: `.github/``copilot-instructions.md` with content:
-"Important! Always follow the instructions in ./`instructions/``main.agent.md` file."
+For `VS Code`: `.github/copilot-instructions.md` with content:
+"Important! Always follow the instructions in ./`instructions/main.agent.md` file."
 
 For `Cursor`: .cursor/rules/main.mdc with the same content.
 
 ### Steps
-1. Create `instructions/``main.agent.md` with a list of your instruction files (even if you only have one so far).
-2. Verify the entry point file exists (`.github/``copilot-instructions.md` or .cursor/rules/main.mdc).
+1. Create `instructions/main.agent.md` with a list of your instruction files (even if you only have one so far).
+2. Verify the entry point file exists (`.github/copilot-instructions.md` or .cursor/rules/main.mdc).
 3. Test auto-discovery: open a new chat and type "Create a status report for my team." Without referencing any instruction explicitly, the AI should find and apply your instruction.
 4. If the AI does not find it, use the explicit reference: "Following instructions/create-status-report.agent.md, create a status report for my team."
 
@@ -105,7 +105,7 @@ Each instruction file captures what the AI should do, what format to use, what c
    "Following instructions/creating-instructions.agent.md, create an instruction for [describe the workflow]. Include: input format, processing steps, output format, and constraints."
 3. If you do not have creating-instructions.agent.md yet, describe the workflow directly and ask the AI to generate the instruction.
 4. Review each instruction file — are the rules specific enough to produce consistent results?
-5. Update `instructions/``main.agent.md` with the new instruction entries.
+5. Update `instructions/main.agent.md` with the new instruction entries.
 6. Test each instruction by asking the AI to perform the workflow.
 7. Commit all new files to your repository.
 

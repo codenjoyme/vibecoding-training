@@ -50,13 +50,13 @@ The Constitution file defines the non-negotiable rules for your project: tech st
 **Important principle:** The specification captures WHAT the product does and WHY — without mentioning specific technologies. The plan (next page) captures HOW, with specific tech choices. This separation is intentional: a non-technical stakeholder can review and validate the spec without understanding `React` or `PostgreSQL`. And if you later change the tech stack, the spec remains valid.
 
 ### Steps
-1. Ask the AI: "Create a `SpecKit` constitution file for my `Jira`/Confluence automation project. Tech stack: `React` 18 + `Vite` frontend, `Node.js` + `Express` backend, `PostgreSQL` 15 database via `Docker`. Save it to `spec/``constitution.md`."
+1. Ask the AI: "Create a `SpecKit` constitution file for my `Jira`/Confluence automation project. Tech stack: `React` 18 + `Vite` frontend, `Node.js` + `Express` backend, `PostgreSQL` 15 database via `Docker`. Save it to `spec/constitution.md`."
 2. Review the file. It should define:
    - Project name, purpose, and target user.
    - Tech stack with specific versions.
    - Folder structure conventions.
    - Coding standards (naming, file organization).
-3. Ask the AI: "Based on my ТЗ, create a detailed specification file following `SpecKit` format. Save to `spec/``specification.md`."
+3. Ask the AI: "Based on my ТЗ, create a detailed specification file following `SpecKit` format. Save to `spec/specification.md`."
 4. Review the spec. It should expand the ТЗ into:
    - User stories or use cases.
    - API endpoints (what data goes where).
@@ -74,17 +74,17 @@ The Clarify phase catches mistakes before they become code. The Plan phase creat
 These three phases are the critical preparation that separates `SpecKit` from "just start coding." Without them, the AI will make assumptions — and those assumptions will be wrong.
 
 ### Steps
-1. Ask the AI: "Read `spec/``constitution.md` and `spec/``specification.md`. Act as a senior developer reviewing this spec. List all gaps, contradictions, and unclear requirements. Save to `spec/``clarify.md`."
+1. Ask the AI: "Read `spec/constitution.md` and `spec/specification.md`. Act as a senior developer reviewing this spec. List all gaps, contradictions, and unclear requirements. Save to `spec/clarify.md`."
 2. Review the gaps. For each one, either:
    - Answer the question (add detail to the spec).
    - Mark it as "out of scope" (will not be implemented in this prototype).
-3. Ask the AI: "Based on the updated spec, create an implementation plan with phases and milestones. Save to `spec/``plan.md`."
+3. Ask the AI: "Based on the updated spec, create an implementation plan with phases and milestones. Save to `spec/plan.md`."
 4. Review the plan. It should have:
    - Phase 1: Backend setup (database, API skeleton).
    - Phase 2: Frontend setup (UI skeleton, routing).
    - Phase 3: Feature implementation (one feature at a time).
    - Phase 4: Integration and testing.
-5. Ask the AI: "Break the plan into individual tasks with acceptance criteria. Save to `spec/``tasks.md`."
+5. Ask the AI: "Break the plan into individual tasks with acceptance criteria. Save to `spec/tasks.md`."
 6. Review the tasks. Each should have: title, description, acceptance criteria, dependencies.
 7. Commit all three files.
 
@@ -104,9 +104,9 @@ The analysis should surface four types of issues:
 - **Risk flags** — tasks that are unusually complex or have unclear dependencies.
 
 ### Steps
-1. Ask the AI: "Analyze the tasks in `spec/``tasks.md`. For each task, assess: complexity (low/medium/high), risks, and dependencies. Check for gaps, contradictions, and missing artifacts across spec, plan, and tasks. Save to `spec/``analyze.md`."
+1. Ask the AI: "Analyze the tasks in `spec/tasks.md`. For each task, assess: complexity (low/medium/high), risks, and dependencies. Check for gaps, contradictions, and missing artifacts across spec, plan, and tasks. Save to `spec/analyze.md`."
 2. Review the analysis. Reorder tasks if needed (lower risk first, dependencies resolved).
-3. Start implementing: "Implement task 1 from `spec/``tasks.md`. Follow the constitution and specification. Show me what you are going to do before you do it."
+3. Start implementing: "Implement task 1 from `spec/tasks.md`. Follow the constitution and specification. Show me what you are going to do before you do it."
 4. Review the AI's plan for the task. Approve or adjust.
 5. Let the AI implement. Verify the result works:
    - Backend task? Ask: "Start the server and test this endpoint."
@@ -124,7 +124,7 @@ Your prototype is implemented, task by task, with each step verified and committ
 The Checklist phase validates the finished prototype against the original specification. This is your QA step — catching anything that was missed, broken, or incorrectly implemented.
 
 ### Steps
-1. Ask the AI: "Read `spec/``specification.md` and compare it to the current implementation. For each requirement, check: is it implemented? Does it work? Save the results to `spec/``checklist.md`."
+1. Ask the AI: "Read `spec/specification.md` and compare it to the current implementation. For each requirement, check: is it implemented? Does it work? Save the results to `spec/checklist.md`."
 2. Review the checklist. For each unchecked item:
    - Is it a real gap? → Implement it now.
    - Is it out of scope? → Mark it clearly.

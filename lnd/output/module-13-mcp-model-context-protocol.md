@@ -39,11 +39,11 @@ You understand the problem `MCP` solves and why it is useful for AI-assisted aut
 You will set up a simple echo `MCP` server that demonstrates three basic tools: echo (returns text), get_time (returns current timestamp), and calculate (performs arithmetic). This server requires zero external dependencies — it runs in `PowerShell` (`Windows`) or `Bash` (`macOS`/Linux).
 
 Configuration differs by IDE:
-- `VS Code`: create `.vscode/``mcp.json` with root key "servers".
-- `Cursor`: create `.cursor/``mcp.json` with root key "mcpServers".
+- `VS Code`: create `.vscode/mcp.json` with root key "servers".
+- `Cursor`: create `.cursor/mcp.json` with root key "mcpServers".
 
 ### Steps
-1. Create the configuration file for your IDE. For `VS Code`, create `.vscode/``mcp.json`:
+1. Create the configuration file for your IDE. For `VS Code`, create `.vscode/mcp.json`:
    ```json
    {
      "servers": {
@@ -54,7 +54,7 @@ Configuration differs by IDE:
      }
    }
    ```
-   For `Cursor`, create `.cursor/``mcp.json` with "mcpServers" instead of "servers".
+   For `Cursor`, create `.cursor/mcp.json` with "mcpServers" instead of "servers".
 2. After saving, `VS Code` displays an inline status bar inside the editor: "Running | Stop | Restart | 3 tools."
 3. Open the Output panel (View → Output → "Model Context Protocol") to verify: "Discovered 3 tools."
 4. Important: `MCP` tools are disabled by default for security. Click the tools icon (🔧) in the chat panel, find your `MCP` server section, and check the boxes next to each tool.
@@ -144,7 +144,7 @@ Remember the problem from the introduction — writing a custom script, creating
 
 Key takeaways:
 - `MCP` is a standard protocol (like USB) for connecting AI to external tools and data sources.
-- Configuration is a simple `JSON` file in `.vscode/``mcp.json` or `.cursor/``mcp.json`.
+- Configuration is a simple `JSON` file in `.vscode/mcp.json` or `.cursor/mcp.json`.
 - `MCP` tools require explicit approval for security — always review before allowing.
 - Enable only the tools you need to avoid filling the context window.
 - Use `MCP` for standard integrations and custom skills for specialized business logic.
