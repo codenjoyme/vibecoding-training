@@ -97,7 +97,9 @@ GitHub Copilot is authorized and active inside VS Code.
 
 ## Page 4: Create Your First Workspace
 ### Background
-A `hello-genai` is a folder on your computer that `VS Code` opens as a project. All files, settings, and AI interactions are scoped to this folder. Throughout the course, you will use a dedicated workspace folder for all hands-on exercises.
+There is a folder on your computer that `VS Code` opens as a project. All files, settings, and AI interactions are scoped to this folder. Throughout the course, you will use a dedicated workspace folder for all hands-on exercises.
+
+![Workspace folders](image-16.png)
 
 The `workspace` folder is the parent folder for all your projects. Each project gets its own subfolder inside `workspace`. For this course, you will create a project folder called `hello-genai`.
 
@@ -113,63 +115,67 @@ The `workspace` folder is the parent folder for all your projects. Each project 
    - `Windows`: `c:\workspace\hello-genai\`
    - `macOS/Linux`: `~/workspace/hello-genai/`
 5. In `VS Code`, go to `File` > `Open Folder`.
+![Open folder](image-17.png)
 6. Navigate to `hello-genai` and click `Select Folder`.
 7. If prompted `Do you trust the authors of the files in this folder?`, click `Yes, I trust the authors`.
+![Trust Authors](image-18.png)
 
 ### ✅ Result
-VS Code opens the hello-genai folder as your workspace. You can see the folder name in the Explorer panel on the left.
+`VS Code` opens the `hello-genai` folder as your workspace. You can see the folder name in the `Explorer` panel on the left.
 
-## Page 5: Test GitHub Copilot Chat
+## Page 5: Test `GitHub Copilot` Chat
 ### Background
-The quickest way to verify that everything works is to have a short conversation with Copilot. The Chat panel is where you will interact with the AI assistant throughout the entire course — asking questions, requesting code, and delegating tasks.
+The quickest way to verify that everything works is to have a short conversation with `Copilot`. The Chat panel is where you will interact with the AI assistant throughout the entire course — asking questions, requesting code, and delegating tasks.
 
 ### Steps
-1. In VS Code, open the Copilot Chat panel by clicking the chat icon in the left sidebar (or in the status bar at the bottom).
+1. In VS Code, open the `Copilot Chat panel` by clicking the chat icon in the left sidebar (or in the status bar at the bottom).
+![Open chat](image-19.png)
 2. In the chat input field, type:
-   Explain what is a variable in programming
-3. Press Enter to send the message.
+   `Explain what is a variable in programming`
+3. Press `Enter` to send the message.
 4. Wait a moment — you should see a detailed, well-structured explanation from the AI.
+![First question](image-20.png)
 5. Try another question to confirm consistent responses:
-   What is the difference between a list and a dictionary in Python?
+   `What is the difference between a list and a dictionary in Python?`
 6. Verify that the AI responds clearly to both questions.
 
 ### ✅ Result
-Copilot Chat is responding to your questions. Your AI-powered workspace is fully operational.
+`Copilot Chat` is responding to your questions. Your AI-powered workspace is fully operational.
 
 ## Summary
-In this module, you installed Visual Studio Code, activated a GitHub Copilot subscription, authorized the AI assistant inside the editor, created a dedicated workspace folder, and verified that Copilot Chat responds to your requests. This workspace and AI assistant will be your primary tools for every remaining module in the course.
+In this module, you installed `Visual Studio Code`, activated a `GitHub Copilot` subscription, authorized the AI assistant inside the editor, created a dedicated `workspace` folder, and verified that `Copilot Chat` responds to your requests. This workspace and AI assistant will be your primary tools for every remaining module in the course.
 
-Remember the 55% productivity boost from the introduction? That advantage starts right here — with a working editor and an AI assistant ready to help. Every module that follows builds on this foundation.
+Remember the 55% productivity boost from the introduction? That advantage starts right here — with a working editor and an AI assistant ready to help. Every `module` that follows builds on this foundation.
 
 Key takeaways:
-- VS Code is the editor; GitHub Copilot is the AI assistant that lives inside it.
-- The hello-genai workspace folder is where all course exercises will take place.
-- Copilot Chat is your main interface for interacting with the AI — you can ask questions, request code, and delegate tasks.
+- `VS Code` is the editor; `GitHub Copilot` is the AI assistant that lives inside it.
+- The `hello-genai` workspace folder is where all course exercises will take place.
+- `Copilot Chat` is your main interface for interacting with the AI — you can ask questions, request code, and delegate tasks.
 
 ## Quizz
-1. What is the primary role of GitHub Copilot in VS Code?
+1. What is the primary role of `GitHub Copilot` in `VS Code`?
    a) It provides an AI assistant that can generate code, answer questions, and perform tasks inside the editor.
-   b) It automatically syncs your local files with a cloud backup on GitHub.
+   b) It automatically syncs your local files with a cloud backup on `GitHub`.
    c) It monitors your code for security vulnerabilities and blocks unsafe commits.
    Correct answer: a.
-   - (a) is correct because GitHub Copilot is an AI assistant that helps with code generation, Q&A, and task automation directly inside the editor.
-   - (b) is incorrect because syncing to GitHub requires separate Git commands — Copilot does not provide backup or file syncing features.
-   - (c) is incorrect because security scanning is a different category of tool. Copilot assists with code and tasks, not vulnerability detection.
+   - (a) is correct because `GitHub Copilot` is an AI assistant that helps with code generation, Q&A, and task automation directly inside the editor.
+   - (b) is incorrect because syncing to `GitHub` requires separate `Git` commands — `Copilot` does not provide backup or file syncing features.
+   - (c) is incorrect because security scanning is a different category of tool. `Copilot` assists with code and tasks, not vulnerability detection.
 
-2. You have installed VS Code and subscribed to GitHub Copilot, but the Copilot Chat panel does not respond. Which action is most likely to resolve the issue?
-   a) Reinstall VS Code from scratch.
-   b) Check that the Copilot icon in the status bar shows as active and re-authorize your GitHub account if it shows an error.
+2. You have installed `VS Code` and subscribed to `GitHub Copilot`, but the `Copilot Chat` panel does not respond. Which action is most likely to resolve the issue?
+   a) Reinstall `VS Code` from scratch.
+   b) Check that the `Copilot icon` in the status bar shows as active and re-authorize your `GitHub` account if it shows an error.
    c) Install a third-party AI extension from the marketplace.
    Correct answer: b.
    - (a) is incorrect because a full reinstall is excessive — the problem is likely an authorization issue, not a corrupted installation.
-   - (b) is correct because the Copilot icon in the status bar is the primary indicator of connection status. If it shows an error, re-authorizing your GitHub account resolves most issues.
-   - (c) is incorrect because Copilot is a first-party GitHub extension, not a third-party one. Installing another extension would not fix an authorization problem.
+   - (b) is correct because the `Copilot` icon in the status bar is the primary indicator of connection status. If it shows an error, re-authorizing your `GitHub` account resolves most issues.
+   - (c) is incorrect because `Copilot` is a first-party `GitHub` extension, not a third-party one. Installing another extension would not fix an authorization problem.
 
-3. Why do you create a dedicated workspace folder for the course instead of opening files individually?
-   a) A workspace folder scopes all AI interactions, settings, and instruction files to one project, keeping context relevant and organized.
-   b) VS Code cannot open individual files — it only works with folders.
-   c) A workspace folder enables Copilot to access the internet during chat sessions.
+3. Why do you create a dedicated `project folder` for the course instead of opening files individually?
+   a) A `project folder` scopes all AI interactions, settings, and instruction files to one project, keeping context relevant and organized.
+   b) `VS Code` cannot open individual files — it only works with folders.
+   c) A `project folder` enables `Copilot` to access the internet during chat sessions.
    Correct answer: a.
-   - (a) is correct because a dedicated workspace scopes AI context and project settings, ensuring Copilot's suggestions remain relevant to your course work.
-   - (b) is incorrect because VS Code can open individual files — it is not limited to folders. However, opening files individually loses the project-level context that AI assistants rely on.
-   - (c) is incorrect because internet access is unrelated to folder structure. Copilot connects to cloud services regardless of how your workspace is organized.
+   - (a) is correct because a dedicated workspace scopes AI context and project settings, ensuring `Copilot's` suggestions remain relevant to your course work.
+   - (b) is incorrect because `VS Code` can open individual files — it is not limited to folders. However, opening files individually loses the project-level context that AI assistants rely on.
+   - (c) is incorrect because internet access is unrelated to folder structure. `Copilot` connects to cloud services regardless of how your workspace is organized.
