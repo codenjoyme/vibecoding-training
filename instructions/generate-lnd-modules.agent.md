@@ -76,6 +76,16 @@
   - `##` (H2) — Page headings, Summary, and Quiz: `## Page 1: Title`, `## Summary`, `## Quiz`
   - `###` (H3) — Section headings within pages: `### Background`, `### Steps`, `### Steps (variant name)`, `### ✅ Result`
 - **All URLs must be markdown links.** Never leave bare URLs in the text. Use `[https://example.com](https://example.com)` format. The only exception is URLs inside fenced code blocks (JSON, shell commands, etc.) — those stay as plain text.
+- **Inline code formatting for technical terms.** Wrap the following in backticks (`` ` ``):
+  - Product and tool names: `VS Code`, `GitHub Copilot`, `GitHub`, `Copilot`, `Cursor`, `Git`, `Docker`, `Node.js`, `npm`, `nvm`, `React`, `Jira`, `Confluence`, `MCP`, `Python`, `JavaScript`, `PowerShell`, etc.
+  - Company and organization names: `Microsoft`, `EPAM`, `Atlassian`, `GitHub`.
+  - Operating system names: `Windows`, `macOS`, `Linux`.
+  - File names and extensions: `main.py`, `mcp.json`, `.exe`, `.env`, `.gitignore`.
+  - File paths and folder references: `c:\workspace\`, `instructions/`, `.vscode/mcp.json`.
+  - UI element names: buttons (`Download`, `Sign up`), panels (`Explorer`, `Source Control`), menus (`File` > `Open Folder`), dialog text.
+  - Technical terms and modes: `Agent Mode`, `Ask Mode`, `REST API`, `API key`, `JSON`, `HTTP`, `context window`.
+  - Commands and code fragments inline in text.
+  - Do NOT apply backticks inside fenced code blocks — only in regular text.
 - Each "Page" corresponds to a logical section that can be rendered as one LMS page/screen.
 - Keep pages focused: one concept or one hands-on task per page.
 - Aim for 3-7 pages per module depending on complexity.
