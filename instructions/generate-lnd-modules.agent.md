@@ -86,6 +86,7 @@
   - Technical terms and modes: `Agent Mode`, `Ask Mode`, `REST API`, `API key`, `JSON`, `HTTP`, `context window`.
   - Commands and code fragments inline in text.
   - Do NOT apply backticks inside fenced code blocks — only in regular text.
+- **Image organization.** Screenshots are added during manual review and organized separately via `organize-module-images.agent.md`. Images are stored in `lnd/output/img/module-NN/MM-short-description.png` and referenced as `![Alt text](img/module-NN/MM-short-description.png)`. Generated module files should NOT include image placeholders — images are added by the course owner during review.
 - Each "Page" corresponds to a logical section that can be rendered as one LMS page/screen.
 - Keep pages focused: one concept or one hands-on task per page.
 - Aim for 3-7 pages per module depending on complexity.

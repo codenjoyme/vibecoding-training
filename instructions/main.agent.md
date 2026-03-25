@@ -47,3 +47,5 @@ This file serves as a catalog of all project instructions. Each instruction cove
   + Keywords: propose modules, new modules, curriculum gaps, expand training, что добавить, предложить модули, gap analysis
 - `generate-coaching-offer.agent.md` - **[COACHING OFFER GENERATION]** Generate a one-pager coaching proposal for a decision-maker based on interview results and selected training modules. Maps pain points to modules, frames outcomes in business language. Output saved to `work/coaching-offer-*.md`.
   + Keywords: offer, proposal, one-pager, coaching offer, оффер, предложение, коучинг, стейкхолдер, decision-maker, engagement
+- `organize-module-images.agent.md` - **[LND IMAGE ORGANIZATION]** Move and rename screenshots in LND module files to structured folders (`lnd/output/img/module-NN/MM-short-description.png`), update markdown references. Run per module on request after manual review with screenshots.
+  + Keywords: images, screenshots, картинки, скриншоты, organize images, rename images, img, module images
