@@ -17,7 +17,7 @@ By the end of this walkthrough you will have:
 
 ---
 
-## Step 1: Diagnose the onboarding problem
+## Part 1: Diagnose the onboarding problem
 
 Before building anything, ask AI to help you articulate the problem:
 
@@ -37,7 +37,7 @@ This diagnostic shows you exactly where the onboarding instruction will add the 
 
 ---
 
-## Step 2: Create the onboarding instruction
+## Part 2: Create the onboarding instruction
 
 **What we're about to do:** Write an instruction file that gives AI everything it needs to answer new-joiner questions accurately — project structure, conventions, key decisions, and the location of important files.
 
@@ -70,7 +70,7 @@ Save to `instructions/onboarding.agent.md`.
 
 ---
 
-## Step 3: Connect your SpecKit documentation
+## Part 3: Connect your SpecKit documentation
 
 **What we're about to do:** Add your SpecKit documentation (from module 125) as the grounded knowledge base so AI can answer "why" questions with real decisions, not guesses.
 
@@ -107,7 +107,7 @@ Compare: does the answer with docs differ from the answer without docs? That dif
 
 ---
 
-## Step 4: Simulate the 30-minute onboarding
+## Part 4: Simulate the 30-minute onboarding
 
 **What we're about to do:** Roleplay being a new joiner for 30 minutes. Ask 10 real questions a new team member would ask. Grade each answer.
 
@@ -130,7 +130,7 @@ After each answer, grade it: ✅ Accurate and useful / ⚠️ Partially correct 
 
 ---
 
-## Step 5: Fix the gaps
+## Part 5: Fix the gaps
 
 For every ⚠️ or ❌ answer from Step 4:
 
@@ -143,7 +143,7 @@ Re-run the failing questions. The goal: 8 out of 10 answers should be ✅ after 
 
 ---
 
-## Step 6: Create the day-one checklist
+## Part 6: Create the day-one checklist
 
 **What we're about to do:** Package the onboarding setup into a simple checklist a new team member follows on their first day — independent of anyone being available to guide them.
 

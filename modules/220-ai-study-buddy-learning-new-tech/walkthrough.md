@@ -16,7 +16,7 @@ See [module overview](about.md) for full prerequisites list.
 
 ---
 
-## Step 1: The Learning Problem
+## Part 1: The Learning Problem
 
 Traditional learning fails busy professionals for three reasons:
 
@@ -38,7 +38,7 @@ AI supercharges this because it can:
 
 ---
 
-## Step 2: Choose Your Topic
+## Part 2: Choose Your Topic
 
 Before we start, you need a **real unfamiliar technology** to learn. This must be something you genuinely don't know — not something you'll pretend to learn.
 
@@ -56,7 +56,7 @@ Write down your choice. You'll need it for the rest of this module.
 
 ---
 
-## Step 3: The Study Buddy Prompt
+## Part 3: The Study Buddy Prompt
 
 Open a new chat session in VS Code or Cursor. Use **Claude Sonnet 4.5** for the best learning experience (select it from the model picker).
 
@@ -97,7 +97,7 @@ The AI should respond with:
 
 ---
 
-## Step 4: Concept Exploration
+## Part 4: Concept Exploration
 
 Continue the conversation. After each answer, say **"next"** to move to the next concept.
 
@@ -125,7 +125,7 @@ After 3-5 concepts, you'll have a foundation. Don't try to learn everything — 
 
 ---
 
-## Step 5: Active Recall — Quiz Yourself
+## Part 5: Active Recall — Quiz Yourself
 
 Now test what you've actually retained. Send this prompt:
 
@@ -158,7 +158,7 @@ The AI will identify your weak spots. These are your Feynman gaps — the places
 
 ---
 
-## Step 6: Practice Task
+## Part 6: Practice Task
 
 Theory without practice fades in a day. Ask the AI for a hands-on exercise:
 
@@ -188,7 +188,7 @@ The AI will review your work and give constructive feedback. This is practice �
 
 ---
 
-## Step 7: Knowledge Map
+## Part 7: Knowledge Map
 
 Now let's visualize what you've learned. Send this prompt:
 
@@ -232,7 +232,7 @@ Paste the Mermaid diagram inside a code block:
 
 ---
 
-## Step 8: Build a Reusable Study Instruction
+## Part 8: Build a Reusable Study Instruction
 
 Now let's turn this workflow into a reusable instruction file so you can learn any technology the same way.
 

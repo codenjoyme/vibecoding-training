@@ -93,6 +93,7 @@ The `## Prerequisites` in `about.md` is the **single source of truth** for modul
   + Explain why it's needed
   + Include size/time estimates where relevant
 - Numbered steps using `1.` format for auto-numbering (Markdown will auto-renumber)
+- Section headings use `## Part N: Title` format (e.g. `## Part 1: Setup`, `## Part 2: Configuration`) — **always `Part`, never `Step`**
 - Each step should be clear, actionable, and verifiable
 - **Before complex actions** - Section explaining what will happen and why
 - **After complex actions** - Section explaining what just happened

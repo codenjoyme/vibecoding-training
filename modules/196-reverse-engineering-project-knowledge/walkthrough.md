@@ -17,7 +17,7 @@ By the end of this walkthrough you will have:
 
 ---
 
-## Step 1: Understand the text-triangle principle
+## Part 1: Understand the text-triangle principle
 
 **What we're about to learn:** The foundational idea behind text reverse engineering — and why it works.
 
@@ -75,7 +75,7 @@ The same principle applies to texts. If the **issue** is $a$, the **diff** is $c
 
 ---
 
-## Step 2: Reverse-engineer conventions from issue + diff
+## Part 2: Reverse-engineer conventions from issue + diff
 
 **What we're about to do:** The core skill of this module. We'll give an AI model a completed task (issue + diff) and ask it to extract the project conventions that guided the implementation. Then we'll compare with the real conventions to see how accurate the extraction is.
 
@@ -125,7 +125,7 @@ Format it as an instruction file that could guide a new developer on this projec
 
 ---
 
-## Step 3: Compare extracted conventions with the real ones
+## Part 3: Compare extracted conventions with the real ones
 
 **After the user returns from the new session:**
 
@@ -144,7 +144,7 @@ This comparison demonstrates both the power and the limitations of single-pair e
 
 ---
 
-## Step 4: (Optional) Third direction — reconstruct the issue from diff + conventions
+## Part 4: (Optional) Third direction — reconstruct the issue from diff + conventions
 
 **What we're about to do:** Complete the triangle by trying the third direction — useful for understanding undocumented changes.
 
@@ -186,7 +186,7 @@ with your reconstructed issue description.
 
 ---
 
-## Step 5: Scale it — extract knowledge from multiple commits
+## Part 5: Scale it — extract knowledge from multiple commits
 
 **What we're about to do:** Apply the technique to multiple issue-diff pairs to build cumulative project knowledge. Each pair reveals new conventions; together they form a comprehensive instruction file.
 
@@ -223,7 +223,7 @@ For a single pair, you can do this manually. But for 5-10 pairs, you need automa
 
 ---
 
-## Step 6: Create a reverse-engineering instruction file
+## Part 6: Create a reverse-engineering instruction file
 
 **What we're about to do:** Turn the extraction prompt into a proper instruction file that an AI agent can follow autonomously. This is the key step — an instruction file is reusable, composable, and can be fed to automation scripts.
 
@@ -265,7 +265,7 @@ with keywords: reverse engineer, conventions, extract, project knowledge, onboar
 
 ---
 
-## Step 7: Run bulk extraction on your own project
+## Part 7: Run bulk extraction on your own project
 
 **What we're about to do:** Apply the instruction from Step 6 to multiple issue-diff pairs from a real project. This uses the same approach as [Module 160 — Bulk File Processing](../160-bulk-file-processing-with-ai/about.md) — running the same instruction repeatedly over different inputs.
 

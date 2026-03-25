@@ -15,7 +15,7 @@ See [module overview](about.md) for full prerequisites list.
 
 ---
 
-## Step 1: The Problem — Why Individual Prompting Fails at Team Scale
+## Part 1: The Problem — Why Individual Prompting Fails at Team Scale
 
 ### What we'll do
 
@@ -39,7 +39,7 @@ Instructions are code. They belong in a repository. When Carol improves the revi
 
 ---
 
-## Step 2: Shared Repo Structure
+## Part 2: Shared Repo Structure
 
 ### What we'll do
 
@@ -88,7 +88,7 @@ Then create `README.md` with a one-paragraph explanation of how to use the repo.
 
 ---
 
-## Step 3: Populate the First Instruction
+## Part 3: Populate the First Instruction
 
 ### What we'll do
 
@@ -123,7 +123,7 @@ Create `team-instructions/instructions/main.agent.md`:
 
 ---
 
-## Step 4: Git-Based Distribution
+## Part 4: Git-Based Distribution
 
 ### What we'll do
 
@@ -170,7 +170,7 @@ git pull origin main
 
 ---
 
-## Step 5: Conflict Resolution
+## Part 5: Conflict Resolution
 
 ### What we'll do
 
@@ -202,7 +202,7 @@ Add these rules to your `README.md`.
 
 ---
 
-## Step 6: Adoption Strategy
+## Part 6: Adoption Strategy
 
 ### What we'll do
 

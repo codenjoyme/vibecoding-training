@@ -17,7 +17,7 @@ By the end of this walkthrough you will have:
 
 ---
 
-## Step 1: Experience the problem first
+## Part 1: Experience the problem first
 
 **What we're about to do:** See exactly why unstructured AI output breaks integrations — before fixing it.
 
@@ -43,7 +43,7 @@ This is the problem. If you write code to parse response #1, it breaks on respon
 
 ---
 
-## Step 2: Enable JSON mode in the API call
+## Part 2: Enable JSON mode in the API call
 
 **What we're about to do:** Switch the model to respond only in valid JSON. No prose, no explanations — pure structured data.
 
@@ -67,7 +67,7 @@ Save as `json_mode_demo.py`. Run it several times. The output should now be cons
 
 ---
 
-## Step 3: Define a Pydantic schema
+## Part 3: Define a Pydantic schema
 
 **What we're about to do:** Instead of parsing raw JSON dictionaries, define a Python class that describes exactly what the response must look like. This gives you type safety, validation, and IDE autocomplete.
 
@@ -91,7 +91,7 @@ Study the output. Pydantic gives you:
 
 ---
 
-## Step 4: Connect Pydantic to LangChain with PydanticOutputParser
+## Part 4: Connect Pydantic to LangChain with PydanticOutputParser
 
 **What we're about to do:** Use LangChain's output parser to combine the Pydantic schema with the LLM call — so the model's response arrives as a typed Python object automatically.
 
@@ -127,7 +127,7 @@ Run the script. Notice: the result is a `ProductReview` object, not a string. Yo
 
 ---
 
-## Step 5: Build the reusable pipeline
+## Part 5: Build the reusable pipeline
 
 **What we're about to do:** Package everything into a reusable script that accepts any prompt and schema, returns validated JSON, and saves it to a file.
 
@@ -153,7 +153,7 @@ Save the file. Run it. Check the `output/` folder — you should see a JSON file
 
 ---
 
-## Step 6: Handle validation failures gracefully
+## Part 6: Handle validation failures gracefully
 
 Real integrations need to handle cases where the model doesn't follow the schema. Ask AI:
 

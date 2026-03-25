@@ -17,7 +17,7 @@ By the end of this walkthrough you will have:
 
 ---
 
-## Step 1: Describe your data in plain language
+## Part 1: Describe your data in plain language
 
 Open AI chat with Agent Mode enabled. Don't open any code yet — start by describing what your application needs to store.
 
@@ -65,7 +65,7 @@ CREATE INDEX idx_activity_log_user_id ON activity_log(user_id);
 
 ---
 
-## Step 2: Review and improve the schema
+## Part 2: Review and improve the schema
 
 Before accepting the schema, ask AI to review it:
 
@@ -87,7 +87,7 @@ Ask follow-up questions if anything is unclear. AI can explain any design decisi
 
 ---
 
-## Step 3: Generate migration files
+## Part 3: Generate migration files
 
 **What we're about to do:** Instead of running the schema SQL directly, we'll create versioned migration files. This is how real projects manage database changes — each change gets its own file with an "undo" option.
 
@@ -125,7 +125,7 @@ You should see your table names listed.
 
 ---
 
-## Step 4: Generate queries your PoC needs
+## Part 4: Generate queries your PoC needs
 
 Now ask AI to write the actual queries your application will use. Be specific:
 
@@ -146,7 +146,7 @@ Save these queries as comments in a `queries.sql` file — your reference librar
 
 ---
 
-## Step 5: Integrate the database into your PoC
+## Part 5: Integrate the database into your PoC
 
 **What we're about to do:** Add a simple database connection layer to your existing PoC application so it reads from and writes to the SQLite database you just designed.
 
@@ -174,7 +174,7 @@ Test by:
 
 ---
 
-## Step 6: Add one schema evolution
+## Part 6: Add one schema evolution
 
 **What good schema design looks like in practice:** requirements change. Let's simulate a real evolution — add one new field or table to your schema.
 

@@ -16,7 +16,7 @@ See [module overview](about.md) for full prerequisites list.
 
 ---
 
-## Step 1: Why Keys Leak
+## Part 1: Why Keys Leak
 
 ### What we'll do
 
@@ -60,7 +60,7 @@ grep -r -i "api_key\|apikey\|secret\|token\|password" \
 
 ---
 
-## Step 2: The `.env` + `dotenv` Pattern
+## Part 2: The `.env` + `dotenv` Pattern
 
 ### What we'll do
 
@@ -145,7 +145,7 @@ console.log(`Key loaded: ${apiKey.substring(0, 6)}...`);
 
 ---
 
-## Step 3: Environment Variables in the Terminal
+## Part 3: Environment Variables in the Terminal
 
 ### What we'll do
 
@@ -204,7 +204,7 @@ source ~/.zshrc
 
 ---
 
-## Step 4: Rotate a Key
+## Part 4: Rotate a Key
 
 ### What we'll do
 
@@ -236,7 +236,7 @@ Using your GitHub personal access token (or any other key you have):
 
 ---
 
-## Step 5: Pre-Commit Checklist
+## Part 5: Pre-Commit Checklist
 
 ### What we'll do
 

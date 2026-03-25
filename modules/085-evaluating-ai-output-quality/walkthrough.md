@@ -16,7 +16,7 @@ See [module overview](about.md) for full prerequisites list.
 
 ---
 
-## Step 1: The Trust Spectrum
+## Part 1: The Trust Spectrum
 
 ### What we'll do
 
@@ -52,7 +52,7 @@ Take 5 recent AI outputs you received (from any chat session). Assign each to Tr
 
 ---
 
-## Step 2: Hallucination Detection Patterns
+## Part 2: Hallucination Detection Patterns
 
 ### What we'll do
 
@@ -101,7 +101,7 @@ Examine the response. Identify: is the version number correct (check python.org)
 
 ---
 
-## Step 3: Practical Scoring Rubric
+## Part 3: Practical Scoring Rubric
 
 ### What we'll do
 
@@ -135,7 +135,7 @@ Save scores as a table in `c:/workspace/hello-genai/quality-scores.md` (Windows)
 
 ---
 
-## Step 4: Cross-Validation Technique
+## Part 4: Cross-Validation Technique
 
 ### What we'll do
 
@@ -160,7 +160,7 @@ Pick a topic you're genuinely unsure about (e.g. "What is the maximum context wi
 
 ---
 
-## Step 5: Build a Quality Checklist
+## Part 5: Build a Quality Checklist
 
 ### What we'll do
 

@@ -17,7 +17,7 @@ By the end of this walkthrough you will have:
 
 ---
 
-## Step 1: Understand the two testing approaches
+## Part 1: Understand the two testing approaches
 
 Before writing any code, ask AI to explain the two approaches you'll use today:
 
@@ -37,7 +37,7 @@ Snapshot testing requires zero understanding of the code internals. That makes i
 
 ---
 
-## Step 2: Generate unit tests with AI
+## Part 2: Generate unit tests with AI
 
 Pick one function from your PoC — ideally one that takes inputs and returns a predictable output (a calculation, a formatter, a validator).
 
@@ -83,7 +83,7 @@ If any test fails, ask AI: "This test is failing with [error]. Is the test wrong
 
 ---
 
-## Step 3: Write the snapshot runner
+## Part 3: Write the snapshot runner
 
 **What we're about to do:** Create a script that calls your application like a real user would — sending HTTP requests, running CLI commands, or calling functions directly — and saves the output to a file. This file becomes your regression baseline.
 
@@ -114,7 +114,7 @@ Open `snapshot_current.txt`. Read through it. This is your application's current
 
 ---
 
-## Step 4: Commit the baseline snapshot
+## Part 4: Commit the baseline snapshot
 
 This is the most important conceptual step. The snapshot file IS the test. Committing it is the act of saying "this is correct behaviour."
 
@@ -139,7 +139,7 @@ Update your snapshot_runner.py to save to `snapshot_current.txt` (not baseline �
 
 ---
 
-## Step 5: Break something and catch it
+## Part 5: Break something and catch it
 
 **What we're about to do:** Change your code deliberately — a small, intentional modification — and watch the snapshot catch the regression.
 
@@ -175,7 +175,7 @@ You should see exactly what changed — lines removed in red, lines added in gre
 
 ---
 
-## Step 6: Add multiple scenarios
+## Part 6: Add multiple scenarios
 
 One snapshot isn't enough. Add scenarios for different inputs — edge cases, different users, error paths.
 

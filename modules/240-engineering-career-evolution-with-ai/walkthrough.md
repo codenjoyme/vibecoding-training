@@ -21,7 +21,7 @@ See [module overview](about.md) for full prerequisites list.
 
 ---
 
-## Step 1: Name the Fear
+## Part 1: Name the Fear
 
 ### What we'll do
 
@@ -43,7 +43,7 @@ Let the AI interview you honestly. Don't edit yourself — say the uncomfortable
 
 ---
 
-## Step 2: Quick Win — Feel the Acceleration
+## Part 2: Quick Win — Feel the Acceleration
 
 ### What we'll do
 
@@ -70,11 +70,11 @@ Time how long it takes.
 
 ---
 
-## Step 3: Reframe the Question
+## Part 3: Reframe the Question
 
 ### What we'll do
 
-Now that you've named the fear (Step 1) and felt the power (Step 2), replace the anxiety-driven question "Will AI take my job?" with the productive question "How do I become the person who uses this power?"
+Now that you've named the fear (Part 1) and felt the power (Part 2), replace the anxiety-driven question "Will AI take my job?" with the productive question "How do I become the person who uses this power?"
 
 ### The wrong question vs. the right question
 
@@ -99,7 +99,7 @@ Read the response carefully. Highlight the parts that require human judgment —
 
 ---
 
-## Step 4: Skill Audit — What You Already Have
+## Part 4: Skill Audit — What You Already Have
 
 ### What we'll do
 
@@ -137,7 +137,7 @@ Save the response to `./workspace/hello-genai/skill-audit.md` (`c:/workspace/hel
 
 ---
 
-## Step 5: The Evolution Spectrum
+## Part 5: The Evolution Spectrum
 
 ### What we'll do
 
@@ -177,7 +177,7 @@ Be honest in your answers. The goal is an accurate assessment, not a flattering 
 
 ---
 
-## Step 6: A Day in the Life — What Each Level Actually Looks Like
+## Part 6: A Day in the Life — What Each Level Actually Looks Like
 
 ### What we'll do
 
@@ -217,13 +217,13 @@ Notice: Level 4 engineer writes instructions, reviews output, ensures quality, m
 
 Ask your AI assistant:
 
-> "Based on my current level [your level from Step 5] and my specific role, write two detailed 'Day in the Life' scenarios for me: one showing a typical day at my current level, and one showing a typical day at ONE level above. Make them specific to my tech stack and domain — concrete enough that I can see myself doing it."
+> "Based on my current level [your level from Part 5] and my specific role, write two detailed 'Day in the Life' scenarios for me: one showing a typical day at my current level, and one showing a typical day at ONE level above. Make them specific to my tech stack and domain — concrete enough that I can see myself doing it."
 
 **Verify:** You can clearly picture what your work looks like at the next level. It should feel achievable, not alien.
 
 ---
 
-## Step 7: The Craft Identity Shift
+## Part 7: The Craft Identity Shift
 
 ### What we'll do
 
@@ -264,7 +264,7 @@ Ask your AI assistant:
 
 ---
 
-## Step 8: Expand Your Scope — Look Left and Right
+## Part 8: Expand Your Scope — Look Left and Right
 
 ### What we'll do
 
@@ -304,7 +304,7 @@ Ask your AI assistant:
 
 ---
 
-## Step 9: Recognize the Pattern — This Happened Before
+## Part 9: Recognize the Pattern — This Happened Before
 
 ### What we'll do
 
@@ -338,7 +338,7 @@ Ask your AI assistant:
 
 ---
 
-## Step 10: Sustainable Learning Rhythm
+## Part 10: Sustainable Learning Rhythm
 
 ### What we'll do
 
@@ -369,7 +369,7 @@ Ask your AI assistant:
 
 > "Help me set up a sustainable AI learning schedule. Here's my context:
 > - I have [X] free hours per week for learning
-> - My current AI skill level is [Level from Step 5]
+> - My current AI skill level is [Level from Part 5]
 > - My biggest gap is [from self-assessment]
 > - Tools I currently use: [list them]
 >
@@ -379,7 +379,7 @@ Ask your AI assistant:
 
 ---
 
-## Step 11: Automate Your First Repetitive Task
+## Part 11: Automate Your First Repetitive Task
 
 ### What we'll do
 
@@ -388,9 +388,9 @@ Before building the roadmap, do one more real thing. Take the most repetitive ta
 ### The roadmap template
 
 Your roadmap should answer five questions:
-1. **Where am I now?** (your level from Step 5)
+1. **Where am I now?** (your level from Part 5)
 2. **Where do I want to be in 3 months?** (one level up)
-3. **What specific skills do I need?** (from Steps 4 and 8)
+3. **What specific skills do I need?** (from Parts 4 and 8)
 4. **What is my biggest daily time sink?** (the first thing to automate)
 5. **What will I do this week?** (one concrete action)
 
@@ -414,11 +414,11 @@ Try it once: paste the instruction into a new agent session with real input data
 
 ---
 
-## Step 12: Build Your Personal Evolution Roadmap
+## Part 12: Build Your Personal Evolution Roadmap
 
 ### What we'll do
 
-Combine everything from this session into a concrete, time-bound plan for the next 3 months — grounded in your actual fears, your acceleration factor from Step 2, and the task you automated in Step 11.
+Combine everything from this session into a concrete, time-bound plan for the next 3 months — grounded in your actual fears, your acceleration factor from Part 2, and the task you automated in Part 11.
 
 ### Hands-on
 
@@ -430,8 +430,8 @@ Ask your AI assistant:
 >
 > **Current level:** [from our assessment]
 > **Target level (3 months):** [one level up]
-> **My acceleration factor:** [from Step 2 quick win]
-> **First automated task:** [from Step 11 above]
+> **My acceleration factor:** [from Part 2 quick win]
+> **First automated task:** [from Part 11 above]
 >
 > ### Month 1: Foundation
 > - Specific skill to learn

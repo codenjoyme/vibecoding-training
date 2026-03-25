@@ -17,7 +17,7 @@ By the end of this walkthrough you will have:
 
 ---
 
-## Step 1: Understand what CI/CD does
+## Part 1: Understand what CI/CD does
 
 Before writing any YAML, ask AI:
 
@@ -39,7 +39,7 @@ The key insight: CI is not optional for AI-assisted development. When AI agents 
 
 ---
 
-## Step 2: Create your first workflow file
+## Part 2: Create your first workflow file
 
 **What we're about to do:** Create a workflow file that runs on every push and executes your tests.
 
@@ -90,7 +90,7 @@ Create the file at `.github/workflows/ci.yml` in your repository.
 
 ---
 
-## Step 3: Add snapshot testing to the pipeline
+## Part 3: Add snapshot testing to the pipeline
 
 **What we're about to do:** Extend the workflow to run your snapshot runner and compare the output to the committed baseline.
 
@@ -123,7 +123,7 @@ Push this change to your repository. GitHub Actions will run automatically.
 
 ---
 
-## Step 4: Watch CI run on a Pull Request
+## Part 4: Watch CI run on a Pull Request
 
 Use the GitHub UI to create a test pull request:
 
@@ -142,7 +142,7 @@ Merge or close the test PR.
 
 ---
 
-## Step 5: Trigger a deliberate failure
+## Part 5: Trigger a deliberate failure
 
 **What we're about to do:** Change your code to make a snapshot fail in CI — so you see exactly what the failure looks like and how to read the failure log.
 
@@ -164,7 +164,7 @@ Revert the change now: `git revert HEAD`. Push. CI should go green again.
 
 ---
 
-## Step 6: Set up failure notifications
+## Part 6: Set up failure notifications
 
 By default, GitHub emails you when a workflow fails — but only if you set it up.
 
@@ -185,7 +185,7 @@ Add the notification step to your workflow if you have a Slack workspace or webh
 
 ---
 
-## Step 7: Run the full delegation loop
+## Part 7: Run the full delegation loop
 
 **What we're about to do:** Run the complete workflow end-to-end — from issue to merged code — with CI as the automated quality gate.
 

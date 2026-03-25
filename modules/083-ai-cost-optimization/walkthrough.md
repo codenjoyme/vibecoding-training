@@ -16,7 +16,7 @@ See [module overview](about.md) for full prerequisites list.
 
 ---
 
-## Step 1: Token Economics 101
+## Part 1: Token Economics 101
 
 ### What we'll do
 
@@ -50,7 +50,7 @@ Open a token counter like [platform.openai.com/tokenizer](https://platform.opena
 
 ---
 
-## Step 2: Measure Your Usage
+## Part 2: Measure Your Usage
 
 ### What we'll do
 
@@ -80,7 +80,7 @@ Write down three numbers: total tokens last 7 days, estimated cost, top model.
 
 ---
 
-## Step 3: Cost Reduction Techniques
+## Part 3: Cost Reduction Techniques
 
 ### What we'll do
 
@@ -128,7 +128,7 @@ Take your top 3 prompts from a recent project. Apply Technique 1 and 2 to each. 
 
 ---
 
-## Step 4: Model Routing — Decision Matrix
+## Part 4: Model Routing — Decision Matrix
 
 ### What we'll do
 
@@ -154,7 +154,7 @@ macOS path: same location.
 
 ---
 
-## Step 5: Budget Planning
+## Part 5: Budget Planning
 
 ### What we'll do
 

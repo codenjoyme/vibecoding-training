@@ -17,7 +17,7 @@ By the end of this walkthrough you will have:
 
 ---
 
-## Step 1: The OWASP Top 10 in 5 minutes
+## Part 1: The OWASP Top 10 in 5 minutes
 
 **What we're about to do:** Ground ourselves in what AI commonly gets wrong before looking at any code.
 
@@ -44,7 +44,7 @@ These are the exact vulnerabilities you'll look for in your own code.
 
 ---
 
-## Step 2: Review your code with AI
+## Part 2: Review your code with AI
 
 Take your PoC project. Open a file — the main application file, or the one with the most API interaction. Ask AI to review it:
 
@@ -72,7 +72,7 @@ Review the findings. Some will be real issues. Some may be false positives — A
 
 ---
 
-## Step 3: Fix hardcoded secrets
+## Part 3: Fix hardcoded secrets
 
 This is the highest-priority finding. If AI found any credentials in code, fix them now.
 
@@ -134,9 +134,9 @@ Install the library and test that your application still works after the change.
 
 ---
 
-## Step 4: Fix the highest-priority vulnerabilities
+## Part 4: Fix the highest-priority vulnerabilities
 
-Work through the other findings AI reported in Step 2. For each, ask for a fix:
+Work through the other findings AI reported in Part 2. For each, ask for a fix:
 
 ```
 Fix this vulnerability in my code:
@@ -164,7 +164,7 @@ Apply each fix. Run your application after each change. Run snapshot tests (from
 
 ---
 
-## Step 5: Scan Git history for leaked secrets
+## Part 5: Scan Git history for leaked secrets
 
 **What we're about to do:** Check whether any secret was ever committed in the past — even if it's been deleted from the current files.
 
@@ -188,7 +188,7 @@ The immediate action is always to **revoke and rotate the secret** — regardles
 
 ---
 
-## Step 6: Build a reusable security review instruction
+## Part 6: Build a reusable security review instruction
 
 Now capture everything you learned as a reusable instruction. Ask AI to create it:
 

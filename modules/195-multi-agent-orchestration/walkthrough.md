@@ -17,7 +17,7 @@ By the end of this walkthrough you will have:
 
 ---
 
-## Step 1: Understand why single agents hit a ceiling
+## Part 1: Understand why single agents hit a ceiling
 
 Before building the pipeline, ask AI to explain the problem it solves:
 
@@ -36,7 +36,7 @@ The key insight: an agent that wrote the code carries all the same assumptions a
 
 ---
 
-## Step 2: Create the Coder Agent instruction
+## Part 2: Create the Coder Agent instruction
 
 **What we're about to do:** Write an instruction file that scopes an agent's role strictly to implementation — no review, no second-guessing, just clean production-ready code.
 
@@ -67,7 +67,7 @@ Save to `instructions/coder-agent.agent.md`.
 
 ---
 
-## Step 3: Create the Reviewer Agent instruction
+## Part 3: Create the Reviewer Agent instruction
 
 **What we're about to do:** Write a second instruction file for an agent whose only job is adversarial review — finding problems the coder agent missed.
 
@@ -96,7 +96,7 @@ Save to `instructions/reviewer-agent.agent.md`.
 
 ---
 
-## Step 4: Run the Coder Agent on a real task
+## Part 4: Run the Coder Agent on a real task
 
 **What we're about to do:** Give the coder agent a specific task and capture its output as the handoff artifact.
 
@@ -120,7 +120,7 @@ Wait for the coder agent to complete. Copy its output — the file and the summa
 
 ---
 
-## Step 5: Run the Reviewer Agent on the handoff artifact
+## Part 5: Run the Reviewer Agent on the handoff artifact
 
 Open a NEW AI chat (fresh context — this is crucial for the review to be independent). Attach `instructions/reviewer-agent.agent.md`. Agent Mode on.
 
@@ -141,7 +141,7 @@ Code:
 
 ---
 
-## Step 6: Complete the pipeline loop
+## Part 6: Complete the pipeline loop
 
 Read the reviewer's verdict:
 
@@ -173,7 +173,7 @@ Document the pipeline run in a file `orchestration-log.md`:
 
 ---
 
-## Step 7: Explore scaling with GitHub agents
+## Part 7: Explore scaling with GitHub agents
 
 Ask AI to explain how this pattern scales:
 

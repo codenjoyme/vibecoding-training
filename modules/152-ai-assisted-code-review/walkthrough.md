@@ -16,7 +16,7 @@ By the end of this walkthrough you will have:
 
 ---
 
-## Step 1: Understand why AI code needs review
+## Part 1: Understand why AI code needs review
 
 Ask AI this question before looking at any code:
 
@@ -43,7 +43,7 @@ These are what you'll look for.
 
 ---
 
-## Step 2: Get AI to summarise the PR for you
+## Part 2: Get AI to summarise the PR for you
 
 Open a PR from your GitHub repository — ideally one created by the GitHub coding agent in module 150. Copy the full diff (all changed files with their before/after state).
 
@@ -64,7 +64,7 @@ Review the summary. The AI's summary often captures things you'd miss in a quick
 
 ---
 
-## Step 3: Use Copilot in VS Code to review the changed file
+## Part 3: Use Copilot in VS Code to review the changed file
 
 Pull the PR branch locally:
 
@@ -90,7 +90,7 @@ Work through the findings. For each one, decide: is this a blocker, a suggestion
 
 ---
 
-## Step 4: Find the "looks good but isn't" patterns
+## Part 4: Find the "looks good but isn't" patterns
 
 These are the patterns that pass all tests but are silently wrong. Ask AI:
 
@@ -110,7 +110,7 @@ Even if you don't understand every answer, ask AI to explain the most serious ri
 
 ---
 
-## Step 5: Write structured review feedback
+## Part 5: Write structured review feedback
 
 Now write the actual review. Don't write comments like "this is bad" or "change this." Ask AI to help you write professional, actionable feedback:
 
@@ -134,7 +134,7 @@ Post the comments on the PR in GitHub. You can use "Request Changes" if there ar
 
 ---
 
-## Step 6: Build a reusable review instruction
+## Part 6: Build a reusable review instruction
 
 Capture this workflow as a reusable instruction. Ask AI:
 
@@ -155,7 +155,7 @@ Save to `instructions/code-review.agent.md`.
 
 ---
 
-## Step 7: Create a one-page team review protocol
+## Part 7: Create a one-page team review protocol
 
 The review process shouldn't depend on who's doing it. Ask AI to help you create a protocol:
 

@@ -24,7 +24,7 @@ See [module overview](about.md) for full prerequisites list.
 
 ---
 
-## Step 1: Why Frameworks Matter
+## Part 1: Why Frameworks Matter
 
 In module 195 you learned multi-agent patterns: sequential, parallel, supervisor. But implementing those patterns with raw Langchain has limitations:
 
@@ -42,7 +42,7 @@ Think of it as a flowchart that actually runs.
 
 ---
 
-## Step 2: Set Up the Environment
+## Part 2: Set Up the Environment
 
 1. Navigate to your workspace:
    ```
@@ -72,7 +72,7 @@ Think of it as a flowchart that actually runs.
 
 ---
 
-## Step 3: Build a Minimal Graph
+## Part 3: Build a Minimal Graph
 
 Let's start with the simplest possible graph — one node that processes input and returns output.
 
@@ -113,7 +113,7 @@ Let's start with the simplest possible graph — one node that processes input a
 
 ---
 
-## Step 4: Add an LLM Node
+## Part 4: Add an LLM Node
 
 Now let's replace the dummy processing with an actual LLM call.
 
@@ -183,7 +183,7 @@ Now let's replace the dummy processing with an actual LLM call.
 
 ---
 
-## Step 5: Add Conditional Routing
+## Part 5: Add Conditional Routing
 
 The reviewer gave feedback — but nothing happens with it. Let's add a **conditional edge**: if the review score is low, send back to the coder for a fix.
 
@@ -277,7 +277,7 @@ This is the **core power of LangGraph** — conditional edges that create intell
 
 ---
 
-## Step 6: Human-in-the-Loop
+## Part 6: Human-in-the-Loop
 
 Sometimes you want a human to approve before the pipeline continues. LangGraph supports **interrupts** — the graph pauses at a node and waits.
 
@@ -350,7 +350,7 @@ The pipeline will **pause** and ask you to approve the generated code in the ter
 
 ---
 
-## Step 7: State Persistence
+## Part 7: State Persistence
 
 With LangGraph's checkpointer, you can save graph state and resume later — even after restarting Python.
 
@@ -423,7 +423,7 @@ With LangGraph's checkpointer, you can save graph state and resume later — eve
 
 ---
 
-## Step 8: Framework Comparison
+## Part 8: Framework Comparison
 
 LangGraph is not the only option. Here's when to use what:
 

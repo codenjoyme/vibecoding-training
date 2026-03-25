@@ -17,7 +17,7 @@ By the end of this walkthrough you will have:
 
 ---
 
-## Step 1: Start with raw conversation — no code yet
+## Part 1: Start with raw conversation — no code yet
 
 **What we're about to do:** Experience how powerful AI is as an analyst even before writing any code, by pasting data directly into chat.
 
@@ -48,7 +48,7 @@ Read the analysis. This is the baseline — pure AI reasoning on raw data. The a
 
 ---
 
-## Step 2: Ask for structured analysis
+## Part 2: Ask for structured analysis
 
 **What we're about to do:** Go deeper — ask AI to compute specific metrics and group the data in ways that reveal patterns.
 
@@ -68,7 +68,7 @@ This converts you from "data consumer" to "analyst with a data assistant."
 
 ---
 
-## Step 3: Generate a visualisation
+## Part 3: Generate a visualisation
 
 **What we're about to do:** Ask AI to write a Python script that creates a chart from your data.
 
@@ -97,7 +97,7 @@ Open `sprint_report.png`. Verify the chart matches the data.
 
 ---
 
-## Step 4: Generate a written report
+## Part 4: Generate a written report
 
 **What we're about to do:** Ask AI to write an executive-level summary report from the raw data — with conclusions, not just numbers.
 
@@ -119,7 +119,7 @@ Save the output as `sprint-report.md`. This is a deliverable-quality document pr
 
 ---
 
-## Step 5: Build the reusable analysis script
+## Part 5: Build the reusable analysis script
 
 **What we're about to do:** Combine everything into a single Python script that runs on any CSV file and produces both the chart and the report automatically.
 
@@ -152,7 +152,7 @@ Verify `report.md` and `correlation.png` are generated. You now have a one-comma
 
 ---
 
-## Step 6: Apply to a real team dataset
+## Part 6: Apply to a real team dataset
 
 Use the `analyse.py` script on a real dataset from your work:
 - Jira CSV export (sprint report, backlog, bug tracker)

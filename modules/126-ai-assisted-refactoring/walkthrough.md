@@ -18,7 +18,7 @@ These are practical, reusable artifacts your team can apply to any existing code
 
 ---
 
-## Step 1: Choose a target file
+## Part 1: Choose a target file
 
 Open your PoC project folder (from module 120 or 125). Browse the files and pick one that looks messy. Signs of a good refactoring candidate:
 
@@ -40,7 +40,7 @@ Read the response. Pick the **lowest-risk** opportunity to start with. Safe firs
 
 ---
 
-## Step 2: Create a safety baseline commit
+## Part 2: Create a safety baseline commit
 
 Before touching any code, make sure your current state is committed. This is your rollback point.
 
@@ -68,7 +68,7 @@ git commit -m "baseline: before refactoring pass"
 
 ---
 
-## Step 3: Refactoring pass 1 — Extract a function
+## Part 3: Refactoring pass 1 — Extract a function
 
 Take the longest block of code inside your target function. Ask AI to extract it:
 
@@ -94,7 +94,7 @@ Apply the change. Then immediately:
 
 ---
 
-## Step 4: Refactoring pass 2 — Rename for clarity
+## Part 4: Refactoring pass 2 — Rename for clarity
 
 Look for variables or parameters with unclear names in your target file. Give AI context:
 
@@ -120,7 +120,7 @@ Commit the change: `git commit -m "refactor: rename variables for clarity"`
 
 ---
 
-## Step 5: Refactoring pass 3 — Simplify logic
+## Part 5: Refactoring pass 3 — Simplify logic
 
 Look for `if/else` chains, deeply nested loops, or complex conditions that are hard to read. Ask AI:
 
@@ -139,7 +139,7 @@ If you apply the change: commit immediately, run your code, verify output matche
 
 ---
 
-## Step 6: Review the full diff
+## Part 6: Review the full diff
 
 Look at everything you've done:
 
@@ -160,7 +160,7 @@ What would you call out in a code review?
 
 ---
 
-## Step 7: Create a reusable refactoring instruction
+## Part 7: Create a reusable refactoring instruction
 
 Now encode what you learned. In your project's `instructions/` folder, create a new file called `refactoring.agent.md`:
 

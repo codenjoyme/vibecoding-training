@@ -17,7 +17,7 @@ See [module overview](about.md) for full prerequisites list.
 
 ---
 
-## Step 1: Understand the Idea
+## Part 1: Understand the Idea
 
 ### What we'll do
 
@@ -52,7 +52,7 @@ You don't need to write code to use an IDE productively. The IDE is a powerful t
 
 ---
 
-## Step 2: Security Checkpoint — Before You Start
+## Part 2: Security Checkpoint — Before You Start
 
 ### What we'll do
 
@@ -90,7 +90,7 @@ Before adding documents to your workspace, answer these questions:
 
 ---
 
-## Step 3: Set Up Your Knowledge Workspace
+## Part 3: Set Up Your Knowledge Workspace
 
 ### What we'll do
 
@@ -167,7 +167,7 @@ This README helps AI understand the context of your workspace when you start ask
 
 ---
 
-## Step 4: Query Your Documents
+## Part 4: Query Your Documents
 
 ### What we'll do
 
@@ -227,7 +227,7 @@ Pick any 3 patterns above and try them against your documents. Adjust the prompt
 
 ---
 
-## Step 5: Deep Analysis — Compare and Decide
+## Part 5: Deep Analysis — Compare and Decide
 
 ### What we'll do
 
@@ -276,7 +276,7 @@ Choose the analysis type most relevant to your situation and run it. If none of 
 
 ---
 
-## Step 6: Summarize and Preserve Knowledge
+## Part 6: Summarize and Preserve Knowledge
 
 ### What we'll do
 
@@ -332,7 +332,7 @@ Save it as analysis/adr-001-[topic].md
 
 ---
 
-## Step 7: Iterate — New Session, New Question
+## Part 7: Iterate — New Session, New Question
 
 ### What we'll do
 

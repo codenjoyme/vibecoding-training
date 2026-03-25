@@ -16,7 +16,7 @@ See [module overview](about.md) for full prerequisites list.
 
 ---
 
-## Step 1: Understand the Module Structure
+## Part 1: Understand the Module Structure
 
 Every module in this course follows the same pattern. Before you create one, you need to know the anatomy.
 
@@ -75,7 +75,7 @@ The walkthrough references these files directly (e.g., "Run the script at `./too
 
 ---
 
-## Step 2: Choose Your Source Material
+## Part 2: Choose Your Source Material
 
 You need an article, blog post, or technical resource about a GenAI topic. This should be something:
 
@@ -114,7 +114,7 @@ Good source examples:
 
 ---
 
-## Step 3: The Module Creation Prompt
+## Part 3: The Module Creation Prompt
 
 ### What We'll Do
 
@@ -163,7 +163,7 @@ If the agent asks clarifying questions (about prerequisites, placement, etc.), a
 
 ---
 
-## Step 4: Quality Review
+## Part 4: Quality Review
 
 The AI generated your module, but AI-generated content needs review. Go through this checklist:
 
@@ -206,7 +206,7 @@ Fix these issues in the generated module:
 
 ---
 
-## Step 5: Integration
+## Part 5: Integration
 
 ### Update training-plan.md
 
@@ -241,7 +241,7 @@ git commit -m "Add module [ID]: [Module Name]"
 
 ---
 
-## Step 6: Test-Walk the Module in a Fresh Session
+## Part 6: Test-Walk the Module in a Fresh Session
 
 ### What We'll Do
 
@@ -273,7 +273,7 @@ You've validated the module from the student's perspective. This step often catc
 
 ---
 
-## Step 7: Fork & PR Workflow (for Shared Repos)
+## Part 7: Fork & PR Workflow (for Shared Repos)
 
 If the course lives in a shared GitHub repository, you contribute modules through Pull Requests.
 
@@ -320,7 +320,7 @@ Your module is now proposed as a contribution. The course maintainer will review
 
 ---
 
-## Step 8: The Repeatable Pattern
+## Part 8: The Repeatable Pattern
 
 You now have a repeatable workflow:
 
