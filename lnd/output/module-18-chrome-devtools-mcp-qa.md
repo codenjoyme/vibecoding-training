@@ -64,7 +64,7 @@ With the MCP server connected, the AI can now open your application and interact
 
 ### Steps
 1. Start your application from Module 17: ask the AI "Start docker-compose, then start the backend and frontend servers."
-2. Wait for all services to start. The frontend should be accessible at http://localhost:5173 (or similar).
+2. Wait for all services to start. The frontend should be accessible at [http://localhost:5173](http://localhost:5173) (or similar).
 3. Ask the AI: "Open my application in Chrome and take a screenshot of the main page."
 4. The AI will use MCP tools to:
    - Launch Chrome.

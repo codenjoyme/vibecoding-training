@@ -75,6 +75,7 @@
   - `#` (H1) — Module title only (one per file): `# Module N: Title`
   - `##` (H2) — Page headings, Summary, and Quiz: `## Page 1: Title`, `## Summary`, `## Quiz`
   - `###` (H3) — Section headings within pages: `### Background`, `### Steps`, `### Steps (variant name)`, `### ✅ Result`
+- **All URLs must be markdown links.** Never leave bare URLs in the text. Use `[https://example.com](https://example.com)` format. The only exception is URLs inside fenced code blocks (JSON, shell commands, etc.) — those stay as plain text.
 - Each "Page" corresponds to a logical section that can be rendered as one LMS page/screen.
 - Keep pages focused: one concept or one hands-on task per page.
 - Aim for 3-7 pages per module depending on complexity.

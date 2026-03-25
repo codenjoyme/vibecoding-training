@@ -149,7 +149,7 @@ Pushing your repository to GitHub creates a remote backup. If your local machine
 This is also the moment to initialize the repository you will use for the practical project throughout the course. In Module 08, you will define a Jira/Confluence automation project — but you can create the repo for it now.
 
 ### Steps
-1. Go to https://github.com/new in your browser.
+1. Go to [https://github.com/new](https://github.com/new) in your browser.
 2. Name the repository: jira-confluence-automation (or git-baby-steps-practice if you prefer to start with a generic name and rename later).
 3. Choose Public or Private (your preference).
 4. Do NOT check "Initialize this repository" — you already have local files.

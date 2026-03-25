@@ -41,24 +41,24 @@ GitHub Copilot is an AI-powered coding assistant built by GitHub (a Microsoft co
 There are two paths depending on whether you are using a personal account or an EPAM corporate account.
 
 ### Steps (Personal Use — Part A)
-1. Open your browser and go to https://github.com/.
-2. If you do not have an account, click Sign up in the top-right corner.
+1. Open your browser and go to [https://github.com/](https://github.com/).
+2. If you do not have an account, click `Sign up` in the top-right corner.
 3. Enter your email, create a password, choose a username, and complete verification.
 4. Verify your email address by clicking the link GitHub sends to your inbox.
 5. Sign in to your GitHub account.
-6. Navigate to https://github.com/features/copilot.
+6. Navigate to [https://github.com/features/copilot](https://github.com/features/copilot).
 7. Click Start free trial or Subscribe (GitHub Copilot offers a free trial period).
 8. Complete the subscription process.
 9. Verify that Copilot is enabled in your account settings under the Copilot section.
 
 ### Steps (EPAM Employees — Part B)
-1. Open the EPAM Support portal: https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses.
+1. Open the EPAM Support portal: [https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses](https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses).
 2. In the Software Licenses request form, select GitHub Copilot from the available options.
 3. Choose the purpose: Education and Internal project only (for learning) or Project needs (for client work — requires manager approval).
 4. Read and accept the license agreements.
 5. Submit the request and wait for the license to be provisioned (you will receive an email notification).
 6. Your EPAM GitHub username follows the format: Name-Surname_epam (for example, Ivan-Petrov_epam).
-7. Go to https://github.com/ and sign in with your EPAM GitHub account. You will be redirected to a Microsoft SSO page — enter your EPAM credentials there.
+7. Go to [https://github.com/](https://github.com/) and sign in with your EPAM GitHub account. You will be redirected to a Microsoft SSO page — enter your EPAM credentials there.
 8. After authentication, verify that Copilot is enabled in your GitHub account settings.
 
 ### ✅ Result

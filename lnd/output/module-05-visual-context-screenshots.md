@@ -65,7 +65,7 @@ You can take a screenshot and paste it into the AI chat.
 To practice the screenshot workflow, you will complete a real task: opening the browser Developer Console and writing "Hello World." This task varies between browsers (Chrome, Firefox, Edge, Safari), making it a perfect case for screenshot-assisted guidance — the AI can see which browser you are using and adapt its instructions.
 
 ### Steps
-1. Open any web browser and navigate to any website (for example, https://www.google.com).
+1. Open any web browser and navigate to any website (for example, [https://www.google.com](https://www.google.com)).
 2. Take a screenshot of the entire browser window.
 3. Open your AI chat and paste the screenshot.
 4. Type this message along with the screenshot:
@@ -90,7 +90,7 @@ If you do not have access to Jira/Confluence yet, you can skip this exercise and
 
 ### Steps
 [MG]: Нужно рассмортеть вариант с EPAM Jira, например если человек уже использовал бесплатную атлассиан Jira для других проектов. Либо указать что если у Вас уже использовалась она, то зарегайте новую временную почту чисто для обучения.
-1. Open your browser and navigate to your Atlassian account settings (https://id.atlassian.com/manage-profile/security/api-tokens).
+1. Open your browser and navigate to your Atlassian account settings ([https://id.atlassian.com/manage-profile/security/api-tokens](https://id.atlassian.com/manage-profile/security/api-tokens)).
 2. Take a screenshot of the page you see.
 3. Paste the screenshot into the AI chat and ask:
    I need to create an API token for accessing Jira and Confluence via their REST APIs. Here is my current screen. Can you walk me through the steps?

@@ -16,7 +16,7 @@ This module is optional. If you are satisfied with your VS Code + Copilot setup 
 Cursor uses the same core as VS Code, so the interface will feel familiar. The key difference is that AI features are deeply integrated — not bolted on as extensions. Cursor can import your VS Code settings, themes, and extensions so you do not lose any customization.
 
 ### Steps (Personal Use — Part A)
-1. Open your web browser and navigate to https://cursor.sh/.
+1. Open your web browser and navigate to [https://cursor.sh/](https://cursor.sh/).
 2. Click the Download button for your operating system.
 3. Run the downloaded installer:
    - Windows: Run the .exe file and follow the installation wizard.
@@ -26,7 +26,7 @@ Cursor uses the same core as VS Code, so the interface will feel familiar. The k
 5. You should see the Cursor welcome screen.
 
 ### Steps (EPAM Employees — Part B)
-1. Open your browser and navigate to https://leap.epam.com/news/5039.
+1. Open your browser and navigate to [https://leap.epam.com/news/5039](https://leap.epam.com/news/5039).
 2. Follow the installation manual provided on that page.
 3. Use the approved download link from the EPAM guide.
 4. Complete the installation according to EPAM internal procedures (follow any additional security requirements).

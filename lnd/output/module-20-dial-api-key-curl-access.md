@@ -42,7 +42,7 @@ To access DIAL programmatically, you need an API key. The key is requested throu
 **Security warning:** Your API key is like a password. Anyone with your key can make requests on your behalf, consume your quota, and all actions will be logged under your name. Never commit API keys to Git repositories, share them in chats, or store them in plain text files accessible to others.
 
 ### Steps
-1. Open your browser and navigate to https://chat.lab.epam.com/
+1. Open your browser and navigate to [https://chat.lab.epam.com/](https://chat.lab.epam.com/)
 2. Scroll to the bottom of the page.
 3. Find and click the **"Request API key"** link in the footer.
 4. You will be redirected to the EPAM Support Portal with a pre-filled ticket.
