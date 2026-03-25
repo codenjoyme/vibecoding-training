@@ -5,7 +5,7 @@ You have a general idea — "I want to automate my weekly status reports" — bu
 
 This is the most common blocker for non-developers starting an automation project. The good news: the AI itself can solve this problem. Instead of asking the AI to implement something immediately, you ask it to interview you first. Through that conversation, the AI extracts the details you did not know you had.
 
-In this module, you will learn the interview technique and use it to create a Technical Specification (ТЗ) for your Jira/Confluence automation project — the central artifact for the rest of the course.
+In this module, you will learn the interview technique and use it to create a Technical Specification (ТЗ) for your `Jira`/Confluence automation project — the central artifact for the rest of the course.
 
 Upon completion of this module, you will be able to:
 - Use the "ask me clarifying questions" pattern to transform vague ideas into specific requirements.
@@ -47,7 +47,7 @@ Why this works:
 - The context window accumulates precise information through dialogue rather than through guessing.
 
 ### Steps
-1. Open your AI chat in Agent Mode.
+1. Open your AI chat in `Agent Mode`.
 2. Type a minimal prompt:
    "I want to automate my weekly status report for stakeholders. Before we start, ask me clarifying questions."
 3. Send it. The AI will ask several questions — about format, data sources, audience, frequency, sections, and so on.
@@ -69,7 +69,7 @@ You can specify:
 - How to explain: "If I do not understand a question, explain the options and their tradeoffs."
 
 You can also ask your own questions during the interview:
-- "What is the difference between a REST API and a webhook?"
+- "What is the difference between a `REST API` and a webhook?"
 - "Which format would you recommend for my use case?"
 - "What are the tradeoffs between these options?"
 
@@ -77,7 +77,7 @@ The AI will answer your question and then return to the interview.
 
 ### Steps
 1. Start a new chat and try this enhanced prompt:
-   "I want to build a Jira dashboard that shows my team's sprint progress. Before we start, interview me to understand the requirements. Ask one question at a time. If I am unsure about an answer, explain the options and recommend one."
+   "I want to build a `Jira` dashboard that shows my team's sprint progress. Before we start, interview me to understand the requirements. Ask one question at a time. If I am unsure about an answer, explain the options and recommend one."
 2. Go through the interview process, answering questions and asking your own when needed.
 3. After the interview, ask the AI: "Summarize what we discussed as a requirements document."
 4. Review the summary — it should capture everything you discussed.
@@ -87,20 +87,20 @@ You can control the interview process — setting the pace, focus, and depth of 
 
 ## Page 4: Create Your Technical Specification
 ### Background
-Now you will apply the interview technique to a real task: creating a Technical Specification (ТЗ) for your Jira/Confluence automation project. This ТЗ will be the foundation for all practical work in the remaining modules.
+Now you will apply the interview technique to a real task: creating a Technical Specification (ТЗ) for your `Jira`/Confluence automation project. This ТЗ will be the foundation for all practical work in the remaining modules.
 
 Choose your automation idea (pick one or propose your own):
-- Weekly status report generator that pulls data from Jira and formats it for stakeholders.
+- Weekly status report generator that pulls data from `Jira` and formats it for stakeholders.
 - Change Request (CR) registry that tracks and summarizes CRs across projects.
-- Contributor analytics dashboard showing team activity from Jira and Confluence.
-- Meeting notes processor that extracts action items and creates Jira tickets.
+- Contributor analytics dashboard showing team activity from `Jira` and `Confluence`.
+- Meeting notes processor that extracts action items and creates `Jira` tickets.
 
 ### Steps
-1. Open your AI chat in Agent Mode.
+1. Open your AI chat in `Agent Mode`.
 2. Write your initial prompt:
-   "I want to build [your chosen automation idea]. This is for my role as [your role] managing [team size] people working on [project type]. Before we start building anything, interview me to understand the full requirements. After the interview, create a structured Technical Specification in markdown format. Save it as PROJECT_SPEC.md in the project root."
+   "I want to build [your chosen automation idea]. This is for my role as [your role] managing [team size] people working on [project type]. Before we start building anything, interview me to understand the full requirements. After the interview, create a structured Technical Specification in markdown format. Save it as `PROJECT_SPEC.md` in the project root."
 3. Go through the interview (2-3 rounds of questions).
-4. When the AI creates PROJECT_SPEC.md, review it carefully.
+4. When the AI creates `PROJECT_SPEC.md`, review it carefully.
 5. If anything is missing or incorrect, tell the AI directly (e.g., "Add a section about data refresh frequency — it should be daily.").
 6. When you are satisfied, commit the file: use the git workflow from Module 3.
 
@@ -119,7 +119,7 @@ Use the interview when:
 
 Skip the interview when:
 - You already know exactly what you want (write specific statements directly).
-- The task is simple and well-defined ("Create a .gitignore for Python").
+- The task is simple and well-defined ("Create a `.gitignore` for `Python`").
 - You are refining an existing feature with minor changes.
 
 After the interview — two paths:

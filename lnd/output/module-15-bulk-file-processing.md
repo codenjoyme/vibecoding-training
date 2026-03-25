@@ -31,8 +31,8 @@ When to use this approach:
 - No automation needed.
 
 ### Steps
-1. Open your AI chat in Agent Mode.
-2. Ask: "Review all walkthrough.md files in the modules/ directory. For each file, check if it has a Summary section and a Quiz section. List any files that are missing either."
+1. Open your AI chat in `Agent Mode`.
+2. Ask: "Review all `walkthrough.md` files in the `modules/` directory. For each file, check if it has a Summary section and a Quiz section. List any files that are missing either."
 3. Watch the agent work. If you have many modules, notice how the quality of analysis changes between the first files and the last files.
 4. Note at which point the analysis becomes less detailed or starts repeating generic observations.
 
@@ -57,8 +57,8 @@ When to use this approach:
 - No time to write an automation script.
 
 ### Steps
-1. Create a validation rules file (e.g., validation-rules.md) with 5-6 specific checks for any file type you work with.
-2. Ask the AI to process files iteratively with re-reading: "For each walkthrough.md in modules/: 1) Read validation-rules.md. 2) Read the file. 3) Check against rules. 4) Report issues. 5) Move to next file."
+1. Create a validation rules file (e.g., `validation-rules.md`) with 5-6 specific checks for any file type you work with.
+2. Ask the AI to process files iteratively with re-reading: "For each `walkthrough.md` in `modules/`: 1) Read `validation-rules.md`. 2) Read the file. 3) Check against rules. 4) Report issues. 5) Move to next file."
 3. Compare the quality of analysis with Approach 1. Is it more consistent across files?
 4. Think about the token cost: the instruction was read N times instead of once.
 
@@ -70,24 +70,24 @@ You understand the tradeoff between quality and token cost in iterative processi
 The optimal approach: write a script that calls the AI separately for each file with a fresh context. Each file is processed independently — no accumulated conversation history, no context drift, no token waste from re-reading.
 
 The pattern:
-1. A script (Python, PowerShell, or Bash) iterates over all target files.
-2. For each file, the script calls the AI CLI tool (like GitHub Copilot CLI) with the instruction file and the target file.
+1. A script (`Python`, `PowerShell`, or `Bash`) iterates over all target files.
+2. For each file, the script calls the AI `CLI` tool (like `GitHub Copilot` `CLI`) with the instruction file and the target file.
 3. Each call starts with a clean context — no history from previous files.
 4. Results are saved to individual output files.
 
 Why this wins:
 - No context drift — each file gets a fresh context window.
-- Token efficient — the instruction is read once per file by the CLI, not accumulated in conversation history.
+- Token efficient — the instruction is read once per file by the `CLI`, not accumulated in conversation history.
 - Deterministic — the same instruction is applied consistently to every file.
 - Scalable — works for 100+ files.
 - Auditable — each result is saved in a separate file for review.
 
 ### Steps
-1. If you have GitHub Copilot CLI installed (or another AI CLI tool), test it with a single file:
-   "copilot -p '@validation-rules.md Validate this file: @modules/010-installing-vscode-github-copilot/walkthrough.md' --allow-all -s"
-2. If you do not have a CLI tool, create a simple Python script that:
+1. If you have `GitHub Copilot` `CLI` installed (or another AI `CLI` tool), test it with a single file:
+   "copilot -p '@validation-rules.md Validate this file: @modules/010-installing-vscode-github-copilot/`walkthrough.md`' --allow-all -s"
+2. If you do not have a `CLI` tool, create a simple `Python` script that:
    - Lists all target files.
-   - For each file, invokes the AI (via API or CLI) with the instruction + file content.
+   - For each file, invokes the AI (via API or `CLI`) with the instruction + file content.
    - Saves the result to an output file.
 3. Run the script on your target files.
 4. Compare results with Approach 1 and 2: is the quality consistent across all files?
@@ -113,12 +113,12 @@ Decision framework:
 - One-time high-quality check, no time for scripting? → Approach 2.
 - Repeatable operation, many files, consistency matters? → Approach 3.
 
-For your Jira/Confluence project, any batch operation (processing meeting notes, validating documentation, generating reports from multiple data sources) should use Approach 3.
+For your `Jira`/Confluence project, any batch operation (processing meeting notes, validating documentation, generating reports from multiple data sources) should use Approach 3.
 
 ### Steps
-1. Think about the batch operations in your BACKLOG.md. Which ones involve processing multiple files or data items?
+1. Think about the batch operations in your `BACKLOG.md`. Which ones involve processing multiple files or data items?
 2. For each, decide which approach is most appropriate based on the comparison table.
-3. Document your decision in BACKLOG.md (add a note: "Approach 1/2/3" next to relevant tasks).
+3. Document your decision in `BACKLOG.md` (add a note: "Approach 1/2/3" next to relevant tasks).
 4. Commit the updated file.
 
 ### ✅ Result
@@ -127,7 +127,7 @@ You have a decision framework for choosing the right bulk processing approach.
 ## Page 5: Practical Application — Process Project Files
 ### Background
 Apply the best approach to a real task in your project. Choose one of these scenarios (or create your own):
-- Process all instruction files in instructions/ to verify they follow the Single Responsibility Principle.
+- Process all instruction files in `instructions/` to verify they follow the Single Responsibility Principle.
 - Analyze meeting notes or project documents to extract action items.
 - Validate all markdown files in your project for consistent formatting.
 

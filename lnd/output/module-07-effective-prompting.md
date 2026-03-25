@@ -45,22 +45,22 @@ Statement structure:
 
 Example progression:
 - 1 statement: "Create a sorting function" → could be any language, any algorithm, any structure.
-- 3 statements: "Create a sorting function. Use bubble sort. Write it in Python." → language and algorithm locked, structure still varies.
-- 5 statements: "Create a Python file named bubble_sort.py. Implement bubble_sort function. Takes a list of integers. Returns the sorted list. No comments, no type hints." → minimal variation, consistent output.
+- 3 statements: "Create a sorting function. Use bubble sort. Write it in `Python`." → language and algorithm locked, structure still varies.
+- 5 statements: "Create a `Python` file named `bubble_sort.py`. Implement bubble_sort function. Takes a list of integers. Returns the sorted list. No comments, no type hints." → minimal variation, consistent output.
 
 Rule: More statements = less variability = more control. Each statement narrows the space of possible solutions.
 
 Two things to keep in mind about prompt language:
 - Natural language does not matter. You can write prompts in English, Russian, or any language. Typos and informal phrasing are fine — the model understands all of these equally well.
-- Technical terms matter a lot. "Python" vs "Java" produces completely different code. "Bubble sort" vs "quicksort" selects a different algorithm. Each precise technical term locks in a specific aspect of the solution. When results seem poor, check whether you used the right technical terms, not whether your grammar was correct.
+- Technical terms matter a lot. "`Python`" vs "Java" produces completely different code. "Bubble sort" vs "quicksort" selects a different algorithm. Each precise technical term locks in a specific aspect of the solution. When results seem poor, check whether you used the right technical terms, not whether your grammar was correct.
 
 ### Steps
-1. Open your AI chat in Agent Mode.
+1. Open your AI chat in `Agent Mode`.
 2. Type a very abstract prompt: "Create a file with a sorting function."
 3. Observe the result: note the language, algorithm, extras (comments, tests, docstrings).
-4. Now edit your original prompt (do not write a new message below — go back and edit) to add two constraints: "Create a file with a bubble sort function in Python."
+4. Now edit your original prompt (do not write a new message below — go back and edit) to add two constraints: "Create a file with a bubble sort function in `Python`."
 5. Press Enter and compare the new result to the previous one.
-6. Edit again, adding more constraints: "Create a Python file named bubble_sort.py. Implement a bubble_sort function that takes a list of integers and returns the sorted list. No comments, no docstrings."
+6. Edit again, adding more constraints: "Create a `Python` file named `bubble_sort.py`. Implement a bubble_sort function that takes a list of integers and returns the sorted list. No comments, no docstrings."
 7. Compare all three results. Notice how each added statement reduced variability.
 
 ### ✅ Result
@@ -108,7 +108,7 @@ Why this works:
 - Each failed iteration without editing makes the problem worse.
 
 ### Steps
-1. Open your AI chat in Agent Mode.
+1. Open your AI chat in `Agent Mode`.
 2. Ask: "Create a status report template."
 3. If the result is not what you expected (wrong format, missing sections, wrong tone), do NOT type a correction.
 4. Instead, edit your original prompt: "Create a weekly status report template for an engineering manager. Include sections: accomplishments, blockers, next week's plan. Use bullet points. Keep it under 20 lines. Markdown format."
@@ -137,13 +137,13 @@ This shift puts you in control. The model is a powerful tool — like a room tha
 3. Try the refined prompt. Is the result closer to what you need?
 4. Practice prompting on a project-relevant scenario. Start vague and progressively add statements:
    - Vague: "Create a status report template."
-   - Better: "Create a weekly status report template that summarizes Jira sprint progress for stakeholders."
-   - Specific: "Create a weekly status report template for an engineering manager. Pull data from a Jira sprint board. Include sections: completed issues, in-progress items, blockers, next sprint goals. Use bullet points. Markdown format. Keep it under 30 lines."
+   - Better: "Create a weekly status report template that summarizes `Jira` sprint progress for stakeholders."
+   - Specific: "Create a weekly status report template for an engineering manager. Pull data from a `Jira` sprint board. Include sections: completed issues, in-progress items, blockers, next sprint goals. Use bullet points. Markdown format. Keep it under 30 lines."
    Compare the three outputs — notice how each statement narrows the result.
 5. Commit any files you created in this exercise.
 
 ### ✅ Result
-You have shifted from blaming the AI to refining your prompts — and you are in control of the results. You also practiced prompting on a Jira-related task, building familiarity with the domain you will automate starting in Module 08.
+You have shifted from blaming the AI to refining your prompts — and you are in control of the results. You also practiced prompting on a `Jira`-related task, building familiarity with the domain you will automate starting in Module 08.
 
 ## Summary
 Remember the scenario from the introduction — you asked the AI to do something, the result was wrong, and your instinct was to type "No, that is not what I meant"? Now you know a better approach. Instead of arguing, you stop, edit your original prompt to be more specific, and regenerate from a clean canvas.

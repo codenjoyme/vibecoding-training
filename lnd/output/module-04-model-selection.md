@@ -8,7 +8,7 @@ In this module, you will learn how AI model pricing works, how to select and swi
 Upon completion of this module, you will be able to:
 - Explain how AI model pricing tiers (0x, 1x, 3x) affect your premium request quota.
 - Select and configure an AI model in your IDE.
-- Enable Agent Mode and verify it works through practical tests.
+- Enable `Agent Mode` and verify it works through practical tests.
 - Apply a consistent model selection strategy instead of switching randomly.
 
 ## Page 1: Understanding Model Types and Pricing
@@ -16,7 +16,7 @@ Upon completion of this module, you will be able to:
 AI coding assistants offer multiple models with different capabilities and costs. Most IDEs use a tier system where each model interaction consumes a certain number of "premium requests" from your monthly quota. Understanding this system helps you make informed choices without worrying about unexpected costs.
 
 ### Steps
-1. Open your AI coding assistant (VS Code with Copilot or Cursor).
+1. Open your AI coding assistant (`VS Code` with `Copilot` or `Cursor`).
 2. Navigate to Settings and find the Models or AI section.
 3. Review the available models — you will typically see labels like:
    - 0x — Free tier models (no premium request cost).
@@ -33,9 +33,9 @@ You can see the available models and understand the pricing tiers.
 With many models available, it is tempting to switch constantly. Research shows this is counterproductive — each model has its own strengths and quirks, and you only learn them through sustained use. The recommended strategy is to start with the best available model and switch only when you encounter a real limitation.
 
 ### Steps
-1. Open the Command Palette in your IDE:
-   - VS Code: Open the Copilot menu or search for "Copilot: Chat Model."
-   - Cursor: Go to Settings > Models.
+1. Open the `Command Palette` in your IDE:
+   - `VS Code`: Open the `Copilot` menu or search for "`Copilot`: Chat Model."
+   - `Cursor`: Go to Settings > Models.
 2. Review the available models. Recommended choices:
    - Claude Sonnet 4.5 — Best for coding tasks, excellent balance of price and quality.
    - GPT-4o — Strong general-purpose alternative.
@@ -52,28 +52,28 @@ The practical strategy:
 ### ✅ Result
 Your AI assistant is configured with Claude Sonnet 4.5 (or your preferred model).
 
-## Page 3: Enable Agent Mode
+## Page 3: Enable `Agent Mode`
 ### Background
-Your AI assistant can operate in two modes. Ask Mode is simple Q&A — it answers questions but does not take actions. Agent Mode is autonomous — it can read files, search your codebase, create files, run commands, and perform multi-step tasks. For this course, Agent Mode is essential because you will delegate real tasks to the AI.
+Your AI assistant can operate in two modes. `Ask Mode` is simple Q&A — it answers questions but does not take actions. `Agent Mode` is autonomous — it can read files, search your codebase, create files, run commands, and perform multi-step tasks. For this course, `Agent Mode` is essential because you will delegate real tasks to the AI.
 
 ### Steps
 1. In your AI assistant settings, look for mode selection (usually in the chat panel or settings).
-2. Enable Agent Mode.
+2. Enable `Agent Mode`.
 3. Verify by testing all three capabilities:
    - Test 1 — Ask a technical question:
-     Explain the difference between async/await and promises in JavaScript
+     Explain the difference between async/await and promises in `JavaScript`
      You should receive a detailed, well-structured response.
    - Test 2 — Request code generation:
-     Create a Python function that reads a CSV file and converts it to JSON
+     Create a `Python` function that reads a CSV file and converts it to `JSON`
      The AI should generate working code with error handling.
    - Test 3 — Test autonomous file access:
      List the files in my current workspace and tell me what you see
-     The AI should read the file system and report back (this proves Agent Mode works).
+     The AI should read the file system and report back (this proves `Agent Mode` works).
 
-As a practical thread exercise, try a project-related prompt: ask your AI assistant to "Draft a list of Jira issue types that a project management automation toolkit might need." Compare the response quality — this gives you a feel for how the model handles domain-specific requests that you will encounter throughout this course.
+As a practical thread exercise, try a project-related prompt: ask your AI assistant to "Draft a list of `Jira` issue types that a project management automation toolkit might need." Compare the response quality — this gives you a feel for how the model handles domain-specific requests that you will encounter throughout this course.
 
 ### ✅ Result
-Agent Mode is enabled. Your AI assistant can answer questions, generate code, and interact with your file system autonomously.
+`Agent Mode` is enabled. Your AI assistant can answer questions, generate code, and interact with your file system autonomously.
 
 ## Page 4: Understanding Real Costs
 ### Background
@@ -91,11 +91,11 @@ Most learners will not exhaust their free premium requests during this course. T
 You understand real-world cost expectations and can focus on learning without cost anxiety.
 
 ## Summary
-Remember the toolbox analogy from the introduction? You now have the right tool selected and ready. You configured your AI assistant with Claude Sonnet 4.5 — the screwdriver for most of your daily coding tasks — and enabled Agent Mode so the AI can work autonomously with your files and codebase.
+Remember the toolbox analogy from the introduction? You now have the right tool selected and ready. You configured your AI assistant with Claude Sonnet 4.5 — the screwdriver for most of your daily coding tasks — and enabled `Agent Mode` so the AI can work autonomously with your files and codebase.
 
 Key takeaways:
 - Start with the best available model (Claude Sonnet 4.5 recommended) and switch only when you hit a real limitation — constant switching wastes time.
-- Agent Mode is more powerful than Ask Mode — it can read files, create code, and perform multi-step tasks autonomously.
+- `Agent Mode` is more powerful than `Ask Mode` — it can read files, create code, and perform multi-step tasks autonomously.
 - Real costs are modest relative to productivity gains — do not let cost anxiety slow your learning.
 
 ## Quiz
@@ -108,19 +108,19 @@ Key takeaways:
    - (b) is correct because consistent use of one strong model lets you build intuition for its capabilities, and you switch only when there is a concrete reason.
    - (c) is incorrect because starting with the cheapest model means you work with lower-quality output from the start, which slows learning and may give a misleading impression of AI capabilities.
 
-2. What is the main advantage of Agent Mode over Ask Mode?
-   a) Agent Mode uses fewer premium requests per interaction
-   b) Agent Mode can read files, create code, and perform multi-step actions autonomously
-   c) Agent Mode produces longer and more detailed text responses
+2. What is the main advantage of `Agent Mode` over `Ask Mode`?
+   a) `Agent Mode` uses fewer premium requests per interaction
+   b) `Agent Mode` can read files, create code, and perform multi-step actions autonomously
+   c) `Agent Mode` produces longer and more detailed text responses
    Correct answer: b.
-   - (a) is incorrect because Agent Mode typically uses more tokens and resources than Ask Mode, not fewer.
-   - (b) is correct because Agent Mode extends the AI beyond simple Q&A — it can access your file system, run commands, and execute complex workflows.
+   - (a) is incorrect because `Agent Mode` typically uses more tokens and resources than `Ask Mode`, not fewer.
+   - (b) is correct because `Agent Mode` extends the AI beyond simple Q&A — it can access your file system, run commands, and execute complex workflows.
    - (c) is incorrect because response length is not the differentiator — the key difference is the ability to take autonomous actions, not the length of text output.
 
 3. A colleague says they ran out of premium requests mid-month. What is the most likely consequence?
    a) They can continue working but are limited to free-tier models until the quota resets
    b) They need to reinstall the AI extension to restore the quota
-   c) Their IDE switches to Ask Mode automatically until the next billing cycle
+   c) Their IDE switches to `Ask Mode` automatically until the next billing cycle
    Correct answer: a.
    - (a) is correct because exhausting the quota restricts you to free-tier (0x) models, which still work but provide lower quality. The quota resets monthly or can be expanded by purchasing more.
    - (b) is incorrect because reinstalling the extension does not affect your account quota — the limit is tied to your subscription, not the local installation.

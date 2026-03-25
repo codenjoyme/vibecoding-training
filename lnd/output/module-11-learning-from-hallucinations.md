@@ -5,7 +5,7 @@ You created a custom instruction in the previous module, and the AI followed it 
 
 These are not bugs. They are hallucinations — creative interpretations of ambiguous instructions. And they are the most valuable feedback you will ever receive, because each hallucination reveals a gap in your instructions that you can fix.
 
-In this module, you will learn to treat hallucinations as a systematic improvement tool: observe the deviation, delegate the fix to the AI, and verify the result. You will apply this technique to improve the Jira/Confluence workflow instructions you created in Module 10.
+In this module, you will learn to treat hallucinations as a systematic improvement tool: observe the deviation, delegate the fix to the AI, and verify the result. You will apply this technique to improve the `Jira`/Confluence workflow instructions you created in Module 10.
 
 Upon completion of this module, you will be able to:
 - Interpret AI hallucinations as feedback about ambiguous or missing constraints in your instructions.
@@ -52,10 +52,10 @@ The workflow:
 5. Rerun the instruction and verify the output now matches expectations.
 
 ### Steps
-1. Open one of the instruction files you created in Module 10 (e.g., a Jira/Confluence workflow instruction).
-2. Ask the AI to execute it: "Following ./instructions/[your-instruction].agent.md, [your task]."
+1. Open one of the instruction files you created in Module 10 (e.g., a `Jira`/Confluence workflow instruction).
+2. Ask the AI to execute it: "Following ./`instructions/`[your-instruction].agent.md, [your task]."
 3. Review the output carefully. Note anything that deviates from what you expected — format, content, structure, missing elements, extra elements.
-4. If you find a deviation, do NOT edit the file manually. Instead, tell the AI: "I noticed [describe the deviation]. Please update ./instructions/[your-instruction].agent.md to prevent this in the future."
+4. If you find a deviation, do NOT edit the file manually. Instead, tell the AI: "I noticed [describe the deviation]. Please update ./`instructions/`[your-instruction].agent.md to prevent this in the future."
 5. After the update, run the same task again and compare results.
 
 ### ✅ Result
@@ -89,21 +89,21 @@ Understanding which type you are building (or fixing) helps you keep each instru
 ### ✅ Result
 You understand the interference problem and can diagnose it when combining instructions.
 
-## Page 4: Improve Your Jira/Confluence Instructions
+## Page 4: Improve Your `Jira`/Confluence Instructions
 ### Background
-Now you will apply the hallucination-fixing workflow to your practical project. In Module 10, you created instruction files for Jira/Confluence workflows. It is time to stress-test them and make them more robust.
+Now you will apply the hallucination-fixing workflow to your practical project. In Module 10, you created instruction files for `Jira`/Confluence workflows. It is time to stress-test them and make them more robust.
 
 ### Steps
-1. Pick one of your Jira/Confluence instruction files.
-2. Ask the AI to execute it 3 times with slightly different inputs (e.g., different Jira project names, different date ranges, different report formats).
+1. Pick one of your `Jira`/Confluence instruction files.
+2. Ask the AI to execute it 3 times with slightly different inputs (e.g., different `Jira` project names, different date ranges, different report formats).
 3. For each execution, note any deviations — output format, missing fields, unexpected sections, wrong data structure.
 4. For each deviation, delegate the fix: "I ran this instruction with [input] and got [deviation]. Update the instruction to handle this correctly."
 5. After all fixes, run the instruction once more and verify it produces consistent output across different inputs.
-6. Document what you learned in a brief note in the instruction file itself or in a separate CHANGELOG section.
+6. Document what you learned in a brief note in the instruction file itself or in a separate `CHANGELOG` section.
 7. Commit the improved instruction files.
 
 ### ✅ Result
-Your Jira/Confluence workflow instructions are refined through real-world testing and hallucination fixing.
+Your `Jira`/Confluence workflow instructions are refined through real-world testing and hallucination fixing.
 
 ## Page 5: Building Progressive Trust
 ### Background
@@ -119,7 +119,7 @@ The end goal is delegation: you delegate entire workflow segments to the AI with
 ### Steps
 1. Review all your instruction files. For each one, ask yourself: "Would I trust this instruction to run without review?"
 2. If the answer is "not yet," plan one more round of testing and fixing.
-3. If the answer is "yes," mark it as battle-tested in your instruction catalog (main.agent.md).
+3. If the answer is "yes," mark it as battle-tested in your instruction catalog (`main.agent.md`).
 4. Commit your changes.
 
 ### ✅ Result

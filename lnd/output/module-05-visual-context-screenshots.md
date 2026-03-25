@@ -5,13 +5,13 @@ Have you ever tried to describe a software interface to a colleague over the pho
 
 AI assistants face the same problem. They are trained on data up to a certain date, and software interfaces change constantly. When the AI suggests a menu item that no longer exists or a button that has moved, a single screenshot resolves the confusion instantly.
 
-In this module, you will learn to share visual context with your AI assistant using screenshots. You will practice this skill by creating API tokens for Jira and Confluence — credentials you will need for the practical project in later modules.
+In this module, you will learn to share visual context with your AI assistant using screenshots. You will practice this skill by creating `API tokens` for `Jira` and `Confluence` — credentials you will need for the practical project in later modules.
 
 Upon completion of this module, you will be able to:
 - Capture and paste screenshots into the AI chat to provide visual context.
 - Determine when a screenshot adds value versus when text alone is sufficient.
 - Use screenshot-assisted guidance to navigate unfamiliar software interfaces.
-- Create and securely store API tokens for Jira and Confluence.
+- Create and securely store `API tokens` for `Jira` and `Confluence`.
 
 ## Page 1: Why Visual Context Matters
 ### Background
@@ -33,18 +33,18 @@ You understand when and why to share screenshots with your AI assistant.
 ### Background
 Every operating system provides built-in tools for capturing screenshots. You do not need to install any additional software. Choose the method that works best for you — the only requirement is that you can paste the captured image into the AI chat.
 
-Windows:
-- Snip & Sketch: Press Windows + Shift + S — select the area to capture. The image is copied to the clipboard.
-- Snipping Tool: Search for "Snipping Tool" in the Start menu — select area to capture.
+`Windows`:
+- `Snip & Sketch`: Press `Windows` + Shift + S — select the area to capture. The image is copied to the clipboard.
+- `Snipping Tool`: Search for "`Snipping Tool`" in the Start menu — select area to capture.
 - Full screen: Press PrtScn (Print Screen) — copies entire screen to clipboard.
 - Active window: Press Alt + PrtScn — copies the active window only.
 
-macOS:
+`macOS`:
 - Selected area: Press Cmd + Shift + 4 — drag to select area.
 - Full screen: Press Cmd + Shift + 3 — captures entire screen.
 - Window: Press Cmd + Shift + 4, then Space, then click a window.
 
-Linux:
+`Linux`:
 - Full screen: Press PrtScn — saves to Pictures folder.
 - Selected area: Press Shift + PrtScn — drag to select area.
 - Active window: Press Alt + PrtScn.
@@ -53,8 +53,8 @@ Linux:
 1. Practice taking a screenshot now using your preferred method.
 2. Open any application — for example, your web browser.
 3. Capture a screenshot of the browser window.
-4. Open your AI chat (Copilot Chat or Cursor Chat).
-5. Click in the message input field and paste the screenshot (Ctrl+V on Windows/Linux, Cmd+V on macOS).
+4. Open your AI chat (`Copilot Chat` or `Cursor` Chat).
+5. Click in the message input field and paste the screenshot (Ctrl+V on `Windows`/Linux, Cmd+V on `macOS`).
 6. You should see the image appear as a thumbnail in the input field.
 
 ### ✅ Result
@@ -62,7 +62,7 @@ You can take a screenshot and paste it into the AI chat.
 
 ## Page 3: Practical Exercise — Browser Developer Console
 ### Background
-To practice the screenshot workflow, you will complete a real task: opening the browser Developer Console and writing "Hello World." This task varies between browsers (Chrome, Firefox, Edge, Safari), making it a perfect case for screenshot-assisted guidance — the AI can see which browser you are using and adapt its instructions.
+To practice the screenshot workflow, you will complete a real task: opening the browser Developer Console and writing "Hello World." This task varies between browsers (`Chrome`, Firefox, Edge, Safari), making it a perfect case for screenshot-assisted guidance — the AI can see which browser you are using and adapt its instructions.
 
 ### Steps
 1. Open any web browser and navigate to any website (for example, [https://www.google.com](https://www.google.com)).
@@ -82,26 +82,26 @@ To practice the screenshot workflow, you will complete a real task: opening the 
 ### ✅ Result
 You completed a browser task using screenshot-assisted AI guidance. The AI adapted its instructions to your specific browser.
 
-## Page 4: Create API Tokens for Jira and Confluence
+## Page 4: Create API Tokens for `Jira` and `Confluence`
 ### Background
-For the practical project running through this course, you will eventually connect your AI assistant to Jira and/or Confluence. Both services require API tokens for programmatic access. Creating these tokens involves navigating admin interfaces — exactly the kind of task where screenshots help, since Atlassian frequently updates their UI.
+For the practical project running through this course, you will eventually connect your AI assistant to `Jira` and/or `Confluence`. Both services require `API tokens` for programmatic access. Creating these tokens involves navigating admin interfaces — exactly the kind of task where screenshots help, since `Atlassian` frequently updates their UI.
 
-If you do not have access to Jira/Confluence yet, you can skip this exercise and return to it when access becomes available. The screenshot technique itself is the skill being practiced.
+If you do not have access to `Jira`/Confluence yet, you can skip this exercise and return to it when access becomes available. The screenshot technique itself is the skill being practiced.
 
 ### Steps
-[MG]: Нужно рассмортеть вариант с EPAM Jira, например если человек уже использовал бесплатную атлассиан Jira для других проектов. Либо указать что если у Вас уже использовалась она, то зарегайте новую временную почту чисто для обучения.
-1. Open your browser and navigate to your Atlassian account settings ([https://id.atlassian.com/manage-profile/security/api-tokens](https://id.atlassian.com/manage-profile/security/api-tokens)).
+[MG]: Нужно рассмортеть вариант с `EPAM` `Jira`, например если человек уже использовал бесплатную атлассиан `Jira` для других проектов. Либо указать что если у Вас уже использовалась она, то зарегайте новую временную почту чисто для обучения.
+1. Open your browser and navigate to your `Atlassian` account settings ([https://id.atlassian.com/manage-profile/security/api-tokens](https://id.atlassian.com/manage-profile/security/api-tokens)).
 2. Take a screenshot of the page you see.
 3. Paste the screenshot into the AI chat and ask:
-   I need to create an API token for accessing Jira and Confluence via their REST APIs. Here is my current screen. Can you walk me through the steps?
+   I need to create an `API token` for accessing `Jira` and `Confluence` via their REST APIs. Here is my current screen. Can you walk me through the steps?
 4. Follow the AI's instructions — it will guide you based on what it sees in your screenshot.
 5. When the token is generated, copy it to a safe location (a password manager or a secure note).
-6. Do NOT commit this token to your Git repository. Store it in a .env file (which is already in your .gitignore from Module 3).
+6. Do NOT commit this token to your `Git` repository. Store it in a `.env` file (which is already in your `.gitignore` from Module 3).
 
-Important: API tokens are sensitive credentials. Never share them in screenshots, chat histories, or code repositories.
+Important: `API tokens` are sensitive credentials. Never share them in screenshots, chat histories, or code repositories.
 
 ### ✅ Result
-You have API tokens for Jira and/or Confluence stored securely. You will use them in later modules for automation.
+You have `API tokens` for `Jira` and/or `Confluence` stored securely. You will use them in later modules for automation.
 
 ## Page 5: When to Use Screenshots vs Text
 ### Background
@@ -115,7 +115,7 @@ Use screenshots when:
 - You do not know the correct terminology for what you see.
 
 Use text only when:
-- Asking conceptual questions ("What is a REST API?").
+- Asking conceptual questions ("What is a `REST API`?").
 - Requesting code examples or explanations.
 - Discussing algorithms or logic.
 - Sharing code snippets (paste text, not a screenshot of code).
@@ -135,7 +135,7 @@ Key takeaways:
 - A screenshot often communicates more than paragraphs of text description — it eliminates the ambiguity of describing UI elements in words.
 - The AI adapts its guidance to your specific interface when it can see your screen.
 - Use screenshots for UI tasks, error messages, and unfamiliar interfaces. Use text for conceptual questions and code.
-- API tokens are sensitive — store them securely and never commit them to Git.
+- `API tokens` are sensitive — store them securely and never commit them to `Git`.
 
 ## Quiz
 1. When is a screenshot more effective than a text description when working with an AI assistant?
@@ -147,13 +147,13 @@ Key takeaways:
    - (b) is incorrect because conceptual explanations are language-based — a screenshot of code adds little value when the question is about abstract concepts.
    - (c) is incorrect because code generation works best from a clear text prompt. A screenshot of a verbal description would actually be harder for the AI to parse than typed text.
 
-2. What should you do with the API tokens you created in this module?
-   a) Commit them to your Git repository so they are version-controlled alongside your code
-   b) Store them in a secure location (password manager or .env file excluded from Git) and never share them in screenshots or chat histories
+2. What should you do with the `API tokens` you created in this module?
+   a) Commit them to your `Git` repository so they are version-controlled alongside your code
+   b) Store them in a secure location (password manager or `.env` file excluded from `Git`) and never share them in screenshots or chat histories
    c) Paste them into the AI chat so the assistant can use them in future sessions
    Correct answer: b.
-   - (a) is incorrect because Git repositories — especially public or shared ones — expose credentials to anyone with access. Tokens in version control are a common security breach vector.
-   - (b) is correct because API tokens are sensitive credentials that grant access to your accounts. Storing them in a password manager or a .env file (excluded via .gitignore) keeps them secure.
+   - (a) is incorrect because `Git` repositories — especially public or shared ones — expose credentials to anyone with access. Tokens in version control are a common security breach vector.
+   - (b) is correct because `API tokens` are sensitive credentials that grant access to your accounts. Storing them in a password manager or a `.env` file (excluded via `.gitignore`) keeps them secure.
    - (c) is incorrect because chat histories may be logged, shared, or used for model training. Pasting tokens into a chat risks exposing them beyond your control.
 
 3. Why might the AI suggest a button or menu item that does not exist on your screen?

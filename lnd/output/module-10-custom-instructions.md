@@ -5,13 +5,13 @@ You spent 20 minutes refining a prompt until the AI produced exactly what you ne
 
 If you cannot recover it, you start from scratch — re-discovering the same constraints, hitting the same pitfalls, wasting the same time. This is the problem custom instructions solve: they transform one-time prompts into reusable rules that the AI follows automatically.
 
-In this module, you will learn how prompts evolve into instructions, how to organize them into a system the AI reads automatically, and you will create your first instruction files for the Jira/Confluence workflows in your practical project.
+In this module, you will learn how prompts evolve into instructions, how to organize them into a system the AI reads automatically, and you will create your first instruction files for the `Jira`/Confluence workflows in your practical project.
 
 Upon completion of this module, you will be able to:
 - Create reusable instruction files in markdown format following the [verb]-[subject].agent.md naming convention.
-- Build an instruction catalog (main.agent.md) that lets the AI discover relevant instructions automatically.
+- Build an instruction catalog (`main.agent.md`) that lets the AI discover relevant instructions automatically.
 - Apply the Single Responsibility Principle to keep instructions focused and maintainable.
-- Create custom instruction files for your Jira/Confluence project workflows.
+- Create custom instruction files for your `Jira`/Confluence project workflows.
 
 ## Page 1: Evolution from Prompts to Instructions
 ### Background
@@ -35,7 +35,7 @@ You understand the four stages of prompt maturity and why the instruction system
 
 ## Page 2: Creating Your First Instruction File
 ### Background
-An instruction file is a markdown document with rules the AI should follow for a specific type of task. It lives in your project's instructions/ folder.
+An instruction file is a markdown document with rules the AI should follow for a specific type of task. It lives in your project's `instructions/` folder.
 
 Naming convention: [action-verb]-[subject].agent.md
 Examples: create-function.agent.md, write-tests.agent.md, generate-report.agent.md
@@ -47,7 +47,7 @@ A good instruction file contains:
 - Examples (optional) — show the expected structure or format.
 
 ### Steps
-1. Create the instructions/ folder in your project if it does not exist yet.
+1. Create the `instructions/` folder in your project if it does not exist yet.
 2. Ask the AI to help you create an instruction:
    "Create an instruction file at instructions/create-status-report.agent.md for generating weekly status reports. It should specify: markdown format, sections (accomplishments, blockers, next week), bullet points only, maximum 20 lines, professional tone, no fluff words."
 3. Review the generated file. Are the rules specific enough?
@@ -57,9 +57,9 @@ A good instruction file contains:
 ### ✅ Result
 You have created and tested your first instruction file.
 
-## Page 3: The Instruction Catalog — main.agent.md
+## Page 3: The Instruction Catalog — `main.agent.md`
 ### Background
-As you accumulate instruction files, the AI needs a way to find the right one. The solution is a catalog file: instructions/main.agent.md.
+As you accumulate instruction files, the AI needs a way to find the right one. The solution is a catalog file: `instructions/``main.agent.md`.
 
 This file lists all available instructions with brief descriptions. The AI checks this catalog on every prompt to find relevant instructions.
 
@@ -73,50 +73,50 @@ Example structure:
 
 To make the AI load this catalog automatically, you need an entry point file:
 
-For VS Code: .github/copilot-instructions.md with content:
-"Important! Always follow the instructions in ./instructions/main.agent.md file."
+For `VS Code`: `.github/``copilot-instructions.md` with content:
+"Important! Always follow the instructions in ./`instructions/``main.agent.md` file."
 
-For Cursor: .cursor/rules/main.mdc with the same content.
+For `Cursor`: .cursor/rules/main.mdc with the same content.
 
 ### Steps
-1. Create instructions/main.agent.md with a list of your instruction files (even if you only have one so far).
-2. Verify the entry point file exists (.github/copilot-instructions.md or .cursor/rules/main.mdc).
+1. Create `instructions/``main.agent.md` with a list of your instruction files (even if you only have one so far).
+2. Verify the entry point file exists (`.github/``copilot-instructions.md` or .cursor/rules/main.mdc).
 3. Test auto-discovery: open a new chat and type "Create a status report for my team." Without referencing any instruction explicitly, the AI should find and apply your instruction.
 4. If the AI does not find it, use the explicit reference: "Following instructions/create-status-report.agent.md, create a status report for my team."
 
 ### ✅ Result
 You have an instruction catalog and the AI can find relevant instructions automatically.
 
-## Page 4: Create Jira/Confluence Workflow Instructions
+## Page 4: Create `Jira`/Confluence Workflow Instructions
 ### Background
 Now you will create instruction files for your practical project. Based on the task backlog from Module 9, identify 2-3 common workflows you want to automate and create an instruction for each.
 
-Example workflows for Jira/Confluence automation:
-- Fetching issue data from Jira API and formatting it.
-- Updating a Confluence page with project status.
-- Generating JQL queries for common reporting needs.
+Example workflows for `Jira`/Confluence automation:
+- Fetching issue data from `Jira` API and formatting it.
+- Updating a `Confluence` page with project status.
+- Generating `JQL` queries for common reporting needs.
 - Processing sprint data into a summary table.
 
 Each instruction file captures what the AI should do, what format to use, what constraints apply, and what output to produce.
 
 ### Steps
-1. Open your BACKLOG.md and identify 2-3 tasks that involve repeating patterns.
+1. Open your `BACKLOG.md` and identify 2-3 tasks that involve repeating patterns.
 2. For each pattern, ask the AI to create an instruction file:
    "Following instructions/creating-instructions.agent.md, create an instruction for [describe the workflow]. Include: input format, processing steps, output format, and constraints."
 3. If you do not have creating-instructions.agent.md yet, describe the workflow directly and ask the AI to generate the instruction.
 4. Review each instruction file — are the rules specific enough to produce consistent results?
-5. Update instructions/main.agent.md with the new instruction entries.
+5. Update `instructions/``main.agent.md` with the new instruction entries.
 6. Test each instruction by asking the AI to perform the workflow.
 7. Commit all new files to your repository.
 
 ### ✅ Result
-You have custom instruction files for your Jira/Confluence workflows and an updated instruction catalog.
+You have custom instruction files for your `Jira`/Confluence workflows and an updated instruction catalog.
 
 ## Page 5: Single Responsibility and When to Split
 ### Background
 Instructions follow the Single Responsibility Principle (SPR): one instruction = one workflow.
 
-Too broad (bad): A single "python-best-practices.agent.md" file with 50 rules covering functions, tests, style, setup, logging, and more. It applies to every Python task even when irrelevant, and is hard to maintain.
+Too broad (bad): A single "python-best-practices.agent.md" file with 50 rules covering functions, tests, style, setup, logging, and more. It applies to every `Python` task even when irrelevant, and is hard to maintain.
 
 Well split (good): Separate files for each workflow — create-function.agent.md, write-tests.agent.md, setup-project.agent.md. Each is specific, easy to update, and reusable.
 
@@ -137,23 +137,23 @@ One instruction can reference another: "For test creation, follow ./instructions
 1. Review the instruction files you created on the previous page.
 2. If any instruction has more than 15 rules, consider splitting it.
 3. If any two instructions share common rules, extract the shared rules into a separate instruction referenced by both.
-4. After any changes, update main.agent.md and commit.
+4. After any changes, update `main.agent.md` and commit.
 
 ### ✅ Result
 You understand the Single Responsibility Principle for instructions and can organize them effectively.
 
 ## Summary
-Remember that perfect prompt you spent 20 minutes refining — the one you could not find when the same task came up a week later? That problem is now solved. Your prompts live as structured instruction files in the instructions/ folder, indexed by a catalog the AI reads automatically. No more searching through old chats or re-discovering constraints from memory.
+Remember that perfect prompt you spent 20 minutes refining — the one you could not find when the same task came up a week later? That problem is now solved. Your prompts live as structured instruction files in the `instructions/` folder, indexed by a catalog the AI reads automatically. No more searching through old chats or re-discovering constraints from memory.
 
 Key takeaways:
 - Instructions transform one-time prompts into reusable rules the AI follows automatically.
-- Naming convention: [verb]-[subject].agent.md in the instructions/ folder.
-- The catalog (main.agent.md) lets the AI discover instructions without explicit references.
+- Naming convention: [verb]-[subject].agent.md in the `instructions/` folder.
+- The catalog (`main.agent.md`) lets the AI discover instructions without explicit references.
 - Follow the Single Responsibility Principle: one instruction per workflow.
 - After every productive AI session, ask yourself: "Should I create or update an instruction from this?" The session contained iterations, failures, and refinements — capturing the result means you never repeat that trial-and-error.
-- Your Jira/Confluence workflow instructions are the first building blocks of your automation toolkit.
+- Your `Jira`/Confluence workflow instructions are the first building blocks of your automation toolkit.
 
-[MG]: тоже можпо попросить загрузить свой instructions.md файл в качестве проверки вместо квизов.
+[MG]: тоже можпо попросить загрузить свой `instructions.md` файл в качестве проверки вместо квизов.
 ## Quiz
 1. What is the main advantage of custom instructions over copy-pasting prompts?
    a) Instructions are applied automatically, ensuring consistent results every time without manual copy-paste or re-discovery of constraints
@@ -164,7 +164,7 @@ Key takeaways:
    - (b) is incorrect because the AI processes both instruction files and plain text in the same way. The advantage is consistency and reusability, not parsing speed.
    - (c) is incorrect because instructions are loaded into the same context window as everything else. They do not increase the window size — they just provide consistent starting context.
 
-2. What is the purpose of the main.agent.md catalog file?
+2. What is the purpose of the `main.agent.md` catalog file?
    a) It lists all available instructions with descriptions so the AI can find the relevant instruction for each task
    b) It stores the AI’s conversation history so context is preserved between sessions
    c) It defines global project settings such as programming language and code style preferences
