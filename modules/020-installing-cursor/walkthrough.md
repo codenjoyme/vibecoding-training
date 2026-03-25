@@ -1,5 +1,7 @@
 # Installing Cursor - Hands-on Walkthrough
 
+Cursor is a fork of VS Code with a built-in AI assistant module. It appeared as a market response to the demand for an out-of-the-box AI coding solution at a time when no such turnkey product existed. Today, however, the landscape has changed — GitHub Copilot and Claude Code have become equally complete, boxed solutions. The race among leaders is now about shipping new features faster, while users must place their bets today. The author of this course chose the GitHub infrastructure — with which Copilot has deep integration — and the Microsoft giant, whose investments in OpenAI made the world of GenAI our present reality.
+
 In this walkthrough, you'll install Cursor IDE, an AI-native code editor, and set it up for effective vibecoding.
 
 ## ⚠️ Important Note for EPAM Employees

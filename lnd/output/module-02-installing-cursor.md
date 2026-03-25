@@ -3,6 +3,8 @@
 ### Background
 What if a code editor was built from the ground up for AI-assisted work? That is exactly what `Cursor` is — an AI-native IDE based on the `VS Code` engine but redesigned to put AI interactions at the center of every workflow. While `VS Code` with `GitHub Copilot` is the primary tool for this course, some learners prefer `Cursor`'s streamlined AI experience.
 
+`Cursor` is a fork of `VS Code` with a built-in AI assistant module. It appeared as a market response to the demand for an out-of-the-box AI coding solution at a time when no such turnkey product existed. Today, however, the landscape has changed — `GitHub Copilot` and `Claude Code` have become equally complete, boxed solutions. The race among leaders is now about shipping new features faster, while users must place their bets today. The author of this course chose the `GitHub` infrastructure — with which `Copilot` has deep integration — and the `Microsoft` giant, whose investments in `OpenAI` made the world of `GenAI` our present reality.
+
 This module is optional. If you are satisfied with your `VS Code` + `Copilot` setup from Module 1, you may skip ahead. If you are curious about alternatives or want a backup IDE, install `Cursor` alongside `VS Code`. Both can coexist on the same machine.
 
 **Learning objectives.** Upon completion of this module, you will be able to:
