@@ -21,3 +21,19 @@ https://github.com/codenjoyme/vibecoding-training/blob/main/modules/025-download
 The agent will download the course repository, set everything up, and start guiding you through the modules — fully automatically.
 
 > ⚠️ **Note:** After downloading, the agent will try to reopen your IDE in the course folder (`c:/workspace/hello-genai/`). If it doesn't switch automatically, open the folder manually: **File → Open Folder** → navigate to `c:/workspace/hello-genai/`. Then open a new AI Chat and type "Let's start training" — the agent will detect that the course is already set up and continue from the right place.
+
+## Already have an IDE with AI assistant and Git?
+
+If you have Git installed and are comfortable with the command line, this is the fastest path:
+
+1. Clone the repository to your preferred location:
+   ```
+   git clone https://github.com/codenjoyme/vibecoding-training.git c:/workspace/hello-genai
+   ```
+   > On macOS/Linux use `~/workspace/hello-genai` instead.
+2. Open a **new empty workspace** in your IDE: **File → Open Folder** → select `c:/workspace/hello-genai`
+3. Open AI Chat (Copilot Chat, Cursor Chat, etc.) and type:
+   ```
+   Let's start training
+   ```
+4. The agent will detect the course materials and start guiding you through the modules 🤖
