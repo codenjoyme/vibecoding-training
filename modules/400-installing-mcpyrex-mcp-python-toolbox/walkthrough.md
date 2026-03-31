@@ -95,7 +95,17 @@ You now have a local copy of the mcpyrex ecosystem inside `mcp_server/`. The key
 | `mcp_server/build/` | Installation scripts for all platforms |
 | `mcp_server/simple/` | Standalone Python examples (RAG, agents, chains) |
 | `mcp_server/pipeline/` | Batch pipeline configurations |
+### Why This Architecture?
 
+Notice what mcpyrex is **not**: it's not a plugin, not a VS Code extension, not an API wrapper. It's a standalone Python process that speaks the MCP protocol. This means:
+
+- It works with **any** MCP-compatible IDE (VS Code, Cursor, Claude Desktop...)
+- The tool logic lives in plain Python — no framework lock-in
+- Each tool folder (`tools/lng_count_words/`) is self-contained: code, config, and tests in one place
+
+This is the "factory" design: new tools follow the same pattern, and the server discovers them automatically by scanning the `tools/` folder.
+
+> 💬 **Discussion for agent:** Ask the user — in module 100 they hand-crafted an MCP server from scratch with echo/calculate/get_time. Now they're looking at a project with 28+ tools organized into folders. What design decisions would they need to make to scale their own server from 3 tools to 30? What changes, what stays the same? Explore their thinking — don't just confirm, dig into how they'd structure it.
 ---
 
 ## Part 2: Open the Workspace in VS Code
@@ -114,6 +124,14 @@ Open the workspace as a **separate VS Code window**. This is critical — the in
 You should see `mcp_server/` folder in the Explorer panel. Inside it: `build/`, `tools/`, `projects/`, etc.
 
 > **Important**: All subsequent commands in this walkthrough should be run in this new VS Code window, not in the course workspace.
+
+### Why a Separate Workspace?
+
+This is not just a convenience — it's an architectural constraint. mcpyrex has its own `.github/copilot-instructions.md` that defines how Copilot should behave when working with MCP tools. If you opened `mcp_server/` inside the course workspace, you'd have two sets of conflicting Copilot instructions fighting each other.
+
+More broadly: this pattern — where a project has its **own AI personality** — is increasingly common. A customer support bot project instructs the AI to be formal. A creative writing tool instructs it to be expressive. A security-focused repo instructs it to flag risky patterns. Each workspace creates a different AI context.
+
+> 💬 **Discussion for agent:** Ask the user to think about their own team's repositories. If you were setting up a workspace for a project, what AI instructions would you want baked in? What behaviors should the AI default to in YOUR codebase context? Use this to connect the abstract idea of workspace isolation to something concrete from their work.
 
 ---
 
@@ -194,6 +212,40 @@ The installer created:
 | `.github/copilot-instructions.md` | Copilot instructions for the mcpyrex workspace |
 | `.env` | Environment variables template (API keys go here) |
 
+### The Key File: mcp.json
+
+Open `.vscode/mcp.json` and look at what's inside. You'll see something like:
+
+```json
+{
+  "servers": {
+    "mcpyrex-python": {
+      "type": "stdio",
+      "command": ".virtualenv/Scripts/python.exe",
+      "args": ["server.py"]
+    }
+  }
+}
+```
+
+This is the **discovery contract**: VS Code reads this file and knows how to start the MCP server. The `stdio` type means communication happens over standard input/output — the simplest possible IPC. VS Code launches Python, Python starts the server, and they talk through stdin/stdout.
+
+This is also why the virtualenv matters: `command` points to `.virtualenv/Scripts/python.exe` — not your system Python. If you have Python 3.9 globally but mcpyrex needs 3.11+, the virtualenv solves this silently.
+
+> 💬 **Discussion for agent:** After showing the user what's in `.vscode/mcp.json`, ask them: the config uses a relative path to python.exe — what would break if you moved the `400-task/` folder to a different location on disk? How would you fix it? This is a real portability question — connect it to their experience of "it works on my machine" problems in team environments.
+
+### Security: What Did You Just Install?
+
+Before moving on, open `mcp_server/security-disclaimer.md`. Read it — it's short. The mcpyrex design acknowledges that you're installing a system that:
+- Executes arbitrary Python code
+- Communicates with an LLM (Copilot)
+- Can read and write files on your system
+- Can make HTTP requests
+
+The mitigation is `settings.yaml` per tool — you control what's active. This is a governance model: default on, opt-out per tool.
+
+> 💬 **Discussion for agent:** Ask the user — if they were deploying this in a corporate environment where security matters, which tools would they disable by default and why? For example: `lng_terminal` runs shell commands, `lng_file_write` writes files, `lng_http_client` makes external network requests. How would the risk profile change depending on whether this runs on a developer's laptop vs. a shared team environment?
+
 ---
 
 ## Part 4: Verify the MCP Connection
@@ -216,6 +268,16 @@ You should see tools like:
 - `lng_get_tools_info` — tool catalog
 - `lng_file_read`, `lng_file_write` — file operations
 - And many more (30+ tools total)
+
+### How Does Copilot "Know" About Tools?
+
+This is worth understanding at a deeper level. When VS Code starts the MCP server, it sends a `tools/list` request over stdio. The server responds with all tool schemas — name, description, parameter names and types. Copilot stores these schemas in its context.
+
+When you ask "count the words in this text", Copilot doesn't search for a function — it matches your intent against the tool descriptions it received. The description `"Count words, unique words, characters in text"` is what triggers `lng_count_words`. Change the description, and routing changes too.
+
+This is why tool descriptions are critical — they're the routing layer between natural language and code.
+
+> 💬 **Discussion for agent:** Ask the user — knowing that Copilot routes based on tool descriptions, what makes a good vs. bad tool description? If you were writing `lng_count_words` from scratch, what description would you write? What words would you include to make it easier for the LLM to choose it correctly? This connects to a real skill: writing tools that get used.
 
 ### If MCP Is Not Connected
 
@@ -289,6 +351,18 @@ You executed MCP tools directly — bypassing the LLM entirely. This confirms:
 - The tools load and execute properly
 - The input/output schema works as documented
 
+### Why Run Tools Without the LLM?
+
+This terminal pattern has three real use cases:
+
+1. **Debugging**: If a tool misbehaves in chat, run it from terminal to isolate whether the problem is the tool itself or the LLM's routing/parameter construction
+2. **Automation**: Shell scripts can call tools directly without spinning up an IDE. Zero tokens, zero cost.
+3. **Development**: When you create a new tool, you test it from terminal first before exposing it through MCP
+
+This is the same principle as in module 103 (CLI): the terminal path is cheaper, faster, and deterministic. The LLM adds value when you need natural language routing — not when you already know exactly what to call.
+
+> 💬 **Discussion for agent:** Ask the user to think about their actual workflow. What kind of operations do they currently do manually or with scripts that involve text processing, math, or file manipulation? For each one: would a deterministic tool be better than asking an LLM, or would LLM judgment add value? Push them to identify a concrete personal use case for terminal-mode tool execution.
+
 ---
 
 ## Part 6: Run a Tool from Copilot Chat
@@ -322,6 +396,20 @@ LLMs are notoriously bad at precise text operations:
 
 Deterministic tools eliminate these errors entirely. The LLM's job becomes routing — deciding which tool to call — not computing.
 
+### The Architecture Insight
+
+Look at what just happened from a system architecture perspective:
+
+```
+Your natural language → Copilot (understands intent) → lng_count_words (executes exactly) → Copilot (formats result)
+```
+
+This is a hybrid: LLM for understanding and presentation, Python for computation. Each part does what it's good at. This pattern — LLM as orchestrator, deterministic code as executor — is the core of reliable AI-augmented systems.
+
+The alternative (pure LLM computing) is like asking a philosopher to add up your restaurant bill. They might get it right, they might not, and you can't be sure which.
+
+> 💬 **Discussion for agent:** This is a good moment for a real story — ask the user if they've had a situation where an LLM gave them a confidently wrong answer on something that should be exact (a calculation, a count, a date). What happened? How did they catch it? Connect their experience to the value of this hybrid pattern. Then: in their work, what types of tasks would benefit most from this approach?
+
 ---
 
 ## Part 7: Explore the Tool Catalog
@@ -353,6 +441,8 @@ Copilot should call `lng_get_tools_info` and return a structured list of all too
 
 These demos are the basis for upcoming training modules (405-550).
 
+> 💬 **Discussion for agent:** Look at the tool list with the user and ask them to pick 2-3 tools that seem most relevant to their actual work. For each one: what problem would it solve? What would they use it for specifically? This is not a hypothetical exercise — push them to think concretely. A manager might say "I spend a lot of time summarizing reports" → `lng_file_read` + `lng_llm_chat`. A developer might say "I need to count tokens before sending to API" → `lng_count_words` as a proxy. Make the catalog personally relevant, not just a list.
+
 ### The Project Ecosystem
 
 Beyond individual tools, mcpyrex includes 8 ready-made projects in `mcp_server/projects/`:
@@ -367,6 +457,10 @@ Beyond individual tools, mcpyrex includes 8 ready-made projects in `mcp_server/p
 | `telemetry` | GitHub Copilot usage analysis |
 | `telescope-avatar-grabber` | API automation with encrypted cookies |
 | `web-mcp` | Browser-based MCP tool interface |
+
+These projects show the **end state**: what you can build when individual MCP tools are composed together. `telemetry` tracks your own Copilot usage to optimize costs (connects to module 083). `docs-rag` turns a folder of documents into a searchable knowledge base — a common enterprise use case.
+
+> 💬 **Discussion for agent:** Pick one project from the table above that seems most relevant to the user's context (based on what you know about their work from earlier in the session). Walk through what that project actually does at a conceptual level. Then ask: if you were going to build something like this for your team, what documents or data would you feed into it? What questions would you want to answer? This turns a catalog item into a concrete vision.
 
 ---
 
