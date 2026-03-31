@@ -6,7 +6,7 @@ external_workspace: true
 
 In this module you will clone the mcpyrex-python repository, run the interactive installer, verify the MCP connection with GitHub Copilot, and execute your first deterministic tool from both terminal and chat.
 
-This module runs in a **separate workspace** (`work/400-mcpyrex/`) to avoid conflicts between the course instructions and mcpyrex's own AI configuration files.
+This module runs in a **separate workspace** (`work/400-task/`) to avoid conflicts between the course instructions and mcpyrex's own AI configuration files.
 
 ## Prerequisites
 
@@ -39,10 +39,10 @@ Clone the mcpyrex-python project into a dedicated practice folder. This gives yo
 
 ### If You Already Have It
 
-If you have already cloned mcpyrex into `work/400-mcpyrex/` from a previous session:
+If you have already cloned mcpyrex into `work/400-task/` from a previous session:
 
 ```bash
-cd work/400-mcpyrex
+cd work/400-task
 git pull
 ```
 
@@ -55,16 +55,16 @@ From the course workspace root, run:
 **Windows (PowerShell):**
 
 ```powershell
-git clone https://github.com/codenjoyme/mcpyrex-python.git work/400-mcpyrex
+git clone https://github.com/codenjoyme/mcpyrex-python.git work/400-task
 ```
 
 **macOS / Linux:**
 
 ```bash
-git clone https://github.com/codenjoyme/mcpyrex-python.git work/400-mcpyrex
+git clone https://github.com/codenjoyme/mcpyrex-python.git work/400-task
 ```
 
-This creates `work/400-mcpyrex/` with the full mcpyrex project inside.
+This creates `work/400-task/` with the full mcpyrex project inside.
 
 ### What Just Happened
 
@@ -88,9 +88,9 @@ Open the cloned project as a **separate VS Code window**. This is critical — m
 
 1. Open VS Code
 2. Go to **File > Open Folder**
-3. Navigate to `work/400-mcpyrex/` inside your course directory:
-   - Windows: `c:/Java/CopipotTraining/vibecoding-for-managers/work/400-mcpyrex/` (adjust to your path)
-   - macOS/Linux: `~/workspace/vibecoding-for-managers/work/400-mcpyrex/`
+3. Navigate to `work/400-task/` inside your course directory:
+   - Windows: `c:/Java/CopipotTraining/vibecoding-for-managers/work/400-task/` (adjust to your path)
+   - macOS/Linux: `~/workspace/vibecoding-for-managers/work/400-task/`
 4. Click **Open**
 
 You should see the mcpyrex project structure in the Explorer panel: `build/`, `tools/`, `projects/`, `server.py`, etc.
@@ -181,7 +181,7 @@ The installer created:
 
 Confirm that GitHub Copilot can see and communicate with the mcpyrex MCP server.
 
-1. **Restart VS Code** — Close and reopen the `work/400-mcpyrex/` workspace to pick up the new configuration
+1. **Restart VS Code** — Close and reopen the `work/400-task/` workspace to pick up the new configuration
 
 2. **Check MCP status** — In VS Code, open the Command Palette (View > Command Palette) and search for `MCP: List Servers`. You should see `mcpyrex-python` in the list
 
@@ -351,7 +351,7 @@ Beyond individual tools, mcpyrex includes 8 ready-made projects in `projects/`:
 
 ## Success Criteria
 
-- ✅ mcpyrex repository cloned into `work/400-mcpyrex/`
+- ✅ mcpyrex repository cloned into `work/400-task/`
 - ✅ Installation script completed without errors
 - ✅ `.vscode/mcp.json` configured with `mcpyrex-python` server
 - ✅ MCP server visible in VS Code (MCP: List Servers)
