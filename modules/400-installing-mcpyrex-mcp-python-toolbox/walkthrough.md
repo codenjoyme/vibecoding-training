@@ -16,13 +16,27 @@ See [module overview](about.md) for full prerequisites list.
 
 ## What We'll Install
 
-mcpyrex is an MCP server built with Python and Langchain. The installation creates:
+mcpyrex is an MCP server built with Python and Langchain. The installation flow:
 
-- **Python 3.11+ environment** — either uses your existing Python or downloads an embedded version (~30 MB)
-- **Virtual environment** (`.virtualenv/`) — isolated Python with all dependencies (~200 MB)
-- **MCP server** (`mcp_server/`) — the server code with 30+ tools
-- **IDE configuration** (`.vscode/mcp.json`) — connects GitHub Copilot to the MCP server
-- **Workspace settings** (`.vscode/settings.json`) — enables MCP and Agent Mode
+1. **Clone the repository** into `mcp_server/` subfolder inside the workspace
+2. **Run the installer** from `mcp_server/build/` — it creates files in the workspace root:
+   - **Virtual environment** (`.virtualenv/`) — isolated Python with all dependencies (~200 MB)
+   - **IDE configuration** (`.vscode/mcp.json`) — connects GitHub Copilot to the MCP server
+   - **Workspace settings** (`.vscode/settings.json`) — enables MCP and Agent Mode
+   - **Environment file** (`.env`) — API keys template
+
+The resulting workspace structure:
+
+```
+work/400-task/              ← workspace root (open this in VS Code)
+  mcp_server/               ← cloned repository (.git/ here)
+    build/                  ← installer scripts
+    tools/                  ← 28 tool groups
+    projects/               ← 8 real-world projects
+  .virtualenv/              ← created by installer at workspace root
+  .vscode/                  ← created by installer at workspace root
+  .env                      ← created by installer at workspace root
+```
 
 The full installation takes 5-10 minutes depending on your internet connection.
 
@@ -39,44 +53,48 @@ Clone the mcpyrex-python project into a dedicated practice folder. This gives yo
 
 ### If You Already Have It
 
-If you have already cloned mcpyrex into `work/400-task/` from a previous session:
+If you have already cloned mcpyrex into `work/400-task/mcp_server/` from a previous session:
 
 ```bash
-cd work/400-task
+cd work/400-task/mcp_server
 git pull
 ```
 
 If the pull succeeds — **skip to Part 3**.
 
-### Clone
+### Create the Workspace Folder and Clone
 
 From the course workspace root, run:
 
 **Windows (PowerShell):**
 
 ```powershell
-git clone https://github.com/codenjoyme/mcpyrex-python.git work/400-task
+mkdir work/400-task -Force
+cd work/400-task
+git clone https://github.com/codenjoyme/mcpyrex-python.git mcp_server
 ```
 
 **macOS / Linux:**
 
 ```bash
-git clone https://github.com/codenjoyme/mcpyrex-python.git work/400-task
+mkdir -p work/400-task
+cd work/400-task
+git clone https://github.com/codenjoyme/mcpyrex-python.git mcp_server
 ```
 
-This creates `work/400-task/` with the full mcpyrex project inside.
+This creates `work/400-task/mcp_server/` with the full mcpyrex project inside. The `work/400-task/` folder is your workspace root — this is where you'll open VS Code.
 
 ### What Just Happened
 
-You now have a local copy of the mcpyrex ecosystem. The key directories are:
+You now have a local copy of the mcpyrex ecosystem inside `mcp_server/`. The key directories are:
 
 | Directory | What's inside |
 |-----------|--------------|
-| `tools/` | 28 tool groups — each is a separate MCP tool |
-| `projects/` | 8 real-world projects (Telegram bots, telemetry, RAG, etc.) |
-| `build/` | Installation scripts for all platforms |
-| `simple/` | Standalone Python examples (RAG, agents, chains) |
-| `pipeline/` | Batch pipeline configurations |
+| `mcp_server/tools/` | 28 tool groups — each is a separate MCP tool |
+| `mcp_server/projects/` | 8 real-world projects (Telegram bots, telemetry, RAG, etc.) |
+| `mcp_server/build/` | Installation scripts for all platforms |
+| `mcp_server/simple/` | Standalone Python examples (RAG, agents, chains) |
+| `mcp_server/pipeline/` | Batch pipeline configurations |
 
 ---
 
@@ -84,7 +102,7 @@ You now have a local copy of the mcpyrex ecosystem. The key directories are:
 
 ### What We'll Do
 
-Open the cloned project as a **separate VS Code window**. This is critical — mcpyrex has its own `.vscode/` configuration that would conflict with the course workspace.
+Open the workspace as a **separate VS Code window**. This is critical — the installer creates `.vscode/` configuration that would conflict with the course workspace.
 
 1. Open VS Code
 2. Go to **File > Open Folder**
@@ -93,7 +111,7 @@ Open the cloned project as a **separate VS Code window**. This is critical — m
    - macOS/Linux: `~/workspace/vibecoding-for-managers/work/400-task/`
 4. Click **Open**
 
-You should see the mcpyrex project structure in the Explorer panel: `build/`, `tools/`, `projects/`, `server.py`, etc.
+You should see `mcp_server/` folder in the Explorer panel. Inside it: `build/`, `tools/`, `projects/`, etc.
 
 > **Important**: All subsequent commands in this walkthrough should be run in this new VS Code window, not in the course workspace.
 
@@ -112,10 +130,10 @@ Run the interactive installation script. It will:
 
 ### Security Note
 
-Before proceeding, review the security disclaimer:
+Before proceeding, review the security disclaimer (from the workspace root `work/400-task/`):
 
 ```bash
-cat mcp_server/security-disclaimer.md
+cat mcp_server/mcp_server/security-disclaimer.md
 ```
 
 The key points: mcpyrex communicates with LLMs (GitHub Copilot and optionally a Langchain LLM), uses Python libraries, and generates code. Each tool has a `settings.yaml` where you can disable it if needed.
@@ -181,7 +199,7 @@ The installer created:
 
 Confirm that GitHub Copilot can see and communicate with the mcpyrex MCP server.
 
-1. **Restart VS Code** — Close and reopen the `work/400-task/` workspace to pick up the new configuration
+1. **Restart VS Code** — Close and reopen the `work/400-task/` workspace (not `mcp_server/`!) to pick up the new configuration
 
 2. **Check MCP status** — In VS Code, open the Command Palette (View > Command Palette) and search for `MCP: List Servers`. You should see `mcpyrex-python` in the list
 
@@ -315,7 +333,7 @@ Use the built-in `lng_get_tools_info` tool to explore everything mcpyrex offers.
 
 Copilot should call `lng_get_tools_info` and return a structured list of all tools, grouped by category.
 
-2. Browse the tools directory in the file explorer. Each tool lives in `tools/[tool_name]/`:
+2. Browse the tools directory in the file explorer. Each tool lives in `mcp_server/tools/[tool_name]/`:
    - `tool.py` — the Python implementation
    - `settings.yaml` — configuration (enabled/disabled, dependencies)
    - `case/` — demo scenarios (if available)
@@ -334,7 +352,7 @@ These demos are the basis for upcoming training modules (405-550).
 
 ### The Project Ecosystem
 
-Beyond individual tools, mcpyrex includes 8 ready-made projects in `projects/`:
+Beyond individual tools, mcpyrex includes 8 ready-made projects in `mcp_server/projects/`:
 
 | Project | What it does |
 |---------|-------------|
@@ -351,7 +369,7 @@ Beyond individual tools, mcpyrex includes 8 ready-made projects in `projects/`:
 
 ## Success Criteria
 
-- ✅ mcpyrex repository cloned into `work/400-task/`
+- ✅ mcpyrex repository cloned into `work/400-task/mcp_server/`
 - ✅ Installation script completed without errors
 - ✅ `.vscode/mcp.json` configured with `mcpyrex-python` server
 - ✅ MCP server visible in VS Code (MCP: List Servers)
