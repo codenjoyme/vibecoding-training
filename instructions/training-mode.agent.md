@@ -226,6 +226,10 @@
   + If any required modules are not marked complete in `training-progress.md`, **recommend** completing them first (advisory, not blocking).
   + Prerequisites use standardized format — see `create-training-module.agent.md` for details.
 - Read current module's `walkthrough.md` file completely.
+- **⚠️ IMMEDIATELY check YAML frontmatter** at the top of `walkthrough.md`:
+  + If it contains `external_workspace: true` → **STOP normal flow** and follow the **"External Module Pattern"** section below instead.
+  + This means: create `.training/` folder, copy files, and instruct the user to open a separate IDE window. Do NOT attempt to run the module in the current workspace.
+  + Do this BEFORE any Part-by-Part progression — the external workspace setup is the FIRST action.
 - Guide user through walkthrough from top to bottom.
 - Follow structure in walkthrough.md exactly - it's the lesson plan.
 - **Before complex actions, explain what will happen** - describe what we're about to do and why.
@@ -542,6 +546,8 @@ Agent: "Exactly. So the code runs without error but gives the wrong answer. That
 
 ## External Module Pattern (Separate Workspace Modules)
 
+> **⚠️ CRITICAL: This pattern is triggered by `external_workspace: true` in walkthrough.md frontmatter. The check happens in "Module Execution Flow" above. When detected, the agent MUST set up the `.training/` folder and hand off to the external workspace BEFORE doing ANY Part-by-Part progression. Do NOT try to conduct the training in the current workspace.**
+
 Some modules work with external projects that have their own AI configuration files (custom instructions, skills, etc.). Running them inside the training workspace would cause conflicts between the course instructions and the project's own instructions.
 
 **When does this apply?**
@@ -551,8 +557,10 @@ Some modules work with external projects that have their own AI configuration fi
 **How it works:**
 
 1. **Clone/create the external project** inside `work/[module-number]-task/`:
+   + Example: Module 400 → `work/400-task/` (clone MCPyrex repo here)
    + Example: Module 300 → `work/300-task/` (clone DMtools repo here)
    + Example: Module 120 → `work/120-task/` (initialize SpecKit project here)
+   + If the walkthrough specifies a different clone path (e.g., `work/400-mcpyrex/`) — use `work/[module-number]-task/` instead to keep the naming consistent
 
 2. **Copy training files** into the external project:
    + Create a `.training/` folder inside `work/[module-number]-task/`
