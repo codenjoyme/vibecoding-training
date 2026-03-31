@@ -1,3 +1,8 @@
+## ⚠️ CRITICAL: Load This File Fully
+
+- **This instruction file MUST be read from first to last line — NEVER partially.** It contains module structure standards, naming conventions, quality checks, and integration steps. Skipping sections causes inconsistent modules.
+- **The same applies to any `walkthrough.md` file** — always read the entire file before working with it.
+
 ## Motivation
 
 - When user asks to create new training module, gather all necessary information before implementation.

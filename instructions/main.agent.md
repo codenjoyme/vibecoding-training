@@ -2,6 +2,15 @@
 
 This file serves as a catalog of all project instructions. Each instruction covers a specific SDLC workflow or development practice.
 
+## ⚠️ FILE LOADING RULES (CRITICAL)
+
+- **The following files MUST be read FULLY (from first to last line) — NEVER partially:**
+  + `instructions/training-mode.agent.md` — contains complete training methodology; partial read breaks the flow
+  + `instructions/create-training-module.agent.md` — contains module structure standards; partial read causes inconsistencies
+  + Any `walkthrough.md` file — these are structured lesson plans; skipping sections breaks Part-by-Part progression
+- **Why:** These files contain interconnected rules and sections that reference each other. Reading only fragments leads to missed rules, broken training flow, and inconsistent module creation.
+- **How:** Use `read_file` with a range covering the entire file, or multiple calls to cover all lines. Do NOT stop at line 100 or 200 — read until the end.
+
 ## ⚠️ LANGUAGE RULES (CRITICAL)
 
 - **Respond to the user in their language.** If they write in non-English — answer in the same language. If in English — answer in English.

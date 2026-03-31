@@ -226,6 +226,7 @@
   + If any required modules are not marked complete in `training-progress.md`, **recommend** completing them first (advisory, not blocking).
   + Prerequisites use standardized format — see `create-training-module.agent.md` for details.
 - Read current module's `walkthrough.md` file completely.
+- **⚠️ CRITICAL: "completely" means EVERY LINE from start to end.** Do NOT read only the first 100-200 lines. Use multiple `read_file` calls if needed to cover the entire file. Partial reads break Part-by-Part progression and cause skipped content.
 - **⚠️ IMMEDIATELY check YAML frontmatter** at the top of `walkthrough.md`:
   + If it contains `external_workspace: true` → **STOP normal flow** and follow the **"External Module Pattern"** section below instead.
   + This means: create `.training/` folder, copy files, and instruct the user to open a separate IDE window. Do NOT attempt to run the module in the current workspace.
