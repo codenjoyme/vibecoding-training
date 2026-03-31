@@ -121,12 +121,21 @@ You should see `mcp_server/` folder in the Explorer panel. Inside it: `build/`, 
 
 ### What We'll Do
 
-Run the interactive installation script. It will:
+Run the installation script in **silent mode**. It will:
 - Detect or download Python 3.11+
 - Create a virtual environment with all dependencies
-- Ask you to choose between Cursor and VS Code
+- Configure IDE settings automatically (no interactive prompts)
 - Copy configuration files (mcp.json, settings.json, instructions)
 - Install all pip dependencies for the MCP tools
+
+### Before You Run: Read the Install Scripts
+
+> **Agent instruction:** Before running the installer, read ALL three installation scripts in `mcp_server/build/` to understand the available modes and parameters:
+> - `install-windows.ps1` — Windows (PowerShell)
+> - `install-macos.sh` — macOS (Bash)
+> - `install-linux.sh` — Linux (Bash)
+>
+> Each script supports silent mode with various flags. Choose the correct script for the user's OS and determine the IDE choice (cursor or vscode) from the user's training session context (check `.training/progress-notes.md` or ask the user).
 
 ### Security Note
 
@@ -138,15 +147,15 @@ cat mcp_server/mcp_server/security-disclaimer.md
 
 The key points: mcpyrex communicates with LLMs (GitHub Copilot and optionally a Langchain LLM), uses Python libraries, and generates code. Each tool has a `settings.yaml` where you can disable it if needed.
 
-### Run the Script
+### Run the Script (Silent Mode)
 
-Open a terminal in VS Code (Terminal > New Terminal).
+Open a terminal in VS Code (Terminal > New Terminal). Run the installer in **silent mode** — no interactive prompts needed.
 
 **Windows (PowerShell):**
 
 ```powershell
 cd mcp_server/build
-.\install-windows.ps1
+.\install-windows.ps1 -Silent -InstallVSCode n -IDE vscode -OverwriteConfig -NoLaunch
 ```
 
 > **Execution Policy error?** If you see "running scripts is disabled on this system", run this first:
@@ -160,7 +169,7 @@ cd mcp_server/build
 ```bash
 cd mcp_server/build
 chmod +x ./install-macos.sh
-./install-macos.sh
+./install-macos.sh --silent --install-vscode n --ide vscode --overwrite-config --no-launch
 ```
 
 **Linux:**
@@ -168,16 +177,10 @@ chmod +x ./install-macos.sh
 ```bash
 cd mcp_server/build
 chmod +x ./install-linux.sh
-./install-linux.sh
+./install-linux.sh --silent --install-vscode n --ide vscode --overwrite-config --no-launch
 ```
 
-### Interactive Prompts
-
-The installer will ask you several questions:
-
-1. **"Do you want to install VSCode portable?"** — Answer `n` (you already have VS Code installed)
-2. **"Choose your IDE configuration: (c)ursor or (v)scode?"** — Answer `v` for VS Code with GitHub Copilot
-3. **File replacement prompts** — The installer will show you each config file it wants to create and ask for confirmation. Answer `y` to accept each one
+> **Note:** The `--ide` flag should match the user's IDE: use `vscode` for VS Code with GitHub Copilot, or `cursor` for Cursor. The `-NoLaunch` / `--no-launch` flag prevents the script from opening a new VS Code window since we already have one open.
 
 ### What Just Happened
 
