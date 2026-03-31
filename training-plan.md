@@ -94,6 +94,7 @@ After completing all modules, participants will build a complete application tha
 1. [Export Chat Session](modules/250-export-chat-session/about.md) - Extract, preserve, and share AI chat sessions for knowledge retention and team collaboration
 1. [DMtools — Agent Skill & Automation Catalog](modules/300-dmtools-agent-skill/about.md) - Install the DMtools agent skill, explore 152+ tools across 16 integrations, and choose your first automation task
 1. [OpenClaw — AI Personal Assistant Platform](modules/350-openclaw-ai-personal-assistant/about.md) - Install OpenClaw, connect an AI model, and chat with your assistant from browser, Telegram, or any messaging app
+1. [Installing mcpyrex — MCP Python Toolbox](modules/400-installing-mcpyrex-mcp-python-toolbox/about.md) - Install mcpyrex MCP server with 30+ Python/Langchain tools, verify connection with GitHub Copilot, and run your first deterministic tool
 
 ---
 
