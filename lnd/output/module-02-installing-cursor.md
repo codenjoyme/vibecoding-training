@@ -3,6 +3,8 @@
 ### Background
 What if a code editor was built from the ground up for AI-assisted work? That is exactly what `Cursor` is — an AI-native IDE based on the `VS Code` engine but redesigned to put AI interactions at the center of every workflow. While `VS Code` with `GitHub Copilot` is the primary tool for this course, some learners prefer `Cursor`'s streamlined AI experience.
 
+![Cursor window](image.png)
+
 `Cursor` is a fork of `VS Code` with a built-in AI assistant module. It appeared as a market response to the demand for an out-of-the-box AI coding solution at a time when no such turnkey product existed. Today, however, the landscape has changed — `GitHub Copilot` and `Claude Code` have become equally complete, boxed solutions. The race among leaders is now about shipping new features faster, while users must place their bets today. The author of this course chose the `GitHub` infrastructure — with which `Copilot` has deep integration — and the `Microsoft` giant, whose investments in `OpenAI` made the world of `GenAI` our present reality.
 
 This module is optional. If you are satisfied with your `VS Code` + `Copilot` setup from Module 1, you may skip ahead. If you are curious about alternatives or want a backup IDE, install `Cursor` alongside `VS Code`. Both can coexist on the same machine.
@@ -20,6 +22,7 @@ This module is optional. If you are satisfied with your `VS Code` + `Copilot` se
 ### Steps (Personal Use — Part A)
 1. Open your web browser and navigate to [https://cursor.sh/](https://cursor.sh/).
 2. Click the Download button for your operating system.
+![Download cursor](image-1.png)
 3. Run the downloaded installer:
    - `Windows`: Run the `.exe` file and follow the installation wizard.
    - `macOS`: Open the `.dmg` file and drag `Cursor` to the Applications folder.
@@ -28,11 +31,15 @@ This module is optional. If you are satisfied with your `VS Code` + `Copilot` se
 5. You should see the `Cursor` welcome screen.
 
 ### Steps (`EPAM` Employees — Part B)
-1. Open your browser and navigate to [https://leap.epam.com/news/5039](https://leap.epam.com/news/5039).
-2. Follow the installation manual provided on that page.
-3. Use the approved download link from the `EPAM` guide.
-4. Complete the installation according to `EPAM` internal procedures (follow any additional security requirements).
-5. Launch `Cursor` after installation completes.
+1. Open the `EPAM` `Support portal`: [https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses](https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses).
+![Ask support - Choose Cursor](image-2.png)
+2. In the `Cursor will be used for` field, select `the project I am assigned to`.
+3. In the `General purpose (for further analysis)` field, select `evaluation/education`.
+4. Read and accept the User Agreement.
+![Ask support - Select options](image-3.png)
+5. Use the approved download link from the `EPAM` email.
+![Download Cursor](image-4.png)
+7. Launch `Cursor` after installation completes.
 
 ### ✅ Result
 `Cursor` is installed and running on your computer.
@@ -43,9 +50,9 @@ When `Cursor` starts for the first time, it offers to import your `VS Code` sett
 
 ### Steps
 1. `Cursor` may ask to import settings from `VS Code`. Choose Yes if you want to keep your `VS Code` settings, themes, and extensions. Choose No if you prefer a fresh start.
-2. Sign in to `Cursor` using your `GitHub` account (the same one you set up in Module 1).
-3. Complete the initial setup wizard if one is presented.
-4. Verify: You should see the main `Cursor` editor interface — it looks similar to `VS Code`.
+2. Complete the initial setup wizard if one is presented.
+3. Verify: You should see the main `Cursor` editor interface — it looks similar to `VS Code`.
+![Cursor window](image.png)
 
 ### ✅ Result
 `Cursor` is configured and signed in. The interface is ready for use.
@@ -55,16 +62,18 @@ When `Cursor` starts for the first time, it offers to import your `VS Code` sett
 `Cursor`'s AI features are accessible through the built-in chat panel and command palette — similar to `Copilot Chat` in `VS Code` but with additional capabilities like codebase-wide context and multi-file editing.
 
 ### Steps
-1. In `Cursor`, go to File > Open Folder.
-2. Navigate to c:/workspace/hello-genai/ (`Windows`) or ~/workspace/hello-genai/ (`macOS`/Linux) — the same workspace you created in Module 1.
+1. In `Cursor`, go to `File` > `Open Folder`.
+![Open Folder](image-5.png)
+2. Navigate to `c:\workspace\hello-genai\` (`Windows`) or `~/workspace/hello-genai/` (`macOS`/Linux) — the same workspace you created in Module 1.
 3. Open the folder. If prompted about trust, click Yes, I trust.
 4. Open the AI Chat panel using the menu or sidebar.
 5. Type a request:
-   Create a simple hello world function in `Python`
+   `Create a simple hello world function in Python`
 6. Press Enter. Verify: `Cursor` should generate code based on your request.
 7. Ask a conceptual question in the chat:
-   What are the key differences between `Python` and `JavaScript`?
+   `What are the key differences between Python and JavaScript?`
 8. Verify: You receive a detailed response from the AI.
+![First questions](image-6.png)
 
 ### ✅ Result
 `Cursor` opens your workspace, generates code, and answers questions through the AI Chat.
@@ -82,6 +91,8 @@ Use `VS Code` when:
 - Working with a team that standardizes on `VS Code`.
 - You need specific `VS Code` extensions not yet available in `Cursor`.
 - Your organization provides `Copilot` licenses but not `Cursor` licenses.
+
+Ultimately, the choice is yours. If you want to stay on the cutting edge, it helps to have both tools installed — some new AI features land in `Cursor` first, others appear in `VS Code` + `Copilot` first. The competitive race between these products benefits users: each release pushes the other to respond. There is also `Claude Code` — a terminal-based AI coding assistant from `Anthropic` — which we do not cover in this course but which is worth keeping on your radar as another strong player in the space.
 
 Both tools are capable — the course works fully with either one.
 
