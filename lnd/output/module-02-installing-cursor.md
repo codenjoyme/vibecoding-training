@@ -3,7 +3,7 @@
 ### Background
 What if a code editor was built from the ground up for AI-assisted work? That is exactly what `Cursor` is — an AI-native IDE based on the `VS Code` engine but redesigned to put AI interactions at the center of every workflow. While `VS Code` with `GitHub Copilot` is the primary tool for this course, some learners prefer `Cursor`'s streamlined AI experience.
 
-![Cursor window](image.png)
+![Cursor window](img/module-02/01-cursor-window.png)
 
 `Cursor` is a fork of `VS Code` with a built-in AI assistant module. It appeared as a market response to the demand for an out-of-the-box AI coding solution at a time when no such turnkey product existed. Today, however, the landscape has changed — `GitHub Copilot` and `Claude Code` have become equally complete, boxed solutions. The race among leaders is now about shipping new features faster, while users must place their bets today. The author of this course chose the `GitHub` infrastructure — with which `Copilot` has deep integration — and the `Microsoft` giant, whose investments in `OpenAI` made the world of `GenAI` our present reality.
 
@@ -22,7 +22,7 @@ This module is optional. If you are satisfied with your `VS Code` + `Copilot` se
 ### Steps (Personal Use — Part A)
 1. Open your web browser and navigate to [https://cursor.sh/](https://cursor.sh/).
 2. Click the Download button for your operating system.
-![Download cursor](image-1.png)
+![Download cursor](img/module-02/02-download-cursor.png)
 3. Run the downloaded installer:
    - `Windows`: Run the `.exe` file and follow the installation wizard.
    - `macOS`: Open the `.dmg` file and drag `Cursor` to the Applications folder.
@@ -32,13 +32,13 @@ This module is optional. If you are satisfied with your `VS Code` + `Copilot` se
 
 ### Steps (`EPAM` Employees — Part B)
 1. Open the `EPAM` `Support portal`: [https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses](https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses).
-![Ask support - Choose Cursor](image-2.png)
+![Ask support - Choose Cursor](img/module-02/03-ask-support-choose-cursor.png)
 2. In the `Cursor will be used for` field, select `the project I am assigned to`.
 3. In the `General purpose (for further analysis)` field, select `evaluation/education`.
 4. Read and accept the User Agreement.
-![Ask support - Select options](image-3.png)
+![Ask support - Select options](img/module-02/04-ask-support-select-options.png)
 5. Use the approved download link from the `EPAM` email.
-![Download Cursor](image-4.png)
+![Download Cursor](img/module-02/05-download-cursor-epam.png)
 7. Launch `Cursor` after installation completes.
 
 ### ✅ Result
@@ -52,7 +52,7 @@ When `Cursor` starts for the first time, it offers to import your `VS Code` sett
 1. `Cursor` may ask to import settings from `VS Code`. Choose Yes if you want to keep your `VS Code` settings, themes, and extensions. Choose No if you prefer a fresh start.
 2. Complete the initial setup wizard if one is presented.
 3. Verify: You should see the main `Cursor` editor interface — it looks similar to `VS Code`.
-![Cursor window](image.png)
+![Cursor window](img/module-02/01-cursor-window.png)
 
 ### ✅ Result
 `Cursor` is configured and signed in. The interface is ready for use.
@@ -63,7 +63,7 @@ When `Cursor` starts for the first time, it offers to import your `VS Code` sett
 
 ### Steps
 1. In `Cursor`, go to `File` > `Open Folder`.
-![Open Folder](image-5.png)
+![Open Folder](img/module-02/06-open-folder.png)
 2. Navigate to `c:\workspace\hello-genai\` (`Windows`) or `~/workspace/hello-genai/` (`macOS`/Linux) — the same workspace you created in Module 1.
 3. Open the folder. If prompted about trust, click Yes, I trust.
 4. Open the AI Chat panel using the menu or sidebar.
@@ -73,7 +73,7 @@ When `Cursor` starts for the first time, it offers to import your `VS Code` sett
 7. Ask a conceptual question in the chat:
    `What are the key differences between Python and JavaScript?`
 8. Verify: You receive a detailed response from the AI.
-![First questions](image-6.png)
+![First questions](img/module-02/07-first-questions.png)
 
 ### ✅ Result
 `Cursor` opens your workspace, generates code, and answers questions through the AI Chat.
