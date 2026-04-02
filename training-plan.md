@@ -48,6 +48,7 @@ After completing all modules, participants will build a complete application tha
 1. [Clarifying Requirements with AI](modules/055-clarifying-requirements-before-start/about.md) - Ask AI questions when starting unclear tasks
 1. [Prompt Engineering Toolkit](modules/056-prompt-engineering-toolkit/about.md) - Apply 15 prompting techniques to unlock deeper AI responses from a blank chat
 1. [Agent Memory Management](modules/057-agent-memory-management/about.md) - Use todo lists to give AI agents persistent memory for complex tasks
+1. [Workspace Kickoff Prompt Files](modules/058-workspace-kickoff-prompt-files/about.md) - Dump materials into a folder and write a structured kickoff prompt to start any AI-assisted investigation
 1. [Version Control with Git](modules/060-version-control-git/about.md) - Track changes with baby steps approach
 1. [Debugging AI-Generated Code](modules/064-debugging-ai-generated-code/about.md) - Break the infinite error loop with a systematic debugging workflow
 1. [Custom Instructions](modules/070-custom-instructions/about.md) - Create instructions for AI assistants

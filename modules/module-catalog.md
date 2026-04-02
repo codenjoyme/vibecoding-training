@@ -10,6 +10,7 @@
 | 055 | Clarifying Requirements with AI | Get AI to help you define unclear tasks through questions |
 | 056 | Prompt Engineering Toolkit | Apply 15 prompt engineering techniques to unlock deeper, more relevant AI responses from a blank chat |
 | 057 | Agent Memory Management | Use todo lists and external documents to give AI agents persistent memory across complex tasks |
+| 058 | Workspace Kickoff Prompt Files | Dump materials into a folder and write a structured kickoff prompt to start any AI-assisted investigation |
 | 060 | Version Control with Git | Track changes with baby steps approach |
 | 064 | Debugging AI-Generated Code | Break the infinite error loop with a systematic debugging workflow for AI-generated code |
 | 070 | Custom Instructions | Evolution from one-time prompts to instruction architecture |
