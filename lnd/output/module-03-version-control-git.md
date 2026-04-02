@@ -30,6 +30,10 @@ The workflow is simple:
 - If no: discard the change and try again (git checkout).
 - Repeat.
 
+One important clarification: "works" does not mean everything is perfect. It means the result is better than before and you are ready to lock in that progress. In practice, commits often get postponed — changes that were acceptable (even if not ideal) accumulate, and then a single breaking change ruins everything that had been working. The more frequently you commit, the easier recovery becomes.
+
+This mindset does take some getting used to. After all, you will essentially be committing code you did not write yourself — the AI wrote it. That shifts the mental model: instead of reviewing your own work before committing, you are reviewing and accepting (or rejecting) the AI's output. Commit what works, discard what does not.
+
 ### ✅ Result
 You understand why small, committed changes beat large, uncommitted ones — especially with AI assistants.
 
