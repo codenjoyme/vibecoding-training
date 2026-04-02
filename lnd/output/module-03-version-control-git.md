@@ -76,12 +76,16 @@ You have a small practice project with three files ready for version control.
 `Git` needs to be initialized in your project folder before it can track changes. You also need to tell `Git` who you are — your `name` and `email` appear in every commit, creating an audit trail of who changed what.
 
 ### Steps
-> **Note:** In this section, the AI may run terminal commands for you when you click the corresponding run/execute button in chat (screenshot will be added). Even if it runs them automatically, pay attention to the commands. In this step, it will most likely run `git init`, `git status`, and `git config --global --list`.
+> **Note:** In this section, the AI may run terminal commands for you when you click the corresponding run/execute button in chat (screenshot will be added). Even if it runs them automatically, pay attention to the commands. In this step, it will most likely run several commands like: `git init`, `git status`, and `git config --global --list`. You can also click the dedicated button to inspect what was executed in the terminal.
+![Check terminal - VSCode](image-8.png)
+![Check terminal - Cursor](image-10.png)
 
 1. Ask the AI:
    `Initialize Git in my current folder 'work/module03-task'`
    The AI will most likely run:
    `cd work/module03-task & git init`
+   ![Git init - VSCode](image-7.png)
+   ![Git init - Corsor](image-9.png)
 2. Ask the AI:
    `Check Git status in the current folder and explain what it means`
    The AI will most likely run:
