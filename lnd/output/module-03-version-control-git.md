@@ -60,6 +60,8 @@ Before learning `Git` commands, you need a small project to practice on. You wil
 5. Notice the `Keep` and `Undo` buttons that appear next to the changed files. These are provided by the AI assistant — any change made during the current session can be accepted or rolled back using them.
    - `Keep` — confirms the change and leaves the file as-is.
    - `Undo` — reverts the file to its state before the AI touched it.
+   - These controls can appear at multiple levels: next to each individual change block inside a file, next to each file card in chat, and sometimes in a separate review area.
+   - The exact placement depends on the IDE (`VS Code` or `Cursor`) and the current UI version.
    It is important to understand that **the files are already modified on disk** at this point. The AI writes changes immediately. `Keep`/`Undo` are simply your review controls — they let you accept or discard what the AI did before you move on. This is not `Git`: no commit is involved, and this works only within the current session.
 ![Keep undo - VSCode](image-6.png)
 ![Keep undo - Cursor](image-5.png)
