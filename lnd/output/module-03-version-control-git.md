@@ -69,7 +69,7 @@ Before learning `Git` commands, you need a small project to practice on. You wil
 ### ✅ Result
 You have a small practice project with three files ready for version control.
 
-> **Note:** Next in this module, screenshots are shown for one IDE only. Since `VS Code` and `Cursor` share the same foundation, the same functionality is easy to locate in the other — they are like twin brothers. If you see a screenshot from `VS Code` and you are using `Cursor`, the interface will look nearly identical.
+> **Note:** Next in this module, screenshots may be shown for only one IDE. Since `VS Code` and `Cursor` share the same foundation, the same functionality is usually easy to locate in the other — they are like twin brothers. If you see a screenshot from `VS Code` and you are using `Cursor`, the interface will look nearly identical. Also note that the location of buttons, panels, and other UI elements may change from one IDE version to another, so if something is not exactly where the screenshot shows it, look for the equivalent control in the current version you are using.
 
 ## Page 3: Initialize `Git` and Configure Identity
 ### Background
@@ -79,6 +79,10 @@ You have a small practice project with three files ready for version control.
 > **Note:** In this section, the AI may run terminal commands for you when you click the corresponding run/execute button in chat (screenshot will be added). Even if it runs them automatically, pay attention to the commands. In this step, it will most likely run several commands like: `git init`, `git status`, and `git config --global --list`. You can also click the dedicated button to inspect what was executed in the terminal.
 ![Check terminal - VSCode](image-8.png)
 ![Check terminal - Cursor](image-10.png)
+
+> **Note:** While running commands, the IDE may show a confirmation prompt asking whether to allow execution. If you click `Allow`, you are approving only the current command. This exists for safety: you are expected to make the decision and take responsibility for what is executed on your machine. If you do not understand a command, ask the AI in chat to explain it before approving. You may also see an option to add the command to an allowlist or trusted commands list. The exact wording and location of these options differ between IDEs and versions. You can always review these permissions later and change them if needed.
+![Allow - VSCode](image-11.png)
+![Allow - Cursor](image-12.png)
 
 1. Ask the AI:
    `Initialize Git in my current folder 'work/module03-task'`
