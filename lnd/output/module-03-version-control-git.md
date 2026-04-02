@@ -57,6 +57,10 @@ Before learning `Git` commands, you need a small project to practice on. You wil
 4. Verify that three files appear in `work/module03-task`: `calculator.py`, `main.py`, and `README.md`.
 ![Check result - VSCode](image-3.png)
 ![Check result - Cursor](image-4.png)
+5. Notice the `Keep` and `Undo` buttons that appear next to the changed files. These are provided by the AI assistant — any change made during the current session can be accepted or rolled back using them.
+   - `Keep` — confirms the change and leaves the file as-is.
+   - `Undo` — reverts the file to its state before the AI touched it.
+   It is important to understand that **the files are already modified on disk** at this point. The AI writes changes immediately. `Keep`/`Undo` are simply your review controls — they let you accept or discard what the AI did before you move on. This is not `Git`: no commit is involved, and this works only within the current session.
 
 ### ✅ Result
 You have a small practice project with three files ready for version control.
@@ -68,7 +72,7 @@ You have a small practice project with three files ready for version control.
 `Git` needs to be initialized in your project folder before it can track changes. You also need to tell `Git` who you are — your `name` and `email` appear in every commit, creating an audit trail of who changed what.
 
 ### Steps
-1. In the terminal (make sure you are inside work/060-task/), run:
+1. In the terminal (make sure you are inside `work/module03-task`), run:
    git init
 2. Run:
    git status
