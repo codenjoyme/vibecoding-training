@@ -61,6 +61,8 @@ Before learning `Git` commands, you need a small project to practice on. You wil
    - `Keep` — confirms the change and leaves the file as-is.
    - `Undo` — reverts the file to its state before the AI touched it.
    It is important to understand that **the files are already modified on disk** at this point. The AI writes changes immediately. `Keep`/`Undo` are simply your review controls — they let you accept or discard what the AI did before you move on. This is not `Git`: no commit is involved, and this works only within the current session.
+![Keep undo - VSCode](image-6.png)
+![Keep undo - Cursor](image-5.png)
 
 ### ✅ Result
 You have a small practice project with three files ready for version control.
