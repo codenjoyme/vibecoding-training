@@ -76,18 +76,26 @@ You have a small practice project with three files ready for version control.
 `Git` needs to be initialized in your project folder before it can track changes. You also need to tell `Git` who you are — your `name` and `email` appear in every commit, creating an audit trail of who changed what.
 
 ### Steps
-1. In the terminal (make sure you are inside `work/module03-task`), run:
-   git init
-2. Run:
-   git status
-   You should see all project files listed as "Untracked" — `Git` knows the files exist but is not tracking them yet.
+> **Note:** In this section, the AI may run terminal commands for you when you click the corresponding run/execute button in chat (screenshot will be added). Even if it runs them automatically, pay attention to the commands. In this step, it will most likely run `git init`, `git status`, and `git config --global --list`.
+
+1. Ask the AI:
+   `Initialize Git in my current folder work/module03-task`
+   The AI will most likely run:
+   `cd work/module03-task & git init`
+2. Ask the AI:
+   `Check Git status in the current folder and explain what it means`
+   The AI will most likely run:
+   `git status`
+   You should see all project files listed as `Untracked` — `Git` knows the files exist but is not tracking them yet.
 3. Configure your identity. Ask the AI:
-   I need to configure `Git` with my identity. My name is [Your Name] and email is [your@email.com]. What commands should I run?
+   `I need to configure Git with my identity. My name is [Your Name] and email is [your@email.com]. What commands should I run? Please do it for me.`
 4. The AI will suggest:
-   git config --global user.name "Your Name"
-   git config --global user.email "your@email.com"
-5. Run those commands, then verify:
-   git config --global --list
+   `git config --global user.name "Your Name"`
+   `git config --global user.email "your@email.com"`
+5. Ask the AI:
+   `Verify my global Git identity settings and show the configured values.`
+   The AI will most likely run:
+   `git config --global --list`
 
 ### ✅ Result
 `Git` is initialized in your project folder. Your name and email are configured.
