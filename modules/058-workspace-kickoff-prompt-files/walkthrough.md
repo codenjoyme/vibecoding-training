@@ -47,9 +47,11 @@ Create a small folder that simulates a real research scenario: a mix of material
 
 ### Steps
 
-1. Create a new folder called `research-workspace` inside `./workspace/hello-genai/`:
-   - Windows: `c:/workspace/hello-genai/research-workspace/`
-   - macOS/Linux: `~/workspace/hello-genai/research-workspace/`
+1. Create the practice folder for this module:
+   - Windows: `c:/workspace/hello-genai/work/058-task/`
+   - macOS/Linux: `~/workspace/hello-genai/work/058-task/`
+
+   > This follows the course convention: all module exercises go into `work/[module-number]-task/`. The `work/` folder is gitignored, so it's safe to experiment here.
 
 2. Open the folder in your IDE (File → Open Folder).
 
@@ -64,7 +66,7 @@ Create a small folder that simulates a real research scenario: a mix of material
 
 ### What just happened
 
-You simulated the "landing zone" — a folder where all the raw inputs live. The AI will be able to read everything in this folder when you run your kickoff prompt.
+You simulated the "landing zone" — a folder where all the raw inputs live. The `work/058-task/` folder acts as your research workspace for this exercise. The AI will be able to read everything in this folder when you run your kickoff prompt.
 
 ---
 
@@ -91,7 +93,7 @@ The AI treats these as ordered phases: it should complete preparatory steps befo
 
 ### Steps
 
-1. Create a file named `phase1.prompt.md` at the root of your `research-workspace/` folder.
+1. Create a file named `phase1.prompt.md` at the root of your `work/058-task/` folder.
 
 2. Write the following structure (adapt the content to match your actual materials):
 
@@ -180,7 +182,7 @@ Chat sessions can be closed, lost, or buried. But the `phase1.prompt.md` file:
 
 ## Success Criteria
 
-- ✅ Created a research workspace folder with at least 2 materials
+- ✅ Created `work/058-task/` with at least 2 sample materials
 - ✅ Wrote a `phase1.prompt.md` with a goal description and 🎯N action markers
 - ✅ Ran the prompt from the IDE in Agent Mode
 - ✅ Verified the AI completed phases in order (preparatory first, main task second)
@@ -232,5 +234,3 @@ Check that you have a recent version of the GitHub Copilot extension. The `.prom
 ## Next Steps
 
 This technique pairs well with the IDE Workspace as Knowledge Base module — where you learn to set up an entire workspace folder as a persistent knowledge base for ongoing AI conversations, not just one-time kickoffs.
-
-Next module: [Version Control with Git](../060-version-control-git/about.md)
