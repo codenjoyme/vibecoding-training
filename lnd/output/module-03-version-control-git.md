@@ -11,6 +11,7 @@ In this module, you will learn the "baby steps" methodology: make one small chan
 - Apply the baby steps workflow: change → test → stage → commit.
 - Recover from an AI-generated mistake by discarding uncommitted changes.
 - Create a `.gitignore` file to exclude sensitive and temporary files.
+
 ## Page 1: Why Baby Steps Matter
 ### Background
 Your brain can hold roughly 7±2 items in working memory simultaneously. When you try to implement three features at once, each new detail pushes out an earlier one, leading to confusion and mistakes. The baby steps approach respects this cognitive limit.
@@ -26,8 +27,8 @@ Baby steps are faster, safer, and less stressful — especially when working wit
 The workflow is simple:
 - Make a small change.
 - Test it — does it work?
-- If yes: save a snapshot (git add + git commit).
-- If no: discard the change and try again (git checkout).
+- If yes: save a snapshot (`git add` + `git commit`).
+- If no: discard the change and try again (`git checkout`).
 - Repeat.
 
 One important clarification: "works" does not mean everything is perfect. It means the result is better than before and you are ready to lock in that progress. In practice, commits often get postponed — changes that were acceptable (even if not ideal) accumulate, and then a single breaking change ruins everything that had been working. The more frequently you commit, the easier recovery becomes.
@@ -42,24 +43,29 @@ You understand why small, committed changes beat large, uncommitted ones — esp
 Before learning `Git` commands, you need a small project to practice on. You will ask the AI assistant to generate a simple calculator project, then use `Git` to track changes to it throughout this module.
 
 ### Steps
-1. In your IDE, open the workspace folder: c:/workspace/hello-genai/ (`Windows`) or ~/workspace/hello-genai/ (`macOS`/Linux).
-2. Create a subfolder: work/060-task. All course exercises go in `work/`[module-number]-task.
-[MG]: Очень важно все такие степы сопроводить скриншотами, уверен не разберутся люди которые первый раз видят `VS Code` или `Cursor`.
-3. Open the terminal in your IDE (Terminal menu > New Terminal) and navigate to the work/060-task folder.
-4. Ask the AI assistant:
+1. In your IDE, open the workspace folder: `c:\workspace\hello-genai\` (`Windows`) or `~/workspace/hello-genai/` (`macOS`/`Linux`).
+2. Create a subfolder: `work/module03-task`. All course exercises go in `work/`[module-number]-task.
+![Create new folder](image.png)
+3. Open the chat and ask the AI assistant in `Agent` mode:
    Create a simple `Python` calculator project with:
    - `calculator.py` with add() and subtract() functions
    - `main.py` that uses the calculator
    - `README.md` with project description
-   Place these files in the current directory.
-5. Verify that three files appear in work/060-task/: `calculator.py`, `main.py`, and `README.md`.
+   Place these files in the `work/module03-task` directory.
+![Ask to create file - VSCode](image-1.png)
+![Ask to create file - Cursor](image-2.png)
+4. Verify that three files appear in `work/module03-task`: `calculator.py`, `main.py`, and `README.md`.
+![Check result - VSCode](image-3.png)
+![Check result - Cursor](image-4.png)
 
 ### ✅ Result
 You have a small practice project with three files ready for version control.
 
+> **Note:** Next in this module, screenshots are shown for one IDE only. Since `VS Code` and `Cursor` share the same foundation, the same functionality is easy to locate in the other — they are like twin brothers. If you see a screenshot from `VS Code` and you are using `Cursor`, the interface will look nearly identical.
+
 ## Page 3: Initialize `Git` and Configure Identity
 ### Background
-`Git` needs to be initialized in your project folder before it can track changes. You also need to tell `Git` who you are — your name and email appear in every commit, creating an audit trail of who changed what.
+`Git` needs to be initialized in your project folder before it can track changes. You also need to tell `Git` who you are — your `name` and `email` appear in every commit, creating an audit trail of who changed what.
 
 ### Steps
 1. In the terminal (make sure you are inside work/060-task/), run:
