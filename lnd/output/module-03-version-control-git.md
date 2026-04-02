@@ -79,7 +79,7 @@ You have a small practice project with three files ready for version control.
 > **Note:** In this section, the AI may run terminal commands for you when you click the corresponding run/execute button in chat (screenshot will be added). Even if it runs them automatically, pay attention to the commands. In this step, it will most likely run `git init`, `git status`, and `git config --global --list`.
 
 1. Ask the AI:
-   `Initialize Git in my current folder work/module03-task`
+   `Initialize Git in my current folder 'work/module03-task'`
    The AI will most likely run:
    `cd work/module03-task & git init`
 2. Ask the AI:
