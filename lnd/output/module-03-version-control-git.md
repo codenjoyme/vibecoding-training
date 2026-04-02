@@ -45,26 +45,26 @@ Before learning `Git` commands, you need a small project to practice on. You wil
 ### Steps
 1. In your IDE, open the workspace folder: `c:\workspace\hello-genai\` (`Windows`) or `~/workspace/hello-genai/` (`macOS`/`Linux`).
 2. Create a subfolder: `work/module03-task`. All course exercises go in `work/`[module-number]-task.
-![Create new folder](image.png)
+![Create new folder](img/module-03/01-create-new-folder.png)
 3. Open the chat and ask the AI assistant in `Agent` mode:
    Create a simple `Python` calculator project with:
    - `calculator.py` with add() and subtract() functions
    - `main.py` that uses the calculator
    - `README.md` with project description
    Place these files in the `work/module03-task` directory.
-![Ask to create file - VSCode](image-1.png)
-![Ask to create file - Cursor](image-2.png)
+![Ask to create file - VSCode](img/module-03/02-ask-to-create-file-vscode.png)
+![Ask to create file - Cursor](img/module-03/03-ask-to-create-file-cursor.png)
 4. Verify that three files appear in `work/module03-task`: `calculator.py`, `main.py`, and `README.md`.
-![Check result - VSCode](image-3.png)
-![Check result - Cursor](image-4.png)
+![Check result - VSCode](img/module-03/04-check-result-vscode.png)
+![Check result - Cursor](img/module-03/05-check-result-cursor.png)
 5. Notice the `Keep` and `Undo` buttons that appear next to the changed files. These are provided by the AI assistant — any change made during the current session can be accepted or rolled back using them.
    - `Keep` — confirms the change and leaves the file as-is.
    - `Undo` — reverts the file to its state before the AI touched it.
    - These controls can appear at multiple levels: next to each individual change block inside a file, next to each file card in chat, and sometimes in a separate review area.
    - The exact placement depends on the IDE (`VS Code` or `Cursor`) and the current UI version.
    It is important to understand that **the files are already modified on disk** at this point. The AI writes changes immediately. `Keep`/`Undo` are simply your review controls — they let you accept or discard what the AI did before you move on. This is not `Git`: no commit is involved, and this works only within the current session.
-![Keep undo - VSCode](image-6.png)
-![Keep undo - Cursor](image-5.png)
+![Keep undo - VSCode](img/module-03/07-keep-undo-vscode.png)
+![Keep undo - Cursor](img/module-03/06-keep-undo-cursor.png)
 
 ### ✅ Result
 You have a small practice project with three files ready for version control.
@@ -77,19 +77,19 @@ You have a small practice project with three files ready for version control.
 
 ### Steps
 > **Note:** In this section, the AI may run terminal commands for you when you click the corresponding run/execute button in chat (screenshot will be added). Even if it runs them automatically, pay attention to the commands. In this step, it will most likely run several commands like: `git init`, `git status`, and `git config --global --list`. You can also click the dedicated button to inspect what was executed in the terminal.
-![Check terminal - VSCode](image-8.png)
-![Check terminal - Cursor](image-10.png)
+![Check terminal - VSCode](img/module-03/09-check-terminal-vscode.png)
+![Check terminal - Cursor](img/module-03/11-check-terminal-cursor.png)
 
 > **Note:** While running commands, the IDE may show a confirmation prompt asking whether to allow execution. If you click `Allow`, you are approving only the current command. This exists for safety: you are expected to make the decision and take responsibility for what is executed on your machine. If you do not understand a command, ask the AI in chat to explain it before approving. You may also see an option to add the command to an allowlist or trusted commands list. The exact wording and location of these options differ between IDEs and versions. You can always review these permissions later and change them if needed.
-![Allow - VSCode](image-11.png)
-![Allow - Cursor](image-12.png)
+![Allow - VSCode](img/module-03/12-allow-vscode.png)
+![Allow - Cursor](img/module-03/13-allow-cursor.png)
 
 1. Ask the AI:
    `Initialize Git in my current folder 'work/module03-task'`
    The AI will most likely run:
    `cd work/module03-task & git init`
-   ![Git init - VSCode](image-7.png)
-   ![Git init - Corsor](image-9.png)
+   ![Git init - VSCode](img/module-03/08-git-init-vscode.png)
+   ![Git init - Corsor](img/module-03/10-git-init-cursor.png)
 2. Ask the AI:
    `Check Git status in the current folder and explain what it means`
    The AI will most likely run:
