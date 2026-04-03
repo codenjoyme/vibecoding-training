@@ -13,16 +13,20 @@ This module is optional. If you are satisfied with your `VS Code` + `GitHub Copi
 - Use `Claude Code` features — chat, code generation, and inline suggestions — inside `VS Code`.
 - Explain the positioning of `Claude Code` / `Codemie` relative to `GitHub Copilot` and `Cursor`.
 
-## Page 1: What Is `Claude Code` and `Codemie`?
+## Page 1: What Are `Codemie` and `Claude Code`?
 ### Background
-Before installing anything, it helps to understand what you are actually installing and why these two names appear together. `Claude Code` is `Anthropic`'s brand for its AI coding assistant product — the intelligence layer. `Codemie` is the `VS Code` extension that delivers that intelligence into your editor — the delivery layer.
+Before installing anything, it is important to understand that `Codemie` and `Claude Code` are **two separate tools** — not two names for the same thing.
 
-Think of the relationship the same way as `GitHub Copilot` (intelligence from `OpenAI`) delivered through the `GitHub Copilot` extension (the `VS Code` integration). Here, `Claude` is the intelligence and `Codemie` is the integration.
+**`Codemie`** is a CLI adapter. It is installed as an `npm` package and runs in your terminal. Its job is to authenticate your corporate `Claude` account and route requests from your local machine to `Anthropic`'s `Claude` models. Think of it as the authentication and networking layer — it makes `Claude` available from the command line and manages your corporate `SSO` session so you never handle raw `API` keys.
+
+**`Claude Code`** is `Anthropic`'s official `VS Code` extension. It brings a `Claude`-powered AI chat panel, inline code suggestions, and agent-mode interactions directly into the editor — without opening a terminal or switching tools. You install it from the `VS Code` Marketplace just like any other extension.
+
+In a typical corporate setup, both are used together: `Codemie` handles the authentication layer in the terminal, and the `Claude Code` extension surfaces the AI capabilities inside `VS Code`. For purely terminal-based workflows, `Codemie` alone is sufficient. For editor-integrated AI assistance, the `Claude Code` extension is the right tool.
 
 `Anthropic` built `Claude` with a focus on safety, nuanced instruction-following, and an unusually large context window — meaning it can hold more of your codebase in memory at once compared to earlier-generation models. For developers working on large or unfamiliar codebases, this makes a real practical difference.
 
 ### ✅ Result
-You understand what `Codemie` is, how it relates to `Claude Code`, and why someone would choose it alongside or instead of `GitHub Copilot`.
+You understand the difference between `Codemie` (terminal adapter, authentication layer) and `Claude Code` (VS Code extension, editor integration) and why both are useful.
 
 ## Page 2: Install `Codemie` CLI
 ### Background
@@ -117,10 +121,10 @@ With installation and authentication in place, it is time to verify that everyth
 
 ## Summary
 Key takeaways:
+- `Codemie` and `Claude Code` are **two separate tools**: `Codemie` is a terminal-based CLI adapter for authenticating and routing requests to `Claude`; `Claude Code` is a `VS Code` extension that surfaces `Claude` AI capabilities directly in the editor.
 - `Claude Code` is `Anthropic`'s AI coding assistant known for large-context reasoning and nuanced instruction-following.
-- `Codemie` is the adapter layer — a CLI tool and `VS Code` integration — that connects `Claude` to your editor and supports corporate account authentication.
-- Installation involves two steps: the `npm` CLI package (`@codemieai/code`) and the `Claude Code` `VS Code` extension.
-- In corporate environments, authentication flows through `SSO` rather than individual `API` keys.
+- Installation involves two steps: the `npm` CLI package (`@codemieai/code`) for the terminal layer, and the `Claude Code` extension from the `VS Code` Marketplace for the editor layer.
+- In corporate environments, `Codemie` handles authentication via `SSO` (`codemie login`) so individual developers never manage raw `API` keys.
 - `Claude Code` complements `GitHub Copilot` rather than replacing it: different models have different strengths, and having both available broadens your toolkit.
 
 **Useful links:**
@@ -129,13 +133,13 @@ Key takeaways:
 - [`Node.js` download](https://nodejs.org/)
 
 ## Quiz
-**Question 1.** What is the role of `Codemie` in the `Claude Code` + `VS Code` setup?
+**Question 1.** What is the difference between `Codemie` and `Claude Code`?
 
-A) It is `Anthropic`'s AI model that generates code.
-B) It is an adapter / integration layer that connects `Claude` models to `VS Code` and supports corporate authentication.
-C) It is a replacement for `VS Code` built on the `Cursor` engine.
+A) They are two names for the same product — `Anthropic`'s `VS Code` extension.
+B) `Codemie` is a terminal-based CLI adapter for authentication; `Claude Code` is the `VS Code` extension for editor-integrated AI assistance.
+C) `Codemie` is `Anthropic`'s AI model; `Claude Code` is the CLI that runs it.
 
-*Correct answer: B. `Codemie` is the integration layer — not the model itself (`Claude` is the model) and not a separate IDE.*
+*Correct answer: B. `Codemie` is the CLI adapter (terminal layer) responsible for authentication and routing. `Claude Code` is the `VS Code` extension (editor layer) that surfaces AI features in the editor. Both together form the complete setup.*
 
 ---
 
