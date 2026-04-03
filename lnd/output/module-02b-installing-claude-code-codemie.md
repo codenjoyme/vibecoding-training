@@ -1,15 +1,15 @@
 # Module 2b: Installing `Claude Code` via `Codemie` (Optional)
 
 ### Background
-What if you could bring one of the most capable AI models — `Anthropic`'s `Claude` — directly into your `VS Code` workflow without switching tools? That is exactly what `Codemie` makes possible. It is a `VS Code` extension that integrates `Claude`-powered AI assistance into the editor you already use, adding a second strong AI voice alongside `GitHub Copilot`.
+What if you could bring one of the most capable AI models — `Anthropic`'s `Claude` — directly into your `VS Code` workflow without switching tools? This module covers two tools that make it possible: `Codemie`, a CLI tool that handles corporate authentication for `Claude`, and `Claude Code`, a `VS Code` extension that brings `Claude`-powered AI assistance directly into the editor.
 
-`Claude Code` is `Anthropic`'s answer to AI-assisted development. Compared to `Cursor` (which is a standalone fork of `VS Code`) and `GitHub Copilot` (which is tightly integrated with the `Microsoft`/`OpenAI` stack), `Claude Code` through `Codemie` takes a different path: it installs as an extension inside your existing `VS Code`, using `Anthropic`'s `Claude` family of models known for nuanced reasoning, long-context understanding, and strong code generation.
+`Claude Code` is `Anthropic`'s answer to AI-assisted development. Compared to `Cursor` (a standalone AI-native IDE) and `GitHub Copilot` (tightly integrated with the `Microsoft`/`OpenAI` stack), `Claude Code` sits inside your existing `VS Code` as an extension — using `Anthropic`'s `Claude` family of models known for nuanced reasoning, long-context understanding, and strong code generation. `Codemie` complements it by managing corporate `SSO` authentication so developers never deal with raw `API` keys.
 
-This module is optional. If you are satisfied with your `VS Code` + `GitHub Copilot` setup from Module 1, you may skip ahead. If you work in an organization that prefers `Anthropic`'s stack, or if you want a backup AI assistant with a different reasoning style, `Codemie` is worth adding.
+This module is optional. If you are satisfied with your `VS Code` + `GitHub Copilot` setup from Module 1, you may skip ahead. If you work in an organization that provides a managed `Claude` account, or if you want a second AI assistant with a different reasoning style, both tools are worth adding.
 
 **Learning objectives.** Upon completion of this module, you will be able to:
-- Install the `Codemie` extension in `VS Code`.
-- Configure `Codemie` with your `Claude` account or API key.
+- Install the `Codemie` CLI tool and configure it with your corporate `Claude` account.
+- Install the `Claude Code` extension in `VS Code`.
 - Use `Claude Code` features — chat, code generation, and inline suggestions — inside `VS Code`.
 - Explain the positioning of `Claude Code` / `Codemie` relative to `GitHub Copilot` and `Cursor`.
 
@@ -86,7 +86,6 @@ Installing the extension is the same as installing any `VS Code` extension: find
 4. Look for the extension published by `Anthropic`.
 5. Click the `Install` button.
 6. Wait for installation to complete.
-7. Optionally, also search for `Codemie` and install that extension if it appears in the Marketplace — it adds additional integration hooks between the CLI and the editor.
 
 ### ✅ Result
 The `Claude Code` extension is installed in `VS Code` and visible in the Activity Bar or Extensions panel.
