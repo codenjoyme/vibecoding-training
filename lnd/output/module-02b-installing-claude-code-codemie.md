@@ -30,7 +30,7 @@ You understand the difference between `Codemie` (terminal adapter, authenticatio
 
 ## Page 2: Install `Codemie` CLI
 ### Background
-`Codemie` is not only a `VS Code` extension — it also ships a command-line interface (CLI) tool. The CLI is the backbone that manages authentication, routes requests to `Claude` models, and can be used independently from the editor. Installing the CLI first gives you the foundation that the `VS Code` extension relies on.
+`Codemie` is a standalone command-line tool — it is **not** a `VS Code` extension. It is distributed as an `npm` package and runs entirely in your terminal. Its job is to manage authentication, route requests to `Claude` models, and act as the backbone that connects your local environment to `Anthropic`'s infrastructure. The `Claude Code` extension in `VS Code` relies on `Codemie` being present and authenticated, so installing the CLI first is the correct starting point.
 
 You will need `Node.js` and `npm` installed on your machine. If you completed Module 1, `Node.js` is already present. If not, download it from [https://nodejs.org/](https://nodejs.org/).
 

@@ -11,3 +11,5 @@ UPD1: В качестве референса возьми [text](../lnd/output/m
 Вот файл над которым рабоатем [text](../lnd/output/module-02b-installing-claude-code-codemie.md). 
 
 UPD2: Надо понимать, что есть две сущности. Codemie — это адаптер для работы с Claude, который позволяет использовать его в терминале. А Claude Code — это плагин для VSCode, который позволяет использовать Claude прямо в редакторе. Учти это в тексте.
+
+UPD3: Написано, что ``Codemie` is not only a `VS Code` extension — it also ships a command-line interface (CLI) tool`. Но на самом деле, Codemie это не плагин в VSCode а отдельный инструмент.  
