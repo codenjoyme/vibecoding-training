@@ -13,10 +13,11 @@
 - Using 🎯N markers to prioritize and sequence tasks for the AI
 - Running a `.prompt.md` file directly from the IDE
 - Leaving breadcrumbs for your future self and teammates
+- Extending the prompt incrementally with `UPDN` update blocks
 
 ## Learning Outcome
 
-Ability to kick off any AI-assisted research or exploration by dumping materials into a folder and writing a structured kickoff prompt file that guides the AI through the investigation — and that stays in the repository as a permanent navigational artifact
+Ability to kick off any AI-assisted research or exploration by dumping materials into a folder and writing a structured kickoff prompt file that guides the AI through the investigation — and that stays in the repository as a permanent navigational artifact; plus ability to extend that prompt file incrementally with `UPDN` update blocks as the investigation evolves, without losing the original context
 
 ## Prerequisites
 

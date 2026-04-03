@@ -211,11 +211,29 @@ Editing the original text loses history. An `UPDN` block:
 - Shows the evolution of the task in chronological order
 - Makes it obvious to a reader what changed and when
 
+### Add a header instruction block to make re-runs reliable
+
+When you re-run a prompt file that has grown UPD blocks, the AI needs to know which parts are "already done" and which are new. Add this instruction block near the top of your prompt file (right after the title, before the materials description):
+
+```markdown
+<instructions>
+This prompt file uses UPD[N] prefixes, where N is an incremental update number.
+When running this prompt:
+- Check the latest changes (git diff, IDE diff view, or file history) to identify what was recently added.
+- Treat the latest UPD[N] block as the active instruction — execute it.
+- Treat all earlier content (no UPD prefix, or lower N) as context only — it has already been acted on. Do not re-execute it.
+</instructions>
+```
+
+This turns the prompt file into a self-describing artifact: anyone (or any AI) who opens it knows exactly what to do with it.
+
 ### Steps
 
 1. Reopen `phase1.prompt.md` from the earlier exercise.
 
-2. At the bottom of the file, add a new section:
+2. Add the `<instructions>` block near the top of the file (after the title).
+
+3. At the bottom of the file, add a new section:
 
 ```markdown
 ## UPD1
@@ -224,12 +242,12 @@ Editing the original text loses history. An `UPDN` block:
 Example: "Also extract any action items assigned to specific people. Add them to output.md under a separate heading."]
 ```
 
-3. Save the file.
+4. Save the file.
 
-4. In a new chat session, reference the file without re-typing the full context:
+5. In a new chat session, reference the file without re-typing the full context:
    > "See `work/058-task/phase1.prompt.md` — the latest UPD1 is what I need done now."
 
-5. Observe that the AI reads both the original goal and your update without you repeating the setup.
+6. Observe that the AI reads both the original goal and your update without you repeating the setup.
 
 ### What just happened
 
