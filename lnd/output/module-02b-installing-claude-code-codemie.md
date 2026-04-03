@@ -28,29 +28,50 @@ In a typical corporate setup, both are used together: `Codemie` handles the auth
 ### ✅ Result
 You understand the difference between `Codemie` (terminal adapter, authentication layer) and `Claude Code` (VS Code extension, editor integration) and why both are useful.
 
-## Page 2: Install `Codemie` CLI
+## Page 2: Install `Node.js` and `Codemie` CLI
 ### Background
 `Codemie` is a standalone command-line tool — it is **not** a `VS Code` extension. It is distributed as an `npm` package and runs entirely in your terminal. Its job is to manage authentication, route requests to `Claude` models, and act as the backbone that connects your local environment to `Anthropic`'s infrastructure. The `Claude Code` extension in `VS Code` relies on `Codemie` being present and authenticated, so installing the CLI first is the correct starting point.
 
-You will need `Node.js` and `npm` installed on your machine. If you completed Module 1, `Node.js` is already present. If not, download it from [https://nodejs.org/](https://nodejs.org/).
+`Codemie` requires `Node.js` — a JavaScript runtime that includes `npm` (Node Package Manager). You will install `Node.js` directly from the `VS Code` integrated terminal, then use `npm` to install `Codemie`. Keeping everything in one window avoids switching between tools and reinforces the habit of using the terminal inside `VS Code`.
 
 ### Steps
-1. Open a terminal:
-   - `Windows`: Open `PowerShell` or `Command Prompt`.
-   - `macOS` / `Linux`: Open `Terminal`.
-2. Run the global installation command:
+1. Open `VS Code` (installed in Module 1).
+2. Open the integrated terminal: press `` Ctrl+` `` on `Windows`/`Linux`, or `` Cmd+` `` on `macOS`. You can also go to `View` > `Terminal`.
+3. Install `Node.js` using the package manager for your operating system:
+   - **`Windows`** (using `winget`, built into `Windows 10`/`11`):
+     ```
+     winget install OpenJS.NodeJS.LTS
+     ```
+   - **`macOS`** (using `Homebrew`):
+     ```
+     brew install node
+     ```
+   - **`Linux`** (`Ubuntu`/`Debian`):
+     ```
+     sudo apt update && sudo apt install nodejs npm
+     ```
+4. After installation completes, **close and reopen the integrated terminal** so the new `Node.js` path is picked up.
+5. Verify `Node.js` is installed:
+   ```
+   node --version
+   ```
+   You should see a version number (e.g., `v22.x.x`).
+6. Verify `npm` is available:
+   ```
+   npm --version
+   ```
+7. Now install `Codemie` globally:
    ```
    npm install -g @codemieai/code
    ```
-3. Wait for the installation to finish. `npm` will download and install the `codemie` package globally.
-4. Verify the installation succeeded by running:
+8. Verify the `Codemie` installation:
    ```
    codemie --version
    ```
-5. You should see a version number printed in the terminal (e.g., `1.x.x`).
+   You should see a version number printed in the terminal (e.g., `1.x.x`).
 
 ### ✅ Result
-The `Codemie` CLI is installed globally and responds to the `codemie` command in your terminal.
+`Node.js` and the `Codemie` CLI are installed. The `codemie` command responds in the `VS Code` integrated terminal.
 
 ## Page 3: Install the `Claude Code` Extension in `VS Code`
 ### Background
@@ -123,7 +144,7 @@ With installation and authentication in place, it is time to verify that everyth
 Key takeaways:
 - `Codemie` and `Claude Code` are **two separate tools**: `Codemie` is a terminal-based CLI adapter for authenticating and routing requests to `Claude`; `Claude Code` is a `VS Code` extension that surfaces `Claude` AI capabilities directly in the editor.
 - `Claude Code` is `Anthropic`'s AI coding assistant known for large-context reasoning and nuanced instruction-following.
-- Installation involves two steps: the `npm` CLI package (`@codemieai/code`) for the terminal layer, and the `Claude Code` extension from the `VS Code` Marketplace for the editor layer.
+- Installation involves three steps: install `Node.js` via the `VS Code` integrated terminal, then the `npm` CLI package (`@codemieai/code`) for the `Codemie` terminal layer, and finally the `Claude Code` extension from the `VS Code` Marketplace for the editor layer.
 - In corporate environments, `Codemie` handles authentication via `SSO` (`codemie login`) so individual developers never manage raw `API` keys.
 - `Claude Code` complements `GitHub Copilot` rather than replacing it: different models have different strengths, and having both available broadens your toolkit.
 

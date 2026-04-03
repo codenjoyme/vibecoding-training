@@ -13,3 +13,5 @@ UPD1: В качестве референса возьми [text](../lnd/output/m
 UPD2: Надо понимать, что есть две сущности. Codemie — это адаптер для работы с Claude, который позволяет использовать его в терминале. А Claude Code — это плагин для VSCode, который позволяет использовать Claude прямо в редакторе. Учти это в тексте.
 
 UPD3: Написано, что ``Codemie` is not only a `VS Code` extension — it also ships a command-line interface (CLI) tool`. Но на самом деле, Codemie это не плагин в VSCode а отдельный инструмент.  
+
+UPD4: Написано, что `You will need `Node.js` and `npm` installed on your machine. If you completed Module 1, `Node.js` is already present. If not, download it from [https://nodejs.org/](https://nodejs.org/).`. Но это не так, надо установить ноду сейчас в этом модулей в терминале. У нас уже из 1го модуля стоит VSCode. Его открываем, запускаем терминал. Там пишем все что надо для установки ноды. И уже после этого устанавливаем Codemie.
