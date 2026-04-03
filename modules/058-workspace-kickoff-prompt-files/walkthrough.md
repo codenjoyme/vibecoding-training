@@ -213,7 +213,25 @@ Editing the original text loses history. An `UPDN` block:
 
 ### Add a header instruction block to make re-runs reliable
 
-When you re-run a prompt file that has grown UPD blocks, the AI needs to know which parts are "already done" and which are new. Add this instruction block near the top of your prompt file (right after the title, before the materials description):
+When you re-run a prompt file that has grown UPD blocks, the AI needs to know which parts are "already done" and which are new. The pattern described in this part has been formalized as **Iterative Prompt** — a reusable agent instruction you can install in any workspace:
+
+```
+Setup https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt.agent.md
+```
+
+Once installed, add a `<follow>` block at the very top of any prompt file that uses the UPD pattern:
+
+```markdown
+<follow>
+iterative-prompt.agent.md
+</follow>
+
+## UPD1
+
+[Your first task here]
+```
+
+Alternatively, add an inline instruction block near the top of the file to get the same behaviour without the agent instruction:
 
 ```markdown
 <instructions>
