@@ -30,13 +30,13 @@ You understand the difference between `Codemie` (terminal adapter, authenticatio
 
 ## Page 2: Install `Node.js` and `Codemie` CLI
 ### Background
-`Codemie` is a standalone command-line tool — it is **not** a `VS Code` extension. It is distributed as an `npm` package and runs entirely in your terminal. Its job is to manage authentication, route requests to `Claude` models, and act as the backbone that connects your local environment to `Anthropic`'s infrastructure. The `Claude Code` extension in `VS Code` relies on `Codemie` being present and authenticated, so installing the CLI first is the correct starting point.
+The `Claude Code` extension relies on `Codemie` being present and authenticated, so installing the CLI first is the correct starting point.
 
 `Codemie` requires `Node.js` — a JavaScript runtime that includes `npm` (Node Package Manager). You will install `Node.js` directly from the `VS Code` integrated terminal, then use `npm` to install `Codemie`. Keeping everything in one window avoids switching between tools and reinforces the habit of using the terminal inside `VS Code`.
 
 ### Steps
 1. Open `VS Code` (installed in Module 1).
-2. Open the integrated terminal: press `` Ctrl+` `` on `Windows`/`Linux`, or `` Cmd+` `` on `macOS`. You can also go to `View` > `Terminal`.
+2. Go to `View` > `Terminal` to open the integrated terminal.
 3. Install `Node.js` using the package manager for your operating system:
    - **`Windows`** (using `winget`, built into `Windows 10`/`11`):
      ```
@@ -81,7 +81,7 @@ Installing the extension is the same as installing any `VS Code` extension: find
 
 ### Steps
 1. Open `VS Code`.
-2. Click the `Extensions` icon in the Activity Bar (`Ctrl+Shift+X` on `Windows`/`Linux`, `Cmd+Shift+X` on `macOS`).
+2. Click the `Extensions` icon in the Activity Bar.
 3. In the search box, type `Claude Code`.
 4. Look for the extension published by `Anthropic`.
 5. Click the `Install` button.
@@ -125,7 +125,7 @@ With installation and authentication in place, it is time to verify that everyth
 1. In `VS Code`, go to `File` > `Open Folder`.
 2. Navigate to `c:\workspace\hello-genai\` (`Windows`) or `~/workspace/hello-genai/` (`macOS`/`Linux`) — the workspace from Module 1.
 3. Open the folder. If prompted about trust, click `Yes, I trust`.
-4. Open the `Claude Code` chat panel from the Activity Bar or via the Command Palette (`Ctrl+Shift+P` → search `Claude`).
+4. Open the `Claude Code` chat panel from the Activity Bar.
 5. Type a code generation request:
    ```
    Create a simple hello world function in Python
