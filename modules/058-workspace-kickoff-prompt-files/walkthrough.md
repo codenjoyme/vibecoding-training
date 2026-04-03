@@ -180,6 +180,63 @@ Chat sessions can be closed, lost, or buried. But the `phase1.prompt.md` file:
 
 ---
 
+## Part 6: Grow the Prompt Incrementally with UPD Markers
+
+### Why this matters
+
+A kickoff prompt is rarely final. As your investigation evolves, you think of new angles, clarifications, or follow-up instructions. Instead of opening a new chat and re-explaining context from scratch, you can extend the original prompt file in place.
+
+The pattern: add `UPDN` blocks at the bottom of the file, where `N` is a sequential counter starting from `UPD1`.
+
+### How it works
+
+Each `UPDN` block is a self-contained update. When you reference the file from a new chat conversation, the AI sees the original instructions **plus** all accumulated updates in one read. You don't repeat yourself — you just say "see the prompt file, I added UPD2."
+
+```markdown
+## UPD1
+
+Actually, also check for any budget-related discussions in the transcripts.
+Flag them with a section header `## Budget mentions` in the output file.
+
+## UPD2
+
+The output format changed — use a table instead of a bullet list for the decisions.
+Keep the same `output.md` file.
+```
+
+### What makes this different from just editing the prompt
+
+Editing the original text loses history. An `UPDN` block:
+- Preserves the original intent at the top
+- Shows the evolution of the task in chronological order
+- Makes it obvious to a reader what changed and when
+
+### Steps
+
+1. Reopen `phase1.prompt.md` from the earlier exercise.
+
+2. At the bottom of the file, add a new section:
+
+```markdown
+## UPD1
+
+[Write a clarification or addition to the original task.
+Example: "Also extract any action items assigned to specific people. Add them to output.md under a separate heading."]
+```
+
+3. Save the file.
+
+4. In a new chat session, reference the file without re-typing the full context:
+   > "See `work/058-task/phase1.prompt.md` — the latest UPD1 is what I need done now."
+
+5. Observe that the AI reads both the original goal and your update without you repeating the setup.
+
+### What just happened
+
+The prompt file is now a living document. It holds your original intent, your action items, and your refinements — all in version control, all in one place. Future readers (including your future self) can reconstruct the full story of the investigation by reading one file.
+
+---
+
 ## Success Criteria
 
 - ✅ Created `work/058-task/` with at least 2 sample materials
@@ -187,6 +244,7 @@ Chat sessions can be closed, lost, or buried. But the `phase1.prompt.md` file:
 - ✅ Ran the prompt from the IDE in Agent Mode
 - ✅ Verified the AI completed phases in order (preparatory first, main task second)
 - ✅ Confirmed the output file was saved in the same folder as the prompt
+- ✅ Added at least one `UPD1` block to the prompt file and ran it from a new chat session
 
 ---
 
@@ -212,6 +270,9 @@ Chat sessions can be closed, lost, or buried. But the `phase1.prompt.md` file:
 
 7. **What should the folder contain before you write the kickoff prompt?**  
    Key points: all the raw materials (code, transcripts, notes, chat excerpts) should already be placed in the folder so the AI can access them when the prompt runs.
+
+8. **What is the purpose of `UPDN` blocks, and how do they differ from editing the original prompt text?**  
+   Key points: `UPDN` blocks extend the prompt incrementally without overwriting the original intent; they preserve a chronological record of how the task evolved; when reusing the file in a new chat, all the context — original goal plus all updates — is visible in one read without re-explanation.
 
 ---
 
