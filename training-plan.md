@@ -53,6 +53,7 @@ After completing all modules, participants will build a complete application tha
 1. [Debugging AI-Generated Code](modules/064-debugging-ai-generated-code/about.md) - Break the infinite error loop with a systematic debugging workflow
 1. [Custom Instructions](modules/070-custom-instructions/about.md) - Create instructions for AI assistants
 1. [Shared Instructions & Team Conventions](modules/075-shared-instructions-team-conventions/about.md) - Scale personal instructions to your whole team via Git
+1. [Advanced Skills Management System](modules/076-skills-management-system/about.md) - Build a centralized AI skills repository with CLI tooling, sparse checkout, and team governance workflows
 1. [Learning from Hallucinations](modules/080-learning-from-hallucinations/about.md) - Use AI mistakes to improve instructions
 1. [AI Cost Optimization & Token Economics](modules/083-ai-cost-optimization/about.md) - Understand token economics and reduce AI costs for your team *(optional — for team leads and managers)*
 1. [Evaluating AI Output Quality](modules/085-evaluating-ai-output-quality/about.md) - Score and validate AI responses with a systematic quality framework

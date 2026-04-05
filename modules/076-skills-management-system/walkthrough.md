@@ -20,8 +20,9 @@ See [module overview](about.md) for full prerequisites list.
 | `skills` CLI | Go binary that automates all Git + sparse checkout operations |
 | `project-alpha/` | First project workspace — initialized with alpha group skills |
 | `project-beta/` | Second project workspace — initialized with beta group skills |
+| `demo/` | Pre-built skills-repo with sample skills — use to skip manual content creation |
 
-All files for this walkthrough live under `work/076-task/`.
+All files for this walkthrough are created in a folder of your choice. The `demo/` folder inside this module contains a pre-built `skills-repo` so you can skip writing skill content from scratch — see Part 1 for details.
 
 ---
 
@@ -30,6 +31,25 @@ All files for this walkthrough live under `work/076-task/`.
 ### What we'll do
 
 Create the skills repository — a plain Git repo with a flat directory structure. Each directory is one skill. The `.manifest/` folder contains JSON config files that define which skills belong to which team or project.
+
+> **Shortcut — use the pre-built demo:**
+> The `demo/skills-repo/` folder in this module already contains all the skills and manifest files from Parts 1 and 2. If you want to skip the content-creation steps and go straight to CLI practice, run the setup script and jump to Part 3:
+>
+> ```powershell
+> # Windows — from the module root
+> cd modules/076-skills-management-system/demo
+> .\setup.ps1
+> ```
+>
+> ```bash
+> # macOS/Linux
+> cd modules/076-skills-management-system/demo
+> chmod +x ./setup.sh && ./setup.sh
+> ```
+>
+> Then in Part 4 use `--repo <absolute-path>/demo/skills-repo` when running `skills init`.
+>
+> Follow Parts 1 and 2 if you want to understand how the repository is structured before using the CLI.
 
 ### Step 1 — Create the repository structure
 
@@ -131,6 +151,8 @@ You should see output like:
 ### What we'll do
 
 Add `SKILL.md` and `README.md` files to each skill directory. Two of the skills (`creating-instructions` and `iterative-prompting`) are real, actionable skills sourced from this project's instructions folder — they become global skills available to all teams.
+
+> **Note:** If you used the demo shortcut in Part 1, the files below are already in place. Read through this part to understand the content structure, then continue to Part 3.
 
 ### Step 4 — Create the global skills
 
@@ -605,9 +627,165 @@ Add a brief description and usage context to every `README.md`. When your skills
 
 ---
 
+## Part 7: Apply to Your Real Project
+
+### What we'll do
+
+Bring the skills management system into your actual development workflow. You will:
+
+1. Create a personal skills repository with two foundational skills
+2. Run `skills init` in your real project directory
+
+This is the moment the system becomes genuinely useful — your AI agent will automatically load the right skills every time it opens your project.
+
+### Step 19 — Identify your real project
+
+Pick a directory on your machine that is a real (or planned) project. Note the absolute path:
+
+- Windows example: `C:\projects\my-app`
+- macOS/Linux example: `~/projects/my-app`
+
+If you don't have an existing project yet, create an empty folder as a placeholder:
+
+```bash
+# Windows
+mkdir C:\projects\my-app
+
+# macOS/Linux
+mkdir -p ~/projects/my-app
+```
+
+### Step 20 — Create a skills repository next to your project
+
+Create a `my-skills-repo/` directory at the same level as your project:
+
+```bash
+# Windows — from C:\projects\
+mkdir my-skills-repo
+cd my-skills-repo
+git init
+git config receive.denyCurrentBranch warn
+mkdir .manifest
+
+# macOS/Linux — from ~/projects/
+mkdir my-skills-repo
+cd my-skills-repo
+git init
+git config receive.denyCurrentBranch warn
+mkdir .manifest
+```
+
+### Step 21 — Add two foundational skills
+
+**Skill 1: `creating-instructions`** — teaches the AI how your team writes instruction files.
+
+Copy the pre-built skill from the demo:
+
+```powershell
+# Windows — from inside my-skills-repo
+xcopy /E /I "<path-to-module>\demo\skills-repo\creating-instructions" "creating-instructions\"
+```
+
+```bash
+# macOS/Linux — from inside my-skills-repo
+cp -r <path-to-module>/demo/skills-repo/creating-instructions ./creating-instructions/
+```
+
+Or write your own `creating-instructions/SKILL.md` capturing how your team creates instruction files.
+
+**Skill 2: `skills-cli-usage`** — teaches the AI how to help team members use this system.
+
+Create `skills-cli-usage/SKILL.md`:
+
+```markdown
+# Skills CLI Usage — SKILL.md
+
+## Purpose
+This skill describes how to use the `skills` CLI to manage team AI instructions.
+
+## Quick Reference
+- `skills init --repo <path-or-url> --groups <group>` — initialize a workspace
+- `skills pull` — get latest skills from the central repository
+- `skills push <skill-name>` — propose a change to a skill
+- `skills list` — see which skills are active in this workspace
+
+## Repository Location
+The central skills repository is at: [insert your repo path or URL here]
+
+## Groups
+[insert your group names here, e.g., "backend", "frontend", "devops"]
+
+## Adding New Skills
+1. Create a new directory in the skills repo: `mkdir <skill-name>`
+2. Add `SKILL.md` and `README.md`
+3. Reference it in the appropriate `.manifest/<group>.json`
+4. Submit a PR for review
+```
+
+Create `skills-cli-usage/README.md`:
+
+```markdown
+# skills-cli-usage
+
+**Description:** Guide for team members on using the skills CLI to manage AI instructions.
+
+**Owner:** team-lead
+
+**Usage context:** Apply when team members need to set up or update their workspace.
+```
+
+### Step 22 — Configure manifest files
+
+Create `.manifest/_global.json` — these skills load in every workspace:
+
+```json
+{"skills": ["creating-instructions", "skills-cli-usage"]}
+```
+
+Create `.manifest/my-project.json` — project-specific skills (expand as your library grows):
+
+```json
+{"skills": [], "sub-configs": []}
+```
+
+### Step 23 — Commit and initialize your project
+
+```bash
+# Inside my-skills-repo
+git add .
+git commit -m "init: team skills repository"
+
+# Navigate to your real project
+cd ../my-app
+
+# Initialize skills workspace
+skills init --repo ../my-skills-repo --groups my-project
+```
+
+Your project now has a `.skills/` folder with the two foundational skills ready for your AI agent.
+
+### What happened
+
+When your AI agent opens this project, it reads `.skills/repo/creating-instructions/SKILL.md` and `.skills/repo/skills-cli-usage/SKILL.md` automatically — giving it:
+
+- Your team's conventions for writing AI instructions
+- A self-service guide for setting up the skills system
+
+This is the foundation for your team's shared AI knowledge base. Grow it skill by skill as your team's workflows mature.
+
+### Step 24 — Verify
+
+```bash
+skills list
+```
+
+You should see both global skills as ✅ active.
+
+---
+
 ## Success Criteria
 
-- ✅ `skills-repo/` created as a local Git repository with `.manifest/` folder
+- ✅ `skills-repo/` created as a local Git repository with `.manifest/` folder (or demo initialized via setup script)
 - ✅ All 6 skills populated with `SKILL.md` and `README.md` content
 - ✅ `skills` CLI compiled and accessible from PATH
 - ✅ `project-alpha` initialized — sparse checkout includes alpha skills + globals only
@@ -615,6 +793,7 @@ Add a brief description and usage context to every `README.md`. When your skills
 - ✅ `skills list` shows correct active/inactive skill counts for each workspace
 - ✅ `skills push` created a branch in `skills-repo` 
 - ✅ `skills pull` synced the merged change back to the workspace
+- ✅ (Part 7) Personal skills repository created and linked to your real project directory
 
 ## Understanding Check
 

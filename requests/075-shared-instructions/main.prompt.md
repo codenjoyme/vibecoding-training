@@ -186,3 +186,41 @@ iterative-prompt.agent.md
 - TC-019 ✅ Comma-separated groups `--groups project-alpha,project-beta` — all 6 skills resolved; positional args style also tested ✅
 
 **Bug found and fixed:** After `skills push`, the local clone stayed on the feature branch causing subsequent `skills pull` to fail ("no tracking info for current branch"). Fix: `gitops.Pull()` now checkouts the default branch first; `gitops.Push()` returns to default branch after pushing. Binary rebuilt.
+
+## UPD6
+
+Следуя инструкции по созданию модулей, зарегистрируй его в этом обучающем проекте. Мы забыли про регистрацию `walkthrough.md` в системе. 
+
+Так же то что ты создал как тестовый проект с рыбой для тестирования CLI, давай сделаем частью модуля. Это будет папка `demo` внутри скила. И пусть в `walkthrough.md` ссылается на него в ходе тестирования, чтобы нам не пришлось генерировать токены для генерации `рыбы`. 
+
+Так же после прохождения такого тестового задания в одном из последних part модуля надо сделать так же обкатку этого подхода на реальном проекте. Если юзер хочет, то можно получить путь к проекту реальному у него. Потом рядом с ним на том же уровне создать репозиторий с двумя скилами: про создание инструкций, и про использование CLI этого подхода. А затем инсталировать CLI в проекте. 
+
+### RESULT
+
+**Module registered in training plan:**
+- `training-plan.md` — module 076 inserted after module 075 line:
+  `[Advanced Skills Management System](modules/076-skills-management-system/about.md) - Build a centralized AI skills repository with CLI tooling, sparse checkout, and team governance workflows`
+
+**Demo folder created** (`modules/076-skills-management-system/demo/`):
+- `README.md` — quick-start instructions for using the demo
+- `setup.ps1` / `setup.sh` — scripts to `git init` the skills-repo and make initial commit
+- `skills-repo/.manifest/_global.json` — global skills config (creating-instructions, iterative-prompting)
+- `skills-repo/.manifest/_agents.json` — IDE bindings config
+- `skills-repo/.manifest/project-alpha.json` — alpha group config with security sub-config
+- `skills-repo/.manifest/project-beta.json` — beta group config
+- `skills-repo/.manifest/security.json` — security sub-config
+- `skills-repo/code-review-base/`, `security-guidelines/`, `style-guidelines/`, `test-writing/` — project skills (clean, no test annotations)
+- `skills-repo/creating-instructions/`, `iterative-prompting/` — global skills
+
+**walkthrough.md updated:**
+- "What We'll Build" table — `demo/` row added; path note updated to be generic (not `work/076-task/`)
+- Part 1 intro — demo shortcut block added with `setup.ps1`/`setup.sh` instructions
+- Part 2 intro — note added that demo users can read for structure understanding
+- Part 7 added (Steps 19-24) — real project onboarding:
+  - Step 19: identify real project path
+  - Step 20: create `my-skills-repo/` at the same level
+  - Step 21: add `creating-instructions` skill (copy from demo) + `skills-cli-usage` skill (new)
+  - Step 22: configure `_global.json` + `my-project.json`
+  - Step 23: commit + `skills init` in real project
+  - Step 24: `skills list` to verify
+- Success Criteria — added Part 7 item; demo note added to repo creation criterion
