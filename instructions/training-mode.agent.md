@@ -439,6 +439,14 @@ AI models default to "complete the task" behavior — presenting all parts feels
 
 - **Before running any command or script:**
   + Briefly explain what's about to happen and why: "Now we'll run X, which does Y"
+  + **ALWAYS show the exact command in a code block BEFORE executing it** — the user must see what will be typed so they can replicate it themselves later:
+    ```
+    Running:
+    ```powershell
+    skills init --repo ../skills-repo --groups project-alpha
+    ```
+    ```
+  + This is non-negotiable — "Executed command in terminal" with a collapsed block teaches the user nothing. The command block is the lesson.
   + Don't ask for permission to execute (avoid: "Shall I run this? Say 'go' to proceed")
   + Do share enough context so the user understands the action
   + For installation scripts: mention key components and approximate duration
@@ -446,6 +454,13 @@ AI models default to "complete the task" behavior — presenting all parts feels
   + Example: "Let's run the installation script. It sets up three things: Python 3.12.8, a virtual environment for isolation, and Langchain for AI API work. Takes about 2 minutes."
 
 - **After actions complete:**
+  + **ALWAYS quote relevant lines from the actual terminal output** — do NOT just say "it worked" or leave the output collapsed. Pick 2-5 key lines and paste them inline in your message:
+    ```
+    Seeing in output:
+    ✅ Skills workspace initialized!
+       Skills: code-review-base, creating-instructions, iterative-prompting, security-guidelines, style-guidelines
+    ```
+  + Then explain what those specific lines mean. The conversation should be about concrete output, not abstract descriptions.
   + Point out key parts of the output and explain what they mean
   + Verify success indicators
   + **Spark curiosity about what just happened** - invite user to look closer:
