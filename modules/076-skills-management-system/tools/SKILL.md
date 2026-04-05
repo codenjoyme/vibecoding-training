@@ -38,7 +38,7 @@ central-skills-repo/          ← shared Git repo (one per organization)
 └── ...
 
 project-workspace/            ← a developer's local project
-└── .skills/
+└── instructions/
     ├── config.json           ← saved repo URL + groups + resolved skills
     └── repo/                 ← sparse clone of central-skills-repo
         ├── .manifest/        ← always included
@@ -51,7 +51,7 @@ project-workspace/            ← a developer's local project
 
 Once `skills init` runs, your AI agent can discover and load skill content from:
 ```
-.skills/repo/<skill-name>/SKILL.md
+instructions/repo/<skill-name>/SKILL.md
 ```
 
 No manual prompt assembly needed. The agent scans the local workspace and loads relevant SKILL.md files as context. The IDE/agent runtime handles composition.
@@ -229,8 +229,8 @@ skills init --repo ../skills-repo backend security
 ```
 
 **Creates:**
-- `.skills/repo/` — sparse clone of the central repo
-- `.skills/config.json` — workspace configuration
+- `instructions/repo/` — sparse clone of the central repo
+- `instructions/config.json` — workspace configuration
 
 #### `skills pull`
 
@@ -240,7 +240,7 @@ Update local skills from the remote repository.
 skills pull
 ```
 
-Runs `git pull` in `.skills/repo/`. Re-applies sparse checkout if configuration has changed.
+Runs `git pull` in `instructions/repo/`. Re-applies sparse checkout if configuration has changed.
 
 #### `skills push <skill-name>`
 
@@ -251,8 +251,8 @@ skills push code-review-base
 ```
 
 **What it does:**
-1. Creates branch `feature/<skill-name>-update` in `.skills/repo/`
-2. Stages all changes in `.skills/repo/<skill-name>/`
+1. Creates branch `feature/<skill-name>-update` in `instructions/repo/`
+2. Stages all changes in `instructions/repo/<skill-name>/`
 3. Commits with message `feat(<skill-name>): update skill instructions`
 4. Pushes to origin
 5. Prints PR creation URL (for GitHub/GitLab remotes)
@@ -274,16 +274,6 @@ Show usage information and all available commands.
 ```bash
 skills help
 ```
-
-#### `skills eval <skill-name>` *(coming soon)*
-
-Run automated evaluation test cases for a skill against an LLM.
-
-```bash
-skills eval code-review-base
-```
-
-> **Note:** This command is not yet implemented. It will be introduced in a future module alongside `evals.json` test case format.
 
 ---
 
@@ -358,13 +348,13 @@ skills init --repo <skills-repo-url-or-path> --groups <my-group>
 ### Step 4 — Verify
 ```bash
 skills list
-ls .skills/repo/
+ls instructions/repo/
 ```
 
 ### Step 5 — Working with skills daily
 ```bash
 skills pull                    # get latest
-# edit .skills/repo/<skill>/SKILL.md
+# edit instructions/repo/<skill>/SKILL.md
 skills push <skill-name>       # propose change via PR
 ```
 
@@ -393,16 +383,16 @@ Since SKILL.md files are plain Markdown, they work with any IDE. Add a thin adap
 
 **VSCode (Copilot):** `.github/prompts/skills-context.prompt.md`
 ```markdown
-Load all SKILL.md files from `.skills/repo/` as context for this workspace.
+Load all SKILL.md files from `instructions/repo/` as context for this workspace.
 ```
 
 **Cursor:** `.cursor/rules/skills-context.mdc`
 ```
 ---
-description: Load team skills from .skills/repo/
+description: Load team skills from instructions/repo/
 alwaysApply: true
 ---
-Read all SKILL.md files in .skills/repo/**/ and apply them as context.
+Read all SKILL.md files in instructions/repo/**/ and apply them as context.
 ```
 
 **Claude Code:** `.claude/CLAUDE.md` — reference this SKILL.md file directly.

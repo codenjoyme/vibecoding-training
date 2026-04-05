@@ -21,7 +21,7 @@ Usage:
 
 The command will:
   1. Create branch: feature/<skill-name>-update
-  2. Stage all changes in .skills/repo/<skill-name>/
+  2. Stage all changes in instructions/repo/<skill-name>/
   3. Commit with a conventional commit message
   4. Push the branch to origin
   5. Print the Pull Request URL (for GitHub/GitLab remotes)
@@ -55,7 +55,7 @@ The command will:
 	if err := gitops.CreateBranch(repoDir, branchName); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: failed to create branch: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Tip: if the branch already exists, delete it with:\n")
-		fmt.Fprintf(os.Stderr, "     git -C .skills/repo branch -D %s\n", branchName)
+		fmt.Fprintf(os.Stderr, "     git -C instructions/repo branch -D %s\n", branchName)
 		os.Exit(1)
 	}
 	fmt.Println("  ✓ Branch created")
@@ -63,7 +63,7 @@ The command will:
 	fmt.Printf("→ Staging and committing changes in %s/ ...\n", skillName)
 	if err := gitops.StageAndCommit(repoDir, skillName); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: commit failed: %v\n", err)
-		fmt.Fprintln(os.Stderr, "Tip: make sure you have changes to commit in .skills/repo/"+skillName+"/")
+		fmt.Fprintln(os.Stderr, "Tip: make sure you have changes to commit in instructions/repo/"+skillName+"/")
 		os.Exit(1)
 	}
 	fmt.Println("  ✓ Changes committed")

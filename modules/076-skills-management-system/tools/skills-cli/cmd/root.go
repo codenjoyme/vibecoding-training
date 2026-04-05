@@ -21,8 +21,6 @@ func Execute(args []string) {
 		RunPush(args[1:])
 	case "list":
 		RunList(args[1:])
-	case "eval":
-		RunEval(args[1:])
 	default:
 		fmt.Fprintf(os.Stderr, "Error: unknown command %q\n\n", args[0])
 		PrintHelp()
@@ -42,7 +40,6 @@ Commands:
   pull    Update local skills from the remote repository
   push    Propose changes to a skill via a branch and Pull Request
   list    List available skills in the repository
-  eval    Run automated evals for a skill (coming soon)
   help    Show this help message
 
 Use "skills <command> --help" for more information about a command.
