@@ -9,72 +9,60 @@ Redesigning or updating module **075 — Shared Instructions & Team Conventions*
 The research (`research.md`) documents a fully fleshed-out system with:
 
 - A **central Git repository** as single source of truth for all AI instructions ("skills")
-- A **manifest-driven** selection model (global + per-service + per-agent)
+- A **manifest-driven** selection model (`_global.json` + per-group + per-agent via `.manifest/` folder)
 - **Sparse checkout** to give developers only the skills they need
-- A **Go CLI** (`instructions` binary) that abstracts all Git operations and creates PRs automatically
-- **Evaluation support** via `evals.json` per skill
+- A **Go CLI** (`skills` binary) that abstracts all Git operations and creates PRs automatically
+- **Evaluation support** via `evals.json` per skill *(coming soon)*
 - A proper **collaboration model** with ownership and approval requirements
 
 This goes significantly further than the current module 075, which covers a simpler team repo + manual Git workflow.
 
 ---
 
-## Clarifying Questions Before We Start
-
-Before touching the module, I need your decisions on the following:
+## Decisions Made
 
 ### 1. Audience level
 
-> The current module targets managers / non-engineers learning AI-assisted development. The research system (Go CLI, sparse checkout, `.manifest/` folder) is **developer/DevOps territory**.
+> **Answer:** The training is for everyone — including developers with no prior experience. Not just managers. All mentions of "managers / non-engineers" should be updated to reflect this broader audience.
 >
-> **Question:** Are we redesigning this for a technical audience, or do we need to keep it accessible for non-engineers? Or split into two tiers?
+> How non-technical participants handle the setup: there will be a `SKILL.md` in the module describing how to set up the CLI-based system. An AI agent that reads this skill will guide the user through the setup step by step — no prior technical knowledge required.
 
 ### 2. Go CLI — real thing or teaching concept?
 
-> The research describes a Go CLI as a distribution mechanism. Building one is a full engineering sprint, not a training exercise.
+> **Answer:** A **real tool** that we build and ship as part of the course.
 >
-> **Question:** Should the CLI be:
-> - (a) A **real tool** we build and publish as part of the course?
-> - (b) A **conceptual teaching example** — "here's what a mature system looks like"?
-> - (c) **Out of scope** — focus on Git + manifest pattern only, teach the concept without building the binary?
+> The module will contain a `tools/` subfolder with the production-ready Go CLI project. Users can download and use it directly. The setup and usage instructions will be in the module's `SKILL.md`. No separate repository — the CLI lives inside this module for now.
 
 ### 3. Scope of the module update
 
-> Right now module 075 is 15 minutes and covers basic shared repo structure + Git workflow.
->
-> **Question:** Is the goal to:
-> - (a) **Replace** the current module entirely with the new system?
-> - (b) **Extend** it — keep current content as foundation, add the advanced system as a separate "Part 2" or a new module (e.g., 076)?
-> - (c) **Keep the current module** as-is but add a reference/appendix to the advanced approach?
+> **Answer:** Option C — **split into two modules:**
+> - Module **075** stays as the intro (current content, lightly updated) — fundamentals and team adoption
+> - Module **076** becomes the advanced system (`.manifest/` folder, sparse checkout, `skills` CLI, governance)
 
 ### 4. `evals.json` — include or not?
 
-> The research includes an evaluation framework for instructions (test cases that run against an LLM).
->
-> **Question:** Is evaluation / testing of instructions something we want to teach in this module, or is that a separate topic for later?
+> **Answer:** Not in this module. Mark as **"coming soon"** in `SKILL.md` and in the research document. Instruction testing/evaluation is a separate topic for later.
 
 ### 5. IDE-specific wrappers
 
-> The research system is IDE-agnostic at the core. The current module 075 mentions VSCode + Cursor compatibility but doesn't go deep.
->
-> **Question:** Should we include a section on how the central `skill.md` files map to IDE-specific wrapper formats (`.github/prompts/`, `.cursor/rules/`)?
+> **Answer:** Recommend the **tools-agnostic approach** from `creating-instructions.agent.md`: all instructions are stored as plain Markdown files in a dedicated folder, independent of any agent system or IDE. Each IDE/agent has its own thin adapter wrappers (pointers) to these files. This avoids vendor lock-in and keeps the skill content portable across IDEs (VSCode Copilot, Cursor, Claude Code, etc.).
 
 ---
 
-## Preliminary Plan (pending your answers)
+## Plan Forward
 
-Based on the research, the likely structure of the updated/new module would be:
+Based on decisions above:
 
-1. **Problem framing** — Why ad-hoc individual instructions don't scale across a team
-2. **The central skills repo** — Structure, skill anatomy (`skill.md` + `README.md`)
-3. **Manifest pattern** — Global (`global.json`), agent-specific (`agents.json`), and per-project (`<project-name>.json`) skill selection via `.manifest/` folder
-4. **Sparse checkout workflow** — Only pull what you need
+1. **Problem framing** — Why individual instructions don't scale across a team
+2. **The central skills repo** — Structure, skill anatomy (`SKILL.md` + `README.md`)
+3. **Manifest pattern** — `_global.json`, `_agents.json`, `<group-name>.json` via `.manifest/` folder; sub-configs for thematic groups
+4. **Sparse checkout workflow** — Only pull what you need (`skills init --groups ...`)
 5. **Contribution flow** — Branch → PR → owner review → merge → everyone gets it
-6. **Ownership & governance** — Who owns global skills, approval requirements
-7. **CLI concept** — Abstract Git complexity away (build vs. concept TBD)
-8. **evals** — Optional: how to test instruction quality
+6. **Ownership & governance** — Who owns global skills, approval requirements (advisory)
+7. **`skills` CLI** — Real tool in `tools/` folder; `SKILL.md` guides setup
+8. **evals** — Coming soon, mentioned but not taught
 
-The current module's content (COIN adoption pattern, conflict resolution rules, folder structure) maps partially to points 1, 5, and 6 — so there's reusable material.
+The current module 075 content (COIN adoption pattern, conflict resolution rules, folder structure) maps to points 1, 5, and 6 — reusable material.
 
 ---
 
@@ -82,3 +70,4 @@ The current module's content (COIN adoption pattern, conflict resolution rules, 
 
 - Training program order / placement of this module
 - Other modules in the curriculum
+

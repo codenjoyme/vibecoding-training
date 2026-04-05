@@ -3,6 +3,7 @@
 **Module:** `075-shared-instructions-team-conventions`
 **Duration:** 15 minutes
 **Files:** `about.md`, `walkthrough.md`
+**Audience:** All developers and team members — beginners to experienced. Not limited to managers.
 
 ---
 
@@ -10,7 +11,7 @@
 
 ### Core Concept (Strong — Keep)
 
-The module frames the central insight correctly: **instructions are organisational knowledge, not personal configuration**. The analogy — when Bob leaves the company, his prompt knowledge walks out with him — is compelling and relatable for a manager audience.
+The module frames the central insight correctly: **instructions are organisational knowledge, not personal configuration**. The analogy — when Bob leaves the company, his prompt knowledge walks out with him — is compelling and relatable for any audience.
 
 ### Structure (Part by Part)
 
@@ -39,7 +40,7 @@ This is a **good, achievable outcome** for 15 minutes. Scope is appropriate.
 |---|---|---|
 | **Manifest / skill selection** | Per-project `.manifest/` folder with `global.json`, `agents.json`, and `<project-name>.json` files | Not mentioned |
 | **Sparse checkout** | Partial workspace, only relevant skills | Not mentioned |
-| **Skill anatomy** | `skill.md` + `evals.json` + `README.md` per skill | Only `.agent.md` files |
+| **Skill anatomy** | `SKILL.md` + `evals.json` *(coming soon)* + `README.md` per skill | Only `.agent.md` files |
 | **Ownership model** | Owner field in README, approval gates | Mentioned briefly in conflict resolution |
 | **IDE-agnostic core** | Central `skill.md`, thin IDE wrappers | Somewhat VSCode/Cursor aware, no clear pattern |
 | **CLI abstraction** | Go binary hides Git complexity | Manual Git commands throughout |
@@ -65,18 +66,22 @@ This is a **good, achievable outcome** for 15 minutes. Scope is appropriate.
 
 ---
 
-## Recommendation Options
+## Recommendation: Decision Made
 
-### Option A — Light Update (low effort)
-Keep current module largely intact. Add a small section referencing the manifest/sparse-checkout pattern as "what a mature system looks like" — point to the research document as extended reading. No structural changes.
+**Option C selected** — split into two modules:
 
-### Option B — Module Expansion (medium effort)
-Extend the module to ~25–30 minutes. Add Part 7 covering: skill anatomy (`skill.md` + README), manifest pattern, and IDE-agnostic skill design. Keep COIN and conflict resolution.
+### Module 075 (stays, light update)
 
-### Option C — Split into Two Modules (higher effort)
-- Module **075** stays as the intro (current content, lightly updated) — for managers
-- Module **076** becomes the advanced system (manifest, sparse checkout, CLI concept, evals) — for technical leads
+Keep all current content. Audience framing updated from “managers” to “everyone”. Add a reference to module 076 at the end as the next step for teams ready to go deeper.
 
----
+### Module 076 (new) — Advanced Skills Management System
 
-*Awaiting decisions from session-summary.md questions before proceeding.*
+Covers the full system from `research.md`:
+- `.manifest/` folder with `_global.json`, `_agents.json`, `<group-name>.json`, sub-configs
+- `SKILL.md` convention and skill anatomy
+- `skills` CLI (real tool in `tools/` folder)
+- Sparse checkout workflow
+- Ownership & governance (advisory)
+- `evals.json` — coming soon
+
+*A `SKILL.md` inside the module will guide any user (including beginners) through CLI setup with the help of an AI agent.*

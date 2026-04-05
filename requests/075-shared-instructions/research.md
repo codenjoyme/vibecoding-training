@@ -36,27 +36,27 @@ All instructions are stored in a single flat repository, where each skill is a d
 ```
 .instructions/repo/
 ├── .manifest/
-│   ├── global.json
-│   ├── agents.json
+│   ├── _global.json
+│   ├── _agents.json
 │   ├── service1.json
 │   ├── service2.json
 │   └── security.json
 ├── code-review-base/
-│   ├── skill.md
+│   ├── SKILL.md
 │   ├── evals.json
 │   └── README.md
 ├── code-review-gpt/
-│   ├── skill.md
+│   ├── SKILL.md
 │   ├── evals.json
 │   └── README.md
 ├── security-guidelines/
-│   ├── skill.md
+│   ├── SKILL.md
 │   └── README.md
 ├── style-guidelines/
-│   ├── skill.md
+│   ├── SKILL.md
 │   └── README.md
 └── agent-copilot/
-    ├── skill.md
+    ├── SKILL.md
     ├── evals.json
     └── README.md
 ```
@@ -64,7 +64,7 @@ All instructions are stored in a single flat repository, where each skill is a d
 **Key rules:**
 
 - Each directory = one skill
-- `skill.md` = main instruction content
+- `SKILL.md` = main instruction content
 - `evals.json` = optional test cases
 - `README.md` = metadata (owner, description)
 - `.manifest/` folder contains all configuration files (see Manifest Configuration below)
@@ -80,12 +80,12 @@ Instead of a single `manifest.json`, the system uses a `.manifest/` folder conta
 
 | File | Purpose |
 |---|---|
-| `global.json` | Skills applied to every workspace by default |
-| `agents.json` | IDE/tool-specific skill bindings (VSCode, Copilot, Cursor, etc.) |
-| `<project-name>.json` | Per-project or per-service skill selection |
-| `security.json` *(example sub-config)* | Shared thematic group reusable across projects |
+| `_global.json` | Skills applied to every workspace by default (sorted first in folder listing) |
+| `_agents.json` | IDE/tool-specific skill bindings (VSCode, Copilot, Cursor, etc.) (sorted first in folder listing) |
+| `<group-name>.json` | Per-group (project, service, or team) skill selection |
+| `security.json` *(example sub-config)* | Shared thematic group reusable across groups |
 
-### `global.json`
+### `_global.json`
 
 ```json
 {
@@ -93,7 +93,7 @@ Instead of a single `manifest.json`, the system uses a `.manifest/` folder conta
 }
 ```
 
-### `agents.json`
+### `_agents.json`
 
 ```json
 {
@@ -103,7 +103,7 @@ Instead of a single `manifest.json`, the system uses a `.manifest/` folder conta
 }
 ```
 
-### `<project-name>.json` (e.g. `service1.json`)
+### `<group-name>.json` (e.g. `service1.json`)
 
 ```json
 {
@@ -122,11 +122,11 @@ Instead of a single `manifest.json`, the system uses a `.manifest/` folder conta
 
 **Rules:**
 
-- `global.json` skills are always included for everyone
-- `agents.json` defines IDE/tool-specific skills
-- Each project file lists required skills and optionally references sub-configs
-- Sub-configs are reusable cross-project skill groupings (e.g., `security.json`, `testing.json`)
-- File name = project name or sub-config name
+- `_global.json` skills are always included for everyone
+- `_agents.json` defines IDE/tool-specific skills
+- Each group file lists required skills and optionally references sub-configs
+- Sub-configs are reusable cross-group skill groupings (e.g., `security.json`, `testing.json`)
+- File name = group name or sub-config name
 - Skills are referenced by directory name
 
 ---
@@ -138,19 +138,19 @@ All operations are performed via CLI.
 ### Initialization
 
 ```bash
-instructions init --project <project-name> [<project-name-2> ...]
+skills init --groups <group-name> [<group-name-2> ...]
 ```
 
 **Behavior:**
-1. Clone the central repository into `.instructions/repo`
-2. Read `.manifest/<project-name>.json` for each specified project
-3. Resolve required skills: `global.json` + project skills + referenced sub-configs + `agents.json` (for current IDE)
+1. Clone the central repository into `.skills/repo`
+2. Read `.manifest/<group-name>.json` for each specified group
+3. Resolve required skills: `_global.json` + group skills + referenced sub-configs + `_agents.json` (for current IDE)
 4. Perform sparse checkout for all resolved skill directories
 
-Multiple projects in one workspace:
+Multiple groups in one workspace:
 
 ```bash
-instructions init --project service1 service2
+skills init --groups service1 service2
 ```
 
 **Result:** Only relevant skills exist locally.
@@ -160,7 +160,7 @@ instructions init --project service1 service2
 Developers edit files directly:
 
 ```
-.instructions/repo/<skill-name>/skill.md
+.instructions/repo/<skill-name>/SKILL.md
 ```
 
 Optionally also update:
@@ -170,7 +170,7 @@ Optionally also update:
 ### Push Changes
 
 ```bash
-instructions push <skill-name>
+skills push <skill-name>
 ```
 
 **Behavior:**
@@ -184,7 +184,7 @@ instructions push <skill-name>
 ### Pull Updates
 
 ```bash
-instructions pull
+skills pull
 ```
 
 **Behavior:**
@@ -218,11 +218,13 @@ Skills are resolved from the manifest automatically.
 
 Each skill directory contains:
 
-### `skill.md`
+### `SKILL.md`
 
-Main instruction content — written in plain Markdown, IDE-agnostic.
+Main instruction content — written in plain Markdown, IDE-agnostic (follows the tools-agnostic approach: one source of truth in plain markdown, with thin IDE-specific adapter wrappers per IDE).
 
-### `evals.json` *(optional)*
+### `evals.json` *(coming soon)*
+
+> **Note:** Automated evaluation support is planned for a future release and is not included in the current implementation.
 
 Test cases for automated validation:
 
@@ -247,19 +249,7 @@ Metadata for the skill:
 
 ## Prompt Composition
 
-The final prompt is constructed dynamically by concatenating:
-
-```
-final_prompt = global skills + service skills + model-specific skills (optional)
-```
-
-Model-specific variants can be implemented as separate skills:
-
-| Skill | Target model |
-|---|---|
-| `code-review-base` | Any model |
-| `code-review-gpt` | GPT-4 optimized |
-| `code-review-claude` | Claude optimized |
+When the CLI resolves and sparse-checks out the skill set into the local workspace, the AI agent automatically discovers and loads the relevant `SKILL.md` files. No manual concatenation is needed — the agent reads them as part of its context. How exactly skills are composed into a prompt is handled by the IDE/agent runtime, not by the CLI or the developer.
 
 ---
 
@@ -274,6 +264,8 @@ Versioning is handled entirely via Git:
 ---
 
 ## Collaboration Model
+
+> **Note:** This section is informational and advisory. It does not affect the technical implementation of the CLI or manifest system. These practices are relevant when your team starts creating and managing Skills — use them as governance guidelines.
 
 - Each skill has an **owner** (defined in `README.md`)
 - **PR required** for all changes — no direct commits to main
@@ -309,17 +301,18 @@ The CLI is implemented in Go and distributed as a single binary.
 
 | Command | Description |
 |---|---|
-| `instructions init --project <name> [<name-2> ...]` | Initialize workspace with sparse checkout for one or more projects |
-| `instructions pull` | Update local instructions from remote |
-| `instructions push <skill-name>` | Push changes and create a PR |
-| `instructions list` | List all available skills |
-| `instructions eval <skill-name>` | Run evals for a skill against LLM |
+| `skills init --groups <name> [<name-2> ...]` | Initialize workspace with sparse checkout for one or more groups |
+| `skills pull` | Update local skills from remote |
+| `skills push <skill-name>` | Push changes and create a PR |
+| `skills list` | List all available skills |
+| `skills help` | Show usage information and available commands |
+| `skills eval <skill-name>` *(coming soon)* | Run evals for a skill against LLM |
 
 ### Internal Modules (Go)
 
 | Module | Responsibility |
 |---|---|
-| **manifest loader** | Read `.manifest/<project-name>.json` files, merge with `global.json` and `agents.json`, resolve skill dependencies |
+| **manifest loader** | Read `.manifest/<group-name>.json` files, merge with `_global.json` and `_agents.json`, resolve skill dependencies |
 | **git manager** | Clone repo, pull updates, create branches, commit and push |
 | **sparse manager** | Configure sparse checkout, update selected skills |
 | **PR integration** | Create pull requests via Git provider API |
@@ -333,8 +326,8 @@ The CLI is compiled into platform-specific binaries:
 
 | Platform | Binary |
 |---|---|
-| Windows | `instructions.exe` |
-| Linux / macOS | `instructions` |
+| Windows | `skills.exe` |
+| Linux / macOS | `skills` |
 
 **Distribution methods:**
 
