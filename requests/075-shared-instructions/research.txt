@@ -1,0 +1,174 @@
+TITLE: Instructions Management System (Git + Sparse Checkout + Go CLI)
+OVERVIEW
+This document defines a lightweight, scalable system for managing AI instructions (prompts) across multiple microservices and teams. The system is based on Git as the source of truth, sparse checkout for partial workspace usage, and a cross-platform Go-based CLI distributed as a single binary.
+The system is designed to support:
+• Multi-repository environments
+• Cross-team collaboration
+• Reusable and composable instruction units ("skills")
+• Minimal infrastructure (no heavy LLMOps platform)
+CORE PRINCIPLES
+• Git is the single source of truth
+All instructions are stored in a single central Git repository.
+• Instructions are modular
+Each instruction is a self-contained "skill" stored in its own directory.
+• No duplication
+Each skill exists only once and can be reused across services.
+• Selection via manifest
+A global manifest defines which skills are used by which services or agents.
+• Partial workspace via sparse checkout
+Developers only pull the subset of skills they need.
+• CLI abstraction
+A Go CLI abstracts Git operations, sparse checkout, and PR workflows.
+REPOSITORY STRUCTURE
+All instructions are stored in a single flat repository, where each skill is a directory:
+.instructions/repo/ manifest.json code-review-base/ skill.md evals.json README.md code-review-gpt/ skill.md evals.json README.md security-guidelines/ skill.md README.md style-guidelines/ skill.md README.md agent-copilot/ skill.md evals.json README.md
+Key rules:
+• Each directory = one skill
+• skill.md = main instruction
+• evals.json = optional test cases
+• README.md = metadata (owner, description)
+• No nested hierarchy required (flat structure)
+MANIFEST CONFIGURATION
+The manifest defines which skills are used by which services and agents.
+Example manifest.json:
+{ "global": ["style-guidelines"], "services": { "service1": ["code-review-base", "security-guidelines"], "service2": ["code-review-gpt", "security-guidelines"], "service3": ["code-review-base", "code-review-gpt"] }, "agents": { "copilot": ["agent-copilot"], "cursor": [] } }
+Rules:
+• "global" skills are always included
+• services define per-microservice usage
+• agents define tool-specific usage
+• skills are referenced by directory name
+LOCAL WORKFLOW
+All operations are performed via CLI.
+• Initialization
+Command: instructions init --service 
+Behavior:
+• Clone the central repository into .instructions/repo
+• Read manifest.json
+• Resolve required skills: global + services[service-name]
+• Perform sparse checkout for only required skill directories
+Result: Only relevant skills exist locally.
+• Working with Skills
+Developers edit files directly:
+.instructions/repo//skill.md
+Optional:
+• Update evals.json
+• Update README.md
+• Push Changes
+Command: instructions push 
+Behavior:
+• Create a new branch: feature/-update
+• Stage only modified files
+• Commit changes
+• Push to remote
+• Automatically create Pull Request
+• Return PR URL
+• Pull Updates
+Command: instructions pull
+Behavior:
+• git pull on repository
+• re-apply sparse checkout if needed
+SPARSE CHECKOUT STRATEGY
+Sparse checkout is used to limit local files.
+CLI internally executes:
+git sparse-checkout init --cone git sparse-checkout set ...
+Skills are resolved from manifest.
+Advantages:
+• Minimal local footprint
+• No duplication
+• Full Git compatibility
+• Clean diffs and commits
+SKILL DESIGN
+Each skill directory contains:
+• skill.md
+Main instruction content
+• evals.json (optional)
+Test cases for validation
+Example: [ { "input": "example code", "expected": "should mention error handling" } ]
+• README.md
+Metadata
+Example:
+• Description
+• Owner
+• Usage context
+PROMPT COMPOSITION
+Final prompt is constructed dynamically:
+final_prompt = concatenate( global skills, service skills, model-specific skills (optional) )
+Model-specific variants can be implemented as separate skills:
+• code-review-base
+• code-review-gpt
+• code-review-claude
+VERSIONING
+Versioning is handled via Git:
+• Commit hash = version
+• Branches for development
+• Tags for releases (optional)
+COLLABORATION MODEL
+• Each skill has an owner (defined in README)
+• PR required for all changes
+• Minimum 1 approval from owner
+• Global skills require 2 approvals
+CONFLICT MANAGEMENT
+Best practices:
+• Small, focused PRs
+• One logical change per PR
+• Avoid editing multiple skills in one PR
+• Prefer splitting large prompts into multiple skills
+GO CLI ARCHITECTURE
+CLI is implemented in Go and distributed as a single binary.
+Key properties:
+• Cross-platform (Windows, macOS, Linux)
+• No runtime dependencies
+• Single executable file
+CLI COMMANDS
+instructions init --service 
+Initialize workspace with sparse checkout
+instructions pull
+Update local instructions
+instructions push 
+Push changes and create PR
+instructions list
+List available skills
+instructions eval 
+Run evals for a skill
+INTERNAL MODULES (GO)
+• manifest loader
+• Reads manifest.json
+• Resolves dependencies
+• git manager
+• Clone repository
+• Pull updates
+• Create branches
+• Commit and push
+• sparse manager
+• Configure sparse checkout
+• Update selected skills
+• PR integration
+• Create pull requests via Git provider API
+• eval runner
+• Run eval cases against LLM
+DISTRIBUTION
+The CLI is compiled into platform-specific binaries:
+• instructions.exe (Windows)
+• instructions (Linux/macOS)
+Distribution methods:
+• GitHub Releases
+• Internal artifact storage
+LIMITATIONS
+This system does NOT provide:
+• Real-time runtime updates
+• Built-in A/B testing
+• Advanced observability dashboards
+These can be added later if needed.
+FUTURE EXTENSIONS
+• Add logging of prompt usage
+• Add evaluation pipelines in CI
+• Add remote prompt registry layer
+• Add dynamic runtime fetching
+SUMMARY
+This system provides:
+• Centralized instruction management via Git
+• Modular reusable skills
+• Partial workspace via sparse checkout
+• Cross-platform CLI in a single binary
+• Scalable collaboration model
+It achieves ~80–90% of LLMOps functionality with minimal complexity.
