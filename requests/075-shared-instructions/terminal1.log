@@ -1,0 +1,56 @@
+PS C:\Java\CopipotTraining\vibecoding-for-managers> New-Item -ItemType Directory -Force -Path "work\076-task" | Out-Null; cd "modules\076-skills-management-system\demo"; Get-Content setup.ps1
+# setup.ps1 â€” initialize demo/skills-repo as a Git repository
+# Run once before using the demo with the skills CLI
+# Usage: .\setup.ps1
+
+$ErrorActionPreference = "Stop"
+
+$ScriptDir = $PSScriptRoot
+$RepoDir = Join-Path $ScriptDir "skills-repo"
+
+Write-Host "â†’ Initializing demo skills-repo ..."
+
+Push-Location $RepoDir
+try {
+    git init
+    git config user.email "demo@skills-cli.local"
+    git config user.name "Skills Demo"
+    git config receive.denyCurrentBranch warn
+    git add .
+    git commit -m "init: demo skills repository"
+} finally {
+    Pop-Location
+}
+
+Write-Host ""
+Write-Host "âœ… Demo skills-repo initialized at $RepoDir"
+Write-Host ""
+Write-Host "Next: create a project workspace and run:"
+Write-Host "  skills init --repo `"$RepoDir`" --groups project-alpha"
+PS C:\Java\CopipotTraining\vibecoding-for-managers\modules\076-skills-management-system\demo> .\setup.ps1
+â†’ Initializing demo skills-repo ...
+Initialized empty Git repository in C:/Java/CopipotTraining/vibecoding-for-managers/modules/076-skills-management-system/demo/skills-repo/.git/
+[master (root-commit) 5c78921] init: demo skills repository
+ 17 files changed, 178 insertions(+)
+ create mode 100644 .manifest/_agents.json
+ create mode 100644 .manifest/_global.json
+ create mode 100644 .manifest/project-alpha.json
+ create mode 100644 .manifest/project-beta.json
+ create mode 100644 .manifest/security.json
+ create mode 100644 code-review-base/README.md
+ create mode 100644 code-review-base/SKILL.md
+ create mode 100644 creating-instructions/README.md
+ create mode 100644 creating-instructions/SKILL.md
+ create mode 100644 iterative-prompting/README.md
+ create mode 100644 iterative-prompting/SKILL.md
+ create mode 100644 security-guidelines/README.md
+ create mode 100644 security-guidelines/SKILL.md
+ create mode 100644 style-guidelines/README.md
+ create mode 100644 style-guidelines/SKILL.md
+ create mode 100644 test-writing/README.md
+ create mode 100644 test-writing/SKILL.md
+
+âœ… Demo skills-repo initialized at C:\Java\CopipotTraining\vibecoding-for-managers\modules\076-skills-management-system\demo\skills-repo
+
+Next: create a project workspace and run:
+  skills init --repo "C:\Java\CopipotTraining\vibecoding-for-managers\modules\076-skills-management-system\demo\skills-repo" --groups project-alpha

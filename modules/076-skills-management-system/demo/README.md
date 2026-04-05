@@ -1,37 +1,28 @@
 # Demo Skills Repository
 
-This folder contains a pre-built skills repository for the walkthrough.
+This folder contains **pre-built skill files** for the walkthrough — it is a **read-only reference**. Do not modify or work directly in this folder.
 
-Use it to skip hand-writing all SKILL.md content and jump straight to CLI practice.
+The setup script copies the content to `work/076-task/skills-repo/` and initializes it as a real Git repository. All interactive work (Parts 1–6 of the walkthrough) happens in `work/076-task/`.
 
 ## Contents
 
-- `skills-repo/` — Central skills Git repository (ready to initialize)
-  - `.manifest/` — Group and sub-config JSON files
-  - `code-review-base/`, `security-guidelines/`, `style-guidelines/`, `test-writing/` — Project-specific skills
-  - `creating-instructions/`, `iterative-prompting/` — Global skills
+- `skills-repo/` — skill content ready to be copied (no `.git` folder)
+  - `.manifest/` — group and sub-config JSON files
+  - `code-review-base/`, `security-guidelines/`, `style-guidelines/`, `test-writing/` — project-specific skills
+  - `creating-instructions/`, `iterative-prompting/` — global skills
 
 ## Quick Start
 
-1. Run the setup script to initialize `skills-repo` as a Git repository:
+Run from the **workspace root** (`vibecoding-for-managers/`):
 
-   ```powershell
-   # Windows
-   .\setup.ps1
-   ```
+```powershell
+# Windows
+.\modules\076-skills-management-system\demo\setup.ps1
+```
 
-   ```bash
-   # macOS/Linux
-   chmod +x ./setup.sh && ./setup.sh
-   ```
+```bash
+# macOS/Linux
+bash modules/076-skills-management-system/demo/setup.sh
+```
 
-2. Create project workspaces pointing to the demo repo:
-
-   ```bash
-   # From this demo/ folder
-   mkdir project-alpha
-   cd project-alpha
-   skills init --repo ../demo/skills-repo --groups project-alpha
-   ```
-
-The setup script only needs to be run once. After that, use `skills pull`, `skills push`, and `skills list` as shown in the walkthrough.
+The script creates `work/076-task/skills-repo/` as a git-initialized repository, then prints next steps for running `skills init`.

@@ -224,3 +224,48 @@ iterative-prompt.agent.md
   - Step 23: commit + `skills init` in real project
   - Step 24: `skills list` to verify
 - Success Criteria — added Part 7 item; demo note added to repo creation criterion
+
+## UPD7
+
+Надо пофиксить модуль тренинга потому что на этом степе не понятно что ты делаешь. Там вся работа проводится в demo папке, а папка должна быть только референсом. Всю работу надо проводить в папке `work/076-task/`. Вот что ты напимсал
+```
+📖 Part 1: Build the Central Skills Repository
+Что делаем: создаём центральный Git-репозиторий со скиллами. Это "библиотека" — единый источник правды для AI-инструкций всей команды.
+
+Структура простая: каждый скилл = папка с SKILL.md. А папка .manifest/ содержит JSON-конфиги — кто какие скиллы получает.
+
+В модуле есть shortcut: папка demo/skills-repo уже содержит все готовые скиллы. Запустим setup-скрипт — это сэкономит время на ручном заполнении файлов, и сразу перейдём к интересной части (CLI и sparse checkout).
+
+Запускаем:
+```
+Дальше детали в `terminal1.log`. 
+Я удалил папку `.git` оттуда. Давай исправь все что надо, чтобы демка происходила в папке как того требует инструкция по интерактивному режиму коучинга. 
+
+### RESULT
+
+**Root cause:** `setup.ps1`/`setup.sh` were running `git init` inside `demo/skills-repo/` itself, making the demo folder a working git repo. The shortcut in `walkthrough.md` also told users to `cd demo` and use `--repo <absolute-path>/demo/skills-repo`.
+
+**Fixed:** `demo/` is now a read-only reference folder (no `.git`). Setup scripts copy content to `work/076-task/` instead.
+
+**`demo/setup.ps1` — rewritten:**
+- Calculates workspace root (3 levels up from script via `$PSScriptRoot`)
+- `$TargetDir = workspace-root\work\076-task\skills-repo`
+- Exits with friendly message if target already exists
+- Creates `work\076-task\` if missing
+- `Copy-Item -Recurse` demo content → target
+- Runs `git init` + initial commit in target (not in demo)
+- Prints next-steps hint with correct relative paths
+
+**`demo/setup.sh` — rewritten:**
+- Same logic in bash (`dirname` x3 for workspace root)
+- `TARGET_DIR = $WORKSPACE_ROOT/work/076-task/skills-repo`
+
+**`demo/README.md` — updated:**
+- Clearly states `demo/` is read-only reference; work happens in `work/076-task/`
+- Setup command runs from workspace root (not from inside demo/)
+
+**`walkthrough.md` Part 1 shortcut block — fixed:**
+- Removed `cd modules/.../demo` instruction
+- Added explicit note: "all actual work happens in `work/076-task/`, never inside `demo/`"
+- Setup commands now run from workspace root
+- Removed wrong `--repo <absolute-path>/demo/skills-repo` hint (Part 4 Step 11 already has correct `--repo ../skills-repo`)

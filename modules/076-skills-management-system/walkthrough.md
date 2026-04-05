@@ -33,21 +33,21 @@ All files for this walkthrough are created in a folder of your choice. The `demo
 Create the skills repository — a plain Git repo with a flat directory structure. Each directory is one skill. The `.manifest/` folder contains JSON config files that define which skills belong to which team or project.
 
 > **Shortcut — use the pre-built demo:**
-> The `demo/skills-repo/` folder in this module already contains all the skills and manifest files from Parts 1 and 2. If you want to skip the content-creation steps and go straight to CLI practice, run the setup script and jump to Part 3:
+> The `demo/skills-repo/` folder in this module contains ready-made skill files. The setup script **copies** them to `work/076-task/skills-repo/` and initializes it as a Git repository — all actual work happens in `work/076-task/`, never inside `demo/`.
+>
+> Run from the **workspace root** (the `vibecoding-for-managers/` folder):
 >
 > ```powershell
-> # Windows — from the module root
-> cd modules/076-skills-management-system/demo
-> .\setup.ps1
+> # Windows — from workspace root
+> .\modules\076-skills-management-system\demo\setup.ps1
 > ```
 >
 > ```bash
-> # macOS/Linux
-> cd modules/076-skills-management-system/demo
-> chmod +x ./setup.sh && ./setup.sh
+> # macOS/Linux — from workspace root
+> bash modules/076-skills-management-system/demo/setup.sh
 > ```
 >
-> Then in Part 4 use `--repo <absolute-path>/demo/skills-repo` when running `skills init`.
+> The script creates `work/076-task/skills-repo/` with all 6 skills committed. Then skip to Part 3. In Part 4 the `skills init` commands already use `--repo ../skills-repo` — that's the folder the script just created.
 >
 > Follow Parts 1 and 2 if you want to understand how the repository is structured before using the CLI.
 
