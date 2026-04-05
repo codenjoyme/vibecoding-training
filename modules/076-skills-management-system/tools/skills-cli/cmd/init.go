@@ -74,8 +74,8 @@ Examples:
 	repoDir := config.RepoSubDir
 
 	// Check if already initialized
-	if _, err := os.Stat(repoDir); err == nil {
-		fmt.Fprintln(os.Stderr, "Error: workspace already initialized (instructions/repo exists)")
+	if _, err := os.Stat(config.ConfigFile); err == nil {
+		fmt.Fprintln(os.Stderr, "Error: workspace already initialized (instructions/.manifest/config.json exists)")
 		fmt.Fprintln(os.Stderr, "Run `skills pull` to update, or delete instructions/ to re-initialize.")
 		os.Exit(1)
 	}
@@ -116,6 +116,6 @@ Examples:
 	fmt.Printf("   Repository: %s\n", *repo)
 	fmt.Printf("   Groups:     %s\n", strings.Join(groups, ", "))
 	fmt.Printf("   Skills:     %s\n", strings.Join(skills, ", "))
-	fmt.Printf("   Location:   instructions/repo/\n\n")
-	fmt.Println("Your AI agent can now read skills from instructions/repo/<skill-name>/SKILL.md")
+	fmt.Printf("   Location:   instructions/\n\n")
+	fmt.Println("Your AI agent can now read skills from instructions/<skill-name>/SKILL.md")
 }

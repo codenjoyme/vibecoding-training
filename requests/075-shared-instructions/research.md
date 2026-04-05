@@ -34,7 +34,7 @@ The system is designed to support:
 All instructions are stored in a single flat repository, where each skill is a directory:
 
 ```
-.instructions/repo/
+instructions/
 ├── .manifest/
 │   ├── _global.json
 │   ├── _agents.json
@@ -160,7 +160,7 @@ skills init --groups service1 service2
 Developers edit files directly:
 
 ```
-.instructions/repo/<skill-name>/SKILL.md
+instructions/<skill-name>/SKILL.md
 ```
 
 Optionally also update:

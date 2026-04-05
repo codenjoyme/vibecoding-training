@@ -34,7 +34,7 @@
 Все инструкции хранятся в едином плоском репозитории, где каждый навык — это директория:
 
 ```
-.instructions/repo/
+instructions/
 ├── .manifest/
 │   ├── _global.json
 │   ├── _agents.json
@@ -160,7 +160,7 @@ skills init --project service1 service2
 Разработчики редактируют файлы напрямую:
 
 ```
-.instructions/repo/<имя-навыка>/SKILL.md
+instructions/<имя-навыка>/SKILL.md
 ```
 
 Опционально также обновляют:

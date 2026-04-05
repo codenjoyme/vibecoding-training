@@ -701,16 +701,16 @@ Expected output:
    Repository: ../skills-repo
    Groups:     project-alpha
    Skills:     code-review-base, creating-instructions, iterative-prompting, security-guidelines, style-guidelines
-   Location:   instructions/repo/
+   Location:   instructions/
 ```
 
 ### Step 12 — Verify sparse checkout
 
 ```bash
-ls instructions/repo/
+ls instructions/
 ```
 
-You should see: `.manifest`, `code-review-base`, `creating-instructions`, `iterative-prompting`, `security-guidelines`, `style-guidelines`
+You should see: `.git`, `.gitignore`, `.manifest`, `code-review-base`, `creating-instructions`, `iterative-prompting`, `security-guidelines`, `style-guidelines`
 
 You should NOT see: `test-writing` (it belongs to project-beta, not project-alpha)
 
@@ -727,7 +727,7 @@ skills init --repo ../skills-repo --groups project-beta
 
 Verify that project-beta has `test-writing` but NOT `style-guidelines`:
 ```bash
-ls instructions/repo/
+ls instructions/
 # test-writing present ✅, style-guidelines absent ✅
 ```
 
@@ -753,7 +753,7 @@ In `project-alpha/`, edit the skill:
 
 ```bash
 # Open in your editor:
-instructions/repo/code-review-base/SKILL.md
+instructions/code-review-base/SKILL.md
 ```
 
 Add a new item to the review checklist — something like:
@@ -974,7 +974,7 @@ Your project now has an `instructions/` folder with the two foundational skills 
 
 ### What happened
 
-When your AI agent opens this project, it reads `instructions/repo/creating-instructions/SKILL.md` and `instructions/repo/skills-cli-usage/SKILL.md` automatically — giving it:
+When your AI agent opens this project, it reads `instructions/creating-instructions/SKILL.md` and `instructions/skills-cli-usage/SKILL.md` automatically — giving it:
 
 - Your team's conventions for writing AI instructions
 - A self-service guide for setting up the skills system
@@ -1039,7 +1039,7 @@ You should see both global skills as ✅ active.
 The binary is not in PATH. Copy it to `C:\Windows\System32\` (Windows) or `/usr/local/bin/` (macOS/Linux), or add its directory to PATH.
 
 **`not a skills workspace — run skills init first`**
-You're running a command from a directory that has no `instructions/config.json`. Navigate to your project root (where you ran `skills init`) or run `skills init` first.
+You're running a command from a directory that has no `instructions/.manifest/config.json`. Navigate to your project root (where you ran `skills init`) or run `skills init` first.
 
 **`clone failed: repository not found`**
 Check that `--repo` points to a valid Git repository. For local paths, the path must exist and be a Git repo (contains `.git/` folder).
@@ -1051,7 +1051,7 @@ Requires Git 2.25+. Check with `git --version`. On older systems, update Git fir
 The branch you're pushing to is checked out in the remote. This can happen if you push a branch with the same name as the currently checked-out branch in `skills-repo`. Use `git config receive.denyCurrentBranch warn` in the target repo to allow it.
 
 **Sparse checkout shows extra directories**
-Run `git sparse-checkout reapply` inside `instructions/repo/` to force reapply the sparse filter.
+Run `git sparse-checkout reapply` inside `instructions/` to force reapply the sparse filter.
 
 ## Next Steps
 

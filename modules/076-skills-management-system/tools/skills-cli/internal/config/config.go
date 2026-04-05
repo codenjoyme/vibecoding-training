@@ -9,7 +9,7 @@ import (
 
 const (
 	// ConfigFile is the path to the workspace configuration file.
-	ConfigFile = "instructions/config.json"
+	ConfigFile = "instructions/.manifest/config.json"
 	// RepoSubDir is the path where the skills repo is cloned into.
 	RepoSubDir = "instructions/repo"
 )
@@ -26,7 +26,7 @@ func (c *Config) RepoPath() string {
 	return RepoSubDir
 }
 
-// Load reads the workspace configuration from instructions/config.json.
+// Load reads the workspace configuration from instructions/.manifest/config.json.
 // Returns an actionable error if the file doesn't exist (workspace not initialized).
 func Load() (*Config, error) {
 	data, err := os.ReadFile(ConfigFile)
@@ -44,10 +44,10 @@ func Load() (*Config, error) {
 	return &cfg, nil
 }
 
-// Save writes the configuration to instructions/config.json, creating the directory if needed.
+// Save writes the configuration to instructions/.manifest/config.json, creating the directory if needed.
 func Save(cfg *Config) error {
 	if err := os.MkdirAll(filepath.Dir(ConfigFile), 0755); err != nil {
-		return fmt.Errorf("failed to create instructions/ directory: %w", err)
+		return fmt.Errorf("failed to create instructions/.manifest/ directory: %w", err)
 	}
 	data, err := json.MarshalIndent(cfg, "", "  ")
 	if err != nil {
