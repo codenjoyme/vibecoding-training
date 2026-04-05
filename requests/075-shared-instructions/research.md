@@ -142,7 +142,7 @@ skills init --groups <group-name> [<group-name-2> ...]
 ```
 
 **Behavior:**
-1. Clone the central repository into `.skills/repo`
+1. Clone the central repository into `instructions/`
 2. Read `.manifest/<group-name>.json` for each specified group
 3. Resolve required skills: `_global.json` + group skills + referenced sub-configs + `_agents.json` (for current IDE)
 4. Perform sparse checkout for all resolved skill directories

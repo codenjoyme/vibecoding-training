@@ -47,10 +47,10 @@ skills init --repo ../skills-repo --groups project-alpha
 ```
 
 **Ожидаемый результат:**
-- `.skills/repo/` склонировано из `../skills-repo`
+- `instructions/` склонировано из `../skills-repo` (содержит `.git`)
 - Sparse checkout применён: `.manifest`, `code-review-base`, `style-guidelines`, `security-guidelines`, `creating-instructions`, `iterative-prompting` присутствуют локально
 - Директория `test-writing` НЕ присутствует локально (не входит в группу project-alpha)
-- Создан `.skills/config.json` с корректными `repo_url`, `groups`, `skills`
+- Создан `instructions/.manifest/config.json` с корректными `repo_url`, `groups`, `skills`
 - Код завершения 0, сообщение об успехе
 
 ---
@@ -60,14 +60,14 @@ skills init --repo ../skills-repo --groups project-alpha
 **Команда:**
 ```bash
 cd work/076-task/project-alpha
-# (предварительно удалить .skills/ из TC-001)
+# (предварительно удалить instructions/ из TC-001)
 skills init --repo ../skills-repo --groups project-alpha,security
 ```
 
 **Ожидаемый результат:**
 - Навыки из `project-alpha.json` и `security.json` объединены (union)
 - Нет дублирующихся навыков в итоговом списке
-- В `.skills/config.json` перечислены обе группы
+- В `instructions/.manifest/config.json` перечислены обе группы
 
 ---
 
@@ -82,8 +82,8 @@ skills pull
 ```
 
 **Ожидаемый результат:**
-- `git pull` выполнен успешно в `.skills/repo/`
-- Обновлённый файл виден в `.skills/repo/<имя-навыка>/SKILL.md`
+- `git pull` выполнен успешно в `instructions/`
+- Обновлённый файл виден в `instructions/<имя-навыка>/SKILL.md`
 - Код завершения 0
 
 ---
@@ -106,7 +106,7 @@ skills list
 
 ## TC-005: Базовый сценарий — публикация изменений навыка
 
-**Подготовка:** отредактировать `.skills/repo/code-review-base/SKILL.md` в рабочей папке project-alpha.
+**Подготовка:** отредактировать `instructions/code-review-base/SKILL.md` в рабочей папке project-alpha.
 
 **Команда:**
 ```bash
@@ -115,7 +115,7 @@ skills push code-review-base
 ```
 
 **Ожидаемый результат:**
-- Создана ветка `feature/code-review-base-update` в `.skills/repo`
+- Создана ветка `feature/code-review-base-update` в `instructions/`
 - Изменения добавлены в индекс и закоммичены
 - Ветка запушена в origin (`../skills-repo`)
 - Сообщение об успехе
@@ -166,7 +166,7 @@ skills eval code-review-base
 
 **Ожидаемое состояние директорий:**
 ```
-.skills/repo/
+instructions/
 ├── .manifest/           ✅ присутствует (всегда включается)
 ├── code-review-base/    ✅ присутствует
 ├── style-guidelines/    ✅ присутствует
@@ -178,7 +178,7 @@ skills eval code-review-base
 
 **Проверка:**
 ```bash
-ls work/076-task/project-alpha/.skills/repo/
+ls work/076-task/project-alpha/instructions/
 # test-writing НЕ должен отображаться
 ```
 
@@ -210,8 +210,8 @@ skills init --repo ../skills-repo --groups project-alpha
 ```
 
 **Ожидаемый результат:**
-- Сообщение об ошибке: "workspace already initialized (.skills/repo exists)"
-- Подсказка: "Run `skills pull` to update, or delete .skills/ to re-initialize"
+- Сообщение об ошибке: "workspace already initialized (instructions/.manifest/config.json exists)"
+- Подсказка: "Run `skills pull` to update, or delete instructions/ to re-initialize"
 - Код завершения 1
 - Существующее окружение не изменено
 
@@ -290,7 +290,7 @@ skills init --repo /nonexistent/path --groups project-alpha
 **Ожидаемый результат:**
 - Клонирование завершается с понятной ошибкой: "clone failed: ..."
 - Код завершения 1
-- Директория `.skills/` не создаётся
+- Директория `instructions/` не создаётся
 
 ---
 
@@ -299,8 +299,8 @@ skills init --repo /nonexistent/path --groups project-alpha
 **Подготовка:** project-alpha и project-beta оба инициализированы из одного skills-repo.
 
 **Проверка:**
-- `project-alpha/.skills/repo/` содержит навыки alpha + глобальные, НЕ содержит `test-writing`
-- `project-beta/.skills/repo/` содержит навыки beta + глобальные, НЕ содержит `style-guidelines`
+- `project-alpha/instructions/` содержит навыки alpha + глобальные, НЕ содержит `test-writing`
+- `project-beta/instructions/` содержит навыки beta + глобальные, НЕ содержит `style-guidelines`
 - Изменения в одном окружении не влияют на другое
 
 ---

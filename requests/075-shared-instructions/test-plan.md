@@ -47,10 +47,10 @@ skills init --repo ../skills-repo --groups project-alpha
 ```
 
 **Expected:**
-- `.skills/repo/` cloned from `../skills-repo`
+- `instructions/` cloned from `../skills-repo` (contains `.git`)
 - Sparse checkout applied: `.manifest`, `code-review-base`, `style-guidelines`, `security-guidelines`, `creating-instructions`, `iterative-prompting` present locally
 - `test-writing` directory NOT present locally (not in project-alpha groups)
-- `.skills/config.json` created with correct `repo_url`, `groups`, `skills`
+- `instructions/.manifest/config.json` created with correct `repo_url`, `groups`, `skills`
 - Exit code 0, success message printed
 
 ---
@@ -60,14 +60,14 @@ skills init --repo ../skills-repo --groups project-alpha
 **Command:**
 ```bash
 cd work/076-task/project-alpha
-# (first delete .skills/ from TC-001)
+# (first delete instructions/ from TC-001)
 skills init --repo ../skills-repo --groups project-alpha,security
 ```
 
 **Expected:**
 - Skills from both `project-alpha.json` and `security.json` resolved (union)
 - No duplicates in the resolved skill list
-- `.skills/config.json` lists both groups
+- `instructions/.manifest/config.json` lists both groups
 
 ---
 
@@ -82,8 +82,8 @@ skills pull
 ```
 
 **Expected:**
-- `git pull` runs successfully in `.skills/repo/`
-- Updated file visible in `.skills/repo/<skill-name>/SKILL.md`
+- `git pull` runs successfully in `instructions/`
+- Updated file visible in `instructions/<skill-name>/SKILL.md`
 - Exit code 0
 
 ---
@@ -106,7 +106,7 @@ skills list
 
 ## TC-005: Happy Path — Push skill change
 
-**Setup:** Edit `.skills/repo/code-review-base/SKILL.md` in project-alpha workspace.
+**Setup:** Edit `instructions/code-review-base/SKILL.md` in project-alpha workspace.
 
 **Command:**
 ```bash
@@ -115,7 +115,7 @@ skills push code-review-base
 ```
 
 **Expected:**
-- Branch `feature/code-review-base-update` created in `.skills/repo`
+- Branch `feature/code-review-base-update` created in `instructions/`
 - Changes staged and committed
 - Branch pushed to origin (`../skills-repo`)
 - Success message printed
@@ -166,7 +166,7 @@ skills eval code-review-base
 
 **Expected directory state:**
 ```
-.skills/repo/
+instructions/
 ├── .manifest/       ✅ present (always included)
 ├── code-review-base/ ✅ present
 ├── style-guidelines/ ✅ present
@@ -178,7 +178,7 @@ skills eval code-review-base
 
 **Verify:**
 ```bash
-ls work/076-task/project-alpha/.skills/repo/
+ls work/076-task/project-alpha/instructions/
 # test-writing should NOT appear
 ```
 
@@ -210,8 +210,8 @@ skills init --repo ../skills-repo --groups project-alpha
 ```
 
 **Expected:**
-- Error message: "workspace already initialized (.skills/repo exists)"
-- Hint: "Run `skills pull` to update, or delete .skills/ to re-initialize"
+- Error message: "workspace already initialized (instructions/.manifest/config.json exists)"
+- Hint: "Run `skills pull` to update, or delete instructions/ to re-initialize"
 - Exit code 1
 - No changes to existing workspace
 
@@ -228,7 +228,7 @@ skills init --repo ../skills-repo --groups non-existent-group
 - Clone succeeds
 - Error on manifest resolution: `group "non-existent-group": manifest not found`
 - Exit code 1
-- `.skills/` directory cleaned up (or left in partial state — document behavior)
+- `instructions/` directory cleaned up (or left in partial state — document behavior)
 
 ---
 
@@ -291,7 +291,7 @@ skills init --repo /nonexistent/path --groups project-alpha
 **Expected:**
 - Clone fails with clear error: "clone failed: ..."
 - Exit code 1
-- No `.skills/` directory created
+- No `instructions/` directory created
 
 ---
 
@@ -300,8 +300,8 @@ skills init --repo /nonexistent/path --groups project-alpha
 **Setup:** project-alpha and project-beta both initialized from same skills-repo.
 
 **Verify:**
-- `project-alpha/.skills/repo/` has alpha skills + globals, NOT `test-writing`
-- `project-beta/.skills/repo/` has beta skills + globals, NOT `style-guidelines`
+- `project-alpha/instructions/` has alpha skills + globals, NOT `test-writing`
+- `project-beta/instructions/` has beta skills + globals, NOT `style-guidelines`
 - Changes in one workspace don't affect the other
 
 ---
