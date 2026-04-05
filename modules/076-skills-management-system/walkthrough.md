@@ -492,113 +492,135 @@ git commit -m "feat: add initial skill content for all skills"
 
 ### What we'll do
 
-The `skills` CLI is a Go binary located in this module's `tools/skills-cli/` folder. A pre-compiled Windows binary (`skills.exe`) is already included — you can use it directly without installing Go. If you're on macOS or Linux, or want to build from source, follow the "Build from source" path below.
-
-### Before we install
-
-The `skills` CLI is a compiled Go binary. It:
-- Has no runtime dependencies (single executable)
-- Works on Windows, macOS, and Linux
-- Automates all Git + sparse checkout operations
+The `skills` CLI is a Go binary in `tools/skills-cli/`. First we check if a compiled binary already exists — if yes, we use it directly. If not, we compile it from source using Go installed into `tools/.golang/` (self-contained, no global installation needed).
 
 ---
 
-### Step 7 — Determine your approach
+### Step 7 — Check if a compiled binary already exists
 
-**Which OS are you on?**
+From the workspace root, check what's inside `tools/skills-cli/`:
 
-| OS | Easiest path |
-|---|---|
-| Windows | Use the pre-compiled `skills.exe` from `tools/skills-cli/` |
-| macOS | Build from source (takes ~2 minutes) |
-| Linux | Build from source (takes ~2 minutes) |
+```powershell
+# Windows
+Get-ChildItem modules\076-skills-management-system\tools\skills-cli\
+```
+
+```bash
+# macOS/Linux
+ls modules/076-skills-management-system/tools/skills-cli/
+```
+
+**If you see `skills.exe` (Windows) or `skills` (macOS/Linux)** → the binary is already compiled. Go to **Option A**.
+
+**If you only see source files** (`main.go`, `go.mod`, `cmd/`, `internal/`) → the binary needs to be built. Go to **Option B**.
 
 ---
 
-### Option A — Use the pre-compiled binary (Windows)
+### Option A — Binary already exists (use it directly)
 
-The binary is already compiled and lives at:
-
+The binary lives at:
 ```
-modules/076-skills-management-system/tools/skills-cli/skills.exe
+modules/076-skills-management-system/tools/skills-cli/skills.exe   ← Windows
+modules/076-skills-management-system/tools/skills-cli/skills        ← macOS/Linux
 ```
 
-You have two ways to make it available from any terminal:
+Add its folder to PATH so you can call `skills` from anywhere:
 
-**Option A1 — Add the module folder to PATH (recommended, no file copy needed):**
+**Windows — add to User PATH (no admin needed):**
 
-Open System Properties → Environment Variables → User variables → `Path` → Edit → New, and add the absolute path to the `skills-cli` folder:
-
+Open System Properties → Environment Variables → User variables → `Path` → Edit → New, and add the absolute path:
 ```
 C:\<your-workspace>\modules\076-skills-management-system\tools\skills-cli
 ```
+Close and re-open the terminal.
 
-Then close and re-open your terminal to pick up the new PATH.
-
-**Option A2 — Copy the binary to any folder already in PATH:**
-
-```powershell
-# Example: copy next to other dev tools
-copy modules\076-skills-management-system\tools\skills-cli\skills.exe C:\Java\bin\skills.exe
+**macOS/Linux:**
+```bash
+export PATH=$PATH:$(pwd)/modules/076-skills-management-system/tools/skills-cli
+# Or add that line to your ~/.bashrc / ~/.zshrc for persistence
 ```
 
-> Do NOT copy to `C:\Windows\System32\` — this location is protected on many Windows setups and requires admin rights. A personal `bin/` folder in PATH is the better choice.
+> **FYI — how to rebuild if needed:** Even with a pre-built binary, you can always rebuild it yourself:
+> ```bash
+> cd modules/076-skills-management-system/tools/skills-cli
+> go build -o skills.exe .   # Windows
+> go build -o skills .        # macOS/Linux
+> ```
+> This requires Go — see Option B for how to install it.
+
+Skip to **Step 8** to verify.
 
 ---
 
-### Option B — Build from source (all platforms)
+### Option B — No binary, build from source
 
-#### Step 7B-1 — Install Go
+Go is installed into `tools/.golang/` — right next to `SKILL.md`, self-contained, no global install.
 
-Download Go from [https://go.dev/dl/](https://go.dev/dl/) and install it.
+#### Step 7B-1 — Install Go into `tools/.golang/`
 
-- Windows: install to `C:\Java\go-<version>` (e.g., `C:\Java\go-1.24.1`)
-- macOS: use the `.pkg` installer or `brew install go`
-- Linux: extract the tarball to `/usr/local/go`
+Download Go from [https://go.dev/dl/](https://go.dev/dl/) and extract/install it into the `tools/.golang/` folder:
 
-After installation, verify:
-
-```bash
-go version
-# go version go1.24.x <your-os>/<arch>
+```powershell
+# Windows — download zip and extract to tools
+# Example path: modules\076-skills-management-system\tools\.golang\
+# Download go1.24.x.windows-amd64.zip from https://go.dev/dl/
+# Extract it so that go.exe lives at:
+#   tools\.golang\bin\go.exe
 ```
 
-If `go` is not found, add the Go `bin/` folder to your PATH:
+```bash
+# macOS
+brew install go
+# OR download .pkg from https://go.dev/dl/ and install normally
+
+# Linux — extract tarball into tools/.golang/
+tar -C modules/076-skills-management-system/tools -xzf go1.24.x.linux-amd64.tar.gz
+mv modules/076-skills-management-system/tools/go modules/076-skills-management-system/tools/.golang
+```
+
+After installation, verify Go works:
 
 ```bash
-# Windows (PowerShell)
-$env:PATH = "C:\Java\go-1.24.1\bin;" + $env:PATH
+# Windows (PowerShell) — point to local Go
+$env:PATH = "<absolute-path-to-module>\tools\.golang\bin;" + $env:PATH
+go version
+# go version go1.24.x windows/amd64
 
-# macOS/Linux
-export PATH=$PATH:/usr/local/go/bin
+# macOS/Linux (if installed globally via brew or pkg)
+go version
+
+# macOS/Linux (if extracted to tools/.golang/)
+export PATH=$PATH:<absolute-path-to-module>/tools/.golang/bin
+go version
 ```
 
 #### Step 7B-2 — Compile the CLI
 
-```bash
-# Navigate to the CLI source (from workspace root)
-cd modules/076-skills-management-system/tools/skills-cli
+With Go available, build the binary:
 
+```powershell
 # Windows
+cd modules\076-skills-management-system\tools\skills-cli
 go build -o skills.exe .
+```
 
+```bash
 # macOS/Linux
+cd modules/076-skills-management-system/tools/skills-cli
 go build -o skills .
 ```
 
-#### Step 7B-3 — Add the binary to PATH
+You should see no output — a successful build is silent. Check the result:
 
-**Windows — add folder to PATH:**
-Add the `tools/skills-cli/` absolute path to User PATH in Environment Variables (same as Option A1 above), or copy the compiled `skills.exe` to a personal `bin/` folder.
-
-**macOS/Linux:**
-```bash
-# Option 1: copy to /usr/local/bin (requires admin)
-sudo cp skills /usr/local/bin/skills
-
-# Option 2: add current folder to PATH for this session
-export PATH=$PATH:$(pwd)
+```powershell
+# Windows
+Get-ChildItem . | Where-Object { $_.Name -like "skills*" }
+# skills.exe    <size>    <date>
 ```
+
+#### Step 7B-3 — Add the compiled binary to PATH
+
+Same as Option A — add `tools/skills-cli/` to PATH (see above).
 
 ---
 
@@ -608,11 +630,23 @@ export PATH=$PATH:$(pwd)
 skills help
 ```
 
-You should see the full command reference. If you see `command not found`:
+Expected output:
+```
+Usage: skills <command> [options]
 
-- **Windows:** Confirm the folder containing `skills.exe` is in your PATH. Restart the terminal after changing PATH.
-- **macOS/Linux:** Confirm `/usr/local/bin` or the folder you used is in `$PATH` (`echo $PATH`).
-- **All:** Try running the binary with its full path first to confirm it works: `C:\...\skills.exe help` or `./skills help`
+Commands:
+  init    Initialize a skills workspace
+  pull    Pull latest skills from the central repository
+  push    Propose a change to a skill
+  list    List skills in the current workspace
+  eval    (coming soon) Run skill quality checks
+  help    Show this help
+```
+
+If you see `command not found`:
+
+- **Windows:** Confirm the `tools/skills-cli/` folder is in your User PATH. Restart the terminal after changing PATH.
+- **macOS/Linux:** Run `echo $PATH` and confirm the folder is listed. Or run with full path: `./modules/076-skills-management-system/tools/skills-cli/skills help`
 
 ---
 
