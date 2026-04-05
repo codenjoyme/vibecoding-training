@@ -112,11 +112,51 @@ Reusable thematic group — reference it from multiple group manifests without d
 
 ### Installation
 
-1. Download or compile the `skills` binary from `tools/skills-cli/`
-2. Add to PATH:
-   - Windows: copy `skills.exe` to `C:\Windows\System32\` or add its folder to PATH
-   - macOS/Linux: `sudo cp skills /usr/local/bin/skills && chmod +x /usr/local/bin/skills`
-3. Verify: `skills help`
+The `skills` CLI is a single compiled Go binary — no runtime dependencies.
+
+**Determine your OS first:**
+
+| OS | Prebuilt binary available? | Recommended path |
+|---|---|---|
+| Windows | ✅ Yes (`tools/skills-cli/skills.exe`) | Add `tools/skills-cli/` folder to User PATH |
+| macOS | ❌ Build from source | `go build -o skills .` → add to PATH |
+| Linux | ❌ Build from source | `go build -o skills .` → add to PATH |
+
+**Option A — Use pre-compiled binary (Windows):**
+
+1. Locate `tools/skills-cli/skills.exe` in this module's folder
+2. Add the `tools/skills-cli/` directory to your User PATH in System Properties → Environment Variables
+   - Do NOT copy to `C:\Windows\System32\` — this requires admin rights and pollutes the system
+   - Alternatively, copy `skills.exe` to any personal `bin/` folder already in your PATH
+
+**Option B — Build from source (all platforms):**
+
+1. Install Go from [https://go.dev/dl/](https://go.dev/dl/)
+   - Windows: install to `C:\Java\go-<version>`; add `C:\Java\go-<version>\bin` to PATH
+   - macOS: `brew install go` or use the `.pkg` installer
+   - Linux: extract to `/usr/local/go`; add `/usr/local/go/bin` to PATH
+2. Build:
+   ```bash
+   # Windows
+   cd tools/skills-cli
+   go build -o skills.exe .
+
+   # macOS/Linux
+   cd tools/skills-cli
+   go build -o skills .
+   ```
+3. Add to PATH:
+   ```bash
+   # macOS/Linux
+   sudo cp skills /usr/local/bin/skills
+
+   # Windows — add current folder to User PATH via System Properties
+   ```
+
+**Verify:**
+```bash
+skills help
+```
 
 ### Commands
 

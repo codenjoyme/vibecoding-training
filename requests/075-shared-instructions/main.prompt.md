@@ -269,3 +269,52 @@ iterative-prompt.agent.md
 - Added explicit note: "all actual work happens in `work/076-task/`, never inside `demo/`"
 - Setup commands now run from workspace root
 - Removed wrong `--repo <absolute-path>/demo/skills-repo` hint (Part 4 Step 11 already has correct `--repo ../skills-repo`)
+
+## UPD8
+
+Во время прогона тренинга ты написал 
+```
+Кстати, посмотрим что внутри .manifest/:
+
+Ran Get-Content ... > (и вот тут надо разворачивать, а я хотел бы чтобы следом ты написал красивый pretty print json или другой формат, если там что-то текстовое. Ну или хоть скажи ему - кликни чтобі развернуть, если файл большой. Но лучше все же показать файл частями, подсвечивая важные моменты.).
+
+ТРЕНЕР:
+
+Видишь: _global.json задаёт скиллы для ВСЕХ команд, project-alpha.json — для конкретного проекта. Когда CLI делает init --groups project-alpha, он объединяет оба списка.
+
+И там есть "sub-configs": ["security"] — это ссылка на security.json, который добавит к проекту ещё скиллы. Цепочка: group → sub-config → скиллы.
+```
+Но при этом ты не напечатал содержимое этих файлов. Поправь модуль так, чтобы юзеру показывали всю структуру проекта с описанием каждого файла и содержимого важных моментов. Цель модуля не только прогнать все быстро, а дать понимание что и зачем и как работавет.
+
+Потом ты написал
+```
+CLI — это Go-бинарник. Хорошая новость: он уже скомпилирован и лежит в tools/skills-cli/skills.exe. Go устанавливать не нужно — просто кладём бинарник в PATH.
+
+Копируем в System32 (самый простой способ на Windows):
+```
+И тут у меня вопрос. Скорее всего переместить в систему не получится. А потому пусть остается там где есть. И да, если уже сбилдженній файл есть все равно покажи как билдить его. Что надо Go установить. Эта ж информация есть в SKILLS.md самого CLI? Если нет - добавь. И модулю тренинга пофикси, чтобы было упоминание про то как обходиться. Напомню у нас 3 операционки. Надо понять какая у юзера и так ему помогать (это стоит прописать и в SKILLS.md самого CLI и в walkthrough.md)
+
+### RESULT
+
+**`walkthrough.md` Part 1 — "Explore the structure" sub-section added** (after Step 3 git commit):
+- Full ASCII directory tree for `skills-repo/` with inline explanations per entry
+- Pretty-printed content of all 5 manifest files (`_global.json`, `_agents.json`, `project-alpha.json`, `project-beta.json`, `security.json`) with explanatory callout after each
+- Resolution walkthrough: visual trace showing how `skills init --groups project-alpha` combines `_global.json` + group file + sub-config → deduplicated 5-skill list; explains why `test-writing` is absent
+
+**`walkthrough.md` Part 3 (Steps 7-10) — completely rewritten:**
+- OS detection table: Windows → pre-built binary; macOS/Linux → build from source
+- **Option A (Windows, pre-built):** add `tools/skills-cli/` folder to User PATH via System Properties; OR copy to a personal `bin/` folder. Explicit note: do NOT copy to `C:\Windows\System32\` (protected, requires admin)
+- **Option B (all platforms, build from source):**
+  - Install Go per OS (Windows: `C:\Java\go-<version>`; macOS: `brew`/`.pkg`; Linux: `/usr/local/go`)
+  - `go build -o skills.exe .` (Windows) or `go build -o skills .` (macOS/Linux)
+  - Add to PATH per OS
+- **Step 8 — Verify:** shows `skills help`; troubleshooting by OS (PATH restart on Windows; check `$PATH` on macOS/Linux; full-path test for all)
+
+**`tools/SKILL.md` Installation section — rewritten:**
+- Same OS detection table as walkthrough
+- Option A (Windows pre-built) and Option B (build from source) with per-OS commands
+- Removed `C:\Windows\System32\` suggestion entirely
+
+
+
+

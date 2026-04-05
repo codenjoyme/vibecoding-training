@@ -144,6 +144,95 @@ You should see output like:
  5 files changed, ...
 ```
 
+### Explore the structure — what did we just build?
+
+Before moving on, let's look at the full directory tree and understand what each file does.
+
+```
+skills-repo/
+├── .manifest/                    ← configuration center — controls who gets what
+│   ├── _global.json              ← underscore prefix = always sorted first
+│   ├── _agents.json              ← IDE/tool-specific bindings
+│   ├── project-alpha.json        ← skills for Team Alpha
+│   ├── project-beta.json         ← skills for Team Beta
+│   └── security.json             ← reusable sub-config (shared between teams)
+├── code-review-base/             ← a skill: SKILL.md + README.md
+├── security-guidelines/          ← a skill
+├── style-guidelines/             ← a skill
+├── test-writing/                 ← a skill
+├── creating-instructions/        ← global skill (listed in _global.json)
+└── iterative-prompting/          ← global skill (listed in _global.json)
+```
+
+**`_global.json`** — loaded for every single workspace, no matter which groups you specify:
+
+```json
+{
+  "skills": ["creating-instructions", "iterative-prompting"]
+}
+```
+
+> Every developer automatically gets the `creating-instructions` and `iterative-prompting` skills. No one has to ask for them. Change this file to roll out a new universal skill to the entire org.
+
+**`_agents.json`** — tells IDE-specific adapters which extra skills to load. Currently a placeholder:
+
+```json
+{
+  "copilot": [],
+  "cursor": [],
+  "vscode": []
+}
+```
+
+> A Copilot-specific skill (e.g., `agent-copilot`) could be added here so it loads only when working in VS Code with Copilot — not in Cursor or Claude.
+
+**`project-alpha.json`** — skills for Team Alpha plus a reference to the `security` sub-config:
+
+```json
+{
+  "skills": ["code-review-base", "style-guidelines", "security-guidelines"],
+  "sub-configs": ["security"]
+}
+```
+
+> `"sub-configs": ["security"]` is the key mechanism. It tells the CLI: also load everything defined in `security.json`. This way `security-guidelines` is listed in both places — but after deduplication, it appears only once.
+
+**`project-beta.json`** — Team Beta's skills, no sub-configs:
+
+```json
+{
+  "skills": ["code-review-base", "test-writing"],
+  "sub-configs": []
+}
+```
+
+> Notice: Team Beta doesn't get `style-guidelines` or `security-guidelines`. Sparse checkout means those directories won't even exist on their machines.
+
+**`security.json`** — a reusable sub-config that any team can pull in:
+
+```json
+{
+  "skills": ["security-guidelines"],
+  "sub-configs": []
+}
+```
+
+> Sub-configs can be nested: `project-alpha.json` → `security.json` → skills. This prevents copy-pasting the same security skill list into every project's config.
+
+**How resolution works when you run `skills init --groups project-alpha`:**
+
+```
+_global.json  →  creating-instructions, iterative-prompting
+project-alpha.json  →  code-review-base, style-guidelines, security-guidelines
+  └── security.json  →  security-guidelines (duplicate, deduped)
+
+Final resolved skill list (sorted, deduped):
+  code-review-base, creating-instructions, iterative-prompting,
+  security-guidelines, style-guidelines
+```
+
+Only these 5 directories will be checked out. `test-writing` stays invisible.
+
 ---
 
 ## Part 2: Populate Skill Content
@@ -403,7 +492,7 @@ git commit -m "feat: add initial skill content for all skills"
 
 ### What we'll do
 
-The `skills` CLI is a Go binary located in this module's `tools/skills-cli/` folder. You'll compile it from source and add it to your PATH.
+The `skills` CLI is a Go binary located in this module's `tools/skills-cli/` folder. A pre-compiled Windows binary (`skills.exe`) is already included — you can use it directly without installing Go. If you're on macOS or Linux, or want to build from source, follow the "Build from source" path below.
 
 ### Before we install
 
@@ -412,23 +501,82 @@ The `skills` CLI is a compiled Go binary. It:
 - Works on Windows, macOS, and Linux
 - Automates all Git + sparse checkout operations
 
-### Step 7 — Install Go
+---
 
-Download and install Go from [https://go.dev/dl/](https://go.dev/dl/).
+### Step 7 — Determine your approach
 
-For this training, Go is installed to `C:\Java\go-<version>` on Windows.
+**Which OS are you on?**
+
+| OS | Easiest path |
+|---|---|
+| Windows | Use the pre-compiled `skills.exe` from `tools/skills-cli/` |
+| macOS | Build from source (takes ~2 minutes) |
+| Linux | Build from source (takes ~2 minutes) |
+
+---
+
+### Option A — Use the pre-compiled binary (Windows)
+
+The binary is already compiled and lives at:
+
+```
+modules/076-skills-management-system/tools/skills-cli/skills.exe
+```
+
+You have two ways to make it available from any terminal:
+
+**Option A1 — Add the module folder to PATH (recommended, no file copy needed):**
+
+Open System Properties → Environment Variables → User variables → `Path` → Edit → New, and add the absolute path to the `skills-cli` folder:
+
+```
+C:\<your-workspace>\modules\076-skills-management-system\tools\skills-cli
+```
+
+Then close and re-open your terminal to pick up the new PATH.
+
+**Option A2 — Copy the binary to any folder already in PATH:**
+
+```powershell
+# Example: copy next to other dev tools
+copy modules\076-skills-management-system\tools\skills-cli\skills.exe C:\Java\bin\skills.exe
+```
+
+> Do NOT copy to `C:\Windows\System32\` — this location is protected on many Windows setups and requires admin rights. A personal `bin/` folder in PATH is the better choice.
+
+---
+
+### Option B — Build from source (all platforms)
+
+#### Step 7B-1 — Install Go
+
+Download Go from [https://go.dev/dl/](https://go.dev/dl/) and install it.
+
+- Windows: install to `C:\Java\go-<version>` (e.g., `C:\Java\go-1.24.1`)
+- macOS: use the `.pkg` installer or `brew install go`
+- Linux: extract the tarball to `/usr/local/go`
 
 After installation, verify:
 
 ```bash
 go version
-# go version go1.24.x windows/amd64
+# go version go1.24.x <your-os>/<arch>
 ```
 
-### Step 8 — Compile the CLI
+If `go` is not found, add the Go `bin/` folder to your PATH:
 
 ```bash
-# Navigate to the CLI source
+# Windows (PowerShell)
+$env:PATH = "C:\Java\go-1.24.1\bin;" + $env:PATH
+
+# macOS/Linux
+export PATH=$PATH:/usr/local/go/bin
+```
+
+#### Step 7B-2 — Compile the CLI
+
+```bash
+# Navigate to the CLI source (from workspace root)
 cd modules/076-skills-management-system/tools/skills-cli
 
 # Windows
@@ -438,29 +586,33 @@ go build -o skills.exe .
 go build -o skills .
 ```
 
-### Step 9 — Add to PATH
+#### Step 7B-3 — Add the binary to PATH
 
-**Windows option 1 — copy to System32:**
-```bash
-copy skills.exe C:\Windows\System32\skills.exe
-```
-
-**Windows option 2 — add folder to PATH:**
-Add `C:\Java\CopipotTraining\vibecoding-for-managers\modules\076-skills-management-system\tools\skills-cli` to your PATH in System Properties → Environment Variables.
+**Windows — add folder to PATH:**
+Add the `tools/skills-cli/` absolute path to User PATH in Environment Variables (same as Option A1 above), or copy the compiled `skills.exe` to a personal `bin/` folder.
 
 **macOS/Linux:**
 ```bash
+# Option 1: copy to /usr/local/bin (requires admin)
 sudo cp skills /usr/local/bin/skills
-chmod +x /usr/local/bin/skills
+
+# Option 2: add current folder to PATH for this session
+export PATH=$PATH:$(pwd)
 ```
 
-### Step 10 — Verify installation
+---
+
+### Step 8 — Verify installation
 
 ```bash
 skills help
 ```
 
-You should see the full command reference. If you see `command not found`, check that the binary is in your PATH.
+You should see the full command reference. If you see `command not found`:
+
+- **Windows:** Confirm the folder containing `skills.exe` is in your PATH. Restart the terminal after changing PATH.
+- **macOS/Linux:** Confirm `/usr/local/bin` or the folder you used is in `$PATH` (`echo $PATH`).
+- **All:** Try running the binary with its full path first to confirm it works: `C:\...\skills.exe help` or `./skills help`
 
 ---
 
