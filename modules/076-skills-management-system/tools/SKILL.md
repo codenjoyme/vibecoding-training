@@ -152,24 +152,24 @@ ls tools/skills-cli/
 
 Go is installed as a **portable zip/tarball** into `tools/.golang/` — no system installer, no admin rights, no global environment changes.
 
-1. **Download the portable Go archive** from [https://go.dev/dl/](https://go.dev/dl/), save into `tools/`:
+1. **Download the portable Go archive** from [https://go.dev/dl/](https://go.dev/dl/) — pick the **latest stable** release. Save into `tools/`. Filename pattern (`X.Y.Z` = current version):
 
-   | OS | File |
+   | OS | File pattern |
    |---|---|
-   | Windows 64-bit | `go1.24.x.windows-amd64.zip` |
-   | macOS Apple Silicon | `go1.24.x.darwin-arm64.tar.gz` |
-   | macOS Intel | `go1.24.x.darwin-amd64.tar.gz` |
-   | Linux 64-bit | `go1.24.x.linux-amd64.tar.gz` |
+   | Windows 64-bit | `goX.Y.Z.windows-amd64.zip` |
+   | macOS Apple Silicon | `goX.Y.Z.darwin-arm64.tar.gz` |
+   | macOS Intel | `goX.Y.Z.darwin-amd64.tar.gz` |
+   | Linux 64-bit | `goX.Y.Z.linux-amd64.tar.gz` |
 
 2. **Extract into `tools/.golang/`:**
    ```powershell
-   # Windows — from tools/ folder
-   Expand-Archive -Path go1.24.1.windows-amd64.zip -DestinationPath .
+   # Windows — from tools/ folder (replace goX.Y.Z with actual version)
+   Expand-Archive -Path goX.Y.Z.windows-amd64.zip -DestinationPath .
    Rename-Item go .golang
    ```
    ```bash
-   # macOS/Linux — from tools/ folder
-   tar -xzf go1.24.1.<platform>.tar.gz
+   # macOS/Linux — from tools/ folder (replace filename with actual download)
+   tar -xzf goX.Y.Z.<platform>.tar.gz
    mv go .golang
    ```
 
@@ -185,7 +185,7 @@ Go is installed as a **portable zip/tarball** into `tools/.golang/` — no syste
 
 4. **Verify Go:**
    ```bash
-   go version   # go version go1.24.x ...
+   go version   # go version goX.Y.Z ...
    ```
 
 5. **Build the CLI** (from `tools/skills-cli/`):

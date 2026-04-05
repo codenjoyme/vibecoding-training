@@ -558,14 +558,16 @@ Go is installed as a **portable zip/tarball** into `tools/.golang/` — no syste
 
 #### Step 7B-1 — Download the portable Go archive
 
-Go to [https://go.dev/dl/](https://go.dev/dl/) and download the **zip** (Windows) or **tar.gz** (macOS/Linux) for your OS and architecture.
+Go to [https://go.dev/dl/](https://go.dev/dl/) and download the **latest stable** release — choose the **zip** (Windows) or **tar.gz** (macOS/Linux) for your OS and architecture. The filename pattern looks like:
 
-| OS | Architecture | File to download |
+| OS | Architecture | Filename pattern |
 |---|---|---|
-| Windows | 64-bit | `go1.24.x.windows-amd64.zip` |
-| macOS | Apple Silicon (M1/M2/M3) | `go1.24.x.darwin-arm64.tar.gz` |
-| macOS | Intel | `go1.24.x.darwin-amd64.tar.gz` |
-| Linux | 64-bit | `go1.24.x.linux-amd64.tar.gz` |
+| Windows | 64-bit | `goX.Y.Z.windows-amd64.zip` |
+| macOS | Apple Silicon (M1/M2/M3) | `goX.Y.Z.darwin-arm64.tar.gz` |
+| macOS | Intel | `goX.Y.Z.darwin-amd64.tar.gz` |
+| Linux | 64-bit | `goX.Y.Z.linux-amd64.tar.gz` |
+
+Replace `X.Y.Z` with the actual version shown on the download page (e.g. `1.24.1`).
 
 Save the downloaded file into `modules/076-skills-management-system/tools/` (the folder that contains `SKILL.md`).
 
@@ -574,7 +576,8 @@ Save the downloaded file into `modules/076-skills-management-system/tools/` (the
 ```powershell
 # Windows (PowerShell) — from the tools/ folder
 cd modules\076-skills-management-system\tools
-Expand-Archive -Path go1.24.1.windows-amd64.zip -DestinationPath .
+# Replace goX.Y.Z with the actual version you downloaded:
+Expand-Archive -Path goX.Y.Z.windows-amd64.zip -DestinationPath .
 Rename-Item go .golang
 
 # Verify:
@@ -585,7 +588,8 @@ Get-ChildItem .golang\bin\ | Select-Object Name
 ```bash
 # macOS/Linux — from the tools/ folder
 cd modules/076-skills-management-system/tools
-tar -xzf go1.24.1.<your-platform>.tar.gz
+# Replace goX.Y.Z.<platform> with the actual filename you downloaded:
+tar -xzf goX.Y.Z.<your-platform>.tar.gz
 mv go .golang
 
 # Verify:
@@ -600,7 +604,7 @@ ls .golang/bin/
 $TOOLS = "<absolute-path>\modules\076-skills-management-system\tools"
 $env:PATH = "$TOOLS\.golang\bin;" + $env:PATH
 go version
-# go version go1.24.x windows/amd64
+# go version goX.Y.Z windows/amd64
 ```
 
 ```bash
@@ -608,7 +612,7 @@ go version
 TOOLS="<absolute-path>/modules/076-skills-management-system/tools"
 export PATH="$TOOLS/.golang/bin:$PATH"
 go version
-# go version go1.24.x ...
+# go version goX.Y.Z ...
 ```
 
 > This PATH change is for the **current terminal session only**. You don't need to make it permanent — the Go install is only used once to compile the binary.
