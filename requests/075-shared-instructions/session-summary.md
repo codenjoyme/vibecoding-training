@@ -25,7 +25,7 @@ Before touching the module, I need your decisions on the following:
 
 ### 1. Audience level
 
-> The current module targets managers / non-engineers learning AI-assisted development. The research system (Go CLI, sparse checkout, manifest JSON) is **developer/DevOps territory**.
+> The current module targets managers / non-engineers learning AI-assisted development. The research system (Go CLI, sparse checkout, `.manifest/` folder) is **developer/DevOps territory**.
 >
 > **Question:** Are we redesigning this for a technical audience, or do we need to keep it accessible for non-engineers? Or split into two tiers?
 
@@ -67,7 +67,7 @@ Based on the research, the likely structure of the updated/new module would be:
 
 1. **Problem framing** — Why ad-hoc individual instructions don't scale across a team
 2. **The central skills repo** — Structure, skill anatomy (`skill.md` + `README.md`)
-3. **Manifest pattern** — Global vs. service-specific vs. agent-specific skills
+3. **Manifest pattern** — Global (`global.json`), agent-specific (`agents.json`), and per-project (`<project-name>.json`) skill selection via `.manifest/` folder
 4. **Sparse checkout workflow** — Only pull what you need
 5. **Contribution flow** — Branch → PR → owner review → merge → everyone gets it
 6. **Ownership & governance** — Who owns global skills, approval requirements

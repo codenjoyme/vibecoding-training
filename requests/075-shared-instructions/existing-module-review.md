@@ -37,7 +37,7 @@ This is a **good, achievable outcome** for 15 minutes. Scope is appropriate.
 
 | Gap | Research has | Current module has |
 |---|---|---|
-| **Manifest / skill selection** | Per-service, per-agent manifest.json | Not mentioned |
+| **Manifest / skill selection** | Per-project `.manifest/` folder with `global.json`, `agents.json`, and `<project-name>.json` files | Not mentioned |
 | **Sparse checkout** | Partial workspace, only relevant skills | Not mentioned |
 | **Skill anatomy** | `skill.md` + `evals.json` + `README.md` per skill | Only `.agent.md` files |
 | **Ownership model** | Owner field in README, approval gates | Mentioned briefly in conflict resolution |

@@ -35,7 +35,12 @@ All instructions are stored in a single flat repository, where each skill is a d
 
 ```
 .instructions/repo/
-├── manifest.json
+├── .manifest/
+│   ├── global.json
+│   ├── agents.json
+│   ├── service1.json
+│   ├── service2.json
+│   └── security.json
 ├── code-review-base/
 │   ├── skill.md
 │   ├── evals.json
@@ -62,36 +67,66 @@ All instructions are stored in a single flat repository, where each skill is a d
 - `skill.md` = main instruction content
 - `evals.json` = optional test cases
 - `README.md` = metadata (owner, description)
+- `.manifest/` folder contains all configuration files (see Manifest Configuration below)
 - No nested hierarchy required (flat structure)
 
 ---
 
 ## Manifest Configuration
 
-The manifest defines which skills are used by which services and agents.
+Instead of a single `manifest.json`, the system uses a `.manifest/` folder containing separate configuration files. This eliminates merge conflicts when multiple teams add projects simultaneously.
 
-**Example `manifest.json`:**
+### File layout
+
+| File | Purpose |
+|---|---|
+| `global.json` | Skills applied to every workspace by default |
+| `agents.json` | IDE/tool-specific skill bindings (VSCode, Copilot, Cursor, etc.) |
+| `<project-name>.json` | Per-project or per-service skill selection |
+| `security.json` *(example sub-config)* | Shared thematic group reusable across projects |
+
+### `global.json`
 
 ```json
 {
-  "global": ["style-guidelines"],
-  "services": {
-    "service1": ["code-review-base", "security-guidelines"],
-    "service2": ["code-review-gpt", "security-guidelines"],
-    "service3": ["code-review-base", "code-review-gpt"]
-  },
-  "agents": {
-    "copilot": ["agent-copilot"],
-    "cursor": []
-  }
+  "skills": ["style-guidelines"]
+}
+```
+
+### `agents.json`
+
+```json
+{
+  "copilot": ["agent-copilot"],
+  "cursor": [],
+  "vscode": []
+}
+```
+
+### `<project-name>.json` (e.g. `service1.json`)
+
+```json
+{
+  "skills": ["code-review-base", "security-guidelines"],
+  "sub-configs": ["security"]
+}
+```
+
+### Sub-config (e.g. `security.json`)
+
+```json
+{
+  "skills": ["security-guidelines", "owasp-top10"]
 }
 ```
 
 **Rules:**
 
-- `"global"` skills are always included for everyone
-- `services` defines per-microservice skill usage
-- `agents` defines tool-specific skill usage
+- `global.json` skills are always included for everyone
+- `agents.json` defines IDE/tool-specific skills
+- Each project file lists required skills and optionally references sub-configs
+- Sub-configs are reusable cross-project skill groupings (e.g., `security.json`, `testing.json`)
+- File name = project name or sub-config name
 - Skills are referenced by directory name
 
 ---
@@ -103,14 +138,20 @@ All operations are performed via CLI.
 ### Initialization
 
 ```bash
-instructions init --service <service-name>
+instructions init --project <project-name> [<project-name-2> ...]
 ```
 
 **Behavior:**
 1. Clone the central repository into `.instructions/repo`
-2. Read `manifest.json`
-3. Resolve required skills: `global` + `services[service-name]`
-4. Perform sparse checkout for only required skill directories
+2. Read `.manifest/<project-name>.json` for each specified project
+3. Resolve required skills: `global.json` + project skills + referenced sub-configs + `agents.json` (for current IDE)
+4. Perform sparse checkout for all resolved skill directories
+
+Multiple projects in one workspace:
+
+```bash
+instructions init --project service1 service2
+```
 
 **Result:** Only relevant skills exist locally.
 
@@ -268,7 +309,7 @@ The CLI is implemented in Go and distributed as a single binary.
 
 | Command | Description |
 |---|---|
-| `instructions init --service <name>` | Initialize workspace with sparse checkout |
+| `instructions init --project <name> [<name-2> ...]` | Initialize workspace with sparse checkout for one or more projects |
 | `instructions pull` | Update local instructions from remote |
 | `instructions push <skill-name>` | Push changes and create a PR |
 | `instructions list` | List all available skills |
@@ -278,7 +319,7 @@ The CLI is implemented in Go and distributed as a single binary.
 
 | Module | Responsibility |
 |---|---|
-| **manifest loader** | Read `manifest.json`, resolve skill dependencies |
+| **manifest loader** | Read `.manifest/<project-name>.json` files, merge with `global.json` and `agents.json`, resolve skill dependencies |
 | **git manager** | Clone repo, pull updates, create branches, commit and push |
 | **sparse manager** | Configure sparse checkout, update selected skills |
 | **PR integration** | Create pull requests via Git provider API |
