@@ -150,39 +150,57 @@ ls tools/skills-cli/
 
 **Option B — No binary, build from source:**
 
-Go is installed into `tools/.golang/` — self-contained, right next to this SKILL.md, no global installation required.
+Go is installed as a **portable zip/tarball** into `tools/.golang/` — no system installer, no admin rights, no global environment changes.
 
-1. **Install Go into `tools/.golang/`:**
-   - Windows: download `go1.24.x.windows-amd64.zip` from [https://go.dev/dl/](https://go.dev/dl/), extract so that `tools\.golang\bin\go.exe` exists
-   - macOS: `brew install go` or download `.pkg`
-   - Linux: `tar -C tools/ -xzf go1.24.x.linux-amd64.tar.gz && mv tools/go tools/.golang`
+1. **Download the portable Go archive** from [https://go.dev/dl/](https://go.dev/dl/), save into `tools/`:
 
-2. **Add Go to PATH for the session:**
+   | OS | File |
+   |---|---|
+   | Windows 64-bit | `go1.24.x.windows-amd64.zip` |
+   | macOS Apple Silicon | `go1.24.x.darwin-arm64.tar.gz` |
+   | macOS Intel | `go1.24.x.darwin-amd64.tar.gz` |
+   | Linux 64-bit | `go1.24.x.linux-amd64.tar.gz` |
+
+2. **Extract into `tools/.golang/`:**
+   ```powershell
+   # Windows — from tools/ folder
+   Expand-Archive -Path go1.24.1.windows-amd64.zip -DestinationPath .
+   Rename-Item go .golang
+   ```
+   ```bash
+   # macOS/Linux — from tools/ folder
+   tar -xzf go1.24.1.<platform>.tar.gz
+   mv go .golang
+   ```
+
+3. **Add to PATH for the current session:**
    ```powershell
    # Windows
    $env:PATH = "<absolute-path>\tools\.golang\bin;" + $env:PATH
    ```
    ```bash
-   # macOS/Linux (if extracted to tools/.golang/)
-   export PATH=$PATH:<absolute-path>/tools/.golang/bin
+   # macOS/Linux
+   export PATH="<absolute-path>/tools/.golang/bin:$PATH"
    ```
 
-3. **Verify Go:**
+4. **Verify Go:**
    ```bash
-   go version
-   # go version go1.24.x ...
+   go version   # go version go1.24.x ...
    ```
 
-4. **Build the CLI:**
+5. **Build the CLI** (from `tools/skills-cli/`):
+   ```powershell
+   # Windows
+   go build -o skills.exe .
+   ```
    ```bash
-   cd tools/skills-cli
-   go build -o skills.exe .   # Windows
-   go build -o skills .        # macOS/Linux
+   # macOS/Linux
+   go build -o skills .
    ```
 
-5. **Add `tools/skills-cli/` to PATH** (see Option A step 1)
+6. **Add `tools/skills-cli/` to PATH** (see Option A step 1)
 
-6. **Verify:** `skills help`
+7. **Verify:** `skills help`
 
 ### Commands
 

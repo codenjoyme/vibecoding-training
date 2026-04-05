@@ -554,45 +554,64 @@ Skip to **Step 8** to verify.
 
 ### Option B — No binary, build from source
 
-Go is installed into `tools/.golang/` — right next to `SKILL.md`, self-contained, no global install.
+Go is installed as a **portable zip/tarball** into `tools/.golang/` — no system installer, no admin rights, no pollution of your global environment. Works on all platforms.
 
-#### Step 7B-1 — Install Go into `tools/.golang/`
+#### Step 7B-1 — Download the portable Go archive
 
-Download Go from [https://go.dev/dl/](https://go.dev/dl/) and extract/install it into the `tools/.golang/` folder:
+Go to [https://go.dev/dl/](https://go.dev/dl/) and download the **zip** (Windows) or **tar.gz** (macOS/Linux) for your OS and architecture.
+
+| OS | Architecture | File to download |
+|---|---|---|
+| Windows | 64-bit | `go1.24.x.windows-amd64.zip` |
+| macOS | Apple Silicon (M1/M2/M3) | `go1.24.x.darwin-arm64.tar.gz` |
+| macOS | Intel | `go1.24.x.darwin-amd64.tar.gz` |
+| Linux | 64-bit | `go1.24.x.linux-amd64.tar.gz` |
+
+Save the downloaded file into `modules/076-skills-management-system/tools/` (the folder that contains `SKILL.md`).
+
+#### Step 7B-2 — Extract into `tools/.golang/`
 
 ```powershell
-# Windows — download zip and extract to tools
-# Example path: modules\076-skills-management-system\tools\.golang\
-# Download go1.24.x.windows-amd64.zip from https://go.dev/dl/
-# Extract it so that go.exe lives at:
-#   tools\.golang\bin\go.exe
+# Windows (PowerShell) — from the tools/ folder
+cd modules\076-skills-management-system\tools
+Expand-Archive -Path go1.24.1.windows-amd64.zip -DestinationPath .
+Rename-Item go .golang
+
+# Verify:
+Get-ChildItem .golang\bin\ | Select-Object Name
+# go.exe    ...
 ```
 
 ```bash
-# macOS
-brew install go
-# OR download .pkg from https://go.dev/dl/ and install normally
+# macOS/Linux — from the tools/ folder
+cd modules/076-skills-management-system/tools
+tar -xzf go1.24.1.<your-platform>.tar.gz
+mv go .golang
 
-# Linux — extract tarball into tools/.golang/
-tar -C modules/076-skills-management-system/tools -xzf go1.24.x.linux-amd64.tar.gz
-mv modules/076-skills-management-system/tools/go modules/076-skills-management-system/tools/.golang
+# Verify:
+ls .golang/bin/
+# go    ...
 ```
 
-After installation, verify Go works:
+#### Step 7B-3 — Add portable Go to PATH for the session
 
-```bash
-# Windows (PowerShell) — point to local Go
-$env:PATH = "<absolute-path-to-module>\tools\.golang\bin;" + $env:PATH
+```powershell
+# Windows (PowerShell)
+$TOOLS = "<absolute-path>\modules\076-skills-management-system\tools"
+$env:PATH = "$TOOLS\.golang\bin;" + $env:PATH
 go version
 # go version go1.24.x windows/amd64
-
-# macOS/Linux (if installed globally via brew or pkg)
-go version
-
-# macOS/Linux (if extracted to tools/.golang/)
-export PATH=$PATH:<absolute-path-to-module>/tools/.golang/bin
-go version
 ```
+
+```bash
+# macOS/Linux
+TOOLS="<absolute-path>/modules/076-skills-management-system/tools"
+export PATH="$TOOLS/.golang/bin:$PATH"
+go version
+# go version go1.24.x ...
+```
+
+> This PATH change is for the **current terminal session only**. You don't need to make it permanent — the Go install is only used once to compile the binary.
 
 #### Step 7B-2 — Compile the CLI
 
