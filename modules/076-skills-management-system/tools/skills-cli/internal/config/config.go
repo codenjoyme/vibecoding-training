@@ -11,7 +11,7 @@ const (
 	// ConfigFile is the path to the workspace configuration file.
 	ConfigFile = "instructions/.manifest/config.json"
 	// RepoSubDir is the path where the skills repo is cloned into.
-	RepoSubDir = "instructions/repo"
+	RepoSubDir = "instructions"
 )
 
 // Config holds the persisted workspace configuration written by `skills init`.
