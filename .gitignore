@@ -12,3 +12,4 @@ lnd/reference
 lnd/rules
 lnd/stuff
 .golang
+*.exe
