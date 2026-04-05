@@ -111,3 +111,78 @@ iterative-prompt.agent.md
 - Раздел рекомендаций заменён: варианты A/B/C → подтверждённое решение «Вариант C выбран»
 - `skill.md` → `SKILL.md`; `evals.json` помечен как `coming soon`
 
+## UPD5
+
+Ну все, теперь погнали реализовывать модуль с солюшеном:
+- Следуй инструкции по созданию модулей тренинга
+- внутри модуля в папке tools я хочу видеть SKILL.md описывающий весь подход и как пользоваться CLI инструментом, а так же папку с самим Go проектом CLI инструмента.
+- Установи Go последней версии мне на машину в папку `C:\Java\go-<version>` и используй ее для компиляции проекта. 
+- Тестирование давай проведем в папке `work/<номер модуля>-task` в ней будет несколько папок:
+  + Папка с инструкциями: 
+    * сгенерируй несколько инструкций от балды, чтобы мы могли начать что-то делать.
+    * все имнструкции разбей по двум проектам, чтобы было некоторое перечечение между ними.
+    * так же скопируй туда инструкцию по созданию инструкций (мы берем архитектуру из нее) и инструкцию по iterative prompting
+      + Сделай их скилзами. 
+      + Это будут две базовых скила в _global. 
+    * Эту папку сделай гит репозиторием. 
+  + вторая папка будет папкой проекта. 
+    * Там сделай инициализацию из локального репозитория (кстати, как в нашем солюшене передается ссылка на гитрепозиторий с инструкциями при инициализации - давай это тоже в команды продумаем). 
+  + третья папка - папка второго проекта.
+  + Тестируй всевозможные корннеркейзы. 
+    * Создай файл с планом тестирования перед тем в папке этого риквеста на англйском и русском как раньше 
+
+Перед началом этим давай еще раз пробежимся по всем документам, которые мы создали, чтобы убедиться что мы на одной волне и я ничего не упустил. Загружай в контекст английские версии файлов.
+
+### RESULT
+
+**Test plans (EN + RU):**
+- `requests/075-shared-instructions/test-plan.md` — 19 test cases (TC-001 to TC-019)
+- `requests/075-shared-instructions/test-plan-ru.md` — Russian translation
+
+**Module 076 created** (`modules/076-skills-management-system/`):
+- `about.md` — Module overview, prereqs (075, 060), 30-minute duration
+- `walkthrough.md` — 6-part hands-on guide (skills repo → CLI → sparse checkout → governance)
+- `tools/SKILL.md` — AI agent operator manual (architecture, manifest files, full CLI reference)
+- `tools/skills-cli/` — Production-ready Go CLI (no external deps, stdlib only):
+  - `main.go`, `go.mod` (module `github.com/vibecoding/skills-cli`, Go 1.21)
+  - `cmd/root.go` — dispatch + help
+  - `cmd/init.go` — `skills init --repo --groups` with comma/repeated/positional support
+  - `cmd/pull.go` — `skills pull` (checkouts default branch before pulling)
+  - `cmd/push.go` — `skills push <skill>` branch + commit + push + PR URL; returns to master
+  - `cmd/list.go` — `skills list` with ✅/○ markers using `git ls-tree`
+  - `cmd/eval.go` — coming soon placeholder
+  - `internal/config/config.go` — Load/Save `.skills/config.json`
+  - `internal/manifest/manifest.go` — ResolveSkills (global + group + sub-configs)
+  - `internal/gitops/git.go` — all git ops via os/exec
+
+**Go 1.24.1 installed:** `C:\Java\go-1.24.1\bin\go.exe` (87MB zip extracted)
+
+**CLI compiled:** `modules/076-skills-management-system/tools/skills-cli/skills.exe`
+
+**Test workspace** (`work/076-task/`):
+- `skills-repo/` — git repo, 6 skills: code-review-base, security-guidelines, style-guidelines, test-writing, creating-instructions, iterative-prompting; 4 manifest files (no UTF-8 BOM)
+- `project-alpha/` — initialized: groups=[project-alpha]; skills=[code-review-base, creating-instructions, iterative-prompting, security-guidelines, style-guidelines] (test-writing sparse-excluded ✅)
+- `project-beta/` — initialized: groups=[project-beta]; skills=[code-review-base, creating-instructions, iterative-prompting, test-writing] (security/style excluded ✅)
+
+**Test results (19 test cases):**
+- TC-001 ✅ `skills init project-alpha` — correct 5 skills loaded
+- TC-002 ✅ Sub-config resolution — `security` sub-config adds `security-guidelines`
+- TC-003 ✅ Sparse checkout — `test-writing` absent from project-alpha clone; style/security absent from project-beta
+- TC-004 ✅ `skills pull` — git pull succeeds (local non-bare repo)
+- TC-005 ✅ `skills push code-review-base` — feature branch created, pushed, clone returns to master
+- TC-006 ✅ `skills pull` after `skills push` — no branch tracking error; default branch checkout fix applied
+- TC-007 ✅ `skills list` — ✅/○ markers, Active/Total counts accurate
+- TC-008 ✅ `skills push --help` — help text shown
+- TC-009 ✅ `skills push does-not-exist` — exit 1, informative error
+- TC-010 ✅ `skills init --help` — usage text shown
+- TC-011 ✅ `skills list --help` — help shown
+- TC-012 ✅ Double init blocked — "workspace already initialized" error + hint
+- TC-013 ✅ Missing `--repo` → error + usage
+- TC-014 ✅ Missing groups → error + usage
+- TC-015 ✅ `skills pull` outside workspace → "not a skills workspace" error, exit 1
+- TC-016 ✅ `skills list` outside workspace → "not a skills workspace" error, exit 1
+- TC-017 ✅ `skills help` — full command listing
+- TC-018 ✅ `skills eval` — "coming soon" message, exit 0
+- TC-019 ✅ Comma-separated groups `--groups project-alpha,project-beta` — all 6 skills resolved; positional args style also tested ✅
+
+**Bug found and fixed:** After `skills push`, the local clone stayed on the feature branch causing subsequent `skills pull` to fail ("no tracking info for current branch"). Fix: `gitops.Pull()` now checkouts the default branch first; `gitops.Push()` returns to default branch after pushing. Binary rebuilt.
