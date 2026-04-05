@@ -16,3 +16,13 @@ iterative-prompt.agent.md
 - `requests/075-shared-instructions/research.md` — created: `research.txt` converted to full Markdown with headers, tables, and code blocks
 - `requests/075-shared-instructions/session-summary.md` — created: summary of what we're working on + 5 clarifying questions before proceeding with the module update
 - `requests/075-shared-instructions/existing-module-review.md` — created: part-by-part breakdown of current module 075 content, gap analysis vs. research, and 3 options (A/B/C) for how to proceed
+
+## UPD2
+
+Спасибо. А теперь переведи мне те файлы что ты создал слово в слово на русский язык. Создай рядом одноименные файлы с префиксом -ru. 
+
+### RESULT
+
+- `requests/075-shared-instructions/research-ru.md` — создан: дословный перевод `research.md` на русский язык
+- `requests/075-shared-instructions/session-summary-ru.md` — создан: дословный перевод `session-summary.md` на русский язык
+- `requests/075-shared-instructions/existing-module-review-ru.md` — создан: дословный перевод `existing-module-review.md` на русский язык
