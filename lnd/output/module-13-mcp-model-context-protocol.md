@@ -56,6 +56,9 @@ Configuration differs by IDE:
    ```
    For `Cursor`, create `.cursor/mcp.json` with "mcpServers" instead of "servers".
 2. After saving, `VS Code` displays an inline status bar inside the editor: "Running | Stop | Restart | 3 tools."
+
+![Inline status](image-21.png)
+
 3. Open the Output panel (View → Output → "Model Context Protocol") to verify: "Discovered 3 tools."
 4. Important: `MCP` tools are disabled by default for security. Click the tools icon (🔧) in the chat panel, find your `MCP` server section, and check the boxes next to each tool.
 
@@ -79,6 +82,9 @@ This is why having too many tools can slow the AI — it is like reading a 500-p
 1. Open your AI chat and type: "Use the echo tool to send the message 'Hello `MCP`!'"
 2. Review the approval dialog — check the tool name and parameters. Click "Allow."
 3. Verify the response: "Echo: Hello `MCP`!"
+
+![Echo tool](image-22.png)
+
 4. Test the time tool: "What time is it right now? Use the get_time tool." Approve and verify.
 5. Test the calculator: "Calculate 42 multiplied by 17 using the calculate tool." Review the parameters in the dialog (a=42, b=17, operation=multiply). Approve and verify the result (714).
 6. Try chaining tools: "Echo 'Starting', then calculate 100 divided by 4, then echo 'Done'." You will see three separate approval dialogs — one per tool call.

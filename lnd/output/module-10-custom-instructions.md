@@ -51,6 +51,9 @@ A good instruction file contains:
 2. Ask the AI to help you create an instruction:
    "Create an instruction file at instructions/create-status-report.agent.md for generating weekly status reports. It should specify: markdown format, sections (accomplishments, blockers, next week), bullet points only, maximum 20 lines, professional tone, no fluff words."
 3. Review the generated file. Are the rules specific enough?
+
+![instructions](image-18.png)
+
 4. Test it by asking: "Following instructions/create-status-report.agent.md, create a status report for a team that completed 3 features and has 1 blocker."
 5. If the result matches your expectations — the instruction works. If not, refine the instruction file.
 
@@ -82,6 +85,9 @@ For `Cursor`: .cursor/rules/main.mdc with the same content.
 1. Create `instructions/main.agent.md` with a list of your instruction files (even if you only have one so far).
 2. Verify the entry point file exists (`.github/copilot-instructions.md` or .cursor/rules/main.mdc).
 3. Test auto-discovery: open a new chat and type "Create a status report for my team." Without referencing any instruction explicitly, the AI should find and apply your instruction.
+
+![Instructions auto-detect](image-19.png)
+
 4. If the AI does not find it, use the explicit reference: "Following instructions/create-status-report.agent.md, create a status report for my team."
 
 ### ✅ Result
