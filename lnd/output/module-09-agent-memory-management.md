@@ -39,9 +39,9 @@ How to find built-in tools:
 - In `VS Code`: click the wrench icon (🔧) or the keys icon next to the model name in the `Copilot Chat` panel. You will see tools like: agent, edit, execute, read, search, todo.
 - In `Cursor`: click the tools icon near the model selector in the AI Chat panel.
 
-![tools config](image-15.png)
+![tools config](img/module-09/01-tools-config.png)
 
-![todo config](image-16.png)
+![todo config](img/module-09/02-todo-config.png)
 
 The AI uses the todo tool automatically when you ask for multi-step work. Items turn from pending → in-progress → completed as the agent works.
 
@@ -51,7 +51,7 @@ The AI uses the todo tool automatically when you ask for multi-step work. Items 
    "I need to create three files in a folder called 'reports': `template.md` with a status report template, `instructions.md` with how to fill it out, and `example.md` with a filled-in example. Create a todo list and work through each item step by step."
 3. Watch the todo list appear above the chat.
 
-![todolist appeared](image-17.png)
+![todolist appeared](img/module-09/03-todolist-appeared.png)
 
 4. Notice items update as the agent completes each step.
 5. When done, observe the final state — all items should be marked complete.

@@ -55,7 +55,7 @@ Key design principles:
 3. Test the skill by asking the same question from Page 1, but referencing the instruction:
    "Following instructions/calculate-compound-interest.agent.md, calculate compound interest for $15,847 at 7.34% compounded monthly over 8 years and 7 months."
 
-![Using the instruction for py logic](image-20.png)
+![Using the instruction for py logic](img/module-12/01-using-the-instruction-for-py-logic.png)
 
 4. The AI should run the `Python` script instead of hallucinating. Compare the result with your manual verification from Page 1.
 

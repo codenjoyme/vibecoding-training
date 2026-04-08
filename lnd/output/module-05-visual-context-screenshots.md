@@ -57,7 +57,7 @@ Every operating system provides built-in tools for capturing screenshots. You do
 5. Click in the message input field and paste the screenshot (Ctrl+V on `Windows`/Linux, Cmd+V on `macOS`).
 6. You should see the image appear as a thumbnail in the input field.
 
-![Pasted screenshot](image-4.png)
+![Pasted screenshot](img/module-05/01-pasted-screenshot.png)
 
 ### ✅ Result
 You can take a screenshot and paste it into the AI chat.
@@ -81,7 +81,7 @@ To practice the screenshot workflow, you will complete a real task: opening the 
 9. Follow the AI's instructions. Typically, you will type console.log("Hello World") and press Enter.
 10. Verify: "Hello World" appears in the console output.
 
-![Hello World](image-6.png)
+![Hello World](img/module-05/02-hello-world.png)
 
 ### ✅ Result
 You completed a browser task using screenshot-assisted AI guidance. The AI adapted its instructions to your specific browser.

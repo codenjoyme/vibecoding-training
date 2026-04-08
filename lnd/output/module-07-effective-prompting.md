@@ -60,9 +60,9 @@ Two things to keep in mind about prompt language:
 3. Observe the result: note the language, algorithm, extras (comments, tests, docstrings).
 4. Now edit your original prompt (do not write a new message below — go back and edit) to add two constraints: "Create a file with a bubble sort function in `Python`."
 
-![Edit](image-11.png)
+![Edit](img/module-07/01-edit.png)
 
-![Send](image-12.png)
+![Send](img/module-07/02-send.png)
 
 5. Press Enter and compare the new result to the previous one.
 6. Edit again, adding more constraints: "Create a `Python` file named `bubble_sort.py`. Implement a bubble_sort function that takes a list of integers and returns the sorted list. No comments, no docstrings."
@@ -101,7 +101,7 @@ The effective workflow for correcting AI output follows a simple loop:
 
 1. Stop immediately when you see the model generating something wrong (do not wait for the complete response).
 
-![Cancel](image-13.png)
+![Cancel](img/module-07/03-cancel.png)
 
 2. Do not write a new message — this continues the polluted conversation.
 3. Go back and edit your original prompt: add more statements, technical terms, or constraints you forgot.
