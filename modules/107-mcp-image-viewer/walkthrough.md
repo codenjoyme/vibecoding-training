@@ -12,8 +12,10 @@ See [module overview](about.md) for full prerequisites list.
 
 | Component | Description |
 |-----------|-------------|
-| `tools/mcp-image-viewer.ps1` | PowerShell MCP server with one tool: `load_image` |
-| `.vscode/mcp.json` entry | Registration so VS Code / Copilot can invoke it |
+| `tools/mcp-image-viewer.ps1` | PowerShell MCP server — Windows / PowerShell on macOS |
+| `tools/mcp-image-viewer.sh` | Bash MCP server — Linux / macOS native terminal |
+| `tools/.vscode/mcp.json` | VS Code configuration template |
+| `tools/.cursor/mcp.json` | Cursor configuration template |
 
 The tool accepts a file path, reads the image bytes, converts to base64, and wraps them in the MCP `image` content type — exactly the same format used by `chrome-devtools-mcp`'s `take_screenshot`.
 
@@ -64,82 +66,173 @@ In PowerShell we do the same using `[Convert]::ToBase64String([System.IO.File]::
 
 ---
 
-## Part 2: Review the Reference MCP Server
+## Part 2: Examine the Ready-Made Tool
 
-The `mcp-echo.ps1` in module 100 is our starting template. It handles:
+This module ships with completed server scripts in `tools/`. Both implement the same `load_image` tool:
 
-- JSON-RPC 2.0 `initialize`, `tools/list`, and `tools/call` messages
-- Returning `content` arrays with `type: "text"` items
-- Running as a stdio process (VS Code communicates via stdin/stdout)
-
-Open the reference file to refresh your memory:
-
-```
-modules/100-mcp-model-context-protocol/tools/mcp-echo.ps1
-```
-
-Our `mcp-image-viewer.ps1` follows the same structure but adds one new tool and returns `type: "image"` content.
-
----
-
-## Part 3: Examine the Ready-Made Tool
-
-This module ships with a completed `mcp-image-viewer.ps1` in `tools/`. Let's read through it:
-
-1. Open `modules/107-mcp-image-viewer/tools/mcp-image-viewer.ps1`
+1. Open `modules/107-mcp-image-viewer/tools/mcp-image-viewer.ps1` (Windows/PowerShell)
 
 1. Notice the `load_image` tool declaration in `tools/list` — it expects a `filePath` string
 
 1. In `tools/call`, find the `load_image` handler:
-   - Resolves the path to absolute
-   - Determines MIME type from file extension
-   - Reads all bytes and converts to base64
+   - Resolves the path to absolute using `[System.IO.Path]::GetFullPath()`
+   - Determines MIME type from file extension (`Get-MimeType` helper)
+   - Reads all bytes: `[System.IO.File]::ReadAllBytes($filePath)`
+   - Converts to base64: `[Convert]::ToBase64String($bytes)`
    - Returns a `content` array with one text item and one image item
 
-1. Verify: the image content item uses `type = "image"`, `mimeType`, and `data` — matching the MCP spec.
+1. The image content item uses `type = "image"`, `mimeType`, and `data` — matching the MCP spec
+
+1. For Linux/macOS, the equivalent is `tools/mcp-image-viewer.sh` which uses `base64 -w 0` for the same result
 
 ---
 
-## Part 4: Register the MCP Server in mcp.json
+## Part 3: Register the MCP Server
 
-1. Open `.vscode/mcp.json` in your workspace
+### 3.1 Configuration for VS Code
 
-1. Add the following entry inside the `"servers"` object:
+**Important:** VS Code uses a different configuration format than Cursor!
+
+1. **Locate your configuration file**
+
+   Open or create: `.vscode/mcp.json` in your workspace root
+
+   Path example: `c:/workspace/your-project/.vscode/mcp.json` (Windows) or `~/workspace/your-project/.vscode/mcp.json` (macOS/Linux)
+
+2. **Copy the VS Code configuration template**
+
+   A template file is provided at: `./modules/107-mcp-image-viewer/tools/.vscode/mcp.json`
+
+   Copy it to your workspace's `.vscode/` folder, or add this entry inside the existing `"servers"` object:
 
    ```json
-   "image-viewer": {
-     "type": "stdio",
+   "image-viewer-windows": {
      "command": "powershell",
-     "args": [
-       "-ExecutionPolicy", "Bypass",
-       "-File", "${workspaceFolder}/modules/107-mcp-image-viewer/tools/mcp-image-viewer.ps1"
-     ]
+     "args": ["-ExecutionPolicy", "Bypass", "-File", "./modules/107-mcp-image-viewer/tools/mcp-image-viewer.ps1"]
+   },
+   "image-viewer-unix": {
+     "command": "bash",
+     "args": ["./modules/107-mcp-image-viewer/tools/mcp-image-viewer.sh"]
    }
    ```
 
-   > **Windows note:** Use `powershell` for Windows PowerShell 5.1 or `pwsh` for PowerShell 7+. Either works.
+   **Key field:** `servers` (not `mcpServers`)
 
-1. Save the file
+3. **Choose the right server for your OS**
 
-1. Reload / restart the MCP server list: open Command Palette → **MCP: List Servers** → verify `image-viewer` appears
+   - **Windows users:** Keep only `image-viewer-windows`, remove `image-viewer-unix` section
+   - **Linux/macOS users:** Keep only `image-viewer-unix`, remove `image-viewer-windows` section
+
+   **Windows final config:**
+   ```json
+   {
+     "servers": {
+       "image-viewer-windows": {
+         "command": "powershell",
+         "args": ["-ExecutionPolicy", "Bypass", "-File", "./modules/107-mcp-image-viewer/tools/mcp-image-viewer.ps1"]
+       }
+     }
+   }
+   ```
+
+   **Linux/macOS final config:**
+   ```json
+   {
+     "servers": {
+       "image-viewer-unix": {
+         "command": "bash",
+         "args": ["./modules/107-mcp-image-viewer/tools/mcp-image-viewer.sh"]
+       }
+     }
+   }
+   ```
+
+4. **Make the bash script executable (Linux/macOS only)**
+
+   Open terminal and run:
+   ```bash
+   chmod +x ./modules/107-mcp-image-viewer/tools/mcp-image-viewer.sh
+   ```
+
+5. **Start the MCP server**
+
+   After saving `mcp.json`, VS Code automatically detects the file and shows an inline action bar directly inside the editor:
+
+   ```
+   ✓ Running | Stop | Restart | 1 tool | More...
+   ```
+
+   If the server is not running yet, click **"Start"** or **"Restart"** in the inline bar.
+
+   **Verify in Output panel** (View → Output → "Model Context Protocol"):
+   ```
+   [info] Connection state: Running
+   [info] Discovered 1 tool
+   ```
+
+### 3.2 Configuration for Cursor
+
+**Important:** Cursor uses a different configuration format and location!
+
+1. **Locate your configuration file**
+
+   Open or create: `.cursor/mcp.json` in your workspace root
+
+2. **Copy the Cursor configuration template**
+
+   A template file is provided at: `./modules/107-mcp-image-viewer/tools/.cursor/mcp.json`
+
+   Copy it to your workspace's `.cursor/` folder, or add this entry inside `"mcpServers"`:
+
+   ```json
+   {
+     "mcpServers": {
+       "image-viewer-windows": {
+         "command": "powershell",
+         "args": ["-ExecutionPolicy", "Bypass", "-File", "./modules/107-mcp-image-viewer/tools/mcp-image-viewer.ps1"]
+       }
+     }
+   }
+   ```
+
+   **Key field:** `mcpServers` (not `servers` like VS Code)
+
+3. **Reload Cursor window**
+
+   Open Command Palette → "Reload Window" → press Enter
+
+### 3.3 Enable the Tool (if not auto-enabled)
+
+In most cases, MCP tools are enabled automatically. If the AI doesn't recognize `load_image`:
+
+**VS Code:**
+1. Open the GitHub Copilot Chat panel
+2. Switch to **Agent Mode** (not Ask or Edit)
+3. Click the **🔧 tools icon** (wrench) at the bottom of the chat input
+4. Find the `image-viewer-windows` (or `image-viewer-unix`) section
+5. Enable the `load_image` toggle
+
+**Cursor:**
+1. Open Settings → search for "MCP"
+2. Find your server and enable its tools
 
 ---
 
-## Part 5: Test the Tool — Load and Describe an Image
+## Part 4: Test the Tool — Load and Describe an Image
 
 1. Find any `.png` or `.jpg` file on your computer. For example, a screenshot you took earlier in module 035.
 
-1. Note its full absolute path, e.g.:  
-   `C:/Users/YourName/Pictures/screenshot.png` (Windows)  
-   `/home/yourname/Pictures/screenshot.png` (Linux/macOS)
+1. Note its full absolute path:
+   - Windows: `C:/Users/YourName/Pictures/screenshot.png`
+   - Linux/macOS: `/home/yourname/Pictures/screenshot.png`
 
-1. Open GitHub Copilot Chat in Agent Mode
+1. Open GitHub Copilot Chat in **Agent Mode**
 
 1. Send this prompt (replace the path):
    ```
    Use the load_image tool to load this file:
    C:/path/to/your/screenshot.png
-   
+
    Describe what you see.
    ```
 
@@ -149,7 +242,7 @@ This module ships with a completed `mcp-image-viewer.ps1` in `tools/`. Let's rea
 
 ---
 
-## Part 6: Explore the Difference — Manual Attach vs MCP Tool
+## Part 5: Explore the Difference — Manual Attach vs MCP Tool
 
 | Method | When it works | Limitation |
 |--------|---------------|------------|
@@ -167,7 +260,7 @@ Congratulations! You've successfully completed this module if:
 
 ✅ You understand the MCP `image` content type format (`type`, `mimeType`, `data`)  
 ✅ You can explain how `chrome-devtools-mcp` returns screenshots (base64 in `content` array)  
-✅ You registered `mcp-image-viewer.ps1` in `.vscode/mcp.json`  
+✅ You registered `mcp-image-viewer.ps1` (Windows) or `mcp-image-viewer.sh` (Linux/macOS) in your IDE's `mcp.json`  
 ✅ You successfully asked the AI to load an image by file path using the `load_image` tool  
 ✅ You understand the difference between manual attachment and MCP-based image loading
 

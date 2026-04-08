@@ -55,3 +55,26 @@
 - `about.md` — module overview, depends on 035 and 105
 - `walkthrough.md` — 6-part hands-on guide: MCP image protocol → reference echo server → examine tool → register in mcp.json → test with prompt → manual vs MCP comparison
 - `tools/mcp-image-viewer.ps1` — PowerShell MCP server with `load_image` tool that reads any image file and returns it as base64 `type: "image"` content
+
+## UPD4
+
+Давай сделаем в нем так же как в `100` структуру, чтобы была папочка `.cursor`, `.vscode` и версия для `linux`. И посмотри `walkthrough.md` этого модуля, чтобы общие рекомендации и parts были схожие в части установки. 
+
+Ну и потестим давай. Установим в этот вокрспейс в мой `mcp.json` ссылку на `ps` файл и проверим как работает.  
+### RESULT
+
+**Module 107 structure updated to match module 100 pattern:**
+- `tools/mcp-image-viewer.sh` — Bash version for Linux/macOS (base64 via `base64 -w 0`)
+- `tools/.vscode/mcp.json` — VS Code template (uses `"servers"` key, both OS variants)
+- `tools/.cursor/mcp.json` — Cursor template (uses `"mcpServers"` key, both OS variants)
+
+**Walkthrough rewritten:**
+- `What We'll Build` table updated to list all 4 artifacts
+- `Part 2` now covers examining both `.ps1` and `.sh` scripts
+- `Part 3` added: full VS Code and Cursor registration guide with OS-specific config snippets, bash chmod step, server start instructions, and tool enable instructions — mirroring module 100 structure
+- `Part 4` — test prompt (with both OS path examples)
+- `Part 5` — manual attach vs MCP comparison table
+
+**Workspace installed and ready to test:**
+- `.vscode/mcp.json` now includes `"image-viewer-windows"` entry pointing to `mcp-image-viewer.ps1`
+- Server will auto-start and expose the `load_image` tool in Agent Mode

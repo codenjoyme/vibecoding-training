@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "image-viewer-windows": {
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "./modules/107-mcp-image-viewer/tools/mcp-image-viewer.ps1"]
+    },
+    "image-viewer-unix": {
+      "command": "bash",
+      "args": ["./modules/107-mcp-image-viewer/tools/mcp-image-viewer.sh"]
+    }
+  }
+}
