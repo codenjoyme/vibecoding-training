@@ -75,6 +75,28 @@ Now let's learn how to share screenshots in your AI chat:
 
 **Pro tip:** You can include multiple screenshots in one message if needed!
 
+### Alternative: Attaching Existing Image Files
+
+Not all visual context comes from fresh screenshots. Sometimes you already have an image saved on disk — a diagram, a downloaded screenshot, an exported file — and you want the AI to analyze it.
+
+Instead of reopening the image in a viewer and screenshotting it, you can attach the file directly:
+
+1. Click the **paperclip / attach icon** in the Copilot Chat input area (or drag the image file directly into the chat)
+
+1. Select your image file from the file picker
+
+1. The image appears as a thumbnail in the input field — same as a pasted screenshot
+
+1. Type your question and send
+
+This method works for any image already saved to disk — `.png`, `.jpg`, `.gif`, `.webp`. The AI receives the full image content just as it would from a clipboard paste.
+
+**When to use direct file attachment instead of clipboard paste:**
+- You already have the image saved as a file
+- You want to attach an image from a different screen or session
+- You received an image by email or download and want AI to analyze it
+- You need to reference the same image multiple times in future sessions
+
 ### Part 4: Practical Exercise - Browser Console with AI Help
 
 Let's practice using screenshots to get AI help with a real task. We'll open the browser developer console and write "Hello World" - a common task that varies between browsers.
