@@ -64,6 +64,9 @@ Key differences from local servers: type is "http" (not a local command), the UR
 3. Save the file and reload the IDE window (`Command Palette` → "Reload Window").
 4. Check the Output panel (View → Output → "Model Context Protocol") for connection confirmation.
 5. Verify your `GitHub` login in the IDE. In `VS Code`, check the bottom-left corner for the `GitHub` account indicator. Sign in if needed.
+
+![alt text](img/module-14/01-github-account-indicator.png)
+
 6. Enable `GitHub` `MCP` tools in the chat panel tools configuration.
 
 **Important: switching `GitHub` accounts.** If you need to use a different `GitHub` account for `MCP`, changing the account in `VS Code`'s bottom-left corner is NOT enough — `MCP` uses its own authentication. To switch: open your `mcp.json`, hover over the `GitHub` server entry, click "More..." → "Disconnect Account." The server restarts and prompts you to authenticate with a different account.

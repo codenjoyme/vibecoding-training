@@ -59,6 +59,11 @@ Two things to keep in mind about prompt language:
 2. Type a very abstract prompt: "Create a file with a sorting function."
 3. Observe the result: note the language, algorithm, extras (comments, tests, docstrings).
 4. Now edit your original prompt (do not write a new message below — go back and edit) to add two constraints: "Create a file with a bubble sort function in `Python`."
+
+![Edit](img/module-07/01-edit.png)
+
+![Send](img/module-07/02-send.png)
+
 5. Press Enter and compare the new result to the previous one.
 6. Edit again, adding more constraints: "Create a `Python` file named `bubble_sort.py`. Implement a bubble_sort function that takes a list of integers and returns the sorted list. No comments, no docstrings."
 7. Compare all three results. Notice how each added statement reduced variability.
@@ -95,6 +100,9 @@ You understand that arguing pollutes the context window and that editing + regen
 The effective workflow for correcting AI output follows a simple loop:
 
 1. Stop immediately when you see the model generating something wrong (do not wait for the complete response).
+
+![Cancel](img/module-07/03-cancel.png)
+
 2. Do not write a new message — this continues the polluted conversation.
 3. Go back and edit your original prompt: add more statements, technical terms, or constraints you forgot.
 4. Regenerate and observe. The model starts fresh with better instructions on a clean canvas.
