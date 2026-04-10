@@ -22,8 +22,13 @@ AI coding assistants offer multiple models with different capabilities and costs
    - 0x — Free tier models (no premium request cost).
    - 1x — Standard models (1 premium request per use).
    - 3x — Advanced models (3 premium requests per use).
+
+![Models with Tiers](img/module-04/01-models-with-tiers.png)
+   
 4. The logic: higher multipliers consume quota faster but provide better quality responses.
 5. Check your account settings to see your current premium request balance.
+
+![Premium request balances](img/module-04/02-premium-request-balances.png)
 
 ### ✅ Result
 You can see the available models and understand the pricing tiers.
@@ -40,6 +45,9 @@ With many models available, it is tempting to switch constantly. Research shows 
    - Claude Sonnet 4.5 — Best for coding tasks, excellent balance of price and quality.
    - GPT-4o — Strong general-purpose alternative.
 3. Select Claude Sonnet 4.5 as your primary model.
+
+![Claude selected](img/module-04/03-claude-selected.png)
+
 4. Verify: The selected model should be displayed in your settings or status bar.
 
 The practical strategy:
@@ -59,6 +67,9 @@ Your AI assistant can operate in two modes. `Ask Mode` is simple Q&A — it answ
 ### Steps
 1. In your AI assistant settings, look for mode selection (usually in the chat panel or settings).
 2. Enable `Agent Mode`.
+
+![Agent Mode Enabled](img/module-04/04-agent-mode-enabled.png)
+
 3. Verify by testing all three capabilities:
    - Test 1 — Ask a technical question:
      Explain the difference between async/await and promises in `JavaScript`
