@@ -65,7 +65,7 @@ With the `API key` in hand, you can now send a request to an AI model. The reque
 Available models include:
 - **OpenAI:** `gpt-4o`, `gpt-4.1-mini`
 - **Anthropic:** `claude-sonnet-4`, `claude-3-7-sonnet`
-- **Google:** gemini-2.5-pro, gemini-2.5-flash
+- **Google:** `gemini-2.5-pro`, `gemini-2.5-flash`
 
 ### Steps
 1. Open `PowerShell` (`Windows`) or Terminal (`macOS`/Linux).
@@ -114,7 +114,7 @@ You understand the main API parameters and how they affect model behavior.
 
 ## Page 5: Practical Application — Test `DIAL` for Your Project
 ### Background
-Now connect what you learned to your `Jira`/Confluence automation project. `DIAL API` can power custom automation that goes beyond the IDE — for example, a script that reads `Jira` issue descriptions and generates summary reports, or a batch processor that classifies customer feedback.
+Now connect what you learned to your `Jira`/`Confluence` automation project. `DIAL API` can power custom automation that goes beyond the IDE — for example, a script that reads `Jira` issue descriptions and generates summary reports, or a batch processor that classifies customer feedback.
 
 ### Steps
 1. Think about one task from your project backlog that could benefit from direct API access. Examples:
