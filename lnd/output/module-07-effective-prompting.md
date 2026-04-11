@@ -44,9 +44,15 @@ The practical tool for controlling precision is breaking your requirements into 
 - Statement 5: Edge cases or examples (what to do with empty input, special cases).
 
 Example progression:
-- 1 statement: `Create a sorting function` → could be any language, any algorithm, any structure.
-- 3 statements: `Create a sorting function. Use 'bubble sort'. Write it in 'Python'` → language and algorithm locked, structure still varies.
-- 5 statements: `Create a 'Python' file named 'bubble_sort.py'. Implement 'bubble_sort' function. Takes a list of integers. Returns the sorted list. No comments, no type hints` → minimal variation, consistent output.
+- 1 statement: `Print a sorting function` → could be any language, any algorithm, any structure.
+![case 1 - attempt 1](image.png)
+![case 1 - attempt 2](image-1.png)
+- 3 statements: `Print a sorting function. Use 'bubble sort'. Write it in 'Python'` → language and algorithm locked, structure still varies.
+![case 2 - attempt 1](image-2.png)
+![case 2 - attempt 2](image-3.png)
+- 5 statements: `Print a 'Python' file named 'bubble_sort.py'. Implement 'bubble_sort' function. Takes a list of integers. Returns the sorted list. No comments, no type hints` → minimal variation, consistent output.
+![case 3 - attempt 1](image-4.png)
+![case 3 - attempt 2](image-5.png)
 
 Rule: More statements = less variability = more control. Each statement narrows the space of possible solutions.
 
