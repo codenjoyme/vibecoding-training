@@ -100,8 +100,6 @@ Your AI assistant can operate in two modes. `Ask Mode` is simple Q&A — it answ
      `List the files in my current workspace and tell me what you see`
      The AI should read the file system and report back (this proves `Agent Mode` works).
 
-As a practical thread exercise, try a project-related prompt: ask your AI assistant to `Draft a list of Jira issue types that a project management automation toolkit might need` Compare the response quality — this gives you a feel for how the model handles domain-specific requests that you will encounter throughout this course.
-
 ### ✅ Result
 `Agent Mode` is enabled. Your AI assistant can answer questions, generate code, and interact with your file system autonomously.
 
