@@ -76,8 +76,8 @@ You can control AI output precision by adding specific statements to your prompt
 When the AI produces something wrong, the natural instinct is to write a follow-up: `No, that is not right. I wanted...` Then the AI apologizes and tries again. You correct again. This cycle is called "arguing," and here is why it fails:
 
 The context pollution problem:
-- Every message goes on the shared canvas (`context window`).
-- After several rounds of corrections, the canvas contains: your unclear original prompt, multiple failed attempts, apologies, corrections, complaints, and information about what you do NOT want.
+- Every message goes on the shared `context window`.
+- After several rounds of corrections, the `context` contains: your unclear original prompt, multiple failed attempts, apologies, corrections, complaints, and information about what you do NOT want.
 - The model sees all of this when generating the next response, making each iteration worse, not better.
 
 Defining through negation does not work:
@@ -90,7 +90,7 @@ Defining through negation does not work:
 2. Count how many messages were in that exchange. If more than 3 — context was likely polluted.
 3. In your next AI session, when you see the model generating something wrong, stop immediately.
 4. Do not write a new message. Instead, go back and edit your original prompt with more specific statements.
-5. Regenerate from the edited prompt — the model starts fresh with a clean canvas.
+5. Regenerate from the edited prompt — the model starts fresh with a clean `context`.
 
 ### ✅ Result
 You understand that arguing pollutes the `context window` and that editing + regenerating is the correct approach.
@@ -105,7 +105,7 @@ The effective workflow for correcting AI output follows a simple loop:
 
 2. Do not write a new message — this continues the polluted conversation.
 3. Go back and edit your original prompt: add more statements, technical terms, or constraints you forgot.
-4. Regenerate and observe. The model starts fresh with better instructions on a clean canvas.
+4. Regenerate and observe. The model starts fresh with better instructions on a clean `context`.
 5. If still not right — stop, refine more, regenerate again.
 6. Continue only when the first few tokens of the response look correct.
 
@@ -117,7 +117,7 @@ Why this works:
 
 ### Steps
 1. Open your AI chat in `Agent Mode`.
-2. Ask: `Create a status report template.`
+2. Ask: `Create a status report template`
 3. If the result is not what you expected (wrong format, missing sections, wrong tone), do NOT type a correction.
 4. Instead, edit your original prompt: `Create a weekly status report template for an engineering manager. Include sections: accomplishments, blockers, next week's plan. Use bullet points. Keep it under 20 lines. Markdown format`
 5. Notice how much better the result is with the refined prompt.
@@ -144,8 +144,8 @@ This shift puts you in control. The model is a powerful tool — like a room tha
 2. Rewrite the prompt you used, adding at least 3 more specific statements.
 3. Try the refined prompt. Is the result closer to what you need?
 4. Practice prompting on a project-relevant scenario. Start vague and progressively add statements:
-   - Vague: `Create a status report template.`
-   - Better: `Create a weekly status report template that summarizes 'Jira' sprint progress for stakeholders.`
+   - Vague: `Create a status report template`
+   - Better: `Create a weekly status report template that summarizes 'Jira' sprint progress for stakeholders`
    - Specific: `Create a weekly status report template for an engineering manager. Pull data from a Jira sprint board. Include sections: completed issues, in-progress items, blockers, next sprint goals. Use bullet points. Markdown format. Keep it under 30 lines`
    Compare the three outputs — notice how each statement narrows the result.
 5. Commit any files you created in this exercise.
@@ -154,7 +154,7 @@ This shift puts you in control. The model is a powerful tool — like a room tha
 You have shifted from blaming the AI to refining your prompts — and you are in control of the results. You also practiced prompting on a `Jira`-related task, building familiarity with the domain you will automate starting in Module 08.
 
 ## Summary
-Remember the scenario from the introduction — you asked the AI to do something, the result was wrong, and your instinct was to type `No, that is not what I meant`? Now you know a better approach. Instead of arguing, you stop, edit your original prompt to be more specific, and regenerate from a clean canvas.
+Remember the scenario from the introduction — you asked the AI to do something, the result was wrong, and your instinct was to type `No, that is not what I meant`? Now you know a better approach. Instead of arguing, you stop, edit your original prompt to be more specific, and regenerate from a clean `context`.
 
 Key takeaways:
 - Prompt specificity controls variability: fewer details = creative chaos, more details = consistent output.
@@ -177,8 +177,8 @@ Key takeaways:
    b) Stop immediately, go back and edit your original prompt with more specific statements, then regenerate
    c) Delete the current chat session and start a new one with the exact same prompt
    Correct answer: b.
-   - (a) is incorrect because writing a follow-up continues the conversation on a polluted canvas. The accumulated failed attempts and corrections make each iteration worse.
-   - (b) is correct because editing the original prompt gives the model a clean canvas with better instructions. You start fresh without the noise of failed attempts.
+   - (a) is incorrect because writing a follow-up continues the conversation on a polluted `context`. The accumulated failed attempts and corrections make each iteration worse.
+   - (b) is correct because editing the original prompt gives the model a clean `context` with better instructions. You start fresh without the noise of failed attempts.
    - (c) is incorrect because restarting with the same prompt will produce a similar (likely still wrong) result. The issue is not the session — it is the prompt. You need to refine the prompt, not just restart.
 
 3. How does adding more specific statements to a prompt affect the result?
