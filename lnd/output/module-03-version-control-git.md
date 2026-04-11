@@ -196,8 +196,8 @@ This is the most important exercise in the module. You will deliberately create 
    - IDE: Right-click `calculator.py` in `Source Control` → Discard Changes.
    - Terminal: `git checkout -- calculator.py`
    - AI: `Please revert calculator.py`
-6. Notice that your divide() function is also gone — it was never staged.
-7. This demonstrates the lesson: if you had staged divide() when it worked, you could recover it now. Always stage working code immediately.
+6. Notice that your `divide()` function is also gone — it was never staged.
+7. This demonstrates the lesson: if you had staged `divide()` when it worked, you could recover it now. Always stage working code immediately.
 
 **What if you already committed the bad change?** If you committed the refactoring before realizing it broke things, you have two options in terminal:
 - `git revert HEAD` — creates a new commit that undoes the last one (safe, preserves history).
@@ -220,12 +220,14 @@ This is also the moment to initialize the repository you will use for the practi
 4. Do NOT check "Initialize this repository" — you already have local files.
 5. Click Create repository.
 6. Ask the AI:
-   I created a `GitHub` repo at https://github.com/[username]/git-baby-steps-practice. How do I connect my local repository and push?
+   `I created a GitHub repo at 'https://github.com/[username]/git-baby-steps-practice'. How do I connect my local repository and push?`
 7. The AI will provide commands like:
+```
    git remote add origin https://github.com/[username]/git-baby-steps-practice.git
    git branch -M main
    git push -u origin main
-8. Run the commands. Your code is now on `GitHub`.
+```
+8. Ask AI to run the commands. Your code is now on `GitHub`.
 
 ### ✅ Result
 Your project is backed up to `GitHub`. You can continue making baby steps and push regularly.
