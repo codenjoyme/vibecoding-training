@@ -48,7 +48,7 @@ The AI uses the todo tool automatically when you ask for multi-step work. Items 
 ### Steps
 1. Open your AI chat in `Agent Mode`.
 2. Give the AI a multi-step task:
-   "I need to create three files in a folder called 'reports': `template.md` with a status report template, `instructions.md` with how to fill it out, and `example.md` with a filled-in example. Create a todo list and work through each item step by step."
+   `I need to create three files in a folder called 'reports': 'template.md' with a status report template, 'instructions.md' with how to fill it out, and 'example.md' with a filled-in example. Create a todo list and work through each item step by step`
 3. Watch the todo list appear above the chat.
 
 ![todolist appeared](img/module-09/03-todolist-appeared.png)
@@ -90,9 +90,9 @@ _AI updates this section as work progresses_
 ### Steps
 1. Create a file called `TODO.md` in your project root.
 2. Add 5-6 tasks organized in phases with checkboxes (use the format above as a starting point).
-3. Open your AI chat and type: "Read @TODO.md and work through the uncompleted items in Phase 1. Update the checkboxes as you complete each task."
+3. Open your AI chat and type: `Read @TODO.md and work through the uncompleted items in Phase 1. Update the checkboxes as you complete each task`
 4. Watch the AI work through items and update the file.
-5. Close the chat, open a new session, and type: "Check @TODO.md and continue where you left off."
+5. Close the chat, open a new session, and type: `Check @TODO.md and continue where you left off`
 6. Verify the AI picks up from the correct task.
 
 ### ✅ Result
@@ -107,7 +107,7 @@ This backlog becomes the AI's "memory" of your project. Every future session sta
 ### Steps
 1. Open your AI chat in `Agent Mode`.
 2. Reference both your specification and the interview technique:
-   "Read @PROJECT_SPEC.md. Break it down into a detailed implementation backlog with specific, actionable tasks. Organize tasks into phases: Setup, Core Features, Integration, Testing, Documentation. Use checkboxes. Save as `BACKLOG.md`. Before creating it, ask me clarifying questions about priorities and phasing."
+   `Read @PROJECT_SPEC.md. Break it down into a detailed implementation backlog with specific, actionable tasks. Organize tasks into phases: Setup, Core Features, Integration, Testing, Documentation. Use checkboxes. Save as 'BACKLOG.md'. Before creating it, ask me clarifying questions about priorities and phasing`
 3. Answer the AI's questions about priorities (which features first, any dependencies, any time constraints).
 4. Review the generated `BACKLOG.md`.
 5. Verify it covers all requirements from your ТЗ.
@@ -125,7 +125,7 @@ For large projects, a single todo list is not enough. The most effective pattern
 2. `BACKLOG.md` — the "how" and "when" (specific tasks, phases, progress). You created this on the previous page.
 
 When starting a new AI session, reference both:
-"Read @PROJECT_SPEC.md for project context and @BACKLOG.md for current progress. Continue where we left off."
+`Read @PROJECT_SPEC.md for project context and @BACKLOG.md for current progress. Continue where we left off`
 
 The AI now has:
 - Strategic context (what the project is about and what quality standards apply).
@@ -134,14 +134,14 @@ The AI now has:
 
 Tips for maintaining these documents:
 - Ask the AI to update `BACKLOG.md` at the end of each session.
-- Periodically ask: "Verify @BACKLOG.md reflects actual completion status."
+- Periodically ask: `Verify @BACKLOG.md reflects actual completion status`
 - Add a "Decisions Made" section to record important choices (technology selections, architecture decisions).
 
 ### ✅ Result
 You understand how to combine specification and backlog documents for persistent project memory across multiple AI sessions.
 
 ## Summary
-Remember the scenario from the introduction — 30 minutes of productive work, then you close the chat and come back to an agent that has forgotten everything? That frustration is now behind you. With external `Markdown` files (`PROJECT_SPEC.md` and `BACKLOG.md`), you give the AI persistent memory that survives across any number of sessions. Every new conversation starts with "Read @BACKLOG.md and continue where we left off" — and the agent picks up right where it stopped.
+Remember the scenario from the introduction — 30 minutes of productive work, then you close the chat and come back to an agent that has forgotten everything? That frustration is now behind you. With external `Markdown` files (`PROJECT_SPEC.md` and `BACKLOG.md`), you give the AI persistent memory that survives across any number of sessions. Every new conversation starts with `Read @BACKLOG.md and continue where we left off` — and the agent picks up right where it stopped.
 
 Key takeaways:
 - AI agents forget everything between sessions — this is by design, not a bug.

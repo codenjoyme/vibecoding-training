@@ -49,12 +49,12 @@ A good instruction file contains:
 ### Steps
 1. Create the `instructions/` folder in your project if it does not exist yet.
 2. Ask the AI to help you create an instruction:
-   "Create an instruction file at instructions/create-status-report.agent.md for generating weekly status reports. It should specify: `Markdown` format, sections (accomplishments, blockers, next week), bullet points only, maximum 20 lines, professional tone, no fluff words."
+   `Create an instruction file at instructions/create-status-report.agent.md for generating weekly status reports. It should specify: 'Markdown' format, sections (accomplishments, blockers, next week), bullet points only, maximum 20 lines, professional tone, no fluff words`
 3. Review the generated file. Are the rules specific enough?
 
 ![instructions](img/module-10/01-instructions.png)
 
-4. Test it by asking: "Following instructions/create-status-report.agent.md, create a status report for a team that completed 3 features and has 1 blocker."
+4. Test it by asking: `Following instructions/create-status-report.agent.md, create a status report for a team that completed 3 features and has 1 blocker`
 5. If the result matches your expectations — the instruction works. If not, refine the instruction file.
 
 ### ✅ Result
@@ -77,18 +77,18 @@ Example structure:
 To make the AI load this catalog automatically, you need an entry point file:
 
 For `VS Code`: `.github/copilot-instructions.md` with content:
-"Important! Always follow the instructions in ./`instructions/main.agent.md` file."
+`Important! Always follow the instructions in ./'instructions/main.agent.md' file`
 
 For `Cursor`: `.cursor/rules/main.mdc` with the same content.
 
 ### Steps
 1. Create `instructions/main.agent.md` with a list of your instruction files (even if you only have one so far).
 2. Verify the entry point file exists (`.github/copilot-instructions.md` or `.cursor/rules/main.mdc`).
-3. Test auto-discovery: open a new chat and type "Create a status report for my team." Without referencing any instruction explicitly, the AI should find and apply your instruction.
+3. Test auto-discovery: open a new chat and type `Create a status report for my team` Without referencing any instruction explicitly, the AI should find and apply your instruction.
 
 ![Instructions auto-detect](img/module-10/02-instructions-auto-detect.png)
 
-4. If the AI does not find it, use the explicit reference: "Following instructions/create-status-report.agent.md, create a status report for my team."
+4. If the AI does not find it, use the explicit reference: `Following instructions/create-status-report.agent.md, create a status report for my team`
 
 ### ✅ Result
 You have an instruction catalog and the AI can find relevant instructions automatically.
@@ -108,7 +108,7 @@ Each instruction file captures what the AI should do, what format to use, what c
 ### Steps
 1. Open your `BACKLOG.md` and identify 2-3 tasks that involve repeating patterns.
 2. For each pattern, ask the AI to create an instruction file:
-   "Following instructions/creating-instructions.agent.md, create an instruction for [describe the workflow]. Include: input format, processing steps, output format, and constraints."
+   `Following instructions/creating-instructions.agent.md, create an instruction for [describe the workflow]. Include: input format, processing steps, output format, and constraints`
 3. If you do not have creating-instructions.agent.md yet, describe the workflow directly and ask the AI to generate the instruction.
 4. Review each instruction file — are the rules specific enough to produce consistent results?
 5. Update `instructions/main.agent.md` with the new instruction entries.
@@ -156,7 +156,7 @@ Key takeaways:
 - Naming convention: [verb]-[subject].agent.md in the `instructions/` folder.
 - The catalog (`main.agent.md`) lets the AI discover instructions without explicit references.
 - Follow the Single Responsibility Principle: one instruction per workflow.
-- After every productive AI session, ask yourself: "Should I create or update an instruction from this?" The session contained iterations, failures, and refinements — capturing the result means you never repeat that trial-and-error.
+- After every productive AI session, ask yourself: `Should I create or update an instruction from this?` The session contained iterations, failures, and refinements — capturing the result means you never repeat that trial-and-error.
 - Your `Jira`/`Confluence` workflow instructions are the first building blocks of your automation toolkit.
 
 [MG]: тоже можпо попросить загрузить свой `instructions.md` файл в качестве проверки вместо квизов.
