@@ -106,9 +106,10 @@ There are several account options depending on your situation:
 4. Follow the AI's instructions — it will guide you based on what it sees in your screenshot.
 5. When the token is generated, copy it to a safe location (a password manager or a secure note).
 6. Do NOT commit this token to your `Git` repository. Store it in a `.env` file (which is already in your `.gitignore` from Module 3).
-7. Please add 
+7. Save the token with a descriptive name — for example, `JIRA_API_TOKEN` or `CONFLUENCE_API_TOKEN` — so you can easily identify it later when configuring integrations.
+![Tokens in env](image-3.png)
 
-Important: `API tokens` are sensitive credentials. Never share them in screenshots, chat histories, or code repositories.
+Important: `API tokens` are sensitive credentials. **Never** share them in screenshots, chat histories, or code repositories. 
 
 ### ✅ Result
 You have `API tokens` for `Jira` and/or `Confluence` stored securely. You will use them in later modules for automation.
