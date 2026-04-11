@@ -227,6 +227,8 @@ Pushing your repository to `GitHub` creates a remote backup. If your local machi
 ```
 8. Ask AI to run the commands. Your code is now on `GitHub`.
 
+> **Note:** When you run `git push` for the first time, a browser window will open asking you to sign in to `GitHub`. This is normal — `Git` uses `HTTPS` and handles authentication automatically via `Git Credential Manager` (included with `Git` for Windows and macOS). Just log in once and your credentials are saved for future pushes. No SSH keys or manual tokens are needed.
+
 ### ✅ Result
 Your project is backed up to `GitHub`. You can continue making baby steps and push regularly.
 
