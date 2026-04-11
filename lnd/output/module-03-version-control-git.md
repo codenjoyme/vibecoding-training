@@ -219,16 +219,19 @@ Pushing your repository to `GitHub` creates a remote backup. If your local machi
 5. Click Create repository.
 ![Create repository](image.png)
 6. Ask the AI:
-   `I created a GitHub repo at 'https://github.com/[username]/git-baby-steps-practice'. How do I connect my local repository and push?`
+   `I created a GitHub repo at 'https://github.com/[username]/git-baby-steps-practice.git'. How do I connect my local repository and push?`
 7. The AI will provide commands like:
 ```
    git remote add origin https://github.com/[username]/git-baby-steps-practice.git
    git branch -M main
    git push -u origin main
 ```
-8. Ask AI to run the commands. Your code is now on `GitHub`.
-
-> **Note:** When you run `git push` for the first time, a browser window will open asking you to sign in to `GitHub`. This is normal — `Git` uses `HTTPS` and handles authentication automatically via `Git Credential Manager` (included with `Git` for Windows and macOS). Just log in once and your credentials are saved for future pushes. No SSH keys or manual tokens are needed.
+![List of commands](image-1.png)
+8. Ask AI to `run the commands`. 
+9. When you run `git push` for the first time, a browser window will open asking you to sign in to `GitHub`. This is normal — `Git` uses `HTTPS` and handles authentication automatically via `Git Credential Manager` (included with `Git` for Windows and macOS). Just log in once and your credentials are saved for future pushes. No SSH keys or manual tokens are needed.
+![Choose the account](image-2.png)
+10. Your code is now on `GitHub`.
+![Repo is on Github](image-3.png)
 
 ### ✅ Result
 Your project is backed up to `GitHub`. You can continue making baby steps and push regularly.
