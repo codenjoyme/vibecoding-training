@@ -119,42 +119,42 @@ The `Agent System` manages this entire flow: injecting `tool` descriptions, dete
 3. Reflect: the `model` made a `tool` call, received a result, and then summarized it for you — all on the `context` you cannot see directly.
 
 ### ✅ Result
-You understand that the AI model works with a richer context than what appears in your chat window.
+You understand that the AI `model` works with a richer `context` than what appears in your chat window.
 
 ## Page 5: Why This Matters for Your Work
 ### Background
-Understanding the agent architecture has practical consequences for how effectively you use AI assistants:
+Understanding the `agent` architecture has practical consequences for how effectively you use AI assistants:
 
-1. The Model does not "think" — it generates text. What looks like reasoning is pattern matching from training data. This explains unexpected choices and why specificity matters.
-2. `Agent Mode` extends capabilities. Without it, the model can only chat. With it, the model triggers real actions through tools.
-3. Everything is sequential. The model generates one token at a time and cannot "go back." Each tool call requires a round trip: Model → Agent → Tool → Result → Model. Complex tasks take longer because of these sequential steps.
-4. `Context` is everything. The model sees all previous text on the `context`. More context means better responses, but too much context can slow down or confuse the model.
-5. Temperature explains variability. Same prompt, different results — this is normal and expected. If you need consistency, be more specific.
+1. The `Model` does not "think" — it generates text. What looks like reasoning is pattern matching from training data. This explains unexpected choices and why specificity matters.
+2. `Agent Mode` extends capabilities. Without it, the `model` can only chat (`Ask mode`). With it, the model triggers real actions through `tools`.
+3. Everything is sequential. The `model` generates one `token` at a time and cannot "go back." Each `tool` call requires a round trip: `Model` → `Agent` → `Tool` → Result → `Model`. Complex tasks take longer because of these sequential steps.
+4. `Context` is everything. The `model` sees all previous text on the `context`. More `context` means better responses, but too much `context` can slow down or confuse the `model`.
+5. `Temperature` explains variability. Same `prompt`, different results — this is normal and expected. If you need consistency, be more specific.
 
 `Agent Mode` can: read and write files in your workspace, search for code patterns, execute terminal commands (when you approve), create directories, and refactor code across multiple files.
 
-`Agent Mode` cannot: access files outside your workspace without permission, run commands that require elevated privileges, modify system settings, access the internet (unless you configure specific tools like `MCP`), or remember previous conversations — each session starts fresh.
+`Agent Mode` cannot (without permission): access files outside your workspace, run commands that require elevated privileges, modify system settings, access the internet (unless you configure specific tools like `MCP`), or remember previous conversations — each `session` starts fresh. Think of it like Dory from *Finding Nemo*: brilliant at what she does, but the moment the chat window closes, everything is gone.
 
 ### Steps
 1. Think about a recent AI interaction that surprised you (unexpected result, slow response, or inconsistent behavior).
 2. Using what you learned in this module, identify which mechanism explains that behavior (temperature? sequential tool calls? context overload?).
-3. Try a project-relevant exercise: ask the AI in `Agent Mode` — "Create a file called `PROJECT_IDEAS.md` with 3 possible `Jira`/Confluence automation ideas for a manager. For each idea, describe the problem it solves and what data it needs." Watch the agent mode cycle as it creates the file — notice the tool calls, the sequential generation, the `context` at work.
+3. Try a project-relevant exercise: ask the AI in `Agent Mode` — `Create a file called 'PROJECT_IDEAS.md' with 3 possible Jira/Confluence automation ideas for a manager. For each idea, describe the problem it solves and what data it needs`. Watch the agent mode cycle as it creates the file — notice the tool calls, the sequential generation, the `context` at work.
 
 ![Generation at work](img/module-06/04-generation-at-work.png)
 
-4. Commit any files you created during this module's exercises using the git workflow from Module 3.
+4. Commit any files you created during this module's exercises using the `git` workflow from `Module 3`.
 
 ### ✅ Result
-You have a mental model of AI agent behavior that helps you predict and troubleshoot issues. You also have a `PROJECT_IDEAS.md` file that will feed into your project planning in Module 08.
+You have a mental model of AI agent behavior that helps you predict and troubleshoot issues. You also have a `PROJECT_IDEAS.md` file that will feed into your project planning in `Module 08`.
 
 ## Summary
-So — what actually happens when you click "Send"? Now you know. Your prompt lands on a shared `context`, the Agent System injects tool descriptions, the model predicts one token at a time, and when it "decides" a tool is needed, the Agent System intercepts and executes it. The result goes back to the `context`, and the model continues generating its response to you.
+So — what actually happens when you click "Send"? Now you know. Your prompt lands on a shared `context`, the `Agent System` injects tool descriptions, the `model` predicts one `token` at a time, and when it "decides" a `tool is needed`, the `Agent System` intercepts and executes it. The result goes back to the `context`, and the model continues generating its response to you.
 
 Key takeaways:
-- AI models predict text — they do not think or plan.
+- AI `models` predict text — they do not think or plan.
 - `Agent Mode` enables real actions (file creation, code execution) through tool orchestration.
-- The shared context window contains more information than you see in the chat.
-- Temperature causes natural variation in responses — this is normal, not a bug.
+- The shared `context window` contains more information than you see in the chat.
+- `Temperature` causes natural variation in responses — this is normal, not a bug.
 - Understanding these mechanics makes you a more effective AI user.
 
 ## Quiz
