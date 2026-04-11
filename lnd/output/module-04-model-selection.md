@@ -32,9 +32,9 @@ AI coding assistants offer multiple models with different capabilities and costs
 
 > **Note:** If the indicator appears stuck at 100%, this does not necessarily mean your personal quota is exhausted. Organizations often apply a company-level spending cap — typically set between 200% and 400% of the base quota — after which premium models truly become unavailable. To check whether a company-level limit is in effect (for GitHub Copilot), navigate to [github.com/settings/copilot/features](https://github.com/settings/copilot/features) — that page shows both your personal usage and any organization-imposed restrictions.
 
-![Copilot settings menu](image.png)
+![Copilot settings menu](img/module-04/05-copilot-settings-menu.png)
 
-![Quota](image-1.png)
+![Quota](img/module-04/06-quota.png)
 
 ### ✅ Result
 You can see the available models, understand the pricing tiers, view your current quota usage, and identify any organization-level spending limits that may restrict access to premium models.
@@ -46,10 +46,10 @@ With many models available, it is tempting to switch constantly. Research shows 
 ### Steps
 1. Open the model selection in your IDE:
    - `VS Code`: Open the `Command Palette` and type `> Chat: Manage Language Models` — select it from the list.
-   ![Manage models in vscode](image-2.png)
+   ![Manage models in vscode](img/module-04/07-manage-models-vscode.png)
    - `Cursor`: Go to `File` → `Preferences` → `Cursor Settings` → `Models`.
-   ![Cursor settings](image-3.png)
-   ![Cursor models](image-4.png)
+   ![Cursor settings](img/module-04/08-cursor-settings.png)
+   ![Cursor models](img/module-04/09-cursor-models.png)
 2. Review the available models. Recommended choices:
    - `Claude Sonnet 4.6` — Best for coding tasks, excellent balance of price and quality.
    - `GPT-4.1` — Free tier (0x), no quota cost, but noticeably mediocre at following instructions and writing code — use only as a fallback when premium quota is exhausted.
@@ -99,7 +99,7 @@ Your AI assistant can operate in two modes. `Ask Mode` is simple Q&A — it answ
    - Test 3 — Test autonomous file access:
      `List the files in my current workspace and tell me what you see`
      The AI should read the file system and report back (this proves `Agent Mode` works).
-     ![All files in project](image-5.png)
+     ![All files in project](img/module-04/10-all-files-in-project.png)
 
 ### ✅ Result
 `Agent Mode` is enabled. Your AI assistant can answer questions, generate code, and interact with your file system autonomously.
