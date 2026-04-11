@@ -25,26 +25,26 @@ Key concepts:
 - `Temperature` (randomness) means the same `prompt` can produce slightly different outputs each time. All outputs are valid — just varied in expression.
 
 ### Steps
-1. Open your AI chat (`Copilot Chat` or `Cursor` Chat).
-2. Type the same simple prompt twice, for example: "Write a one-sentence definition of project management."
-3. Compare the two responses. Notice they say the same thing in different words — this is temperature at work.
+1. Open your AI chat (`Copilot` or `Cursor` Chat).
+2. Type the same simple prompt twice, for example: `Write a one-sentence definition of project management`
+3. Compare the two responses. Notice they say the same thing in different words — this is `temperature` at work.
 
 ![Temperature at work](img/module-06/01-temperature-at-work.png)
 
-4. Try a very specific prompt: "Define project management in exactly 10 words." Notice the variability is much lower because you constrained the output.
+4. Try a very specific prompt: `Define project management in exactly 10 words.` Notice the variability is much lower because you constrained the output.
 
 ### ✅ Result
-You understand that AI generates text token by token and that temperature causes natural variation in responses.
+You understand that AI generates text token by token and that `temperature` causes natural variation in responses.
 
 ## Page 2: The Four Players in `Agent Mode`
 ### Background
 When you use AI in `Agent Mode`, four participants collaborate behind the scenes. Understanding their roles helps you predict behavior and troubleshoot problems.
 
 The four players:
-1. You (User) — type prompts, see responses, make decisions.
-2. AI Model — generates text token by token on a shared "canvas."
-3. Agent System — the orchestrator built into your IDE (`VS Code` or `Cursor`) that coordinates everything.
-4. Tools — functions that can read files, edit code, run terminal commands, search the codebase, and more.
+1. `You (User)` — type prompts, see responses, make decisions.
+2. `AI Model` — (for example `Claude Sonnet 4.6`) generates text `token` by `token` on a shared canvas named `context`.
+3. `Agent System` — the orchestrator built into your IDE (`VS Code` `Github Copilot` plugin or `Cursor`) that coordinates everything.
+4. `Tools` — functions that can read files, edit code, run terminal commands, search the codebase, and more.
 
 The shared canvas (context window):
 - Imagine an invisible shared document where all four players write.
