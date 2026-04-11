@@ -99,6 +99,7 @@ Your AI assistant can operate in two modes. `Ask Mode` is simple Q&A — it answ
    - Test 3 — Test autonomous file access:
      `List the files in my current workspace and tell me what you see`
      The AI should read the file system and report back (this proves `Agent Mode` works).
+     ![All files in project](image-5.png)
 
 ### ✅ Result
 `Agent Mode` is enabled. Your AI assistant can answer questions, generate code, and interact with your file system autonomously.
