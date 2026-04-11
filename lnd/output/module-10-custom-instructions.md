@@ -163,7 +163,7 @@ Key takeaways:
 ## Quiz
 1. What is the main advantage of custom instructions over copy-pasting prompts?
    a) Instructions are applied automatically, ensuring consistent results every time without manual copy-paste or re-discovery of constraints
-   b) Instructions reduce the AI model's processing time because structured `Markdown` is parsed faster than plain textxt
+   b) Instructions reduce the AI model's processing time because structured `Markdown` is parsed faster than plain text
    c) Instructions allow the AI to bypass the context window limit and handle longer conversations
    Correct answer: a.
    - (a) is correct because instructions provide persistent, reusable rules that the AI loads and applies automatically. This eliminates the need to remember and re-enter constraints for recurring tasks.
