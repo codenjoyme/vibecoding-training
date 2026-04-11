@@ -9,7 +9,7 @@ Upon completion of this module, you will be able to:
 - Describe how AI models generate text `token` by `token` and explain the role of temperature.
 - Identify the four participants in `Agent Mode` (`User`, `Model`, `Agent System`, `Tools`) and their interactions.
 - Trace the orchestration flow from `prompt` to `tool` execution to response.
-- Explain why the AI `model's` context (the canvas) contains more information than what you see in the chat.
+- Explain why the AI `model's` `context` contains more information than what you see in the chat.
 
 ## Page 1: How AI Generates Text — Token by Token
 ### Background
@@ -46,23 +46,23 @@ The four players:
 3. `Agent System` — the orchestrator built into your IDE (`VS Code` `Github Copilot` plugin or `Cursor`) that coordinates everything.
 4. `Tools` — functions that can read files, edit code, run terminal commands, search the codebase, and more.
 
-The shared canvas (`context window`):
+The shared `context` (`context window`):
 - Imagine an invisible shared document where all four players write.
 - You see only the high-level summary — technical details (tool calls, system prompts) are hidden from you.
 ![What user can see](image.png)
-- The AI `model` sees everything on this canvas — and that text is far larger than it might seem.
+- The AI `model` sees everything on this `context` — and that text is far larger than it might seem.
 ![All the context](11111.png)
-- In practice, the canvas already contains a lot of hidden content before you type a single word: the agent's identity and behavioral rules, a list of things it can and cannot do, and the full descriptions of every available `tool`. In the screenshot above only 9 `tools` are shown, but real projects often expose more than 50 — each with its own name, description, and parameter list taking up space in the `context window`.
+- In practice, the `context` already contains a lot of hidden content before you type a single word: the agent's identity and behavioral rules, a list of things it can and cannot do, and the full descriptions of every available `tool`. In the screenshot above only 9 `tools` are shown, but real projects often expose more than 50 — each with its own name, description, and parameter list taking up space in the `context window`.
 - The `Agent System` manages who writes what and when.
 
 ### Steps
 1. Open `Agent Mode` in your AI chat.
 2. Ask the AI to create a simple file: `Create a file called 'hello.txt' with the text 'Hello World' inside.`
 3. Watch the response. From your perspective — you asked, and a file appeared.
-4. Now think about what happened behind the scenes: `You` wrote on the canvas → `Agent System` added tool descriptions → `Model` generated a `tool` call → `Agent System` executed it → `Model` confirmed to you.
+4. Now think about what happened behind the scenes: `You` wrote on the `context` → `Agent System` added tool descriptions → `Model` generated a `tool` call → `Agent System` executed it → `Model` confirmed to you.
 
 ### ✅ Result
-You can name the four players (`User`, `Model`, `Agent System`, `Tools`) and explain how they interact on the shared canvas (`context`).
+You can name the four players (`User`, `Model`, `Agent System`, `Tools`) and explain how they interact on the shared `context`.
 
 ## Page 3: How the Agent Orchestrates Tool Use
 ### Background
@@ -94,29 +94,29 @@ You can explain the orchestration process: `prompt` → hidden data in the `cont
 
 ## Page 4: What the Model Sees vs What You See
 ### Background
-One of the most important insights is the difference between what appears on your screen and what the AI model works with internally. The canvas contains far more information than you see.
+One of the most important insights is the difference between what appears on your screen and what the AI model works with internally. The `context` contains far more information than you see.
 
 What you see (simplified):
-- Your message: "Create a file called `math_helper.py` with an add function."
-- AI response: "I have created the file `math_helper.py` with an add function."
+- Your message: `Create a file called 'math_helper.py' with an add function`
+- AI response: `I have created the file 'math_helper.py' with an add function`
 
-What the model sees (full canvas):
+What the `model` sees (full `context`):
 - System context with all available tools and their parameters.
 - Current workspace path and file listing.
 - Your message.
-- The tool call it generated (create_file with path and content).
-- The tool execution result ("File created successfully").
+- The `tool` call it generated (`create_file` with path and content).
+- The `tool` execution result ("File created successfully").
 - Its response to you.
 
-The Agent System manages this entire flow: injecting tool descriptions, detecting tool calls, executing tools, filtering what you see, and passing control between participants.
+The `Agent System` manages this entire flow: injecting `tool` descriptions, detecting `tool` calls, executing `tools`, filtering what you see, and passing control between participants.
 
 ### Steps
-1. Ask the AI a question about a file in your workspace: "What files are in the current directory?"
-2. The AI will use a tool to list files, but you will only see the summary answer.
+1. Ask the AI a question about a file in your workspace: `List the files in my current workspace and tell me what you see`
+2. The AI will use a `tool` to list files, but you will only see the summary answer.
 
-![More tools at work](img/module-06/03-more-tools-at-work.png)
+![What user can see](image.png)
 
-3. Reflect: the model made a tool call, received a result, and then summarized it for you — all on the canvas you cannot see directly.
+3. Reflect: the `model` made a `tool` call, received a result, and then summarized it for you — all on the `context` you cannot see directly.
 
 ### ✅ Result
 You understand that the AI model works with a richer context than what appears in your chat window.
@@ -128,7 +128,7 @@ Understanding the agent architecture has practical consequences for how effectiv
 1. The Model does not "think" — it generates text. What looks like reasoning is pattern matching from training data. This explains unexpected choices and why specificity matters.
 2. `Agent Mode` extends capabilities. Without it, the model can only chat. With it, the model triggers real actions through tools.
 3. Everything is sequential. The model generates one token at a time and cannot "go back." Each tool call requires a round trip: Model → Agent → Tool → Result → Model. Complex tasks take longer because of these sequential steps.
-4. Context is everything. The model sees all previous text on the canvas. More context means better responses, but too much context can slow down or confuse the model.
+4. `Context` is everything. The model sees all previous text on the `context`. More context means better responses, but too much context can slow down or confuse the model.
 5. Temperature explains variability. Same prompt, different results — this is normal and expected. If you need consistency, be more specific.
 
 `Agent Mode` can: read and write files in your workspace, search for code patterns, execute terminal commands (when you approve), create directories, and refactor code across multiple files.
@@ -138,7 +138,7 @@ Understanding the agent architecture has practical consequences for how effectiv
 ### Steps
 1. Think about a recent AI interaction that surprised you (unexpected result, slow response, or inconsistent behavior).
 2. Using what you learned in this module, identify which mechanism explains that behavior (temperature? sequential tool calls? context overload?).
-3. Try a project-relevant exercise: ask the AI in `Agent Mode` — "Create a file called `PROJECT_IDEAS.md` with 3 possible `Jira`/Confluence automation ideas for a manager. For each idea, describe the problem it solves and what data it needs." Watch the agent mode cycle as it creates the file — notice the tool calls, the sequential generation, the canvas at work.
+3. Try a project-relevant exercise: ask the AI in `Agent Mode` — "Create a file called `PROJECT_IDEAS.md` with 3 possible `Jira`/Confluence automation ideas for a manager. For each idea, describe the problem it solves and what data it needs." Watch the agent mode cycle as it creates the file — notice the tool calls, the sequential generation, the `context` at work.
 
 ![Generation at work](img/module-06/04-generation-at-work.png)
 
@@ -148,12 +148,12 @@ Understanding the agent architecture has practical consequences for how effectiv
 You have a mental model of AI agent behavior that helps you predict and troubleshoot issues. You also have a `PROJECT_IDEAS.md` file that will feed into your project planning in Module 08.
 
 ## Summary
-So — what actually happens when you click "Send"? Now you know. Your prompt lands on a shared canvas, the Agent System injects tool descriptions, the model predicts one token at a time, and when it "decides" a tool is needed, the Agent System intercepts and executes it. The result goes back to the canvas, and the model continues generating its response to you.
+So — what actually happens when you click "Send"? Now you know. Your prompt lands on a shared `context`, the Agent System injects tool descriptions, the model predicts one token at a time, and when it "decides" a tool is needed, the Agent System intercepts and executes it. The result goes back to the `context`, and the model continues generating its response to you.
 
 Key takeaways:
 - AI models predict text — they do not think or plan.
 - `Agent Mode` enables real actions (file creation, code execution) through tool orchestration.
-- The shared canvas (context window) contains more information than you see in the chat.
+- The shared context window contains more information than you see in the chat.
 - Temperature causes natural variation in responses — this is normal, not a bug.
 - Understanding these mechanics makes you a more effective AI user.
 
@@ -182,5 +182,5 @@ Key takeaways:
    c) The Agent System queues all tool calls and processes them in a separate background thread
    Correct answer: a.
    - (a) is correct because agent mode tasks are sequential. Each tool use involves multiple steps (model → agent → tool → result → model), and the model cannot proceed until each round trip completes.
-   - (b) is incorrect because the model does not verify outputs against training data. It sees the tool result as new text on the canvas and generates the next token based on the full context.
+   - (b) is incorrect because the model does not verify outputs against training data. It sees the tool result as new text on the context and generates the next token based on the full context.
    - (c) is incorrect because tool calls are executed in sequence, not in a background queue. The model waits for each tool result before generating the next step.
