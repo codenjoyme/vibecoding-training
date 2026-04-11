@@ -110,9 +110,15 @@ Cost anxiety is the most common barrier to using AI coding assistants effectivel
 
 Real-world example from intensive usage:
 - One month of daily AI-assisted work.
-- Using Claude Sonnet 4.5 extensively — generating code every working day.
-- Total cost: approximately $80 over the base subscription.
+- Using Claude Sonnet 4.6 extensively — generating code every working day.
+- Total cost: approximately $80 over the base subscription — which corresponds roughly to an 800% overage against the default Copilot quota (the relationship is not linear, but the order of magnitude holds).
 - That month of AI-assisted work produced more output than an entire previous year of manual work.
+
+If your AI champion is actively exploring the GenAI world, they will likely exhaust their available 200–300% quota well before the month ends. When this happens repeatedly, it is a systemic signal — not a one-off event. It means the spending cap needs to be reconsidered and raised.
+
+Regarding Cursor — it has its own monetization model, similar in structure to Copilot. The principle is the same: do not restrict your engineers.
+
+The core logic is simple: if you are adopting GenAI to save X × $1,000 in engineering hours, it makes no sense to be frugal about Y × $10 on model access. Limiting the tools limits the outcome.
 
 Most learners will not exhaust their free premium requests during this course. The productivity gain far exceeds any cost.
 
