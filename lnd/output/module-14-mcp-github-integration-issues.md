@@ -80,7 +80,7 @@ The `GitHub` `MCP` server provides tools for repositories, issues, pull requests
 
 ### Steps
 1. Test listing repositories: "Show me all my `GitHub` repositories using the `GitHub` `MCP` tool." Approve the tool call. You should see a list of your repositories.
-2. If your practical project does not have a `GitHub` repository yet, create one: `Create a new public GitHub repository called 'jira-confluence-automation' with a description Jira/Confluence automation toolkit built with AI assistance.` Approve the tool call.
+2. If your practical project does not have a `GitHub` repository yet, create one: `Create a new public GitHub repository called 'jira-confluence-automation' with a description Jira/Confluence automation toolkit built with AI assistance` Approve the tool call.
 3. If you created a new repository, add it as a remote and push your code:
    "Add a new `Git` remote called 'origin' pointing to the repository we just created, then push the main branch."
 4. Verify the code appeared on `GitHub` by asking: "Show me the contents of the `README.md` file in the jira-confluence-automation repository."

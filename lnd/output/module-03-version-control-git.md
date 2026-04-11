@@ -98,7 +98,7 @@ You have a small practice project with three files ready for version control.
    `git status`
    You should see all project files listed as `Untracked` — `Git` knows the files exist but is not tracking them yet.
 3. Configure your identity. Ask the AI:
-   `I need to configure Git with my identity. My name is [Your Name] and email is [your@email.com]. What commands should I run? Please do it for me.`
+   `I need to configure Git with my identity. My name is [Your Name] and email is [your@email.com]. What commands should I run? Please do it for me`
 4. The AI will suggest:
    `git config --global user.name "Your Name"`
    `git config --global user.email "your@email.com"`
@@ -165,7 +165,7 @@ The feature took three small steps instead of one big confusing change. Each ste
 **Think of staging as a pre-commit draft area.** When the AI produces a result you like, stage it — this locks in your progress without finalizing it. You can stage several incremental results and keep refining. If the AI then makes a mistake and breaks something, only the unstaged changes are at risk; your staged work is safe. Once you are satisfied that the feature is complete, commit — this saves it permanently. You can commit right away if the change is clearly done, but if you sense there is still a bit more to add or verify, staging lets you hold that working state while you continue.
 
 **Tip: not every AI-generated file belongs in `Git`.** As your project grows, the AI may create temporary scripts, test data, or scaffolding files. Before staging everything with `git add .` (this is command AI runs in terminal whe you ask to stage results), ask the AI:
-   `Which of my project files are production code and which are temporary scaffolding? List them in two groups.`
+   `Which of my project files are production code and which are temporary scaffolding? List them in two groups`
 So you can see.
 
 ![Ask about scafolding](img/module-03/27-ask-about-scaffolding.png)

@@ -31,7 +31,7 @@ Key concepts:
 
 ![Temperature at work](img/module-06/01-temperature-at-work.png)
 
-4. Try a very specific prompt: `Define project management in exactly 10 words.` Notice the variability is much lower because you constrained the output.
+4. Try a very specific prompt: `Define project management in exactly 10 words` Notice the variability is much lower because you constrained the output.
 
 ### ✅ Result
 You understand that AI generates text token by token and that `temperature` causes natural variation in responses.
@@ -57,7 +57,7 @@ The shared `context` (`context window`):
 
 ### Steps
 1. Open `Agent Mode` in your AI chat.
-2. Ask the AI to create a simple file: `Create a file called 'hello.txt' with the text 'Hello World' inside.`
+2. Ask the AI to create a simple file: `Create a file called 'hello.txt' with the text 'Hello World' inside`
 3. Watch the response. From your perspective — you asked, and a file appeared.
 4. Now think about what happened behind the scenes: `You` wrote on the `context` → `Agent System` added tool descriptions → `Model` generated a `tool` call → `Agent System` executed it → `Model` confirmed to you.
 
