@@ -50,8 +50,9 @@ The shared canvas (`context window`):
 - Imagine an invisible shared document where all four players write.
 - You see only the high-level summary — technical details (tool calls, system prompts) are hidden from you.
 ![What user can see](image.png)
-- The AI `model` sees everything on this canvas.
+- The AI `model` sees everything on this canvas — and that text is far larger than it might seem.
 ![All the context](11111.png)
+- In practice, the canvas already contains a lot of hidden content before you type a single word: the agent's identity and behavioral rules, a list of things it can and cannot do, and the full descriptions of every available `tool`. In the screenshot above only 9 `tools` are shown, but real projects often expose more than 50 — each with its own name, description, and parameter list taking up space in the `context window`.
 - The `Agent System` manages who writes what and when.
 
 ### Steps
