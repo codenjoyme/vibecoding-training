@@ -47,11 +47,13 @@ Before learning `Git` commands, you need a small project to practice on. You wil
 2. Create a subfolder: `work/module03-task`. All course exercises go in `work/`[module-number]-task.
 ![Create new folder](img/module-03/01-create-new-folder.png)
 3. Open the chat and ask the AI assistant in `Agent` mode:
+```
    Create a simple `Python` calculator project with:
    - `calculator.py` with add() and subtract() functions
    - `main.py` that uses the calculator
    - `README.md` with project description
    Place these files in the `work/module03-task` directory.
+```
 ![Ask to create file - VSCode](img/module-03/02-ask-to-create-file-vscode.png)
 ![Ask to create file - Cursor](img/module-03/03-ask-to-create-file-cursor.png)
 4. Verify that three files appear in `work/module03-task`: `calculator.py`, `main.py`, and `README.md`.
@@ -101,7 +103,7 @@ You have a small practice project with three files ready for version control.
    `git config --global user.name "Your Name"`
    `git config --global user.email "your@email.com"`
 5. Ask the AI:
-   `Verify my global Git identity settings and show the configured values.`
+   `Verify my global Git identity settings and show the configured values`
    The AI will most likely run:
    `git config --global --list`
 
@@ -115,7 +117,7 @@ Not every file belongs in version control. Secrets (`API keys`, passwords), temp
 
 ### Steps
 1. Ask the AI:
-   `Create a '.gitignore'. Ignore the '.env' file and basic Python stuff.`
+   `Create a '.gitignore'. Ignore the '.env' file and basic Python stuff`
 2. Review the generated `.gitignore` — make sure it includes `.env`.
 ![Ignored env](image-1.png)
 3. Now stage all project files for your first commit. In the IDE, open the `Source Control` panel (look for the branch icon in the left sidebar). You should see all changed files listed.
@@ -137,20 +139,20 @@ Now that you have a baseline, practice the core loop: make a change → test →
 
 ### Steps
 1. Ask the AI:
-   `Create calculator python script and add a multiply() function to it.`
+   `Create calculator python script and add a multiply() function to it`
 2. After the AI adds the function, you can open it.
 ![Calculator multiply](image-6.png)
 3. Stage `calculator.py` immediately (click `+` in `Source Control` or ask AI to `stage calculator file`). Do not commit yet — you are building up a feature.
 ![Stage the file without AI](image-8.png)
 ![Stage the file with AI](image-7.png)
 4. Ask the AI:
-   `Create main.py to demonstrate the multiply function.`
+   `Create main.py to demonstrate the multiply function`
 5. Check that both files work together. 
 ![Main demo script](image-9.png)
 6. Stage `main.py`.
 ![Stage it](image-10.png)
 7. Ask the AI:
-   `Create README.md to document the multiply function.`
+   `Create README.md to document the multiply function`
 8. Review the `README`.
 ![Readme](image-11.png) 
 
@@ -172,7 +174,9 @@ Then stage only the production files and add scaffolding patterns to `.gitignore
 
 ![Ignore and remove scafolding](image-14.png)
 
-Then Commit.
+Do not commit this, and ask ai `Please revert all this changes`. This will undo previous step at all. 
+
+![Revert all changes](image-15.png)
 
 ### ✅ Result
 You completed a feature using baby steps: three small changes, each tested and staged, then committed as one unit.
@@ -183,22 +187,22 @@ This is the most important exercise in the module. You will deliberately create 
 
 ### Steps
 1. Ask the AI:
-   Add a divide() function to `calculator.py`
+   `Add a divide() function to calculator.py`
 2. Do NOT stage or commit yet.
 3. Now ask the AI to do something risky:
-   Refactor `calculator.py` to use a class-based structure
-4. Check if `main.py` still works. It likely does not — the refactoring changed too much.
+   `Refactor calculator.py to use a class-based structure`
+4. Check if `main.py` still works. It likely does not — the refactoring changed too much. Ask AI: `Please run main.py in the terminal`.
 5. Since you did not stage the refactoring, discard it:
    - IDE: Right-click `calculator.py` in `Source Control` → Discard Changes.
-   - Terminal: git checkout -- `calculator.py`
+   - Terminal: `git checkout -- calculator.py`
+   - AI: `Please revert calculator.py`
 6. Notice that your divide() function is also gone — it was never staged.
 7. This demonstrates the lesson: if you had staged divide() when it worked, you could recover it now. Always stage working code immediately.
 
-**What if you already committed the bad change?** If you committed the refactoring before realizing it broke things, you have two options:
-- git revert HEAD — creates a new commit that undoes the last one (safe, preserves history).
-- git reset --hard HEAD~1 — removes the last commit entirely (destructive, use with caution).
-
-Page 6 covers the more common case (discarding unstaged changes), but knowing both recovery paths ensures you are never stuck.
+**What if you already committed the bad change?** If you committed the refactoring before realizing it broke things, you have two options in terminal:
+- `git revert HEAD` — creates a new commit that undoes the last one (safe, preserves history).
+- `git reset --hard HEAD~1` — removes the last commit entirely (destructive, use with caution).
+You can also ask AI to do it in the chat: `Please revert last commit` as we did it before.
 
 ### ✅ Result
 You practiced recovering from an AI mistake using git checkout. You understand why staging after each working change is critical — and you know how to undo a committed mistake if needed.
