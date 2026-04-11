@@ -213,10 +213,11 @@ Pushing your repository to `GitHub` creates a remote backup. If your local machi
 
 ### Steps
 1. Go to [https://github.com/new](https://github.com/new) in your browser.
-2. Name the repository: jira-confluence-automation (or git-baby-steps-practice if you prefer to start with a generic name and rename later).
+2. Name the repository: `git-baby-steps-practice`.
 3. Choose Public or Private (your preference).
 4. Do NOT check "Initialize this repository" — you already have local files.
 5. Click Create repository.
+![Create repository](image.png)
 6. Ask the AI:
    `I created a GitHub repo at 'https://github.com/[username]/git-baby-steps-practice'. How do I connect my local repository and push?`
 7. The AI will provide commands like:
