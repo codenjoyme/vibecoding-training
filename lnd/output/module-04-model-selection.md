@@ -52,8 +52,8 @@ With many models available, it is tempting to switch constantly. Research shows 
    ![Cursor models](image-4.png)
 2. Review the available models. Recommended choices:
    - `Claude Sonnet 4.6` — Best for coding tasks, excellent balance of price and quality.
-   - `GPT-4.1` — Strong general-purpose alternative.
-3. Select `Claude Sonnet 4.6` as your primary model.
+   - `GPT-4.1` — Free tier (0x), no quota cost, but noticeably mediocre at following instructions and writing code — use only as a fallback when premium quota is exhausted.
+3. Select `Claude Sonnet 4.6` as your primary model. 
 
 ![Claude selected](img/module-04/03-claude-selected.png)
 
