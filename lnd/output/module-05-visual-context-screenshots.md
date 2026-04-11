@@ -34,27 +34,27 @@ You understand when and why to share screenshots with your AI assistant.
 Every operating system provides built-in tools for capturing screenshots. You do not need to install any additional software. Choose the method that works best for you — the only requirement is that you can paste the captured image into the AI chat.
 
 `Windows`:
-- `Snip & Sketch`: Press `Windows` + Shift + S — select the area to capture. The image is copied to the clipboard.
+- `Snip & Sketch`: Press `Windows` + `Shift` + `S` — select the area to capture. The image is copied to the clipboard.
 - `Snipping Tool`: Search for "`Snipping Tool`" in the Start menu — select area to capture.
-- Full screen: Press PrtScn (Print Screen) — copies entire screen to clipboard.
-- Active window: Press Alt + PrtScn — copies the active window only.
+- Full screen: Press `PrtScn` (`Print Screen`) — copies entire screen to clipboard.
+- Active window: Press `Alt` + `PrtScn` — copies the active window only.
 
 `macOS`:
-- Selected area: Press Cmd + Shift + 4 — drag to select area.
-- Full screen: Press Cmd + Shift + 3 — captures entire screen.
-- Window: Press Cmd + Shift + 4, then Space, then click a window.
+- Selected area: Press `Cmd` + `Shift` + `4` — drag to select area.
+- Full screen: Press `Cmd` + `Shift` + `3` — captures entire screen.
+- Window: Press `Cmd` + `Shift` + `4`, then Space, then click a window.
 
 `Linux`:
-- Full screen: Press PrtScn — saves to Pictures folder.
-- Selected area: Press Shift + PrtScn — drag to select area.
-- Active window: Press Alt + PrtScn.
+- Full screen: Press `PrtScn` — saves to Pictures folder.
+- Selected area: Press `Shift` + `PrtScn` — drag to select area.
+- Active window: Press `Alt` + `PrtScn`.
 
 ### Steps
 1. Practice taking a screenshot now using your preferred method.
 2. Open any application — for example, your web browser.
 3. Capture a screenshot of the browser window.
-4. Open your AI chat (`Copilot Chat` or `Cursor` Chat).
-5. Click in the message input field and paste the screenshot (Ctrl+V on `Windows`/Linux, Cmd+V on `macOS`).
+4. Open your AI chat (`Copilot` or `Cursor` Chat).
+5. Click in the message input field and paste the screenshot (`Ctrl + V` on `Windows`/`Linux`, `Cmd + V` on `macOS`).
 6. You should see the image appear as a thumbnail in the input field.
 
 ![Pasted screenshot](img/module-05/01-pasted-screenshot.png)
@@ -64,23 +64,23 @@ You can take a screenshot and paste it into the AI chat.
 
 ## Page 3: Practical Exercise — Browser Developer Console
 ### Background
-To practice the screenshot workflow, you will complete a real task: opening the browser Developer Console and writing "Hello World." This task varies between browsers (`Chrome`, Firefox, Edge, Safari), making it a perfect case for screenshot-assisted guidance — the AI can see which browser you are using and adapt its instructions.
+To practice the screenshot workflow, you will complete a real task: opening the browser `Developer Console` and writing `Hello World`. This task varies between browsers (`Chrome`, `Firefox`, `Edge`, `Safari`), making it a perfect case for screenshot-assisted guidance — the AI can see which browser you are using and adapt its instructions. If it misidentifies your browser on the first attempt, keep sharing screenshots as you follow along — each additional image gives the AI more context, and it will quickly self-correct.
 
 ### Steps
 1. Open any web browser and navigate to any website (for example, [https://www.google.com](https://www.google.com)).
 2. Take a screenshot of the entire browser window.
 3. Open your AI chat and paste the screenshot.
 4. Type this message along with the screenshot:
-[MG]: Нужно для LnD обязательно пометить каким-то маркапом, где куски текста/кода которые нужно будет выделить при переноси в Learn, как например промпт который нужно скопипастить ниже.
-   I want to open the Developer Console in this browser and write "Hello World" in the console. Can you guide me step by step? Point out exactly where to click in my interface.
+   `I want to open the Developer Console in this browser and write 'Hello World' in the console. Can you guide me step by step? Point out exactly where to click in my interface`
 5. Send the message. The AI will identify your browser and provide specific instructions.
-6. Follow the AI's instructions to open the Developer Console.
+![How to open console](image.png)
+6. Follow the AI's instructions to open the `Developer Console`.
 7. Once the console is open, take another screenshot showing the console panel.
 8. Paste this new screenshot and ask:
-   The console is now open. How do I write "Hello World" here? Show me exactly where to type.
-9. Follow the AI's instructions. Typically, you will type console.log("Hello World") and press Enter.
-10. Verify: "Hello World" appears in the console output.
-
+   `The console is now open. How do I write "Hello World" here? Show me exactly where to type`
+   ![Write code in the console](image-2.png)
+9. Follow the AI's instructions. Typically, you will type `console.log("Hello World")` and press `Enter`.
+10. Verify: `Hello World` appears in the console output.
 ![Hello World](img/module-05/02-hello-world.png)
 
 ### ✅ Result
@@ -99,13 +99,14 @@ There are several account options depending on your situation:
 - **Existing free `Atlassian` account:** If you already use a free `Atlassian Jira` account for personal or other projects, register a new temporary email address (e.g. using `Gmail` or similar) and create a separate `Atlassian` account exclusively for this training. This avoids mixing course work with your existing projects.
 
 ### Steps
-1. Open your browser and navigate to your `Atlassian` account settings ([https://id.atlassian.com/manage-profile/security/api-tokens](https://id.atlassian.com/manage-profile/security/api-tokens)).
+1. Open your browser and navigate to your `Atlassian` account settings ([https://id.atlassian.com/manage-profile/security/api-tokens](https://id.atlassian.com/manage-profile/security/api-tokens)). 
 2. Take a screenshot of the page you see.
 3. Paste the screenshot into the AI chat and ask:
-   I need to create an `API token` for accessing `Jira` and `Confluence` via their REST APIs. Here is my current screen. Can you walk me through the steps?
+   `I need to create an API token for accessing Jira and Confluence via their REST APIs. Here is my current screen. Can you walk me through the steps?`
 4. Follow the AI's instructions — it will guide you based on what it sees in your screenshot.
 5. When the token is generated, copy it to a safe location (a password manager or a secure note).
 6. Do NOT commit this token to your `Git` repository. Store it in a `.env` file (which is already in your `.gitignore` from Module 3).
+7. Please add 
 
 Important: `API tokens` are sensitive credentials. Never share them in screenshots, chat histories, or code repositories.
 
