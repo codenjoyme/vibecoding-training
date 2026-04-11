@@ -111,15 +111,22 @@ You have a small practice project with three files ready for version control.
 ## Page 4: Create `.gitignore` and First Commit
 ### Background
 Not every file belongs in version control. Secrets (`API keys`, passwords), temporary files, and IDE configuration should be excluded. A `.gitignore` file tells `Git` which files to skip.
+![Git ignore patterns](image.png)
 
 ### Steps
 1. Ask the AI:
-   Create a `.gitignore` file for a `Python` project. Include virtual environments, cache files, secrets/environment files, IDE configuration, and any files in a temp/ directory.
-2. Review the generated `.gitignore` — make sure it includes `.env` and other sensitive file patterns.
+   `Create a '.gitignore'. Ignore the '.env' file and basic Python stuff.`
+2. Review the generated `.gitignore` — make sure it includes `.env`.
+![Ignored env](image-1.png)
 3. Now stage all project files for your first commit. In the IDE, open the `Source Control` panel (look for the branch icon in the left sidebar). You should see all changed files listed.
-4. Click the + icon next to each file to stage it (or run git add . in terminal to stage everything).
-5. Type a commit message: Initial calculator with add and subtract.
-6. Click the commit button (or run git commit -m "Initial calculator with add and subtract" in terminal).
+![Stage all changes](image-2.png)
+4. Click the + icon next to each file to stage it (or ask AI to make `git add`).
+5. Type a commit message: `Initial calculator with add and subtract` or press autogenerate commit message button.
+![Commit message](image-3.png)
+6. Click the commit button.
+![Commit without ai](image-5.png)
+7. Or you can ask AI to do commit with some informative message
+![Commit with ai](image-4.png)
 
 ### ✅ Result
 Your first commit is saved. You now have a baseline snapshot to return to at any time.
@@ -130,22 +137,42 @@ Now that you have a baseline, practice the core loop: make a change → test →
 
 ### Steps
 1. Ask the AI:
-   Add a multiply() function to `calculator.py`
-2. After the AI adds the function, test it — run the code and verify multiply works.
-3. Stage `calculator.py` immediately (click + in `Source Control` or run git add `calculator.py`). Do not commit yet — you are building up a feature.
+   `Create calculator python script and add a multiply() function to it.`
+2. After the AI adds the function, you can open it.
+![Calculator multiply](image-6.png)
+3. Stage `calculator.py` immediately (click `+` in `Source Control` or ask AI to `stage calculator file`). Do not commit yet — you are building up a feature.
+![Stage the file without AI](image-8.png)
+![Stage the file with AI](image-7.png)
 4. Ask the AI:
-   Update `main.py` to demonstrate the multiply() function
-5. Test that both files work together. Stage `main.py`.
-6. Ask the AI:
-   Update `README.md` to document the multiply function
-7. Review the README. Stage it. Now commit:
-   git commit -m "Add multiply function"
+   `Create main.py to demonstrate the multiply function.`
+5. Check that both files work together. 
+![Main demo script](image-9.png)
+6. Stage `main.py`.
+![Stage it](image-10.png)
+7. Ask the AI:
+   `Create README.md to document the multiply function.`
+8. Review the `README`.
+![Readme](image-11.png) 
+
+9. Stage it. Now commit. You can do it in `Source Control` as we did before, ask AI `please commit it` and do following command in the terminal:
+   `git commit -m "Add multiply function"`
+![Commit all files](image-12.png)
 
 The feature took three small steps instead of one big confusing change. Each step was verified before moving on.
 
-**Tip: not every AI-generated file belongs in `Git`.** As your project grows, the AI may create temporary scripts, test data, or scaffolding files. Before staging everything with git add ., ask the AI:
-   Which of my project files are production code and which are temporary scaffolding? List them in two groups.
-Then stage only the production files and add scaffolding patterns to `.gitignore`.
+**Think of staging as a pre-commit draft area.** When the AI produces a result you like, stage it — this locks in your progress without finalizing it. You can stage several incremental results and keep refining. If the AI then makes a mistake and breaks something, only the unstaged changes are at risk; your staged work is safe. Once you are satisfied that the feature is complete, commit — this saves it permanently. You can commit right away if the change is clearly done, but if you sense there is still a bit more to add or verify, staging lets you hold that working state while you continue.
+
+**Tip: not every AI-generated file belongs in `Git`.** As your project grows, the AI may create temporary scripts, test data, or scaffolding files. Before staging everything with `git add .` (this is command AI runs in terminal whe you ask to stage results), ask the AI:
+   `Which of my project files are production code and which are temporary scaffolding? List them in two groups.`
+So you can see.
+
+![Ask about scafolding](image-13.png)
+
+Then stage only the production files and add scaffolding patterns to `.gitignore` manually in `Source Control` or ask AI to do it instead of you: `Please remove/ingnore scafolding files`
+
+![Ignore and remove scafolding](image-14.png)
+
+Then Commit.
 
 ### ✅ Result
 You completed a feature using baby steps: three small changes, each tested and staged, then committed as one unit.
