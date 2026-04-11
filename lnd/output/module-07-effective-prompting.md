@@ -1,32 +1,32 @@
 # Module 7: Effective Prompting Without Arguing
 
 ### Background
-You asked the AI to do something, and the result is wrong. Your instinct is to type "No, that is not what I meant..." and start a back-and-forth conversation trying to fix it. This is the single most common mistake people make with AI assistants — and it makes things worse, not better.
+You asked the AI to do something, and the result is wrong. Your instinct is to type `No, that is not what I meant...` and start a back-and-forth conversation trying to fix it. This is the single most common mistake people make with AI assistants — and it makes things worse, not better.
 
-In this module, you will learn why arguing with the AI pollutes the `context window`, why restarting with a refined prompt produces better results, and how to control output variability through precise prompting. These techniques will dramatically improve your effectiveness in every future module.
+In this module, you will learn why `arguing with the AI` pollutes the `context window`, why restarting with a refined prompt produces better results, and how to control output variability through precise prompting. These techniques will dramatically improve your effectiveness in every future module.
 
 Upon completion of this module, you will be able to:
 - Explain how prompt specificity controls the variability of AI output.
 - Structure prompts as a series of constraint statements to narrow the solution space.
-- Apply the edit-and-regenerate workflow instead of arguing with the AI.
-- Take ownership of AI output quality by refining prompts rather than blaming the model.
+- Apply the edit-and-regenerate workflow instead of `arguing with the AI`.
+- Take ownership of AI output quality by refining prompts rather than `blaming the model`.
 
 ## Page 1: The Artist Metaphor — Understanding Prompt Precision
 ### Background
 Imagine you ask 10 world-class artists to paint a still life. The precision of your request determines how similar or different their paintings will be.
 
-Scenario 1 — Abstract prompt: "Paint a still life."
+Scenario 1 — Abstract prompt: `Paint a still life`
 → 10 completely different masterpieces. Different subjects, styles, colors, compositions. Each is professional, but wildly different.
 
-Scenario 2 — Moderately specific: "Paint a still life with a vase of flowers and a fruit on the left."
+Scenario 2 — Moderately specific: `Paint a still life with a vase of flowers and a fruit on the left`
 → 10 paintings with recognizable similarities. All have flowers and fruit, but different types, colors, and arrangements.
 
-Scenario 3 — Very specific: "Paint a still life with a vase of lilacs and a pear on the left, on a wooden table, with soft morning light."
+Scenario 3 — Very specific: `Paint a still life with a vase of lilacs and a pear on the left, on a wooden table, with soft morning light`
 → 10 very similar paintings. Same flowers, same fruit, same placement. Only minor brushstroke variations.
 
 The same principle applies to AI prompts:
-- Fewer details = more creative but unpredictable results (high temperature effect).
-- More details = more consistent and controlled results (low temperature effect).
+- Fewer details = more creative but unpredictable results (high `temperature` effect).
+- More details = more consistent and controlled results (low `temperature` effect).
 - You choose the level of precision you need.
 
 ### ✅ Result
@@ -34,9 +34,9 @@ You understand that prompt specificity directly controls the variability of AI o
 
 ## Page 2: The Power of Statements
 ### Background
-The practical tool for controlling precision is breaking your requirements into statements — one sentence per requirement. Each statement adds one specific constraint.
+The practical tool for controlling precision is breaking your requirements into `statements` — one sentence per requirement. Each `statement` adds one specific constraint.
 
-Statement structure:
+`Statement` structure:
 - Statement 1: What to create (function, file, report, document).
 - Statement 2: What it should do (sort, calculate, summarize, format).
 - Statement 3: Technical details (language, tool, format, structure).
@@ -44,21 +44,21 @@ Statement structure:
 - Statement 5: Edge cases or examples (what to do with empty input, special cases).
 
 Example progression:
-- 1 statement: "Create a sorting function" → could be any language, any algorithm, any structure.
-- 3 statements: "Create a sorting function. Use bubble sort. Write it in `Python`." → language and algorithm locked, structure still varies.
-- 5 statements: "Create a `Python` file named `bubble_sort.py`. Implement bubble_sort function. Takes a list of integers. Returns the sorted list. No comments, no type hints." → minimal variation, consistent output.
+- 1 statement: `Create a sorting function` → could be any language, any algorithm, any structure.
+- 3 statements: `Create a sorting function. Use 'bubble sort'. Write it in 'Python'` → language and algorithm locked, structure still varies.
+- 5 statements: `Create a 'Python' file named 'bubble_sort.py'. Implement 'bubble_sort' function. Takes a list of integers. Returns the sorted list. No comments, no type hints` → minimal variation, consistent output.
 
 Rule: More statements = less variability = more control. Each statement narrows the space of possible solutions.
 
 Two things to keep in mind about prompt language:
-- Natural language does not matter. You can write prompts in English, Russian, or any language. Typos and informal phrasing are fine — the model understands all of these equally well.
-- Technical terms matter a lot. `Python` vs `Java` produces completely different code. `Bubble sort` vs `quicksort` selects a different algorithm. Each precise technical term locks in a specific aspect of the solution. When results seem poor, check whether you used the right technical terms, not whether your grammar was correct.
+- Natural language does not matter. You can write prompts in `English`, `Ukrainian`, or any language. Typos and informal phrasing are fine — the model understands all of these equally well.
+- Technical terms matter a lot. `Python` vs `Java` produces completely different code. `Bubble sort` vs `quicksort` selects a different algorithm. Each precise technical `term` locks in a specific aspect of the solution. When results seem poor, check whether you used the right technical `terms`, not whether your grammar was correct.
 
 ### Steps
 1. Open your AI chat in `Agent Mode`.
-2. Type a very abstract prompt: "Create a file with a sorting function."
+2. Type a very abstract prompt: `Create a file with a sorting function.`
 3. Observe the result: note the language, algorithm, extras (comments, tests, docstrings).
-4. Now edit your original prompt (do not write a new message below — go back and edit) to add two constraints: "Create a file with a bubble sort function in `Python`."
+4. Now edit your original prompt (**do not write a new message below — go back and edit**) to add two constraints: `Create a file with a bubble sort function in Python`
 
 ![Edit](img/module-07/01-edit.png)
 
