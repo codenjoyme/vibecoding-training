@@ -53,7 +53,17 @@ With many models available, it is tempting to switch constantly. Research shows 
 2. Review the available models. Recommended choices:
    - `Claude Sonnet 4.6` — Best for coding tasks, excellent balance of price and quality.
    - `GPT-4.1` — Free tier (0x), no quota cost, but noticeably mediocre at following instructions and writing code — use only as a fallback when premium quota is exhausted.
-3. Select `Claude Sonnet 4.6` as your primary model. 
+3. Select `Claude Sonnet 4.6` as your primary model.
+
+   We recommend staying within the **Claude ecosystem** — these models are purpose-built for coding and perform exceptionally well in Agent Mode. Here is how to think about the three tiers:
+
+   | Model | Multiplier | Best for |
+   |---|---|---|
+   | `Claude Haiku 4.5` | 0.33x | Simple actions, code review, text generation — lightweight and fast |
+   | `Claude Sonnet 4.6` | 1x | Your everyday workhorse — handles the vast majority of tasks well (use ~80% of the time) |
+   | `Claude Opus 4.6` | 3x | Complex tasks when Sonnet falls short, or upfront architecture and design thinking |
+
+   > **Tip:** The higher the version number, the better the model — prefer 4.6 over 4.5 wherever available. If your IDE does not yet offer a 4.6 version, select the equivalent 4.5 model instead.
 
 ![Claude selected](img/module-04/03-claude-selected.png)
 
