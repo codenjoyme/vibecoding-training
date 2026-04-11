@@ -109,7 +109,15 @@ There are several account options depending on your situation:
 7. Save the token with a descriptive name — for example, `JIRA_API_TOKEN` or `CONFLUENCE_API_TOKEN` — so you can easily identify it later when configuring integrations.
 ![Tokens in env](image-3.png)
 
-Important: `API tokens` are sensitive credentials. **Never** share them in screenshots, chat histories, or code repositories. 
+Important: `API tokens` are sensitive credentials. **Never** share them in screenshots, chat histories, or code repositories.
+
+Anyone who sees your token can perform — on your behalf — exactly the actions you granted when creating it. Keep these security practices in mind:
+
+- **Never display tokens during screen shares or meetings.** If you accidentally expose a token, revoke it immediately in the same `Atlassian` security settings page.
+- **Apply the principle of least privilege.** When creating a token, grant only the permissions you actually need — nothing more.
+- **Set an expiry date.** Always create tokens with a limited validity period rather than leaving them open-ended.
+- **Delete unused tokens.** If you find a token and cannot remember what it was created for, delete it.
+- **Use informative names.** Name each token so it is clear where it is used — for example, `course-jira-mcp-integration` — making it easy to manage and revoke specific tokens without affecting others.
 
 ### ✅ Result
 You have `API tokens` for `Jira` and/or `Confluence` stored securely. You will use them in later modules for automation.
