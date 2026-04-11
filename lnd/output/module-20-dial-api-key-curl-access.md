@@ -1,7 +1,7 @@
 # Module 20: `DIAL API` Key and `cURL` Access
 
 ### Background
-Throughout this course, you have used AI through graphical interfaces — `VS Code`, `GitHub`, `Chrome`. But AI models can also be accessed directly through code, using simple `HTTP` requests. `EPAM` `AI DIAL` is an internal platform that gives you API access to multiple AI models (GPT-4o, Claude, `Gemini`) through a single endpoint. In this final module, you will request an `API key`, make your first programmatic call to an AI model using `cURL`, and understand the parameters that control model behavior. This opens the door to custom automation that goes beyond what any IDE plugin can offer.
+Throughout this course, you have used AI through graphical interfaces — `VS Code`, `GitHub`, `Chrome`. But AI models can also be accessed directly through code, using simple `HTTP` requests. `EPAM` `AI DIAL` is an internal platform that gives you API access to multiple AI models (`GPT-4o`, `Claude`, `Gemini`) through a single endpoint. In this final module, you will request an `API key`, make your first programmatic call to an AI model using `cURL`, and understand the parameters that control model behavior. This opens the door to custom automation that goes beyond what any IDE plugin can offer.
 
 **Learning Objectives**
 
@@ -13,7 +13,7 @@ Upon completion of this module, you will be able to:
 
 ## Page 1: What is `DIAL` and Why Programmatic Access Matters
 ### Background
-`EPAM` `AI DIAL` is `EPAM`'s internal AI gateway. It provides a unified API interface to multiple AI providers — OpenAI (GPT), Anthropic (Claude), and Google (`Gemini`) — through a single endpoint and a single `API key`.
+`EPAM` `AI DIAL` is `EPAM`'s internal AI gateway. It provides a unified API interface to multiple AI providers — `OpenAI` (`GPT`), `Anthropic` (`Claude`), and `Google` (`Gemini`) — through a single endpoint and a single `API key`.
 
 **Why would a manager need programmatic access?**
 - Automate document analysis and report generation for your team.
@@ -63,8 +63,8 @@ You have submitted the `API key` request and understand how to store the key sec
 With the `API key` in hand, you can now send a request to an AI model. The request includes: (1) the endpoint URL with the model name, (2) your `API key` in the headers, and (3) your prompt in the request body.
 
 Available models include:
-- **OpenAI:** gpt-4o, gpt-4.1-mini
-- **Anthropic:** claude-sonnet-4, claude-3-7-sonnet
+- **OpenAI:** `gpt-4o`, `gpt-4.1-mini`
+- **Anthropic:** `claude-sonnet-4`, `claude-3-7-sonnet`
 - **Google:** gemini-2.5-pro, gemini-2.5-flash
 
 ### Steps
@@ -83,7 +83,7 @@ Available models include:
 5. You should receive a `JSON` response containing the model's answer in `choices[0].message.content`.
 6. If you get an error:
    - **401 Unauthorized:** Check the `API key` — make sure it is copied correctly with no extra spaces.
-   - **Connection refused:** Make sure you are on the `EPAM` VPN.
+   - **Connection refused:** Make sure you are on the `EPAM` `VPN`.
    - **Model not found:** Check the model name in the URL — it must match an available deployment.
 7. Try a different model: replace the model name in the URL with `claude-sonnet-4@20250514` and send the same prompt. Compare the responses.
 
@@ -136,7 +136,7 @@ You have tested `DIAL API` access for a practical project task and have a reusab
 ## Summary
 Remember how, at the start of this module, your entire AI experience happened through graphical interfaces — clicking buttons in `VS Code`, approving tool calls in chat, reviewing PRs on `GitHub`? Now you can go beyond those interfaces and talk to AI models directly through code.
 
-With a `DIAL` `API key` and a simple `cURL` command, you have access to GPT, Claude, and `Gemini` through a single endpoint. Parameters like temperature and max_tokens give you precise control over how the model responds. Combined with everything you learned in this course — prompting, instructions, skills, `MCP`, prototyping, QA, delegation — you now have a full toolkit for leveraging AI in your management workflows.
+With a `DIAL` `API key` and a simple `cURL` command, you have access to `GPT`, `Claude`, and `Gemini` through a single endpoint. Parameters like temperature and max_tokens give you precise control over how the model responds. Combined with everything you learned in this course — prompting, instructions, skills, `MCP`, prototyping, QA, delegation — you now have a full toolkit for leveraging AI in your management workflows.
 
 Key takeaways:
 - `EPAM` `AI DIAL` provides unified API access to multiple AI providers through a single key and endpoint.
@@ -155,7 +155,7 @@ Key takeaways:
    c) It is a monitoring dashboard that tracks AI usage across `EPAM` projects
    Correct answer: b.
    - (a) Incorrect. `DIAL` does not select providers based on cost. It provides access to specific models you choose in the request URL. You decide which model to use; `DIAL` routes the request to that model.
-   - (b) Correct. `DIAL` acts as a single entry point to multiple AI models. Instead of getting separate keys for GPT, Claude, and `Gemini`, you use one `DIAL` `API key` to access all of them through the same request format.
+   - (b) Correct. `DIAL` acts as a single entry point to multiple AI models. Instead of getting separate keys for `GPT`, `Claude`, and `Gemini`, you use one `DIAL` `API key` to access all of them through the same request format.
    - (c) Incorrect. While `DIAL` does log usage, its primary purpose is providing API access to AI models, not monitoring. Usage tracking is a side feature, not the core function.
 
 2. What does the temperature parameter control in an AI API request?

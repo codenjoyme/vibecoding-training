@@ -1,7 +1,7 @@
 # Module 17: Rapid Prototyping with `SpecKit`
 
 ### Background
-You have a technical specification, a backlog of tasks, instruction files, and a fully configured development environment. Now it is time to build the actual working prototype. But how do you go from a text spec to a running web application when you have never coded before? The answer is `SpecKit` — a structured methodology that turns a specification document into a working application through a series of AI-guided phases: specify → clarify → plan → tasks → analyze → implement → checklist. In this module, you will follow the full `SpecKit` workflow and, by the end, have a working web application connected to your `Jira`/Confluence APIs.
+You have a technical specification, a backlog of tasks, instruction files, and a fully configured development environment. Now it is time to build the actual working prototype. But how do you go from a text spec to a running web application when you have never coded before? The answer is `SpecKit` — a structured methodology that turns a specification document into a working application through a series of AI-guided phases: specify → clarify → plan → tasks → analyze → implement → checklist. In this module, you will follow the full `SpecKit` workflow and, by the end, have a working web application connected to your `Jira`/`Confluence` APIs.
 
 **Learning Objectives**
 
@@ -15,7 +15,7 @@ Upon completion of this module, you will be able to:
 ### Background
 `SpecKit` is a spec-driven development methodology designed for AI-assisted prototyping. Instead of jumping into code immediately (which leads to hallucinations, inconsistent architecture, and endless rework), `SpecKit` forces a structured preparation phase before a single line of code is written.
 
-The core idea: the more thoroughly you define what you are building, the better the AI will build it. Each phase produces a concrete artifact (a markdown file) that feeds into the next phase.
+The core idea: the more thoroughly you define what you are building, the better the AI will build it. Each phase produces a concrete artifact (a `Markdown` file) that feeds into the next phase.
 
 **`SpecKit` phases:**
 1. **Constitution** — Define the project identity, tech stack, and constraints.
@@ -50,7 +50,7 @@ The Constitution file defines the non-negotiable rules for your project: tech st
 **Important principle:** The specification captures WHAT the product does and WHY — without mentioning specific technologies. The plan (next page) captures HOW, with specific tech choices. This separation is intentional: a non-technical stakeholder can review and validate the spec without understanding `React` or `PostgreSQL`. And if you later change the tech stack, the spec remains valid.
 
 ### Steps
-1. Ask the AI: "Create a `SpecKit` constitution file for my `Jira`/Confluence automation project. Tech stack: `React` 18 + `Vite` frontend, `Node.js` + `Express` backend, `PostgreSQL` 15 database via `Docker`. Save it to `spec/constitution.md`."
+1. Ask the AI: "Create a `SpecKit` constitution file for my `Jira`/`Confluence` automation project. Tech stack: `React` 18 + `Vite` frontend, `Node.js` + `Express` backend, `PostgreSQL` 15 database via `Docker`. Save it to `spec/constitution.md`."
 2. Review the file. It should define:
    - Project name, purpose, and target user.
    - Tech stack with specific versions.

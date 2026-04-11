@@ -8,12 +8,12 @@ AI agents do not naturally remember anything between sessions. Each conversation
 Upon completion of this module, you will be able to:
 - Explain why AI agents lose context between sessions and how external memory solves this.
 - Use the built-in todo tool for real-time progress tracking within a single session.
-- Create and maintain external markdown todo lists that persist between sessions.
+- Create and maintain external `Markdown` todo lists that persist between sessions.
 - Convert a Technical Specification into a structured project backlog (`BACKLOG.md`).
 
 ## Page 1: Why AI Agents Forget
 ### Background
-AI models process each message independently within a single conversation. When you close the chat, the context window — the shared canvas from Module 6 — is discarded. The next conversation starts with an empty canvas.
+AI models process each message independently within a single conversation. When you close the chat, the `context window` — the shared canvas from Module 6 — is discarded. The next conversation starts with an empty canvas.
 
 This creates problems for multi-session projects:
 - The AI does not know what tasks were completed.
@@ -59,9 +59,9 @@ The AI uses the todo tool automatically when you ask for multi-step work. Items 
 ### ✅ Result
 You can trigger and observe the built-in todo tool for real-time progress tracking.
 
-## Page 3: External Markdown Todo Lists
+## Page 3: External `Markdown` Todo Lists
 ### Background
-Built-in todos disappear when you close the chat. For multi-session projects, you need a persistent todo list — a markdown file in your project that survives between conversations.
+Built-in todos disappear when you close the chat. For multi-session projects, you need a persistent todo list — a `Markdown` file in your project that survives between conversations.
 
 The pattern:
 1. Create a `TODO.md` file with checkboxes for each task.
@@ -96,7 +96,7 @@ _AI updates this section as work progresses_
 6. Verify the AI picks up from the correct task.
 
 ### ✅ Result
-You can create and use external markdown todo lists for persistent task tracking across sessions.
+You can create and use external `Markdown` todo lists for persistent task tracking across sessions.
 
 ## Page 4: Create Your Project Backlog
 ### Background
@@ -141,34 +141,34 @@ Tips for maintaining these documents:
 You understand how to combine specification and backlog documents for persistent project memory across multiple AI sessions.
 
 ## Summary
-Remember the scenario from the introduction — 30 minutes of productive work, then you close the chat and come back to an agent that has forgotten everything? That frustration is now behind you. With external markdown files (`PROJECT_SPEC.md` and `BACKLOG.md`), you give the AI persistent memory that survives across any number of sessions. Every new conversation starts with "Read @BACKLOG.md and continue where we left off" — and the agent picks up right where it stopped.
+Remember the scenario from the introduction — 30 minutes of productive work, then you close the chat and come back to an agent that has forgotten everything? That frustration is now behind you. With external `Markdown` files (`PROJECT_SPEC.md` and `BACKLOG.md`), you give the AI persistent memory that survives across any number of sessions. Every new conversation starts with "Read @BACKLOG.md and continue where we left off" — and the agent picks up right where it stopped.
 
 Key takeaways:
 - AI agents forget everything between sessions — this is by design, not a bug.
 - Built-in todo tools provide visual progress tracking during a single session.
-- External markdown todo lists (`TODO.md`, `BACKLOG.md`) persist between sessions.
+- External `Markdown` todo lists (`TODO.md`, `BACKLOG.md`) persist between sessions.
 - The most effective pattern combines a specification document (the "why") with a backlog (the "how").
 - Your `PROJECT_SPEC.md` + `BACKLOG.md` pair will guide all remaining practical work.
 
 [MG]: Здесть тоже можно просить загрузить файл вместо квиза.
 ## Quiz
 1. Why does the AI agent not remember what you discussed in a previous chat session?
-   a) The context window (shared canvas) is discarded when the chat closes — each new conversation starts from zero
+   a) The `context window` (shared canvas) is discarded when the chat closes — each new conversation starts from zero
    b) The agent stores context for one hour, then clears it to free up server resources
    c) Memory persistence requires enabling a specific setting in your IDE that is off by default
    Correct answer: a.
-   - (a) is correct because AI models process text within a context window that exists only for the duration of the conversation. Closing the chat means losing that context entirely.
+   - (a) is correct because AI models process text within a `context window` that exists only for the duration of the conversation. Closing the chat means losing that context entirely.
    - (b) is incorrect because context is not stored on a timer. It exists only within the active conversation and is discarded immediately when the session ends, not after an hour.
-   - (c) is incorrect because there is no hidden "memory" setting to toggle. The context window limitation is fundamental to how current AI models work, not a configuration option.
+   - (c) is incorrect because there is no hidden "memory" setting to toggle. The `context window` limitation is fundamental to how current AI models work, not a configuration option.
 
 2. What is the most effective way to maintain project context across multiple AI sessions?
    a) Copy and paste the key parts of your previous conversation into each new chat
-   b) Use external markdown files (like `PROJECT_SPEC.md` and `BACKLOG.md`) that the AI reads at the start of each session and updates at the end
+   b) Use external `Markdown` files (like `PROJECT_SPEC.md` and `BACKLOG.md`) that the AI reads at the start of each session and updates at the end
    c) Keep the same chat window open and never close it so the context is preserved
    Correct answer: b.
    - (a) is incorrect because manually copying conversation fragments is error-prone and tedious. You may miss important context, and the pasted text lacks structure for the AI to parse efficiently.
    - (b) is correct because external files provide persistent, updateable context. The AI reads them to understand project state and updates them to reflect progress, creating reliable memory across sessions.
-   - (c) is incorrect because even if you keep a chat open, the context window has a token limit. Long conversations eventually overflow this limit, causing the AI to lose earlier context anyway.
+   - (c) is incorrect because even if you keep a chat open, the `context window` has a token limit. Long conversations eventually overflow this limit, causing the AI to lose earlier context anyway.
 
 3. What should a good project backlog include?
    a) A flat list of feature names without priority, phases, or completion status

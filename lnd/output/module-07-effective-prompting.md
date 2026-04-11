@@ -3,7 +3,7 @@
 ### Background
 You asked the AI to do something, and the result is wrong. Your instinct is to type "No, that is not what I meant..." and start a back-and-forth conversation trying to fix it. This is the single most common mistake people make with AI assistants — and it makes things worse, not better.
 
-In this module, you will learn why arguing with the AI pollutes the context window, why restarting with a refined prompt produces better results, and how to control output variability through precise prompting. These techniques will dramatically improve your effectiveness in every future module.
+In this module, you will learn why arguing with the AI pollutes the `context window`, why restarting with a refined prompt produces better results, and how to control output variability through precise prompting. These techniques will dramatically improve your effectiveness in every future module.
 
 Upon completion of this module, you will be able to:
 - Explain how prompt specificity controls the variability of AI output.
@@ -52,7 +52,7 @@ Rule: More statements = less variability = more control. Each statement narrows 
 
 Two things to keep in mind about prompt language:
 - Natural language does not matter. You can write prompts in English, Russian, or any language. Typos and informal phrasing are fine — the model understands all of these equally well.
-- Technical terms matter a lot. "`Python`" vs "Java" produces completely different code. "Bubble sort" vs "quicksort" selects a different algorithm. Each precise technical term locks in a specific aspect of the solution. When results seem poor, check whether you used the right technical terms, not whether your grammar was correct.
+- Technical terms matter a lot. `Python` vs `Java` produces completely different code. `Bubble sort` vs `quicksort` selects a different algorithm. Each precise technical term locks in a specific aspect of the solution. When results seem poor, check whether you used the right technical terms, not whether your grammar was correct.
 
 ### Steps
 1. Open your AI chat in `Agent Mode`.
@@ -76,7 +76,7 @@ You can control AI output precision by adding specific statements to your prompt
 When the AI produces something wrong, the natural instinct is to write a follow-up: "No, that is not right. I wanted..." Then the AI apologizes and tries again. You correct again. This cycle is called "arguing," and here is why it fails:
 
 The context pollution problem:
-- Every message goes on the shared canvas (context window).
+- Every message goes on the shared canvas (`context window`).
 - After several rounds of corrections, the canvas contains: your unclear original prompt, multiple failed attempts, apologies, corrections, complaints, and information about what you do NOT want.
 - The model sees all of this when generating the next response, making each iteration worse, not better.
 
@@ -93,7 +93,7 @@ Defining through negation does not work:
 5. Regenerate from the edited prompt — the model starts fresh with a clean canvas.
 
 ### ✅ Result
-You understand that arguing pollutes the context window and that editing + regenerating is the correct approach.
+You understand that arguing pollutes the `context window` and that editing + regenerating is the correct approach.
 
 ## Page 4: The Right Workflow — Edit, Don't Continue
 ### Background
@@ -119,7 +119,7 @@ Why this works:
 1. Open your AI chat in `Agent Mode`.
 2. Ask: "Create a status report template."
 3. If the result is not what you expected (wrong format, missing sections, wrong tone), do NOT type a correction.
-4. Instead, edit your original prompt: "Create a weekly status report template for an engineering manager. Include sections: accomplishments, blockers, next week's plan. Use bullet points. Keep it under 20 lines. Markdown format."
+4. Instead, edit your original prompt: `Create a weekly status report template for an engineering manager. Include sections: accomplishments, blockers, next week's plan. Use bullet points. Keep it under 20 lines. Markdown format`
 5. Notice how much better the result is with the refined prompt.
 
 ### ✅ Result
@@ -146,7 +146,7 @@ This shift puts you in control. The model is a powerful tool — like a room tha
 4. Practice prompting on a project-relevant scenario. Start vague and progressively add statements:
    - Vague: "Create a status report template."
    - Better: "Create a weekly status report template that summarizes `Jira` sprint progress for stakeholders."
-   - Specific: "Create a weekly status report template for an engineering manager. Pull data from a `Jira` sprint board. Include sections: completed issues, in-progress items, blockers, next sprint goals. Use bullet points. Markdown format. Keep it under 30 lines."
+   - Specific: `Create a weekly status report template for an engineering manager. Pull data from a Jira sprint board. Include sections: completed issues, in-progress items, blockers, next sprint goals. Use bullet points. Markdown format. Keep it under 30 lines`
    Compare the three outputs — notice how each statement narrows the result.
 5. Commit any files you created in this exercise.
 
@@ -164,11 +164,11 @@ Key takeaways:
 
 ## Quiz
 1. Why does arguing with the AI (sending corrections in follow-up messages) make results worse?
-   a) Each message adds to the context window, polluting it with failed attempts, negative constraints, and noise — the model sees all of this and gets increasingly confused
+   a) Each message adds to the `context window`, polluting it with failed attempts, negative constraints, and noise — the model sees all of this and gets increasingly confused
    b) The AI deprioritizes users who send multiple corrections and allocates fewer resources to their requests
    c) Follow-up messages reset the model's memory, so it loses the original requirements and starts from scratch
    Correct answer: a.
-   - (a) is correct because the context window accumulates everything — failed attempts, corrections, and negations. This pollution makes each subsequent response worse because the model cannot distinguish your latest intent from the noise.
+   - (a) is correct because the `context window` accumulates everything — failed attempts, corrections, and negations. This pollution makes each subsequent response worse because the model cannot distinguish your latest intent from the noise.
    - (b) is incorrect because AI models do not track user behavior or deprioritize users. Each request is processed with the same resources regardless of how many corrections you have sent.
    - (c) is incorrect because follow-up messages do NOT reset memory — they ADD to the existing context. That is precisely the problem: the model retains all the noise from failed attempts.
 
