@@ -132,9 +132,11 @@ Use screenshots when:
 - A software interface looks different from what the AI expects.
 - Showing error messages or unexpected behavior.
 - You do not know the correct terminology for what you see.
+- The text on screen is not selectable and you cannot copy it directly — share a screenshot and ask the AI to read it.
+- You need to extract or transcribe text from a screenshot someone else saved — paste the image and ask the AI to convert it to editable text.
 
 Use text only when:
-- Asking conceptual questions ("What is a `REST API`?").
+- Asking conceptual questions ("What is a REST API?").
 - Requesting code examples or explanations.
 - Discussing algorithms or logic.
 - Sharing code snippets (paste text, not a screenshot of code).
