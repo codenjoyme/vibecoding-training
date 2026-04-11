@@ -46,11 +46,13 @@ The four players:
 3. `Agent System` — the orchestrator built into your IDE (`VS Code` `Github Copilot` plugin or `Cursor`) that coordinates everything.
 4. `Tools` — functions that can read files, edit code, run terminal commands, search the codebase, and more.
 
-The shared canvas (context window):
+The shared canvas (`context window`):
 - Imagine an invisible shared document where all four players write.
-- The AI Model sees everything on this canvas.
 - You see only the high-level summary — technical details (tool calls, system prompts) are hidden from you.
-- The Agent System manages who writes what and when.
+![What user can see](image.png)
+- The AI `model` sees everything on this canvas.
+![All the context](11111.png)
+- The `Agent System` manages who writes what and when.
 
 ### Steps
 1. Open `Agent Mode` in your AI chat.
