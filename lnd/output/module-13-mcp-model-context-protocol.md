@@ -133,7 +133,7 @@ Use custom skills when:
 - You want full control over the tool's behavior and parameters.
 - The integration is specific to your project and will not be reused widely.
 
-For your `Jira`/Confluence project: explore whether `MCP` servers exist for `Atlassian` products. If they do, use them for standard operations (fetching issues, reading pages). If you need custom formatting or analysis, combine `MCP` tools with custom scripts.
+For your `Jira`/`Confluence` project: explore whether `MCP` servers exist for `Atlassian` products. If they do, use them for standard operations (fetching issues, reading pages). If you need custom formatting or analysis, combine `MCP` tools with custom scripts.
 
 ### Steps
 1. Search your `MCP` server ecosystem (or ask the AI) for any existing `Jira` or `Confluence` `MCP` servers.
