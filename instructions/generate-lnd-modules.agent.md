@@ -85,7 +85,11 @@
   - File paths and folder references: `c:\workspace\`, `instructions/`, `.vscode/mcp.json`.
   - UI element names: buttons (`Download`, `Sign up`, `Install`, `Keep`), panels (`Explorer`, `Source Control`, `Extensions`), menus (`File` > `Open Folder`), tabs (`Welcome tab`), windows (`File Explorer`, `Finder`, `Terminal`, `Developer Console`), palettes (`Command Palette`), chat panels (`Copilot Chat`), settings screens (`Cursor Settings`, `Preferences`), dialog text.
   - Technical terms and modes: `Agent Mode`, `Ask Mode`, `REST API`, `API`, `API key`, `API Keys`, `JSON`, `HTTP`, `HTTPS`, `SSO`, `context window`, `context`, `session`, `token`, `prompt`.
+  - AI model parameter names: `temperature`, `max_tokens`, `n`, `stream`, and any other API parameter passed in a request body.
+  - Natural language names when used as technical specifications: `English`, `Ukrainian`, `Russian`, etc.
+  - Key methodology and concept terms introduced and defined in the module (e.g., `arguing with the AI`, `context drift`, `statements`, `statement`, `temperature`, `TDD`). Apply backticks when the term itself is the subject, not when describing the concept in narrative.
   - Commands and code fragments inline in text.
+  - **Inline prompt examples**: Any text the learner is instructed to type into the AI chat must use backtick inline code, NOT quotation marks. Example: `Create a status report template.` instead of "Create a status report template." When a technical term (product name, file name, etc.) appears inside an inline prompt, use single quotes for it instead of backticks, since backticks cannot be nested: `Create a 'Python' file named 'bubble_sort.py'.`
   - Do NOT apply backticks inside fenced code blocks — only in regular text.
 - **Image organization.** Screenshots are added during manual review and organized separately via `organize-module-images.agent.md`. Images are stored in `lnd/output/img/module-NN/MM-short-description.png` and referenced as `![Alt text](img/module-NN/MM-short-description.png)`. Generated module files should NOT include image placeholders — images are added by the course owner during review.
 - Each "Page" corresponds to a logical section that can be rendered as one LMS page/screen.
