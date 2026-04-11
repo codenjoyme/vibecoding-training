@@ -77,7 +77,7 @@ The practical strategy:
 - Most users settle on one or two models for 90% of their work.
 
 ### ✅ Result
-Your AI assistant is configured with Claude Sonnet 4.5 (or your preferred model).
+Your AI assistant is configured with Claude Sonnet 4.6 (or your preferred model).
 
 ## Page 3: Enable `Agent Mode`
 ### Background
@@ -91,16 +91,16 @@ Your AI assistant can operate in two modes. `Ask Mode` is simple Q&A — it answ
 
 3. Verify by testing all three capabilities:
    - Test 1 — Ask a technical question:
-     Explain the difference between async/await and promises in `JavaScript`
+     `Explain the difference between async/await and promises in JavaScript`
      You should receive a detailed, well-structured response.
    - Test 2 — Request code generation:
-     Create a `Python` function that reads a CSV file and converts it to `JSON`
+     `Create a Python function that reads a CSV file and converts it to JSON`
      The AI should generate working code with error handling.
    - Test 3 — Test autonomous file access:
-     List the files in my current workspace and tell me what you see
+     `List the files in my current workspace and tell me what you see`
      The AI should read the file system and report back (this proves `Agent Mode` works).
 
-As a practical thread exercise, try a project-related prompt: ask your AI assistant to "Draft a list of `Jira` issue types that a project management automation toolkit might need." Compare the response quality — this gives you a feel for how the model handles domain-specific requests that you will encounter throughout this course.
+As a practical thread exercise, try a project-related prompt: ask your AI assistant to `Draft a list of Jira issue types that a project management automation toolkit might need` Compare the response quality — this gives you a feel for how the model handles domain-specific requests that you will encounter throughout this course.
 
 ### ✅ Result
 `Agent Mode` is enabled. Your AI assistant can answer questions, generate code, and interact with your file system autonomously.
