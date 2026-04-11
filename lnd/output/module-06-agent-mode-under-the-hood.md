@@ -57,40 +57,40 @@ The shared canvas (`context window`):
 
 ### Steps
 1. Open `Agent Mode` in your AI chat.
-2. Ask the AI to create a simple file: "Create a file called `hello.txt` with the text 'Hello World' inside."
+2. Ask the AI to create a simple file: `Create a file called 'hello.txt' with the text 'Hello World' inside.`
 3. Watch the response. From your perspective — you asked, and a file appeared.
-4. Now think about what happened behind the scenes: You wrote on the canvas → Agent System added tool descriptions → Model generated a tool call → Agent System executed it → Model confirmed to you.
+4. Now think about what happened behind the scenes: `You` wrote on the canvas → `Agent System` added tool descriptions → `Model` generated a `tool` call → `Agent System` executed it → `Model` confirmed to you.
 
 ### ✅ Result
-You can name the four players (User, Model, Agent System, Tools) and explain how they interact on the shared canvas.
+You can name the four players (`User`, `Model`, `Agent System`, `Tools`) and explain how they interact on the shared canvas (`context`).
 
 ## Page 3: How the Agent Orchestrates Tool Use
 ### Background
-The magic of agent mode is that the AI can do real things — create files, run commands, search code — not just chat. Here is the step-by-step orchestration process:
+The magic of `agent mode` is that the AI can do real things — create files, run commands, search code — not just chat. Here is the step-by-step orchestration process:
 
-1. You write a prompt (goes on the canvas).
-2. Agent System adds hidden context: available tools, workspace structure, file system capabilities.
-3. Model starts generating tokens. When it "decides" a tool is needed, it writes a tool invocation in a special format.
-4. Agent System intercepts the tool call (you do not see this syntax).
-5. Agent System executes the tool (e.g., creates a file, runs a command).
-6. The result is written back on the canvas ("File created successfully").
-7. Model sees the result and continues generating its response to you.
+1. `You` write a prompt (goes on the `context`).
+2. `Agent System` adds hidden information to the `context`: available `tools`, `workspace` structure, file system capabilities.
+3. `Model` starts generating `tokens`. When it "decides" a `tool` is needed, it writes a `tool` invocation in a special format.
+4. `Agent System` intercepts the `tool` call (you do not see this syntax).
+5. `Agent System` executes the `tool` (e.g., creates a file, runs a command).
+6. The result is written back on the `context` ("File created successfully").
+7. `Model` sees the result and continues generating its response to you.
 
 From your perspective: you asked for a file, and it appeared.
-From the Model's perspective: it suggested using a tool, saw it worked, and confirmed to you.
-From the Agent System's perspective: it coordinated between you, the Model, and the tools.
+From the `Model's` perspective: it suggested using a `tool`, saw it worked, and confirmed to you.
+From the `Agent System's` perspective: it coordinated between you, the `Model`, and the `tools`.
 
 ### Steps
-1. Give the AI a multi-step prompt: "Create a folder called 'calculator', then inside it create two files: `operations.py` with add and subtract functions, and `main.py` that imports operations and uses both functions."
-2. Watch the agent work — notice multiple status updates as it makes several tool calls in sequence.
+1. Give the AI a multi-step prompt: `Create a folder called 'calculator', then inside it create two files: 'operations.py' with add and 'subtract' functions, and 'main.py' that imports operations and uses both functions`
+2. Watch the agent work — notice multiple status updates as it makes several `tool` calls in sequence.
 
 ![Tools at work](img/module-06/02-tools-at-work.png)
 
-3. Each step follows the pattern: Model suggests → Agent executes → Model sees result → Model continues.
+3. Each step follows the pattern: `Model` suggests → `Agent` executes → `Model` sees result → `Model` continues.
 4. Verify the folder and files were created correctly.
 
 ### ✅ Result
-You can explain the orchestration process: prompt → hidden context → tool call → execution → result → response.
+You can explain the orchestration process: `prompt` → hidden data in the `context` → `tool` call → execution → result → response.
 
 ## Page 4: What the Model Sees vs What You See
 ### Background
