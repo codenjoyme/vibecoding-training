@@ -90,10 +90,15 @@ You completed a browser task using screenshot-assisted AI guidance. The AI adapt
 ### Background
 For the practical project running through this course, you will eventually connect your AI assistant to `Jira` and/or `Confluence`. Both services require `API tokens` for programmatic access. Creating these tokens involves navigating admin interfaces — exactly the kind of task where screenshots help, since `Atlassian` frequently updates their UI.
 
-If you do not have access to `Jira`/Confluence yet, you can skip this exercise and return to it when access becomes available. The screenshot technique itself is the skill being practiced.
+If you do not have access to `Jira`/`Confluence` yet, you can skip this exercise and return to it when access becomes available. The screenshot technique itself is the skill being practiced.
+
+There are several account options depending on your situation:
+
+- **EPAM employees:** Use your corporate `EPAM Jira` instance. Check with your team lead or project manager for the URL and access credentials.
+- **Free `Atlassian` account (new):** Create a free account at [https://www.atlassian.com/try](https://www.atlassian.com/try) and set up a new `Jira` project for this course.
+- **Existing free `Atlassian` account:** If you already use a free `Atlassian Jira` account for personal or other projects, register a new temporary email address (e.g. using `Gmail` or similar) and create a separate `Atlassian` account exclusively for this training. This avoids mixing course work with your existing projects.
 
 ### Steps
-[MG]: Нужно рассмортеть вариант с `EPAM` `Jira`, например если человек уже использовал бесплатную атлассиан `Jira` для других проектов. Либо указать что если у Вас уже использовалась она, то зарегайте новую временную почту чисто для обучения.
 1. Open your browser and navigate to your `Atlassian` account settings ([https://id.atlassian.com/manage-profile/security/api-tokens](https://id.atlassian.com/manage-profile/security/api-tokens)).
 2. Take a screenshot of the page you see.
 3. Paste the screenshot into the AI chat and ask:
