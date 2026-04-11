@@ -128,10 +128,10 @@ When it comes to a real work project, the consumption intensity is noticeably hi
 You understand real-world cost expectations and can focus on learning without cost anxiety.
 
 ## Summary
-Remember the toolbox analogy from the introduction? You now have the right tool selected and ready. You configured your AI assistant with Claude Sonnet 4.6 — the screwdriver for most of your daily coding tasks — and enabled `Agent Mode` so the AI can work autonomously with your files and codebase.
+Remember the toolbox analogy from the introduction? You now have the right tool selected and ready. You configured your AI assistant with `Claude Sonnet 4.6` — the screwdriver for most of your daily coding tasks — and enabled `Agent Mode` so the AI can work autonomously with your files and codebase.
 
 Key takeaways:
-- Start with the best available model (Claude Sonnet 4.6 recommended) and switch only when you hit a real limitation — constant switching wastes time.
+- Start with the best available model (`Claude Sonnet 4.6` recommended) and switch only when you hit a real limitation — constant switching wastes time.
 - `Agent Mode` is more powerful than `Ask Mode` — it can read files, create code, and perform multi-step tasks autonomously.
 - Real costs are modest relative to productivity gains — do not let cost anxiety slow your learning.
 
