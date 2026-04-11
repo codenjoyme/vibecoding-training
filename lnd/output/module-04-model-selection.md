@@ -122,6 +122,8 @@ The core logic is simple: if you are adopting GenAI to save X × $1,000 in engin
 
 Most learners will not exhaust their free premium requests during this course. The productivity gain far exceeds any cost.
 
+When it comes to a real work project, the consumption intensity is noticeably higher. However, if usage is limited to Agent Mode — without bulk document processing such as scanning an entire codebase, a full Jira backlog, or a Confluence space — the model cost per person per month will typically stay within ~1,000% of the base quota, or roughly $100.
+
 ### ✅ Result
 You understand real-world cost expectations and can focus on learning without cost anxiety.
 
