@@ -30,6 +30,12 @@ AI coding assistants offer multiple models with different capabilities and costs
 
 ![Premium request balances](img/module-04/02-premium-request-balances.png)
 
+> **Note:** If the indicator appears stuck at 100%, this does not necessarily mean your personal quota is exhausted. Organizations often apply a company-level spending cap — typically set between 200% and 400% of the base quota — after which premium models truly become unavailable. To check whether a company-level limit is in effect (for GitHub Copilot), navigate to [github.com/settings/copilot/features](https://github.com/settings/copilot/features) — that page shows both your personal usage and any organization-imposed restrictions.
+
+![Copilot settings menu](image.png)
+
+![Quota](image-1.png)
+
 ### ✅ Result
 You can see the available models and understand the pricing tiers.
 
