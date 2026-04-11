@@ -158,29 +158,29 @@ Key takeaways:
 - Understanding these mechanics makes you a more effective AI user.
 
 ## Quiz
-1. What is the role of the Agent System in agent mode?
+1. What is the role of the `Agent System` in `agent mode`?
    a) It generates the text responses you see in the chat
-   b) It orchestrates communication between you, the AI model, and the tools — intercepting tool calls and executing them
-   c) It selects which AI model to use for each request based on task complexity
+   b) It orchestrates communication between you, the AI `model`, and the `tools` — intercepting `tool` calls and executing them
+   c) It selects which AI `model` to use for each request based on task complexity
    Correct answer: b.
-   - (a) is incorrect because text generation is the AI model's job, not the Agent System's. The model predicts tokens; the Agent System coordinates tool execution.
-   - (b) is correct because the Agent System is the invisible coordinator that detects when the model wants to use a tool, executes the tool, and returns the result to the model.
-   - (c) is incorrect because model selection is a user setting, not something the Agent System decides dynamically. You choose the model in your IDE configuration.
+   - (a) is incorrect because text generation is the AI `model's` job, not the `Agent System's`. The `model` predicts `tokens`; the `Agent System` coordinates `tool` execution.
+   - (b) is correct because the `Agent System` is the invisible coordinator that detects when the `model` wants to use a `tool`, executes the `tool`, and returns the result to the `model`.
+   - (c) is incorrect because `model` selection is a user setting, not something the `Agent System` decides dynamically. You choose the `model` in your IDE configuration.
 
-2. Why does the same prompt sometimes produce different results?
-   a) The AI model has built-in randomness (temperature) that causes natural variation — all outputs are valid, just expressed differently
-   b) The Agent System caches previous responses and returns slightly modified versions to save processing time
-   c) The model's training data is updated between requests, leading to different knowledge each time
+2. Why does the same `prompt` sometimes produce different results?
+   a) The AI `model` has built-in randomness (`temperature`) that causes natural variation — all outputs are valid, just expressed differently
+   b) The `Agent System` caches previous responses and returns slightly modified versions to save processing time
+   c) The `model's` training data is updated between requests, leading to different knowledge each time
    Correct answer: a.
-   - (a) is correct because temperature is a built-in feature that introduces slight randomness in token selection, producing varied but semantically equivalent responses.
-   - (b) is incorrect because the Agent System does not cache or reuse previous outputs — each request triggers fresh token generation from the model.
-   - (c) is incorrect because the model's training data is fixed at training time and does not change between requests. The variation comes from randomness in token selection, not from updated knowledge.
+   - (a) is correct because `temperature` is a built-in feature that introduces slight randomness in `token` selection, producing varied but semantically equivalent responses.
+   - (b) is incorrect because the `Agent System` does not cache or reuse previous outputs — each request triggers fresh `token` generation from the `model`.
+   - (c) is incorrect because the `model's` training data is fixed at training time and does not change between requests. The variation comes from randomness in `token` selection, not from updated knowledge.
 
-3. Why do complex multi-step tasks take longer for the AI agent to complete?
-   a) Each tool call requires a sequential round trip: model generates a request, agent executes the tool, result returns to model, and the model continues — this happens for every step
-   b) The model pauses to verify each step's output against its training data before proceeding
-   c) The Agent System queues all tool calls and processes them in a separate background thread
+3. Why do complex multi-step tasks take longer for the AI `agent` to complete?
+   a) Each `tool` call requires a sequential round trip: `model` generates a request, `Agent System` executes the tool, result returns to `model`, and the `model` continues — this happens for every step
+   b) The `model` pauses to verify each step's output against its training data before proceeding
+   c) The `Agent System` queues all tool calls and processes them in a separate background thread
    Correct answer: a.
-   - (a) is correct because agent mode tasks are sequential. Each tool use involves multiple steps (model → agent → tool → result → model), and the model cannot proceed until each round trip completes.
-   - (b) is incorrect because the model does not verify outputs against training data. It sees the tool result as new text on the context and generates the next token based on the full context.
-   - (c) is incorrect because tool calls are executed in sequence, not in a background queue. The model waits for each tool result before generating the next step.
+   - (a) is correct because `agent mode` tasks are sequential. Each `tool` use involves multiple steps (`model` → `agent` → `tool` → result → `model`), and the `model` cannot proceed until each round trip completes.
+   - (b) is incorrect because the `model` does not verify outputs against training data. It sees the tool result as new text on the `context` and generates the next token based on the full `context`.
+   - (c) is incorrect because `tool` calls are executed in sequence, not in a background queue. The `model` waits for each tool result before generating the next step.
