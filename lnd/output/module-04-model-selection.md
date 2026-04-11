@@ -59,11 +59,11 @@ With many models available, it is tempting to switch constantly. Research shows 
 
    | Model | Multiplier | Best for |
    |---|---|---|
-   | `Claude Haiku 4.5` | 0.33x | Simple actions, code review, text generation — lightweight and fast |
+   | `Claude Haiku 4.6` | 0.33x | Simple actions, code review, text generation — lightweight and fast |
    | `Claude Sonnet 4.6` | 1x | Your everyday workhorse — handles the vast majority of tasks well (use ~80% of the time) |
    | `Claude Opus 4.6` | 3x | Complex tasks when Sonnet falls short, or upfront architecture and design thinking |
 
-   > **Tip:** The higher the version number, the better the model — prefer 4.6 over 4.5 wherever available. If your IDE does not yet offer a 4.6 version, select the equivalent 4.5 model instead.
+   > **Tip:** The higher the version number, the better the model — prefer 4.6 over 4.6 wherever available. If your IDE does not yet offer a 4.6 version, select the equivalent 4.6 model instead.
 
 ![Claude selected](img/module-04/03-claude-selected.png)
 
@@ -128,10 +128,10 @@ When it comes to a real work project, the consumption intensity is noticeably hi
 You understand real-world cost expectations and can focus on learning without cost anxiety.
 
 ## Summary
-Remember the toolbox analogy from the introduction? You now have the right tool selected and ready. You configured your AI assistant with Claude Sonnet 4.5 — the screwdriver for most of your daily coding tasks — and enabled `Agent Mode` so the AI can work autonomously with your files and codebase.
+Remember the toolbox analogy from the introduction? You now have the right tool selected and ready. You configured your AI assistant with Claude Sonnet 4.6 — the screwdriver for most of your daily coding tasks — and enabled `Agent Mode` so the AI can work autonomously with your files and codebase.
 
 Key takeaways:
-- Start with the best available model (Claude Sonnet 4.5 recommended) and switch only when you hit a real limitation — constant switching wastes time.
+- Start with the best available model (Claude Sonnet 4.6 recommended) and switch only when you hit a real limitation — constant switching wastes time.
 - `Agent Mode` is more powerful than `Ask Mode` — it can read files, create code, and perform multi-step tasks autonomously.
 - Real costs are modest relative to productivity gains — do not let cost anxiety slow your learning.
 
