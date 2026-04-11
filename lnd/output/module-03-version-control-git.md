@@ -113,22 +113,22 @@ You have a small practice project with three files ready for version control.
 ## Page 4: Create `.gitignore` and First Commit
 ### Background
 Not every file belongs in version control. Secrets (`API keys`, passwords), temporary files, and IDE configuration should be excluded. A `.gitignore` file tells `Git` which files to skip.
-![Git ignore patterns](image.png)
+![Git ignore patterns](img/module-03/14-git-ignore-patterns.png)
 
 ### Steps
 1. Ask the AI:
    `Create a '.gitignore'. Ignore the '.env' file and basic Python stuff`
 2. Review the generated `.gitignore` — make sure it includes `.env`.
-![Ignored env](image-1.png)
+![Ignored env](img/module-03/15-ignored-env.png)
 3. Now stage all project files for your first commit. In the IDE, open the `Source Control` panel (look for the branch icon in the left sidebar). You should see all changed files listed.
-![Stage all changes](image-2.png)
+![Stage all changes](img/module-03/16-stage-all-changes.png)
 4. Click the + icon next to each file to stage it (or ask AI to make `git add`).
 5. Type a commit message: `Initial calculator with add and subtract` or press autogenerate commit message button.
-![Commit message](image-3.png)
+![Commit message](img/module-03/17-commit-message.png)
 6. Click the commit button.
-![Commit without ai](image-5.png)
+![Commit without ai](img/module-03/18-commit-without-ai.png)
 7. Or you can ask AI to do commit with some informative message
-![Commit with ai](image-4.png)
+![Commit with ai](img/module-03/19-commit-with-ai.png)
 
 ### ✅ Result
 Your first commit is saved. You now have a baseline snapshot to return to at any time.
@@ -141,24 +141,24 @@ Now that you have a baseline, practice the core loop: make a change → test →
 1. Ask the AI:
    `Create calculator python script and add a multiply() function to it`
 2. After the AI adds the function, you can open it.
-![Calculator multiply](image-6.png)
+![Calculator multiply](img/module-03/20-calculator-multiply.png)
 3. Stage `calculator.py` immediately (click `+` in `Source Control` or ask AI to `stage calculator file`). Do not commit yet — you are building up a feature.
-![Stage the file without AI](image-8.png)
-![Stage the file with AI](image-7.png)
+![Stage the file without AI](img/module-03/21-stage-file-without-ai.png)
+![Stage the file with AI](img/module-03/22-stage-file-with-ai.png)
 4. Ask the AI:
    `Create main.py to demonstrate the multiply function`
 5. Check that both files work together. 
-![Main demo script](image-9.png)
+![Main demo script](img/module-03/23-main-demo-script.png)
 6. Stage `main.py`.
-![Stage it](image-10.png)
+![Stage it](img/module-03/24-stage-it.png)
 7. Ask the AI:
    `Create README.md to document the multiply function`
 8. Review the `README`.
-![Readme](image-11.png) 
+![Readme](img/module-03/25-readme.png) 
 
 9. Stage it. Now commit. You can do it in `Source Control` as we did before, ask AI `please commit it` and do following command in the terminal:
    `git commit -m "Add multiply function"`
-![Commit all files](image-12.png)
+![Commit all files](img/module-03/26-commit-all-files.png)
 
 The feature took three small steps instead of one big confusing change. Each step was verified before moving on.
 
@@ -168,15 +168,15 @@ The feature took three small steps instead of one big confusing change. Each ste
    `Which of my project files are production code and which are temporary scaffolding? List them in two groups.`
 So you can see.
 
-![Ask about scafolding](image-13.png)
+![Ask about scafolding](img/module-03/27-ask-about-scaffolding.png)
 
 Then stage only the production files and add scaffolding patterns to `.gitignore` manually in `Source Control` or ask AI to do it instead of you: `Please remove/ingnore scafolding files`
 
-![Ignore and remove scafolding](image-14.png)
+![Ignore and remove scafolding](img/module-03/28-ignore-remove-scaffolding.png)
 
 Do not commit this, and ask ai `Please revert all this changes`. This will undo previous step at all. 
 
-![Revert all changes](image-15.png)
+![Revert all changes](img/module-03/29-revert-all-changes.png)
 
 ### ✅ Result
 You completed a feature using baby steps: three small changes, each tested and staged, then committed as one unit.
