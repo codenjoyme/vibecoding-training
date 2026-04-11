@@ -44,13 +44,16 @@ You can see the available models, understand the pricing tiers, view your curren
 With many models available, it is tempting to switch constantly. Research shows this is counterproductive — each model has its own strengths and quirks, and you only learn them through sustained use. The recommended strategy is to start with the best available model and switch only when you encounter a real limitation.
 
 ### Steps
-1. Open the `Command Palette` in your IDE:
-   - `VS Code`: Open the `Copilot` menu or search for "`Copilot`: Chat Model."
-   - `Cursor`: Go to Settings > Models.
+1. Open the model selection in your IDE:
+   - `VS Code`: Open the `Command Palette` and type `> Chat: Manage Language Models` — select it from the list.
+   ![Manage models in vscode](image-2.png)
+   - `Cursor`: Go to `File` → `Preferences` → `Cursor Settings` → `Models`.
+   ![Cursor settings](image-3.png)
+   ![Cursor models](image-4.png)
 2. Review the available models. Recommended choices:
-   - Claude Sonnet 4.5 — Best for coding tasks, excellent balance of price and quality.
-   - GPT-4o — Strong general-purpose alternative.
-3. Select Claude Sonnet 4.5 as your primary model.
+   - `Claude Sonnet 4.6` — Best for coding tasks, excellent balance of price and quality.
+   - `GPT-4.1` — Strong general-purpose alternative.
+3. Select `Claude Sonnet 4.6` as your primary model.
 
 ![Claude selected](img/module-04/03-claude-selected.png)
 
