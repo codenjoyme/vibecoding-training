@@ -18,6 +18,8 @@ AI `models` are sophisticated text prediction engines. They do not `think` or `u
 Key concepts:
 - A `token` is roughly one word (sometimes part of a word, sometimes punctuation).
 - The `model` generates text one `token` at a time: it sees all previous text, predicts the next `token`, appends it, and repeats.
+- Critically, each new `token` is predicted based on the **entire text so far** — the original user prompt plus every `token` already generated. This is why the output stays coherent and on-topic.
+- All text the model can see at any moment is called the **context window** (or simply the **context**). Its size is finite — once it fills up, older content is dropped.
 - Example: given `Write a function to calculate,` the model might generate `the` → `sum` → `of` → and so on.
 - The `model` was trained on massive text datasets — code, documentation, books, articles — and learned patterns of how words and concepts relate.
 - `Temperature` (randomness) means the same `prompt` can produce slightly different outputs each time. All outputs are valid — just varied in expression.
