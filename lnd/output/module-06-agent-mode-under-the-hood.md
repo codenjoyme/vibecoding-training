@@ -49,9 +49,9 @@ The four players:
 The shared `context` (`context window`):
 - Imagine an invisible shared document where all four players write.
 - You see only the high-level summary — technical details (tool calls, system prompts) are hidden from you.
-![What user can see](image.png)
+![What user can see](img/module-06/02-what-user-can-see.png)
 - The AI `model` sees everything on this `context` — and that text is far larger than it might seem.
-![All the context](11111.png)
+![All the context](img/module-06/03-all-the-context.png)
 - In practice, the `context` already contains a lot of hidden content before you type a single word: the agent's identity and behavioral rules, a list of things it can and cannot do, and the full descriptions of every available `tool`. In the screenshot above only 9 `tools` are shown, but real projects often expose more than 50 — each with its own name, description, and parameter list taking up space in the `context window`.
 - The `Agent System` manages who writes what and when.
 
