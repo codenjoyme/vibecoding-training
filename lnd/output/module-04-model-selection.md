@@ -37,7 +37,7 @@ AI coding assistants offer multiple models with different capabilities and costs
 ![Quota](image-1.png)
 
 ### ✅ Result
-You can see the available models and understand the pricing tiers.
+You can see the available models, understand the pricing tiers, view your current quota usage, and identify any organization-level spending limits that may restrict access to premium models.
 
 ## Page 2: Select Your Primary Model
 ### Background
