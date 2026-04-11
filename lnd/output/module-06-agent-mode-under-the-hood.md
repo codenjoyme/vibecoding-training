@@ -1,26 +1,26 @@
 # Module 6: `Agent Mode` — How AI Works Under the Hood
 
 ### Background
-When you click "Send" in your AI chat, what actually happens? Most people treat AI assistants as magic — type a question, get an answer. But understanding the mechanics behind agent mode transforms you from a passive user into someone who can predict, troubleshoot, and control AI behavior.
+When you click `Send` in your AI chat, what actually happens? Most people treat AI assistants as magic — type a question, get an answer. But understanding the mechanics behind agent mode transforms you from a passive user into someone who can predict, troubleshoot, and control AI behavior.
 
 In this module, you will build a mental model of how AI coding assistants work behind the scenes: how text is generated, who the key players are, and how the agent orchestrates tools on your behalf. This knowledge is the foundation for everything that follows in the course.
 
 Upon completion of this module, you will be able to:
-- Describe how AI models generate text token by token and explain the role of temperature.
-- Identify the four participants in `Agent Mode` (User, Model, Agent System, Tools) and their interactions.
-- Trace the orchestration flow from prompt to tool execution to response.
-- Explain why the AI model's context (the canvas) contains more information than what you see in the chat.
+- Describe how AI models generate text `token` by `token` and explain the role of temperature.
+- Identify the four participants in `Agent Mode` (`User`, `Model`, `Agent System`, `Tools`) and their interactions.
+- Trace the orchestration flow from `prompt` to `tool` execution to response.
+- Explain why the AI `model's` context (the canvas) contains more information than what you see in the chat.
 
 ## Page 1: How AI Generates Text — Token by Token
 ### Background
-AI models are sophisticated text prediction engines. They do not "think" or "understand" the way humans do — they predict the most likely next word based on everything they have seen so far. This single concept explains most AI behavior you will observe.
+AI `models` are sophisticated text prediction engines. They do not `think` or `understand` the way humans do — they predict the most likely next word (`token`) based on everything they have seen so far. This single concept explains most AI behavior you will observe.
 
 Key concepts:
-- A token is roughly one word (sometimes part of a word, sometimes punctuation).
-- The model generates text one token at a time: it sees all previous text, predicts the next token, appends it, and repeats.
-- Example: given "Write a function to calculate," the model might generate "the" → "sum" → "of" → and so on.
-- The model was trained on massive text datasets — code, documentation, books, articles — and learned patterns of how words and concepts relate.
-- Temperature (randomness) means the same prompt can produce slightly different outputs each time. All outputs are valid — just varied in expression.
+- A `token` is roughly one word (sometimes part of a word, sometimes punctuation).
+- The `model` generates text one `token` at a time: it sees all previous text, predicts the next `token`, appends it, and repeats.
+- Example: given `Write a function to calculate,` the model might generate `the` → `sum` → `of` → and so on.
+- The `model` was trained on massive text datasets — code, documentation, books, articles — and learned patterns of how words and concepts relate.
+- `Temperature` (randomness) means the same `prompt` can produce slightly different outputs each time. All outputs are valid — just varied in expression.
 
 ### Steps
 1. Open your AI chat (`Copilot Chat` or `Cursor` Chat).
