@@ -97,6 +97,8 @@ Defining through negation does not work:
 4. Do not write a new message. Instead, **go back and edit your original prompt** with more specific statements.
 5. Regenerate from the edited `prompt` — the model starts fresh with a clean `context`.
 
+Note: every time you edit a `prompt` that already produced a response, you are cutting off everything that came after it — the `model's` reply, your corrections, the failed attempts. You rewrite a more precise (or different) `prompt` in its place, and the entire history from that point forward is replaced. Think of it as rewriting the past: the wrong branch of the conversation never happened, and the model responds only to your improved version.
+
 ### ✅ Result
 You understand that arguing pollutes the `context window` and that editing + regenerating is the correct approach.
 
