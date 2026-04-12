@@ -152,9 +152,9 @@ The `Room of Requirement` metaphor: In `Harry Potter`, there is a magical room t
 
 ### Steps
 1. Think about your most recent frustrating AI interaction.
-2. Rewrite the prompt you used, adding at least 3 more specific statements.
-3. Try the refined prompt. Is the result closer to what you need?
-4. Practice prompting on a project-relevant scenario. Start vague and progressively add statements:
+2. Rewrite the `prompt` you used, adding at least 3 more specific `statements`.
+3. Try the refined `prompt`. Is the result closer to what you need?
+4. Practice prompting on a project-relevant scenario. The example below uses a status report — but you can substitute any task relevant to your own work. Start vague and progressively add `statements`:
    - Vague: `Create a status report template`
    - Better: `Create a weekly status report template that summarizes 'Jira' sprint progress for stakeholders`
    - Specific: `Create a weekly status report template for an engineering manager. Pull data from a Jira sprint board. Include sections: completed issues, in-progress items, blockers, next sprint goals. Use bullet points. Markdown format. Keep it under 30 lines`
