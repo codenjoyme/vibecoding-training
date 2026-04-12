@@ -167,13 +167,13 @@ You have shifted from `blaming the AI` to `refining your prompts` — and you ar
 ## Summary
 Remember the scenario from the introduction — you asked the AI to do something, the result was wrong, and your instinct was to type `No, that is not what I meant`? Now you know a better approach. Instead of `arguing`, you stop, edit your original `prompt` to be more specific, and regenerate from a clean `context`.
 
+As covered in `Module 06`, the model generates the next `token` based on everything currently in the `context window`. If the `context` contains an argument — corrections, failed attempts, apologies, negations — all of that becomes the foundation for the next generation. The `model` is not trying to fix your problem; it is continuing the pattern of text it sees. An argument in the `context` will produce more of the wrong output, not less.
+
 Key takeaways:
 - `Prompt` specificity controls variability: fewer details = creative chaos, more details = consistent output.
 - Break requirements into `statements` — one constraint per sentence.
 - Never `argue`. Edit the original `prompt` and regenerate from a clean context.
 - You are in control of the results. If the output is wrong, the `prompt` needs refinement, not the `model`.
-
-As covered in `Module 06`, the model generates the next `token` based on everything currently in the `context window`. If the `context` contains an argument — corrections, failed attempts, apologies, negations — all of that becomes the foundation for the next generation. The `model` is not trying to fix your problem; it is continuing the pattern of text it sees. An argument in the `context` will produce more of the wrong output, not less.
 
 ## Quiz
 1. Why does `arguing` with the AI (sending corrections in follow-up messages) make results worse?
