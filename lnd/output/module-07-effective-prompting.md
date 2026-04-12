@@ -50,7 +50,7 @@ Example progression:
 - 3 statements: `Print a sorting function. Use 'bubble sort'. Write it in 'Python'` → language and algorithm locked, structure still varies.
 ![case 2 - attempt 1](image-2.png)
 ![case 2 - attempt 2](image-3.png)
-- 5 statements: `Print a 'Python' file named 'bubble_sort.py'. Implement 'bubble_sort' function. Takes a list of integers. Returns the sorted list. No comments, no type hints` → minimal variation, consistent output.
+- 5 statements: `Print a sorting function. Use 'bubble sort'. Write it in 'Python'. Takes a list of integers. Returns the sorted list. No comments, no type hints` → minimal variation, consistent output.
 ![case 3 - attempt 1](image-4.png)
 ![case 3 - attempt 2](image-5.png)
 
@@ -63,16 +63,13 @@ Two things to keep in mind about prompt language:
 
 ### Steps
 1. Open your AI chat in `Agent Mode`.
-2. Type a very abstract prompt: `Create a file with a sorting function.`
+2. Type a very abstract prompt: `Print a sorting function`
 3. Observe the result: note the language, algorithm, extras (comments, tests, docstrings).
-4. Now edit your original prompt (**do not write a new message below — go back and edit**) to add two constraints: `Create a file with a bubble sort function in Python`
-
-![Edit](img/module-07/01-edit.png)
-
-![Send](img/module-07/02-send.png)
-
-5. Press Enter and compare the new result to the previous one.
-6. Edit again, adding more constraints: `Create a 'Python' file named 'bubble_sort.py'. Implement a bubble_sort function that takes a list of integers and returns the sorted list. No comments, no docstrings.`
+4. Now edit your original prompt (Important! **do not write a new message below — go back and edit**) to add two constraints: `... Use 'bubble sort'. Write it in 'Python'`
+![Update prompt](image-6.png)
+5. Press `Enter` and compare the new result to the previous one.
+6. Edit again, adding more constraints: `... Takes a list of integers. Returns the sorted list. No comments, no type hints`
+![Update prompt again](image-7.png)
 7. Compare all three results. Notice how each added statement reduced variability.
 
 ### ✅ Result
