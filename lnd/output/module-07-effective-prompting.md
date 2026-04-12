@@ -100,26 +100,26 @@ Defining through negation does not work:
 Note: every time you edit a `prompt` that already produced a response, you are cutting off everything that came after it — the `model's` reply, your corrections, the failed attempts. You rewrite a more precise (or different) `prompt` in its place, and the entire history from that point forward is replaced. Think of it as rewriting the past: the wrong branch of the conversation never happened, and the model responds only to your improved version. This is fundamentally what working with a clean `context` means — removing noise before it accumulates, not after.
 
 ### ✅ Result
-You understand that arguing pollutes the `context window` and that editing + regenerating is the correct approach.
+You understand that `arguing` `pollutes` the `context window` and that editing + regenerating is the correct approach.
 
 ## Page 4: The Right Workflow — Edit, Don't Continue
 ### Background
 The effective workflow for correcting AI output follows a simple loop:
 
-1. Stop immediately when you see the model generating something wrong (do not wait for the complete response).
+1. **Stop immediately** when you see the `model` generating something wrong (do not wait for the complete response).
 
-![Cancel](img/module-07/03-cancel.png)
+![Stop generating](image-9.png)
 
-2. Do not write a new message — this continues the polluted conversation.
-3. Go back and edit your original prompt: add more statements, technical terms, or constraints you forgot.
-4. Regenerate and observe. The model starts fresh with better instructions on a clean `context`.
-5. If still not right — stop, refine more, regenerate again.
-6. Continue only when the first few tokens of the response look correct.
+2. Do not write a new message — this continues the `polluted` conversation.
+3. **Go back and edit** your original `prompt`: add more `statements`, technical `terms`, or constraints you forgot.
+4. Regenerate and observe. The `model` starts fresh with better instructions on a clean `context`.
+5. If still not right — **stop**, refine more, regenerate again.
+6. Continue only when the first few `tokens` of the response look correct.
 
 Why this works:
-- Editing the original prompt = clean slate, fresh start.
-- Continuing the conversation = building on polluted context.
-- Each prompt refinement makes the solution better.
+- Editing the original `prompt` = clean slate, fresh start.
+- Continuing the conversation = building on `polluted context`.
+- Each `prompt` refinement makes the solution better.
 - Each failed iteration without editing makes the problem worse.
 
 ### Steps
@@ -127,7 +127,7 @@ Why this works:
 2. Ask: `Create a status report template`
 3. If the result is not what you expected (wrong format, missing sections, wrong tone), do NOT type a correction.
 4. Instead, edit your original prompt: `Create a weekly status report template for an engineering manager. Include sections: accomplishments, blockers, next week's plan. Use bullet points. Keep it under 20 lines. Markdown format`
-5. Notice how much better the result is with the refined prompt.
+5. Notice how much better the result is with the refined `prompt`.
 
 ### ✅ Result
 You can apply the edit-and-regenerate workflow instead of arguing with the AI.
