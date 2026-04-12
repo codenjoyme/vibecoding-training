@@ -57,7 +57,8 @@ Example progression:
 Rule: More statements = less variability = more control. Each statement narrows the space of possible solutions.
 
 Two things to keep in mind about prompt language:
-- Natural language does not matter. You can write prompts in `English`, `Ukrainian`, or any language. Typos and informal phrasing are fine — the model understands all of these equally well.
+- Natural language does not matter. You can write prompts in `English`, `Ukrainian`, or any language. 
+- Typos and informal phrasing are fine — the model understands all of these equally well.
 - Technical terms matter a lot. `Python` vs `Java` produces completely different code. `Bubble sort` vs `quicksort` selects a different algorithm. Each precise technical `term` locks in a specific aspect of the solution. When results seem poor, check whether you used the right technical `terms`, not whether your grammar was correct.
 
 ### Steps
@@ -143,7 +144,9 @@ The mindset shift:
 - Old thinking: "Why is the AI not giving me what I want?"
 - New thinking: "How can I describe what I want more precisely?"
 
-This shift puts you in control. The model is a powerful tool — like a room that gives you exactly what you ask for, but only if you know what to ask and ask correctly. Vague requests produce vague results. Specific requests produce specific results.
+This shift puts you in control.
+
+The `Room of Requirement` metaphor: In `Harry Potter`, there is a magical room that appears only when you truly need it — and only if you know exactly what you need. The rules are simple: if you do not know what you need, you cannot ask for it. If you know what you need, you just need to ask correctly. The same logic applies to AI `models`. Vague requests produce random, unpredictable results. Specific, well-formed requests produce exactly what you intended. The magic is not in the `model` — it is in knowing what to ask and how to ask it.
 
 ### Steps
 1. Think about your most recent frustrating AI interaction.
