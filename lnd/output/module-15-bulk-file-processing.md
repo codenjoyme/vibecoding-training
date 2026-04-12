@@ -1,7 +1,7 @@
 # Module 15: Bulk File Processing with AI
 
 ### Background
-You need to review 20 markdown files for formatting issues. Or extract action items from 50 meeting notes. Or validate 30 configuration files against a checklist. You open the AI chat and paste your prompt — it works beautifully for the first 5 files, then the quality drops. By file 15, the AI is hallucinating information that was never in the source files.
+You need to review 20 `Markdown` files for formatting issues. Or extract action items from 50 meeting notes. Or validate 30 configuration files against a checklist. You open the AI chat and paste your prompt — it works beautifully for the first 5 files, then the quality drops. By file 15, the AI is hallucinating information that was never in the source files.
 
 This is called context drift, and it is the core problem of bulk file processing with AI. In this module, you will learn why it happens, experience three different approaches to bulk processing, and implement the most efficient solution that scales to any number of files.
 
@@ -19,11 +19,11 @@ The simplest approach: ask the AI to process all files at once in a single conve
 
 What happens:
 - The AI processes the first 3-5 files accurately.
-- As the conversation grows, the context window fills with previous responses.
+- As the conversation grows, the `context window` fills with previous responses.
 - Quality degrades: later files get generic responses or hallucinated information.
 - By file 15-20, the model has lost focus on the original instruction.
 
-This is context drift — as conversation history accumulates, the model's attention to your original instructions decays. The context window has a fixed size, and older information gets pushed out or diluted.
+This is context drift — as conversation history accumulates, the model's attention to your original instructions decays. The `context window` has a fixed size, and older information gets pushed out or diluted.
 
 When to use this approach:
 - Quick checks on 3-5 files.
@@ -76,7 +76,7 @@ The pattern:
 4. Results are saved to individual output files.
 
 Why this wins:
-- No context drift — each file gets a fresh context window.
+- No context drift — each file gets a fresh `context window`.
 - Token efficient — the instruction is read once per file by the `CLI`, not accumulated in conversation history.
 - Deterministic — the same instruction is applied consistently to every file.
 - Scalable — works for 100+ files.
@@ -113,7 +113,7 @@ Decision framework:
 - One-time high-quality check, no time for scripting? → Approach 2.
 - Repeatable operation, many files, consistency matters? → Approach 3.
 
-For your `Jira`/Confluence project, any batch operation (processing meeting notes, validating documentation, generating reports from multiple data sources) should use Approach 3.
+For your `Jira`/`Confluence` project, any batch operation (processing meeting notes, validating documentation, generating reports from multiple data sources) should use Approach 3.
 
 ### Steps
 1. Think about the batch operations in your `BACKLOG.md`. Which ones involve processing multiple files or data items?
@@ -129,7 +129,7 @@ You have a decision framework for choosing the right bulk processing approach.
 Apply the best approach to a real task in your project. Choose one of these scenarios (or create your own):
 - Process all instruction files in `instructions/` to verify they follow the Single Responsibility Principle.
 - Analyze meeting notes or project documents to extract action items.
-- Validate all markdown files in your project for consistent formatting.
+- Validate all `Markdown` files in your project for consistent formatting.
 
 ### Steps
 1. Define the task: what files, what check, what output format.
@@ -144,9 +144,9 @@ Apply the best approach to a real task in your project. Choose one of these scen
 You have applied bulk processing to a real project task and can reuse the pattern for future batch operations.
 
 ## Summary
-Remember the scenario from the introduction — 20 markdown files to review, and by file 15 the AI is hallucinating content that was never there? That is context drift in action, and now you have three tools to handle it.
+Remember the scenario from the introduction — 20 `Markdown` files to review, and by file 15 the AI is hallucinating content that was never there? That is context drift in action, and now you have three tools to handle it.
 
-Single-request processing works for quick checks on 3-5 files. Iterative re-reading improves consistency but multiplies token cost. Script-based automation eliminates context drift entirely by giving each file a fresh context window — making it the best choice for repeatable operations at scale.
+Single-request processing works for quick checks on 3-5 files. Iterative re-reading improves consistency but multiplies token cost. Script-based automation eliminates context drift entirely by giving each file a fresh `context window` — making it the best choice for repeatable operations at scale.
 
 Key takeaways:
 - Context drift causes quality degradation when processing many files in one conversation.
@@ -162,14 +162,14 @@ Key takeaways:
    b) As conversation history grows, the AI's attention to original instructions decays — causing quality degradation for later files in a long conversation
    c) The AI slows down because each successive file takes longer to read into memory
    Correct answer: b.
-   - (a) Incorrect. This describes a plausible-sounding mechanism, but context drift is about the context window filling with previous responses, not about the model reinterpreting instructions. The original instructions get diluted, not reinterpreted.
-   - (b) Correct. Context drift occurs because the context window fills with previous responses, diluting the model's focus on the original instruction. Later files receive less accurate analysis as a result.
+   - (a) Incorrect. This describes a plausible-sounding mechanism, but context drift is about the `context window` filling with previous responses, not about the model reinterpreting instructions. The original instructions get diluted, not reinterpreted.
+   - (b) Correct. Context drift occurs because the `context window` fills with previous responses, diluting the model's focus on the original instruction. Later files receive less accurate analysis as a result.
    - (c) Incorrect. Context drift is not about processing speed. The AI does not slow down noticeably — it continues to respond quickly, but the quality of responses degrades because earlier conversation consumes context space.
 
 2. Why is script-based automation (Approach 3) the most efficient for processing many files?
    a) The script caches the AI's responses and reuses them for similar files, reducing token cost
    b) Each file is processed in a fresh context with no accumulated history, eliminating context drift and providing consistent quality without wasting tokens on re-reading instructions
-   c) The script splits large files into smaller chunks so they fit within the context window
+   c) The script splits large files into smaller chunks so they fit within the `context window`
    Correct answer: b.
    - (a) Incorrect. Script automation does not cache or reuse responses — each file is processed independently with a fresh AI call. The efficiency comes from clean contexts, not from caching.
    - (b) Correct. Script automation gives each file a clean context window, avoiding both context drift (Approach 1's problem) and redundant instruction reading (Approach 2's problem).
@@ -178,8 +178,8 @@ Key takeaways:
 3. When is it acceptable to use the single-request approach (Approach 1)?
    a) When the files are well-structured and follow a consistent template
    b) When processing 3-5 files for a quick ad-hoc check where some quality loss is acceptable
-   c) When the AI model has a large enough context window to hold all files simultaneously
+   c) When the AI model has a large enough `context window` to hold all files simultaneously
    Correct answer: b.
    - (a) Incorrect. File structure does not prevent context drift. Even well-structured files cause the conversation to grow, and the AI's attention to original instructions still decays after several files.
    - (b) Correct. The single-request approach works for small batches where perfect consistency is not critical. Beyond 5 files, context drift makes the results unreliable.
-   - (c) Incorrect. Context window size helps but does not eliminate drift. Even with large context windows, the model's attention distribution shifts as more content accumulates, reducing focus on the original instructions.
+   - (c) Incorrect. `Context window` size helps but does not eliminate drift. Even with large `context windows`, the model's attention distribution shifts as more content accumulates, reducing focus on the original instructions.

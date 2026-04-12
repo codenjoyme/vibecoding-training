@@ -61,6 +61,7 @@
 Давай сделаем в нем так же как в `100` структуру, чтобы была папочка `.cursor`, `.vscode` и версия для `linux`. И посмотри `walkthrough.md` этого модуля, чтобы общие рекомендации и parts были схожие в части установки. 
 
 Ну и потестим давай. Установим в этот вокрспейс в мой `mcp.json` ссылку на `ps` файл и проверим как работает.  
+
 ### RESULT
 
 **Module 107 structure updated to match module 100 pattern:**
@@ -78,3 +79,18 @@
 **Workspace installed and ready to test:**
 - `.vscode/mcp.json` now includes `"image-viewer-windows"` entry pointing to `mcp-image-viewer.ps1`
 - Server will auto-start and expose the `load_image` tool in Agent Mode
+
+## UPD5
+
+А давай сделаем `107` внутри tools папки так, чтобы там `SKILLS.md` появился который описывает как это все установить в проекте для разных OS. 
+
+### RESULT
+
+Created `modules/107-mcp-image-viewer/tools/SKILL.md` — AI skill + human guide covering:
+- What the tool does and the MCP image content format
+- Files-in-directory table
+- Installation steps for all 4 combinations: Windows/Linux × VS Code/Cursor
+- Config format difference table (VS Code `"servers"` vs Cursor `"mcpServers"`)
+- How to enable the tool in Agent Mode
+- Usage prompt examples with path format notes
+- Verification steps and troubleshooting table

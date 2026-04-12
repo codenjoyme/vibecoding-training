@@ -127,7 +127,7 @@ You have tested interactive elements, caught and fixed bugs, and verified the fi
 Testing is only useful if the results are documented. A single-session QA report captures what was tested today. A regression suite is a growing document that accumulates test scenarios across all features — so you can re-run them whenever you change code, ensuring new features do not break existing ones.
 
 Advanced QA patterns to be aware of:
-- **Test-Driven Development (TDD):** Write test scenarios first, then ask the AI to implement the feature until all tests pass.
+- **Test-Driven Development (`TDD`):** Write test scenarios first, then ask the AI to implement the feature until all tests pass.
 - **Continuous Regression:** Run the full test suite before every deploy — catch regressions before users do.
 - **Visual Regression:** Take baseline screenshots, then compare after changes to detect unintended visual differences.
 - **Accessibility Testing:** Use `Chrome DevTools` to check `ARIA` labels, keyboard navigation, and color contrast.

@@ -47,11 +47,13 @@ Before learning `Git` commands, you need a small project to practice on. You wil
 2. Create a subfolder: `work/module03-task`. All course exercises go in `work/`[module-number]-task.
 ![Create new folder](img/module-03/01-create-new-folder.png)
 3. Open the chat and ask the AI assistant in `Agent` mode:
+```
    Create a simple `Python` calculator project with:
    - `calculator.py` with add() and subtract() functions
    - `main.py` that uses the calculator
    - `README.md` with project description
    Place these files in the `work/module03-task` directory.
+```
 ![Ask to create file - VSCode](img/module-03/02-ask-to-create-file-vscode.png)
 ![Ask to create file - Cursor](img/module-03/03-ask-to-create-file-cursor.png)
 4. Verify that three files appear in `work/module03-task`: `calculator.py`, `main.py`, and `README.md`.
@@ -96,12 +98,12 @@ You have a small practice project with three files ready for version control.
    `git status`
    You should see all project files listed as `Untracked` — `Git` knows the files exist but is not tracking them yet.
 3. Configure your identity. Ask the AI:
-   `I need to configure Git with my identity. My name is [Your Name] and email is [your@email.com]. What commands should I run? Please do it for me.`
+   `I need to configure Git with my identity. My name is [Your Name] and email is [your@email.com]. What commands should I run? Please do it for me`
 4. The AI will suggest:
    `git config --global user.name "Your Name"`
    `git config --global user.email "your@email.com"`
 5. Ask the AI:
-   `Verify my global Git identity settings and show the configured values.`
+   `Verify my global Git identity settings and show the configured values`
    The AI will most likely run:
    `git config --global --list`
 
@@ -111,15 +113,22 @@ You have a small practice project with three files ready for version control.
 ## Page 4: Create `.gitignore` and First Commit
 ### Background
 Not every file belongs in version control. Secrets (`API keys`, passwords), temporary files, and IDE configuration should be excluded. A `.gitignore` file tells `Git` which files to skip.
+![Git ignore patterns](img/module-03/14-git-ignore-patterns.png)
 
 ### Steps
 1. Ask the AI:
-   Create a `.gitignore` file for a `Python` project. Include virtual environments, cache files, secrets/environment files, IDE configuration, and any files in a temp/ directory.
-2. Review the generated `.gitignore` — make sure it includes `.env` and other sensitive file patterns.
+   `Create a '.gitignore'. Ignore the '.env' file and basic Python stuff`
+2. Review the generated `.gitignore` — make sure it includes `.env`.
+![Ignored env](img/module-03/15-ignored-env.png)
 3. Now stage all project files for your first commit. In the IDE, open the `Source Control` panel (look for the branch icon in the left sidebar). You should see all changed files listed.
-4. Click the + icon next to each file to stage it (or run git add . in terminal to stage everything).
-5. Type a commit message: Initial calculator with add and subtract.
-6. Click the commit button (or run git commit -m "Initial calculator with add and subtract" in terminal).
+![Stage all changes](img/module-03/16-stage-all-changes.png)
+4. Click the + icon next to each file to stage it (or ask AI to make `git add`).
+5. Type a commit message: `Initial calculator with add and subtract` or press autogenerate commit message button.
+![Commit message](img/module-03/17-commit-message.png)
+6. Click the commit button.
+![Commit without ai](img/module-03/18-commit-without-ai.png)
+7. Or you can ask AI to do commit with some informative message
+![Commit with ai](img/module-03/19-commit-with-ai.png)
 
 ### ✅ Result
 Your first commit is saved. You now have a baseline snapshot to return to at any time.
@@ -130,22 +139,44 @@ Now that you have a baseline, practice the core loop: make a change → test →
 
 ### Steps
 1. Ask the AI:
-   Add a multiply() function to `calculator.py`
-2. After the AI adds the function, test it — run the code and verify multiply works.
-3. Stage `calculator.py` immediately (click + in `Source Control` or run git add `calculator.py`). Do not commit yet — you are building up a feature.
+   `Create calculator python script and add a multiply() function to it`
+2. After the AI adds the function, you can open it.
+![Calculator multiply](img/module-03/20-calculator-multiply.png)
+3. Stage `calculator.py` immediately (click `+` in `Source Control` or ask AI to `stage calculator file`). Do not commit yet — you are building up a feature.
+![Stage the file without AI](img/module-03/21-stage-file-without-ai.png)
+![Stage the file with AI](img/module-03/22-stage-file-with-ai.png)
 4. Ask the AI:
-   Update `main.py` to demonstrate the multiply() function
-5. Test that both files work together. Stage `main.py`.
-6. Ask the AI:
-   Update `README.md` to document the multiply function
-7. Review the README. Stage it. Now commit:
-   git commit -m "Add multiply function"
+   `Create main.py to demonstrate the multiply function`
+5. Check that both files work together. 
+![Main demo script](img/module-03/23-main-demo-script.png)
+6. Stage `main.py`.
+![Stage it](img/module-03/24-stage-it.png)
+7. Ask the AI:
+   `Create README.md to document the multiply function`
+8. Review the `README`.
+![Readme](img/module-03/25-readme.png) 
+
+9. Stage it. Now commit. You can do it in `Source Control` as we did before, ask AI `please commit it` and do following command in the terminal:
+   `git commit -m "Add multiply function"`
+![Commit all files](img/module-03/26-commit-all-files.png)
 
 The feature took three small steps instead of one big confusing change. Each step was verified before moving on.
 
-**Tip: not every AI-generated file belongs in `Git`.** As your project grows, the AI may create temporary scripts, test data, or scaffolding files. Before staging everything with git add ., ask the AI:
-   Which of my project files are production code and which are temporary scaffolding? List them in two groups.
-Then stage only the production files and add scaffolding patterns to `.gitignore`.
+**Think of staging as a pre-commit draft area.** When the AI produces a result you like, stage it — this locks in your progress without finalizing it. You can stage several incremental results and keep refining. If the AI then makes a mistake and breaks something, only the unstaged changes are at risk; your staged work is safe. Once you are satisfied that the feature is complete, commit — this saves it permanently. You can commit right away if the change is clearly done, but if you sense there is still a bit more to add or verify, staging lets you hold that working state while you continue.
+
+**Tip: not every AI-generated file belongs in `Git`.** As your project grows, the AI may create temporary scripts, test data, or scaffolding files. Before staging everything with `git add .` (this is command AI runs in terminal whe you ask to stage results), ask the AI:
+   `Which of my project files are production code and which are temporary scaffolding? List them in two groups`
+So you can see.
+
+![Ask about scafolding](img/module-03/27-ask-about-scaffolding.png)
+
+Then stage only the production files and add scaffolding patterns to `.gitignore` manually in `Source Control` or ask AI to do it instead of you: `Please remove/ingnore scafolding files`
+
+![Ignore and remove scafolding](img/module-03/28-ignore-remove-scaffolding.png)
+
+Do not commit this, and ask ai `Please revert all this changes`. This will undo previous step at all. 
+
+![Revert all changes](img/module-03/29-revert-all-changes.png)
 
 ### ✅ Result
 You completed a feature using baby steps: three small changes, each tested and staged, then committed as one unit.
@@ -156,22 +187,22 @@ This is the most important exercise in the module. You will deliberately create 
 
 ### Steps
 1. Ask the AI:
-   Add a divide() function to `calculator.py`
+   `Add a divide() function to calculator.py`
 2. Do NOT stage or commit yet.
 3. Now ask the AI to do something risky:
-   Refactor `calculator.py` to use a class-based structure
-4. Check if `main.py` still works. It likely does not — the refactoring changed too much.
+   `Refactor calculator.py to use a class-based structure`
+4. Check if `main.py` still works. It likely does not — the refactoring changed too much. Ask AI: `Please run main.py in the terminal`.
 5. Since you did not stage the refactoring, discard it:
    - IDE: Right-click `calculator.py` in `Source Control` → Discard Changes.
-   - Terminal: git checkout -- `calculator.py`
-6. Notice that your divide() function is also gone — it was never staged.
-7. This demonstrates the lesson: if you had staged divide() when it worked, you could recover it now. Always stage working code immediately.
+   - Terminal: `git checkout -- calculator.py`
+   - AI: `Please revert calculator.py`
+6. Notice that your `divide()` function is also gone — it was never staged.
+7. This demonstrates the lesson: if you had staged `divide()` when it worked, you could recover it now. Always stage working code immediately.
 
-**What if you already committed the bad change?** If you committed the refactoring before realizing it broke things, you have two options:
-- git revert HEAD — creates a new commit that undoes the last one (safe, preserves history).
-- git reset --hard HEAD~1 — removes the last commit entirely (destructive, use with caution).
-
-Page 6 covers the more common case (discarding unstaged changes), but knowing both recovery paths ensures you are never stuck.
+**What if you already committed the bad change?** If you committed the refactoring before realizing it broke things, you have two options in terminal:
+- `git revert HEAD` — creates a new commit that undoes the last one (safe, preserves history).
+- `git reset --hard HEAD~1` — removes the last commit entirely (destructive, use with caution).
+You can also ask AI to do it in the chat: `Please revert last commit` as we did it before.
 
 ### ✅ Result
 You practiced recovering from an AI mistake using git checkout. You understand why staging after each working change is critical — and you know how to undo a committed mistake if needed.
@@ -180,26 +211,30 @@ You practiced recovering from an AI mistake using git checkout. You understand w
 ### Background
 Pushing your repository to `GitHub` creates a remote backup. If your local machine has issues, your code is safe in the cloud. This step is optional but recommended — you will use `GitHub` features in later modules.
 
-This is also the moment to initialize the repository you will use for the practical project throughout the course. In Module 08, you will define a `Jira`/Confluence automation project — but you can create the repo for it now.
-
 ### Steps
 1. Go to [https://github.com/new](https://github.com/new) in your browser.
-2. Name the repository: jira-confluence-automation (or git-baby-steps-practice if you prefer to start with a generic name and rename later).
+2. Name the repository: `git-baby-steps-practice`.
 3. Choose Public or Private (your preference).
 4. Do NOT check "Initialize this repository" — you already have local files.
 5. Click Create repository.
+![Create repository](img/module-03/30-create-repository.png)
 6. Ask the AI:
-   I created a `GitHub` repo at https://github.com/[username]/git-baby-steps-practice. How do I connect my local repository and push?
+   `I created a GitHub repo at 'https://github.com/[username]/git-baby-steps-practice.git'. How do I connect my local repository and push?`
 7. The AI will provide commands like:
+```
    git remote add origin https://github.com/[username]/git-baby-steps-practice.git
    git branch -M main
    git push -u origin main
-8. Run the commands. Your code is now on `GitHub`.
+```
+![List of commands](img/module-03/31-list-of-commands.png)
+8. Ask AI to `run the commands`. 
+9. When you run `git push` for the first time, a browser window will open asking you to sign in to `GitHub`. This is normal — `Git` uses `HTTPS` and handles authentication automatically via `Git Credential Manager` (included with `Git` for Windows and macOS). Just log in once and your credentials are saved for future pushes. No SSH keys or manual tokens are needed.
+![Choose the account](img/module-03/32-choose-the-account.png)
+10. Your code is now on `GitHub`.
+![Repo is on Github](img/module-03/33-repo-is-on-github.png)
 
 ### ✅ Result
 Your project is backed up to `GitHub`. You can continue making baby steps and push regularly.
-
-**Practical project note:** This repository will become the home for your `Jira`/Confluence Automation Toolkit — a project you will define in Module 08 and build throughout the rest of the course. Every module from here on uses the baby steps workflow you just learned: change → test → stage → commit → push.
 
 ## Summary
 Remember the scenario from the introduction — two hours of work destroyed by one careless AI refactoring? With the baby steps workflow, that situation is impossible. Every working change is staged, every complete feature is committed, and recovery is one command away.

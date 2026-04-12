@@ -94,8 +94,8 @@ You can invoke `MCP` tools through chat and understand the approval workflow.
 
 ## Page 4: Managing `MCP` Tools and Context
 ### Background
-Each `MCP` tool's description is added to the AI's context window. With many tools:
-- The context window fills up faster (tool schemas take space).
+Each `MCP` tool's description is added to the AI's `context window`. With many tools:
+- The `context window` fills up faster (tool schemas take space).
 - Response times slow down (more tools to evaluate).
 - Token costs increase (on paid APIs).
 
@@ -133,7 +133,7 @@ Use custom skills when:
 - You want full control over the tool's behavior and parameters.
 - The integration is specific to your project and will not be reused widely.
 
-For your `Jira`/Confluence project: explore whether `MCP` servers exist for `Atlassian` products. If they do, use them for standard operations (fetching issues, reading pages). If you need custom formatting or analysis, combine `MCP` tools with custom scripts.
+For your `Jira`/`Confluence` project: explore whether `MCP` servers exist for `Atlassian` products. If they do, use them for standard operations (fetching issues, reading pages). If you need custom formatting or analysis, combine `MCP` tools with custom scripts.
 
 ### Steps
 1. Search your `MCP` server ecosystem (or ask the AI) for any existing `Jira` or `Confluence` `MCP` servers.
@@ -152,18 +152,18 @@ Key takeaways:
 - `MCP` is a standard protocol (like USB) for connecting AI to external tools and data sources.
 - Configuration is a simple `JSON` file in `.vscode/mcp.json` or `.cursor/mcp.json`.
 - `MCP` tools require explicit approval for security — always review before allowing.
-- Enable only the tools you need to avoid filling the context window.
+- Enable only the tools you need to avoid filling the `context window`.
 - Use `MCP` for standard integrations and custom skills for specialized business logic.
 
 [MG]: Тут ещё тоже можем оставить квиз, т.к. просто даём основы, но в следующем уже нужно практическое занятие дать какое-то.
 ## Quiz
 1. What problem does the Model Context Protocol (`MCP`) solve?
    a) It provides a standard way to connect AI assistants to external data sources and tools without writing custom integration code for each service
-   b) It compresses the AI model’s context window so more conversation history fits into a single session
+   b) It compresses the AI model's `context window` so more conversation history fits into a single session
    c) It encrypts communication between the AI model and the cloud server to protect proprietary prompts
    Correct answer: a.
    - (a) is correct because `MCP` standardizes how AI assistants connect to external services, enabling plug-and-play integrations through community-built servers instead of custom code for each data source.
-   - (b) is incorrect because `MCP` does not affect context window compression. In fact, each enabled `MCP` tool’s schema takes up space in the context window.
+   - (b) is incorrect because `MCP` does not affect `context window` compression. In fact, each enabled `MCP` tool's schema takes up space in the `context window`.
    - (c) is incorrect because `MCP` is a connectivity protocol for tools and data sources, not an encryption layer. Communication security is handled at the transport level, not by `MCP` itself.
 
 2. Why are `MCP` tools disabled by default after configuration?
@@ -173,7 +173,7 @@ Key takeaways:
    Correct answer: a.
    - (a) is correct because `MCP` tools can perform real actions (execute code, read/write files, access APIs), so security requires explicit user activation and per-call approval.
    - (b) is incorrect because `MCP` tools use a standard `JSON-RPC` protocol that works with any AI model. There is no compatibility check between the server and the model.
-   - (c) is incorrect because while tools do consume context window space, the primary reason they are disabled by default is security, not performance optimization during startup.
+   - (c) is incorrect because while tools do consume `context window` space, the primary reason they are disabled by default is security, not performance optimization during startup.
 
 3. When should you use a custom skill instead of an `MCP` server?
    a) When no `MCP` server exists for your service, or when you need custom business logic that standard `MCP` servers do not provide

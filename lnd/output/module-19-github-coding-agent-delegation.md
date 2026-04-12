@@ -21,9 +21,9 @@ Key characteristics:
 - **Full repository access:** Reads the entire codebase for context, including your instruction files from Module 10.
 - **Creates pull requests:** Delivers a complete implementation as a PR for your review.
 - **Session logs:** Provides a detailed work log so you can see every decision it made.
-- **Model selection:** Can use different AI models (GPT-5.2-Codex, Claude Opus, Claude Sonnet, or Auto mode).
+- **Model selection:** Can use different AI models (`GPT-5.2-Codex`, `Claude Opus`, `Claude Sonnet`, or `Auto` mode).
 
-**Important note on model differences:** The Coding Agent runs on `GitHub`'s servers with different models than your IDE. Instructions that work perfectly with Claude Sonnet in `VS Code` may need adjustment for the agent's server environment. Start with Auto mode, and if the agent makes unexpected decisions, check whether the model difference is the cause.
+**Important note on model differences:** The Coding Agent runs on `GitHub`'s servers with different models than your IDE. Instructions that work perfectly with `Claude Sonnet` in `VS Code` may need adjustment for the agent's server environment. Start with `Auto` mode, and if the agent makes unexpected decisions, check whether the model difference is the cause.
 
 **When to use it:**
 - Well-defined tasks with clear requirements (from your backlog).

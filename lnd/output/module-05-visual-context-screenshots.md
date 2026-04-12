@@ -34,27 +34,27 @@ You understand when and why to share screenshots with your AI assistant.
 Every operating system provides built-in tools for capturing screenshots. You do not need to install any additional software. Choose the method that works best for you — the only requirement is that you can paste the captured image into the AI chat.
 
 `Windows`:
-- `Snip & Sketch`: Press `Windows` + Shift + S — select the area to capture. The image is copied to the clipboard.
+- `Snip & Sketch`: Press `Windows` + `Shift` + `S` — select the area to capture. The image is copied to the clipboard.
 - `Snipping Tool`: Search for "`Snipping Tool`" in the Start menu — select area to capture.
-- Full screen: Press PrtScn (Print Screen) — copies entire screen to clipboard.
-- Active window: Press Alt + PrtScn — copies the active window only.
+- Full screen: Press `PrtScn` (`Print Screen`) — copies entire screen to clipboard.
+- Active window: Press `Alt` + `PrtScn` — copies the active window only.
 
 `macOS`:
-- Selected area: Press Cmd + Shift + 4 — drag to select area.
-- Full screen: Press Cmd + Shift + 3 — captures entire screen.
-- Window: Press Cmd + Shift + 4, then Space, then click a window.
+- Selected area: Press `Cmd` + `Shift` + `4` — drag to select area.
+- Full screen: Press `Cmd` + `Shift` + `3` — captures entire screen.
+- Window: Press `Cmd` + `Shift` + `4`, then Space, then click a window.
 
 `Linux`:
-- Full screen: Press PrtScn — saves to Pictures folder.
-- Selected area: Press Shift + PrtScn — drag to select area.
-- Active window: Press Alt + PrtScn.
+- Full screen: Press `PrtScn` — saves to Pictures folder.
+- Selected area: Press `Shift` + `PrtScn` — drag to select area.
+- Active window: Press `Alt` + `PrtScn`.
 
 ### Steps
 1. Practice taking a screenshot now using your preferred method.
 2. Open any application — for example, your web browser.
 3. Capture a screenshot of the browser window.
-4. Open your AI chat (`Copilot Chat` or `Cursor` Chat).
-5. Click in the message input field and paste the screenshot (Ctrl+V on `Windows`/Linux, Cmd+V on `macOS`).
+4. Open your AI chat (`Copilot` or `Cursor` Chat).
+5. Click in the message input field and paste the screenshot (`Ctrl + V` on `Windows`/`Linux`, `Cmd + V` on `macOS`).
 6. You should see the image appear as a thumbnail in the input field.
 
 ![Pasted screenshot](img/module-05/01-pasted-screenshot.png)
@@ -64,24 +64,24 @@ You can take a screenshot and paste it into the AI chat.
 
 ## Page 3: Practical Exercise — Browser Developer Console
 ### Background
-To practice the screenshot workflow, you will complete a real task: opening the browser Developer Console and writing "Hello World." This task varies between browsers (`Chrome`, Firefox, Edge, Safari), making it a perfect case for screenshot-assisted guidance — the AI can see which browser you are using and adapt its instructions.
+To practice the screenshot workflow, you will complete a real task: opening the browser `Developer Console` and writing `Hello World`. This task varies between browsers (`Chrome`, `Firefox`, `Edge`, `Safari`), making it a perfect case for screenshot-assisted guidance — the AI can see which browser you are using and adapt its instructions. If it misidentifies your browser on the first attempt, keep sharing screenshots as you follow along — each additional image gives the AI more context, and it will quickly self-correct.
 
 ### Steps
 1. Open any web browser and navigate to any website (for example, [https://www.google.com](https://www.google.com)).
 2. Take a screenshot of the entire browser window.
 3. Open your AI chat and paste the screenshot.
 4. Type this message along with the screenshot:
-[MG]: Нужно для LnD обязательно пометить каким-то маркапом, где куски текста/кода которые нужно будет выделить при переноси в Learn, как например промпт который нужно скопипастить ниже.
-   I want to open the Developer Console in this browser and write "Hello World" in the console. Can you guide me step by step? Point out exactly where to click in my interface.
+   `I want to open the Developer Console in this browser and write 'Hello World' in the console. Can you guide me step by step? Point out exactly where to click in my interface`
 5. Send the message. The AI will identify your browser and provide specific instructions.
-6. Follow the AI's instructions to open the Developer Console.
+![How to open console](img/module-05/02-how-to-open-console.png)
+6. Follow the AI's instructions to open the `Developer Console`.
 7. Once the console is open, take another screenshot showing the console panel.
 8. Paste this new screenshot and ask:
-   The console is now open. How do I write "Hello World" here? Show me exactly where to type.
-9. Follow the AI's instructions. Typically, you will type console.log("Hello World") and press Enter.
-10. Verify: "Hello World" appears in the console output.
-
-![Hello World](img/module-05/02-hello-world.png)
+   `The console is now open. How do I write "Hello World" here? Show me exactly where to type`
+   ![Write code in the console](img/module-05/03-write-code-in-console.png)
+9. Follow the AI's instructions. Typically, you will type `console.log("Hello World")` and press `Enter`.
+10. Verify: `Hello World` appears in the console output.
+![Hello World](img/module-05/04-hello-world.png)
 
 ### ✅ Result
 You completed a browser task using screenshot-assisted AI guidance. The AI adapted its instructions to your specific browser.
@@ -90,19 +90,34 @@ You completed a browser task using screenshot-assisted AI guidance. The AI adapt
 ### Background
 For the practical project running through this course, you will eventually connect your AI assistant to `Jira` and/or `Confluence`. Both services require `API tokens` for programmatic access. Creating these tokens involves navigating admin interfaces — exactly the kind of task where screenshots help, since `Atlassian` frequently updates their UI.
 
-If you do not have access to `Jira`/Confluence yet, you can skip this exercise and return to it when access becomes available. The screenshot technique itself is the skill being practiced.
+If you do not have access to `Jira`/`Confluence` yet, you can skip this exercise and return to it when access becomes available. The screenshot technique itself is the skill being practiced.
+
+There are several account options depending on your situation:
+
+- **EPAM employees:** Use your corporate `EPAM Jira` instance. Check with your team lead or project manager for the URL and access credentials.
+- **Free `Atlassian` account (new):** Create a free account at [https://www.atlassian.com/try](https://www.atlassian.com/try) and set up a new `Jira` project for this course.
+- **Existing free `Atlassian` account:** If you already use a free `Atlassian Jira` account for personal or other projects, register a new temporary email address (e.g. using `Gmail` or similar) and create a separate `Atlassian` account exclusively for this training. This avoids mixing course work with your existing projects.
 
 ### Steps
-[MG]: Нужно рассмортеть вариант с `EPAM` `Jira`, например если человек уже использовал бесплатную атлассиан `Jira` для других проектов. Либо указать что если у Вас уже использовалась она, то зарегайте новую временную почту чисто для обучения.
-1. Open your browser and navigate to your `Atlassian` account settings ([https://id.atlassian.com/manage-profile/security/api-tokens](https://id.atlassian.com/manage-profile/security/api-tokens)).
+1. Open your browser and navigate to your `Atlassian` account settings ([https://id.atlassian.com/manage-profile/security/api-tokens](https://id.atlassian.com/manage-profile/security/api-tokens)). 
 2. Take a screenshot of the page you see.
 3. Paste the screenshot into the AI chat and ask:
-   I need to create an `API token` for accessing `Jira` and `Confluence` via their REST APIs. Here is my current screen. Can you walk me through the steps?
+   `I need to create an API token for accessing Jira and Confluence via their REST APIs. Here is my current screen. Can you walk me through the steps?`
 4. Follow the AI's instructions — it will guide you based on what it sees in your screenshot.
 5. When the token is generated, copy it to a safe location (a password manager or a secure note).
 6. Do NOT commit this token to your `Git` repository. Store it in a `.env` file (which is already in your `.gitignore` from Module 3).
+7. Save the token with a descriptive name — for example, `JIRA_API_TOKEN` or `CONFLUENCE_API_TOKEN` — so you can easily identify it later when configuring integrations.
+![Tokens in env](img/module-05/05-tokens-in-env.png)
 
-Important: `API tokens` are sensitive credentials. Never share them in screenshots, chat histories, or code repositories.
+Important: `API tokens` are sensitive credentials. **Never** share them in screenshots, chat histories, or code repositories.
+
+Anyone who sees your token can perform — on your behalf — exactly the actions you granted when creating it. Keep these security practices in mind:
+
+- **Never display tokens during screen shares or meetings.** If you accidentally expose a token, revoke it immediately in the same `Atlassian` security settings page.
+- **Apply the principle of least privilege.** When creating a token, grant only the permissions you actually need — nothing more.
+- **Set an expiry date.** Always create tokens with a limited validity period rather than leaving them open-ended.
+- **Delete unused tokens.** If you find a token and cannot remember what it was created for, delete it.
+- **Use informative names.** Name each token so it is clear where it is used — for example, `course-jira-mcp-integration` — making it easy to manage and revoke specific tokens without affecting others.
 
 ### ✅ Result
 You have `API tokens` for `Jira` and/or `Confluence` stored securely. You will use them in later modules for automation.
@@ -117,9 +132,11 @@ Use screenshots when:
 - A software interface looks different from what the AI expects.
 - Showing error messages or unexpected behavior.
 - You do not know the correct terminology for what you see.
+- The text on screen is not selectable and you cannot copy it directly — share a screenshot and ask the AI to read it.
+- You need to extract or transcribe text from a screenshot someone else saved — paste the image and ask the AI to convert it to editable text.
 
 Use text only when:
-- Asking conceptual questions ("What is a `REST API`?").
+- Asking conceptual questions ("What is a REST API?").
 - Requesting code examples or explanations.
 - Discussing algorithms or logic.
 - Sharing code snippets (paste text, not a screenshot of code).

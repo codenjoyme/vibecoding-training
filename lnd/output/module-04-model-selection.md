@@ -30,21 +30,40 @@ AI coding assistants offer multiple models with different capabilities and costs
 
 ![Premium request balances](img/module-04/02-premium-request-balances.png)
 
+> **Note:** If the indicator appears stuck at 100%, this does not necessarily mean your personal quota is exhausted. Organizations often apply a company-level spending cap — typically set between 200% and 400% of the base quota — after which premium models truly become unavailable. To check whether a company-level limit is in effect (for GitHub Copilot), navigate to [github.com/settings/copilot/features](https://github.com/settings/copilot/features) — that page shows both your personal usage and any organization-imposed restrictions.
+
+![Copilot settings menu](img/module-04/05-copilot-settings-menu.png)
+
+![Quota](img/module-04/06-quota.png)
+
 ### ✅ Result
-You can see the available models and understand the pricing tiers.
+You can see the available models, understand the pricing tiers, view your current quota usage, and identify any organization-level spending limits that may restrict access to premium models.
 
 ## Page 2: Select Your Primary Model
 ### Background
 With many models available, it is tempting to switch constantly. Research shows this is counterproductive — each model has its own strengths and quirks, and you only learn them through sustained use. The recommended strategy is to start with the best available model and switch only when you encounter a real limitation.
 
 ### Steps
-1. Open the `Command Palette` in your IDE:
-   - `VS Code`: Open the `Copilot` menu or search for "`Copilot`: Chat Model."
-   - `Cursor`: Go to Settings > Models.
+1. Open the model selection in your IDE:
+   - `VS Code`: Open the `Command Palette` and type `> Chat: Manage Language Models` — select it from the list.
+   ![Manage models in vscode](img/module-04/07-manage-models-vscode.png)
+   - `Cursor`: Go to `File` → `Preferences` → `Cursor Settings` → `Models`.
+   ![Cursor settings](img/module-04/08-cursor-settings.png)
+   ![Cursor models](img/module-04/09-cursor-models.png)
 2. Review the available models. Recommended choices:
-   - Claude Sonnet 4.5 — Best for coding tasks, excellent balance of price and quality.
-   - GPT-4o — Strong general-purpose alternative.
-3. Select Claude Sonnet 4.5 as your primary model.
+   - `Claude Sonnet 4.6` — Best for coding tasks, excellent balance of price and quality.
+   - `GPT-4.1` — Free tier (0x), no quota cost, but noticeably mediocre at following instructions and writing code — use only as a fallback when premium quota is exhausted.
+3. Select `Claude Sonnet 4.6` as your primary model.
+
+   We recommend staying within the **Claude ecosystem** — these models are purpose-built for coding and perform exceptionally well in Agent Mode. Here is how to think about the three tiers:
+
+   | Model | Multiplier | Best for |
+   |---|---|---|
+   | `Claude Haiku 4.6` | 0.33x | Simple actions, code review, text generation — lightweight and fast |
+   | `Claude Sonnet 4.6` | 1x | Your everyday workhorse — handles the vast majority of tasks well (use ~80% of the time) |
+   | `Claude Opus 4.6` | 3x | Complex tasks when Sonnet falls short, or upfront architecture and design thinking |
+
+   > **Tip:** The higher the version number, the better the model — prefer 4.6 over 4.6 wherever available. If your IDE does not yet offer a 4.6 version, select the equivalent 4.6 model instead.
 
 ![Claude selected](img/module-04/03-claude-selected.png)
 
@@ -58,7 +77,7 @@ The practical strategy:
 - Most users settle on one or two models for 90% of their work.
 
 ### ✅ Result
-Your AI assistant is configured with Claude Sonnet 4.5 (or your preferred model).
+Your AI assistant is configured with Claude Sonnet 4.6 (or your preferred model).
 
 ## Page 3: Enable `Agent Mode`
 ### Background
@@ -72,16 +91,15 @@ Your AI assistant can operate in two modes. `Ask Mode` is simple Q&A — it answ
 
 3. Verify by testing all three capabilities:
    - Test 1 — Ask a technical question:
-     Explain the difference between async/await and promises in `JavaScript`
+     `Explain the difference between async/await and promises in JavaScript`
      You should receive a detailed, well-structured response.
    - Test 2 — Request code generation:
-     Create a `Python` function that reads a CSV file and converts it to `JSON`
+     `Create a Python function that reads a CSV file and converts it to JSON`
      The AI should generate working code with error handling.
    - Test 3 — Test autonomous file access:
-     List the files in my current workspace and tell me what you see
+     `List the files in my current workspace and tell me what you see`
      The AI should read the file system and report back (this proves `Agent Mode` works).
-
-As a practical thread exercise, try a project-related prompt: ask your AI assistant to "Draft a list of `Jira` issue types that a project management automation toolkit might need." Compare the response quality — this gives you a feel for how the model handles domain-specific requests that you will encounter throughout this course.
+     ![All files in project](img/module-04/10-all-files-in-project.png)
 
 ### ✅ Result
 `Agent Mode` is enabled. Your AI assistant can answer questions, generate code, and interact with your file system autonomously.
@@ -92,20 +110,28 @@ Cost anxiety is the most common barrier to using AI coding assistants effectivel
 
 Real-world example from intensive usage:
 - One month of daily AI-assisted work.
-- Using Claude Sonnet 4.5 extensively — generating code every working day.
-- Total cost: approximately $80 over the base subscription.
+- Using Claude Sonnet 4.6 extensively — generating code every working day.
+- Total cost: approximately $80 over the base subscription — which corresponds roughly to an 800% overage against the default Copilot quota (the relationship is not linear, but the order of magnitude holds).
 - That month of AI-assisted work produced more output than an entire previous year of manual work.
 
+If your AI champion is actively exploring the GenAI world, they will likely exhaust their available 200–300% quota well before the month ends. When this happens repeatedly, it is a systemic signal — not a one-off event. It means the spending cap needs to be reconsidered and raised.
+
+Regarding Cursor — it has its own monetization model, similar in structure to Copilot. The principle is the same: do not restrict your engineers.
+
+The core logic is simple: if you are adopting GenAI to save X × $1,000 in engineering hours, it makes no sense to be frugal about Y × $10 on model access. Limiting the tools limits the outcome.
+
 Most learners will not exhaust their free premium requests during this course. The productivity gain far exceeds any cost.
+
+When it comes to a real work project, the consumption intensity is noticeably higher. However, if usage is limited to Agent Mode — without bulk document processing such as scanning an entire codebase, a full Jira backlog, or a Confluence space — the model cost per person per month will typically stay within ~1,000% of the base quota, or roughly $100.
 
 ### ✅ Result
 You understand real-world cost expectations and can focus on learning without cost anxiety.
 
 ## Summary
-Remember the toolbox analogy from the introduction? You now have the right tool selected and ready. You configured your AI assistant with Claude Sonnet 4.5 — the screwdriver for most of your daily coding tasks — and enabled `Agent Mode` so the AI can work autonomously with your files and codebase.
+Remember the toolbox analogy from the introduction? You now have the right tool selected and ready. You configured your AI assistant with `Claude Sonnet 4.6` — the screwdriver for most of your daily coding tasks — and enabled `Agent Mode` so the AI can work autonomously with your files and codebase.
 
 Key takeaways:
-- Start with the best available model (Claude Sonnet 4.5 recommended) and switch only when you hit a real limitation — constant switching wastes time.
+- Start with the best available model (`Claude Sonnet 4.6` recommended) and switch only when you hit a real limitation — constant switching wastes time.
 - `Agent Mode` is more powerful than `Ask Mode` — it can read files, create code, and perform multi-step tasks autonomously.
 - Real costs are modest relative to productivity gains — do not let cost anxiety slow your learning.
 

@@ -5,7 +5,7 @@ You have a general idea — "I want to automate my weekly status reports" — bu
 
 This is the most common blocker for non-developers starting an automation project. The good news: the AI itself can solve this problem. Instead of asking the AI to implement something immediately, you ask it to interview you first. Through that conversation, the AI extracts the details you did not know you had.
 
-In this module, you will learn the interview technique and use it to create a Technical Specification (ТЗ) for your `Jira`/Confluence automation project — the central artifact for the rest of the course.
+In this module, you will learn the interview technique and use it to create a Technical Specification (ТЗ) for your `Jira`/`Confluence` automation project — the central artifact for the rest of the course.
 
 Upon completion of this module, you will be able to:
 - Use the "ask me clarifying questions" pattern to transform vague ideas into specific requirements.
@@ -25,7 +25,7 @@ This is not a personal failure. Professionals across all fields face this — re
 
 ### Steps
 1. Open a text editor or your AI chat.
-2. Try writing a detailed prompt for this task: "Automate my weekly status report."
+2. Try writing a detailed prompt for this task: `Automate my weekly status report`
 3. Write as many specific statements as you can.
 4. Notice where you get stuck. What questions arise that you cannot answer? (Format? Source of data? Who receives it? What sections? How often?) Write them down — you will use them later.
 
@@ -36,7 +36,7 @@ You have experienced the "empty head" problem firsthand and identified questions
 ### Background
 The solution is a single phrase that transforms the AI from an implementer into a requirements analyst:
 
-"Before we start, ask me clarifying questions."
+`Before we start, ask me clarifying questions`
 
 When you add this to the end of even a minimal prompt, the AI stops and interviews you. Instead of guessing and generating something immediately, it asks the questions you should have thought of but did not.
 
@@ -44,18 +44,18 @@ Why this works:
 - The AI knows what information is needed for implementation (it has seen thousands of similar projects in its training data).
 - The AI can identify gaps in your requirements.
 - Your answers fill in the missing details naturally.
-- The context window accumulates precise information through dialogue rather than through guessing.
+- The `context window` accumulates precise information through dialogue rather than through guessing.
 
 ### Steps
 1. Open your AI chat in `Agent Mode`.
 2. Type a minimal prompt:
-   "I want to automate my weekly status report for stakeholders. Before we start, ask me clarifying questions."
+   `I want to automate my weekly status report for stakeholders. Before we start, ask me clarifying questions`
 3. Send it. The AI will ask several questions — about format, data sources, audience, frequency, sections, and so on.
 
 ![Asking questions](img/module-08/01-asking-questions.png)
 
 4. Answer the questions honestly. If you do not know the answer, say so — the AI will suggest options.
-5. After answering, type: "Are there any more questions?"
+5. After answering, type: `Are there any more questions?`
 6. Repeat until the AI says it has enough information.
 
 ### ✅ Result
@@ -66,23 +66,23 @@ You have used the interview technique to transform a vague idea into a set of sp
 You are not just a passive interviewee — you control how the AI asks questions and what it focuses on.
 
 You can specify:
-- How to ask: "Ask one question at a time" or "Give me all questions at once."
-- What to focus on: "Focus on the data format and delivery method" or "Ask about edge cases."
-- When to stop: "Ask questions until you can implement without any assumptions."
-- How to explain: "If I do not understand a question, explain the options and their tradeoffs."
+- How to ask: `Ask one question at a time` or `Give me all questions at once`
+- What to focus on: `Focus on the data format and delivery method` or `Ask about edge cases`
+- When to stop: `Ask questions until you can implement without any assumptions`
+- How to explain: `If I do not understand a question, explain the options and their tradeoffs`
 
 You can also ask your own questions during the interview:
-- "What is the difference between a `REST API` and a webhook?"
-- "Which format would you recommend for my use case?"
-- "What are the tradeoffs between these options?"
+- `What is the difference between a 'REST API' and a webhook?`
+- `Which format would you recommend for my use case?`
+- `What are the tradeoffs between these options?`
 
 The AI will answer your question and then return to the interview.
 
 ### Steps
 1. Start a new chat and try this enhanced prompt:
-   "I want to build a `Jira` dashboard that shows my team's sprint progress. Before we start, interview me to understand the requirements. Ask one question at a time. If I am unsure about an answer, explain the options and recommend one."
+   `I want to build a 'Jira' dashboard that shows my team's sprint progress. Before we start, interview me to understand the requirements. Ask one question at a time. If I am unsure about an answer, explain the options and recommend one`
 2. Go through the interview process, answering questions and asking your own when needed.
-3. After the interview, ask the AI: "Summarize what we discussed as a requirements document."
+3. After the interview, ask the AI: `Summarize what we discussed as a requirements document`
 4. Review the summary — it should capture everything you discussed.
 
 ### ✅ Result
@@ -90,7 +90,7 @@ You can control the interview process — setting the pace, focus, and depth of 
 
 ## Page 4: Create Your Technical Specification
 ### Background
-Now you will apply the interview technique to a real task: creating a Technical Specification (ТЗ) for your `Jira`/Confluence automation project. This ТЗ will be the foundation for all practical work in the remaining modules.
+Now you will apply the interview technique to a real task: creating a Technical Specification (ТЗ) for your `Jira`/`Confluence` automation project. This ТЗ will be the foundation for all practical work in the remaining modules.
 
 Choose your automation idea (pick one or propose your own):
 - Weekly status report generator that pulls data from `Jira` and formats it for stakeholders.
@@ -101,10 +101,10 @@ Choose your automation idea (pick one or propose your own):
 ### Steps
 1. Open your AI chat in `Agent Mode`.
 2. Write your initial prompt:
-   "I want to build [your chosen automation idea]. This is for my role as [your role] managing [team size] people working on [project type]. Before we start building anything, interview me to understand the full requirements. After the interview, create a structured Technical Specification in markdown format. Save it as `PROJECT_SPEC.md` in the project root."
+   `I want to build [your chosen automation idea]. This is for my role as [your role] managing [team size] people working on [project type]. Before we start building anything, interview me to understand the full requirements. After the interview, create a structured Technical Specification in Markdown format. Save it as 'PROJECT_SPEC.md' in the project root`
 3. Go through the interview (2-3 rounds of questions).
 4. When the AI creates `PROJECT_SPEC.md`, review it carefully.
-5. If anything is missing or incorrect, tell the AI directly (e.g., "Add a section about data refresh frequency — it should be daily.").
+5. If anything is missing or incorrect, tell the AI directly (e.g., `Add a section about data refresh frequency — it should be daily`).
 6. When you are satisfied, commit the file: use the git workflow from Module 3.
 
 ### ✅ Result
@@ -122,7 +122,7 @@ Use the interview when:
 
 Skip the interview when:
 - You already know exactly what you want (write specific statements directly).
-- The task is simple and well-defined ("Create a `.gitignore` for `Python`").
+- The task is simple and well-defined (`Create a '.gitignore' for 'Python'`).
 - You are refining an existing feature with minor changes.
 
 After the interview — two paths:
@@ -138,7 +138,7 @@ You know when to use the interview technique and when to skip it.
 Remember the feeling from the introduction — you had a general idea about automating status reports, but after two sentences your head felt empty? Now you have a reliable solution: ask the AI to interview you first. Through that conversation, the AI pulls out the details you did not know you had, and the result is a structured Technical Specification ready for implementation.
 
 Key takeaways:
-- When you cannot think of what to specify, ask the AI: "Before we start, ask me clarifying questions."
+- When you cannot think of what to specify, ask the AI: `Before we start, ask me clarifying questions`
 - The AI knows what information is needed and can identify gaps in your requirements.
 - You control the interview — set the pace, focus, and depth.
 - A structured ТЗ document is more valuable than jumping straight to implementation.
@@ -153,7 +153,7 @@ Key takeaways:
    Correct answer: a.
    - (a) is correct because the interview technique transforms a vague idea into specific requirements through AI-guided questioning. The AI identifies gaps you would not have noticed on your own.
    - (b) is incorrect because model capabilities do not depend on an interview — the model already supports all major languages and frameworks. The interview is about clarifying your requirements, not testing the model.
-   - (c) is incorrect because AI models do not retain learning between sessions. The interview enriches the current context window with your specific requirements, not the model’s long-term knowledge.
+   - (c) is incorrect because AI models do not retain learning between sessions. The interview enriches the current `context window` with your specific requirements, not the model's long-term knowledge.
 
 2. What should you do after the AI finishes asking clarifying questions?
    a) Delete the entire conversation and start over with a new prompt based on what you learned
@@ -162,7 +162,7 @@ Key takeaways:
    Correct answer: b.
    - (a) is incorrect because the conversation already contains valuable context. Deleting it and rewriting from memory risks losing details that emerged naturally during the interview.
    - (b) is correct because the interview produces valuable requirements that should be captured in a structured document. This document becomes the reference for all future implementation work.
-   - (c) is incorrect because relying solely on conversational context is fragile — if the chat resets or the context window fills up, those requirements are lost. A committed document persists.
+   - (c) is incorrect because relying solely on conversational context is fragile — if the chat resets or the `context window` fills up, those requirements are lost. A committed document persists.
 
 3. When should you skip the interview technique and write specific statements directly?
    a) When you already know exactly what you want and can articulate all the details in your prompt

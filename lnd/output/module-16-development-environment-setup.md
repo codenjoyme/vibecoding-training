@@ -86,14 +86,14 @@ Before moving to prototyping, you need to confirm that all tools work together. 
 1. Ask the AI: "Verify my complete development environment: check `nvm`, node, `npm`, and docker versions. Tell me if anything is missing or outdated."
 2. The AI will run all version checks and provide a status report.
 3. If anything is missing, the AI will help you fix it.
-4. Create a simple test: ask the AI to "Create a folder work/env-test, initialize an `npm` project there, install the express package, and verify it works."
+4. Create a simple test: ask the AI to "Create a folder work/env-test, initialize an `npm` project there, install the `express` package, and verify it works."
 5. The AI will run:
    - `mkdir work/env-test && cd work/env-test`
    - `npm init -y`
    - `npm install express`
    - Create a minimal test file and run it.
 6. If the test passes, you know `Node.js` + `npm` work correctly.
-7. Clean up: "Delete the work/env-test folder."
+7. Clean up: `Delete the work/env-test folder`.
 8. Commit any configuration files that were created (e.g., `.nvmrc` if the AI created one for version pinning).
 
 ### ✅ Result

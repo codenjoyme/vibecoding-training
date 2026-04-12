@@ -5,13 +5,13 @@ You have instructions that tell the AI what to do. But what happens when you ask
 
 The solution: do not ask the AI to calculate — ask it to create a tool that calculates, then tell it when and how to use the tool. The combination of an instruction (when and how) plus a tool (the script that does the work) is called a skill.
 
-In this module, you will witness AI hallucinating calculations, create a proper tool, pair it with an instruction, and build your first skills for the `Jira`/Confluence automation project.
+In this module, you will witness AI hallucinating calculations, create a proper tool, pair it with an instruction, and build your first skills for the `Jira`/`Confluence` automation project.
 
 Upon completion of this module, you will be able to:
 - Explain why AI models predict text patterns instead of performing real calculations.
 - Build a skill by pairing a parameterized tool (script) with an instruction file.
 - Determine when a task requires a skill versus when a prompt is sufficient.
-- Create and test reusable skills for your `Jira`/Confluence automation project.
+- Create and test reusable skills for your `Jira`/`Confluence` automation project.
 
 ## Page 1: AI Does Not Calculate — It Predicts
 ### Background
@@ -79,18 +79,18 @@ Use a prompt when:
 - The task is one-time and will not repeat.
 - The output does not need to be auditable.
 
-For your `Jira`/Confluence project, most automation tasks will need skills because they involve API calls (fetching issues, updating pages) and data processing (counting items, generating reports) — both domains where hallucinations are unacceptable.
+For your `Jira`/`Confluence` project, most automation tasks will need skills because they involve API calls (fetching issues, updating pages) and data processing (counting items, generating reports) — both domains where hallucinations are unacceptable.
 
 ### ✅ Result
 You can decide when to build a skill versus when a prompt is sufficient.
 
 ## Page 4: Build Skills for Your Project
 ### Background
-Now you will create tools and instructions for your `Jira`/Confluence automation project. Based on your backlog from Module 9, identify 2-3 tasks that require precise data handling.
+Now you will create tools and instructions for your `Jira`/`Confluence` automation project. Based on your backlog from `Module 9`, identify 2-3 tasks that require precise data handling.
 
 Example skills for a `Jira` automation project:
 - A script that constructs `JQL` queries from parameters (project, status, assignee, date range) and returns the query string.
-- A script that formats a list of `Jira` issues into a markdown status report with sections.
+- A script that formats a list of `Jira` issues into a `Markdown` status report with sections.
 - A script that calculates sprint velocity from a set of story point values.
 
 ### Steps
@@ -105,7 +105,7 @@ Example skills for a `Jira` automation project:
 7. Commit all new files.
 
 ### ✅ Result
-You have built practical skills for your `Jira`/Confluence project with verified accuracy.
+You have built practical skills for your `Jira`/`Confluence` project with verified accuracy.
 
 ## Page 5: Scaling Your Skill Library
 ### Background
