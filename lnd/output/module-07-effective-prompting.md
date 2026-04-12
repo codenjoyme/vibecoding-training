@@ -129,6 +129,8 @@ Why this works:
 4. Instead, edit your original prompt: `Create a weekly status report template for an engineering manager. Include sections: accomplishments, blockers, next week's plan. Use bullet points. Keep it under 20 lines. Markdown format`
 5. Notice how much better the result is with the refined `prompt`.
 
+Note: if you could not get it right on the first attempt — that is completely normal. A good `prompt` can take 5 or more iterations to land. The key rule is simple: only move forward to the next step when the previous `prompt` produced exactly what you expected. If it did not — stop, refine, regenerate. Do not build on a result you are not happy with.
+
 ### ✅ Result
 You can apply the edit-and-regenerate workflow instead of arguing with the AI.
 
