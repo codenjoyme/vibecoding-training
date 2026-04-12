@@ -182,23 +182,23 @@ Key takeaways:
    c) Follow-up messages reset the `model's` memory, so it loses the original requirements and starts from scratch
    Correct answer: a.
    - (a) is correct because the `context window` accumulates everything — failed attempts, corrections, and negations. This pollution makes each subsequent response worse because the model cannot distinguish your latest intent from the noise.
-   - (b) is incorrect because AI models do not track user behavior or deprioritize users. Each request is processed with the same resources regardless of how many corrections you have sent.
-   - (c) is incorrect because follow-up messages do NOT reset memory — they ADD to the existing context. That is precisely the problem: the model retains all the noise from failed attempts.
+   - (b) is incorrect because AI `models` do not track user behavior or deprioritize users. Each request is processed with the same resources regardless of how many corrections you have sent.
+   - (c) is incorrect because follow-up messages do NOT reset memory — they ADD to the existing context. That is precisely the problem: the `model` retains all the noise from failed attempts.
 
 2. What is the correct approach when the AI generates something wrong?
    a) Write a follow-up message explaining what was wrong and ask the AI to try again
-   b) Stop immediately, go back and edit your original prompt with more specific statements, then regenerate
-   c) Delete the current chat session and start a new one with the exact same prompt
+   b) Stop immediately, go back and edit your original prompt with more specific `statements`, then regenerate
+   c) Delete the current chat `session` and start a new one with the exact same `prompt`
    Correct answer: b.
    - (a) is incorrect because writing a follow-up continues the conversation on a polluted `context`. The accumulated failed attempts and corrections make each iteration worse.
-   - (b) is correct because editing the original prompt gives the model a clean `context` with better instructions. You start fresh without the noise of failed attempts.
-   - (c) is incorrect because restarting with the same prompt will produce a similar (likely still wrong) result. The issue is not the session — it is the prompt. You need to refine the prompt, not just restart.
+   - (b) is correct because editing the original `prompt` gives the model a clean `context` with better instructions. You start fresh without the noise of failed attempts.
+   - (c) is incorrect because restarting with the same `prompt` will produce a similar (likely still wrong) result. The issue is not the `session` — it is the `prompt`. You need to refine the `prompt`, not just restart.
 
-3. How does adding more specific statements to a prompt affect the result?
+3. How does adding more specific `statements` to a `prompt` affect the result?
    a) Each additional statement narrows the space of possible solutions, reducing variability and increasing consistency
-   b) It slows the model's response time proportionally but does not change the output quality
-   c) It helps only when the statements include technical keywords — plain-language constraints have no effect
+   b) It slows the `model's` response time proportionally but does not change the output quality
+   c) It helps only when the `statements` include technical `terms` — plain-language constraints have no effect
    Correct answer: a.
-   - (a) is correct because each statement acts as a constraint that reduces the model’s degrees of freedom, leading to more predictable and consistent results.
-   - (b) is incorrect because while longer prompts may slightly increase processing time, the primary effect is on output quality and consistency, not just speed.
-   - (c) is incorrect because plain-language constraints ("keep it under 20 lines," "use bullet points") are equally effective. The model understands natural language constraints just as well as technical keywords.
+   - (a) is correct because each `statement` acts as a constraint that reduces the `model’s` degrees of freedom, leading to more predictable and consistent results.
+   - (b) is incorrect because while longer `prompts` may slightly increase processing time, the primary effect is on output quality and consistency, not just speed.
+   - (c) is incorrect because plain-language constraints (`keep it under 20 lines`, `use bullet points`) are equally effective. The model understands natural language constraints just as well as technical keywords.
