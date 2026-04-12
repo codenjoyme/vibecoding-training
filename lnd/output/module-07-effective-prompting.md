@@ -77,24 +77,25 @@ You can control AI output precision by adding specific statements to your prompt
 
 ## Page 3: Why You Should Never Argue with the Model
 ### Background
-When the AI produces something wrong, the natural instinct is to write a follow-up: `No, that is not right. I wanted...` Then the AI apologizes and tries again. You correct again. This cycle is called "arguing," and here is why it fails:
+When the AI produces something wrong, the natural instinct is to write a follow-up: `No, that is not right. I wanted...` Then the AI apologizes and tries again. You correct again. This cycle is called `arguing` and here is why it fails:
 
-The context pollution problem:
+The `context pollution problem`:
 - Every message goes on the shared `context window`.
-- After several rounds of corrections, the `context` contains: your unclear original prompt, multiple failed attempts, apologies, corrections, complaints, and information about what you do NOT want.
-- The model sees all of this when generating the next response, making each iteration worse, not better.
+- After several rounds of corrections, the `context` contains: your unclear original `prompt`, multiple failed attempts, apologies, corrections, complaints, and information about what you do NOT want.
+- The `model` sees all of this when generating the next response, making each iteration worse, not better.
 
 Defining through negation does not work:
 - When you argue, you describe what you want by saying what it is not: `Not like that,` `Without this feature,` `Do not use that approach.`
-- Try describing an object only by what it is not — "not red, not big, not soft, not round." What object is it? Impossible to tell.
-- Negative constraints are equally confusing for AI models.
+- Try describing an object only by what it is not — `not red, not big, not soft, not round`. What object is it? Impossible to tell.
+- Negative constraints are equally confusing for AI `models`.
 
 ### Steps
 1. Think about a recent interaction where you went back and forth with the AI trying to fix something.
-2. Count how many messages were in that exchange. If more than 3 — context was likely polluted.
-3. In your next AI session, when you see the model generating something wrong, stop immediately.
-4. Do not write a new message. Instead, go back and edit your original prompt with more specific statements.
-5. Regenerate from the edited prompt — the model starts fresh with a clean `context`.
+2. Count how many messages were in that exchange. If more than 3 — context was likely `polluted`.
+3. In your next AI session, when you see the `model` generating something wrong, **stop immediately**.
+![Stop generating](image-8.png)
+4. Do not write a new message. Instead, **go back and edit your original prompt** with more specific statements.
+5. Regenerate from the edited `prompt` — the model starts fresh with a clean `context`.
 
 ### ✅ Result
 You understand that arguing pollutes the `context window` and that editing + regenerating is the correct approach.
