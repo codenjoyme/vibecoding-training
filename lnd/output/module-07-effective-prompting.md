@@ -162,22 +162,22 @@ The `Room of Requirement` metaphor: In `Harry Potter`, there is a magical room t
 5. Commit any files you created in this exercise.
 
 ### ✅ Result
-You have shifted from blaming the AI to refining your prompts — and you are in control of the results. You also practiced prompting on a `Jira`-related task, building familiarity with the domain you will automate starting in Module 08.
+You have shifted from `blaming the AI` to `refining your prompts` — and you are in control of the results. You also practiced prompting on a `Jira`-related task, building familiarity with the domain you will automate starting in `Module 08`.
 
 ## Summary
-Remember the scenario from the introduction — you asked the AI to do something, the result was wrong, and your instinct was to type `No, that is not what I meant`? Now you know a better approach. Instead of arguing, you stop, edit your original prompt to be more specific, and regenerate from a clean `context`.
+Remember the scenario from the introduction — you asked the AI to do something, the result was wrong, and your instinct was to type `No, that is not what I meant`? Now you know a better approach. Instead of `arguing`, you stop, edit your original `prompt` to be more specific, and regenerate from a clean `context`.
 
 Key takeaways:
-- Prompt specificity controls variability: fewer details = creative chaos, more details = consistent output.
-- Break requirements into statements — one constraint per sentence.
-- Never argue. Edit the original prompt and regenerate from a clean context.
-- You are in control of the results. If the output is wrong, the prompt needs refinement, not the model.
+- `Prompt` specificity controls variability: fewer details = creative chaos, more details = consistent output.
+- Break requirements into `statements` — one constraint per sentence.
+- Never `argue`. Edit the original `prompt` and regenerate from a clean context.
+- You are in control of the results. If the output is wrong, the `prompt` needs refinement, not the `model`.
 
 ## Quiz
-1. Why does arguing with the AI (sending corrections in follow-up messages) make results worse?
-   a) Each message adds to the `context window`, polluting it with failed attempts, negative constraints, and noise — the model sees all of this and gets increasingly confused
+1. Why does `arguing` with the AI (sending corrections in follow-up messages) make results worse?
+   a) Each message adds to the `context window`, `polluting` it with failed attempts, negative constraints, and noise — the model sees all of this and gets increasingly confused
    b) The AI deprioritizes users who send multiple corrections and allocates fewer resources to their requests
-   c) Follow-up messages reset the model's memory, so it loses the original requirements and starts from scratch
+   c) Follow-up messages reset the `model's` memory, so it loses the original requirements and starts from scratch
    Correct answer: a.
    - (a) is correct because the `context window` accumulates everything — failed attempts, corrections, and negations. This pollution makes each subsequent response worse because the model cannot distinguish your latest intent from the noise.
    - (b) is incorrect because AI models do not track user behavior or deprioritize users. Each request is processed with the same resources regardless of how many corrections you have sent.
