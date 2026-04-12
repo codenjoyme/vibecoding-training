@@ -132,19 +132,19 @@ Why this works:
 Note: if you could not get it right on the first attempt — that is completely normal. A good `prompt` can take 5 or more iterations to land. The key rule is simple: only move forward to the next step when the previous `prompt` produced exactly what you expected. If it did not — stop, refine, regenerate. Do not build on a result you are not happy with.
 
 ### ✅ Result
-You can apply the edit-and-regenerate workflow instead of arguing with the AI.
+You can apply the edit-and-regenerate workflow instead of `arguing` with the AI.
 
 ## Page 5: Locus of Control — You Are in Charge
 ### Background
-When AI produces poor results, beginners often blame the tool: "The model is dumb," "AI does not understand me." This is external locus of control — believing the outcome depends on the tool, not on you.
+When AI produces poor results, beginners often blame the tool: `The model is dumb`, `AI does not understand me`. This is `external locus of control` — believing the outcome depends on the tool, not on you.
 
 The reality:
-- The model does exactly what you ask, based on how you ask, with the precision you provide.
-- If results are wrong, the prompt was not specific enough, or technical terms were missing, or constraints were unclear.
+- The `model` does exactly what you ask (with an adjustment for the creativity introduced by `temperature`), based on how you ask, with the precision you provide.
+- If results are wrong, the `prompt` was not specific enough, or technical `terms` were missing, or constraints were unclear.
 
 The mindset shift:
-- Old thinking: "Why is the AI not giving me what I want?"
-- New thinking: "How can I describe what I want more precisely?"
+- Old thinking: `Why is the AI not giving me what I want?`
+- New thinking: `How can I describe what I want more precisely?`
 
 This shift puts you in control.
 
