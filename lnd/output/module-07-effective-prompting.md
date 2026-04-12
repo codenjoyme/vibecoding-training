@@ -59,7 +59,7 @@ Rule: More statements = less variability = more control. Each statement narrows 
 Two things to keep in mind about prompt language:
 - Natural language does not matter. You can write prompts in `English`, `Ukrainian`, or any language. 
 - Typos and informal phrasing are fine — the model understands all of these equally well.
-- Technical terms matter a lot. `Python` vs `Java` produces completely different code. `Bubble sort` vs `quicksort` selects a different algorithm. Each precise technical `term` locks in a specific aspect of the solution. When results seem poor, check whether you used the right technical `terms`, not whether your grammar was correct.
+- Technical terms matter a lot. `Python` vs `Java` produces completely different code. `Bubble sort` vs `quicksort` selects a different algorithm. Each precise technical `term` locks in a specific aspect of the solution. When results seem poor, check whether you used the right technical `terms`, not whether your grammar was correct. Beyond precision, a single `term` can unlock an entire body of knowledge: if you describe a problem without knowing its name, the model may give you a partial workaround — but if you know the right `term`, the model immediately connects to the full established solution space. For example, asking about `daily team check-ins` may lead to generic meeting advice, while using the word `scrum` instantly surfaces `standups`, `sprint planning`, `retrospectives`, and the entire `agile` framework. The `term` is the key that opens the right door.
 
 ### Steps
 1. Open your AI chat in `Agent Mode`.
