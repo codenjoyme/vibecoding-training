@@ -51,7 +51,8 @@ function parseArgs(args) {
             repo = args[++i];
         }
         else if (args[i] === '--groups' && i + 1 < args.length) {
-            for (const g of args[++i].split(',')) {
+            // Split by both comma and space to handle PowerShell array-to-string joining
+            for (const g of args[++i].split(/[,\s]+/)) {
                 const t = g.trim();
                 if (t)
                     groups.push(t);

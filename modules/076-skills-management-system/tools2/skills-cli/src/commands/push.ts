@@ -49,6 +49,8 @@ The command will:
   } catch (err) {
     console.error(`Error: commit failed: ${err}`);
     console.error(`Tip: make sure you have changes to commit in instructions/${skillName}/`);
+    // Return to default branch before exiting so workspace is not left on a feature branch
+    try { gitops.checkoutBranch(repoDir, gitops.defaultBranch(repoDir)); } catch { /* ignore */ }
     process.exit(1);
   }
   console.log('  ✓ Changes committed');
