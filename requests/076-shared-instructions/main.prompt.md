@@ -577,3 +577,41 @@ node dist/index.js list (вне workspace)  →  "not a skills workspace" + exit
 
 - `modules/076-skills-management-system/tools2/demo.md` — создан: полный journey на английском (10 шагов: install → help → init → list → agent reads → pull → edit → push → pull after merge + итоговая таблица команд)
 - `modules/076-skills-management-system/tools2/demo-ru.md` — создан: идентичный файл на русском языке
+
+## UPD18
+
+А сравни Go реализацию и TypeScript реализацию. Мне важно чтобы ты критически отнесся К недавно сделанному порту. Чего еще не хватает?
+
+### Найденные проблемы (для фикса)
+
+**🔴 Критические**
+
+1. `execSync(string)` → нужен `execFileSync('git', args[])` — аргументы передаются как строка через shell, на Windows небезопасно при путях с пробелами (`lib/gitops.ts`)
+2. Нет `prepare` скрипта в `package.json` — при `npm install -g git+<url>` без `"prepare": "tsc"` компиляция не запускается автоматически; `dist/` сейчас закоммичен но это неявное решение
+
+**🟡 Значимые**
+
+3. `config.load()` делает `process.exit(1)` внутри библиотечной функции — должен `throw new Error(...)`, а `process.exit` — в command handlers (`lib/config.ts` + `pull.ts`, `list.ts`, `push.ts`)
+4. Мёртвый тернарный оператор в `pull.ts`: `cfg.repo_url ? REPO_SUB_DIR : REPO_SUB_DIR` — обе ветки одинаковые, `cfg` загружается впустую
+5. В `push.ts` нет сообщения для локального репо (Go выводит `"(local repository — request a review from the skill owner)"`)
+6. `void cfg` в `push.ts` — симптом неправильного design: cfg грузится только ради проверки workspace, потом заглушается
+
+### RESULT
+
+**Исправлено 7 проблем в `tools2/skills-cli/`:**
+
+| # | Файл | Что исправлено |
+|---|------|----------------|
+| 🔴1 | `src/lib/gitops.ts` | `execSync(string)` → `execFileSync('git', args[])` — безопасная передача аргументов без shell-интерпретации |
+| 🔴2 | `package.json` | Добавлен `"prepare": "tsc"` — автокомпиляция при `npm install -g git+<url>` |
+| 🟡3 | `src/lib/config.ts` | `process.exit(1)` → `throw new Error(...)` — библиотечная функция не должна завершать процесс |
+| 🟡4 | `src/commands/pull.ts` | Убран мёртвый тернарный оператор; `config.load()` обёрнут в try/catch |
+| 🟡5 | `src/commands/list.ts` | `config.load()` обёрнут в try/catch |
+| 🟡6 | `src/commands/push.ts` | `config.load()` для валидации workspace (без `void cfg`); добавлено сообщение для локального репо; `checkoutBranch` на default при push failure |
+| 🟢7 | `src/commands/{pull,list,push}.ts` | `Error: ${err}` → `String(err)` — устранено двойное `Error: Error:` в сообщениях |
+
+**Проверено:**
+- `skills list` вне workspace → `Error: not a skills workspace — run \`skills init\` first` (одинарный префикс)
+- `skills push <nonexistent>` → commit fail → автоматический возврат на `master`
+- `skills push <skill>` в локальное репо → `(local repository — request a review from the skill owner)`
+- `npm run build` → 0 ошибок TypeScript

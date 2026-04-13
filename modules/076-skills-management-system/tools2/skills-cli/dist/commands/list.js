@@ -49,7 +49,14 @@ Other skills exist in the repo but are not part of your current groups.
 `);
         return;
     }
-    const cfg = config.load();
+    let cfg;
+    try {
+        cfg = config.load();
+    }
+    catch (err) {
+        console.error(String(err));
+        process.exit(1);
+    }
     const repoDir = config.REPO_SUB_DIR;
     let allSkills;
     try {

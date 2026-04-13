@@ -51,7 +51,7 @@ function run(dir, ...args) {
     if (dir)
         opts.cwd = dir;
     try {
-        return (0, child_process_1.execSync)(`git ${args.map(a => `"${a}"`).join(' ')}`, opts).trim();
+        return (0, child_process_1.execFileSync)('git', args, opts).trim();
     }
     catch (err) {
         const e = err;

@@ -12,11 +12,16 @@ Usage:
     return;
   }
 
-  const cfg = config.load();
+  try {
+    config.load();
+  } catch (err) {
+    console.error(String(err));
+    process.exit(1);
+  }
 
   console.log('→ Pulling latest skills ...');
   try {
-    gitops.pull(cfg.repo_url ? config.REPO_SUB_DIR : config.REPO_SUB_DIR);
+    gitops.pull(config.REPO_SUB_DIR);
   } catch (err) {
     console.error(`Error: pull failed: ${err}`);
     process.exit(1);

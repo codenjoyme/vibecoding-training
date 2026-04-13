@@ -29,7 +29,12 @@ The command will:
   const skillName = positional[0];
   const branchName = `feature/${skillName}-update`;
 
-  const cfg = config.load();
+  try {
+    config.load();
+  } catch (err) {
+    console.error(String(err));
+    process.exit(1);
+  }
   const repoDir = config.REPO_SUB_DIR;
 
   console.log(`→ Creating branch ${branchName} ...`);
@@ -60,6 +65,7 @@ The command will:
     gitops.push(repoDir, branchName);
   } catch (err) {
     console.error(`Error: push failed: ${err}`);
+    try { gitops.checkoutBranch(repoDir, gitops.defaultBranch(repoDir)); } catch { /* ignore */ }
     process.exit(1);
   }
   console.log('  ✓ Branch pushed');
@@ -78,6 +84,9 @@ The command will:
 
   console.log(`\n✅ Skill "${skillName}" pushed for review`);
   console.log(`   Branch: ${branchName}`);
-  if (prUrl) console.log(`   Open PR: ${prUrl}`);
-  void cfg; // suppress unused warning
+  if (prUrl) {
+    console.log(`   Create PR: ${prUrl}`);
+  } else {
+    console.log('   (local repository — request a review from the skill owner)');
+  }
 }

@@ -12,15 +12,13 @@ export interface Config {
 
 export function load(): Config {
   if (!fs.existsSync(CONFIG_FILE)) {
-    console.error('Error: not a skills workspace — run `skills init` first');
-    process.exit(1);
+    throw new Error('not a skills workspace — run `skills init` first');
   }
   try {
     const data = fs.readFileSync(CONFIG_FILE, 'utf8');
     return JSON.parse(data) as Config;
   } catch (err) {
-    console.error(`Error: corrupted config (${CONFIG_FILE}):`, err);
-    process.exit(1);
+    throw new Error(`corrupted config (${CONFIG_FILE}): ${err}`);
   }
 }
 

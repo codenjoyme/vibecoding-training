@@ -43,16 +43,14 @@ exports.CONFIG_FILE = 'instructions/.manifest/config.json';
 exports.REPO_SUB_DIR = 'instructions';
 function load() {
     if (!fs.existsSync(exports.CONFIG_FILE)) {
-        console.error('Error: not a skills workspace — run `skills init` first');
-        process.exit(1);
+        throw new Error('not a skills workspace — run `skills init` first');
     }
     try {
         const data = fs.readFileSync(exports.CONFIG_FILE, 'utf8');
         return JSON.parse(data);
     }
     catch (err) {
-        console.error(`Error: corrupted config (${exports.CONFIG_FILE}):`, err);
-        process.exit(1);
+        throw new Error(`corrupted config (${exports.CONFIG_FILE}): ${err}`);
     }
 }
 function save(cfg) {

@@ -1,4 +1,4 @@
-import { execSync, ExecSyncOptions } from 'child_process';
+import { execFileSync, ExecSyncOptions } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -6,7 +6,7 @@ function run(dir: string | null, ...args: string[]): string {
   const opts: ExecSyncOptions = { encoding: 'utf8' };
   if (dir) opts.cwd = dir;
   try {
-    return (execSync(`git ${args.map(a => `"${a}"`).join(' ')}`, opts) as string).trim();
+    return (execFileSync('git', args, opts) as string).trim();
   } catch (err: unknown) {
     const e = err as { stdout?: Buffer | string; stderr?: Buffer | string; message?: string };
     const msg = (e.stderr?.toString() || e.stdout?.toString() || e.message || String(err)).trim();
