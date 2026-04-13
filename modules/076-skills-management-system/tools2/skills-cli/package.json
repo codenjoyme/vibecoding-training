@@ -1,0 +1,26 @@
+{
+  "name": "skills-cli",
+  "version": "1.0.0",
+  "description": "Skills CLI — manage shared AI instruction skills across your team",
+  "main": "dist/index.js",
+  "bin": {
+    "skills": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0"
+  },
+  "files": [
+    "dist/"
+  ],
+  "license": "MIT"
+}
