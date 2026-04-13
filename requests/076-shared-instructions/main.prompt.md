@@ -615,3 +615,25 @@ node dist/index.js list (вне workspace)  →  "not a skills workspace" + exit
 - `skills push <nonexistent>` → commit fail → автоматический возврат на `master`
 - `skills push <skill>` в локальное репо → `(local repository — request a review from the skill owner)`
 - `npm run build` → 0 ошибок TypeScript
+
+## UPD19
+
+Снова проведи стресс тестинг, и посмотри как теперь. Я хочу видеть markdown файл с чеклистом тестов.
+
+### RESULT
+
+**Тестовое окружение пересоздано** с нуля через `demo/setup.ps1` — свежий `skills-repo` без артефактов предыдущих тестов.
+
+**34/34 тест-кейсов прошло** (было 25 в UPD16 — добавлено 9 новых кейсов для edge-cases и новых фиксов).
+
+**Новые кейсы:**
+- TC-13: `skills init --help`
+- TC-14: positional args (без `--groups`)
+- TC-25: branch state проверка после успешного push
+- TC-27: branch cleanup при push rejection (in addition to commit failure)
+- TC-28: `skills push` вне workspace
+- + проверки new сообщения для локального репо (TC-23, TC-24)
+
+**Все фиксы UPD18 подтверждены** — таблица в отчёте.
+
+**Файл:** `modules/076-skills-management-system/tools2/test-report.md`
