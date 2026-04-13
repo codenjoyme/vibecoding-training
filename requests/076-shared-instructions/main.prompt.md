@@ -519,3 +519,52 @@ node dist/index.js list (вне workspace)  →  "not a skills workspace" + exit
 ```
 
 **Интерфейс полностью идентичен Go-версии. `walkthrough.md` не тронут.**
+
+## UPD16
+
+Ну а теперь давай как мы тестили это для skills.exe на Go давай потестим на репозитории `demo` в папке `Work/076-task` составь вначале план тестирования с чекбоксами, а потом по нему пройдись. Мне надо максимально полное тестирование функциональных возможностей, таких которые есть в Go реализации. И добавь этот запрос мой в промпт
+
+### RESULT
+
+**2 бага найдено и пофикшено:**
+
+1. **PowerShell comma splitting** — `--groups project-alpha,project-beta` PowerShell парсит запятую как разделитель массива и передаёт в node одной строкой `"project-alpha project-beta"`. Фикс в `init.ts`: split по `[,\s]+` вместо `[,]`.
+
+2. **Branch leak on failed push** — при `skills push does-not-exist` ветка создавалась, коммит падал, но CLI не возвращался на default branch. Фикс в `push.ts`: `checkoutBranch(defaultBranch)` перед `process.exit(1)` при ошибке коммита.
+
+**CLI пересобран и переустановлен после каждого фикса.**
+
+**Тест: `work/076-task/` — результаты:**
+
+| # | Тест | Результат |
+|---|------|-----------|
+| S-01 | `demo/setup.ps1` создаёт `skills-repo` с git | ✅ |
+| S-02 | `npm install -g ./tools2/skills-cli` | ✅ |
+| S-03 | `skills help` глобально | ✅ |
+| TC-01 | `skills help` — все команды | ✅ |
+| TC-02 | `skills` без аргументов — help | ✅ |
+| TC-03 | `skills unknown-cmd` — exit 1 + usage | ✅ |
+| TC-04 | `skills init --groups project-alpha` — 5 скиллов | ✅ |
+| TC-05 | `skills init --groups project-beta` — 4 скилла | ✅ |
+| TC-06 | `--groups project-alpha,project-beta` — 6 скиллов (после фикса) | ✅ |
+| TC-07 | `skills init` без `--repo` — exit 1 | ✅ |
+| TC-08 | `skills init --repo ...` без групп — exit 1 | ✅ |
+| TC-09 | Повторный `skills init` — "already initialized" exit 1 | ✅ |
+| TC-10 | project-alpha: `test-writing` отсутствует | ✅ |
+| TC-11 | project-beta: `security-guidelines`, `style-guidelines` отсутствуют | ✅ |
+| TC-12 | Оба проекта: `creating-instructions`, `iterative-prompting` присутствуют | ✅ |
+| TC-13 | `skills list` — 5 ✅, 1 ○ | ✅ |
+| TC-14 | `skills list` вне workspace — exit 1 | ✅ |
+| TC-15 | `skills list --help` | ✅ |
+| TC-16 | `skills pull` — успешно | ✅ |
+| TC-17 | `skills pull` вне workspace — exit 1 | ✅ |
+| TC-18 | `skills pull --help` | ✅ |
+| TC-19 | `skills push code-review-base` — ветка + коммит + пуш | ✅ |
+| TC-20 | `skills pull` после `skills push` — не падает | ✅ |
+| TC-21 | `skills push` без имени — exit 1 | ✅ |
+| TC-22 | `skills push does-not-exist` — exit 1 + возврат на master (после фикса) | ✅ |
+| TC-23 | `skills push --help` | ✅ |
+| TC-24 | Sub-config `security` добавляет `security-guidelines` | ✅ |
+| TC-25 | `_global.json` скиллы присутствуют во всех группах | ✅ |
+
+**Итого: 25/25 тест-кейсов пройдено. 2 бага найдено и исправлено.**
