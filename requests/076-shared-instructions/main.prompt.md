@@ -568,3 +568,12 @@ node dist/index.js list (вне workspace)  →  "not a skills workspace" + exit
 | TC-25 | `_global.json` скиллы присутствуют во всех группах | ✅ |
 
 **Итого: 25/25 тест-кейсов пройдено. 2 бага найдено и исправлено.**
+
+## UPD17
+
+Хорошо, напиши мне md файл с демкой, где будет указан весь journey через указание команд и краткое пояснение что делается. Два файл на русском и на английском чтобы были идентичны. рядом со skills.md 
+
+### RESULT
+
+- `modules/076-skills-management-system/tools2/demo.md` — создан: полный journey на английском (10 шагов: install → help → init → list → agent reads → pull → edit → push → pull after merge + итоговая таблица команд)
+- `modules/076-skills-management-system/tools2/demo-ru.md` — создан: идентичный файл на русском языке
