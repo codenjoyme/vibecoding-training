@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as config from '../lib/config';
 import * as gitops from '../lib/gitops';
 import * as manifest from '../lib/manifest';
+import { resolveEffectiveGroups, applyExtraAndExcluded } from './toggle';
 
 function parseArgs(args: string[]): { repo: string; groups: string[] } {
   if (args.includes('--help') || args.includes('-h')) {
@@ -83,14 +84,16 @@ export function runInit(args: string[]): void {
     }
     console.log('  ✓ Cloned');
 
-    console.log(`→ Resolving skills for groups: ${existing.groups.join(', ')} ...`);
+    const groups = resolveEffectiveGroups(existing);
+    console.log(`→ Resolving skills for groups: ${groups.join(', ')} ...`);
     let skills: string[];
     try {
-      skills = manifest.resolveSkills(repoDir, existing.groups);
+      skills = manifest.resolveSkills(repoDir, groups);
     } catch (err) {
       console.error(`Error: manifest resolution failed: ${err}`);
       process.exit(1);
     }
+    skills = applyExtraAndExcluded(skills, existing);
     console.log(`  ✓ Resolved ${skills.length} skill(s): ${skills.join(', ')}`);
 
     console.log('→ Applying sparse checkout ...');

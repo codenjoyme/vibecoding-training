@@ -10,6 +10,8 @@ Commands:
   push    Propose changes to a skill via a branch and Pull Request
   list    List available skills in the repository
   create  Create a new skill with SKILL.md and info.json templates
+  enable  Enable a group or individual skill
+  disable Disable a group or individual skill
   help    Show this help message
 
 Use "skills <command> --help" for more information about a command.

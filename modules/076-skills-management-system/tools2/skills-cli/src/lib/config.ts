@@ -7,6 +7,9 @@ export interface Config {
   repo_url: string;
   groups: string[];
   skills: string[];
+  extra_groups?: string[];
+  extra_skills?: string[];
+  excluded_skills?: string[];
 }
 
 export function load(): Config {

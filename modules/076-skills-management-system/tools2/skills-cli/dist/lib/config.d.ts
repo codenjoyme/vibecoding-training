@@ -4,6 +4,9 @@ export interface Config {
     repo_url: string;
     groups: string[];
     skills: string[];
+    extra_groups?: string[];
+    extra_skills?: string[];
+    excluded_skills?: string[];
 }
 export declare function load(): Config;
 export declare function save(cfg: Config): void;

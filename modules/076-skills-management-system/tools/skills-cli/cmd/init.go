@@ -82,13 +82,14 @@ Examples:
 		}
 		fmt.Println("  ✓ Cloned")
 
-		groups := existing.Groups
+		groups := ResolveEffectiveGroups(existing)
 		fmt.Printf("→ Resolving skills for groups: %s ...\n", strings.Join(groups, ", "))
 		skills, err := manifest.ResolveSkills(repoDir, groups)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error: manifest resolution failed: %v\n", err)
 			os.Exit(1)
 		}
+		skills = ApplyExtraAndExcluded(skills, existing)
 		fmt.Printf("  ✓ Resolved %d skill(s): %s\n", len(skills), strings.Join(skills, ", "))
 
 		fmt.Println("→ Applying sparse checkout ...")

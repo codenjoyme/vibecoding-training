@@ -38,6 +38,7 @@ const fs = __importStar(require("fs"));
 const config = __importStar(require("../lib/config"));
 const gitops = __importStar(require("../lib/gitops"));
 const manifest = __importStar(require("../lib/manifest"));
+const toggle_1 = require("./toggle");
 function parseArgs(args) {
     if (args.includes('--help') || args.includes('-h')) {
         printInitHelp();
@@ -114,15 +115,17 @@ function runInit(args) {
             process.exit(1);
         }
         console.log('  ✓ Cloned');
-        console.log(`→ Resolving skills for groups: ${existing.groups.join(', ')} ...`);
+        const groups = (0, toggle_1.resolveEffectiveGroups)(existing);
+        console.log(`→ Resolving skills for groups: ${groups.join(', ')} ...`);
         let skills;
         try {
-            skills = manifest.resolveSkills(repoDir, existing.groups);
+            skills = manifest.resolveSkills(repoDir, groups);
         }
         catch (err) {
             console.error(`Error: manifest resolution failed: ${err}`);
             process.exit(1);
         }
+        skills = (0, toggle_1.applyExtraAndExcluded)(skills, existing);
         console.log(`  ✓ Resolved ${skills.length} skill(s): ${skills.join(', ')}`);
         console.log('→ Applying sparse checkout ...');
         try {
