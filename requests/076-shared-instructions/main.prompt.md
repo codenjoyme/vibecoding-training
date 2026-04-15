@@ -778,3 +778,32 @@ b7a158d feat: point 9 - add SKILL-CLI.md reference and skills ai-help command
 
 Path remapping: `modules/076-skills-management-system/tools2/` → root of `apm-lite`.
 Build verified: `npm install && npm run build` — OK. CLI smoke test passed.
+
+## UPD23
+
+Сравни файлы в `vibecoding-for-managers/modules/076-skills-management-system/tools2/` и `apm-lite` — идентичны ли они? Если нет — пофикси.
+
+### RESULT
+
+Обнаружено 10 файлов с различиями — причина: при cherry-pick через PowerShell `[System.IO.File]::WriteAllText()` добавил UTF-8 BOM и сконвертировал CRLF → LF. Пофикшено копированием оригинальных файлов — **14/14 `.ts` файлов побайтово идентичны**.
+
+## UPD24
+
+Удалим плагин с терминала, и установим его из удалённого репозитория `https://github.com/codenjoyme/apm-lite.git`.
+Проблема: `npm install -g git+https://...` не работает, потому что `package.json` лежит в `scripts/`, а не в корне.
+Решение: перенести `package.json` и весь код из `scripts/` в корень — и тут и там.
+
+### RESULT
+
+1. **Restrucured `apm-lite`**: `scripts/` → root. `package.json`, `src/`, `tsconfig.json`, `.gitignore` теперь в корне.
+2. **Restructured `vibecoding-for-managers/tools2`**: аналогично, `tools2/scripts/` → `tools2/`.
+3. **Updated SKILL.md** в обоих репо — install URL теперь `git+https://github.com/codenjoyme/apm-lite.git`.
+4. **Fixed SKILL-CLI.md** в apm-lite — повреждённый em-dash `ΓÇö` (артефакт cherry-pick через PowerShell) → `—`.
+5. **Verified**: `npm install && npm run build` — OK. `skills help` — OK. 14/14 src файлов идентичны.
+
+Commits in `apm-lite`:
+- `579d320` refactor: move package to repo root for direct npm install from GitHub
+- `dad927d` fix: repair corrupted UTF-8 encoding in SKILL-CLI.md
+
+Commits in `vibecoding-for-managers`:
+- refactor(076): move tools2/scripts to tools2 root for direct npm install from GitHub
