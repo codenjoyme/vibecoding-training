@@ -143,7 +143,7 @@ npm install -g git+ssh://git@github.com/your-org/skills-cli.git
 
 Or from a local folder (for development/testing):
 ```bash
-npm install -g ./tools2/skills-cli
+npm install -g ./tools2/scripts
 ```
 
 After installation, `skills` is available globally:

@@ -121,11 +121,11 @@ The `skills` CLI is a single compiled Go binary — no runtime dependencies.
 
 ```powershell
 # Windows
-Get-ChildItem tools\skills-cli\
+Get-ChildItem tools\scripts\
 ```
 ```bash
 # macOS/Linux
-ls tools/skills-cli/
+ls tools/scripts/
 ```
 
 - **`skills.exe` / `skills` present** → binary is ready, go to Option A
@@ -135,15 +135,15 @@ ls tools/skills-cli/
 
 **Option A — Binary exists (use it directly):**
 
-1. Add `tools/skills-cli/` to PATH:
-   - **Windows:** System Properties → Environment Variables → User variables → `Path` → Edit → New → add absolute path to `tools/skills-cli/`
-   - **macOS/Linux:** `export PATH=$PATH:<absolute-path>/tools/skills-cli` (add to `~/.bashrc` / `~/.zshrc`)
+1. Add `tools/scripts/` to PATH:
+   - **Windows:** System Properties → Environment Variables → User variables → `Path` → Edit → New → add absolute path to `tools/scripts/`
+   - **macOS/Linux:** `export PATH=$PATH:<absolute-path>/tools/scripts` (add to `~/.bashrc` / `~/.zshrc`)
 2. Restart the terminal
 3. Verify: `skills help`
 
 > **To rebuild at any time:**
 > ```bash
-> cd tools/skills-cli
+> cd tools/scripts
 > go build -o skills.exe .   # Windows
 > go build -o skills .        # macOS/Linux
 > ```
@@ -191,7 +191,7 @@ Go is installed as a **portable zip/tarball** into `tools/.golang/` — no syste
    go version   # go version goX.Y.Z ...
    ```
 
-5. **Build the CLI** (from `tools/skills-cli/`):
+5. **Build the CLI** (from `tools/scripts/`):
    ```powershell
    # Windows
    go build -o skills.exe .
@@ -201,7 +201,7 @@ Go is installed as a **portable zip/tarball** into `tools/.golang/` — no syste
    go build -o skills .
    ```
 
-6. **Add `tools/skills-cli/` to PATH** (see Option A step 1)
+6. **Add `tools/scripts/` to PATH** (see Option A step 1)
 
 7. **Verify:** `skills help`
 
@@ -328,7 +328,7 @@ git --version    # must be 2.25+
 skills help      # must show help (binary installed)
 ```
 
-If `skills` is not installed: compile from `tools/skills-cli/` (requires Go 1.21+).
+If `skills` is not installed: compile from `tools/scripts/` (requires Go 1.21+).
 
 ### Step 2 — Create skills repository (first time, for team admin)
 ```bash
