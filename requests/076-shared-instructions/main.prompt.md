@@ -807,3 +807,64 @@ Commits in `apm-lite`:
 
 Commits in `vibecoding-for-managers`:
 - refactor(076): move tools2/scripts to tools2 root for direct npm install from GitHub
+
+## UPD25
+
+Install testing from GitHub. `npm install -g git+https://github.com/codenjoyme/apm-lite.git` failed because `prepare: "tsc"` script runs in a clean environment without devDependencies installed. Fix: remove `prepare` script from `package.json` and commit pre-built `dist/` to git.
+
+### RESULT
+
+**Problem:** `npm install -g git+<url>` triggers `prepare` lifecycle script which runs `tsc`. But TypeScript is a devDependency and npm doesn't install devDeps during global install from git, so `tsc` fails.
+
+**Fix applied to both repos:**
+- Removed `"prepare": "tsc"` from `package.json`
+- Removed `dist/` from `.gitignore` in apm-lite (so pre-built JS is committed)
+- Committed `dist/` to git
+
+Commits:
+- `83baac7` (apm-lite) fix: commit dist/ and remove prepare script
+- `ac6fccc` (vibecoding) fix(076): remove prepare script from tools2 package.json
+
+## UPD26
+
+Testing `npm install -g` from both GitHub URL and local folder. On Windows, npm creates junctions (symlinks) pointing to temp/source directories. After deleting the source, CLI breaks with `MODULE_NOT_FOUND`. Fix: always use `--install-links` flag.
+
+### RESULT
+
+**Problem:** `npm install -g git+<url>` and `npm install -g ./folder` both create junction symlinks to temp/source dirs on Windows. When those dirs are cleaned up or deleted, the `skills` command fails.
+
+**Fix:** Always use `--install-links` flag:
+```
+npm install -g --install-links git+https://github.com/codenjoyme/apm-lite.git
+npm install -g --install-links ./apm-lite
+```
+
+**SKILL.md updated in both repos:**
+- Added `--install-links` flag to all install commands
+- Added Windows note explaining junction behavior
+- Both remote (git URL) and local (folder) install instructions updated
+
+Commits:
+- `ddb6251` + `149a5b2` (apm-lite) docs: update install instructions with --install-links
+- `ec543c3` + `b079749` (vibecoding) docs(076): update tools2 install instructions with --install-links
+
+**Verified:** `npm install -g --install-links ./apm-lite` → real files copied (not junctions) → `skills help` works after deleting source folder.
+
+## UPD27
+
+В PowerShell с кодовой страницей 437 (OEM US) символ em-dash `—` (UTF-8 `E2 80 94`) отображается как `ΓÇö`. Заменить на простой дефис `-` во всех CLI output файлах.
+
+### RESULT
+
+**Problem:** PowerShell code page 437 can't render em-dash `—`, shows `ΓÇö` in `skills help` output.
+
+**Fix:** Replaced `—` with `-` in 3 files in both repos:
+- `src/commands/help.ts` — `Skills CLI — manage...` → `Skills CLI - manage...`
+- `src/commands/aihelp.ts` — `Skills CLI — Quick Reference...` → `Skills CLI - Quick Reference...`
+- `SKILL-CLI.md` — `Skills CLI — Quick Reference...` → `Skills CLI - Quick Reference...`
+
+Rebuilt `dist/` in both repos. Verified: `skills help` shows clean ASCII output.
+
+Commits:
+- `6c70438` (vibecoding) fix(076): replace em-dash with ASCII dash for PowerShell compatibility
+- `4fa6c69` (apm-lite) fix: replace em-dash with ASCII dash for PowerShell compatibility
