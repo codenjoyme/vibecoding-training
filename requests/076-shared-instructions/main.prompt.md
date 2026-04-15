@@ -878,3 +878,39 @@ Commits:
 - `npm uninstall -g skills-cli` — выполнено, CLI удалён глобально
 - Секция `#### Uninstall` уже присутствовала в обоих `SKILL.md` — изменений не потребовалось
 - Промпт обновлён
+
+## UPD29
+
+Убрать `extra_groups` из конфига. `skills enable group` добавляет прямо в `groups`, `skills disable group` убирает из `groups`. Один массив, без лишних усложнений. Обновить приоритет резолвинга: `_global.json` → groups → extra_skills → minus excluded_skills. Фиксить в обоих репо (vibecoding + apm-lite), коммитить и пушать.
+
+### RESULT
+
+**Удалено `extra_groups` из всех файлов:**
+
+| Файл | Изменение |
+|------|-----------|
+| `tools2/src/lib/config.ts` | Убрано `extra_groups` из `Config` interface |
+| `tools2/src/commands/toggle.ts` | `enableGroup` → `cfg.groups.push(name)`; `disableGroup` → filter только `cfg.groups`; `resolveEffectiveGroups` → просто `cfg.groups` |
+| `tools2/src/commands/aihelp.ts` | Приоритет: 4 пункта вместо 5 (убран extra_groups) |
+| `tools2/SKILL-CLI.md` | Убран `extra_groups` из примера config и priority list |
+| `tools/scripts/internal/config/config.go` | Убрано `ExtraGroups` из struct |
+| `tools/scripts/cmd/toggle.go` | `enableGroup` → `cfg.Groups = append(...)`, `disableGroup` → filter только `cfg.Groups`, `ResolveEffectiveGroups` → просто `cfg.Groups` |
+| `tools/scripts/cmd/aihelp.go` | Приоритет: 4 пункта вместо 5 |
+| `tools/SKILL-CLI.md` | Убран `extra_groups` из примера config и priority list |
+
+**apm-lite** — скопированы исправленные файлы из tools2.
+
+**Протестировано:**
+- Go: `init → enable group security → groups: ["project-alpha","security"] → disable → groups: ["project-alpha"]` ✅
+- Node.js: аналогично ✅
+- Нет поля `extra_groups` в skills.json ✅
+
+**Новый приоритет резолвинга:**
+1. `_global.json` skills
+2. Group manifest skills (`groups` + sub-configs)
+3. `extra_skills` (individual additions)
+4. `excluded_skills` (removals applied last)
+
+Commits:
+- `5e9defd` (vibecoding) refactor(076): remove extra_groups
+- `f445b66` (apm-lite) refactor: remove extra_groups
