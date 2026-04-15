@@ -5,6 +5,7 @@ const init_1 = require("./init");
 const pull_1 = require("./pull");
 const push_1 = require("./push");
 const list_1 = require("./list");
+const create_1 = require("./create");
 const help_1 = require("./help");
 function execute(args) {
     if (args.length === 0 || args[0] === 'help' || args[0] === '--help' || args[0] === '-h') {
@@ -23,6 +24,9 @@ function execute(args) {
             break;
         case 'list':
             (0, list_1.runList)(args.slice(1));
+            break;
+        case 'create':
+            (0, create_1.runCreate)(args.slice(1));
             break;
         default:
             console.error(`Error: unknown command "${args[0]}"\n`);

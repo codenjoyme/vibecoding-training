@@ -2,6 +2,7 @@ import { runInit } from './init';
 import { runPull } from './pull';
 import { runPush } from './push';
 import { runList } from './list';
+import { runCreate } from './create';
 import { printHelp } from './help';
 
 export function execute(args: string[]): void {
@@ -22,6 +23,9 @@ export function execute(args: string[]): void {
       break;
     case 'list':
       runList(args.slice(1));
+      break;
+    case 'create':
+      runCreate(args.slice(1));
       break;
     default:
       console.error(`Error: unknown command "${args[0]}"\n`);
