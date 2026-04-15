@@ -755,3 +755,26 @@ Files changed:
 
 Files changed:
 - [test-checklist.md](modules/076-skills-management-system/test-checklist.md) — new, 66 tests with results
+
+## UPD22
+
+Давай то что мы сделали финально в node версии черрипикнем, коммит за коммитом в `C:\Java\CopipotTraining\apm-lite` но только что касается изменений в `\modules\076-skills-management-system\tools2`. Так можешь? Красиво коммит за коммитом. 
+
+### RESULT
+
+Cherry-picked 8 commits from `vibecoding-for-managers` (tools2 Node.js only) → `C:\Java\CopipotTraining\apm-lite`:
+
+```
+3faad00 refactor: point 12 - rename skills-cli subfolder to scripts
+09bf128 feat: point 10 - add skills init-repo command with base skills and manifests
+b7a158d feat: point 9 - add SKILL-CLI.md reference and skills ai-help command
+3407d88 feat: points 6-8 - enable/disable group/skill commands with priority-based resolution
+25ab86a feat: point 5 - add --verbose and --json flags to skills list command
+3b5322e feat: point 3 - add skills create command with SKILL.md and info.json templates
+47e9ecc feat: point 2 - skills init without params re-initializes from existing skills.json
+3663a84 feat: point 1 - move config from instructions/.manifest/config.json to skills.json at project root
+3048a98 Initial commit: apm-lite skills CLI (baseline)
+```
+
+Path remapping: `modules/076-skills-management-system/tools2/` → root of `apm-lite`.
+Build verified: `npm install && npm run build` — OK. CLI smoke test passed.
