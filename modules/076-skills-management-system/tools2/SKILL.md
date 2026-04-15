@@ -133,17 +133,17 @@ git --version    # 2.25 or higher
 #### Install from a private Git repository
 
 ```bash
-npm install -g git+https://github.com/your-org/skills-cli.git
+npm install -g git+https://github.com/codenjoyme/apm-lite.git
 ```
 
 Or via SSH:
 ```bash
-npm install -g git+ssh://git@github.com/your-org/skills-cli.git
+npm install -g git+ssh://git@github.com/codenjoyme/apm-lite.git
 ```
 
 Or from a local folder (for development/testing):
 ```bash
-npm install -g ./tools2/scripts
+npm install -g ./tools2
 ```
 
 After installation, `skills` is available globally:
