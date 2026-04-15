@@ -692,3 +692,39 @@ node dist/index.js list (вне workspace)  →  "not a skills workspace" + exit
 
 13) Для версии с `Go` надо так же обновить программу тренинга, добавив описание новых возможностей и обновив старые `Parts`. 
 
+### RESULT
+
+All 13 points implemented in both Go and Node.js versions with individual commits:
+
+1. **Config moved to project root** — `skills.json` at workspace root instead of `instructions/.manifest/config.json`. Removed from demo `.gitignore`. Commits: `d14cffb` (Go+Node.js).
+
+2. **`skills init` without params** — re-initializes from existing `skills.json`, re-resolves groups/skills, re-applies sparse checkout. Commit: `d0c9031`.
+
+3. **`skills create <name>`** — creates `instructions/<name>/SKILL.md` + `info.json` with templates. Commit: `bf68f28`.
+
+4. **`info.json` template** — contains only `description` and `owner`. All 6 demo skills updated with real `info.json` files. Commit: `60a41a2`.
+
+5. **`skills list --verbose` and `--json`** — `--verbose` shows description/owner under each skill; `--json` outputs structured JSON array with `name`, `active`, `description`, `owner`. Commit: `a35804a`.
+
+6-8. **`skills enable/disable group|skill`** — enable/disable groups (`extra_groups`) and individual skills (`extra_skills`/`excluded_skills`). Priority-based resolution: `_global.json` → groups → extra_skills → minus excluded_skills, with deduplication. Commit: `f84d9b2`.
+
+9. **`SKILL-CLI.md` + `skills ai-help`** — concise LLM-friendly reference at `tools/SKILL-CLI.md` and `tools2/SKILL-CLI.md`. `skills ai-help` command reads it or falls back to inline text. Commit: `a03b00f`.
+
+10. **`skills init-repo <folder>`** — bootstraps a new skills repository with `.manifest/` (`_global.json`, `group-1.json`, `sub-group.json`) + 3 starter skills (`creating-instructions`, `iterative-prompting`, `skills-cli`) with SKILL.md and info.json. Commit: `9aa4986`.
+
+11. **Pretty-printed JSON** — already satisfied: all `json.MarshalIndent`/`JSON.stringify` calls use 2-space indent. No changes needed.
+
+12. **Rename `skills-cli` → `scripts`** — `tools/skills-cli/` → `tools/scripts/`, `tools2/skills-cli/` → `tools2/scripts/`. Updated all path references in `SKILL.md` files. Commit: `refactor(076)`.
+
+13. **Updated `walkthrough.md`** — renamed `skills-cli` paths to `scripts/`, updated help output, added Part 6 (Advanced Commands) covering `create`, `list --verbose/--json`, `enable/disable`, `init`, `ai-help`, `init-repo`. Renumbered parts and steps. Simplified Part 8 to use `skills init-repo`. Commit: `4cc8053`.
+
+Files changed:
+- [tools/scripts/cmd/initrepo.go](modules/076-skills-management-system/tools/scripts/cmd/initrepo.go) — new
+- [tools/scripts/cmd/root.go](modules/076-skills-management-system/tools/scripts/cmd/root.go) — registered init-repo
+- [tools2/scripts/src/commands/initrepo.ts](modules/076-skills-management-system/tools2/scripts/src/commands/initrepo.ts) — new
+- [tools2/scripts/src/commands/root.ts](modules/076-skills-management-system/tools2/scripts/src/commands/root.ts) — registered init-repo
+- [tools2/scripts/src/commands/help.ts](modules/076-skills-management-system/tools2/scripts/src/commands/help.ts) — added init-repo to help
+- [tools/SKILL.md](modules/076-skills-management-system/tools/SKILL.md) — renamed paths
+- [tools2/SKILL.md](modules/076-skills-management-system/tools2/SKILL.md) — renamed paths
+- [walkthrough.md](modules/076-skills-management-system/walkthrough.md) — new Part 6, updated paths and steps
+
