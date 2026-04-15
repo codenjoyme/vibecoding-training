@@ -1,0 +1,4 @@
+{
+  "description": "This skill provides security review guidelines for AI-generated code. It can be used for OWASP-aware code analysis. The main features include vulnerability checklists and secure coding patterns.",
+  "owner": "security-team@example.com"
+}

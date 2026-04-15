@@ -1,0 +1,4 @@
+{
+  "description": "This skill provides code review guidelines and best practices. It can be used for consistent pull request reviews. The main features include review checklists and feedback templates.",
+  "owner": "tech-lead@example.com"
+}

@@ -1,0 +1,4 @@
+{
+  "description": "This skill provides the iterative prompt workflow using UPD markers in .prompt.md files. It can be used for maintaining living specifications alongside code. The main features include version-controlled prompt history and git diff integration.",
+  "owner": "Oleksandr_Baglai@example.com"
+}

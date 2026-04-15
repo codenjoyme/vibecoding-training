@@ -1,0 +1,4 @@
+{
+  "description": "This skill provides test writing standards and patterns. It can be used for generating consistent unit and integration tests. The main features include test structure templates and coverage guidelines.",
+  "owner": "qa-lead@example.com"
+}

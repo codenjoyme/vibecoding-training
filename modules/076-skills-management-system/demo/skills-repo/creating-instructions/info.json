@@ -1,0 +1,4 @@
+{
+  "description": "This skill provides guidelines for creating and organizing AI instructions. It can be used for building consistent instruction files across teams. The main features include file structure conventions and IDE-agnostic patterns.",
+  "owner": "Oleksandr_Baglai@example.com"
+}
