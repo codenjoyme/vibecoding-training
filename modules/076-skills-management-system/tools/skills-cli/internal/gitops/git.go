@@ -3,6 +3,7 @@
 package gitops
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"os/exec"
@@ -135,4 +136,24 @@ func GetRemoteURL(repoDir string) (string, error) {
 // CurrentBranch returns the name of the currently checked-out branch.
 func CurrentBranch(repoDir string) (string, error) {
 	return run(repoDir, "rev-parse", "--abbrev-ref", "HEAD")
+}
+
+// SkillInfo holds metadata from a skill's info.json.
+type SkillInfo struct {
+	Description string `json:"description"`
+	Owner       string `json:"owner"`
+}
+
+// LoadSkillInfo reads info.json from a skill directory. Returns nil if not found.
+func LoadSkillInfo(repoDir, skillName string) *SkillInfo {
+	infoPath := filepath.Join(repoDir, skillName, "info.json")
+	data, err := os.ReadFile(infoPath)
+	if err != nil {
+		return nil
+	}
+	var info SkillInfo
+	if err := json.Unmarshal(data, &info); err != nil {
+		return nil
+	}
+	return &info
 }

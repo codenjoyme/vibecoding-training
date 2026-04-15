@@ -43,6 +43,7 @@ exports.createBranch = createBranch;
 exports.stageAndCommit = stageAndCommit;
 exports.push = push;
 exports.getRemoteURL = getRemoteURL;
+exports.loadSkillInfo = loadSkillInfo;
 const child_process_1 = require("child_process");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
@@ -113,4 +114,16 @@ function push(repoDir, branchName) {
 }
 function getRemoteURL(repoDir) {
     return run(repoDir, 'remote', 'get-url', 'origin');
+}
+function loadSkillInfo(repoDir, skillName) {
+    const infoPath = path.join(repoDir, skillName, 'info.json');
+    if (!fs.existsSync(infoPath))
+        return null;
+    try {
+        const data = fs.readFileSync(infoPath, 'utf8');
+        return JSON.parse(data);
+    }
+    catch {
+        return null;
+    }
 }

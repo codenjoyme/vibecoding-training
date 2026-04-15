@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"os"
@@ -9,29 +10,36 @@ import (
 	"github.com/vibecoding/skills-cli/internal/gitops"
 )
 
+type skillJSON struct {
+	Name        string `json:"name"`
+	Active      bool   `json:"active"`
+	Description string `json:"description,omitempty"`
+	Owner       string `json:"owner,omitempty"`
+}
+
 // RunList handles the `skills list` command.
 func RunList(args []string) {
 	fs := flag.NewFlagSet("list", flag.ExitOnError)
+	verbose := fs.Bool("verbose", false, "Show description and owner from info.json")
+	jsonOut := fs.Bool("json", false, "Output skills as JSON array")
 	fs.Usage = func() {
 		fmt.Print(`List all available skills in the repository.
 
 Usage:
-  skills list
+  skills list [--verbose] [--json]
 
+Flags:
+`)
+		fs.PrintDefaults()
+		fmt.Print(`
 Active skills (checked out in this workspace) are marked with ✅.
 Other skills exist in the repo but are not part of your current groups.
 
 `)
-		fs.PrintDefaults()
 	}
 
 	if err := fs.Parse(args); err != nil {
 		os.Exit(1)
-	}
-
-	if len(fs.Args()) > 0 && (fs.Args()[0] == "--help" || fs.Args()[0] == "-h") {
-		fs.Usage()
-		return
 	}
 
 	cfg, err := config.Load()
@@ -52,6 +60,23 @@ Other skills exist in the repo but are not part of your current groups.
 		activeSet[s] = true
 	}
 
+	// JSON output mode
+	if *jsonOut {
+		var items []skillJSON
+		for _, s := range allSkills {
+			item := skillJSON{Name: s, Active: activeSet[s]}
+			if info := gitops.LoadSkillInfo(cfg.RepoPath(), s); info != nil {
+				item.Description = info.Description
+				item.Owner = info.Owner
+			}
+			items = append(items, item)
+		}
+		data, _ := json.MarshalIndent(items, "", "  ")
+		fmt.Println(string(data))
+		return
+	}
+
+	// Normal / verbose text output
 	fmt.Printf("Skills repository: %s\n", cfg.RepoURL)
 	fmt.Printf("Groups:           %v\n\n", cfg.Groups)
 
@@ -62,6 +87,12 @@ Other skills exist in the repo but are not part of your current groups.
 			activeCount++
 		} else {
 			fmt.Printf("  ○  %s\n", s)
+		}
+		if *verbose {
+			if info := gitops.LoadSkillInfo(cfg.RepoPath(), s); info != nil {
+				fmt.Printf("     %s\n", info.Description)
+				fmt.Printf("     Owner: %s\n", info.Owner)
+			}
 		}
 	}
 

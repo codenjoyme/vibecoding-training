@@ -41,7 +41,11 @@ function runList(args) {
         console.log(`List all available skills in the repository.
 
 Usage:
-  skills list
+  skills list [--verbose] [--json]
+
+Flags:
+  --verbose  Show description and owner from info.json
+  --json     Output skills as JSON array
 
 Active skills (checked out in this workspace) are marked with ✅.
 Other skills exist in the repo but are not part of your current groups.
@@ -49,6 +53,8 @@ Other skills exist in the repo but are not part of your current groups.
 `);
         return;
     }
+    const verbose = args.includes('--verbose');
+    const jsonOut = args.includes('--json');
     let cfg;
     try {
         cfg = config.load();
@@ -67,6 +73,21 @@ Other skills exist in the repo but are not part of your current groups.
         process.exit(1);
     }
     const activeSet = new Set(cfg.skills);
+    // JSON output mode
+    if (jsonOut) {
+        const items = allSkills.map(s => {
+            const entry = { name: s, active: activeSet.has(s) };
+            const info = gitops.loadSkillInfo(repoDir, s);
+            if (info) {
+                entry.description = info.description;
+                entry.owner = info.owner;
+            }
+            return entry;
+        });
+        console.log(JSON.stringify(items, null, 2));
+        return;
+    }
+    // Normal / verbose text output
     console.log(`Skills repository: ${cfg.repo_url}`);
     console.log(`Groups:           ${cfg.groups.join(', ')}\n`);
     let activeCount = 0;
@@ -77,6 +98,13 @@ Other skills exist in the repo but are not part of your current groups.
         }
         else {
             console.log(`  ○  ${s}`);
+        }
+        if (verbose) {
+            const info = gitops.loadSkillInfo(repoDir, s);
+            if (info) {
+                console.log(`     ${info.description}`);
+                console.log(`     Owner: ${info.owner}`);
+            }
         }
     }
     console.log(`\nActive: ${activeCount}  |  Total: ${allSkills.length}`);
