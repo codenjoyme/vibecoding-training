@@ -7,6 +7,7 @@ const push_1 = require("./push");
 const list_1 = require("./list");
 const create_1 = require("./create");
 const toggle_1 = require("./toggle");
+const aihelp_1 = require("./aihelp");
 const help_1 = require("./help");
 function execute(args) {
     if (args.length === 0 || args[0] === 'help' || args[0] === '--help' || args[0] === '-h') {
@@ -34,6 +35,9 @@ function execute(args) {
             break;
         case 'disable':
             (0, toggle_1.runDisable)(args.slice(1));
+            break;
+        case 'ai-help':
+            (0, aihelp_1.runAIHelp)();
             break;
         default:
             console.error(`Error: unknown command "${args[0]}"\n`);

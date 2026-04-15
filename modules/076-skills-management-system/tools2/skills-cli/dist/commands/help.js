@@ -15,6 +15,7 @@ Commands:
   create  Create a new skill with SKILL.md and info.json templates
   enable  Enable a group or individual skill
   disable Disable a group or individual skill
+  ai-help Show concise CLI reference for AI agents
   help    Show this help message
 
 Use "skills <command> --help" for more information about a command.

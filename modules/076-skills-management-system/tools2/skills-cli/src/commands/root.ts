@@ -4,6 +4,7 @@ import { runPush } from './push';
 import { runList } from './list';
 import { runCreate } from './create';
 import { runEnable, runDisable } from './toggle';
+import { runAIHelp } from './aihelp';
 import { printHelp } from './help';
 
 export function execute(args: string[]): void {
@@ -33,6 +34,9 @@ export function execute(args: string[]): void {
       break;
     case 'disable':
       runDisable(args.slice(1));
+      break;
+    case 'ai-help':
+      runAIHelp();
       break;
     default:
       console.error(`Error: unknown command "${args[0]}"\n`);
