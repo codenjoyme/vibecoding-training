@@ -143,7 +143,7 @@ npm install -g --install-links git+ssh://git@github.com/codenjoyme/apm-lite.git
 
 Or from a local folder (for development/testing):
 ```bash
-npm install -g ./tools2
+npm install -g --install-links ./tools2
 ```
 
 After installation, `skills` is available globally:
@@ -161,7 +161,7 @@ npm uninstall -g skills-cli
 
 The repository includes pre-built `dist/` files, so no compilation step is needed during install. `npm install -g` links `dist/index.js` as the `skills` binary globally. No manual PATH changes required.
 
-> **Note (Windows):** The `--install-links` flag is required when installing from a Git URL. Without it, npm creates a junction (symlink) to a temporary clone directory that gets deleted after install, causing `MODULE_NOT_FOUND` errors. When installing from a local folder, `--install-links` is not needed.
+> **Note (Windows):** The `--install-links` flag is always required. Without it, npm creates a junction (symlink) to the source directory instead of copying files. If you later delete or move the source, you get `MODULE_NOT_FOUND` errors.
 
 ---
 
