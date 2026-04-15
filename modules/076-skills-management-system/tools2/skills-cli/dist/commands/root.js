@@ -8,6 +8,7 @@ const list_1 = require("./list");
 const create_1 = require("./create");
 const toggle_1 = require("./toggle");
 const aihelp_1 = require("./aihelp");
+const initrepo_1 = require("./initrepo");
 const help_1 = require("./help");
 function execute(args) {
     if (args.length === 0 || args[0] === 'help' || args[0] === '--help' || args[0] === '-h') {
@@ -38,6 +39,9 @@ function execute(args) {
             break;
         case 'ai-help':
             (0, aihelp_1.runAIHelp)();
+            break;
+        case 'init-repo':
+            (0, initrepo_1.runInitRepo)(args.slice(1));
             break;
         default:
             console.error(`Error: unknown command "${args[0]}"\n`);

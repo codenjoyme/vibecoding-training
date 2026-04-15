@@ -29,6 +29,8 @@ func Execute(args []string) {
 		RunDisable(args[1:])
 	case "ai-help":
 		RunAIHelp(args[1:])
+	case "init-repo":
+		RunInitRepo(args[1:])
 	default:
 		fmt.Fprintf(os.Stderr, "Error: unknown command %q\n\n", args[0])
 		PrintHelp()
@@ -51,8 +53,9 @@ Commands:
   create  Create a new skill with SKILL.md and info.json templates
   enable  Enable a group or individual skill
   disable Disable a group or individual skill
-  ai-help Show concise CLI reference for AI agents
-  help    Show this help message
+  ai-help   Show concise CLI reference for AI agents
+  init-repo Initialize a new skills repository with base structure
+  help      Show this help message
 
 Use "skills <command> --help" for more information about a command.
 

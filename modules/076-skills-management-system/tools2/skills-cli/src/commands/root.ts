@@ -5,6 +5,7 @@ import { runList } from './list';
 import { runCreate } from './create';
 import { runEnable, runDisable } from './toggle';
 import { runAIHelp } from './aihelp';
+import { runInitRepo } from './initrepo';
 import { printHelp } from './help';
 
 export function execute(args: string[]): void {
@@ -37,6 +38,9 @@ export function execute(args: string[]): void {
       break;
     case 'ai-help':
       runAIHelp();
+      break;
+    case 'init-repo':
+      runInitRepo(args.slice(1));
       break;
     default:
       console.error(`Error: unknown command "${args[0]}"\n`);
