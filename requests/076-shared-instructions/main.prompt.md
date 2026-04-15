@@ -868,3 +868,13 @@ Rebuilt `dist/` in both repos. Verified: `skills help` shows clean ASCII output.
 Commits:
 - `6c70438` (vibecoding) fix(076): replace em-dash with ASCII dash for PowerShell compatibility
 - `4fa6c69` (apm-lite) fix: replace em-dash with ASCII dash for PowerShell compatibility
+
+## UPD28
+
+Снести глобально установленный `skills` CLI. Команда деинсталяции уже есть в обоих `SKILL.md` (`#### Uninstall` → `npm uninstall -g skills-cli`). Всегда сразу обновлять промпт и фиксить в двух репо. Коммитить и пушать.
+
+### RESULT
+
+- `npm uninstall -g skills-cli` — выполнено, CLI удалён глобально
+- Секция `#### Uninstall` уже присутствовала в обоих `SKILL.md` — изменений не потребовалось
+- Промпт обновлён
