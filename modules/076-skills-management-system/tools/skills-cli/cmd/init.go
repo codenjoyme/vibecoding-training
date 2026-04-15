@@ -57,10 +57,55 @@ Examples:
 		os.Exit(1)
 	}
 
+	// If no --repo specified, try to re-init from existing config
 	if *repo == "" {
-		fmt.Fprintln(os.Stderr, "Error: --repo is required")
-		fs.Usage()
-		os.Exit(1)
+		existing, err := config.Load()
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "Error: --repo is required (no existing skills.json found)")
+			fs.Usage()
+			os.Exit(1)
+		}
+		fmt.Println("→ Re-initializing from existing skills.json ...")
+		repoDir := config.RepoSubDir
+		// Remove old clone if present
+		if _, err := os.Stat(repoDir); err == nil {
+			fmt.Println("→ Removing old instructions/ ...")
+			if err := os.RemoveAll(repoDir); err != nil {
+				fmt.Fprintf(os.Stderr, "Error: failed to remove instructions/: %v\n", err)
+				os.Exit(1)
+			}
+		}
+		fmt.Printf("→ Cloning skills repo from %s ...\n", existing.RepoURL)
+		if err := gitops.Clone(existing.RepoURL, repoDir); err != nil {
+			fmt.Fprintf(os.Stderr, "Error: clone failed: %v\n", err)
+			os.Exit(1)
+		}
+		fmt.Println("  ✓ Cloned")
+
+		groups := existing.Groups
+		fmt.Printf("→ Resolving skills for groups: %s ...\n", strings.Join(groups, ", "))
+		skills, err := manifest.ResolveSkills(repoDir, groups)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error: manifest resolution failed: %v\n", err)
+			os.Exit(1)
+		}
+		fmt.Printf("  ✓ Resolved %d skill(s): %s\n", len(skills), strings.Join(skills, ", "))
+
+		fmt.Println("→ Applying sparse checkout ...")
+		if err := gitops.SetupSparseCheckout(repoDir, skills); err != nil {
+			fmt.Fprintf(os.Stderr, "Error: sparse checkout failed: %v\n", err)
+			os.Exit(1)
+		}
+		fmt.Println("  ✓ Sparse checkout applied")
+
+		existing.Skills = skills
+		if err := config.Save(existing); err != nil {
+			fmt.Fprintf(os.Stderr, "Error: failed to save config: %v\n", err)
+			os.Exit(1)
+		}
+		fmt.Printf("\n✅ Skills workspace re-initialized!\n")
+		fmt.Printf("   Skills:     %s\n", strings.Join(skills, ", "))
+		return
 	}
 
 	// Combine --groups flag values with remaining positional args

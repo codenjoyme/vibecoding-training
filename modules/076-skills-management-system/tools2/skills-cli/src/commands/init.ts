@@ -55,10 +55,58 @@ Examples:
 export function runInit(args: string[]): void {
   const { repo, groups } = parseArgs(args);
 
+  // If no --repo specified, try to re-init from existing config
   if (!repo) {
-    console.error('Error: --repo is required');
-    printInitHelp();
-    process.exit(1);
+    let existing: config.Config;
+    try {
+      existing = config.load();
+    } catch {
+      console.error('Error: --repo is required (no existing skills.json found)');
+      printInitHelp();
+      process.exit(1);
+    }
+
+    console.log('→ Re-initializing from existing skills.json ...');
+    const repoDir = config.REPO_SUB_DIR;
+    // Remove old clone if present
+    if (fs.existsSync(repoDir)) {
+      console.log('→ Removing old instructions/ ...');
+      fs.rmSync(repoDir, { recursive: true, force: true });
+    }
+
+    console.log(`→ Cloning skills repo from ${existing.repo_url} ...`);
+    try {
+      gitops.clone(existing.repo_url, repoDir);
+    } catch (err) {
+      console.error(`Error: clone failed: ${err}`);
+      process.exit(1);
+    }
+    console.log('  ✓ Cloned');
+
+    console.log(`→ Resolving skills for groups: ${existing.groups.join(', ')} ...`);
+    let skills: string[];
+    try {
+      skills = manifest.resolveSkills(repoDir, existing.groups);
+    } catch (err) {
+      console.error(`Error: manifest resolution failed: ${err}`);
+      process.exit(1);
+    }
+    console.log(`  ✓ Resolved ${skills.length} skill(s): ${skills.join(', ')}`);
+
+    console.log('→ Applying sparse checkout ...');
+    try {
+      gitops.setupSparseCheckout(repoDir, skills);
+    } catch (err) {
+      console.error(`Error: sparse checkout failed: ${err}`);
+      process.exit(1);
+    }
+    console.log('  ✓ Sparse checkout applied');
+
+    existing.skills = skills;
+    config.save(existing);
+    console.log('\n✅ Skills workspace re-initialized!');
+    console.log(`   Skills:     ${skills.join(', ')}`);
+    return;
   }
 
   if (groups.length === 0) {
