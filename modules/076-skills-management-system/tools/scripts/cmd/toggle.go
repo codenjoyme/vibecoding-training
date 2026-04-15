@@ -53,21 +53,15 @@ func enableGroup(name string) {
 		os.Exit(1)
 	}
 
-	// Check not already in groups or extra_groups
+	// Check not already in groups
 	for _, g := range cfg.Groups {
-		if g == name {
-			fmt.Fprintf(os.Stderr, "Group %q is already in the initial groups list\n", name)
-			os.Exit(1)
-		}
-	}
-	for _, g := range cfg.ExtraGroups {
 		if g == name {
 			fmt.Fprintf(os.Stderr, "Group %q is already enabled\n", name)
 			os.Exit(1)
 		}
 	}
 
-	cfg.ExtraGroups = append(cfg.ExtraGroups, name)
+	cfg.Groups = append(cfg.Groups, name)
 	if err := config.Save(cfg); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
@@ -86,7 +80,6 @@ func disableGroup(name string) {
 	// Remove from groups list
 	found := false
 	cfg.Groups = removeFromSlice(cfg.Groups, name, &found)
-	cfg.ExtraGroups = removeFromSlice(cfg.ExtraGroups, name, &found)
 
 	if !found {
 		fmt.Fprintf(os.Stderr, "Group %q is not currently enabled\n", name)
@@ -210,17 +203,11 @@ Examples:
 `)
 }
 
-// ResolveEffectiveGroups combines initial groups + extra groups.
+// ResolveEffectiveGroups returns the groups list with deduplication.
 func ResolveEffectiveGroups(cfg *config.Config) []string {
-	groups := make([]string, 0, len(cfg.Groups)+len(cfg.ExtraGroups))
+	groups := make([]string, 0, len(cfg.Groups))
 	seen := make(map[string]bool)
 	for _, g := range cfg.Groups {
-		if !seen[g] {
-			groups = append(groups, g)
-			seen[g] = true
-		}
-	}
-	for _, g := range cfg.ExtraGroups {
 		if !seen[g] {
 			groups = append(groups, g)
 			seen[g] = true

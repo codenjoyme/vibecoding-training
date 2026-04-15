@@ -42,7 +42,6 @@ skills help                                         Show general help
 
 1. _global.json skills (for everyone)
 2. Group manifest skills (<group>.json + sub-configs)
-3. extra_groups (same as groups)
-4. extra_skills (individual additions)
-5. excluded_skills (removals applied last)
+3. extra_skills (individual additions)
+4. excluded_skills (removals applied last)
 `;

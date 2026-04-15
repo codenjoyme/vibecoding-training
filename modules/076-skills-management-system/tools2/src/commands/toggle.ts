@@ -41,15 +41,11 @@ function enableGroup(name: string): void {
   try { cfg = config.load(); } catch (err) { console.error(String(err)); process.exit(1); }
 
   if (cfg.groups.includes(name)) {
-    console.error(`Group "${name}" is already in the initial groups list`);
-    process.exit(1);
-  }
-  if ((cfg.extra_groups ?? []).includes(name)) {
     console.error(`Group "${name}" is already enabled`);
     process.exit(1);
   }
 
-  cfg.extra_groups = [...(cfg.extra_groups ?? []), name];
+  cfg.groups = [...cfg.groups, name];
   config.save(cfg);
   console.log(`✅ Group "${name}" enabled`);
   console.log('Run `skills init` to re-apply skill resolution.');
@@ -61,7 +57,6 @@ function disableGroup(name: string): void {
 
   let found = false;
   cfg.groups = cfg.groups.filter(g => { if (g === name) { found = true; return false; } return true; });
-  cfg.extra_groups = (cfg.extra_groups ?? []).filter(g => { if (g === name) { found = true; return false; } return true; });
 
   if (!found) {
     console.error(`Group "${name}" is not currently enabled`);
@@ -150,9 +145,6 @@ export function resolveEffectiveGroups(cfg: config.Config): string[] {
   const seen = new Set<string>();
   const groups: string[] = [];
   for (const g of cfg.groups) {
-    if (!seen.has(g)) { groups.push(g); seen.add(g); }
-  }
-  for (const g of cfg.extra_groups ?? []) {
     if (!seen.has(g)) { groups.push(g); seen.add(g); }
   }
   return groups;

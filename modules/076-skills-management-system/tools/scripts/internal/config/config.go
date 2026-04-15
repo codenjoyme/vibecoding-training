@@ -18,7 +18,6 @@ type Config struct {
 	RepoURL        string   `json:"repo_url"`
 	Groups         []string `json:"groups"`
 	Skills         []string `json:"skills"`
-	ExtraGroups    []string `json:"extra_groups,omitempty"`
 	ExtraSkills    []string `json:"extra_skills,omitempty"`
 	ExcludedSkills []string `json:"excluded_skills,omitempty"`
 }

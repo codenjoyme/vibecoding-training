@@ -26,7 +26,6 @@ skills help                                         Show general help
   "repo_url": "../skills-repo",
   "groups": ["project-alpha"],
   "skills": ["resolved-skill-1", "resolved-skill-2"],
-  "extra_groups": ["security"],
   "extra_skills": ["my-custom-skill"],
   "excluded_skills": ["unwanted-skill"]
 }
@@ -36,9 +35,8 @@ skills help                                         Show general help
 
 1. `_global.json` skills (for everyone)
 2. Group manifest skills (`<group>.json` + sub-configs)
-3. `extra_groups` (same as groups)
-4. `extra_skills` (individual additions)
-5. `excluded_skills` (removals applied last)
+3. `extra_skills` (individual additions)
+4. `excluded_skills` (removals applied last)
 
 ## Workspace Layout
 
