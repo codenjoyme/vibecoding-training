@@ -492,22 +492,22 @@ git commit -m "feat: add initial skill content for all skills"
 
 ### What we'll do
 
-The `skills` CLI is a Go binary in `tools/skills-cli/`. First we check if a compiled binary already exists — if yes, we use it directly. If not, we compile it from source using Go installed into `tools/.golang/` (self-contained, no global installation needed).
+The `skills` CLI is a Go binary in `tools/scripts/`. First we check if a compiled binary already exists — if yes, we use it directly. If not, we compile it from source using Go installed into `tools/.golang/` (self-contained, no global installation needed).
 
 ---
 
 ### Step 7 — Check if a compiled binary already exists
 
-From the workspace root, check what's inside `tools/skills-cli/`:
+From the workspace root, check what's inside `tools/scripts/`:
 
 ```powershell
 # Windows
-Get-ChildItem modules\076-skills-management-system\tools\skills-cli\
+Get-ChildItem modules\076-skills-management-system\tools\scripts\
 ```
 
 ```bash
 # macOS/Linux
-ls modules/076-skills-management-system/tools/skills-cli/
+ls modules/076-skills-management-system/tools/scripts/
 ```
 
 **If you see `skills.exe` (Windows) or `skills` (macOS/Linux)** → the binary is already compiled. Go to **Option A**.
@@ -520,8 +520,8 @@ ls modules/076-skills-management-system/tools/skills-cli/
 
 The binary lives at:
 ```
-modules/076-skills-management-system/tools/skills-cli/skills.exe   ← Windows
-modules/076-skills-management-system/tools/skills-cli/skills        ← macOS/Linux
+modules/076-skills-management-system/tools/scripts/skills.exe   ← Windows
+modules/076-skills-management-system/tools/scripts/skills        ← macOS/Linux
 ```
 
 Add its folder to PATH so you can call `skills` from anywhere:
@@ -530,19 +530,19 @@ Add its folder to PATH so you can call `skills` from anywhere:
 
 Open System Properties → Environment Variables → User variables → `Path` → Edit → New, and add the absolute path:
 ```
-C:\<your-workspace>\modules\076-skills-management-system\tools\skills-cli
+C:\<your-workspace>\modules\076-skills-management-system\tools\scripts
 ```
 Close and re-open the terminal.
 
 **macOS/Linux:**
 ```bash
-export PATH=$PATH:$(pwd)/modules/076-skills-management-system/tools/skills-cli
+export PATH=$PATH:$(pwd)/modules/076-skills-management-system/tools/scripts
 # Or add that line to your ~/.bashrc / ~/.zshrc for persistence
 ```
 
 > **FYI — how to rebuild if needed:** Even with a pre-built binary, you can always rebuild it yourself:
 > ```bash
-> cd modules/076-skills-management-system/tools/skills-cli
+> cd modules/076-skills-management-system/tools/scripts
 > go build -o skills.exe .   # Windows
 > go build -o skills .        # macOS/Linux
 > ```
@@ -623,13 +623,13 @@ With Go available, build the binary:
 
 ```powershell
 # Windows
-cd modules\076-skills-management-system\tools\skills-cli
+cd modules\076-skills-management-system\tools\scripts
 go build -o skills.exe .
 ```
 
 ```bash
 # macOS/Linux
-cd modules/076-skills-management-system/tools/skills-cli
+cd modules/076-skills-management-system/tools/scripts
 go build -o skills .
 ```
 
@@ -643,7 +643,7 @@ Get-ChildItem . | Where-Object { $_.Name -like "skills*" }
 
 #### Step 7B-3 — Add the compiled binary to PATH
 
-Same as Option A — add `tools/skills-cli/` to PATH (see above).
+Same as Option A — add `tools/scripts/` to PATH (see above).
 
 ---
 
@@ -655,20 +655,28 @@ skills help
 
 Expected output:
 ```
-Usage: skills <command> [options]
+Skills CLI — manage shared AI instruction skills across your team
+
+Usage:
+  skills <command> [flags]
 
 Commands:
-  init    Initialize a skills workspace
-  pull    Pull latest skills from the central repository
-  push    Propose a change to a skill
-  list    List skills in the current workspace
-  help    Show this help
+  init      Initialize workspace from a central skills repository
+  pull      Update local skills from the remote repository
+  push      Propose changes to a skill via a branch and Pull Request
+  list      List available skills in the repository
+  create    Create a new skill with SKILL.md and info.json templates
+  enable    Enable a group or individual skill
+  disable   Disable a group or individual skill
+  ai-help   Show concise CLI reference for AI agents
+  init-repo Initialize a new skills repository with base structure
+  help      Show this help message
 ```
 
 If you see `command not found`:
 
-- **Windows:** Confirm the `tools/skills-cli/` folder is in your User PATH. Restart the terminal after changing PATH.
-- **macOS/Linux:** Run `echo $PATH` and confirm the folder is listed. Or run with full path: `./modules/076-skills-management-system/tools/skills-cli/skills help`
+- **Windows:** Confirm the `tools/scripts/` folder is in your User PATH. Restart the terminal after changing PATH.
+- **macOS/Linux:** Run `echo $PATH` and confirm the folder is listed. Or run with full path: `./modules/076-skills-management-system/tools/scripts/skills help`
 
 ---
 
@@ -812,7 +820,125 @@ The updated `code-review-base/SKILL.md` is now synchronized.
 
 ---
 
-## Part 6: Governance Model (Advisory)
+## Part 6: Advanced Commands
+
+### What we'll do
+
+Explore the additional CLI commands for creating skills, managing groups, and bootstrapping new repositories.
+
+### Step 19 — Create a new skill
+
+```bash
+cd ../project-alpha
+skills create my-new-skill
+```
+
+Expected output:
+```
+→ Creating skill "my-new-skill" ...
+  ✓ Directory created: instructions/my-new-skill/
+   → instructions/my-new-skill/SKILL.md
+   → instructions/my-new-skill/info.json
+
+Edit SKILL.md with your instructions, then use `skills push` to propose it.
+```
+
+The generated `info.json` is a template — update the description and owner:
+
+```json
+{
+  "description": "This skill provides _____. It can be used for _____. The main features include _____.",
+  "owner": "Your_Name@domain.com"
+}
+```
+
+### Step 20 — List skills with details
+
+```bash
+# Simple list (names only)
+skills list
+
+# Verbose — shows description and owner from info.json
+skills list --verbose
+
+# JSON output — structured data for scripting
+skills list --json
+```
+
+The `--json` flag outputs a JSON array of objects:
+```json
+[
+  {
+    "name": "code-review-base",
+    "active": true,
+    "description": "Baseline code review checklist for all projects.",
+    "owner": "engineering-leads"
+  }
+]
+```
+
+### Step 21 — Enable and disable groups
+
+```bash
+# Add a new group to your project config
+skills enable group security
+
+# Remove a group
+skills disable group security
+```
+
+This modifies `extra_groups` in `skills.json` and immediately re-resolves skills with sparse checkout.
+
+### Step 22 — Enable and disable individual skills
+
+```bash
+# Add a single skill not in any group
+skills enable my-custom-skill
+
+# Exclude a skill from your active set
+skills disable style-guidelines
+```
+
+Individual enables go to `extra_skills`, disables go to `excluded_skills` in `skills.json`.
+
+### Step 23 — Re-initialize from existing config
+
+If you already have a `skills.json` in your project root, running `skills init` without arguments re-resolves and re-applies sparse checkout:
+
+```bash
+skills init
+```
+
+This is useful after manually editing `skills.json` or when your groups/skills config gets out of sync.
+
+### Step 24 — Get AI-friendly reference
+
+```bash
+skills ai-help
+```
+
+Outputs a concise CLI reference designed for LLM agents — paste it into your AI context to teach your agent about the `skills` command.
+
+### Step 25 — Bootstrap a new skills repository
+
+```bash
+skills init-repo my-team-skills
+```
+
+Creates a ready-to-use directory with:
+- `.manifest/` folder (`_global.json`, `group-1.json`, `sub-group.json`)
+- Three starter skills: `creating-instructions`, `iterative-prompting`, `skills-cli`
+- `info.json` for each skill
+
+After creation, initialize it as a Git repo and push:
+```bash
+cd my-team-skills
+git init && git add . && git commit -m "init: skills repository"
+```
+
+---
+
+## Part 7: Governance Model (Advisory)
 
 ### Skill ownership
 
@@ -835,7 +961,7 @@ Add a brief description and usage context to every `README.md`. When your skills
 
 ---
 
-## Part 7: Apply to Your Real Project
+## Part 8: Apply to Your Real Project
 
 ### What we'll do
 
@@ -846,7 +972,7 @@ Bring the skills management system into your actual development workflow. You wi
 
 This is the moment the system becomes genuinely useful — your AI agent will automatically load the right skills every time it opens your project.
 
-### Step 19 — Identify your real project
+### Step 26 — Identify your real project
 
 Pick a directory on your machine that is a real (or planned) project. Note the absolute path:
 
@@ -863,131 +989,53 @@ mkdir C:\projects\my-app
 mkdir -p ~/projects/my-app
 ```
 
-### Step 20 — Create a skills repository next to your project
+### Step 27 — Bootstrap a skills repository
 
-Create a `my-skills-repo/` directory at the same level as your project:
+Use `skills init-repo` to create a ready-made skills repository next to your project:
 
 ```bash
-# Windows — from C:\projects\
-mkdir my-skills-repo
+# From C:\projects\ or ~/projects/
+skills init-repo my-skills-repo
 cd my-skills-repo
-git init
-git config receive.denyCurrentBranch warn
-mkdir .manifest
-
-# macOS/Linux — from ~/projects/
-mkdir my-skills-repo
-cd my-skills-repo
-git init
-git config receive.denyCurrentBranch warn
-mkdir .manifest
+git init && git add . && git commit -m "init: team skills repository"
 ```
 
-### Step 21 — Add two foundational skills
+This creates a repository with three foundational skills (`creating-instructions`, `iterative-prompting`, `skills-cli`) and a `.manifest/` folder with `_global.json`, `group-1.json`, and `sub-group.json`.
 
-**Skill 1: `creating-instructions`** — teaches the AI how your team writes instruction files.
+Customize the generated files:
+- Edit `SKILL.md` files to match your team's conventions
+- Update `info.json` with real owner emails
+- Add project-specific groups in `.manifest/`
 
-Copy the pre-built skill from the demo:
-
-```powershell
-# Windows — from inside my-skills-repo
-xcopy /E /I "<path-to-module>\demo\skills-repo\creating-instructions" "creating-instructions\"
-```
+### Step 28 — Initialize your project
 
 ```bash
-# macOS/Linux — from inside my-skills-repo
-cp -r <path-to-module>/demo/skills-repo/creating-instructions ./creating-instructions/
-```
-
-Or write your own `creating-instructions/SKILL.md` capturing how your team creates instruction files.
-
-**Skill 2: `skills-cli-usage`** — teaches the AI how to help team members use this system.
-
-Create `skills-cli-usage/SKILL.md`:
-
-```markdown
-# Skills CLI Usage — SKILL.md
-
-## Purpose
-This skill describes how to use the `skills` CLI to manage team AI instructions.
-
-## Quick Reference
-- `skills init --repo <path-or-url> --groups <group>` — initialize a workspace
-- `skills pull` — get latest skills from the central repository
-- `skills push <skill-name>` — propose a change to a skill
-- `skills list` — see which skills are active in this workspace
-
-## Repository Location
-The central skills repository is at: [insert your repo path or URL here]
-
-## Groups
-[insert your group names here, e.g., "backend", "frontend", "devops"]
-
-## Adding New Skills
-1. Create a new directory in the skills repo: `mkdir <skill-name>`
-2. Add `SKILL.md` and `README.md`
-3. Reference it in the appropriate `.manifest/<group>.json`
-4. Submit a PR for review
-```
-
-Create `skills-cli-usage/README.md`:
-
-```markdown
-# skills-cli-usage
-
-**Description:** Guide for team members on using the skills CLI to manage AI instructions.
-
-**Owner:** team-lead
-
-**Usage context:** Apply when team members need to set up or update their workspace.
-```
-
-### Step 22 — Configure manifest files
-
-Create `.manifest/_global.json` — these skills load in every workspace:
-
-```json
-{"skills": ["creating-instructions", "skills-cli-usage"]}
-```
-
-Create `.manifest/my-project.json` — project-specific skills (expand as your library grows):
-
-```json
-{"skills": [], "sub-configs": []}
-```
-
-### Step 23 — Commit and initialize your project
-
-```bash
-# Inside my-skills-repo
-git add .
-git commit -m "init: team skills repository"
-
 # Navigate to your real project
 cd ../my-app
 
 # Initialize skills workspace
-skills init --repo ../my-skills-repo --groups my-project
+skills init --repo ../my-skills-repo --groups group-1
 ```
 
-Your project now has an `instructions/` folder with the two foundational skills ready for your AI agent.
+Your project now has an `instructions/` folder with the foundational skills ready for your AI agent.
 
 ### What happened
 
-When your AI agent opens this project, it reads `instructions/creating-instructions/SKILL.md` and `instructions/skills-cli-usage/SKILL.md` automatically — giving it:
+When your AI agent opens this project, it reads the global skills (`creating-instructions`, `iterative-prompting`, `skills-cli`) automatically — giving it:
 
 - Your team's conventions for writing AI instructions
-- A self-service guide for setting up the skills system
+- The iterative prompt workflow for multi-step tasks
+- A self-service guide for managing skills via the CLI
 
 This is the foundation for your team's shared AI knowledge base. Grow it skill by skill as your team's workflows mature.
 
-### Step 24 — Verify
+### Step 29 — Verify
 
 ```bash
-skills list
+skills list --verbose
 ```
 
-You should see both global skills as ✅ active.
+You should see all global skills as ✅ active, with descriptions and owners.
 
 ---
 
