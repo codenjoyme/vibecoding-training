@@ -19,7 +19,7 @@ export function runAIHelp(): void {
   console.log(FALLBACK);
 }
 
-const FALLBACK = `# Skills CLI — Quick Reference for AI Agents
+const FALLBACK = `# Skills CLI - Quick Reference for AI Agents
 
 ## Commands
 

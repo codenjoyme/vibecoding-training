@@ -1,4 +1,4 @@
-# Skills CLI — Quick Reference for AI Agents
+# Skills CLI - Quick Reference for AI Agents
 
 ## Commands
 

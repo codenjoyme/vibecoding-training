@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.printHelp = printHelp;
 function printHelp() {
-    console.log(`Skills CLI — manage shared AI instruction skills across your team
+    console.log(`Skills CLI - manage shared AI instruction skills across your team
 
 Usage:
   skills <command> [flags]

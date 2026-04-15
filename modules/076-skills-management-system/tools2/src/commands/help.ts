@@ -1,5 +1,5 @@
 export function printHelp(): void {
-  console.log(`Skills CLI — manage shared AI instruction skills across your team
+  console.log(`Skills CLI - manage shared AI instruction skills across your team
 
 Usage:
   skills <command> [flags]

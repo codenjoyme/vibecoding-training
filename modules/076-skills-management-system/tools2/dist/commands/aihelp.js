@@ -51,7 +51,7 @@ function runAIHelp() {
     // Fallback inline
     console.log(FALLBACK);
 }
-const FALLBACK = `# Skills CLI — Quick Reference for AI Agents
+const FALLBACK = `# Skills CLI - Quick Reference for AI Agents
 
 ## Commands
 
