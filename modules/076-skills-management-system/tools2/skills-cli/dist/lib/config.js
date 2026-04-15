@@ -38,8 +38,7 @@ exports.load = load;
 exports.save = save;
 exports.repoPath = repoPath;
 const fs = __importStar(require("fs"));
-const path = __importStar(require("path"));
-exports.CONFIG_FILE = 'instructions/.manifest/config.json';
+exports.CONFIG_FILE = 'skills.json';
 exports.REPO_SUB_DIR = 'instructions';
 function load() {
     if (!fs.existsSync(exports.CONFIG_FILE)) {
@@ -54,8 +53,6 @@ function load() {
     }
 }
 function save(cfg) {
-    const dir = path.dirname(exports.CONFIG_FILE);
-    fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(exports.CONFIG_FILE, JSON.stringify(cfg, null, 2), 'utf8');
 }
 function repoPath() {

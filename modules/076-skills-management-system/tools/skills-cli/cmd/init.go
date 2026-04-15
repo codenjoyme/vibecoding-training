@@ -75,8 +75,8 @@ Examples:
 
 	// Check if already initialized
 	if _, err := os.Stat(config.ConfigFile); err == nil {
-		fmt.Fprintln(os.Stderr, "Error: workspace already initialized (instructions/.manifest/config.json exists)")
-		fmt.Fprintln(os.Stderr, "Run `skills pull` to update, or delete instructions/ to re-initialize.")
+		fmt.Fprintln(os.Stderr, "Error: workspace already initialized (skills.json exists)")
+		fmt.Fprintln(os.Stderr, "Run `skills pull` to update, or delete skills.json and instructions/ to re-initialize.")
 		os.Exit(1)
 	}
 

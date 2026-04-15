@@ -1,7 +1,6 @@
 import * as fs from 'fs';
-import * as path from 'path';
 
-export const CONFIG_FILE = 'instructions/.manifest/config.json';
+export const CONFIG_FILE = 'skills.json';
 export const REPO_SUB_DIR = 'instructions';
 
 export interface Config {
@@ -23,8 +22,6 @@ export function load(): Config {
 }
 
 export function save(cfg: Config): void {
-  const dir = path.dirname(CONFIG_FILE);
-  fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(CONFIG_FILE, JSON.stringify(cfg, null, 2), 'utf8');
 }
 

@@ -1,4 +1,4 @@
-export declare const CONFIG_FILE = "instructions/.manifest/config.json";
+export declare const CONFIG_FILE = "skills.json";
 export declare const REPO_SUB_DIR = "instructions";
 export interface Config {
     repo_url: string;

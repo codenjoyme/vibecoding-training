@@ -69,8 +69,8 @@ export function runInit(args: string[]): void {
 
   // Check already initialized
   if (fs.existsSync(config.CONFIG_FILE)) {
-    console.error('Error: workspace already initialized (instructions/.manifest/config.json exists)');
-    console.error('Run `skills pull` to update, or delete instructions/ to re-initialize.');
+    console.error('Error: workspace already initialized (skills.json exists)');
+    console.error('Run `skills pull` to update, or delete skills.json and instructions/ to re-initialize.');
     process.exit(1);
   }
 
