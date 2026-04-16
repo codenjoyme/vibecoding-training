@@ -44,6 +44,7 @@ exports.stageAndCommit = stageAndCommit;
 exports.push = push;
 exports.getRemoteURL = getRemoteURL;
 exports.loadSkillInfo = loadSkillInfo;
+exports.hasUncommittedChanges = hasUncommittedChanges;
 const child_process_1 = require("child_process");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
@@ -125,5 +126,14 @@ function loadSkillInfo(repoDir, skillName) {
     }
     catch {
         return null;
+    }
+}
+function hasUncommittedChanges(repoDir, skillName) {
+    try {
+        const out = run(repoDir, 'status', '--porcelain', skillName + '/');
+        return out.length > 0;
+    }
+    catch {
+        return false;
     }
 }

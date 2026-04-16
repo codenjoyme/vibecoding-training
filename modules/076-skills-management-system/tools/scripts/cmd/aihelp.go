@@ -50,14 +50,15 @@ skills create <skill-name>
 
 skills enable group <name>     Add group to groups array in skills.json.
 skills enable <skill-name>     Add skill to extra_skills (or remove from excluded_skills).
-skills disable group <name>    Remove group from groups array.
-skills disable <skill-name>    Add skill to excluded_skills.
+skills disable [--force] group <name>    Remove group from groups array.
+skills disable [--force] <skill-name>    Add skill to excluded_skills.
 
 skills init-repo <folder>      Scaffold a new skills repository with example structure.
 skills ai-help                 Show this reference.
 skills help                    Show general help.
 
-After enable/disable, run "skills init" to re-apply skill resolution.
+Enable/disable re-apply sparse checkout automatically.
+Disable refuses if uncommitted changes exist; use --force to override.
 
 ## Config: skills.json
 

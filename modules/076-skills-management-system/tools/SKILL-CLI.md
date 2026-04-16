@@ -56,25 +56,30 @@ Does not add the skill to any group manifest (that's a manual step in the repo).
 skills enable group <name>
 ```
 Adds a group to the `groups` array in `skills.json`.
-After enabling, run `skills init` to re-resolve and apply sparse checkout.
+Sparse checkout is re-applied automatically — skill folders appear immediately.
 
 ```
 skills enable <skill-name>
 ```
 Adds an individual skill to `extra_skills` in `skills.json`.
 If the skill was previously excluded, removes it from `excluded_skills` instead.
+Sparse checkout is re-applied automatically.
 
 ```
-skills disable group <name>
+skills disable [--force] group <name>
 ```
 Removes a group from the `groups` array in `skills.json`.
-After disabling, run `skills init` to re-resolve and apply sparse checkout.
+If any skills being removed have uncommitted local changes, the command refuses.
+Use `--force` to override the uncommitted changes check.
+Sparse checkout is re-applied automatically — skill folders are removed immediately.
 
 ```
-skills disable <skill-name>
+skills disable [--force] <skill-name>
 ```
 Adds a skill to `excluded_skills` in `skills.json` (removes from `extra_skills` if present).
 Excluded skills are filtered out during resolution even if they appear in group manifests.
+If the skill has uncommitted local changes, the command refuses.
+Use `--force` to override. Sparse checkout is re-applied automatically.
 
 ```
 skills init-repo <folder-name>
@@ -167,9 +172,10 @@ skills pull
 # 6. Add another group or individual skill
 skills enable group security
 skills enable my-custom-skill
-skills init   # re-apply resolution
 
 # 7. Remove a skill you don't need
 skills disable unwanted-skill
-skills init   # re-apply
+
+# 8. Force disable a skill with uncommitted changes
+skills disable unwanted-skill --force
 ```

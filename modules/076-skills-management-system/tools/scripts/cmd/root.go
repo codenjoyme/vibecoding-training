@@ -66,9 +66,9 @@ Commands:
               group <name>        Add a group to the workspace
               <skill-name>        Add an individual skill (extra_skills)
 
-  disable   Disable a group or individual skill
-              group <name>        Remove a group from the workspace
-              <skill-name>        Exclude an individual skill (excluded_skills)
+  disable   Disable a group or individual skill (--force to override)
+              [--force] group <name>   Remove a group from the workspace
+              [--force] <skill-name>   Exclude an individual skill (excluded_skills)
 
   ai-help   Show concise CLI reference for AI agents
   init-repo Initialize a new skills repository with base structure
@@ -89,5 +89,6 @@ Examples:
   skills enable my-custom-skill
   skills disable group security
   skills disable obsolete-skill
+  skills disable obsolete-skill --force
 `)
 }

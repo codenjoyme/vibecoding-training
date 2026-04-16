@@ -89,3 +89,12 @@ export function loadSkillInfo(repoDir: string, skillName: string): SkillInfo | n
     return null;
   }
 }
+
+export function hasUncommittedChanges(repoDir: string, skillName: string): boolean {
+  try {
+    const out = run(repoDir, 'status', '--porcelain', skillName + '/');
+    return out.length > 0;
+  } catch {
+    return false;
+  }
+}

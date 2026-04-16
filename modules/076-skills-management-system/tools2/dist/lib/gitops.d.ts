@@ -13,3 +13,4 @@ export interface SkillInfo {
     owner: string;
 }
 export declare function loadSkillInfo(repoDir: string, skillName: string): SkillInfo | null;
+export declare function hasUncommittedChanges(repoDir: string, skillName: string): boolean;

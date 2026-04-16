@@ -38,6 +38,8 @@ exports.runDisable = runDisable;
 exports.resolveEffectiveGroups = resolveEffectiveGroups;
 exports.applyExtraAndExcluded = applyExtraAndExcluded;
 const config = __importStar(require("../lib/config"));
+const gitops = __importStar(require("../lib/gitops"));
+const manifest = __importStar(require("../lib/manifest"));
 function runEnable(args) {
     if (args.length === 0 || args[0] === '--help' || args[0] === '-h') {
         printEnableHelp();
@@ -60,16 +62,18 @@ function runDisable(args) {
         printDisableHelp();
         return;
     }
-    if (args[0] === 'group') {
-        if (args.length < 2) {
+    const force = args.includes('--force');
+    const filtered = args.filter(a => a !== '--force');
+    if (filtered[0] === 'group') {
+        if (filtered.length < 2) {
             console.error('Error: group name is required');
             console.error('Usage: skills disable group <group-name>');
             process.exit(1);
         }
-        disableGroup(args[1]);
+        disableGroup(filtered[1], force);
     }
     else {
-        disableSkill(args[0]);
+        disableSkill(filtered[0], force);
     }
 }
 function enableGroup(name) {
@@ -88,9 +92,9 @@ function enableGroup(name) {
     cfg.groups = [...cfg.groups, name];
     config.save(cfg);
     console.log(`✅ Group "${name}" enabled`);
-    console.log('Run `skills init` to re-apply skill resolution.');
+    reapplySparseCheckout(cfg);
 }
-function disableGroup(name) {
+function disableGroup(name, force) {
     let cfg;
     try {
         cfg = config.load();
@@ -108,9 +112,22 @@ function disableGroup(name) {
         console.error(`Group "${name}" is not currently enabled`);
         process.exit(1);
     }
+    // Check for uncommitted changes in skills that will be removed
+    if (!force) {
+        const before = resolveAllSkills(cfgWithGroups(cfg, [...cfg.groups, name]));
+        const after = resolveAllSkills(cfg);
+        const removing = before.filter(s => !after.includes(s));
+        const dirty = removing.filter(s => gitops.hasUncommittedChanges(config.REPO_SUB_DIR, s));
+        if (dirty.length > 0) {
+            // Restore groups since we haven't saved yet
+            console.error(`Error: cannot disable group "${name}" - uncommitted changes in: ${dirty.join(', ')}`);
+            console.error('Commit or discard your changes first, or use --force to override.');
+            process.exit(1);
+        }
+    }
     config.save(cfg);
     console.log(`✅ Group "${name}" disabled`);
-    console.log('Run `skills init` to re-apply skill resolution.');
+    reapplySparseCheckout(cfg);
 }
 function enableSkill(name) {
     let cfg;
@@ -127,7 +144,7 @@ function enableSkill(name) {
         cfg.excluded_skills = excluded.filter(s => s !== name);
         config.save(cfg);
         console.log(`✅ Skill "${name}" re-enabled (removed from exclusion list)`);
-        console.log('Run `skills init` to re-apply skill resolution.');
+        reapplySparseCheckout(cfg);
         return;
     }
     if ((cfg.extra_skills ?? []).includes(name)) {
@@ -137,15 +154,21 @@ function enableSkill(name) {
     cfg.extra_skills = [...(cfg.extra_skills ?? []), name];
     config.save(cfg);
     console.log(`✅ Skill "${name}" enabled`);
-    console.log('Run `skills init` to re-apply skill resolution.');
+    reapplySparseCheckout(cfg);
 }
-function disableSkill(name) {
+function disableSkill(name, force) {
     let cfg;
     try {
         cfg = config.load();
     }
     catch (err) {
         console.error(String(err));
+        process.exit(1);
+    }
+    // Check for uncommitted changes before disabling
+    if (!force && gitops.hasUncommittedChanges(config.REPO_SUB_DIR, name)) {
+        console.error(`Error: cannot disable skill "${name}" - uncommitted local changes detected`);
+        console.error('Commit or discard your changes first, or use --force to override.');
         process.exit(1);
     }
     // Remove from extra_skills if present
@@ -157,7 +180,7 @@ function disableSkill(name) {
     cfg.excluded_skills = [...(cfg.excluded_skills ?? []), name];
     config.save(cfg);
     console.log(`✅ Skill "${name}" disabled`);
-    console.log('Run `skills init` to re-apply skill resolution.');
+    reapplySparseCheckout(cfg);
 }
 function printEnableHelp() {
     console.log(`Enable a group or individual skill in this workspace.
@@ -166,7 +189,7 @@ Usage:
   skills enable group <group-name>   Add a group to the workspace
   skills enable <skill-name>         Add an individual skill
 
-After enabling, run \`skills init\` to re-apply skill resolution.
+Sparse checkout is re-applied automatically after enabling.
 
 Examples:
   skills enable group security
@@ -180,11 +203,18 @@ Usage:
   skills disable group <group-name>   Remove a group from the workspace
   skills disable <skill-name>         Exclude an individual skill
 
-After disabling, run \`skills init\` to re-apply skill resolution.
+Flags:
+  --force   Force disable even if there are uncommitted local changes
+
+If the skill has uncommitted local changes, the command will refuse
+to disable it. Use --force to override this check.
+
+Sparse checkout is re-applied automatically after disabling.
 
 Examples:
   skills disable group security
   skills disable security-guidelines
+  skills disable security-guidelines --force
 `);
 }
 function resolveEffectiveGroups(cfg) {
@@ -205,4 +235,30 @@ function applyExtraAndExcluded(resolved, cfg) {
     for (const s of cfg.excluded_skills ?? [])
         skillSet.delete(s);
     return Array.from(skillSet).sort();
+}
+function resolveAllSkills(cfg) {
+    const groups = resolveEffectiveGroups(cfg);
+    let skills;
+    try {
+        skills = manifest.resolveSkills(config.REPO_SUB_DIR, groups);
+    }
+    catch {
+        skills = [];
+    }
+    return applyExtraAndExcluded(skills, cfg);
+}
+function cfgWithGroups(cfg, groups) {
+    return { ...cfg, groups };
+}
+function reapplySparseCheckout(cfg) {
+    const skills = resolveAllSkills(cfg);
+    console.log(`→ Applying sparse checkout (${skills.length} skill(s)) ...`);
+    try {
+        gitops.setupSparseCheckout(config.REPO_SUB_DIR, skills);
+        console.log('  ✓ Sparse checkout applied');
+    }
+    catch (err) {
+        console.error(`Warning: sparse checkout failed: ${err}`);
+        console.error('Run `skills init` to re-apply manually.');
+    }
 }

@@ -157,3 +157,12 @@ func LoadSkillInfo(repoDir, skillName string) *SkillInfo {
 	}
 	return &info
 }
+
+// HasUncommittedChanges returns true if the skill directory has uncommitted changes.
+func HasUncommittedChanges(repoDir, skillName string) bool {
+	out, err := run(repoDir, "status", "--porcelain", skillName+"/")
+	if err != nil {
+		return false
+	}
+	return len(strings.TrimSpace(out)) > 0
+}
