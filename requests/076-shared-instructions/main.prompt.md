@@ -914,3 +914,25 @@ Commits:
 Commits:
 - `5e9defd` (vibecoding) refactor(076): remove extra_groups
 - `f445b66` (apm-lite) refactor: remove extra_groups
+
+## UPD30
+
+Обновить `skills help` - добавить для каждой команды список параметров с описаниями. Особенно `enable`/`disable` - чтобы было видно что есть `group <name>` и `<skill-name>`. Обновить в Go, Node.js и apm-lite.
+
+### RESULT
+
+Обновлён `printHelp()` в обоих CLI (Node.js: `help.ts`, Go: `root.go`).
+
+Теперь каждая команда показывает свои параметры:
+- `init` — `--repo`, `--groups`
+- `push` — `<skill-name>`
+- `list` — `--verbose`, `--json`
+- `create` — `<skill-name>`
+- `enable` — `group <name>` / `<skill-name>`
+- `disable` — `group <name>` / `<skill-name>`
+- `init-repo` — `<folder-name>`
+
+Примеры в help расширены: `skills list --verbose`, `skills create my-skill`, `skills enable group security`, `skills disable obsolete-skill`.
+
+apm-lite синхронизирован.
+- Промпт обновлён
