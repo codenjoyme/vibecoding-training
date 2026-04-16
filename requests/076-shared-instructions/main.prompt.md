@@ -936,3 +936,25 @@ Commits:
 
 apm-lite синхронизирован.
 - Промпт обновлён
+
+## UPD31
+
+Переработать `skills ai-help` - сделать его более информативным для AI-модели. Добавить:
+- Core Concepts (Skill, Group, Manifest, Workspace config, Sparse checkout)
+- Детальное описание каждой команды с параметрами и поведением
+- Описание полей skills.json в виде таблицы
+- Расширенный Workspace Layout с реальными примерами папок
+- Формат манифестов с описанием рекурсивных sub-configs
+- Расширенный Typical Workflow (7 шагов)
+
+Обновить SKILL-CLI.md (Node.js + Go) и FALLBACK в aihelp.ts/aihelp.go. Фикс в обоих репо + apm-lite.
+
+### RESULT
+
+Обновлены файлы:
+- `tools2/SKILL-CLI.md` и `tools/SKILL-CLI.md` - полная переработка, ~150 строк вместо ~70
+- `tools2/src/commands/aihelp.ts` - FALLBACK с детальным описанием всех команд, config fields, resolution priority
+- `tools/scripts/cmd/aihelp.go` - аналогичный FALLBACK
+
+apm-lite синхронизирован (SKILL-CLI.md, aihelp.ts, aihelp.js).
+- Промпт обновлён

@@ -1,23 +1,96 @@
-# Skills CLI — Quick Reference for AI Agents
+# Skills CLI - Quick Reference for AI Agents
+
+Skills CLI manages shared AI instruction files ("skills") across teams.
+Each skill is a folder with `SKILL.md` (instructions for the AI agent) and `info.json` (metadata).
+Skills live in a central Git repository and are distributed to project workspaces via sparse checkout.
+
+## Core Concepts
+
+- **Skill**: a folder (`<skill-name>/SKILL.md` + `info.json`) with instructions an AI agent can follow.
+- **Group**: a named collection of skills defined in `.manifest/<group>.json`. Teams assign groups to projects.
+- **Manifest**: JSON files in `.manifest/` that define which skills belong to which groups.
+- **Workspace config** (`skills.json`): project-level file tracking repo URL, active groups, extra/excluded skills.
+- **Sparse checkout**: only the skills your project needs are checked out locally in `instructions/`.
 
 ## Commands
 
 ```
-skills init --repo <url> --groups <g1>[,<g2>...]   Clone repo, resolve skills, sparse checkout
-skills init                                         Re-init from existing skills.json
-skills pull                                         Pull latest from remote
-skills push <skill-name>                            Branch + commit + push for review
-skills list                                         List skills (✅ active, ○ inactive)
-skills list --verbose                               Include description and owner
-skills list --json                                  Output as JSON array
-skills create <name>                                Create new skill (SKILL.md + info.json)
-skills enable group <name>                          Add group to workspace config
-skills disable group <name>                         Remove group from workspace config
-skills enable <skill>                               Add individual skill or re-enable excluded
-skills disable <skill>                              Exclude skill from resolution
-skills ai-help                                      Show this reference
-skills help                                         Show general help
+skills init --repo <url|path> --groups <g1>[,<g2>...]
 ```
+Initialize workspace: clones the skills repo into `instructions/`, reads manifests,
+resolves skills for the given groups, and applies sparse checkout.
+- `--repo` (required): Git URL or local path to the central skills repository.
+- `--groups` (optional): comma-separated group names. Also accepts positional args: `skills init --repo <url> backend security`.
+- If `skills.json` already exists and no flags given, re-runs resolution from existing config.
+
+```
+skills pull
+```
+Pulls latest changes from the remote skills repository (`git pull` inside `instructions/`).
+Requires initialized workspace (`skills.json` must exist).
+
+```
+skills push <skill-name>
+```
+Proposes local changes to a skill via a feature branch:
+1. Creates branch `feature/<skill-name>-update`
+2. Stages changes in `instructions/<skill-name>/`
+3. Commits with a conventional message
+4. Pushes branch to origin
+5. Prints the Pull Request URL (GitHub/GitLab)
+
+```
+skills list [--verbose] [--json]
+```
+Lists all skills in the repository. Active skills (in current groups) marked with checkmark.
+- `--verbose`: shows description and owner from `info.json`.
+- `--json`: outputs as JSON array with `name`, `active`, `description`, `owner` fields.
+
+```
+skills create <skill-name>
+```
+Creates a new skill folder in `instructions/` with template `SKILL.md` and `info.json`.
+Does not add the skill to any group manifest (that's a manual step in the repo).
+
+```
+skills enable group <name>
+```
+Adds a group to the `groups` array in `skills.json`.
+After enabling, run `skills init` to re-resolve and apply sparse checkout.
+
+```
+skills enable <skill-name>
+```
+Adds an individual skill to `extra_skills` in `skills.json`.
+If the skill was previously excluded, removes it from `excluded_skills` instead.
+
+```
+skills disable group <name>
+```
+Removes a group from the `groups` array in `skills.json`.
+After disabling, run `skills init` to re-resolve and apply sparse checkout.
+
+```
+skills disable <skill-name>
+```
+Adds a skill to `excluded_skills` in `skills.json` (removes from `extra_skills` if present).
+Excluded skills are filtered out during resolution even if they appear in group manifests.
+
+```
+skills init-repo <folder-name>
+```
+Scaffolds a new skills repository with example manifests, skills, and folder structure.
+Use this to bootstrap a central skills repo from scratch.
+
+```
+skills ai-help
+```
+Shows this reference (reads SKILL-CLI.md or prints inline fallback).
+
+```
+skills help
+```
+Shows general CLI help with command list and examples.
 
 ## Config: skills.json (project root)
 
@@ -25,50 +98,78 @@ skills help                                         Show general help
 {
   "repo_url": "../skills-repo",
   "groups": ["project-alpha"],
-  "skills": ["resolved-skill-1", "resolved-skill-2"],
+  "skills": ["code-review-base", "security-guidelines", "style-guidelines"],
   "extra_skills": ["my-custom-skill"],
   "excluded_skills": ["unwanted-skill"]
 }
 ```
 
+| Field | Description |
+|-------|-------------|
+| `repo_url` | Path or URL to the central skills repository |
+| `groups` | Active groups for this workspace |
+| `skills` | Resolved skills (computed by `init`, do not edit manually) |
+| `extra_skills` | Individual skills added outside of groups |
+| `excluded_skills` | Skills to exclude even if they appear in groups or global |
+
 ## Skill Resolution Priority
 
-1. `_global.json` skills (for everyone)
-2. Group manifest skills (`<group>.json` + sub-configs)
-3. `extra_skills` (individual additions)
-4. `excluded_skills` (removals applied last)
+1. `_global.json` skills - included for everyone regardless of groups
+2. Group manifest skills - from `<group>.json` + any `sub-configs` referenced recursively
+3. `extra_skills` - individual additions from workspace config
+4. `excluded_skills` - removals applied last, overrides everything above
 
 ## Workspace Layout
 
 ```
 my-project/
-├── skills.json              ← workspace config
-├── instructions/             ← cloned skills repo (sparse checkout)
-│   ├── .manifest/           ← manifest files
-│   ├── skill-name/
-│   │   ├── SKILL.md         ← instructions for AI agent
-│   │   └── info.json        ← metadata (description, owner)
+├── skills.json              <- workspace config (auto-generated by init)
+├── instructions/            <- cloned skills repo (sparse checkout)
+│   ├── .manifest/           <- manifest files defining groups
+│   │   ├── _global.json     <- skills for all groups
+│   │   ├── backend.json     <- backend group definition
+│   │   └── security.json    <- security group definition
+│   ├── code-review-base/
+│   │   ├── SKILL.md         <- instructions for AI agent
+│   │   └── info.json        <- metadata (description, owner)
 │   └── ...
-└── src/                     ← project source code
+└── src/                     <- your project source code
 ```
 
 ## Manifest Files (.manifest/)
 
-| File | Purpose |
-|------|---------|
-| `_global.json` | Skills for all groups: `{"skills": [...]}` |
-| `<group>.json` | Group-specific: `{"skills": [...], "sub-configs": [...]}` |
-| `<sub>.json` | Sub-config referenced by groups: `{"skills": [...]}` |
-| `_agents.json` | IDE bindings (informational) |
+| File | Purpose | Format |
+|------|---------|--------|
+| `_global.json` | Skills for all groups | `{"skills": ["skill-a", "skill-b"]}` |
+| `<group>.json` | Group-specific skills | `{"skills": ["skill-c"], "sub-configs": ["sub-group"]}` |
+| `<sub>.json` | Sub-config referenced by groups | `{"skills": ["skill-d"], "sub-configs": []}` |
+
+Sub-configs are resolved recursively: a group can reference sub-configs, which can reference other sub-configs.
 
 ## Typical Workflow
 
 ```bash
+# 1. Initialize workspace with skills from a central repo
 skills init --repo git@github.com:org/skills.git --groups backend
+
+# 2. See what skills are available
 skills list --verbose
-# edit instructions/code-review/SKILL.md
-skills push code-review
+
+# 3. Edit a skill locally
+# (edit instructions/code-review-base/SKILL.md)
+
+# 4. Propose changes via PR
+skills push code-review-base
+
+# 5. Pull latest updates from the team
 skills pull
-skills enable my-new-skill
+
+# 6. Add another group or individual skill
+skills enable group security
+skills enable my-custom-skill
+skills init   # re-apply resolution
+
+# 7. Remove a skill you don't need
+skills disable unwanted-skill
 skills init   # re-apply
 ```
