@@ -877,7 +877,6 @@ Commits:
 
 - `npm uninstall -g skills-cli` — выполнено, CLI удалён глобально
 - Секция `#### Uninstall` уже присутствовала в обоих `SKILL.md` — изменений не потребовалось
-- Промпт обновлён
 
 ## UPD29
 
@@ -935,7 +934,6 @@ Commits:
 Примеры в help расширены: `skills list --verbose`, `skills create my-skill`, `skills enable group security`, `skills disable obsolete-skill`.
 
 apm-lite синхронизирован.
-- Промпт обновлён
 
 ## UPD31
 
@@ -957,7 +955,6 @@ apm-lite синхронизирован.
 - `tools/scripts/cmd/aihelp.go` - аналогичный FALLBACK
 
 apm-lite синхронизирован (SKILL-CLI.md, aihelp.ts, aihelp.js).
-- Промпт обновлён
 
 ## UPD32
 
@@ -990,4 +987,3 @@ apm-lite синхронизирован (SKILL-CLI.md, aihelp.ts, aihelp.js).
 ```
 
 apm-lite синхронизирован.
-- Промпт обновлён
