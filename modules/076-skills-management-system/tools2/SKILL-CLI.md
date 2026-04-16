@@ -98,9 +98,8 @@ Shows general CLI help with command list and examples.
 {
   "repo_url": "../skills-repo",
   "groups": ["project-alpha"],
-  "skills": ["code-review-base", "security-guidelines", "style-guidelines"],
-  "extra_skills": ["my-custom-skill"],
-  "excluded_skills": ["unwanted-skill"]
+  "extra_skills": [],
+  "excluded_skills": []
 }
 ```
 
@@ -108,9 +107,10 @@ Shows general CLI help with command list and examples.
 |-------|-------------|
 | `repo_url` | Path or URL to the central skills repository |
 | `groups` | Active groups for this workspace |
-| `skills` | Resolved skills (computed by `init`, do not edit manually) |
 | `extra_skills` | Individual skills added outside of groups |
 | `excluded_skills` | Skills to exclude even if they appear in groups or global |
+
+Note: active skills are resolved dynamically from manifests. Use `skills list` to see them.
 
 ## Skill Resolution Priority
 

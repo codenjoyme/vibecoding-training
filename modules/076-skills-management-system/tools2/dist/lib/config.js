@@ -46,7 +46,11 @@ function load() {
     }
     try {
         const data = fs.readFileSync(exports.CONFIG_FILE, 'utf8');
-        return JSON.parse(data);
+        const raw = JSON.parse(data);
+        // Ensure all fields exist (backward compat with older configs)
+        raw.extra_skills = raw.extra_skills ?? [];
+        raw.excluded_skills = raw.excluded_skills ?? [];
+        return raw;
     }
     catch (err) {
         throw new Error(`corrupted config (${exports.CONFIG_FILE}): ${err}`);

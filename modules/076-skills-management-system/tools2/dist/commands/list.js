@@ -36,6 +36,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.runList = runList;
 const config = __importStar(require("../lib/config"));
 const gitops = __importStar(require("../lib/gitops"));
+const manifest = __importStar(require("../lib/manifest"));
+const toggle_1 = require("./toggle");
 function runList(args) {
     if (args.includes('--help') || args.includes('-h')) {
         console.log(`List all available skills in the repository.
@@ -72,7 +74,17 @@ Other skills exist in the repo but are not part of your current groups.
         console.error(`Error: failed to list skills: ${err}`);
         process.exit(1);
     }
-    const activeSet = new Set(cfg.skills);
+    // Resolve active skills dynamically from manifests
+    const groups = (0, toggle_1.resolveEffectiveGroups)(cfg);
+    let resolvedSkills;
+    try {
+        resolvedSkills = manifest.resolveSkills(repoDir, groups);
+    }
+    catch {
+        resolvedSkills = [];
+    }
+    resolvedSkills = (0, toggle_1.applyExtraAndExcluded)(resolvedSkills, cfg);
+    const activeSet = new Set(resolvedSkills);
     // JSON output mode
     if (jsonOut) {
         const items = allSkills.map(s => {

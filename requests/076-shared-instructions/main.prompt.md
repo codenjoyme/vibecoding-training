@@ -958,3 +958,36 @@ apm-lite синхронизирован.
 
 apm-lite синхронизирован (SKILL-CLI.md, aihelp.ts, aihelp.js).
 - Промпт обновлён
+
+## UPD32
+
+Два изменения в skills.json:
+1. Убрать поле `skills` (резолвится динамически из манифестов, хранить — источник неконсистентности). Команда `skills list` показывает active skills через динамический resolve.
+2. Всегда показывать все поля (`extra_skills`, `excluded_skills`) даже если пустые — чтобы юзер видел что можно заполнить.
+
+### RESULT
+
+**Node.js:**
+- `config.ts`: убрано `skills` из `Config` interface; `extra_skills`/`excluded_skills` теперь обязательные (не optional); `load()` гарантирует дефолты для backward compat
+- `init.ts`: config сохраняется без `skills`; всегда с `extra_skills: [], excluded_skills: []`
+- `list.ts`: active skills резолвятся динамически через `manifest.resolveSkills()` + `applyExtraAndExcluded()`
+
+**Go:**
+- `config.go`: убрано `Skills` из struct; `ExtraSkills`/`ExcludedSkills` без `omitempty`; `Load()` гарантирует non-nil slices
+- `init.go`: config без `Skills`; с `ExtraSkills: []string{}, ExcludedSkills: []string{}`
+- `list.go`: active skills через `manifest.ResolveSkills()` + `ApplyExtraAndExcluded()`
+
+**SKILL-CLI.md** и **aihelp FALLBACK**: убрано `skills` из примера config, добавлена заметка "Active skills are resolved dynamically".
+
+Новый формат skills.json:
+```json
+{
+  "repo_url": "../skills-repo",
+  "groups": ["project-alpha"],
+  "extra_skills": [],
+  "excluded_skills": []
+}
+```
+
+apm-lite синхронизирован.
+- Промпт обновлён

@@ -6,9 +6,8 @@ export const REPO_SUB_DIR = 'instructions';
 export interface Config {
   repo_url: string;
   groups: string[];
-  skills: string[];
-  extra_skills?: string[];
-  excluded_skills?: string[];
+  extra_skills: string[];
+  excluded_skills: string[];
 }
 
 export function load(): Config {
@@ -17,7 +16,11 @@ export function load(): Config {
   }
   try {
     const data = fs.readFileSync(CONFIG_FILE, 'utf8');
-    return JSON.parse(data) as Config;
+    const raw = JSON.parse(data) as Config;
+    // Ensure all fields exist (backward compat with older configs)
+    raw.extra_skills = raw.extra_skills ?? [];
+    raw.excluded_skills = raw.excluded_skills ?? [];
+    return raw;
   } catch (err) {
     throw new Error(`corrupted config (${CONFIG_FILE}): ${err}`);
   }

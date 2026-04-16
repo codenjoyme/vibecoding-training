@@ -8,6 +8,7 @@ import (
 
 	"github.com/vibecoding/skills-cli/internal/config"
 	"github.com/vibecoding/skills-cli/internal/gitops"
+	"github.com/vibecoding/skills-cli/internal/manifest"
 )
 
 type skillJSON struct {
@@ -54,9 +55,12 @@ Other skills exist in the repo but are not part of your current groups.
 		os.Exit(1)
 	}
 
-	// Build a fast lookup set for active skills
-	activeSet := make(map[string]bool, len(cfg.Skills))
-	for _, s := range cfg.Skills {
+	// Resolve active skills dynamically from manifests
+	groups := ResolveEffectiveGroups(cfg)
+	resolvedSkills, _ := manifest.ResolveSkills(cfg.RepoPath(), groups)
+	resolvedSkills = ApplyExtraAndExcluded(resolvedSkills, cfg)
+	activeSet := make(map[string]bool, len(resolvedSkills))
+	for _, s := range resolvedSkills {
 		activeSet[s] = true
 	}
 

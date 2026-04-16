@@ -61,17 +61,17 @@ After enable/disable, run "skills init" to re-apply skill resolution.
 {
   "repo_url": "../skills-repo",
   "groups": ["project-alpha"],
-  "skills": ["code-review-base", "security-guidelines"],
-  "extra_skills": ["my-custom-skill"],
-  "excluded_skills": ["unwanted-skill"]
+  "extra_skills": [],
+  "excluded_skills": []
 }
 
 Fields:
   repo_url         - path or URL to central skills repository
   groups           - active groups for this workspace
-  skills           - resolved skills (computed by init, do not edit manually)
   extra_skills     - individual skills added outside of groups
   excluded_skills  - skills to exclude even if in groups or global
+
+Active skills are resolved dynamically from manifests. Use "skills list" to see them.
 
 ## Skill Resolution Priority
 

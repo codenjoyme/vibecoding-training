@@ -105,7 +105,6 @@ export function runInit(args: string[]): void {
     }
     console.log('  ✓ Sparse checkout applied');
 
-    existing.skills = skills;
     config.save(existing);
     console.log('\n✅ Skills workspace re-initialized!');
     console.log(`   Skills:     ${skills.join(', ')}`);
@@ -153,7 +152,7 @@ export function runInit(args: string[]): void {
   }
   console.log('  ✓ Sparse checkout applied');
 
-  const cfg: config.Config = { repo_url: repo, groups, skills };
+  const cfg: config.Config = { repo_url: repo, groups, extra_skills: [], excluded_skills: [] };
   config.save(cfg);
 
   console.log('\n✅ Skills workspace initialized!');

@@ -17,9 +17,8 @@ const (
 type Config struct {
 	RepoURL        string   `json:"repo_url"`
 	Groups         []string `json:"groups"`
-	Skills         []string `json:"skills"`
-	ExtraSkills    []string `json:"extra_skills,omitempty"`
-	ExcludedSkills []string `json:"excluded_skills,omitempty"`
+	ExtraSkills    []string `json:"extra_skills"`
+	ExcludedSkills []string `json:"excluded_skills"`
 }
 
 // RepoPath returns the local filesystem path to the cloned skills repository.
@@ -41,6 +40,13 @@ func Load() (*Config, error) {
 	var cfg Config
 	if err := json.Unmarshal(data, &cfg); err != nil {
 		return nil, fmt.Errorf("corrupted config (%s): %w", ConfigFile, err)
+	}
+	// Ensure all slice fields are non-nil (backward compat with older configs)
+	if cfg.ExtraSkills == nil {
+		cfg.ExtraSkills = []string{}
+	}
+	if cfg.ExcludedSkills == nil {
+		cfg.ExcludedSkills = []string{}
 	}
 	return &cfg, nil
 }

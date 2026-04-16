@@ -1,5 +1,7 @@
 import * as config from '../lib/config';
 import * as gitops from '../lib/gitops';
+import * as manifest from '../lib/manifest';
+import { resolveEffectiveGroups, applyExtraAndExcluded } from './toggle';
 
 export function runList(args: string[]): void {
   if (args.includes('--help') || args.includes('-h')) {
@@ -39,7 +41,16 @@ Other skills exist in the repo but are not part of your current groups.
     process.exit(1);
   }
 
-  const activeSet = new Set<string>(cfg.skills);
+  // Resolve active skills dynamically from manifests
+  const groups = resolveEffectiveGroups(cfg);
+  let resolvedSkills: string[];
+  try {
+    resolvedSkills = manifest.resolveSkills(repoDir, groups);
+  } catch {
+    resolvedSkills = [];
+  }
+  resolvedSkills = applyExtraAndExcluded(resolvedSkills, cfg);
+  const activeSet = new Set<string>(resolvedSkills);
 
   // JSON output mode
   if (jsonOut) {

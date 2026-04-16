@@ -99,7 +99,6 @@ Examples:
 		}
 		fmt.Println("  ✓ Sparse checkout applied")
 
-		existing.Skills = skills
 		if err := config.Save(existing); err != nil {
 			fmt.Fprintf(os.Stderr, "Error: failed to save config: %v\n", err)
 			os.Exit(1)
@@ -149,9 +148,10 @@ Examples:
 	fmt.Println("  ✓ Sparse checkout applied")
 
 	cfg := &config.Config{
-		RepoURL: *repo,
-		Groups:  groups,
-		Skills:  skills,
+		RepoURL:        *repo,
+		Groups:         groups,
+		ExtraSkills:    []string{},
+		ExcludedSkills: []string{},
 	}
 	if err := config.Save(cfg); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: failed to save config: %v\n", err)
