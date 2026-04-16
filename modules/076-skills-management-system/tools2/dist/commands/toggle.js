@@ -112,17 +112,21 @@ function disableGroup(name, force) {
         console.error(`Group "${name}" is not currently enabled`);
         process.exit(1);
     }
-    // Check for uncommitted changes in skills that will be removed
-    if (!force) {
-        const before = resolveAllSkills(cfgWithGroups(cfg, [...cfg.groups, name]));
-        const after = resolveAllSkills(cfg);
-        const removing = before.filter(s => !after.includes(s));
-        const dirty = removing.filter(s => gitops.hasUncommittedChanges(config.REPO_SUB_DIR, s));
-        if (dirty.length > 0) {
-            // Restore groups since we haven't saved yet
+    // Determine which skills will be removed
+    const before = resolveAllSkills(cfgWithGroups(cfg, [...cfg.groups, name]));
+    const after = resolveAllSkills(cfg);
+    const removing = before.filter(s => !after.includes(s));
+    const dirty = removing.filter(s => gitops.hasUncommittedChanges(config.REPO_SUB_DIR, s));
+    if (dirty.length > 0) {
+        if (!force) {
             console.error(`Error: cannot disable group "${name}" - uncommitted changes in: ${dirty.join(', ')}`);
             console.error('Commit or discard your changes first, or use --force to override.');
             process.exit(1);
+        }
+        // Stash dirty skills before sparse checkout
+        for (const s of dirty) {
+            gitops.stashSkillChanges(config.REPO_SUB_DIR, s);
+            console.log(`  ⚠ Stashed uncommitted changes for "${s}" (use \`git stash list\` to review)`);
         }
     }
     config.save(cfg);
@@ -166,10 +170,15 @@ function disableSkill(name, force) {
         process.exit(1);
     }
     // Check for uncommitted changes before disabling
-    if (!force && gitops.hasUncommittedChanges(config.REPO_SUB_DIR, name)) {
-        console.error(`Error: cannot disable skill "${name}" - uncommitted local changes detected`);
-        console.error('Commit or discard your changes first, or use --force to override.');
-        process.exit(1);
+    if (gitops.hasUncommittedChanges(config.REPO_SUB_DIR, name)) {
+        if (!force) {
+            console.error(`Error: cannot disable skill "${name}" - uncommitted local changes detected`);
+            console.error('Commit or discard your changes first, or use --force to override.');
+            process.exit(1);
+        }
+        // Stash dirty skill before sparse checkout
+        gitops.stashSkillChanges(config.REPO_SUB_DIR, name);
+        console.log(`  ⚠ Stashed uncommitted changes for "${name}" (use \`git stash list\` to review)`);
     }
     // Remove from extra_skills if present
     cfg.extra_skills = (cfg.extra_skills ?? []).filter(s => s !== name);
@@ -207,7 +216,8 @@ Flags:
   --force   Force disable even if there are uncommitted local changes
 
 If the skill has uncommitted local changes, the command will refuse
-to disable it. Use --force to override this check.
+to disable it. Use --force to override - changes will be stashed
+automatically (use \`git stash list\` inside instructions/ to review).
 
 Sparse checkout is re-applied automatically after disabling.
 

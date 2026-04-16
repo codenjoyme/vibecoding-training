@@ -99,27 +99,35 @@ func disableGroup(name string, force bool) {
 		os.Exit(1)
 	}
 
-	// Check for uncommitted changes in skills that will be removed
-	if !force {
-		// Build config with group restored to compute "before" skill set
-		cfgBefore := *cfg
-		cfgBefore.Groups = append(append([]string{}, cfg.Groups...), name)
-		before := resolveAllSkills(&cfgBefore)
-		after := resolveAllSkills(cfg)
-		afterSet := make(map[string]bool)
-		for _, s := range after {
-			afterSet[s] = true
+	// Determine which skills will be removed
+	cfgBefore := *cfg
+	cfgBefore.Groups = append(append([]string{}, cfg.Groups...), name)
+	before := resolveAllSkills(&cfgBefore)
+	after := resolveAllSkills(cfg)
+	afterSet := make(map[string]bool)
+	for _, s := range after {
+		afterSet[s] = true
+	}
+	var dirty []string
+	for _, s := range before {
+		if !afterSet[s] && gitops.HasUncommittedChanges(config.RepoSubDir, s) {
+			dirty = append(dirty, s)
 		}
-		var dirty []string
-		for _, s := range before {
-			if !afterSet[s] && gitops.HasUncommittedChanges(config.RepoSubDir, s) {
-				dirty = append(dirty, s)
-			}
-		}
-		if len(dirty) > 0 {
+	}
+
+	if len(dirty) > 0 {
+		if !force {
 			fmt.Fprintf(os.Stderr, "Error: cannot disable group %q - uncommitted changes in: %s\n", name, strings.Join(dirty, ", "))
 			fmt.Fprintln(os.Stderr, "Commit or discard your changes first, or use --force to override.")
 			os.Exit(1)
+		}
+		// Stash dirty skills before sparse checkout
+		for _, s := range dirty {
+			if err := gitops.StashSkillChanges(config.RepoSubDir, s); err != nil {
+				fmt.Fprintf(os.Stderr, "Warning: failed to stash %q: %v\n", s, err)
+			} else {
+				fmt.Printf("  ⚠ Stashed uncommitted changes for %q (use `git stash list` to review)\n", s)
+			}
 		}
 	}
 
@@ -176,10 +184,18 @@ func disableSkill(name string, force bool) {
 	}
 
 	// Check for uncommitted changes before disabling
-	if !force && gitops.HasUncommittedChanges(config.RepoSubDir, name) {
-		fmt.Fprintf(os.Stderr, "Error: cannot disable skill %q - uncommitted local changes detected\n", name)
-		fmt.Fprintln(os.Stderr, "Commit or discard your changes first, or use --force to override.")
-		os.Exit(1)
+	if gitops.HasUncommittedChanges(config.RepoSubDir, name) {
+		if !force {
+			fmt.Fprintf(os.Stderr, "Error: cannot disable skill %q - uncommitted local changes detected\n", name)
+			fmt.Fprintln(os.Stderr, "Commit or discard your changes first, or use --force to override.")
+			os.Exit(1)
+		}
+		// Stash dirty skill before sparse checkout
+		if err := gitops.StashSkillChanges(config.RepoSubDir, name); err != nil {
+			fmt.Fprintf(os.Stderr, "Warning: failed to stash %q: %v\n", name, err)
+		} else {
+			fmt.Printf("  ⚠ Stashed uncommitted changes for %q (use `git stash list` to review)\n", name)
+		}
 	}
 
 	// Remove from extra_skills if present
@@ -243,7 +259,8 @@ Flags:
   --force   Force disable even if there are uncommitted local changes
 
 If the skill has uncommitted local changes, the command will refuse
-to disable it. Use --force to override this check.
+to disable it. Use --force to override - changes will be stashed
+automatically (use ` + "`git stash list`" + ` inside instructions/ to review).
 
 Sparse checkout is re-applied automatically after disabling.
 

@@ -98,3 +98,7 @@ export function hasUncommittedChanges(repoDir: string, skillName: string): boole
     return false;
   }
 }
+
+export function stashSkillChanges(repoDir: string, skillName: string): void {
+  run(repoDir, 'stash', 'push', '-m', `skills-cli: auto-stash for ${skillName}`, '--', skillName + '/');
+}

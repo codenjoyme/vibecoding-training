@@ -45,6 +45,7 @@ exports.push = push;
 exports.getRemoteURL = getRemoteURL;
 exports.loadSkillInfo = loadSkillInfo;
 exports.hasUncommittedChanges = hasUncommittedChanges;
+exports.stashSkillChanges = stashSkillChanges;
 const child_process_1 = require("child_process");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
@@ -136,4 +137,7 @@ function hasUncommittedChanges(repoDir, skillName) {
     catch {
         return false;
     }
+}
+function stashSkillChanges(repoDir, skillName) {
+    run(repoDir, 'stash', 'push', '-m', `skills-cli: auto-stash for ${skillName}`, '--', skillName + '/');
 }

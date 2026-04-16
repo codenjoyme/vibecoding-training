@@ -1022,3 +1022,26 @@ apm-lite синхронизирован.
 - `help.ts` / `root.go`: `--force` в описании disable, пример в Examples
 
 apm-lite синхронизирован.
+
+## UPD34
+
+Баг: при `--force` disable на скиле с uncommitted changes, sparse checkout не удаляет измененные файлы (git отказывается).
+Решение: перед sparse checkout делаем `git stash push` для каждого грязного скила.
+
+### RESULT
+
+**Node.js:**
+- `gitops.ts`: добавлена `stashSkillChanges(repoDir, skillName)` — `git stash push -m "skills-cli: auto-stash for <skill>" -- <skill>/`
+- `toggle.ts`: `disableSkill()` и `disableGroup()` — при `--force` сначала стешат грязные скилы, потом применяют sparse checkout
+  - Выводят: `⚠ Stashed uncommitted changes for "<skill>" (use \`git stash list\` to review)`
+
+**Go:**
+- `git.go`: добавлена `StashSkillChanges(repoDir, skillName)` — аналог
+- `toggle.go`: аналогичные изменения в `disableSkill()` и `disableGroup()`
+
+**Документация:**
+- `SKILL-CLI.md` (оба): --force описание обновлено — "changes are stashed automatically"
+- `aihelp` FALLBACK (оба): обновлено "(changes are stashed)"
+- `printDisableHelp()` (оба): обновлено — "changes will be stashed automatically"
+
+apm-lite синхронизирован.

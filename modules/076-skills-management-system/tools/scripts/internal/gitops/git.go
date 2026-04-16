@@ -166,3 +166,9 @@ func HasUncommittedChanges(repoDir, skillName string) bool {
 	}
 	return len(strings.TrimSpace(out)) > 0
 }
+
+// StashSkillChanges stashes uncommitted changes for a specific skill directory.
+func StashSkillChanges(repoDir, skillName string) error {
+	_, err := run(repoDir, "stash", "push", "-m", "skills-cli: auto-stash for "+skillName, "--", skillName+"/")
+	return err
+}

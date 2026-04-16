@@ -55,7 +55,7 @@ skills ai-help                 Show this reference.
 skills help                    Show general help.
 
 Enable/disable re-apply sparse checkout automatically.
-Disable refuses if uncommitted changes exist; use --force to override.
+Disable refuses if uncommitted changes exist; use --force to override (changes are stashed).
 
 ## Config: skills.json
 

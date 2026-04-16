@@ -70,7 +70,7 @@ skills disable [--force] group <name>
 ```
 Removes a group from the `groups` array in `skills.json`.
 If any skills being removed have uncommitted local changes, the command refuses.
-Use `--force` to override the uncommitted changes check.
+Use `--force` to override — changes are stashed automatically (`git stash list` to review).
 Sparse checkout is re-applied automatically — skill folders are removed immediately.
 
 ```
@@ -79,7 +79,8 @@ skills disable [--force] <skill-name>
 Adds a skill to `excluded_skills` in `skills.json` (removes from `extra_skills` if present).
 Excluded skills are filtered out during resolution even if they appear in group manifests.
 If the skill has uncommitted local changes, the command refuses.
-Use `--force` to override. Sparse checkout is re-applied automatically.
+Use `--force` to override — changes are stashed automatically.
+Sparse checkout is re-applied automatically.
 
 ```
 skills init-repo <folder-name>
