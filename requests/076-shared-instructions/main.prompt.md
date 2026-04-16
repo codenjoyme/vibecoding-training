@@ -987,3 +987,38 @@ apm-lite синхронизирован (SKILL-CLI.md, aihelp.ts, aihelp.js).
 ```
 
 apm-lite синхронизирован.
+
+## UPD33
+
+Два изменения в `enable`/`disable`:
+1. После enable/disable автоматически re-apply sparse checkout (папки скилов сразу появляются/исчезают, не нужен ручной `skills init`).
+2. При disable — проверка uncommitted changes. Если в папке скила есть незакоммиченные изменения, команда отказывается. Флаг `--force` для принудительного отключения.
+
+### RESULT
+
+**Node.js:**
+- `gitops.ts`: добавлена `hasUncommittedChanges(repoDir, skillName)` — `git status --porcelain <skill>/`
+- `toggle.ts`: полная переработка:
+  - `runDisable()` парсит `--force` из аргументов
+  - `enableGroup()`/`enableSkill()` вызывают `reapplySparseCheckout()` автоматически
+  - `disableGroup(name, force)` вычисляет какие скилы будут удалены (before vs after), проверяет uncommitted changes в каждом
+  - `disableSkill(name, force)` проверяет `hasUncommittedChanges()` перед отключением
+  - Новые хелперы: `resolveAllSkills()`, `cfgWithGroups()`, `reapplySparseCheckout()`
+  - Help обновлен: "Sparse checkout is re-applied automatically", `--force` задокументирован
+
+**Go:**
+- `git.go`: добавлена `HasUncommittedChanges(repoDir, skillName)` — аналог Node.js
+- `toggle.go`: полная переработка:
+  - `RunDisable()` парсит `--force`
+  - Все enable/disable вызывают `reapplySparseCheckout()`
+  - `disableGroup(name, force)` проверяет uncommitted changes в удаляемых скилах
+  - `disableSkill(name, force)` проверяет `HasUncommittedChanges()`
+  - Новые хелперы: `resolveAllSkills()`, `reapplySparseCheckout()`
+  - Help обновлен аналогично Node.js
+
+**Документация:**
+- `SKILL-CLI.md` (оба): `--force` в disable, auto sparse checkout, обновленный workflow
+- `aihelp` FALLBACK (оба): `--force` в disable, auto sparse checkout
+- `help.ts` / `root.go`: `--force` в описании disable, пример в Examples
+
+apm-lite синхронизирован.
