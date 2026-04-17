@@ -1045,3 +1045,113 @@ apm-lite синхронизирован.
 - `printDisableHelp()` (оба): обновлено — "changes will be stashed automatically"
 
 apm-lite синхронизирован.
+
+## UPD35
+
+В папке `C:\Users\Oleksandr_Baglai\AppData\Roaming\Code - Insiders\User\workspaceStorage\46c755f9bf5456a6b7d05b5a208b9cb1\chatSessions` есть:
+- `089d775f-db9b-4301-a23e-31768523870e.jsonl`
+- `e5388a9f-2fdb-4e3c-b251-2a2b594168db.jsonl`
+- `044c8c8a-fb98-458c-a0e1-2d3beda34d86.jsonl`
+- `ec093f7d-b14c-44da-bcab-186b3786e8fb.jsonl`
+- `9411d3d5-522a-4ce9-907c-09284870a5f9.jsonl`
+В них я в отдельном репозитории `apm-lite` делал фиксы. Но я нбе пользовался iterative prompt. Потому пожалуйста изучи эти файлы подробно на предмет того что я там просил и составь тут хронологический список всех моих запросов. Так же сопоставь их с коммитами, которые я делал в гите по этому репозиторию. Мне надо чтобы ты перенес коммит за коммитом их всех сюда начиная с `8dadab3efca72005cecd25582793aa08c9222030` и до самого `master`. Неудачные коммиты между `1721fd8619040b55a05bf4e3eafb1b8f6cd19193` и `edfe898fc82407c2bca483a6f7d8749744ceadb5` включительно игнорируй. А и да, в Go версии мне надо точно такое же поведение! Это важно. 
+
+### Chronological Session Log (from chat session files)
+
+**Session 1: `089d775f`** — loadSkillInfo git fallback (16:11-16:16)
+
+| Time | Request | Commit |
+|------|---------|--------|
+| 16:11 | `skills list --json` shows inactive skills without description/owner. Want info loaded from git when not checked out | → `4440013` |
+
+**Session 2: `044c8c8a`** — sparse-checkout fix, CLI enhancements, dist/ saga (17:39-19:12)
+
+| Time | Request | Commit |
+|------|---------|--------|
+| 17:39 | `skills push my-super` fails — sparse-checkout blocks `git add` for new skill | → `518b684` |
+| 18:04 | Config not updating on `skills create`? | → `a20272f` |
+| 18:09 | Remove creating-instructions / iterative-prompting from init-repo, keep only skills-cli | → `6db93a6` |
+| 18:20 | SKILL-CLI.md expansion: creation instructions, IDE integration, architecture | → `4d73b98` |
+| 18:30 | `skills create` fails when branch already exists | → `3ce7c47` |
+| 18:40-19:06 | Remove dist/, fix prepare script — 12 failed experiments | → `1721fd8`..`edfe898` (**SKIPPED**) |
+| 19:09-19:12 | Revert failed experiments, commit dist/ directly, remove prepare | → `a54b6d0` |
+
+**Session 3: `e5388a9f`** — Copilot billing questions (18:48-18:51) — **No commits**
+
+**Session 4: `ec093f7d`** — Smoke test framework + CLI polish (19:16-21:22)
+
+| Time | Request | Commit |
+|------|---------|--------|
+| 19:16 | Create test/ folder: Dockerfile, commands.md, bash runner for smoke testing | → `ac2d212` |
+| 19:25 | Rename paths in smoke test runner | → `194f5f6` |
+| 19:30 | Translate README to English | → `51e239c` |
+| 19:38 | Refactor test runner: just log output, human validates via git diff | → `940feb7` |
+| 19:49 | Fix stash command: include untracked files (`-u` flag) | → `d97d067` |
+| 19:52 | Update command timings and skill creation instructions | → `4694659` |
+| 20:05 | Add shortcuts for building/running/committing to README | → `1f7ec5e` |
+| 20:05 | Remove outdated Russian demo instructions | → `567b8a6` |
+| 20:17 | Escape triple backticks in test output | → `8539e7a` |
+| 21:00 | Fix command output handling in smoke test runner | → `7e00fb5` |
+| 21:14 | When pushing skill, warn that it disappeared (switched to main branch) | → `bceaffe` |
+| 21:21 | Replace ai-help fallback with error; add rebuild note to SKILL.md | → `6341869` |
+
+**Session 5: `9411d3d5`** — Finding session files in VSCode (meta) — **No commits**
+
+**Summary:** ~77 user requests → 31 commits across ~5.5 hours. 12 commits skipped (failed dist/ experiments).
+
+### Good commits (19 total, chronological):
+
+**Batch 1 — Feature changes (4440013..3ce7c47):**
+1. `4440013` feat: loadSkillInfo — try local filesystem first, fall back to git object db
+2. `518b684` feat: stageAndCommit — add skill to sparse checkout before git add
+3. `a20272f` feat: skills create — add to sparse-checkout + register in extra_skills
+4. `6db93a6` feat: init-repo — remove creating-instructions/iterative-prompting, keep only skills-cli
+5. `4d73b98` feat: SKILL-CLI.md massively expanded (architecture, creating skills, IDE integration, bootstrap)
+6. `3ce7c47` feat: createBranch — handle existing branches by deleting and recreating
+
+**Batch 2 — Post-revert fixes (a54b6d0..6341869):**
+7. `a54b6d0` fix: remove prepare script, dist committed directly
+8. `ac2d212` feat: smoke test framework (Docker + bash runner)
+9. `194f5f6` fix: path renames in smoke test runner
+10. `51e239c` fix: translate README to English
+11. `940feb7` refactor: smoke test commands/runner
+12. `d97d067` fix: stash -u flag for untracked files
+13. `4694659` fix: command timings + skill creation instructions
+14. `1f7ec5e` docs: README shortcuts
+15. `567b8a6` fix: remove demo-ru.md
+16. `8539e7a` fix: escape backticks in test output
+17. `7e00fb5` fix: command output handling in smoke test runner
+18. `bceaffe` feat: push note about switching back to main branch
+19. `6341869` fix: ai-help error instead of fallback + rebuild note in SKILL.md
+
+### RESULT
+
+**Ported 19 good commits from `apm-lite` (8dadab3..master, excluding 1721fd8..edfe898).**
+
+**Node.js (tools2) — files synced from apm-lite:**
+- `src/commands/aihelp.ts` — FALLBACK replaced with error + GitHub link
+- `src/commands/create.ts` — sparse-checkout add + extra_skills registration
+- `src/commands/initrepo.ts` — removed creating-instructions/iterative-prompting; loadSkillCliMd() reads SKILL-CLI.md from disk
+- `src/commands/push.ts` — note about switching back to main branch after push
+- `src/lib/gitops.ts` — loadSkillInfo git fallback, createBranch retry, addToSparseCheckout, stageAndCommit sparse add, stash `-u` flag
+- `SKILL-CLI.md` — massively expanded (architecture, creating skills, bootstrap, IDE integration sections)
+- `SKILL.md` — rebuild note added
+- `package.json` — SKILL-CLI.md added to `files[]`
+- `.gitignore` — added `package-lock.json`
+- `npm run build` — OK, 0 errors
+
+**Go (tools/scripts) — same behavior ported:**
+- `internal/gitops/git.go` — LoadSkillInfo git fallback, CreateBranch retry, AddToSparseCheckout, StageAndCommit sparse add, StashSkillChanges `-u` flag
+- `cmd/create.go` — added gitops import, sparse-checkout + extra_skills registration
+- `cmd/initrepo.go` — removed creating-instructions/iterative-prompting constants, loadSkillCliMd() reads from disk, updated _global.json
+- `cmd/push.go` — note about switching back to main branch
+- `cmd/aihelp.go` — replaced fallback with error + GitHub link
+- `tools/SKILL-CLI.md` — identical to apm-lite version
+- `go build` — OK, `skills.exe` rebuilt
+
+**All 3 SKILL-CLI.md files (apm-lite, tools2, tools) are byte-identical.**
+
+**Test/doc files (apm-lite only, not ported to vibecoding):**
+- `test/` folder (Dockerfile, commands.md, run-tests.sh, README.md)
+- `demo-ru.md` deletion
+- README.md updates

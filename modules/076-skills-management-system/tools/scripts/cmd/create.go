@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 
 	"github.com/vibecoding/skills-cli/internal/config"
+	"github.com/vibecoding/skills-cli/internal/gitops"
 )
 
 const skillTemplate = `# Skill: %s
@@ -88,6 +89,25 @@ Creates:
 	if err := os.WriteFile(infoPath, []byte(infoTemplate), 0644); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: failed to write info.json: %v\n", err)
 		os.Exit(1)
+	}
+
+	// Add to sparse-checkout so git can track the new skill
+	_ = gitops.AddToSparseCheckout(config.RepoSubDir, skillName)
+
+	// Register in extra_skills so pull doesn't lose it
+	cfg, loadErr := config.Load()
+	if loadErr == nil {
+		found := false
+		for _, s := range cfg.ExtraSkills {
+			if s == skillName {
+				found = true
+				break
+			}
+		}
+		if !found {
+			cfg.ExtraSkills = append(cfg.ExtraSkills, skillName)
+			config.Save(cfg)
+		}
 	}
 
 	fmt.Printf("✅ Skill %q created at %s\n", skillName, skillDir)

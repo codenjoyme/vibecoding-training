@@ -100,13 +100,21 @@ func ListAllSkills(repoDir string) ([]string, error) {
 }
 
 // CreateBranch creates and switches to a new branch in repoDir.
+// If the branch already exists, it is deleted and recreated.
 func CreateBranch(repoDir, branchName string) error {
 	_, err := run(repoDir, "checkout", "-b", branchName)
+	if err != nil {
+		// Branch already exists — delete it and recreate
+		_, _ = run(repoDir, "branch", "-D", branchName)
+		_, err = run(repoDir, "checkout", "-b", branchName)
+	}
 	return err
 }
 
 // StageAndCommit stages all changes in skillDir/ and commits them with a conventional message.
 func StageAndCommit(repoDir, skillName string) error {
+	// Ensure skill is in sparse checkout so git can stage it
+	_ = AddToSparseCheckout(repoDir, skillName)
 	// Use forward slashes for git add argument (works on all platforms)
 	skillPath := strings.ReplaceAll(skillName, "\\", "/") + "/"
 	if _, err := run(repoDir, "add", skillPath); err != nil {
@@ -114,6 +122,21 @@ func StageAndCommit(repoDir, skillName string) error {
 	}
 	commitMsg := fmt.Sprintf("feat(%s): update skill instructions", skillName)
 	_, err := run(repoDir, "commit", "-m", commitMsg)
+	return err
+}
+
+// AddToSparseCheckout adds a skill to the sparse checkout if not already present.
+func AddToSparseCheckout(repoDir, skillName string) error {
+	out, err := run(repoDir, "sparse-checkout", "list")
+	if err != nil {
+		return err
+	}
+	for _, line := range strings.Split(out, "\n") {
+		if strings.TrimSpace(line) == skillName {
+			return nil // already present
+		}
+	}
+	_, err = run(repoDir, "sparse-checkout", "add", skillName)
 	return err
 }
 
@@ -144,15 +167,25 @@ type SkillInfo struct {
 	Owner       string `json:"owner"`
 }
 
-// LoadSkillInfo reads info.json from a skill directory. Returns nil if not found.
+// LoadSkillInfo reads info.json from a skill directory.
+// Tries local filesystem first (works for active/checked-out skills),
+// then falls back to reading from git object database (works for non-checked-out skills).
 func LoadSkillInfo(repoDir, skillName string) *SkillInfo {
+	// Try local filesystem first
 	infoPath := filepath.Join(repoDir, skillName, "info.json")
-	data, err := os.ReadFile(infoPath)
+	if data, err := os.ReadFile(infoPath); err == nil {
+		var info SkillInfo
+		if err := json.Unmarshal(data, &info); err == nil {
+			return &info
+		}
+	}
+	// Fall back to reading from git object database
+	out, err := run(repoDir, "show", "HEAD:"+skillName+"/info.json")
 	if err != nil {
 		return nil
 	}
 	var info SkillInfo
-	if err := json.Unmarshal(data, &info); err != nil {
+	if err := json.Unmarshal([]byte(out), &info); err != nil {
 		return nil
 	}
 	return &info
@@ -167,8 +200,8 @@ func HasUncommittedChanges(repoDir, skillName string) bool {
 	return len(strings.TrimSpace(out)) > 0
 }
 
-// StashSkillChanges stashes uncommitted changes for a specific skill directory.
+// StashSkillChanges stashes uncommitted changes (including untracked files) for a specific skill directory.
 func StashSkillChanges(repoDir, skillName string) error {
-	_, err := run(repoDir, "stash", "push", "-m", "skills-cli: auto-stash for "+skillName, "--", skillName+"/")
+	_, err := run(repoDir, "stash", "push", "-u", "-m", "skills-cli: auto-stash for "+skillName, "--", skillName+"/")
 	return err
 }

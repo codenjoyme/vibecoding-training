@@ -161,6 +161,12 @@ npm uninstall -g skills-cli
 
 The repository includes pre-built `dist/` files, so no compilation step is needed during install. `npm install -g` links `dist/index.js` as the `skills` binary globally. No manual PATH changes required.
 
+> **After making changes to source code (`src/`)**, always rebuild before testing or committing:
+> ```bash
+> npm run build
+> ```
+> This compiles TypeScript into `dist/`. The `dist/` folder is committed to the repo so that `npm install -g` works without a build step for end users.
+
 > **Note (Windows):** The `--install-links` flag is always required. Without it, npm creates a junction (symlink) to the source directory instead of copying files. If you later delete or move the source, you get `MODULE_NOT_FOUND` errors.
 
 ---

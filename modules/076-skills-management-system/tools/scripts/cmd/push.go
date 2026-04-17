@@ -85,6 +85,8 @@ The command will:
 			fmt.Println("   (local repository — request a review from the skill owner)")
 		}
 	}
+	fmt.Printf("\n⚠  Note: switched back to the main branch — skill %q may not be visible locally.\n", skillName)
+	fmt.Println("   After the PR is merged, run `skills pull` to get it back.")
 }
 
 // buildPRURL converts a git remote URL into a PR creation URL for supported hosts.

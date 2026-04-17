@@ -41,6 +41,7 @@ exports.pull = pull;
 exports.listAllSkills = listAllSkills;
 exports.createBranch = createBranch;
 exports.stageAndCommit = stageAndCommit;
+exports.addToSparseCheckout = addToSparseCheckout;
 exports.push = push;
 exports.getRemoteURL = getRemoteURL;
 exports.loadSkillInfo = loadSkillInfo;
@@ -99,12 +100,29 @@ function listAllSkills(repoDir) {
         .sort();
 }
 function createBranch(repoDir, branchName) {
-    run(repoDir, 'checkout', '-b', branchName);
+    try {
+        run(repoDir, 'checkout', '-b', branchName);
+    }
+    catch {
+        // Branch already exists — delete it and recreate
+        run(repoDir, 'branch', '-D', branchName);
+        run(repoDir, 'checkout', '-b', branchName);
+    }
 }
 function stageAndCommit(repoDir, skillName) {
     const skillPath = skillName.replace(/\\/g, '/') + '/';
+    addToSparseCheckout(repoDir, skillName);
     run(repoDir, 'add', skillPath);
     run(repoDir, 'commit', '-m', `feat(${skillName}): update skill instructions`);
+}
+function addToSparseCheckout(repoDir, skillName) {
+    const current = run(repoDir, 'sparse-checkout', 'list')
+        .split('\n')
+        .map(l => l.trim())
+        .filter(l => l.length > 0);
+    if (!current.includes(skillName)) {
+        run(repoDir, 'sparse-checkout', 'add', skillName);
+    }
 }
 function push(repoDir, branchName) {
     run(repoDir, 'push', 'origin', branchName);
@@ -118,11 +136,20 @@ function getRemoteURL(repoDir) {
     return run(repoDir, 'remote', 'get-url', 'origin');
 }
 function loadSkillInfo(repoDir, skillName) {
+    // Try local filesystem first (works for active/checked-out skills)
     const infoPath = path.join(repoDir, skillName, 'info.json');
-    if (!fs.existsSync(infoPath))
-        return null;
+    if (fs.existsSync(infoPath)) {
+        try {
+            const data = fs.readFileSync(infoPath, 'utf8');
+            return JSON.parse(data);
+        }
+        catch {
+            // fall through to git
+        }
+    }
+    // Fall back to reading from git object database (works for non-checked-out skills)
     try {
-        const data = fs.readFileSync(infoPath, 'utf8');
+        const data = run(repoDir, 'show', `HEAD:${skillName}/info.json`);
         return JSON.parse(data);
     }
     catch {
@@ -139,5 +166,5 @@ function hasUncommittedChanges(repoDir, skillName) {
     }
 }
 function stashSkillChanges(repoDir, skillName) {
-    run(repoDir, 'stash', 'push', '-m', `skills-cli: auto-stash for ${skillName}`, '--', skillName + '/');
+    run(repoDir, 'stash', 'push', '-u', '-m', `skills-cli: auto-stash for ${skillName}`, '--', skillName + '/');
 }

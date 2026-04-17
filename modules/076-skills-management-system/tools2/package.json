@@ -20,7 +20,8 @@
     "ts-node": "^10.9.0"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "SKILL-CLI.md"
   ],
   "license": "MIT"
 }

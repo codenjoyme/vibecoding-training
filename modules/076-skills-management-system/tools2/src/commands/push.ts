@@ -89,4 +89,6 @@ The command will:
   } else {
     console.log('   (local repository — request a review from the skill owner)');
   }
+  console.log(`\n⚠  Note: switched back to the main branch — skill "${skillName}" may not be visible locally.`);
+  console.log('   After the PR is merged, run \`skills pull\` to get it back.');
 }

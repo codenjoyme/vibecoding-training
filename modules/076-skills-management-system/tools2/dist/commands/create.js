@@ -37,6 +37,7 @@ exports.runCreate = runCreate;
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const config = __importStar(require("../lib/config"));
+const gitops = __importStar(require("../lib/gitops"));
 const SKILL_TEMPLATE = `# Skill: %NAME%
 
 ## Purpose
@@ -95,6 +96,17 @@ Creates:
     // Write info.json
     const infoPath = path.join(skillDir, 'info.json');
     fs.writeFileSync(infoPath, INFO_TEMPLATE, 'utf8');
+    // Add to sparse-checkout so git can track the new skill
+    try {
+        gitops.addToSparseCheckout(config.REPO_SUB_DIR, skillName);
+    }
+    catch { /* ignore — may not be a sparse repo */ }
+    // Register in extra_skills so pull doesn't lose it
+    const cfg = config.load();
+    if (!cfg.extra_skills.includes(skillName)) {
+        cfg.extra_skills.push(skillName);
+        config.save(cfg);
+    }
     console.log(`✅ Skill "${skillName}" created at ${skillDir}`);
     console.log(`   → ${skillPath}`);
     console.log(`   → ${infoPath}`);

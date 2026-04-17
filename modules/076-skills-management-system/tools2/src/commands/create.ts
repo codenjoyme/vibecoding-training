@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as config from '../lib/config';
+import * as gitops from '../lib/gitops';
 
 const SKILL_TEMPLATE = `# Skill: %NAME%
 
@@ -69,6 +70,18 @@ Creates:
   // Write info.json
   const infoPath = path.join(skillDir, 'info.json');
   fs.writeFileSync(infoPath, INFO_TEMPLATE, 'utf8');
+
+  // Add to sparse-checkout so git can track the new skill
+  try {
+    gitops.addToSparseCheckout(config.REPO_SUB_DIR, skillName);
+  } catch { /* ignore — may not be a sparse repo */ }
+
+  // Register in extra_skills so pull doesn't lose it
+  const cfg = config.load();
+  if (!cfg.extra_skills.includes(skillName)) {
+    cfg.extra_skills.push(skillName);
+    config.save(cfg);
+  }
 
   console.log(`✅ Skill "${skillName}" created at ${skillDir}`);
   console.log(`   → ${skillPath}`);
