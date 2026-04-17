@@ -297,6 +297,224 @@ Important warning: through MCP, **your data goes to** the server of whoever crea
 
 ---
 
+## Part 10: Version Control — Git as a Safety Net for AI
+
+### Why Git Is Critical When Working With AI
+
+An AI assistant is a wonderful code generator, but it has an unpleasant habit: it "improves" working code and breaks it. You asked for validation — and it also rewrote the sorting. Without Git, you lose 15–30 minutes of work. With Git — you roll back in a second.
+
+### The Baby Steps Methodology
+
+The idea is simple: take small steps and checkpoint each one.
+
+1. Made one change — ran it, verified, works
+2. `git add .` — saved checkpoint
+3. Next change — verified — checkpointed
+4. AI broke something? `git checkout .` — back to last checkpoint
+
+One commit = one thought you can explain in one sentence. If you need two sentences — that's two commits.
+
+### The Time Paradox
+
+Three features via baby steps: 3 × 15 minutes = 45 minutes.
+Three features simultaneously: 2–3 hours.
+
+Why? Because the brain holds 7±2 items in working memory. When you're "juggling" three features, each new thought pushes out the previous one. You spend time not on code, but on context-switching between tasks.
+
+Baby steps solve this: each 15-minute session is one task. All complexity fits in one commit.
+
+> **Practical takeaway:** Git isn't a tool for developers. It's a tool for everyone working with AI. If AI can break your result — you need Git.
+
+---
+
+## Part 11: Team-Level Skills Management
+
+### The Instruction Scaling Problem
+
+You created 10 instructions. Then 30. Then 50. They're scattered across different projects in different formats. A colleague asks: "Where's the code review instruction?" — and you can't find it.
+
+Even worse: you fixed a bug in an instruction in one project, but three others still have the old version. Result: three teams working by different rules.
+
+### The Central Skills Repository
+
+The solution — a Git repository where all instructions are stored centrally:
+
+- **`.manifest/`** — like a restaurant menu. Global skills are "water" — available to everyone. Team skills are in sections. Team Alpha gets `style-guidelines`, Team Beta gets `test-writing`.
+- **Sparse checkout** — each project pulls only its skills. Team Beta doesn't see Team Alpha's files — they don't clutter the workspace.
+- **`skills` CLI** — a management utility: `skills init --groups project-alpha` pulls the right skills, `skills pull` updates, `skills push` sends changes for review.
+
+### Governance: One Fixes, Everyone Gets
+
+The workflow mirrors code: branch → PR → review → merge. One person updates a skill, opens a PR, the owner reviews and merges — and on the next `skills pull`, all teams get the update.
+
+> **Practical takeaway:** If more than 5 people use AI instructions in your organization — you need a centralized skills repository. Otherwise, you get 50 different versions of "best practices."
+
+---
+
+## Part 12: AI Skills & Tools — When Text Isn't Enough
+
+### The Experiment: Ask AI to Calculate
+
+Ask the model: "Calculate compound interest for $15,847 at 7.34%, monthly compounding, 8 years 7 months." The model will produce a number — confidently, with the formula, with an explanation. Check it on a calculator — and you'll see the answer is **wrong**.
+
+Why? Because the model doesn't calculate. It **generates text** that "looks like a correct answer." It's seen thousands of examples of financial calculations in training data and generates a "typical answer" — but with different numbers.
+
+### The Formula: Instruction + Tool = Skill
+
+Instead of asking AI to calculate — ask it to **create a calculator**:
+
+1. "Write a Python script `compound_interest.py` with parameters: principal, rate, compounds_per_year, years"
+2. The script uses `math` — real mathematics, not text generation
+3. Instruction (SKILL.md): "When you need compound interest — **never calculate yourself**. Run the script in the terminal."
+
+Now AI runs the script for any calculation and returns an **exact** result. The parameterized tool works with any input without modification.
+
+### When You Need a Skill vs. Just an Instruction
+
+- **Instruction** — for text tasks: response style, documentation format, test case template
+- **Skill (instruction + code)** — for tasks requiring precision: calculations, data validation, formatting, conversion
+
+> **Practical takeaway:** Don't ask AI to do — ask AI to **create a tool that does**. Build the calculator once — and it works forever, hallucination-free.
+
+---
+
+## Part 13: MCP — "USB for AI"
+
+### The Problem: AI Is Trapped in the IDE
+
+The model only sees what's in the context: project files, search results, terminal output. It can't go to Jira, read Confluence, query a database, or create a GitHub ticket.
+
+### How MCP Solves This
+
+MCP (Model Context Protocol) is an open standard from Anthropic. The analogy: before USB, every printer, scanner, and camera needed its own driver. USB standardized the connection. MCP does the same for AI:
+
+- **GitHub MCP** — the agent creates repositories, issues, PRs through chat
+- **Filesystem MCP** — the agent works with files outside the project
+- **Database MCP** — the agent makes SQL queries through natural language
+- **Jira, Confluence, Slack** — and 250+ more ready-made servers
+
+Setup is simple: a JSON file with the MCP server address and authentication token. After that, the AI agent automatically "discovers" new tools and starts using them.
+
+### Security
+
+Every tool call goes through a confirmation dialog — you see which tool is being called with what data. You can expand details to see the raw JSON-RPC communication.
+
+But remember: through MCP, data flows to the server of whoever created the connector. If you connected an MCP server from an unknown developer — **your data passes through their infrastructure**.
+
+> **Practical takeaway:** MCP removes the wall between AI and your work systems. But every connection is a conscious decision about trusting the provider.
+
+---
+
+## Part 14: CLI — Direct Access Without Hallucinations
+
+### The MCP Problem: AI in the Chain
+
+When a tool returns a result through MCP, that result passes through the model. The model "regenerates" it — and can distort it. The server returned "42 × 17 = 714," but the model writes "Answer: 741." It didn't copy — it generated new text "similar to" the answer.
+
+For creative tasks, this isn't a problem. For financial calculations, ETL pipelines, infrastructure scripts — it's a disaster.
+
+### CLI: curl Directly to the Server
+
+CLI (Command Line Interface) means calling REST APIs through the terminal using `curl`:
+
+```bash
+curl http://localhost:8080/calculate?expression=42*17
+```
+
+Server returned "714" — you get "714." No AI in the chain. No regeneration. No hallucination risk.
+
+### When to Use What
+
+| | MCP | CLI |
+|---|---|---|
+| **AI in chain** | Yes — reasons, chooses tools | No — direct call |
+| **Tokens** | Spent on schema + reasoning | Zero |
+| **Hallucinations** | Possible during regeneration | Impossible |
+| **Binary files** | Base64 via JSON (+33% size) | `curl -F "file=@image.png"` directly |
+| **Best for** | Exploration, decision-making | Automation, precise operations |
+
+> **Practical takeaway:** Critical operations — through CLI. Exploratory — through MCP. Like manual vs. autopilot in a plane: autopilot is convenient, but you want manual control for landing in a storm.
+
+---
+
+## Part 15: GitHub MCP — Tasks Through AI Chat
+
+### Traditional Workflow vs. MCP
+
+**Without MCP:** Open browser → GitHub → create repo → copy URL → back to IDE → terminal → `git remote add` → open browser → create issue → type description → refresh page.
+
+**With MCP:** "Create a repo and an issue" → confirm tool calls → done. All context-switching disappears.
+
+### The "Agent Delegation" Pattern
+
+The most powerful pattern from this module:
+
+1. An AI session conducts a **requirements interview**: asks clarifying questions, discovers details
+2. Based on the interview, AI creates a **GitHub issue** with full context: what's needed, why, what constraints exist
+3. In the next session (or another developer) opens the issue and **implements the task** — no re-asking, no lost context
+
+This solves the key problem: different AI sessions don't know about each other. A GitHub issue becomes the "handoff mechanism" — a structured document preserving all context.
+
+> **Practical takeaway:** Use GitHub issues as an asynchronous context handoff mechanism. One session gathers requirements, another implements. Information loss is minimal.
+
+---
+
+## Part 16: SpecKit — From Idea to Prototype Through Specification
+
+### Spec-Driven Development
+
+SpecKit is a methodology that forces you to describe **WHAT** and **WHY** before writing **HOW**. Eight sequential phases:
+
+1. **Constitution** — project principles (like a country's constitution)
+2. **Specify** — what exactly needs to be built
+3. **Clarify** — refining acceptance criteria
+4. **Plan** — architecture and tech stack
+5. **Tasks** — decomposition into tasks
+6. **Analyze** — checking the plan for conflicts
+7. **Implement** — implementation by tasks
+8. **Checklist** — result verification
+
+The AI **refuses** to proceed to the next phase until the current one is complete. You can't start coding without an approved specification.
+
+### Why This Works
+
+- **Specification is separated from technology:** "User should log in securely" (spec) vs. "JWT + PostgreSQL + React" (plan). Non-technical stakeholders validate the spec; tech decisions can change without revisiting requirements.
+- **Data model as investment:** SpecKit forces you to design the database schema before writing code. A mistake here costs minutes. A mistake during implementation — days of migrations.
+- **Tasks as safeguard:** "Implement authentication" — that's asking AI to make 50 independent decisions. "Create a migration for the users table" — that's a specific, verifiable task.
+
+> **Practical takeaway:** SpecKit transforms chaotic code generation into a managed process. The `specs/` folder becomes living documentation that helps future developers understand not just WHAT was built, but WHY.
+
+---
+
+## Part 17: Chrome DevTools MCP — AI Tests Your Application
+
+### AI Gets "Eyes and Hands"
+
+Chrome DevTools MCP lets the AI agent control the browser: inspect elements, click buttons, fill forms, take screenshots, read console errors. The agent **sees** your application — like a QA engineer sitting in front of the screen.
+
+### The Self-Correcting Loop
+
+Combined with hot reload (code changes instantly reflected in the browser), a powerful cycle emerges:
+
+1. Agent implements a contact form
+2. Changes instantly appear in the browser (hot reload)
+3. Agent tests the form — sends empty data
+4. Validation triggers incorrectly (screenshot)
+5. Agent finds a bug in validation logic
+6. Agent fixes the bug
+7. Browser updates instantly
+8. Agent re-tests — everything passes
+
+The entire cycle — 2–3 minutes, without a single manual page refresh.
+
+### Test Documentation as an Artifact
+
+Instead of a manual QA checklist (which is never up to date), the agent generates test scenarios in markdown. This isn't just documentation — it's an **executable regression suite**. Run it anytime — and the agent verifies nothing is broken.
+
+> **Practical takeaway:** QA shifts left — bugs are caught during development, not after release. For distributed teams, auto-generated markdown documentation becomes the specification of "correct behavior," eliminating ambiguity.
+
+---
+
 ## Conclusion
 
 A language model is not magic, and it's not artificial intelligence in the Hollywood sense. It's an incredibly powerful tool for working with text (and code, instructions, test cases, documentation — it's all text).
@@ -308,6 +526,16 @@ The key to effective use is **understanding the mechanism**:
 - Instructions are your knowledge transfer for a "new junior" in each session
 - Hallucinations are feedback for improving instructions
 
-There will be more work, not less. But the nature of that work is changing: from manual execution to managing AI assistants, describing processes, and quality control.
+And beyond that — **tools that turn AI from a conversationalist into a working system**:
+- Git baby steps — a safety net for safe iteration
+- Skills Management — scaling knowledge across the entire team
+- AI Skills & Tools — precision through code, not text generation
+- MCP — connecting AI to the outside world through a unified standard
+- CLI — direct access without hallucinations for critical operations
+- GitHub MCP — task management and delegation between sessions
+- SpecKit — the discipline of "specification first, code second"
+- Chrome DevTools MCP — QA automation right during development
 
-Start with one instruction. Improve it over 10–20 iterations. When it becomes reliable — create a second one. And so, one by one, you'll assemble your "team" of AI assistants.
+There will be more work, not less. But the nature of that work is changing: from manual execution to managing AI assistants, describing processes, and quality control. This is the foundational program, after which each participant moves to individual work — building specific agents for their SDLC.
+
+Start with one instruction. Improve it over 10–20 iterations. When it becomes reliable — create your first skill. Connect MCP. Build an agent. And so, brick by brick, you'll assemble your "team" of AI assistants.
