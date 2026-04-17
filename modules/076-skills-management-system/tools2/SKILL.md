@@ -31,10 +31,10 @@ central-skills-repo/          ← shared Git repo (one per organization)
 │   └── security.json         ← example sub-config (shared thematic group)
 ├── code-review-base/
 │   ├── SKILL.md              ← plain Markdown, IDE-agnostic instruction content
-│   └── README.md             ← owner, description, usage context
+│   └── info.json             ← owner, description metadata
 ├── security-guidelines/
 │   ├── SKILL.md
-│   └── README.md
+│   └── info.json
 └── ...
 
 project-workspace/            ← a developer's local project
@@ -199,7 +199,7 @@ skills init --repo ../skills-repo backend security
 
 **Creates:**
 - `instructions/` — sparse clone of the central repo (contains `.git`)
-- `instructions/.manifest/config.json` — workspace configuration (gitignored)
+- `skills.json` — workspace configuration in project root
 
 #### `skills pull`
 
@@ -253,7 +253,7 @@ Each skill in the central repository must have:
 ```
 <skill-name>/
 ├── SKILL.md     ← required: instruction content (plain Markdown, AI-readable)
-└── README.md    ← required: metadata (owner, description, usage context)
+└── info.json    ← required: metadata (owner, description)
 ```
 
 Optional:
@@ -270,16 +270,13 @@ Optional:
 - Cross-references to other skills are allowed: "See also: `code-review-base`"
 - Target reading time: 2–5 minutes per skill
 
-### README.md required fields
+### info.json required fields
 
-```markdown
-# <skill-name>
-
-**Description:** One sentence explaining what this skill does.
-
-**Owner:** <team-or-person>
-
-**Usage context:** When to apply this skill.
+```json
+{
+  "description": "One sentence explaining what this skill does.",
+  "owner": "team-or-person@example.com"
+}
 ```
 
 ---

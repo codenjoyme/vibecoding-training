@@ -98,6 +98,7 @@ function runInit(args) {
             console.error('Error: --repo is required (no existing skills.json found)');
             printInitHelp();
             process.exit(1);
+            return; // unreachable, but helps TypeScript narrow the type
         }
         console.log('→ Re-initializing from existing skills.json ...');
         const repoDir = config.REPO_SUB_DIR;
@@ -115,21 +116,22 @@ function runInit(args) {
             process.exit(1);
         }
         console.log('  ✓ Cloned');
-        const groups = (0, toggle_1.resolveEffectiveGroups)(existing);
-        console.log(`→ Resolving skills for groups: ${groups.join(', ')} ...`);
-        let skills;
+        const effectiveGroups = (0, toggle_1.resolveEffectiveGroups)(existing);
+        console.log(`→ Resolving skills for groups: ${effectiveGroups.join(', ')} ...`);
+        let resolvedSkills;
         try {
-            skills = manifest.resolveSkills(repoDir, groups);
+            resolvedSkills = manifest.resolveSkills(repoDir, effectiveGroups);
         }
         catch (err) {
             console.error(`Error: manifest resolution failed: ${err}`);
             process.exit(1);
+            return; // unreachable, but helps TypeScript narrow the type
         }
-        skills = (0, toggle_1.applyExtraAndExcluded)(skills, existing);
-        console.log(`  ✓ Resolved ${skills.length} skill(s): ${skills.join(', ')}`);
+        resolvedSkills = (0, toggle_1.applyExtraAndExcluded)(resolvedSkills, existing);
+        console.log(`  ✓ Resolved ${resolvedSkills.length} skill(s): ${resolvedSkills.join(', ')}`);
         console.log('→ Applying sparse checkout ...');
         try {
-            gitops.setupSparseCheckout(repoDir, skills);
+            gitops.setupSparseCheckout(repoDir, resolvedSkills);
         }
         catch (err) {
             console.error(`Error: sparse checkout failed: ${err}`);
@@ -138,7 +140,7 @@ function runInit(args) {
         console.log('  ✓ Sparse checkout applied');
         config.save(existing);
         console.log('\n✅ Skills workspace re-initialized!');
-        console.log(`   Skills:     ${skills.join(', ')}`);
+        console.log(`   Skills:     ${resolvedSkills.join(', ')}`);
         return;
     }
     if (groups.length === 0) {
@@ -169,6 +171,7 @@ function runInit(args) {
     catch (err) {
         console.error(`Error: manifest resolution failed: ${err}`);
         process.exit(1);
+        return; // unreachable, but helps TypeScript narrow the type
     }
     console.log(`  ✓ Resolved ${skills.length} skill(s): ${skills.join(', ')}`);
     console.log('→ Applying sparse checkout ...');

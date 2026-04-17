@@ -5,7 +5,7 @@
 > `npm uninstall -g skills-cli`
 ```
 
-up to date in 505ms
+up to date in 362ms
 ```
 > `rm -rf /workspace/skills-repo`
 ```
@@ -16,7 +16,7 @@ up to date in 505ms
 > `npm install -g --install-links /app`
 ```
 
-added 1 package in 569ms
+added 1 package in 2s
 ```
 > `command -v skills`
 ```
@@ -668,7 +668,7 @@ Initialized empty Git repository in /workspace/project-repo/.git/
 ```
 > `git commit -m "Initial commit"`
 ```
-[master (root-commit) 06eb413] Initial commit
+[master (root-commit) 1e13ff7] Initial commit
  6 files changed, 427 insertions(+)
  create mode 100644 .gitignore
  create mode 100644 .manifest/_global.json
@@ -679,7 +679,7 @@ Initialized empty Git repository in /workspace/project-repo/.git/
 ```
 > `git log --oneline`
 ```
-06eb413 Initial commit
+1e13ff7 Initial commit
 ```
 > `git branch --list`
 ```
@@ -878,7 +878,7 @@ Switched to branch 'master'
 ```
 > `git merge feature/alpha-skill-update --no-edit`
 ```
-Updating 06eb413..ab24f63
+Updating 1e13ff7..c60cb3a
 Fast-forward
  alpha-skill/SKILL.md  | 9 +++++++++
  alpha-skill/info.json | 4 ++++
@@ -896,7 +896,7 @@ Fast-forward
 Already on 'master'
 From /workspace/skills-repo/../project-repo
  * branch            master     -> FETCH_HEAD
-   06eb413..ab24f63  master     -> origin/master
+   1e13ff7..c60cb3a  master     -> origin/master
 ✅ Skills updated successfully
 ```
 
@@ -941,7 +941,7 @@ Switched to branch 'master'
 ```
 > `git merge feature/beta-skill-update --no-edit`
 ```
-Updating ab24f63..8e578b2
+Updating c60cb3a..83b288c
 Fast-forward
  beta-skill/SKILL.md  | 9 +++++++++
  beta-skill/info.json | 4 ++++
@@ -959,7 +959,7 @@ Fast-forward
 Already on 'master'
 From /workspace/skills-repo/../project-repo
  * branch            master     -> FETCH_HEAD
-   ab24f63..8e578b2  master     -> origin/master
+   c60cb3a..83b288c  master     -> origin/master
 ✅ Skills updated successfully
 ```
 
@@ -999,7 +999,7 @@ Switched to branch 'master'
 ```
 > `git merge feature/gamma-skill-update --no-edit`
 ```
-Updating 8e578b2..87629de
+Updating 83b288c..9595e30
 Fast-forward
  gamma-skill/SKILL.md  | 9 +++++++++
  gamma-skill/info.json | 4 ++++
@@ -1017,7 +1017,7 @@ Fast-forward
 Already on 'master'
 From /workspace/skills-repo/../project-repo
  * branch            master     -> FETCH_HEAD
-   8e578b2..87629de  master     -> origin/master
+   83b288c..9595e30  master     -> origin/master
 ✅ Skills updated successfully
 ```
 
@@ -1450,7 +1450,7 @@ Switched to a new branch 'feature/alpha-skill-update'
   ✓ Changes committed
 → Pushing branch feature/alpha-skill-update ...
 To /workspace/skills-repo/../project-repo
-   ab24f63..74a7100  feature/alpha-skill-update -> feature/alpha-skill-update
+   c60cb3a..97606aa  feature/alpha-skill-update -> feature/alpha-skill-update
 Switched to branch 'master'
   ✓ Branch pushed
 
@@ -1477,37 +1477,37 @@ Check what happened in the project repo:
 ```
 > `git log --oneline --all`
 ```
-74a7100 feat(alpha-skill): update skill instructions
-87629de feat(gamma-skill): update skill instructions
-8e578b2 feat(beta-skill): update skill instructions
-ab24f63 feat(alpha-skill): update skill instructions
-06eb413 Initial commit
+97606aa feat(alpha-skill): update skill instructions
+83b288c feat(beta-skill): update skill instructions
+9595e30 feat(gamma-skill): update skill instructions
+c60cb3a feat(alpha-skill): update skill instructions
+1e13ff7 Initial commit
 ```
 > `git log --oneline feature/alpha-skill-update`
 ```
-74a7100 feat(alpha-skill): update skill instructions
-87629de feat(gamma-skill): update skill instructions
-8e578b2 feat(beta-skill): update skill instructions
-ab24f63 feat(alpha-skill): update skill instructions
-06eb413 Initial commit
+97606aa feat(alpha-skill): update skill instructions
+9595e30 feat(gamma-skill): update skill instructions
+83b288c feat(beta-skill): update skill instructions
+c60cb3a feat(alpha-skill): update skill instructions
+1e13ff7 Initial commit
 ```
 
 Merge the feature branch:
 
 > `git merge feature/alpha-skill-update --no-edit`
 ```
-Updating 87629de..74a7100
+Updating 9595e30..97606aa
 Fast-forward
  alpha-skill/SKILL.md | 1 +
  1 file changed, 1 insertion(+)
 ```
 > `git log --oneline`
 ```
-74a7100 feat(alpha-skill): update skill instructions
-87629de feat(gamma-skill): update skill instructions
-8e578b2 feat(beta-skill): update skill instructions
-ab24f63 feat(alpha-skill): update skill instructions
-06eb413 Initial commit
+97606aa feat(alpha-skill): update skill instructions
+9595e30 feat(gamma-skill): update skill instructions
+83b288c feat(beta-skill): update skill instructions
+c60cb3a feat(alpha-skill): update skill instructions
+1e13ff7 Initial commit
 ```
 > `cat alpha-skill/SKILL.md`
 ```
@@ -1535,7 +1535,7 @@ Pull the merged changes:
 Already on 'master'
 From /workspace/skills-repo/../project-repo
  * branch            master     -> FETCH_HEAD
-   87629de..74a7100  master     -> origin/master
+   9595e30..97606aa  master     -> origin/master
 ✅ Skills updated successfully
 ```
 > `skills list --verbose`
@@ -1580,7 +1580,7 @@ Switched to a new branch 'feature/beta-skill-update'
   ✓ Changes committed
 → Pushing branch feature/beta-skill-update ...
 To /workspace/skills-repo/../project-repo
-   8e578b2..87d0ecc  feature/beta-skill-update -> feature/beta-skill-update
+   83b288c..fab7f0c  feature/beta-skill-update -> feature/beta-skill-update
 Switched to branch 'master'
   ✓ Branch pushed
 
@@ -1605,19 +1605,19 @@ Switched to branch 'master'
 ```
 > `git merge feature/beta-skill-update --no-edit`
 ```
-Updating 74a7100..87d0ecc
+Updating 97606aa..fab7f0c
 Fast-forward
  beta-skill/SKILL.md | 1 +
  1 file changed, 1 insertion(+)
 ```
 > `git log --oneline`
 ```
-87d0ecc feat(beta-skill): update skill instructions
-74a7100 feat(alpha-skill): update skill instructions
-87629de feat(gamma-skill): update skill instructions
-8e578b2 feat(beta-skill): update skill instructions
-ab24f63 feat(alpha-skill): update skill instructions
-06eb413 Initial commit
+fab7f0c feat(beta-skill): update skill instructions
+97606aa feat(alpha-skill): update skill instructions
+9595e30 feat(gamma-skill): update skill instructions
+83b288c feat(beta-skill): update skill instructions
+c60cb3a feat(alpha-skill): update skill instructions
+1e13ff7 Initial commit
 ```
 > `cd /workspace/skills-repo`
 ```
@@ -1630,7 +1630,7 @@ ab24f63 feat(alpha-skill): update skill instructions
 Already on 'master'
 From /workspace/skills-repo/../project-repo
  * branch            master     -> FETCH_HEAD
-   74a7100..87d0ecc  master     -> origin/master
+   97606aa..fab7f0c  master     -> origin/master
 ✅ Skills updated successfully
 ```
 
@@ -1823,12 +1823,12 @@ sub-group.json
 ```
 > `git log --oneline --all`
 ```
-87d0ecc feat(beta-skill): update skill instructions
-74a7100 feat(alpha-skill): update skill instructions
-87629de feat(gamma-skill): update skill instructions
-8e578b2 feat(beta-skill): update skill instructions
-ab24f63 feat(alpha-skill): update skill instructions
-06eb413 Initial commit
+97606aa feat(alpha-skill): update skill instructions
+fab7f0c feat(beta-skill): update skill instructions
+9595e30 feat(gamma-skill): update skill instructions
+83b288c feat(beta-skill): update skill instructions
+c60cb3a feat(alpha-skill): update skill instructions
+1e13ff7 Initial commit
 ```
 > `git branch --list`
 ```

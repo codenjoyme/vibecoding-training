@@ -65,6 +65,7 @@ export function runInit(args: string[]): void {
       console.error('Error: --repo is required (no existing skills.json found)');
       printInitHelp();
       process.exit(1);
+      return; // unreachable, but helps TypeScript narrow the type
     }
 
     console.log('→ Re-initializing from existing skills.json ...');
@@ -84,21 +85,22 @@ export function runInit(args: string[]): void {
     }
     console.log('  ✓ Cloned');
 
-    const groups = resolveEffectiveGroups(existing);
-    console.log(`→ Resolving skills for groups: ${groups.join(', ')} ...`);
-    let skills: string[];
+    const effectiveGroups = resolveEffectiveGroups(existing);
+    console.log(`→ Resolving skills for groups: ${effectiveGroups.join(', ')} ...`);
+    let resolvedSkills: string[];
     try {
-      skills = manifest.resolveSkills(repoDir, groups);
+      resolvedSkills = manifest.resolveSkills(repoDir, effectiveGroups);
     } catch (err) {
       console.error(`Error: manifest resolution failed: ${err}`);
       process.exit(1);
+      return; // unreachable, but helps TypeScript narrow the type
     }
-    skills = applyExtraAndExcluded(skills, existing);
-    console.log(`  ✓ Resolved ${skills.length} skill(s): ${skills.join(', ')}`);
+    resolvedSkills = applyExtraAndExcluded(resolvedSkills, existing);
+    console.log(`  ✓ Resolved ${resolvedSkills.length} skill(s): ${resolvedSkills.join(', ')}`);
 
     console.log('→ Applying sparse checkout ...');
     try {
-      gitops.setupSparseCheckout(repoDir, skills);
+      gitops.setupSparseCheckout(repoDir, resolvedSkills);
     } catch (err) {
       console.error(`Error: sparse checkout failed: ${err}`);
       process.exit(1);
@@ -107,7 +109,7 @@ export function runInit(args: string[]): void {
 
     config.save(existing);
     console.log('\n✅ Skills workspace re-initialized!');
-    console.log(`   Skills:     ${skills.join(', ')}`);
+    console.log(`   Skills:     ${resolvedSkills.join(', ')}`);
     return;
   }
 
@@ -140,6 +142,7 @@ export function runInit(args: string[]): void {
   } catch (err) {
     console.error(`Error: manifest resolution failed: ${err}`);
     process.exit(1);
+    return; // unreachable, but helps TypeScript narrow the type
   }
   console.log(`  ✓ Resolved ${skills.length} skill(s): ${skills.join(', ')}`);
 

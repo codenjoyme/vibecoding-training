@@ -62,26 +62,30 @@ function resolveSkills(repoPath, groups) {
                 skillSet.add(s);
         }
     }
-    // 2. Per-group skills
-    for (const group of groups) {
-        const grp = loadGroup(manifestDir, group);
+    // 2. Per-group skills (with recursive sub-config resolution)
+    const visitedConfigs = new Set();
+    function resolveGroup(name) {
+        if (visitedConfigs.has(name))
+            return; // prevent infinite loops
+        visitedConfigs.add(name);
+        let grp;
+        try {
+            grp = loadGroup(manifestDir, name);
+        }
+        catch {
+            console.warn(`Warning: config "${name}" not found, skipping`);
+            return;
+        }
         for (const s of grp.skills ?? []) {
             if (s)
                 skillSet.add(s);
         }
-        // 3. Sub-configs
         for (const sub of grp['sub-configs'] ?? []) {
-            try {
-                const subGrp = loadGroup(manifestDir, sub);
-                for (const s of subGrp.skills ?? []) {
-                    if (s)
-                        skillSet.add(s);
-                }
-            }
-            catch {
-                console.warn(`Warning: sub-config "${sub}" not found, skipping`);
-            }
+            resolveGroup(sub);
         }
+    }
+    for (const group of groups) {
+        resolveGroup(group);
     }
     return Array.from(skillSet).sort();
 }

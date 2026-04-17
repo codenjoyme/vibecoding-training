@@ -7,7 +7,7 @@ A step-by-step walkthrough of the full workflow: from installation to proposing 
 ## Step 1 — Install the CLI
 
 ```bash
-npm install -g git+https://github.com/your-org/skills-cli.git
+npm install -g --install-links git+https://github.com/codenjoyme/apm-lite.git
 ```
 
 > Installs the `skills` command globally from a private Git repository.  
@@ -44,7 +44,7 @@ skills init --repo https://github.com/your-org/skills-repo --groups backend
 
 > Clones the central skills repository into `instructions/`, resolves skills for the `backend` group  
 > (combining `_global.json` + `backend.json` + any sub-configs), applies sparse checkout  
-> so only relevant skills are checked out locally. Writes `instructions/.manifest/config.json`.
+> so only relevant skills are checked out locally. Writes `skills.json` in the project root.
 
 **Local path example (for testing):**
 

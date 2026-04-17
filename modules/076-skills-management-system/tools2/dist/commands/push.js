@@ -112,7 +112,12 @@ The command will:
     let prUrl = '';
     try {
         const remoteURL = gitops.getRemoteURL(repoDir);
-        const normalized = remoteURL.replace(/\.git$/, '').replace('git@github.com:', 'https://github.com/');
+        const normalized = remoteURL
+            .replace(/\.git$/, '')
+            .replace(/^git@github\.com:/, 'https://github.com/')
+            .replace(/^ssh:\/\/git@github\.com\//, 'https://github.com/')
+            .replace(/^git@gitlab\.com:/, 'https://gitlab.com/')
+            .replace(/^ssh:\/\/git@gitlab\.com\//, 'https://gitlab.com/');
         if (normalized.includes('github.com')) {
             prUrl = `${normalized}/compare/${branchName}?expand=1`;
         }
