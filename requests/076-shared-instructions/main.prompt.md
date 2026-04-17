@@ -1214,3 +1214,39 @@ apm-lite синхронизирован.
 - `test/` folder (Dockerfile, commands.md, run-tests.sh, README.md)
 - `demo-ru.md` deletion
 - README.md updates
+
+## UPD36
+
+А вот тем же подходом через докер, что мы тестировали apm-lite, давай потестируем и текущую Node версию. А потом сделай то же для Go.
+
+### RESULT
+
+Создал Docker-based smoke test framework для обеих версий CLI — по аналогии с `apm-lite/test/`.
+
+**Node.js (tools2)** — `modules/076-skills-management-system/tools2/test/`:
+- `Dockerfile` — `node:20-slim`, `npm install && npm run build`, `COPY test/`
+- `run-tests.sh` — читает `commands.md`, выполняет строки `> \`command\``, вставляет вывод в ``` блоки
+- `commands.md` — 14 фаз, 140 команд, golden snapshot с выводом (~1830 строк)
+- `README.md` — инструкция: build → run → git diff
+
+```bash
+cd modules/076-skills-management-system/tools2
+docker build -t skills-node-smoke -f test/Dockerfile .
+docker run --rm -v ./test:/app/test skills-node-smoke
+git diff test/commands.md
+```
+
+**Go (tools/scripts)** — `modules/076-skills-management-system/tools/scripts/test/`:
+- `Dockerfile` — `golang:1.21-bookworm`, `go build -o /usr/local/bin/skills .`, build context = `tools/`
+- `run-tests.sh` — идентичный Node.js версии
+- `commands.md` — 14 фаз, ~137 команд (без npm-специфичных), golden snapshot (~1790 строк)
+- `README.md` — инструкция
+
+```bash
+cd modules/076-skills-management-system/tools
+docker build -t skills-go-smoke -f scripts/test/Dockerfile .
+docker run --rm -v ./scripts/test:/app/test skills-go-smoke
+git diff scripts/test/commands.md
+```
+
+Все 14 фаз (cleanup, help, init-repo, init, list, create, push, pull, enable/disable skill, enable/disable group, push+merge, disable with uncommitted changes, re-init, final state) прошли успешно на обеих версиях. Поведение Go и Node.js идентично.
