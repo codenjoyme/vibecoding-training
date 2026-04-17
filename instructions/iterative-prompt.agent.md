@@ -19,6 +19,12 @@ This approach has no direct equivalent in the broader GenAI community. The key i
   + List file paths that were created or modified
   + Add 1–2 sentence description of what was done
   + Keep it concise — this is a changelog, not documentation
+- **Non-stop loop** — after writing the `### RESULT` for `## UPD[N]`:
+  1. Commit changes (following the project's git workflow).
+  2. Immediately re-read the prompt file and check whether `## UPD[N+1]` (or any later `## UPD`) already exists without a `### RESULT`.
+  3. If it does — start implementing it right away, without pausing or asking the user.
+  4. Repeat until there are no more unprocessed `## UPD` sections.
+  5. Only stop and wait for the user when every `## UPD` block has its `### RESULT`.
 - When asked to create a new prompt file inside folder, immediately produce a ready-to-use file:
   + Use the following starter template:
     ```markdown
