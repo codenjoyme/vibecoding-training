@@ -96,11 +96,11 @@ MCP passes tool results through the model — which may "regenerate" the answer,
 
 **Why it matters:** Critical operations — through CLI (guaranteed accuracy). Exploratory tasks that need a "brain" — through MCP. It's like the distinction between manual and automatic control: both are needed, but for different situations.
 
-## 16. MCP GitHub — Task Management Through AI Chat
+## 16. MCP GitHub — Delegating Tasks to Autonomous Agents
 
-Instead of switching between IDE and browser — everything through chat: creating repositories, pushing code, managing issues. Key pattern — **agent delegation**: one AI session conducts a requirements interview, creates a GitHub issue with full context, and the next session implements the task from that issue.
+Instead of switching between IDE and browser — everything through chat: creating repositories, pushing code, managing issues. Key pattern — **delegation to an autonomous Coding Agent**: an AI session conducts a requirements interview, creates a GitHub issue with full context, and then you assign the issue to a Coding Agent — which **implements the task in the background** while you work on other things in the IDE. The agent creates a branch, writes code, runs tests, and opens a PR. You review the result, not write the code.
 
-**Why it matters:** GitHub issues become the context handoff mechanism between AI sessions. This solves the "different sessions don't know about each other" problem — through structured documentation in issues.
+**Why it matters:** This is the shift from "AI as assistant" to "AI as autonomous executor." The GitHub issue is a contract between you and the agent. You plan — the agent implements in parallel.
 
 ## 17. SpecKit — From Idea to Prototype Through Specification
 

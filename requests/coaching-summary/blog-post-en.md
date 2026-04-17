@@ -437,7 +437,7 @@ Server returned "714" — you get "714." No AI in the chain. No regeneration. No
 
 ---
 
-## Part 15: GitHub MCP — Tasks Through AI Chat
+## Part 15: GitHub MCP — Tasks Through AI Chat and Autonomous Agents
 
 ### Traditional Workflow vs. MCP
 
@@ -451,11 +451,23 @@ The most powerful pattern from this module:
 
 1. An AI session conducts a **requirements interview**: asks clarifying questions, discovers details
 2. Based on the interview, AI creates a **GitHub issue** with full context: what's needed, why, what constraints exist
-3. In the next session (or another developer) opens the issue and **implements the task** — no re-asking, no lost context
+3. You **assign the issue to an autonomous Coding Agent** (e.g., GitHub Copilot Coding Agent) — and it implements the task **in the background** while you continue working on other things in the IDE
 
-This solves the key problem: different AI sessions don't know about each other. A GitHub issue becomes the "handoff mechanism" — a structured document preserving all context.
+### Autonomous Coding Agent — Background Execution
 
-> **Practical takeaway:** Use GitHub issues as an asynchronous context handoff mechanism. One session gathers requirements, another implements. Information loss is minimal.
+This is the key idea: you don't just hand the issue to the next session. You **delegate it to an autonomous agent** that:
+
+- Creates a feature branch
+- Implements the task based on the issue description
+- Runs tests
+- Opens a Pull Request with the result
+- All of this — **while you're busy with something else** in your IDE
+
+Effectively, instead of one "brain" working on one task, you get a parallel work stream. You plan and describe — the agent implements. This is the shift from "AI as assistant" to "AI as autonomous executor."
+
+The GitHub issue becomes a "contract" between you and the agent — a structured document preserving all context: what's needed, why, what constraints exist.
+
+> **Practical takeaway:** Use GitHub issues not just as a tracker, but as a delegation mechanism for autonomous agents. One session gathers requirements and creates the issue — a Coding Agent implements it in the background. You review the PR, not write the code.
 
 ---
 

@@ -32,3 +32,13 @@ All 4 files updated with 8 new topics from modules 060, 076, 090, 100, 103, 105,
 - `summary-en.md` — same 8 topics in English
 - `blog-post-ru.md` — added Parts 10–17 with detailed breakdowns, examples, metaphors, and practical takeaways; updated conclusion
 - `blog-post-en.md` — same 8 detailed parts in English; updated conclusion
+
+## UPD3
+
+Саммари в русском посте блоге нет как в английском (пропущен блок с перечнем инструментов в заключении). И в части "## 16. MCP GitHub — управление задачами через AI-чат" сказано только про issue, но там не только про issue а вообще про идею делегирования этого issue автономному Coding Agent который сделает все в фоне за вас пока вы в IDE заняты другим. Поправить во всех 4х доках.
+### RESULT
+
+Fixed in all 4 files:
+- `blog-post-ru.md` — conclusion updated: added missing tools list block (Git, Skills, MCP, CLI, GitHub MCP, SpecKit, Chrome DevTools) matching English version
+- `blog-post-ru.md` + `blog-post-en.md` — Part 15 rewritten: added "Autonomous Coding Agent — background execution" section with branch→implement→test→PR cycle
+- `summary-ru.md` + `summary-en.md` — topic 16 rewritten: now describes delegation to autonomous Coding Agent working in background, not just issue-to-session handoff
