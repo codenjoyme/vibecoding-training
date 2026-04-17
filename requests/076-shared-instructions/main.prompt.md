@@ -1250,3 +1250,29 @@ git diff scripts/test/commands.md
 ```
 
 Все 14 фаз (cleanup, help, init-repo, init, list, create, push, pull, enable/disable skill, enable/disable group, push+merge, disable with uncommitted changes, re-init, final state) прошли успешно на обеих версиях. Поведение Go и Node.js идентично.
+
+## UPD37
+
+Давай сравни между собой тесты го и ноды, и ноды на стороннем репозитории и найди неточности. Скопируй все файлы из стороннего сервиса ноды на наш, и скажи какие отличия есть.
+
+### RESULT
+
+Скопировал все 4 файла из `apm-lite/test/` → `tools2/test/` (Dockerfile, run-tests.sh, commands.md, README.md). Smoke test после копирования прошёл.
+
+**Файлы фреймворка:**
+
+| Файл | apm-lite → tools2 | Go |
+|---|---|---|
+| `run-tests.sh` | Идентичен (опечатка `Re#` в apm-lite строка 5) | Идентичен |
+| `Dockerfile` | Теперь идентичен (скопирован). Ранее tools2 делал `sed` build-time, apm-lite — runtime | Другой: `golang:1.21-bookworm`, `go build`, другой build context |
+| `README.md` | Теперь идентичен. Ранее tools2 не имел секцию Structure | Другие пути и docker команды |
+| `commands.md` | Теперь идентичен (скопирован, 1844 строки) | 1793 строки — нет 2 npm-команд |
+
+**12 команд с разным выводом Go vs Node:**
+
+1. `skills list`, `skills list --verbose` — Go: `Groups: [group-1]` (квадратные скобки), Node: `Groups: group-1`
+2. `skills list --help`, `skills init` (error) — Go: `-json`/`-verbose`/`-repo`/`-groups` (Go flag стиль), Node: `--json`/`--verbose`/`--repo`/`--groups`
+3. `skills init-repo --help` — Go: "Creates a **Git-initialized** folder", Node: "Creates a folder"
+4. `skills create` (error) — Go: подробнее (показывает SKILL.md + info.json), Node: только usage
+5. `skills init --repo ...`, `skills push *` (x3), `skills pull` — Go подавляет raw git output (`Cloning into...`, `Switched to a new branch...`, `To /workspace/...`), Node показывает
+6. `git log --oneline --all` — порядок gamma/beta перевёрнут (разный порядок git операций)

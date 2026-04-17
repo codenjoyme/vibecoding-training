@@ -18,10 +18,5 @@ COPY test/ /app/test/
 # Prepare workspace directories
 RUN mkdir -p /workspace
 
-# Convert CRLF in runner script at build time
-RUN sed 's/\r$//' /app/test/run-tests.sh > /usr/local/bin/run-tests.sh \
- && chmod +x /usr/local/bin/run-tests.sh
-
 # Mount test/ as a volume — commands.md is read and rewritten in-place
-ENTRYPOINT ["bash", "/usr/local/bin/run-tests.sh"]
-ENV SCRIPT_DIR=/app/test
+ENTRYPOINT ["bash", "-c", "sed 's/\\r$//' /app/test/run-tests.sh > /tmp/run.sh && SCRIPT_DIR=/app/test bash /tmp/run.sh"]
