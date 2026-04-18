@@ -25,6 +25,11 @@ This approach has no direct equivalent in the broader GenAI community. The key i
   3. If it does — start implementing it right away, without pausing or asking the user.
   4. Repeat until there are no more unprocessed `## UPD` sections.
   5. Only stop and wait for the user when every `## UPD` block has its `### RESULT`.
+  6. **After all `## UPD` blocks are processed:** enter an infinite polling loop:
+     + Re-read the prompt file periodically (on each invocation / when the user triggers the agent again).
+     + If a new `## UPD[N]` block without a `### RESULT` has appeared — implement it immediately and repeat the loop.
+     + If no new blocks exist — remain idle and wait for the user to either add a new `## UPD` block or stop the agent manually.
+     + This loop continues indefinitely until the user explicitly stops the session.
 - When asked to create a new prompt file inside folder, immediately produce a ready-to-use file:
   + Use the following starter template:
     ```markdown
