@@ -117,3 +117,27 @@ macOS and Linux have bash natively. On Windows, Git Bash (bundled with Git for W
 ## UPD5
 
 А если у меня под виндой нет гита и баша? Не меняй, просто расскажи что делать. go
+
+### RESULT
+
+Варианты, если нет Git Bash на Windows:
+
+1. **Установить Git for Windows** (рекомендуется) — https://git-scm.com/download/win — вместе с Git ставится Git Bash автоматически.
+
+2. **Использовать WSL** — если установлен Windows Subsystem for Linux, то из PowerShell:
+   ```powershell
+   wsl bash path/to/run-scenarios.sh --test-dir ./my-test --base-image node:20-slim
+   ```
+
+3. **Docker напрямую без обёртки** — скрипт в сущности делает `docker build` + `docker run`. Можно руками:
+   ```powershell
+   # 1. Создать temp-папку, скопировать туда setup.sh и run-scenarios.sh
+   # 2. Сгенерировать Dockerfile (см. template в run-scenarios.sh)
+   # 3. docker build --build-arg BASE_IMAGE=node:20-slim -t my-test ./temp-dir
+   # 4. docker run --rm -v "${PWD}/scenarios:/app/scenarios" my-test --engine --pattern "*.md"
+   ```
+   Но это больше телодвижений — проще поставить Git.
+
+4. **MSYS2/Cygwin** — альтернативные bash-среды для Windows, но Git for Windows — это самый простой путь.
+
+Ничего не менялось в коде.
