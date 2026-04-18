@@ -67,3 +67,22 @@ Modified `instructions/iterative-prompt.agent.md` — replaced passive "remain i
 И так же исправь не 30 секунд а 60. Еще момент, я могу набирать текст в конце файла, а ты вынырнешь из паузы и сразу начнешь выполнять. Давай если так случится (но только если ты вынырнул из паузы), то дождидайся команды `go`. 
 
 Исправь инструкцию для итеративного промпта. go 
+
+### RESULT
+
+Consolidated CLI test runner into a single-script architecture:
+
+**Deleted:** `run-scenarios.ps1`, `demo/node-cli/Dockerfile`, `demo/node-cli/run-demo.ps1`, `demo/python-cli/Dockerfile`, `demo/python-cli/run-demo.ps1`
+
+**Modified:**
+- `run-scenarios.sh` — added `--base-image` flag (default: `ubuntu:22.04`); Docker mode now generates Dockerfile on the fly in a temp build context; added `MSYS_NO_PATHCONV` for Git Bash on Windows
+- `SKILL.md` — updated file structure, usage docs, runner flags table
+- `walkthrough.md` — removed all PowerShell/Dockerfile references, updated all commands to use `bash run-scenarios.sh --base-image ...`
+- `iterative-prompt.agent.md` — 60s polling, content-based UPD check (not just N+1), wait for `go` keyword before executing
+
+Demos now only need `setup.sh` + `scenarios/`. One command to run:
+```bash
+bash run-scenarios.sh --test-dir demo/node-cli --base-image node:20-slim
+```
+
+Tested: Node.js demo ✓, Python demo ✓. Committed as `0e97b6c`.
