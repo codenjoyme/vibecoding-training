@@ -141,3 +141,7 @@ macOS and Linux have bash natively. On Windows, Git Bash (bundled with Git for W
 4. **MSYS2/Cygwin** — альтернативные bash-среды для Windows, но Git for Windows — это самый простой путь.
 
 Ничего не менялось в коде.
+
+## UPD6
+
+Ну ладно, давай сделай такой же скрипт на PowerShell рядом с `run-scenarios.sh`. Он будет  
