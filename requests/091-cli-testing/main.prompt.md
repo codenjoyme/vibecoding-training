@@ -113,3 +113,7 @@ bash path/to/run-scenarios.sh --test-dir ./my-test --base-image node:20-slim
 ```
 
 macOS and Linux have bash natively. On Windows, Git Bash (bundled with Git for Windows) provides bash. Only Docker Desktop is required on all three platforms.
+
+## UPD5
+
+А если у меня под виндой нет гита и баша? Не меняй, просто расскажи что делать. go
