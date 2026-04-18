@@ -20,6 +20,7 @@ The original [Approval Tests](https://approvaltests.com/) idea by Llewellyn Falc
 cli-test-runner/
 ├── SKILL.md              ← this file (instructions)
 ├── run-scenarios.sh      ← universal bash runner (read-only, do not modify)
+├── run-scenarios.ps1     ← PowerShell port for Windows (same features)
 └── demo/                 ← usage examples
     ├── node-cli/         ← example: testing a Node.js CLI tool
     │   ├── setup.sh      ← custom setup script (installs cowsay)
@@ -108,7 +109,9 @@ Create a new project and list contents.
 
 ### Step 4: Run the Tests
 
-Everything is driven by `run-scenarios.sh`. One command, all inside Docker:
+Everything is driven by one script. Choose your shell:
+
+**Bash (Linux / macOS / Git Bash on Windows):**
 
 ```bash
 # Run all scenarios (default base: ubuntu:22.04)
@@ -124,11 +127,27 @@ bash path/to/run-scenarios.sh --test-dir ./test --base-image python:3.12-slim --
 bash path/to/run-scenarios.sh --test-dir ./test --base-image node:20-slim --image-name my-cli-test
 ```
 
-On Windows, use Git Bash or WSL to run the script. Docker Desktop handles the rest.
+**PowerShell (Windows):**
+
+```powershell
+# Run all scenarios (default base: ubuntu:22.04)
+& path/to/run-scenarios.ps1 -TestDir ./test
+
+# Specify a base image for your CLI
+& path/to/run-scenarios.ps1 -TestDir ./test -BaseImage node:20-slim
+
+# Run specific scenarios by glob pattern
+& path/to/run-scenarios.ps1 -TestDir ./test -BaseImage python:3.12-slim -Pattern "smoke*"
+
+# Custom Docker image name
+& path/to/run-scenarios.ps1 -TestDir ./test -BaseImage node:20-slim -ImageName my-cli-test
+```
+
+Both scripts do the same thing. Docker Desktop is required on all platforms.
 
 **What happens under the hood:**
 1. A temporary build context is created with your `setup.sh` + the runner script
-2. A Dockerfile is generated on the fly using `--base-image` (or your custom `Dockerfile` if one exists in the test dir)
+2. A Dockerfile is generated on the fly using `--base-image` / `-BaseImage` (or your custom `Dockerfile` if one exists in the test dir)
 3. Docker builds the image and installs your CLI via `setup.sh`
 4. Container runs with `scenarios/` mounted as a volume — output writes back to host
 5. Temporary build context is cleaned up
@@ -146,6 +165,8 @@ git commit -m "test: update golden snapshots"
 
 ## Runner Flags
 
+**Bash (`run-scenarios.sh`):**
+
 | Flag | Short | Default | Description |
 |------|-------|---------|-------------|
 | `--test-dir` | `-d` | `.` | Path to test directory containing `setup.sh` and `scenarios/` |
@@ -154,6 +175,17 @@ git commit -m "test: update golden snapshots"
 | `--image-name` | `-i` | `cli-snapshot-test` | Docker image name to use |
 | `--no-build` | `-n` | (off) | Skip Docker build, use existing image |
 | `--local` | `-l` | (off) | Run locally without Docker (requires bash) |
+
+**PowerShell (`run-scenarios.ps1`):**
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `-TestDir` | `.` | Path to test directory containing `setup.sh` and `scenarios/` |
+| `-BaseImage` | `ubuntu:22.04` | Docker base image (e.g., `node:20-slim`, `python:3.12-slim`) |
+| `-Pattern` | `*.md` | Glob pattern for scenario files to run |
+| `-ImageName` | `cli-snapshot-test` | Docker image name to use |
+| `-NoBuild` | (off) | Skip Docker build, use existing image |
+| `-Local` | (off) | Run locally without Docker (requires bash) |
 
 ## Workflow with LLM Review
 

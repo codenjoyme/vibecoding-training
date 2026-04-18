@@ -144,4 +144,4 @@ macOS and Linux have bash natively. On Windows, Git Bash (bundled with Git for W
 
 ## UPD6
 
-Ну ладно, давай сделай такой же скрипт на PowerShell рядом с `run-scenarios.sh`. Он будет  
+Ну ладно, давай сделай такой же скрипт на PowerShell рядом с `run-scenarios.sh`. Один в один. Порт. И обнови пожалуйста под новые изменения и программу и SKILL.md. go
