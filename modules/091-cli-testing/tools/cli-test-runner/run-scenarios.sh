@@ -21,6 +21,7 @@ set -o pipefail
 TEST_DIR="."
 PATTERN="*.md"
 IMAGE_NAME="cli-snapshot-test"
+BASE_IMAGE="ubuntu:22.04"
 NO_BUILD=false
 LOCAL_MODE=false
 ENGINE_MODE=false
@@ -32,6 +33,7 @@ while [[ $# -gt 0 ]]; do
         --test-dir|-d)    TEST_DIR="$2"; shift 2 ;;
         --pattern|-p)     PATTERN="$2"; shift 2 ;;
         --image-name|-i)  IMAGE_NAME="$2"; shift 2 ;;
+        --base-image|-b)  BASE_IMAGE="$2"; shift 2 ;;
         --no-build|-n)    NO_BUILD=true; shift ;;
         --local|-l)       LOCAL_MODE=true; shift ;;
         --engine|-e)      ENGINE_MODE=true; shift ;;
@@ -189,21 +191,61 @@ if [ ! -d "$TEST_DIR/scenarios" ]; then
     exit 1
 fi
 
-if [ ! -f "$TEST_DIR/Dockerfile" ]; then
-    echo "Error: Dockerfile not found: $TEST_DIR/Dockerfile"
-    exit 1
+# Resolve own script path (for copying into build context)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_PATH="$SCRIPT_DIR/$(basename "${BASH_SOURCE[0]}")"
+
+# Create temporary build context
+TMPCTX=$(mktemp -d)
+cleanup_tmpctx() { rm -rf "$TMPCTX"; }
+trap cleanup_tmpctx EXIT
+
+# Copy the runner script into build context
+cp "$SCRIPT_PATH" "$TMPCTX/run-scenarios.sh"
+
+# Copy setup.sh (or generate a no-op)
+if [ -f "$TEST_DIR/setup.sh" ]; then
+    cp "$TEST_DIR/setup.sh" "$TMPCTX/setup.sh"
+else
+    printf '#!/bin/bash\necho "No custom setup."\n' > "$TMPCTX/setup.sh"
+fi
+
+# Use custom Dockerfile from test dir if present, otherwise generate one
+if [ -f "$TEST_DIR/Dockerfile" ]; then
+    cp "$TEST_DIR/Dockerfile" "$TMPCTX/Dockerfile"
+else
+    cat > "$TMPCTX/Dockerfile" <<'DOCKERFILE'
+ARG BASE_IMAGE=ubuntu:22.04
+FROM ${BASE_IMAGE}
+
+RUN apt-get update && apt-get install -y git curl && rm -rf /var/lib/apt/lists/*
+RUN git config --global user.email "test@test.local" \
+ && git config --global user.name "Snapshot Test"
+
+COPY setup.sh /app/setup.sh
+RUN chmod +x /app/setup.sh && /app/setup.sh
+
+COPY run-scenarios.sh /app/run-scenarios.sh
+RUN chmod +x /app/run-scenarios.sh
+
+RUN mkdir -p /workspace /app/scenarios
+
+ENTRYPOINT ["bash", "-c", "sed 's/\\r$//' /app/run-scenarios.sh > /tmp/run.sh && bash /tmp/run.sh \"$@\"", "--"]
+DOCKERFILE
 fi
 
 # Build
 if ! $NO_BUILD; then
-    echo "Building Docker image: $IMAGE_NAME ..."
-    docker build -t "$IMAGE_NAME" -f "$TEST_DIR/Dockerfile" "$TEST_DIR"
+    echo "Building Docker image: $IMAGE_NAME (base: $BASE_IMAGE) ..."
+    docker build --build-arg BASE_IMAGE="$BASE_IMAGE" -t "$IMAGE_NAME" "$TMPCTX"
     echo ""
 fi
 
 # Run — mount scenarios folder so output is written back to host
 echo "Running scenarios in Docker..."
-docker run --rm \
-    -v "$(cd "$TEST_DIR/scenarios" && pwd):/app/scenarios" \
+SCENARIOS_ABS="$(cd "$TEST_DIR/scenarios" && pwd)"
+# MSYS_NO_PATHCONV prevents Git Bash on Windows from mangling /app/scenarios
+MSYS_NO_PATHCONV=1 docker run --rm \
+    -v "$SCENARIOS_ABS:/app/scenarios" \
     "$IMAGE_NAME" \
     --engine --pattern "$PATTERN"

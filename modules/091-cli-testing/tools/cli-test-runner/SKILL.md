@@ -20,19 +20,18 @@ The original [Approval Tests](https://approvaltests.com/) idea by Llewellyn Falc
 cli-test-runner/
 ├── SKILL.md              ← this file (instructions)
 ├── run-scenarios.sh      ← universal bash runner (read-only, do not modify)
-├── run-scenarios.ps1     ← PowerShell wrapper for Windows users
-└── demo/                 ← usage examples and demos
+└── demo/                 ← usage examples
     ├── node-cli/         ← example: testing a Node.js CLI tool
-    │   ├── setup.sh      ← custom setup script (installs Node CLI)
-    │   ├── Dockerfile    ← custom Dockerfile
+    │   ├── setup.sh      ← custom setup script (installs cowsay)
     │   └── scenarios/
     │       └── basic-commands.md
     └── python-cli/       ← example: testing a Python CLI tool
         ├── setup.sh
-        ├── Dockerfile
         └── scenarios/
             └── basic-commands.md
 ```
+
+No per-demo Dockerfiles needed — the runner generates one on the fly using `--base-image`.
 
 ## How to Use This Skill
 
@@ -44,67 +43,36 @@ In your project, create a test folder with this layout:
 your-project/
 ├── test/
 │   ├── setup.sh              ← your custom setup script
-│   ├── Dockerfile             ← your custom Dockerfile
 │   └── scenarios/
 │       ├── smoke-test.md      ← scenario file 1
 │       ├── edge-cases.md      ← scenario file 2
 │       └── regression.md      ← scenario file 3
 ```
 
-### Step 2: Write Your Dockerfile
+No Dockerfile needed — the runner generates one automatically. If you need full control, place a custom `Dockerfile` in the test dir and it will be used instead.
 
-The Dockerfile sets up the environment for your CLI tool. It must:
-- Install your CLI tool and its dependencies
-- Copy the runner script and scenario files
-- Set the entrypoint to use the runner
+### Step 2: Write a Setup Script
 
-**Template:**
-
-```dockerfile
-FROM ubuntu:22.04
-
-# Install your CLI dependencies
-RUN apt-get update && apt-get install -y <your-dependencies> && rm -rf /var/lib/apt/lists/*
-
-# Copy setup script and run it
-COPY setup.sh /app/setup.sh
-RUN chmod +x /app/setup.sh && /app/setup.sh
-
-# Copy the universal runner script
-COPY run-scenarios.sh /app/run-scenarios.sh
-RUN chmod +x /app/run-scenarios.sh
-
-# Copy scenario files
-COPY scenarios/ /app/scenarios/
-
-# Prepare workspace
-RUN mkdir -p /workspace
-
-ENTRYPOINT ["bash", "-c", "sed 's/\\r$//' /app/run-scenarios.sh > /tmp/run.sh && bash /tmp/run.sh \"$@\"", "--"]
-```
-
-You can use any base image: `ubuntu:22.04`, `node:20-slim`, `python:3.12-slim`, `alpine:3.19`, etc.
-
-### Step 3: Write a Setup Script
-
-The `setup.sh` is where you install and configure your CLI tool:
+The `setup.sh` is where you install and configure your CLI tool. This runs during `docker build`:
 
 ```bash
 #!/usr/bin/env bash
 # setup.sh — Install and configure your CLI tool
 set -e
 
-# Example: install a Node.js CLI
+# Example: install a Node.js CLI (use --base-image node:20-slim)
 npm install -g your-cli-tool
 
-# Example: install a Python CLI
+# Example: install a Python CLI (use --base-image python:3.12-slim)
 # pip install your-cli-tool
 
 # Example: build from source
 # cd /app/source && make install
 ```
 
-### Step 4: Write Scenario Files
+Choose a `--base-image` that matches your tool's runtime (e.g., `node:20-slim` for npm-based CLIs, `python:3.12-slim` for pip-based CLIs, `ubuntu:22.04` as a general default).
+
+### Step 3: Write Scenario Files
 
 Scenario files are Markdown documents. The format:
 
@@ -138,51 +106,34 @@ Create a new project and list contents.
 - On re-run, old output blocks are replaced — descriptions stay intact
 - Backticks in output are replaced with single quotes to avoid breaking fences
 
-### Step 5: Run the Tests
+### Step 4: Run the Tests
 
-**PowerShell (Windows):**
-
-```powershell
-# Run all scenarios
-& path/to/run-scenarios.ps1 -TestDir ./test
-
-# Run specific scenarios by glob pattern
-& path/to/run-scenarios.ps1 -TestDir ./test -Pattern "smoke*"
-
-# Use a custom Docker image name
-& path/to/run-scenarios.ps1 -TestDir ./test -ImageName my-cli-test
-
-# Use a different base OS (must match your Dockerfile FROM)
-& path/to/run-scenarios.ps1 -TestDir ./test -ImageName my-cli-test
-```
-
-**Bash (Linux/macOS):**
+Everything is driven by `run-scenarios.sh`. One command, all inside Docker:
 
 ```bash
-# Run all scenarios
+# Run all scenarios (default base: ubuntu:22.04)
 bash path/to/run-scenarios.sh --test-dir ./test
 
+# Specify a base image for your CLI
+bash path/to/run-scenarios.sh --test-dir ./test --base-image node:20-slim
+
 # Run specific scenarios by glob pattern
-bash path/to/run-scenarios.sh --test-dir ./test --pattern "smoke*"
+bash path/to/run-scenarios.sh --test-dir ./test --base-image python:3.12-slim --pattern "smoke*"
 
-# Use a custom Docker image name
-bash path/to/run-scenarios.sh --test-dir ./test --image-name my-cli-test
+# Custom Docker image name
+bash path/to/run-scenarios.sh --test-dir ./test --base-image node:20-slim --image-name my-cli-test
 ```
 
-**Direct Docker (advanced):**
+On Windows, use Git Bash or WSL to run the script. Docker Desktop handles the rest.
 
-```bash
-# Build the image
-docker build -t my-cli-test -f test/Dockerfile test/
+**What happens under the hood:**
+1. A temporary build context is created with your `setup.sh` + the runner script
+2. A Dockerfile is generated on the fly using `--base-image` (or your custom `Dockerfile` if one exists in the test dir)
+3. Docker builds the image and installs your CLI via `setup.sh`
+4. Container runs with `scenarios/` mounted as a volume — output writes back to host
+5. Temporary build context is cleaned up
 
-# Run all scenarios
-docker run --rm -v ./test/scenarios:/app/scenarios my-cli-test
-
-# Run specific scenarios
-docker run --rm -v ./test/scenarios:/app/scenarios my-cli-test --pattern "smoke*"
-```
-
-### Step 6: Review and Commit
+### Step 5: Review and Commit
 
 ```bash
 # Check what changed
@@ -197,7 +148,8 @@ git commit -m "test: update golden snapshots"
 
 | Flag | Short | Default | Description |
 |------|-------|---------|-------------|
-| `--test-dir` | `-d` | `.` | Path to test directory containing `Dockerfile`, `setup.sh`, and `scenarios/` |
+| `--test-dir` | `-d` | `.` | Path to test directory containing `setup.sh` and `scenarios/` |
+| `--base-image` | `-b` | `ubuntu:22.04` | Docker base image (e.g., `node:20-slim`, `python:3.12-slim`) |
 | `--pattern` | `-p` | `*.md` | Glob pattern for scenario files to run |
 | `--image-name` | `-i` | `cli-snapshot-test` | Docker image name to use |
 | `--no-build` | `-n` | (off) | Skip Docker build, use existing image |

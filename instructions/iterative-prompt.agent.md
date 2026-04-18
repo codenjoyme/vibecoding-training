@@ -27,14 +27,16 @@ This approach has no direct equivalent in the broader GenAI community. The key i
   5. Only stop and wait for the user when every `## UPD` block has its `### RESULT`.
   6. **After all `## UPD` blocks are processed:** enter an active terminal-based polling loop:
      + **Step A:** Run a blocking wait command in the terminal to pause for a timeout interval:
-       * **Windows (PowerShell):** `Start-Sleep -Seconds 30`
-       * **Linux/macOS (bash):** `sleep 30`
+       * **Windows (PowerShell):** `Start-Sleep -Seconds 60`
+       * **Linux/macOS (bash):** `sleep 60`
        * Use `run_in_terminal` in **sync** mode with a matching timeout so the agent blocks on it.
-     + **Step B:** After the sleep finishes, re-read the prompt file (the `*.prompt.md` that triggered this session).
-     + **Step C:** Check whether a new `## UPD[N]` block exists that does NOT have a `### RESULT`.
-       * Also run `git diff` on the prompt file to detect uncommitted additions.
-     + **Step D:** If a new unprocessed `## UPD` is found — implement it immediately, write `### RESULT`, commit, and then return to Step A.
-     + **Step E:** If no new `## UPD` exists — go back to Step A (sleep again).
+     + **Step B:** After the sleep finishes, re-read the **full content** of the prompt file (the `*.prompt.md` that triggered this session).
+     + **Step C:** Check whether any `## UPD[N]` block has changed or lacks a `### RESULT`.
+       * Do NOT only check for a new N+1 — the user may have edited an existing `## UPD` block (rewritten its text, removed a `### RESULT`, etc.).
+       * Compare the current content of every `## UPD` section against what was previously processed. If any section's content differs from the last known state, or if a `### RESULT` is missing, treat it as an unprocessed update.
+     + **Step D:** If there is a `## UPD` block at the end of the file that has no `### RESULT` and no `go` marker at the end, the user may still be typing. **Wait for the keyword `go` at the end of the block** before starting implementation. If `go` is not present, go back to Step A and sleep again.
+     + **Step E:** If an unprocessed `## UPD` is found and it ends with `go` — implement it immediately, write `### RESULT`, commit, and return to Step A.
+     + **Step F:** If no changes detected — go back to Step A (sleep again).
      + This loop continues **indefinitely** until the user explicitly stops the agent.
      + Do NOT print "waiting for instructions" to the chat and stop. The agent must keep itself alive via the terminal sleep loop.
 - When asked to create a new prompt file inside folder, immediately produce a ready-to-use file:

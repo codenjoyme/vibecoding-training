@@ -19,10 +19,10 @@ Components:
 | Component | Purpose | Location |
 |-----------|---------|----------|
 | `run-scenarios.sh` | Universal bash runner (read-only) | Skill tool |
-| `run-scenarios.ps1` | PowerShell wrapper for Windows | Skill tool |
-| `Dockerfile` | Your custom container setup | Your test dir |
 | `setup.sh` | CLI installation script | Your test dir |
 | `scenarios/*.md` | Test scenario files | Your test dir |
+
+No per-test Dockerfile needed — the runner generates one on the fly using `--base-image`.
 
 ## Part 1: Understand the Concept
 
@@ -72,12 +72,12 @@ Let's start by looking at a working example.
 
    ```
    demo/node-cli/
-   ├── Dockerfile          ← Container with Node.js + cowsay
    ├── setup.sh            ← Installs cowsay globally
-   ├── run-demo.ps1        ← One-click runner
    └── scenarios/
        └── basic-commands.md  ← Scenario file
    ```
+
+   That's it — just `setup.sh` and scenario files. The runner script generates the Dockerfile automatically.
 
 4. Open `demo/node-cli/scenarios/basic-commands.md` and examine the format:
 
@@ -99,26 +99,31 @@ Let's start by looking at a working example.
 
 ## Part 3: Run the Node.js Demo
 
-1. Navigate to the skill's demo directory:
+1. Navigate to the repo root:
 
-   **Windows (PowerShell):**
-   ```powershell
-   cd modules/091-cli-testing/tools/cli-test-runner/demo/node-cli
+   ```bash
+   cd c:/workspace/hello-genai/
    ```
 
-2. Run the demo:
+2. Run the demo (from the repo root):
 
-   **Windows (PowerShell):**
-   ```powershell
-   & .\run-demo.ps1
+   ```bash
+   bash modules/091-cli-testing/tools/cli-test-runner/run-scenarios.sh \
+     --test-dir modules/091-cli-testing/tools/cli-test-runner/demo/node-cli \
+     --base-image node:20-slim \
+     --image-name demo-node-cli
    ```
+
+   On Windows, use Git Bash or WSL. Docker Desktop handles the rest.
 
    **What happens:**
+   - A temporary build context is created with `setup.sh` + runner script
+   - A Dockerfile is generated using `--base-image node:20-slim`
    - Docker builds an image with Node.js and cowsay installed
    - The runner reads `scenarios/basic-commands.md`
    - Each `` > `command` `` line is executed inside the container
    - Output is captured and inserted as a fenced code block after each command
-   - The result is written back to the same file
+   - The result is written back to the same file via volume mount
 
 3. Open `scenarios/basic-commands.md` again. It now contains the output:
 
@@ -147,27 +152,24 @@ Let's start by looking at a working example.
 
 ## Part 4: Run the Python Demo
 
-1. Navigate to the Python demo:
-
-   ```powershell
-   cd ../python-cli
-   ```
-
-2. Run the demo:
-
-   ```powershell
-   & .\run-demo.ps1
-   ```
-
-3. Check the result:
+1. Run the Python demo (from the repo root):
 
    ```bash
-   git diff scenarios/basic-commands.md
+   bash modules/091-cli-testing/tools/cli-test-runner/run-scenarios.sh \
+     --test-dir modules/091-cli-testing/tools/cli-test-runner/demo/python-cli \
+     --base-image python:3.12-slim \
+     --image-name demo-python-cli
+   ```
+
+2. Check the result:
+
+   ```bash
+   git diff modules/091-cli-testing/tools/cli-test-runner/demo/python-cli/scenarios/
    ```
 
    You'll see HTTPie's help output, version string, and offline HTTP request formatting — all captured automatically.
 
-**Key observation:** The same runner script (`run-scenarios.sh`) works for both Node.js and Python CLIs. Only the `Dockerfile` and `setup.sh` change.
+**Key observation:** The same runner script works for both Node.js and Python CLIs. Only the `--base-image` and `setup.sh` change — no Dockerfiles to maintain.
 
 ## Part 5: Create Your Own Test
 
@@ -187,26 +189,7 @@ Now let's set up snapshot testing for a CLI of your choice. We'll use a simple e
    echo "Setup complete."
    ```
 
-3. Create `my-cli-test/Dockerfile`:
-
-   ```dockerfile
-   FROM ubuntu:22.04
-
-   RUN apt-get update && apt-get install -y git curl && rm -rf /var/lib/apt/lists/*
-
-   COPY setup.sh /app/setup.sh
-   RUN chmod +x /app/setup.sh && /app/setup.sh
-
-   COPY run-scenarios.sh /app/run-scenarios.sh
-   RUN chmod +x /app/run-scenarios.sh
-
-   COPY scenarios/ /app/scenarios/
-   RUN mkdir -p /workspace
-
-   ENTRYPOINT ["bash", "-c", "sed 's/\\r$//' /app/run-scenarios.sh > /tmp/run.sh && bash /tmp/run.sh \"$@\"", "--"]
-   ```
-
-4. Create `my-cli-test/scenarios/bash-builtins.md`:
+3. Create `my-cli-test/scenarios/bash-builtins.md`:
 
    ```markdown
    # Bash Builtins — Snapshot Test
@@ -231,15 +214,15 @@ Now let's set up snapshot testing for a CLI of your choice. We'll use a simple e
    > `wc -c test.txt`
    ```
 
-5. Copy the runner script and run:
+4. Run the tests:
 
-   **Windows (PowerShell):**
-   ```powershell
-   # From the skill directory
-   & path/to/run-scenarios.ps1 -TestDir ./my-cli-test -ImageName my-cli-test
+   ```bash
+   bash path/to/run-scenarios.sh --test-dir ./my-cli-test --image-name my-cli-test
    ```
 
-6. Check the output:
+   The default `--base-image` is `ubuntu:22.04`, which has bash builtins available.
+
+5. Check the output:
 
    ```bash
    cat my-cli-test/scenarios/bash-builtins.md
@@ -251,7 +234,7 @@ Now let's set up snapshot testing for a CLI of your choice. We'll use a simple e
    - `cat test.txt` → `hello world`
    - `wc -c test.txt` → `12 test.txt`
 
-7. Commit as golden snapshot:
+6. Commit as golden snapshot:
 
    ```bash
    git add my-cli-test/
@@ -268,8 +251,8 @@ This is where snapshot testing shines.
 
 2. **Re-run** the tests:
 
-   ```powershell
-   & path/to/run-scenarios.ps1 -TestDir ./my-cli-test -ImageName my-cli-test
+   ```bash
+   bash path/to/run-scenarios.sh --test-dir ./my-cli-test --image-name my-cli-test
    ```
 
 3. **Check the diff:**
@@ -300,22 +283,24 @@ This is where snapshot testing shines.
 
 ### Changing the Base OS
 
-Change the `FROM` line in your Dockerfile:
+Use the `--base-image` flag — no Dockerfile editing needed:
 
-```dockerfile
-FROM alpine:3.19        # Minimal Linux
-FROM ubuntu:22.04       # Full-featured Linux
-FROM node:20-slim       # Node.js pre-installed
-FROM python:3.12-slim   # Python pre-installed
-FROM golang:1.22        # Go pre-installed
+```bash
+bash run-scenarios.sh --test-dir ./test --base-image alpine:3.19        # Minimal Linux
+bash run-scenarios.sh --test-dir ./test --base-image ubuntu:22.04       # Full-featured Linux
+bash run-scenarios.sh --test-dir ./test --base-image node:20-slim       # Node.js pre-installed
+bash run-scenarios.sh --test-dir ./test --base-image python:3.12-slim   # Python pre-installed
+bash run-scenarios.sh --test-dir ./test --base-image golang:1.22        # Go pre-installed
 ```
+
+If you need a fully custom Dockerfile (e.g., Alpine with `apk` instead of `apt-get`), place it in your test directory and the runner will use it instead of generating one.
 
 ### Running Specific Scenarios
 
 Use the `--pattern` flag to run only matching files:
 
-```powershell
-& run-scenarios.ps1 -TestDir ./my-cli-test -Pattern "smoke*"
+```bash
+bash run-scenarios.sh --test-dir ./my-cli-test --pattern "smoke*"
 ```
 
 ### Multiple Scenario Files
@@ -344,7 +329,7 @@ The runner redirects stdin to `/dev/null` to prevent commands from accidentally 
 
 - ✅ You understand the difference between approval/snapshot testing and assertion-based testing
 - ✅ You ran at least one demo (Node.js or Python) successfully
-- ✅ You created your own scenario file and Dockerfile for a CLI
+- ✅ You created your own scenario file and setup.sh for a CLI
 - ✅ You executed the scenarios and saw output captured in the Markdown file
 - ✅ You used `git diff` to review changes after a modification
 - ✅ You committed a golden snapshot to Git
@@ -383,7 +368,7 @@ The runner redirects stdin to `/dev/null` to prevent commands from accidentally 
 | Line endings differ on Windows | The runner normalizes `\r\n` to `\n`. If you still see line ending diffs, configure Git: `git config core.autocrlf input` |
 | Command consumes scenario file | Add `--ignore-stdin` to your CLI command, or the runner handles this via `/dev/null` stdin redirection |
 | Git diff shows timestamp/hash changes | Expected — these change every run. Focus on structural and behavioral differences. |
-| PowerShell script execution blocked | Run: `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` |
+| Git Bash not found on Windows | Install Git for Windows, which includes Git Bash. Or use WSL. |
 
 ## Next Steps
 
