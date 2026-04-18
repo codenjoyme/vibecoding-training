@@ -57,3 +57,147 @@ Tested: Node.js demo ✓, Python demo ✓, custom bash builtins test ✓, regres
 ### RESULT
 
 Modified `instructions/iterative-prompt.agent.md` — replaced passive "remain idle and wait" with explicit terminal-based polling loop using `Start-Sleep -Seconds 30` (Windows) / `sleep 30` (Linux/macOS) via `run_in_terminal` in sync mode. After each sleep, agent re-reads the prompt file and checks `git diff` for new `## UPD` blocks. Loop continues indefinitely until user stops the agent.
+
+## UPD3
+
+РАсскажи мне тут ниже как оно работает. Я хочу попробовать какие командЫ шаг за шагом выполнять.
+
+### RESULT
+
+Вот пошаговая инструкция. Всё ниже выполняется из корня проекта (`c:\Java\CopipotTraining\vibecoding-for-managers`).
+
+---
+
+#### Шаг 1: Запусти готовый демо (Node.js — cowsay)
+
+Это самый быстрый способ увидеть как работает. Просто запусти одну команду:
+
+```powershell
+& .\modules\091-cli-testing\tools\cli-test-runner\run-scenarios.ps1 -TestDir .\modules\091-cli-testing\tools\cli-test-runner\demo\node-cli -ImageName demo-node-cli-test
+```
+
+**Что произойдёт:**
+1. Скрипт скопирует `run-scenarios.sh` в папку demo
+2. Docker соберёт образ с Node.js + cowsay
+3. Запустятся все `.md` файлы из `demo/node-cli/scenarios/`
+4. Вывод каждой команды запишется обратно в `.md` файл
+5. Скопированный runner удалится
+
+**Потом посмотри результат:**
+```powershell
+git diff modules\091-cli-testing\tools\cli-test-runner\demo\node-cli\scenarios\basic-commands.md
+```
+
+Если diff пустой — ничего не изменилось (стабильно). Если есть diff — смотри что поменялось.
+
+---
+
+#### Шаг 2: Запусти Python демо (httpie)
+
+```powershell
+& .\modules\091-cli-testing\tools\cli-test-runner\run-scenarios.ps1 -TestDir .\modules\091-cli-testing\tools\cli-test-runner\demo\python-cli -ImageName demo-python-cli-test
+```
+
+```powershell
+git diff modules\091-cli-testing\tools\cli-test-runner\demo\python-cli\scenarios\basic-commands.md
+```
+
+---
+
+#### Шаг 3: Создай свой тест с нуля
+
+Допустим хочешь протестировать bash-команды:
+
+**3.1. Создай папку:**
+```powershell
+New-Item -ItemType Directory -Path work\091-task\my-test\scenarios -Force
+```
+
+**3.2. Создай `setup.sh`** — файл `work\091-task\my-test\setup.sh`:
+```bash
+#!/usr/bin/env bash
+echo "Setup complete."
+```
+
+**3.3. Создай `Dockerfile`** — файл `work\091-task\my-test\Dockerfile`:
+```dockerfile
+FROM ubuntu:22.04
+RUN apt-get update && apt-get install -y git curl && rm -rf /var/lib/apt/lists/*
+COPY setup.sh /app/setup.sh
+RUN chmod +x /app/setup.sh && /app/setup.sh
+COPY run-scenarios.sh /app/run-scenarios.sh
+RUN chmod +x /app/run-scenarios.sh
+COPY scenarios/ /app/scenarios/
+RUN mkdir -p /workspace
+ENTRYPOINT ["bash", "-c", "sed 's/\\r$//' /app/run-scenarios.sh > /tmp/run.sh && bash /tmp/run.sh \"$@\"", "--"]
+```
+
+**3.4. Создай сценарий** — файл `work\091-task\my-test\scenarios\smoke.md`:
+```markdown
+# My Smoke Test
+
+## Check environment
+
+> `whoami`
+
+> `pwd`
+
+## Create something
+
+> `cd /workspace`
+> `echo "hello" > test.txt`
+> `cat test.txt`
+```
+
+**3.5. Запусти:**
+```powershell
+& .\modules\091-cli-testing\tools\cli-test-runner\run-scenarios.ps1 -TestDir .\work\091-task\my-test -ImageName my-test
+```
+
+**3.6. Смотри результат:**
+```powershell
+cat work\091-task\my-test\scenarios\smoke.md
+```
+
+Ты увидишь что после каждой команды `` > `command` `` появился блок ` ``` ` с выводом.
+
+---
+
+#### Шаг 4: Тестируй регрессию
+
+1. Закоммить файл сценария как "золотой стандарт": `git add work\091-task\my-test\scenarios\smoke.md`
+2. Измени что-то в сценарии (например текст echo)
+3. Запусти снова (шаг 3.5)
+4. `git diff work\091-task\my-test\scenarios\smoke.md` — увидишь что поменялось!
+5. Решай: коммитить как новую правду или фиксить
+
+---
+
+#### Ключевые флаги
+
+| Флаг | Что делает |
+|------|------------|
+| `-TestDir ./path` | Папка с Dockerfile, setup.sh и scenarios/ |
+| `-Pattern "smoke*"` | Маска для запуска только определённых сценариев |
+| `-ImageName name` | Имя Docker образа |
+| `-NoBuild` | Пропустить сборку, использовать существующий образ |
+
+---
+
+#### Формат сценария
+
+```markdown
+Описательный текст (проходит без изменений)
+
+> `команда которая будет выполнена`
+
+Ещё описание
+
+> `cd /workspace`
+> `ls -la`
+```
+
+- Строки `` > `command` `` — выполняются
+- Всё остальное — просто текст (проходит как есть)
+- `cd` меняет рабочую директорию для последующих команд
+- Бэктики в выводе заменяются на одинарные кавычки
