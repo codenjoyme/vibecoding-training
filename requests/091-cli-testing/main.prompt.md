@@ -145,3 +145,15 @@ macOS and Linux have bash natively. On Windows, Git Bash (bundled with Git for W
 ## UPD6
 
 Ну ладно, давай сделай такой же скрипт на PowerShell рядом с `run-scenarios.sh`. Один в один. Порт. И обнови пожалуйста под новые изменения и программу и SKILL.md. go
+
+### RESULT
+
+Created `run-scenarios.ps1` — full 1:1 PowerShell port of `run-scenarios.sh`:
+- Same parameters: `-TestDir`, `-BaseImage`, `-Pattern`, `-ImageName`, `-NoBuild`, `-Local`, `-Engine`
+- Same temp build context + generated Dockerfile approach
+- CRLF→LF normalization for scenario files before/after Docker run
+- Cleanup of temp context via `try/finally`
+
+Updated `SKILL.md` — file structure now shows both scripts, Step 4 shows bash + PowerShell examples side by side, Runner Flags table has both bash and PowerShell sections.
+
+Tested: node-cli demo ✓, python-cli demo ✓ (both via PS1). Committed as `699bde4`.
