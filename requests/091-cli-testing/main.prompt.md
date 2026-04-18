@@ -86,3 +86,30 @@ bash run-scenarios.sh --test-dir demo/node-cli --base-image node:20-slim
 ```
 
 Tested: Node.js demo ✓, Python demo ✓. Committed as `0e97b6c`.
+
+## UPD4
+
+Да но теперь скрипт [run-scenarios.sh](../../modules/091-cli-testing/tools/cli-test-runner/run-scenarios.sh) как я смогу запустить на винде скажем? Скажи какой командой я могу это сделать под виндой/макос/линукс? Покажи мне тут список команд, которые для трех операционок. go.
+
+### RESULT
+
+**Windows (PowerShell with Git Bash):**
+```powershell
+& "C:\Program Files\Git\bin\bash.exe" path/to/run-scenarios.sh --test-dir ./my-test --base-image node:20-slim
+```
+Or if `bash` is in PATH (Git for Windows adds it):
+```powershell
+bash path/to/run-scenarios.sh --test-dir ./my-test --base-image node:20-slim
+```
+
+**macOS:**
+```bash
+bash path/to/run-scenarios.sh --test-dir ./my-test --base-image node:20-slim
+```
+
+**Linux:**
+```bash
+bash path/to/run-scenarios.sh --test-dir ./my-test --base-image node:20-slim
+```
+
+macOS and Linux have bash natively. On Windows, Git Bash (bundled with Git for Windows) provides bash. Only Docker Desktop is required on all three platforms.
