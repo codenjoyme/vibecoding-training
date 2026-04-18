@@ -25,11 +25,18 @@ This approach has no direct equivalent in the broader GenAI community. The key i
   3. If it does — start implementing it right away, without pausing or asking the user.
   4. Repeat until there are no more unprocessed `## UPD` sections.
   5. Only stop and wait for the user when every `## UPD` block has its `### RESULT`.
-  6. **After all `## UPD` blocks are processed:** enter an infinite polling loop:
-     + Re-read the prompt file periodically (on each invocation / when the user triggers the agent again).
-     + If a new `## UPD[N]` block without a `### RESULT` has appeared — implement it immediately and repeat the loop.
-     + If no new blocks exist — remain idle and wait for the user to either add a new `## UPD` block or stop the agent manually.
-     + This loop continues indefinitely until the user explicitly stops the session.
+  6. **After all `## UPD` blocks are processed:** enter an active terminal-based polling loop:
+     + **Step A:** Run a blocking wait command in the terminal to pause for a timeout interval:
+       * **Windows (PowerShell):** `Start-Sleep -Seconds 30`
+       * **Linux/macOS (bash):** `sleep 30`
+       * Use `run_in_terminal` in **sync** mode with a matching timeout so the agent blocks on it.
+     + **Step B:** After the sleep finishes, re-read the prompt file (the `*.prompt.md` that triggered this session).
+     + **Step C:** Check whether a new `## UPD[N]` block exists that does NOT have a `### RESULT`.
+       * Also run `git diff` on the prompt file to detect uncommitted additions.
+     + **Step D:** If a new unprocessed `## UPD` is found — implement it immediately, write `### RESULT`, commit, and then return to Step A.
+     + **Step E:** If no new `## UPD` exists — go back to Step A (sleep again).
+     + This loop continues **indefinitely** until the user explicitly stops the agent.
+     + Do NOT print "waiting for instructions" to the chat and stop. The agent must keep itself alive via the terminal sleep loop.
 - When asked to create a new prompt file inside folder, immediately produce a ready-to-use file:
   + Use the following starter template:
     ```markdown
