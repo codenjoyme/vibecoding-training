@@ -89,3 +89,7 @@ iterative-prompt.agent
 А коммитая `main.prompt.md` в общий репозиторий вместе с коммитами, которые AI сгенерила, ты получишь так же историю того КАК (каким промптом) ты получил эти файлы. Весь же `main.prompt.md` является контекстом для какой-то фичи. По сути саммари чат сессии, которая раньше терялась. А сейчас вместе с проектом. 
 
 Так открыв 5 ide-шек с разными проектами. Потенциально я могу за весь день заюзать 5% премиум риквестов, переделав купу работы. Поменяется ли это? Ну вероятно вскоре да. Но сама идея `iterative prompt` полезна не только для этого. Она полезна для того, чтобы структурировать работу с моделью. И не терять контекст. И не терять инструкцию с которой я получил AI-генерированные файлы с течением времени или при смене расположения воркспейса/ide. А так же дать возможность коллегам понять как эти файлы были сгенерированы.
+
+### RESULT
+
+- Modified [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) — added a new `### Why This Matters — Saving Premium Requests` subsection inside `## Who I Am`. It explains the Copilot premium-request billing model (1 request = 1% regardless of token count), and lists 6 concrete reasons why the iterative-prompt pattern helps economize: maximizing autonomous work, writing in a file instead of chat, structured UPD/RESULT cycles, zero-cost polling loop, context survival across compaction, and git-based shared knowledge.

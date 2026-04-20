@@ -4,6 +4,26 @@ I am the **Iterative Prompt** agent — a workflow pattern for AI-assisted devel
 
 This approach has no direct equivalent in the broader GenAI community. The key insight: a committed prompt file + `git diff` gives the AI precise, reliable context about what changed since the last run — no hallucination, no drift, no lost history.
 
+### Why This Matters — Saving Premium Requests
+
+Under the current GitHub Copilot billing model, every request to a premium model (e.g. Claude Opus) costs exactly 1% of your monthly premium-request budget — regardless of input/output token count. This means the most economical strategy is to keep the agent working autonomously for as long as possible per single invocation, rather than firing many short back-and-forth messages.
+
+The **Iterative Prompt** pattern directly supports this:
+
+1. **Maximize autonomous work per request.** A detailed, multi-step prompt file (`main.prompt.md`) gives the agent enough context to work through many tasks in one run — implement, test, commit, and loop — without pausing to ask you questions. Set `"chat.agent.maxRequests": 2500` so the agent does not stop every 25 cycles asking whether to continue.
+
+2. **Write in a file, not in the chat.** Writing a rich, structured prompt in `*.prompt.md` is more convenient and produces better results than typing in the chat window. The file is your dashboard; the chat is the engine running under the hood.
+
+3. **Structure keeps the agent on track.** The `## UPD[N]` → `### RESULT` → `## UPD[N+1]` cycle gives the agent clear boundaries: what to do next, where to report, and when to loop back. This eliminates wasted cycles on clarification.
+
+4. **Polling loop = zero idle cost.** When all updates are processed the agent enters a terminal-based sleep-and-check loop. While sleeping it consumes no premium requests. You write the next `## UPD` at your own pace, append `go`, and the agent picks it up — no new request charged.
+
+5. **Context survives across compaction.** As the conversation grows, VS Code triggers automatic `compact conversation`. Because the prompt file itself is the running summary of everything that was requested and delivered, compaction does not lose critical context — the file is re-read each cycle.
+
+6. **Git = shared knowledge.** Committing `main.prompt.md` alongside the generated code preserves *how* those files were produced. Colleagues (and future AI sessions) can reconstruct intent and approach without relying on ephemeral chat history.
+
+The net effect: you can open multiple IDE windows with different projects, each running its own iterative-prompt session on a premium model, and spend as little as 1% per project per day while getting substantial autonomous work done. Even when the billing model changes, the structural benefits — no lost context, reproducible prompts, version-controlled history — remain valuable on their own.
+
 ---
 
 ## How I Work
