@@ -309,3 +309,47 @@ hello world
 Это и есть твой **approved truth** — результаты всех команд зафиксированы.
 
 Теперь Part 6 — хочешь увидеть как snapshot реагирует на изменение? Предлагаю такой эксперимент: изменим строку `"hello world"` на `"hello snapshot testing"` в сценарии, перезапустим, и посмотрим `git diff`.
+
+## UPD11
+
+Да, давай. Go
+
+### RESULT
+
+---
+
+## 📖 Part 6: Regression workflow — видим изменение через git diff
+
+Изменяю строку в сценарии: `"hello world"` → `"hello snapshot testing"`.
+
+Перезапускаю тест, затем `git diff`:
+
+```diff
+--> `echo "hello world" > /workspace/test.txt`
+++> `echo "hello snapshot testing" > /workspace/test.txt`
+ 
+ > `cat /workspace/test.txt`
+ ```
+-hello world
++hello snapshot testing
+ ```
+ > `wc -c /workspace/test.txt`
+ ```
+-12 /workspace/test.txt
++23 /workspace/test.txt
+ ```
+```
+
+Смотри что произошло:
+- **Команда** — изменилась (ты её и менял)
+- **`cat` вывод** — изменился с `hello world` на `hello snapshot testing` (ожидаемо)
+- **`wc -c` вывод** — изменился с `12` на `23` (длина строки другая — тоже ожидаемо)
+
+Три связанных изменения — и все три объясняются одним твоим правкой. Если бы `wc -c` вдруг показал `99` — это было бы неожиданно и стоило бы разобраться.
+
+**Вот это и есть регрессионный workflow:**
+1. Изменил → запустил → посмотрел `git diff`
+2. Диф ожидаемый? → `git commit` (апрувишь новый snapshot)
+3. Диф неожиданный? → ищешь баг
+
+Коммитим этот новый snapshot как одобренный? Или хочешь ещё что-то поэкспериментировать?

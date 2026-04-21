@@ -20,14 +20,14 @@ Show the current working directory.
 
 Create a file and verify its content.
 
-> `echo "hello world" > /workspace/test.txt`
+> `echo "hello snapshot testing" > /workspace/test.txt`
 ```
 ```
 > `cat /workspace/test.txt`
 ```
-hello world
+hello snapshot testing
 ```
 > `wc -c /workspace/test.txt`
 ```
-12 /workspace/test.txt
+23 /workspace/test.txt
 ```
