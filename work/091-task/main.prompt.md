@@ -93,3 +93,56 @@ Llewellyn Falco назвал это именно *Approval* Tests — потом
 Кстати это объясняет почему формат именно Markdown, а не JSON или XML — потому что snapshot должен быть **читаемым человеком**. Ты смотришь `git diff` и понимаешь "ага, вывод версии изменился с 1.2.3 на 1.3.0, это ожидаемо" или "стоп, тут появилось сообщение об ошибке, это баг".
 
 Отличное понимание! Думаю мы хорошо разобрали Part 1. Готов к Part 2 где посмотрим реальный пример работающего теста?
+
+## UPD5
+
+Да, давай. Go
+
+### RESULT
+
+---
+
+## 📖 Part 2: Изучаем демо-пример
+
+Посмотрим на реальную структуру. Инструмент уже встроен в курс — вот что у нас есть:
+
+```
+modules/091-cli-testing/tools/cli-test-runner/
+├── run-scenarios.sh          ← универсальный runner (read-only, не трогаем)
+└── demo/
+    ├── node-cli/
+    │   ├── setup.sh                        ← устанавливает cowsay
+    │   └── scenarios/
+    │       └── basic-commands.md           ← файл со сценарием
+    └── python-cli/
+        ├── setup.sh                        ← устанавливает httpie
+        └── scenarios/
+            └── basic-commands.md
+```
+
+Вся магия — в формате файла сценария. Открой `modules/091-cli-testing/tools/cli-test-runner/demo/node-cli/scenarios/basic-commands.md` и посмотри на него. Вот типичный фрагмент:
+
+```markdown
+# Cowsay CLI — Snapshot Test
+
+## Phase 1: Basic Commands
+
+Verify cowsay is installed and accessible.
+
+> `command -v cowsay`
+
+Check that it runs with default cow.
+
+> `cowsay "Hello from snapshot testing!"`
+```
+
+**Правило формата простое:**
+- Любая строка `` > `команда` `` — это команда для выполнения
+- Всё остальное — описательный текст, проходит насквозь без изменений
+- Runner подставляет вывод сразу после каждой команды в виде fenced code block
+
+**Ключевое:** runner не нужен отдельный Dockerfile под каждый CLI. Ты указываешь `--base-image node:20-slim` — он генерирует Dockerfile на лету, собирает image, запускает `setup.sh` внутри, потом гоняет сценарии.
+
+Ты можешь открыть сам `run-scenarios.sh` чтобы убедиться — он небольшой и читаемый. Но это не обязательно для понимания.
+
+Что тебя больше удивляет в этой архитектуре — то что Dockerfile генерируется на лету, или то что формат такой минималистичный (просто `> \`команда\`` в Markdown)?
