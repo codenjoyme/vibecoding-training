@@ -93,3 +93,12 @@ iterative-prompt.agent
 ### RESULT
 
 - Modified [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) — added a new `### Why This Matters — Saving Premium Requests` subsection inside `## Who I Am`. It explains the Copilot premium-request billing model (1 request = 1% regardless of token count), and lists 6 concrete reasons why the iterative-prompt pattern helps economize: maximizing autonomous work, writing in a file instead of chat, structured UPD/RESULT cycles, zero-cost polling loop, context survival across compaction, and git-based shared knowledge.
+
+## UPD2
+
+А давай сделаем вот что, у нас есть [text](../../instructions/training-mode.agent.md) которй проходит в чате. И ребятам жалуются что много премиум токенов расходуется. А что если мы сделаем второй режим работы тренинга, когда в дополнение к этой инструкции будет использоваться `iterative prompt` подход. То есть в тренинг мод агенте надо указать, что если изначально идет запрос юзера пройти тренинг в `iterative prompt` подходе, то вся конверсация по модулю происходит в папке `work\NNN-task\main.prompt.md` и надо дать небольшой инструктаж юзера как вести переписку там, что такое UPD и RESULT и как команда `go` работает. Пусть изменений будет не много в основной инструкции по тренинговому режиму, можно этот весь инструктаж вынести в отдельный файл `training-mode-iterative-prompt.agent.md` и там уже расписать все подробно. И в основной инструкции по тренинговому режиму уже просто дать ссылку на эту инструкцию и написать, что если хочешь экономить премиум риквесты, то используй `iterative prompt` подход. Go
+
+### RESULT
+
+- Created [instructions/training-mode-iterative-prompt.agent.md](../../instructions/training-mode-iterative-prompt.agent.md) — full guide for running training sessions in iterative prompt mode: user onboarding script, prompt file template, flow example, agent loop rules, UPD format reference table, and switch-back instructions.
+- Modified [instructions/training-mode.agent.md](../../instructions/training-mode.agent.md) — added `## 💡 Want to Save Premium Requests? Use Iterative Prompt Mode` section right after `## Training Mode Activation`, pointing to the new file.

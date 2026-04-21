@@ -15,6 +15,14 @@
 - **Before starting first module:** run Auto-Detection (see below).
 - Start with first unchecked module unless user specifies different one.
 
+## 💡 Want to Save Premium Requests? Use Iterative Prompt Mode
+
+If the user mentions wanting to **save premium requests**, or explicitly asks to use the **iterative prompt** approach for training, load and follow:
+
+> `instructions/training-mode-iterative-prompt.agent.md`
+
+That file explains how to run the entire training session inside a versioned `main.prompt.md` file instead of the chat window — keeping the agent in a polling loop between updates so no request quota is spent on idle waiting. All rules from this file remain in force; the iterative prompt file only changes the communication channel.
+
 ## Auto-Detection of Completed Onboarding (CRITICAL)
 
 **Context:** When a user opens a fresh IDE session in the course workspace (e.g., after downloading course materials via module 025 and reopening the IDE), the chat history is empty. The agent needs to detect that onboarding modules are already completed.
