@@ -383,3 +383,13 @@ hello world
 ---
 
 Отмечаю модуль завершённым в `training-progress.md`.
+
+## UPD13
+
+Давай удалим work/091-task из гита. А этот файл переместим в [text](../../requests/091-cli-testing) но с новым имененм, чтобы было видно что это `module-testing.prompt.md`. go
+
+### RESULT
+
+- Moved `work/091-task/main.prompt.md` → `requests/091-cli-testing/module-training.prompt.md`
+- Removed `work/091-task/` from git tracking (`git rm -r --cached`)
+- `work/` already in `.gitignore` — files remain on disk, tracking stopped
