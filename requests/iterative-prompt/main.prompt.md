@@ -115,3 +115,11 @@ iterative-prompt.agent
   + Step 2 — template now includes `Language: [user's language]` in `## Context` and a `Respond in the language...` line in UPD1; language is derived from the language the user used when requesting training
   + Step 3 — renamed from "Hand Off to the File" to "Hand Off to the File AND Enter Polling Loop"; added `⚠️ CRITICAL` block explicitly stating that the agent MUST enter the polling loop on the parent prompt file immediately after writing RESULT — not stop and answer chat messages
 - Updated `work/091-task/main.prompt.md` — added `Language: Russian` to Context section and `Respond in Russian` to UPD1 
+
+## UPD4
+
+Давай переключись тогда на [text](../../work/091-task/main.prompt.md) и продолжим там. Не надо мне советовать переключиться в новую сессию. Используй эту же сессию. Go
+
+### RESULT
+
+- Switched to `work/091-task/main.prompt.md` — conducting module 091 training directly in this session via that file's UPD mechanism. Polling on that file from this point forward.
