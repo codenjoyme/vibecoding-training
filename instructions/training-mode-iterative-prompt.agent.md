@@ -58,6 +58,7 @@ training-mode-iterative-prompt.agent.md
 
 Module: [module-id] — [Module Name]
 Training progress file: ../../training-progress.md
+Language: [user's language, e.g. Russian / English / Ukrainian]
 
 ---
 
@@ -65,13 +66,14 @@ Training progress file: ../../training-progress.md
 
 Start the training module: [module-id] — [Module Name].
 Follow the Part-by-Part progression from training-mode.agent.md.
+Respond in the language specified in the Context section above.
 Present Part 1, then wait for my response in UPD2.
 go
 ```
 
-Replace `[module-id]` and `[Module Name]` with the actual values.
+Replace `[module-id]`, `[Module Name]`, and `[user's language]` with the actual values. **The language is determined by the language the user used when requesting training** — if they asked in Russian, set `Language: Russian`; if in English, set `Language: English`; etc.
 
-### Step 3 — Hand Off to the File
+### Step 3 — Hand Off to the File AND Enter Polling Loop
 
 Tell the user:
 
@@ -83,6 +85,8 @@ From now on, write your replies and requests as new `## UPD[N]` blocks at the bo
 Append `go` when you're done writing an update and want me to act on it.
 This chat window stays open in the background — that's fine, it's just the engine.
 ```
+
+**⚠️ CRITICAL: Immediately after sending this message and writing `### RESULT` in the current (parent) prompt file, enter the polling loop on that same parent file.** Do NOT stop and wait for the next chat message from the user. The user will communicate via the training prompt file from now on — not via chat. If you stop and respond to chat messages instead of polling the file, you break the iterative prompt pattern and defeat the purpose of the mode.
 
 ---
 

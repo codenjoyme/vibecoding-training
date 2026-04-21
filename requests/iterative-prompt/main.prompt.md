@@ -102,3 +102,16 @@ iterative-prompt.agent
 
 - Created [instructions/training-mode-iterative-prompt.agent.md](../../instructions/training-mode-iterative-prompt.agent.md) — full guide for running training sessions in iterative prompt mode: user onboarding script, prompt file template, flow example, agent loop rules, UPD format reference table, and switch-back instructions.
 - Modified [instructions/training-mode.agent.md](../../instructions/training-mode.agent.md) — added `## 💡 Want to Save Premium Requests? Use Iterative Prompt Mode` section right after `## Training Mode Activation`, pointing to the new file.
+
+## UPD3
+
+давай пройдем тренинг 091 в таком режиме...
+
+Да но только ты не должен был остановиться и должен был мониторить этот файл и засыпать в терминале как ууказано в инструкици. А раз ты этого не дслеал, что что-то пошло не так. И еще сделай так, чтобы файл main.prompt.md с запросом создавался на том языке на котором юзер попросил его. Поправи все инструкции
+
+### RESULT
+
+- Fixed `training-mode-iterative-prompt.agent.md`:
+  + Step 2 — template now includes `Language: [user's language]` in `## Context` and a `Respond in the language...` line in UPD1; language is derived from the language the user used when requesting training
+  + Step 3 — renamed from "Hand Off to the File" to "Hand Off to the File AND Enter Polling Loop"; added `⚠️ CRITICAL` block explicitly stating that the agent MUST enter the polling loop on the parent prompt file immediately after writing RESULT — not stop and answer chat messages
+- Updated `work/091-task/main.prompt.md` — added `Language: Russian` to Context section and `Respond in Russian` to UPD1 
