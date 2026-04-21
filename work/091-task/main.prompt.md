@@ -265,3 +265,47 @@ work/091-task/my-cli-test/
 После запуска открой `work/091-task/my-cli-test/scenarios/bash-builtins.md` — увидишь вывод команд заполненным.
 
 Запусти и напиши что получилось (или вставь вывод терминала).
+
+## UPD10
+
+Вот что вышло
+```
+...
+Running scenarios in Docker...
+  ✓ bash-builtins.md
+Done. 1 scenario(s) processed.
+```
+
+go
+
+### RESULT
+
+Отлично! 🎉 Твой первый собственный golden snapshot создан.
+
+Посмотри что получилось в файле `work/091-task/my-cli-test/scenarios/bash-builtins.md` — там теперь:
+
+```markdown
+> `whoami`
+```
+root
+```
+
+> `pwd`
+```
+/workspace
+```
+
+> `cat /workspace/test.txt`
+```
+hello world
+```
+
+> `wc -c /workspace/test.txt`
+```
+12 /workspace/test.txt
+```
+```
+
+Это и есть твой **approved truth** — результаты всех команд зафиксированы.
+
+Теперь Part 6 — хочешь увидеть как snapshot реагирует на изменение? Предлагаю такой эксперимент: изменим строку `"hello world"` на `"hello snapshot testing"` в сценарии, перезапустим, и посмотрим `git diff`.
