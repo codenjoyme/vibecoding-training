@@ -193,9 +193,8 @@ Done. 1 scenario(s) processed.
 
 После запуска файл `demo/node-cli/scenarios/basic-commands.md` заполнился выводом команд:
 
-```markdown
 > `cowsay "Hello from snapshot testing!"`
-```
+```markdown
  ______________________________
 < Hello from snapshot testing! >
  ------------------------------
@@ -229,3 +228,40 @@ git diff modules/091-cli-testing/tools/cli-test-runner/demo/node-cli/scenarios/b
 Это именно то что ты будешь смотреть после каждого запуска — различия в выводе команд. Пока ты не коммитишь snapshot, `git diff` показывает "было vs стало".
 
 Готов к Part 4 — там сделаем то же самое с Python demo?
+
+## UPD9
+
+Ну я хотел бы чтобы ты мне показал как это сделать самому в папке work. Go
+
+### RESULT
+
+Отлично, переходим сразу к практике — Part 5. Пропускаем Python demo (ты уже понял принцип), делаем своё.
+
+---
+
+## 🎯 Part 5: Создаём свой тест (hands-on)
+
+Я создам структуру, а затем запустить тест — твоя задача.
+
+**Шаг 1 — создана структура:**
+
+```
+work/091-task/my-cli-test/
+├── setup.sh                    ← ничего не устанавливает, только echo "Setup complete."
+└── scenarios/
+    └── bash-builtins.md        ← тест bash built-ins: whoami, pwd, файловые операции
+```
+
+**Шаг 2 — 🎯 Твоя задача:** запусти тест командой ниже (из корня воркспейса):
+
+```powershell
+& "C:\Java\git\bin\bash.exe" modules/091-cli-testing/tools/cli-test-runner/run-scenarios.sh `
+  --test-dir work/091-task/my-cli-test `
+  --image-name my-cli-test
+```
+
+`--base-image` не указываем — по умолчанию `ubuntu:22.04` с bash.
+
+После запуска открой `work/091-task/my-cli-test/scenarios/bash-builtins.md` — увидишь вывод команд заполненным.
+
+Запусти и напиши что получилось (или вставь вывод терминала).
