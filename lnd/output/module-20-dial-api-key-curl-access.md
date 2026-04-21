@@ -45,11 +45,13 @@ To access `DIAL` programmatically, you need an `API key`. The key is requested t
 1. Open your browser and navigate to [https://chat.lab.epam.com/](https://chat.lab.epam.com/)
 2. Scroll to the bottom of the page.
 3. Find and click the **"Request `API key`"** link in the footer.
+
+![Request API Key](img/module-20/01-request-api-key.png)
+
 4. You will be redirected to the `EPAM` Support Portal with a pre-filled ticket.
 5. Fill in:
-   - **Reason for access:** "Testing AI model integration for learning/project automation."
-   - **Intended use case:** "Development prototyping and API testing."
-6. Submit the ticket.
+   - **What is your API usage pattern?** "Personal usage: experimentation, self-education"
+6. Read and Accept all the Conditions and Policies, and Submit
 7. Wait for the approval email (1-3 business days). The email will contain:
    - Your `API key` (a long hexadecimal string).
    - The endpoint URL: `https://ai-proxy.lab.epam.com`
@@ -69,18 +71,27 @@ Available models include:
 
 ### Steps
 1. Open `PowerShell` (`Windows`) or Terminal (`macOS`/Linux).
-2. Verify `cURL` is installed: `curl --version`. You should see version information.
+2. Verify `cURL` is installed:
+   - **`Windows` `PowerShell`:** `curl.exe --version`
+   - **`macOS`/Linux:** `curl --version`
+   You should see version information.
 3. Set your `API key` as an environment variable (so you do not paste it repeatedly):
    - **`Windows` `PowerShell`:** `$env:DIAL_API_KEY = "your-key-here"`
    - **`macOS`/Linux:** `export DIAL_API_KEY="your-key-here"`
+
+[MG]: Нужно попросить ии написать правильные курлы под каждую из систем чтобы они точно работали
+
 4. Send your first request (`Windows` `PowerShell`):
    ```
-   curl -X POST "https://ai-proxy.lab.epam.com/openai/deployments/gpt-4o-mini-2024-07-18/chat/completions" `
-     -H "Content-Type: application/json" `
-     -H "api-key: $env:DIAL_API_KEY" `
-     -d '{"messages": [{"role": "user", "content": "Tell me about artificial intelligence in one sentence."}]}'
+   curl.exe -X POST "https://ai-proxy.lab.epam.com/openai/deployments/gpt-4o/chat/completions" `
+      -H "Content-Type: application/json"`
+      -H "api-key: $env:DIAL_API_KEY" `
+      --% -d "{\"messages\": [{\"role\": \"user\", \"content\": \"Tell me about artificial intelligence in one sentence.\"}]}"
    ```
 5. You should receive a `JSON` response containing the model's answer in `choices[0].message.content`.
+
+![JSON Response](img/module-20/02-json-response.png)
+
 6. If you get an error:
    - **401 Unauthorized:** Check the `API key` — make sure it is copied correctly with no extra spaces.
    - **Connection refused:** Make sure you are on the `EPAM` `VPN`.
@@ -101,8 +112,11 @@ The basic request sends only a prompt. But `DIAL API` supports parameters that c
 
 ### Steps
 1. Send a request with low temperature for a factual answer:
-   ```json
-   {"messages": [{"role": "user", "content": "What is the capital of France?"}], "temperature": 0.0}
+   ```
+   curl.exe -X POST "https://ai-proxy.lab.epam.com/openai/deployments/gpt-4o/chat/completions" `
+   -H "Content-Type: application/json"`
+   -H "api-key: $env:DIAL_API_KEY" `
+   --% -d "{\"messages\": [{\"role\": \"user\", \"content\": \"What is the capital of France?\"}], \"temperature\": 0.0}"
    ```
 2. Send the same request with high temperature (1.5) and compare — the factual request should be nearly identical, but creative prompts will vary significantly.
 3. Send a request with `max_tokens: 50` and observe how the response is cut short.
@@ -122,8 +136,11 @@ Now connect what you learned to your `Jira`/`Confluence` automation project. `DI
    - Classify a list of feedback items by category.
    - Generate a weekly status report from raw project data.
 2. Write a prompt that accomplishes this task. Test it via `cURL`:
-   ```json
-   {"messages": [{"role": "user", "content": "Your task-specific prompt here"}], "temperature": 0.2, "max_tokens": 500}
+   ```
+   curl.exe -X POST "https://ai-proxy.lab.epam.com/openai/deployments/gpt-4o/chat/completions" `
+   -H "Content-Type: application/json"`
+   -H "api-key: $env:DIAL_API_KEY" `
+   --% -d "{\"messages\": [{\"role\": \"user\", \"content\": \"Your task-specific prompt here\"}], \"temperature\": 0.2, \"max_tokens\": 500}"
    ```
 3. Review the response. Is it useful? Adjust the prompt or parameters.
 4. If the task involves processing multiple items, consider combining this with the script-based approach from Module 15 — iterate over items, sending each to `DIAL API` individually for consistent results.
