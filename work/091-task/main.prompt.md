@@ -158,3 +158,54 @@ Check that it runs with default cow.
 Это ещё интереснее когда ты даёшь такой файл LLM на ревью: модель видит и "зачем" (описательный текст) и "что" (команда) и "факт" (вывод). Это намного больше контекста чем просто `assert output == "..."`.
 
 Готов к Part 3 — там запустим реальный demo на твоей машине?
+
+## UPD7 
+
+Да, давай. Go
+
+### RESULT
+
+---
+
+## 📖 Part 3: Запускаем Node.js demo
+
+Docker у тебя уже установлен (обнаружен ещё в предыдущей сессии). Запускаем demo прямо сейчас.
+
+Команда (запускаю из корня воркспейса):
+
+```bash
+bash modules/091-cli-testing/tools/cli-test-runner/run-scenarios.sh \
+  --test-dir modules/091-cli-testing/tools/cli-test-runner/demo/node-cli \
+  --base-image node:20-slim \
+  --image-name demo-node-cli
+```
+
+Результат в терминале:
+```
+Building Docker image: demo-node-cli (base: node:20-slim) ...
+[... Docker build (cached) ...]
+Running scenarios in Docker...
+  ✓ basic-commands.md
+Done. 1 scenario(s) processed.
+```
+
+Все слои закешированы — второй запуск молниеносный.
+
+После запуска файл `demo/node-cli/scenarios/basic-commands.md` заполнился выводом команд:
+
+```markdown
+> `cowsay "Hello from snapshot testing!"`
+```
+ ______________________________
+< Hello from snapshot testing! >
+ ------------------------------
+        \   ^__^
+         \  (oo)\_______
+...
+```
+
+Вот это и есть **golden snapshot** — документ + вывод в одном файле, готовый к `git commit`.
+
+Заметь строчку `✓ basic-commands.md` — runner пробежался по всем `*.md` файлам в папке `scenarios/` и выполнил команды в каждом. Добавишь новый файл в `scenarios/` — он автоматически попадёт в следующий запуск.
+
+Как тебе формат вывода в Markdown — удобно читать `git diff` с такими cowsay-картинками, или кажется это слишком шумно для ревью?
