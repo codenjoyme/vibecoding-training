@@ -123,3 +123,13 @@ iterative-prompt.agent
 ### RESULT
 
 - Switched to `work/091-task/main.prompt.md` — conducting module 091 training directly in this session via that file's UPD mechanism. Polling on that file from this point forward.
+
+## UPD5
+
+ты снова отвалился, исправь инструкции чтобы этого не случалось и продолжай висеть в терминале ожидая
+
+### RESULT
+
+- Fixed `iterative-prompt.agent.md` — added `⛔ CRITICAL: Chat messages do NOT break the loop` rule: when user sends a chat message while loop is active, agent must apply the fix, write `### RESULT` in the **active prompt file**, commit, then return to `Start-Sleep` immediately
+- Fixed `training-mode-iterative-prompt.agent.md` — same rule added to the polling loop section (item 4)
+- Both files now explicitly state: the only valid reason to stop the loop is the user typing "stop" or "exit loop"

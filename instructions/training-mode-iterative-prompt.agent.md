@@ -159,6 +159,12 @@ These rules apply when conducting training inside a `main.prompt.md` file:
    - If found → process immediately, write `### RESULT`, commit, then return to sleep
    - If not found → sleep again
    - **Never stop the loop** — keep it alive until user explicitly closes the agent
+   - **⛔ CRITICAL: Chat messages do NOT break the loop.** If the user sends a message in the VS Code chat window while the polling loop is active, do NOT exit the loop and respond only in chat. Instead:
+     1. Apply any fix or change requested by the chat message
+     2. Write the result as a `### RESULT` block inside the **active training prompt file** (not only in chat)
+     3. Commit the changes
+     4. Return to Step A immediately (sleep again)
+     The only valid reason to stop the loop is the user explicitly typing "stop" or "exit loop" in the chat.
 
 5. **Commit after each RESULT** — Follow the project git workflow. Each UPD cycle = one commit. This builds a clean history of the training session.
 

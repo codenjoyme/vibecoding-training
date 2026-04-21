@@ -59,6 +59,12 @@ The net effect: you can open multiple IDE windows with different projects, each 
      + **Step F:** If no changes detected — go back to Step A (sleep again).
      + This loop continues **indefinitely** until the user explicitly stops the agent.
      + Do NOT print "waiting for instructions" to the chat and stop. The agent must keep itself alive via the terminal sleep loop.
+     + **⛔ CRITICAL: Chat messages do NOT break the loop.** If the user sends a message in the VS Code chat window while the polling loop is running, do NOT exit the loop and respond only in chat. Instead:
+       1. Apply any fix or instruction from the chat message
+       2. Write the result of that fix as a `### RESULT` block inside the **active prompt file** (not only in chat)
+       3. Commit the changes
+       4. Immediately return to Step A (sleep again)
+       The only valid reason to permanently stop the loop is the user explicitly saying "stop", "exit loop", or closing the session.
 - When asked to create a new prompt file inside folder, immediately produce a ready-to-use file:
   + Use the following starter template:
     ```markdown
