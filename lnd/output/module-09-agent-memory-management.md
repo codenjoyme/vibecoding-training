@@ -103,14 +103,14 @@ You can create and use external `Markdown` todo lists for persistent task tracki
 
 ## Page 4: Create Your Project Backlog
 ### Background
-Now you will apply the memory management technique to your practical project. You have a Technical Specification (`PROJECT_SPEC.md`) from Module 8. The next step is to convert it into a structured task backlog — a detailed list of implementation steps that will guide the work in modules 10-20.
+Now you will apply the memory management technique to your practical project. You have a Technical Specification (`project_spec.md`) from Module 8. The next step is to convert it into a structured task backlog — a detailed list of implementation steps that will guide the work in modules 10-20.
 
 This backlog becomes the AI's "memory" of your project. Every future session starts with the AI reading this file to understand what has been done and what comes next.
 
 ### Steps
 1. Open your AI chat in `Agent Mode`.
 2. Reference both your specification and the interview technique:
-   `Read @PROJECT_SPEC.md. Break it down into a detailed implementation backlog with specific, actionable tasks. Organize tasks into phases: Setup, Core Features, Integration, Testing, Documentation. Use checkboxes. Save as 'backlog.md'. Before creating it, ask me clarifying questions about priorities and phasing`
+   `Read @project_spec.md. Break it down into a detailed implementation backlog with specific, actionable tasks. Organize tasks into phases: Setup, Core Features, Integration, Testing, Documentation. Use checkboxes. Save as 'backlog.md'. Before creating it, ask me clarifying questions about priorities and phasing`
 3. Answer the AI's questions about priorities (which features first, any dependencies, any time constraints).
 4. Review the generated `backlog.md`.
 5. Verify it covers all requirements from your ТЗ.
@@ -124,11 +124,11 @@ You have a structured project backlog (`backlog.md`) committed to your repositor
 ### Background
 For large projects, a single todo list is not enough. The most effective pattern combines two documents:
 
-1. `PROJECT_SPEC.md` — the "why" and "what" (high-level goals, requirements, quality standards). You created this in Module 8.
+1. `project_spec.md` — the "why" and "what" (high-level goals, requirements, quality standards). You created this in Module 8.
 2. `backlog.md` — the "how" and "when" (specific tasks, phases, progress). You created this on the previous page.
 
 When starting a new AI session, reference both:
-`Read @PROJECT_SPEC.md for project context and @backlog.md for current progress. Continue where we left off`
+`Read @project_spec.md for project context and @backlog.md for current progress. Continue where we left off`
 
 The AI now has:
 - Strategic context (what the project is about and what quality standards apply).
@@ -144,14 +144,14 @@ Tips for maintaining these documents:
 You understand how to combine specification and backlog documents for persistent project memory across multiple AI sessions.
 
 ## Summary
-Remember the scenario from the introduction — 30 minutes of productive work, then you close the chat and come back to an agent that has forgotten everything? That frustration is now behind you. With external `Markdown` files (`PROJECT_SPEC.md` and `backlog.md`), you give the AI persistent memory that survives across any number of sessions. Every new conversation starts with `Read @backlog.md and continue where we left off` — and the agent picks up right where it stopped.
+Remember the scenario from the introduction — 30 minutes of productive work, then you close the chat and come back to an agent that has forgotten everything? That frustration is now behind you. With external `Markdown` files (`project_spec.md` and `backlog.md`), you give the AI persistent memory that survives across any number of sessions. Every new conversation starts with `Read @backlog.md and continue where we left off` — and the agent picks up right where it stopped.
 
 Key takeaways:
 - AI agents forget everything between sessions — this is by design, not a bug.
 - Built-in todo tools provide visual progress tracking during a single session.
 - External `Markdown` todo lists (`TODO.md`, `backlog.md`) persist between sessions.
 - The most effective pattern combines a specification document (the "why") with a backlog (the "how").
-- Your `PROJECT_SPEC.md` + `backlog.md` pair will guide all remaining practical work.
+- Your `project_spec.md` + `backlog.md` pair will guide all remaining practical work.
 
 [MG]: Здесть тоже можно просить загрузить файл вместо квиза.
 ## Quiz
@@ -166,7 +166,7 @@ Key takeaways:
 
 2. What is the most effective way to maintain project context across multiple AI sessions?
    a) Copy and paste the key parts of your previous conversation into each new chat
-   b) Use external `Markdown` files (like `PROJECT_SPEC.md` and `backlog.md`) that the AI reads at the start of each session and updates at the end
+   b) Use external `Markdown` files (like `project_spec.md` and `backlog.md`) that the AI reads at the start of each session and updates at the end
    c) Keep the same chat window open and never close it so the context is preserved
    Correct answer: b.
    - (a) is incorrect because manually copying conversation fragments is error-prone and tedious. You may miss important context, and the pasted text lacks structure for the AI to parse efficiently.

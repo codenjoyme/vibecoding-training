@@ -103,9 +103,9 @@ Choose your automation idea (pick one or propose your own):
 ### Steps
 1. Open your AI chat in `Agent Mode`.
 2. Write your initial prompt:
-   `I want to build [your chosen automation idea]. This is for my role as [your role] managing [team size] people working on [project type]. Before we start building anything, interview me to understand the full requirements. After the interview, create a structured Technical Specification in Markdown format. Save it as 'PROJECT_SPEC.md' in the project root`
+   `I want to build [your chosen automation idea]. This is for my role as [your role] managing [team size] people working on [project type]. Before we start building anything, interview me to understand the full requirements. After the interview, create a structured Technical Specification in Markdown format. Save it as 'project_spec.md' in the project root`
 3. Go through the interview (2-3 rounds of questions).
-4. When the AI creates `PROJECT_SPEC.md`, review it carefully.
+4. When the AI creates `project_spec.md`, review it carefully.
 5. If anything is missing or incorrect, tell the AI directly (e.g., `Add a section about data refresh frequency — it should be daily`).
 6. When you are satisfied, commit the file: use the git workflow from `Module 3`.
 
