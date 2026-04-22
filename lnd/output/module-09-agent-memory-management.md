@@ -65,9 +65,12 @@ Built-in todos disappear when you close the chat. For multi-session projects, yo
 
 The pattern:
 1. Create a `TODO.md` file with checkboxes for each task.
-2. Reference it in your prompt using @-mention: "@TODO.md".
-3. Ask the AI to read the file, work through items, and update checkboxes as tasks complete.
-4. When you start a new session, the AI reads the file and continues from the next uncompleted item.
+2. Reference it in your prompt using @-mention `@TODO.md`.
+![Using at mention](img/module-09/04-using-at-mention.png)
+3. Or just move this file into chat.
+![Move file to the chat](img/module-09/05-move-file-to-chat.png)
+4. Ask the AI to read the file, work through items, and update checkboxes as tasks complete.
+5. When you start a new session, the AI reads the file and continues from the next uncompleted item.
 
 Example `TODO.md` structure:
 ```markdown
