@@ -889,3 +889,118 @@ Done. Check your 'AI Teams Summaries' chat in Teams.
 ## UPD24
 
 Запусти ты сам. Не копируй сюда детали саммари. Я посмотрю на результат в чате и скажу что получилось. go
+
+### RESULT
+
+Запустил. **E2E прошёл успешно.**
+
+Что произошло (без содержания summary):
+- Прочитал 20 сообщений из source-чата (~2100 символов чистого текста после strip HTML / dropping пустых).
+- `gpt-4o` сгенерил summary в ~5 буллетов на русском.
+- Запостил в "AI Teams Summaries" через `POST /me/chats/{NOTIFICATION_CHAT_ID}/messages` с `contentType: html`.
+- Финальная строка терминала: `Done. Check your 'AI Teams Summaries' chat in Teams.` — Graph вернул 201, никаких ошибок.
+
+**Что нужно тебе:**
+
+- Открой в Teams чат "AI Teams Summaries" — там должно лежать новое сообщение от тебя самого с заголовком `AI summary (20 messages from 19:meeting_...@thread.v2)` и буллетами.
+- Кинь скриншот того, что прилетело. Особенно интересно:
+  1. Качество summary (по существу или общие фразы?).
+  2. Форматирование (видны ли буллеты как буллеты, есть ли переносы строк, выглядит ли заголовок как `<b>...</b>`).
+  3. Цитируются ли реальные имена / названия / ссылки — это покажет, нужна ли нам PII-защита уже на стороне summary (LLM может выдать обратно то, что пришло на вход).
+
+После твоего скрина обсудим, что улучшать. Возможные направления:
+- **(A)** Тюнинг промпта (длина summary, язык, формат, что включать/исключать).
+- **(B)** Polling-цикл: автоматически собирать summary каждые N минут для всех активных чатов (то, что в `summary-2026-04-22.md` называется "incremental update").
+- **(C)** Multi-chat в одно summary (digest по нескольким чатам сразу).
+- **(D)** Запись checkpoint'ов (last seen message id), чтобы в следующий раз делать summary только новых.
+- **(E)** Заполнить [skill-connect-to-teams.md](skill-connect-to-teams.md) тем, что мы уже сделали (working setup, фактические команды, gotchas).
+
+Жду `## UPD25 ... go` со скрином и направлением. Возвращаюсь в polling.
+
+## UPD25
+
+Вот чат 
+![alt text](image-27.png)
+
+Теперь давай сделаем вот что. 
+
+Мне надо весь опыт этой папки сформировать как новый модуль. 
+
+Следуя [text](../../instructions/create-training-module.agent.md) создай модуль, `walkthrough.md` создавай из Part которые будут аккурат то, что мы с тобой тут делал в этом файле. Изучи несколько других модулей для примера. 
+
+Дальше создай папку `tools` внутри модуля и там пусть будет `SKILL.md` с разумно померженным текстом из `requests/600-ms-teams-access/skill-connect-to-teams.md` и текущего файла, но лаконично как для LLM. 
+
+Так же сделай `readme.md` с читаемой для человека инструкцией на базе того что мы делали тут, с моими скриншотами (их переиспользуй полностью). 
+
+Для организации скриншотов пользуйся инструкцией [text](../../instructions/organize-module-images.agent.md) но с поправкой на то, что это будет вокруг `readme.md` в папке `tools`. 
+
+Так же в папку `tools` сохрани все скрипты, докерфайлы, докер-композы и так далее, что мы делали с тобой тут. 
+
+Все остальное, что тут было в папке, пусть в ней и остается как референс. 
+
+Все что создашь в новом модуле - копируй через терминал, не перегенерируй, чтобы не внести галлюцинации. 
+
+Go
+
+### RESULT
+
+Создан новый модуль **235 — Microsoft Teams AI Chat Summarizer** в полном соответствии с [create-training-module.agent.md](../../instructions/create-training-module.agent.md) и [organize-module-images.agent.md](../../instructions/organize-module-images.agent.md) (с поправкой на то, что изображения живут вокруг `tools/readme.md`).
+
+**Папка модуля:** [modules/235-teams-ai-chat-summarizer/](../../modules/235-teams-ai-chat-summarizer/)
+
+**Созданные markdown-файлы (новые, написаны через `create_file`):**
+- [about.md](../../modules/235-teams-ai-chat-summarizer/about.md) — обзор модуля, 30-45 минут, prerequisites (108, 110, 058), 8 топиков, ресурсы.
+- [walkthrough.md](../../modules/235-teams-ai-chat-summarizer/walkthrough.md) — пошаговая инструкция из 11 Part'ов, зеркалит UPD-шаги: план → регистрация App → permissions → секреты → smoke test → fix `AADSTS7000218` → list_chats → notification chat → read_messages → summarize_and_notify → PII sanitization. Success Criteria + Understanding Check (7 вопросов) + Troubleshooting + Next Steps.
+- [tools/SKILL.md](../../modules/235-teams-ai-chat-summarizer/tools/SKILL.md) — лаконичная LLM-targeted инструкция (мерж `skill-connect-to-teams.md` с проверенными фактами из этого файла: working scopes, public client flows tip, idempotent notification chat, GitHub Models endpoint, MSAL device flow snippet).
+- [tools/readme.md](../../modules/235-teams-ai-chat-summarizer/tools/readme.md) — human-friendly визуальный walkthrough с 27 скриншотами по порядку.
+
+**Скопированные через терминал (`Copy-Item`, без регенерации) файлы скриптов и инфраструктуры в [tools/](../../modules/235-teams-ai-chat-summarizer/tools/):**
+- `graph_auth.py`, `smoke_test.py`, `list_chats.py`, `read_messages.py`, `create_notification_chat.py`, `summarize_and_notify.py`
+- `requirements.txt`, `Dockerfile`, `docker-compose.yml`, `.dockerignore`, `.env.example`
+- `tools/.gitignore` (`.env`, `data/`, `__pycache__/`, `*.pyc`, `.venv/`)
+
+**Скриншоты в [tools/img/module-235/](../../modules/235-teams-ai-chat-summarizer/tools/img/module-235/):**
+- 27 файлов скопированы и переименованы по схеме `NN-descriptive-name.png` (от `01-azure-portal-home.png` до `27-summary-received-in-teams.png`). Сиротский `image-12.png` (если он был) не переносился.
+
+**Обновлены индексы курса:**
+- [training-plan.md](../../training-plan.md) — добавлена строка между 230 и 240.
+- [modules/module-catalog.md](../../modules/module-catalog.md) — добавлена строка между 230 и 250.
+
+**Что осталось в этой папке** (`requests/600-ms-teams-access/`) как референс: исходники Python/Docker, `main.prompt.md`, `summary-2026-04-22.md`, `skill-connect-to-teams.md`, оригинальные `image-*.png`. Ничего не удалено.
+
+**Не сделано (по стоящему правилу):** ❗ Никаких git commit / push не выполнено — все изменения лежат локально, ждут вашего ревью.
+
+Возвращаюсь в polling-режим, жду `## UPD26 ... go`.
+
+## UPD26
+
+Правки:
+- Модуль должен был быть 600й, а не 235й. 
+- Внутри `img` папки `module-235` не надо. 
+- ![alt text](../../modules/235-teams-ai-chat-summarizer/tools/img/module-235/23-aadsts7000218-error.png) неправильно назван, там не про ошибку а про успешную авторизацию. Go
+
+### RESULT
+
+Все три правки выполнены.
+
+**1. Переименование модуля 235 → 600.**
+- Папка: `modules/235-teams-ai-chat-summarizer/` → [modules/600-teams-ai-chat-summarizer/](../../modules/600-teams-ai-chat-summarizer/) (Rename-Item).
+- Все ссылки в [about.md](../../modules/600-teams-ai-chat-summarizer/about.md), [walkthrough.md](../../modules/600-teams-ai-chat-summarizer/walkthrough.md), [tools/SKILL.md](../../modules/600-teams-ai-chat-summarizer/tools/SKILL.md), [tools/readme.md](../../modules/600-teams-ai-chat-summarizer/tools/readme.md) обновлены.
+- [training-plan.md](../../training-plan.md): запись перемещена со слота между 230 и 240 на слот между 500 и 900 (правильное место по нумерации).
+- [modules/module-catalog.md](../../modules/module-catalog.md): запись `| 235 |` удалена, добавлена `| 600 |` в хвост таблицы (после 300).
+
+**2. Flatten `tools/img/`.**
+- Все 27 PNG переехали из `tools/img/module-235/` напрямую в [tools/img/](../../modules/600-teams-ai-chat-summarizer/tools/img/). Подпапка удалена.
+- Все markdown-ссылки `img/module-235/...` → `img/...` обновлены (через Get-Content/Set-Content bulk replace).
+
+**3. Скриншот 23 — переименован и пересмотрен текст.**
+- Файл: `23-aadsts7000218-error.png` → `23-signed-in-successfully.png`. На картинке реально "You have signed in to teams-ai-assistant — You may now close this window".
+- В [tools/readme.md](../../modules/600-teams-ai-chat-summarizer/tools/readme.md) переписан блок Part 22-25 с правильной хронологией:
+  - Part 22 — терминал показывает device code
+  - Part 23 — возможный блокер `AADSTS7000218` (текст ошибки) → fix через Authentication (Preview) → Allow public client flows = Yes (показан скрин 25)
+  - Part 24 — ввод device code в браузере
+  - Part 25 — успешная авторизация (показан переименованный скрин 23-signed-in-successfully.png)
+
+**Не сделано:** ❗ Никаких git commit / push.
+
+Возвращаюсь в polling-режим, жду `## UPD27 ... go`. 

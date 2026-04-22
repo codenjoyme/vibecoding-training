@@ -1,0 +1,20 @@
+# Secrets and local-only files — never bake into the image.
+.env
+.env.example
+
+# Persistent state (mounted as volume at runtime).
+data/
+
+# Meeting artifacts and request scaffolding — not part of the runtime app.
+*.png
+*.docx
+*.txt
+*.md
+chat.md
+# ...but we DO need requirements.txt inside the image.
+!requirements.txt
+
+# Python build/cache.
+__pycache__/
+*.pyc
+.venv/
