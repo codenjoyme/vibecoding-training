@@ -833,3 +833,59 @@ Add to .env:
 Обновил .env, добавив `NOTIFICATION_CHAT_ID`. 
 Вот канал ![alt text](image-26.png)
 go
+
+### RESULT
+
+Отлично — чат "AI Teams Summaries" есть, `.env` дополнен. Запускаем Step 10 — первый E2E.
+
+**Изменения:**
+
+- 🆕 [summarize_and_notify.py](summarize_and_notify.py) — `python summarize_and_notify.py SOURCE_CHAT_ID [--top N]`. Что делает:
+  1. `get_access_token()` (silent из кеша).
+  2. `GET /me/chats/{src}/messages?$top=N` — забирает свежие сообщения.
+  3. Чистит HTML/системные эвенты, собирает плоский transcript (oldest first — так LLM лучше понимает диалог).
+  4. `POST {LLM_ENDPOINT}/chat/completions` (GitHub Models, `gpt-4o`) с system-prompt'ом про "сделай summary 3-7 буллетов на русском, не выдумывай".
+  5. Конвертит markdown в маленький Teams HTML (bullets + line breaks).
+  6. `POST /me/chats/{NOTIFICATION_CHAT_ID}/messages` — постит в твой "AI Teams Summaries".
+
+Без новых сервисов в compose — generic `app` сработает.
+
+**Команда (тестируем на том же `<chat-topic-redacted>` чате — реальный id у тебя в логах терминала из UPD21):**
+
+```powershell
+cd requests/600-ms-teams-access
+docker compose run --rm --build app python summarize_and_notify.py "19:meeting_<полный-id>@thread.v2" --top 20
+```
+
+`--build` нужен один раз — чтобы новый `*.py` попал в image. Дальше можно без `--build`.
+
+**Что ожидать в выводе:**
+
+```
+Fetching 20 messages from 19:meeting_...@thread.v2 ...
+Got 20 messages, ~2000 chars of text. Summarizing via gpt-4o ...
+
+--- Summary ---
+
+• Стивен и Стивен обсуждают эксперимент с AI-ассистентом для чтения Teams-чатов
+• AI хорошо адаптируется под смешанный стиль (русский + английская терминология)
+• ...
+
+--- Posting to notification chat ---
+
+Done. Check your 'AI Teams Summaries' chat in Teams.
+```
+
+И в Teams (в чате "AI Teams Summaries") должно прилететь сообщение с заголовком `AI summary (20 messages from <chat id>)` и буллетами.
+
+**Что предлагаю:**
+
+**(A)** Запусти сам, кинь скриншот того, что прилетело в Teams — это самый показательный момент. И вывод терминала (сам summary можно показать целиком, он уже про "Стивенов").
+
+**(B)** Я могу запустить, но при этом весь summary попадёт сюда в `### RESULT` block — а в нём могут проскочить fragments оригинальных имён/topic'ов из контента сообщений (LLM может цитировать). Если согласен — запущу.
+
+Жду `## UPD24 ... go`. Возвращаюсь в polling.
+
+## UPD24
+
+Запусти ты сам. Не копируй сюда детали саммари. Я посмотрю на результат в чате и скажу что получилось. go
