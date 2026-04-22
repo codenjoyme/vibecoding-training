@@ -1013,4 +1013,34 @@ Go
 
 Правило "никаких коммитов" остаётся в силе — изменения не закоммичены, ждут вашего ревью.
 
-Возобновляю polling в правильном sync-режиме. 
+Возобновляю polling в правильном sync-режиме.
+
+## UPD27
+
+Я вот смотрю Skill.md и понимаю что там базовые идеи и нет описания всей структуры папки. Сделай описание, чтобы агент не изобретал все с нуля, а переиспользовал скрипты. Дополни существующие блоки и создай новые если потребуется. go  
+
+### RESULT
+
+Дополнил [tools/SKILL.md](../../modules/600-teams-ai-chat-summarizer/tools/SKILL.md) большой новой секцией **"⚠️ This Folder Already Has Working Scripts — REUSE Them"** (между "Required Secrets" и "Step 1") с явной директивой агенту: «Не реализуй MSAL/Graph/HTML-парсинг с нуля — здесь это уже есть».
+
+**Что добавлено:**
+
+1. **Folder layout** — ASCII-дерево всех 12+ файлов в `tools/` с однострочным описанием роли каждого (`graph_auth.py = CLOSED — do not modify`, `data/ = LOCAL ONLY, gitignored`, и т.д.).
+
+2. **Architecture rule (OCP)** — `graph_auth.py` закрыт для модификации, открыт для импорта. Каждый новый скрипт делает `from graph_auth import get_access_token`. Никогда не переписывать MSAL.
+
+3. **Per-script reference (таблица)** — для всех 6 скриптов: что делает, сигнатура/аргументы, ключевые implementation notes (включая `SCOPES` без `openid`/`profile`/`offline_access`, идемпотентность `create_notification_chat.py`, system prompt в `summarize_and_notify.py` и т.д.).
+
+4. **Key reusable helpers (таблица)** — `get_access_token`, `strip_html`, `fmt_when`, `sender_name`, `find_existing`, `markdown_to_teams_html`, `build_transcript` — где живут и зачем.
+
+5. **Standard run commands** — готовые `docker compose run` для всех 5 типовых сценариев.
+
+6. **Extending — recipe for a new script** — 6-шаговый чеклист как добавить новый `*.py` с импортом готовых helper'ов и пересборкой образа через `--build`.
+
+**Также обновлены:**
+- **Verification Checklist** — теперь чеклист бьётся точно с реальными командами и реальными переменными `.env`.
+- **Common Errors** — добавлены два новых частых случая: `python: can't open file '/app/<new>.py'` (забыл `--build`) и `KeyError: 'NOTIFICATION_CHAT_ID'` (отсутствует переменная).
+
+**Не сделано:** ❗ Никаких git commit / push.
+
+Возвращаюсь в polling-режим, жду `## UPD28 ... go`.
