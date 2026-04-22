@@ -153,7 +153,7 @@ Key takeaways:
 [MG]: Здесть тоже можно просить загрузить файл вместо квиза.
 ## Quiz
 1. Why does the AI agent not remember what you discussed in a previous chat session?
-   a) The `context window` (shared canvas) is discarded when the chat closes — each new conversation starts from zero
+   a) The `context window` is discarded when the chat closes — each new conversation starts from zero
    b) The agent stores context for one hour, then clears it to free up server resources
    c) Memory persistence requires enabling a specific setting in your IDE that is off by default
    Correct answer: a.
