@@ -79,9 +79,11 @@ Example structure:
 To make the AI load this catalog automatically, you need an entry point file:
 
 For `VS Code`: `.github/copilot-instructions.md` with content:
-`Important! Always follow the instructions in ./'instructions/main.agent.md' file`
+`Important! Always follow the instructions in ./'instructions/main.agent.md' file`.
 
 For `Cursor`: `.cursor/rules/main.mdc` with the same content.
+
+> **Note:** This is a minimalist entry point. For a more detailed setup and guidance on populating this file with quality content, see the next section.
 
 ### Steps
 1. Create `instructions/main.agent.md` with a list of your instruction files (even if you only have one so far).
@@ -90,12 +92,38 @@ For `Cursor`: `.cursor/rules/main.mdc` with the same content.
 
 ![Instructions auto-detect](img/module-10/02-instructions-auto-detect.png)
 
-4. If the AI does not find it, use the explicit reference: `Following instructions/create-status-report.agent.md, create a status report for my team`
+4. If the AI does not find it, use the explicit reference: `Following instructions/create-status-report.agent.md, create a status report for my team`.
 
 ### ✅ Result
 You have an instruction catalog and the AI can find relevant instructions automatically.
 
-## Page 4: Create `Jira`/`Confluence` Workflow Instructions
+## Page 4: Installing the Instruction Toolkit
+### Background
+You now have a catalog and an entry point file. But when you ask the AI to create a new instruction, what should it follow? Without a reference, each instruction depends on how precisely you describe your needs in the moment. Quality will vary.
+
+The solution is a meta-instruction: `creating-instructions.agent.md`. This file defines how instruction files should be written. When you ask the AI to create a new instruction, it follows this meta-instruction to generate a consistent result — correct naming convention, bullet-point rules, single workflow focus, and all required sections.
+
+This instruction is available in the course repository and can be installed with a single `prompt`:
+```
+Установи мне инструкцию и настрой работу с уже созданными мной инструкциям https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/creating-instructions.agent.md
+```
+
+This asks the AI to fetch the file, place it in your `instructions/` folder, and update `main.agent.md` to include it.
+
+### Steps
+1. Open a new chat session.
+2. Run the following `prompt`:
+   ```
+   Установи мне инструкцию и настрой работу с уже созданными мной инструкциям https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/creating-instructions.agent.md
+   ```
+3. Verify that `instructions/creating-instructions.agent.md` was created in your project.
+4. Open `instructions/main.agent.md` — confirm it now includes an entry for `creating-instructions.agent.md`.
+5. Commit the new files to your repository.
+
+### ✅ Result
+You have the `creating-instructions.agent.md` meta-instruction installed. From this point, any request to create a new instruction will follow this file automatically, ensuring consistent structure across all your instructions.
+
+## Page 5: Create `Jira`/`Confluence` Workflow Instructions
 ### Background
 Now you will create instruction files for your practical project. Based on the task backlog from `Module 9`, identify 2-3 common workflows you want to automate and create an instruction for each.
 
@@ -110,17 +138,16 @@ Each instruction file captures what the AI should do, what format to use, what c
 ### Steps
 1. Open your `backlog.md` and identify 2-3 tasks that involve repeating patterns.
 2. For each pattern, ask the AI to create an instruction file:
-   `Following instructions/creating-instructions.agent.md, create an instruction for [describe the workflow]. Include: input format, processing steps, output format, and constraints`
-3. If you do not have creating-instructions.agent.md yet, describe the workflow directly and ask the AI to generate the instruction.
-4. Review each instruction file — are the rules specific enough to produce consistent results?
-5. Update `instructions/main.agent.md` with the new instruction entries.
-6. Test each instruction by asking the AI to perform the workflow.
-7. Commit all new files to your repository.
+   `Following instructions, create an instruction for [describe the workflow]. Include: input format, processing steps, output format, and constraints`
+3. Review each instruction file — are the rules specific enough to produce consistent results?
+4. Update `instructions/main.agent.md` with the new instruction entries.
+5. Test each instruction by asking the AI to perform the workflow.
+6. Commit all new files to your repository.
 
 ### ✅ Result
 You have custom instruction files for your `Jira`/`Confluence` workflows and an updated instruction catalog.
 
-## Page 5: Single Responsibility and When to Split
+## Page 6: Single Responsibility and When to Split
 ### Background
 Instructions follow the `Single Responsibility Principle` — a software engineering rule that means: one thing should do one job. Applied to instructions: one instruction file = one workflow. Keep each file focused on a single task type. Broad, catch-all files become hard to maintain and the AI applies them in the wrong contexts.
 

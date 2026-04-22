@@ -63,3 +63,15 @@ iterative-prompt.agent.md
 
 ### RESULT
 - `lnd/output/module-10-custom-instructions.md` — reverted `.agent.md` rename back: restored `[verb]-[subject].agent.md` naming convention and examples at lines 13, 42, 158.
+
+## UPD9
+
+В строчке 79 написано `To make the AI load this catalog automatically, you need an entry point file:` и дальше даются две опции. После надо сказать, что это минималистичный вариант, а более точное описание и создание наполнения для этого файла мы дадим в следующем блоке. 
+
+Следующий блок должден быть перед 4м (про джиру и конфлюенс), потому что там уже упоминается инструкция для создания инструкций, которая не могла появиться изнеоткуда. Потому этот новый раздел должен помочь настроить эту инструкцию и всю инфрастркуру. Скачать и установить ее можно сказав: `Установи мне инструкцию и настрой работу с уже созданнымим мной инструкциям https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/creating-instructions.agent.md`. Дальше 4й сделай 5м и так ждалее. И в тексте 4 (который станет 5м) есть упоминание что если инструкции по созданию инструкций у вас нет, то создайте ее. Это удалим и в тексте отныне будем указывать не `Following 'instructions/creating-instructions.agent.md', create an instruction for` а `Following instructions create an instruction for...`. 
+
+И давай все проверим в последующих модулях, чтобы там тоже было консистетно. go
+
+### RESULT
+- `lnd/output/module-10-custom-instructions.md` — added minimalist note after VS Code/Cursor entry point options in Page 3 Background; inserted new **Page 4: Installing the Instruction Toolkit** (meta-instruction setup, install command, 5 steps); renamed old Page 4 → Page 5 and old Page 5 → Page 6; in new Page 5 (Jira/Confluence) removed step 3 ("If you do not have creating-instructions.agent.md yet...") and changed step 2 from `Following 'instructions/creating-instructions.agent.md', create an instruction for` to `Following instructions, create an instruction for`; steps renumbered accordingly.
+- Subsequent modules: no other references to `creating-instructions.agent.md` found — no additional changes needed.
