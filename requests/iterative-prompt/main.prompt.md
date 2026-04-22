@@ -140,3 +140,11 @@ iterative-prompt.agent
 
 ### RESULT
 - `instructions/iterative-prompt.agent.md` — updated the "Non-stop loop" section: clarified that each `## UPD` = one separate commit; added rule that UPDs without `go` are skipped (user still writing); added explanation of parallel writing — user can write UPD N+1 while agent works on UPD N, and agent processes sequentially with a commit per UPD.
+
+## UPD7
+
+Смотри я заметил, что ты коммитишь изменение, а потом отдельно еще и `RESULT`. Давай поправим инструкцию для `iterative prompt` так чтобы коммитился `main.prompt.md` с изменениями. А если изменений несколько, то `main.prompt.md` и апдейт за апдейтом. Я хочу видеть в коммите что біло сделано и отчет в `main.prompt.md`. И перенеси этот запрос риквест по итеративному промпту. Go
+
+### RESULT
+
+- `instructions/iterative-prompt.agent.md` — updated commit workflow: `### RESULT` must be written to `main.prompt.md` **before** committing; all changed files + `main.prompt.md` go into one atomic commit; separate "RESULT-only" commits are now explicitly forbidden.

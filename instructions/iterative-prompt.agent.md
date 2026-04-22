@@ -34,13 +34,14 @@ The net effect: you can open multiple IDE windows with different projects, each 
   + Or use IDE diff/change detection tools if available
 - Changes appear as new `## UPD[N]` sections in the file — read and implement them.
 - All existing content stays intact — prior corrections are done; do not break them.
-- After implementing each update, append `### RESULT` inside the corresponding `## UPD[N]` section:
-  + Place it immediately after the update description text
-  + List file paths that were created or modified
-  + Add 1–2 sentence description of what was done
-  + Keep it concise — this is a changelog, not documentation
-- **Non-stop loop** — after writing the `### RESULT` for `## UPD[N]`:
-  1. Commit changes (following the project's git workflow). **Each `## UPD` block = one separate commit.** Never batch multiple UPDs into one commit.
+- After implementing each update:
+  1. Append `### RESULT` inside the corresponding `## UPD[N]` section **before committing**:
+     + Place it immediately after the update description text
+     + List file paths that were created or modified
+     + Add 1–2 sentence description of what was done
+     + Keep it concise — this is a changelog, not documentation
+  2. **Commit everything in one atomic commit** — include both the changed files AND the updated `main.prompt.md` (with `### RESULT` already written). The commit message should summarize what was done. **Each `## UPD` block = one separate commit.** Never batch multiple UPDs into one commit. Never make a separate commit just for `### RESULT` — it must be part of the same commit as the work.
+- **Non-stop loop** — after committing `## UPD[N]` (with `### RESULT` included):
   2. Immediately re-read the prompt file and check whether `## UPD[N+1]` (or any later `## UPD`) already exists without a `### RESULT`.
   3. If it does AND it ends with `go` — start implementing it right away, without pausing or asking the user.
   4. Repeat until there are no more unprocessed `## UPD` sections that have a `go` marker.
