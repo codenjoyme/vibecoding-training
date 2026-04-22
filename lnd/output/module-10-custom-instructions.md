@@ -12,7 +12,7 @@ In this module, you will learn how prompts evolve into instructions, how to orga
 Upon completion of this module, you will be able to:
 - Create reusable instruction files in `Markdown` format following the `[verb]-[subject].md` naming convention.
 - Build an instruction catalog (`main.agent.md`) that lets the AI discover relevant instructions automatically.
-- Apply the Single Responsibility Principle to keep instructions focused and maintainable.
+- Apply the `Single Responsibility Principle` (one instruction = one workflow) to keep instructions focused and maintainable.
 - Create custom instruction files for your `Jira`/`Confluence` project workflows.
 
 ## Page 1: Evolution from Prompts to Instructions
@@ -122,7 +122,7 @@ You have custom instruction files for your `Jira`/`Confluence` workflows and an 
 
 ## Page 5: Single Responsibility and When to Split
 ### Background
-Instructions follow the Single Responsibility Principle (SPR): one instruction = one workflow.
+Instructions follow the `Single Responsibility Principle` — a software engineering rule that means: one thing should do one job. Applied to instructions: one instruction file = one workflow. Keep each file focused on a single task type. Broad, catch-all files become hard to maintain and the AI applies them in the wrong contexts.
 
 Too broad (bad): A single "python-best-practices.agent.md" file with 50 rules covering functions, tests, style, setup, logging, and more. It applies to every `Python` task even when irrelevant, and is hard to maintain.
 
@@ -148,7 +148,7 @@ One instruction can reference another: "For test creation, follow ./instructions
 4. After any changes, update `main.agent.md` and commit.
 
 ### ✅ Result
-You understand the Single Responsibility Principle for instructions and can organize them effectively.
+You understand the `Single Responsibility Principle` (one instruction per workflow) and can organize instruction files effectively.
 
 ## Summary
 Remember that perfect prompt you spent 20 minutes refining — the one you could not find when the same task came up a week later? That problem is now solved. Your prompts live as structured instruction files in the `instructions/` folder, indexed by a catalog the AI reads automatically. No more searching through old chats or re-discovering constraints from memory.
@@ -157,7 +157,7 @@ Key takeaways:
 - Instructions transform one-time prompts into reusable rules the AI follows automatically.
 - Naming convention: [verb]-[subject].md in the `instructions/` folder.
 - The catalog (`main.agent.md`) lets the AI discover instructions without explicit references.
-- Follow the Single Responsibility Principle: one instruction per workflow.
+- Follow the `Single Responsibility Principle`: one instruction per workflow — keep each file focused on a single type of task.
 - After every productive AI session, ask yourself: `Should I create or update an instruction from this?` The session contained iterations, failures, and refinements — capturing the result means you never repeat that trial-and-error.
 - Your `Jira`/`Confluence` workflow instructions are the first building blocks of your automation toolkit.
 ## Quiz
@@ -184,6 +184,6 @@ Key takeaways:
    b) Whenever you discover a new AI capability, to document it for future reference
    c) Only after the existing instruction file has been used in at least 10 separate sessions
    Correct answer: a.
-   - (a) is correct because following the Single Responsibility Principle, each instruction should cover one distinct workflow. Splitting prevents instructions from becoming overly broad and ensures they are applied only when relevant.
+   - (a) is correct because the `Single Responsibility Principle` (one instruction = one workflow) means each instruction should cover one distinct workflow. Splitting prevents instructions from becoming overly broad and ensures they are applied only when relevant.
    - (b) is incorrect because instruction files capture reusable workflows, not AI feature documentation. A new capability does not automatically warrant a new instruction unless it forms a repeatable workflow.
    - (c) is incorrect because the trigger for splitting is not a usage count threshold. It depends on whether the instruction has become too broad or whether a distinct, repeatable workflow has emerged.
