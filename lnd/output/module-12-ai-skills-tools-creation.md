@@ -10,14 +10,14 @@ In this module, you will witness AI hallucinating calculations, create a proper 
 Upon completion of this module, you will be able to:
 - Explain why AI models predict text patterns instead of performing real calculations.
 - Build a skill by pairing a parameterized tool (script) with an instruction file.
-- Determine when a task requires a skill versus when a prompt is sufficient.
+- Determine when a task requires a skill versus when a `prompt` is sufficient.
 - Create and test reusable skills for your `Jira`/`Confluence` automation project.
 
 ## Page 1: AI Does Not Calculate — It Predicts
 ### Background
-Large Language Models generate text token by token. When asked "what is 15,847 × 1.0734^8.583?", the model does not perform arithmetic. It predicts what the answer should look like based on patterns in its training data. The result is close, plausible, and sometimes wrong.
+Large Language Models generate text `token` by `token`. When asked "what is 15,847 × 1.0734^8.583?", the model does not perform arithmetic. It predicts what the answer should look like based on patterns in its training data. The result is close, plausible, and sometimes wrong.
 
-This is not a limitation you can prompt around. No amount of specificity in your prompt will make the model perform real arithmetic. The model does not have a calculator inside — it has a text predictor.
+This is not a limitation you can `prompt` around. No amount of specificity in your `prompt` will make the model perform real arithmetic. The model does not have a calculator inside — it has a text predictor.
 
 The key insight: LLMs generate. They do not compute. For any task that requires precision (math, dates, data queries, API calls), you need a tool.
 
@@ -62,7 +62,7 @@ Key design principles:
 ### ✅ Result
 You have built your first skill (instruction + tool) and verified it produces accurate results.
 
-## Page 3: When to Build Skills vs Use Prompts
+## Page 3: When to Build Skills vs Use `Prompts`
 ### Background
 Not every task needs a skill. Skills are valuable when precision matters:
 
@@ -73,7 +73,7 @@ Build a skill when:
 - The same operation repeats frequently with different inputs.
 - You need to guarantee consistency across team members.
 
-Use a prompt when:
+Use a `prompt` when:
 - The task is creative (writing, brainstorming, summarizing).
 - Approximate answers are acceptable.
 - The task is one-time and will not repeat.
@@ -82,7 +82,7 @@ Use a prompt when:
 For your `Jira`/`Confluence` project, most automation tasks will need skills because they involve API calls (fetching issues, updating pages) and data processing (counting items, generating reports) — both domains where hallucinations are unacceptable.
 
 ### ✅ Result
-You can decide when to build a skill versus when a prompt is sufficient.
+You can decide when to build a skill versus when a `prompt` is sufficient.
 
 ## Page 4: Build Skills for Your Project
 ### Background
@@ -130,7 +130,7 @@ Key takeaways:
 - Skill = Instruction + Tool. The instruction tells when and how; the tool does the work.
 - Parameterize tools — never hardcode values, always accept arguments.
 - Build skills for tasks requiring precision: calculations, API calls, data processing.
-- Use prompts for creative tasks where approximate answers are acceptable.
+- Use `prompts` for creative tasks where approximate answers are acceptable.
 
 [MG]: Опять же, можно дать практическое задание на написание какого-то особенного тула и потом проверить два файла instruction+tool в качестве практического теста.
 ## Quiz
@@ -139,24 +139,24 @@ Key takeaways:
    b) The AI rounds intermediate steps to save processing time, which introduces cumulative rounding errors in complex formulas
    c) The AI uses an outdated math library that has not been updated with recent corrections
    Correct answer: a.
-   - (a) is correct because LLMs generate text token by token using pattern prediction. They do not have built-in arithmetic capabilities, so "calculations" are actually text predictions that may or may not match the real result.
+   - (a) is correct because LLMs generate text `token` by `token` using pattern prediction. They do not have built-in arithmetic capabilities, so "calculations" are actually text predictions that may or may not match the real result.
    - (b) is incorrect because the AI does not perform intermediate calculation steps that could accumulate rounding errors. It does not calculate at all — it generates text that resembles a calculation.
-   - (c) is incorrect because there is no math library involved. The model generates numbers as text tokens based on training patterns, not by invoking a computation engine.
+   - (c) is incorrect because there is no math library involved. The model generates numbers as text `tokens` based on training patterns, not by invoking a computation engine.
 
 2. What is the formula for building a reliable AI skill?
    a) Instruction (when and how to use the tool) + Tool (a script or program that performs the action) = Skill
-   b) A detailed prompt with step-by-step reasoning instructions that force the AI to show its work = Skill
-   c) A retry loop that runs the same prompt multiple times and selects the most common answer = Skill
+   b) A detailed `prompt` with step-by-step reasoning instructions that force the AI to show its work = Skill
+   c) A retry loop that runs the same `prompt` multiple times and selects the most common answer = Skill
    Correct answer: a.
    - (a) is correct because a skill combines an instruction file that guides the AI on when and how to invoke the tool, with a parameterized script or program that performs the actual computation or API call.
    - (b) is incorrect because even with step-by-step reasoning, the AI still predicts text rather than computing. Showing work does not make the underlying arithmetic accurate.
    - (c) is incorrect because running the same hallucination multiple times and voting does not produce reliable results. Consistency across runs does not equal correctness — the model may consistently predict the same wrong answer.
 
-3. When should you build a skill instead of using a prompt directly?
+3. When should you build a skill instead of using a `prompt` directly?
    a) When the task requires precise calculations, API calls, or reproducible results that cannot tolerate hallucination
-   b) When the prompt exceeds 10 lines and becomes difficult to manage in a single chat message
+   b) When the `prompt` exceeds 10 lines and becomes difficult to manage in a single chat message
    c) When you need the output in a specific file format such as `JSON` or CSV rather than plain text
    Correct answer: a.
    - (a) is correct because skills are needed when precision matters — calculations, data queries, API integrations, and any task where a “close enough” answer is not acceptable.
-   - (b) is incorrect because prompt length does not determine whether a skill is needed. Long prompts are better addressed with instruction files (`Module 10`), not necessarily with tools.
-   - (c) is incorrect because the AI can generate `JSON` or CSV format from a prompt alone. File format is a formatting concern, not a precision concern that requires a tool.
+   - (b) is incorrect because `prompt` length does not determine whether a skill is needed. Long `prompts` are better addressed with instruction files (`Module 10`), not necessarily with tools.
+   - (c) is incorrect because the AI can generate `JSON` or CSV format from a `prompt` alone. File format is a formatting concern, not a precision concern that requires a tool.

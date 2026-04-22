@@ -1,7 +1,7 @@
 # Module 15: Bulk File Processing with AI
 
 ### Background
-You need to review 20 `Markdown` files for formatting issues. Or extract action items from 50 meeting notes. Or validate 30 configuration files against a checklist. You open the AI chat and paste your prompt — it works beautifully for the first 5 files, then the quality drops. By file 15, the AI is hallucinating information that was never in the source files.
+You need to review 20 `Markdown` files for formatting issues. Or extract action items from 50 meeting notes. Or validate 30 configuration files against a checklist. You open the AI chat and paste your `prompt` — it works beautifully for the first 5 files, then the quality drops. By file 15, the AI is hallucinating information that was never in the source files.
 
 This is called context drift, and it is the core problem of bulk file processing with AI. In this module, you will learn why it happens, experience three different approaches to bulk processing, and implement the most efficient solution that scales to any number of files.
 
@@ -39,15 +39,15 @@ When to use this approach:
 ### ✅ Result
 You have experienced context drift firsthand and understand its cause.
 
-## Page 2: Approach 2 — Iterative Re-reading (Token Waste)
+## Page 2: Approach 2 — Iterative Re-reading (`Token` Waste)
 ### Background
 A smarter approach: tell the AI to re-read the instruction for each file, resetting its focus.
 
-The prompt looks like this: "For each file: 1) Re-read the validation rules. 2) Read the file. 3) Check against rules. 4) Report issues. 5) Move to next file. 6) Repeat from step 1."
+The `prompt` looks like this: "For each file: 1) Re-read the validation rules. 2) Read the file. 3) Check against rules. 4) Report issues. 5) Move to next file. 6) Repeat from step 1."
 
 What happens:
 - Quality improves because the instruction is refreshed for each file.
-- But the AI re-reads the same instruction file every time — wasting tokens.
+- But the AI re-reads the same instruction file every time — wasting `tokens`.
 - For 20 files with a 500-word instruction, you pay for 10,000+ words of redundant instruction reading.
 - Slower and more expensive than necessary.
 
@@ -60,14 +60,14 @@ When to use this approach:
 1. Create a validation rules file (e.g., `validation-rules.md`) with 5-6 specific checks for any file type you work with.
 2. Ask the AI to process files iteratively with re-reading: "For each `walkthrough.md` in `modules/`: 1) Read `validation-rules.md`. 2) Read the file. 3) Check against rules. 4) Report issues. 5) Move to next file."
 3. Compare the quality of analysis with Approach 1. Is it more consistent across files?
-4. Think about the token cost: the instruction was read N times instead of once.
+4. Think about the `token` cost: the instruction was read N times instead of once.
 
 ### ✅ Result
-You understand the tradeoff between quality and token cost in iterative processing.
+You understand the tradeoff between quality and `token` cost in iterative processing.
 
 ## Page 3: Approach 3 — Script-Based Automation (Best Practice)
 ### Background
-The optimal approach: write a script that calls the AI separately for each file with a fresh context. Each file is processed independently — no accumulated conversation history, no context drift, no token waste from re-reading.
+The optimal approach: write a script that calls the AI separately for each file with a fresh context. Each file is processed independently — no accumulated conversation history, no context drift, no `token` waste from re-reading.
 
 The pattern:
 1. A script (`Python`, `PowerShell`, or `Bash`) iterates over all target files.
@@ -77,7 +77,7 @@ The pattern:
 
 Why this wins:
 - No context drift — each file gets a fresh `context window`.
-- Token efficient — the instruction is read once per file by the `CLI`, not accumulated in conversation history.
+- `Token` efficient — the instruction is read once per file by the `CLI`, not accumulated in conversation history.
 - Deterministic — the same instruction is applied consistently to every file.
 - Scalable — works for 100+ files.
 - Auditable — each result is saved in a separate file for review.
@@ -103,7 +103,7 @@ Here is a comparison of the three approaches:
 |--------|---------------|-------------------|-------------------|
 | Files | 3-5 max | 10-15 | Unlimited |
 | Quality | Degrades | Good | Excellent |
-| Token cost | Low | High | Optimal |
+| `Token` cost | Low | High | Optimal |
 | Speed | Fast initially | Slow | Fast |
 | Setup time | None | None | Script required |
 | Context drift | Yes | Reduced | None |
@@ -135,7 +135,7 @@ Apply the best approach to a real task in your project. Choose one of these scen
 1. Define the task: what files, what check, what output format.
 2. Create a validation or processing instruction file (e.g., instructions/validate-instructions.agent.md).
 3. If using Approach 3 (recommended), create a script that processes each file individually.
-4. If using Approach 2, write the iterative prompt.
+4. If using Approach 2, write the iterative `prompt`.
 5. Run the processing and review results.
 6. If any results are inconsistent, review the instruction file and refine it.
 7. Commit the script and results.
@@ -146,12 +146,12 @@ You have applied bulk processing to a real project task and can reuse the patter
 ## Summary
 Remember the scenario from the introduction — 20 `Markdown` files to review, and by file 15 the AI is hallucinating content that was never there? That is context drift in action, and now you have three tools to handle it.
 
-Single-request processing works for quick checks on 3-5 files. Iterative re-reading improves consistency but multiplies token cost. Script-based automation eliminates context drift entirely by giving each file a fresh `context window` — making it the best choice for repeatable operations at scale.
+Single-request processing works for quick checks on 3-5 files. Iterative re-reading improves consistency but multiplies `token` cost. Script-based automation eliminates context drift entirely by giving each file a fresh `context window` — making it the best choice for repeatable operations at scale.
 
 Key takeaways:
 - Context drift causes quality degradation when processing many files in one conversation.
 - Single requests work for 3-5 files; iterative re-reading works for 10-15; scripts scale to unlimited.
-- Script-based automation provides consistent quality and optimal token usage.
+- Script-based automation provides consistent quality and optimal `token` usage.
 - Each file processed in a fresh context = no accumulated history = no drift.
 - Use the decision framework to choose the right approach for each batch task.
 
@@ -167,8 +167,8 @@ Key takeaways:
    - (c) Incorrect. Context drift is not about processing speed. The AI does not slow down noticeably — it continues to respond quickly, but the quality of responses degrades because earlier conversation consumes context space.
 
 2. Why is script-based automation (Approach 3) the most efficient for processing many files?
-   a) The script caches the AI's responses and reuses them for similar files, reducing token cost
-   b) Each file is processed in a fresh context with no accumulated history, eliminating context drift and providing consistent quality without wasting tokens on re-reading instructions
+   a) The script caches the AI's responses and reuses them for similar files, reducing `token` cost
+   b) Each file is processed in a fresh context with no accumulated history, eliminating context drift and providing consistent quality without wasting `tokens` on re-reading instructions
    c) The script splits large files into smaller chunks so they fit within the `context window`
    Correct answer: b.
    - (a) Incorrect. Script automation does not cache or reuse responses — each file is processed independently with a fresh AI call. The efficiency comes from clean contexts, not from caching.

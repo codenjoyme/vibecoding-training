@@ -69,7 +69,7 @@ Key differences from local servers: type is "http" (not a local command), the UR
 
 6. Enable `GitHub` `MCP` tools in the chat panel tools configuration.
 
-**Important: switching `GitHub` accounts.** If you need to use a different `GitHub` account for `MCP`, changing the account in `VS Code`'s bottom-left corner is NOT enough — `MCP` uses its own authentication. To switch: open your `mcp.json`, hover over the `GitHub` server entry, click "More..." → "Disconnect Account." The server restarts and prompts you to authenticate with a different account.
+**Important: switching `GitHub` accounts.** If you need to use a different `GitHub` account for `MCP`, changing the account in `VS Code`'s bottom-left corner is NOT enough — `MCP` uses its own authentication. To switch: open your `mcp.json`, hover over the `GitHub` server entry, click "More..." → "Disconnect Account." The server restarts and `prompts` you to authenticate with a different account.
 
 ### ✅ Result
 The `GitHub` `MCP` server is configured and connected in your IDE.
@@ -140,7 +140,7 @@ In this module, you configured the `GitHub` `MCP` server using an `HTTP` endpoin
 
 Key takeaways:
 - The `GitHub` `MCP` server provides `HTTP`-based access to repositories, issues, PRs, and more.
-- Authentication uses your `GitHub Copilot` subscription — no personal access tokens needed.
+- Authentication uses your `GitHub Copilot` subscription — no personal access `tokens` needed.
 - Creating issues from a backlog file is one of the most practical `MCP` workflows.
 - `GitHub` issues will serve as the foundation for task delegation in `Module 19`.
 - The context switching that slowed you down is now eliminated — everything happens in one place.
@@ -165,7 +165,7 @@ Key takeaways:
    Correct answer: b.
    - (a) Incorrect. The AI formats the issue based on the content you provide in the backlog file, not based on a predefined `GitHub` template.
    - (b) Correct. The workflow eliminates context switching between browser and IDE. The AI creates structured issues from your backlog, enabling seamless project management.
-   - (c) Incorrect. `GitHub` issues do not have built-in priority levels assigned automatically. You would need to add labels or milestones manually or through an explicit prompt.
+   - (c) Incorrect. `GitHub` issues do not have built-in priority levels assigned automatically. You would need to add labels or milestones manually or through an explicit `prompt`.
 
 3. Why is the `GitHub` `MCP` integration important for `Module 19` (`GitHub` Coding Agent)?
    a) The coding agent requires `MCP` to understand your programming language

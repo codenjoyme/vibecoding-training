@@ -1,13 +1,13 @@
 # Module 10: Custom Instructions
 
 ### Background
-You spent 20 minutes refining a prompt until the AI produced exactly what you needed. Next week, the same type of task comes up. Where is that perfect prompt? Which chat session was it in? Which message had the final version?
+You spent 20 minutes refining a `prompt` until the AI produced exactly what you needed. Next week, the same type of task comes up. Where is that perfect `prompt`? Which chat session was it in? Which message had the final version?
 
-If you cannot recover it, you start from scratch — re-discovering the same constraints, hitting the same pitfalls, wasting the same time. This is the problem custom instructions solve: they transform one-time prompts into reusable rules that the AI follows automatically.
+If you cannot recover it, you start from scratch — re-discovering the same constraints, hitting the same pitfalls, wasting the same time. This is the problem custom instructions solve: they transform one-time `prompts` into reusable rules that the AI follows automatically.
 
 > **Connection to `Module 9`:** In the previous module you extracted session information about the *task* — what you are building and what has been done so far. Here you are capturing information about the *process* — how you want the AI to behave in your project. The goal is the same: make sure the agent starts each new session with full context, without you having to re-explain everything from scratch.
 
-In this module, you will learn how prompts evolve into instructions, how to organize them into a system the AI reads automatically, and you will create your first instruction files for the `Jira`/`Confluence` workflows in your practical project.
+In this module, you will learn how `prompts` evolve into instructions, how to organize them into a system the AI reads automatically, and you will create your first instruction files for the `Jira`/`Confluence` workflows in your practical project.
 
 Upon completion of this module, you will be able to:
 - Create reusable instruction files in `Markdown` format following the `[verb]-[subject].md` naming convention.
@@ -15,25 +15,25 @@ Upon completion of this module, you will be able to:
 - Apply the `Single Responsibility Principle` (one instruction = one workflow) to keep instructions focused and maintainable.
 - Create custom instruction files for your `Jira`/`Confluence` project workflows.
 
-## Page 1: Evolution from Prompts to Instructions
+## Page 1: Evolution from `Prompts` to Instructions
 ### Background
-There are four stages of prompt maturity, and most people stay at stage 1:
+There are four stages of `prompt` maturity, and most people stay at stage 1:
 
-Stage 1 — Everything is a prompt: You type the full request every time. Works for one-off tasks, but repetitive for common patterns.
+Stage 1 — Everything is a `prompt`: You type the full request every time. Works for one-off tasks, but repetitive for common patterns.
 
-Stage 2 — Text file: You save good prompts to a file and copy-paste them when needed. Better, but still manual and the file becomes messy over time.
+Stage 2 — Text file: You save good `prompts` to a file and copy-paste them when needed. Better, but still manual and the file becomes messy over time.
 
-Stage 3 — `Markdown` format: You create structured .md files with organized requirements, lists, and examples. AI agents process `Markdown` well. Still requires manual attachment or copy-paste.
+Stage 3 — `Markdown` format: You create structured `.md` files with organized requirements, lists, and examples. AI agents process `Markdown` well. Still requires manual attachment or copy-paste.
 
 Stage 4 — Instruction system: The AI automatically sees relevant instructions when you ask a question. No copy-paste needed. Consistent output every time. This is where you want to be.
 
 ### Steps
 1. Think about your recent AI sessions. What tasks did you ask for more than once? (Examples: "create a report," "summarize meeting notes," "write a status update.")
 2. Pick the most common recurring task.
-3. Try to recall the prompt that worked best for it. Can you reproduce it exactly? Most likely not — this is why instructions matter.
+3. Try to recall the `prompt` that worked best for it. Can you reproduce it exactly? Most likely not — this is why instructions matter.
 
 ### ✅ Result
-You understand the four stages of prompt maturity and why the instruction system (stage 4) is the goal.
+You understand the four stages of `prompt` maturity and why the instruction system (stage 4) is the goal.
 
 ## Page 2: Creating Your First Instruction File
 ### Background
@@ -66,7 +66,7 @@ You have created and tested your first instruction file.
 ### Background
 As you accumulate instruction files, the AI needs a way to find the right one. The solution is a catalog file: `instructions/main.agent.md`.
 
-This file lists all available instructions with brief descriptions. The AI checks this catalog on every prompt to find relevant instructions.
+This file lists all available instructions with brief descriptions. The AI checks this catalog on every `prompt` to find relevant instructions.
 
 Example structure:
 ```
@@ -151,17 +151,17 @@ One instruction can reference another: "For test creation, follow ./instructions
 You understand the `Single Responsibility Principle` (one instruction per workflow) and can organize instruction files effectively.
 
 ## Summary
-Remember that perfect prompt you spent 20 minutes refining — the one you could not find when the same task came up a week later? That problem is now solved. Your prompts live as structured instruction files in the `instructions/` folder, indexed by a catalog the AI reads automatically. No more searching through old chats or re-discovering constraints from memory.
+Remember that perfect `prompt` you spent 20 minutes refining — the one you could not find when the same task came up a week later? That problem is now solved. Your `prompts` live as structured instruction files in the `instructions/` folder, indexed by a catalog the AI reads automatically. No more searching through old chats or re-discovering constraints from memory.
 
 Key takeaways:
-- Instructions transform one-time prompts into reusable rules the AI follows automatically.
+- Instructions transform one-time `prompts` into reusable rules the AI follows automatically.
 - Naming convention: [verb]-[subject].md in the `instructions/` folder.
 - The catalog (`main.agent.md`) lets the AI discover instructions without explicit references.
 - Follow the `Single Responsibility Principle`: one instruction per workflow — keep each file focused on a single type of task.
 - After every productive AI session, ask yourself: `Should I create or update an instruction from this?` The session contained iterations, failures, and refinements — capturing the result means you never repeat that trial-and-error.
 - Your `Jira`/`Confluence` workflow instructions are the first building blocks of your automation toolkit.
 ## Quiz
-1. What is the main advantage of custom instructions over copy-pasting prompts?
+1. What is the main advantage of custom instructions over copy-pasting `prompts`?
    a) Instructions are applied automatically, ensuring consistent results every time without manual copy-paste or re-discovery of constraints
    b) Instructions reduce the AI model's processing time because structured `Markdown` is parsed faster than plain text
    c) Instructions allow the AI to bypass the context window limit and handle longer conversations
@@ -175,7 +175,7 @@ Key takeaways:
    b) It stores the AI’s conversation history so context is preserved between sessions
    c) It defines global project settings such as programming language and code style preferences
    Correct answer: a.
-   - (a) is correct because the catalog file is a directory of all instruction files. The AI checks it on every prompt to determine which instructions are relevant to the current task.
+   - (a) is correct because the catalog file is a directory of all instruction files. The AI checks it on every `prompt` to determine which instructions are relevant to the current task.
    - (b) is incorrect because conversation history is managed by the context window, not by files. The catalog serves as an index of available instructions, not a memory store.
    - (c) is incorrect because while instructions may include style preferences, the catalog itself is an index — it points to specific instruction files rather than defining settings directly.
 

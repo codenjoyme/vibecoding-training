@@ -80,7 +80,7 @@ There are two ways to assign the Coding Agent to an issue: through the `GitHub` 
 2. In the right sidebar, find the **Assignees** section.
 3. Click **"Assign to `Copilot`"** (the button with the `Copilot` icon).
 4. A configuration dialog opens with options:
-   - **Optional prompt:** Additional instructions beyond the issue description. Leave empty for now (rely on your instruction files).
+   - **Optional `prompt`:** Additional instructions beyond the issue description. Leave empty for now (rely on your instruction files).
    - **Model:** Select "Auto" (recommended — lets `GitHub` choose the best model for the task).
    - **Agent:** Keep "`Copilot`" (default).
    - **Base branch:** Keep "main" (agent will create a new branch from main).
@@ -157,7 +157,7 @@ Key takeaways:
    c) The IDE assistant works with the full repository, while the Coding Agent can access only the files mentioned in the issue
    Correct answer: b.
    - (a) Incorrect. The Coding Agent does not batch tasks or wait for a schedule. It starts working immediately after assignment and typically completes within 15-30 minutes.
-   - (b) Correct. The IDE assistant is interactive — you prompt, it responds, you approve. The Coding Agent is autonomous — you assign a task and it works independently, delivering a complete PR for your review. They complement each other.
+   - (b) Correct. The IDE assistant is interactive — you `prompt`, it responds, you approve. The Coding Agent is autonomous — you assign a task and it works independently, delivering a complete PR for your review. They complement each other.
    - (c) Incorrect. The Coding Agent has full repository access. It reads the entire codebase for context, including instruction files, configuration, and all source files — not just the ones mentioned in the issue.
 
 2. What should you do if the Coding Agent makes mistakes in its implementation?

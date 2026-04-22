@@ -97,7 +97,7 @@ You can invoke `MCP` tools through chat and understand the approval workflow.
 Each `MCP` tool's description is added to the AI's `context window`. With many tools:
 - The `context window` fills up faster (tool schemas take space).
 - Response times slow down (more tools to evaluate).
-- Token costs increase (on paid APIs).
+- `Token` costs increase (on paid APIs).
 
 Best practice: enable only the tools you are actively using. Disable tools you do not need through the IDE tools configuration.
 
@@ -160,7 +160,7 @@ Key takeaways:
 1. What problem does the Model Context Protocol (`MCP`) solve?
    a) It provides a standard way to connect AI assistants to external data sources and tools without writing custom integration code for each service
    b) It compresses the AI model's `context window` so more conversation history fits into a single session
-   c) It encrypts communication between the AI model and the cloud server to protect proprietary prompts
+   c) It encrypts communication between the AI model and the cloud server to protect proprietary `prompts`
    Correct answer: a.
    - (a) is correct because `MCP` standardizes how AI assistants connect to external services, enabling plug-and-play integrations through community-built servers instead of custom code for each data source.
    - (b) is incorrect because `MCP` does not affect `context window` compression. In fact, each enabled `MCP` tool's schema takes up space in the `context window`.

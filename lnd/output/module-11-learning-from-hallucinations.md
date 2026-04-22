@@ -63,12 +63,12 @@ You can delegate instruction fixes to the AI and verify the improvements.
 
 ## Page 3: The Interference Problem
 ### Background
-When you combine multiple instructions together — or add your own prompt on top of an instruction — things can change in unexpected ways. This is the interference problem.
+When you combine multiple instructions together — or add your own `prompt` on top of an instruction — things can change in unexpected ways. This is the interference problem.
 
 A single instruction works predictably in isolation. But when the AI context contains:
 - Instruction A (generate report)
 - Instruction B (format as table)
-- Your additional prompt ("also include a summary")
+- Your additional `prompt` ("also include a summary")
 
 ...the AI must reconcile all three, and the result may differ from what any single instruction produces alone. Instructions are context-sensitive: the same instruction may behave differently depending on what else is active.
 
@@ -81,7 +81,7 @@ Types of instructions to be aware of:
 Understanding which type you are building (or fixing) helps you keep each instruction focused.
 
 ### Steps
-1. Take two of your instruction files and try combining them in a single prompt: "Following ./instructions/A.agent.md and ./instructions/B.agent.md, do [task]."
+1. Take two of your instruction files and try combining them in a single `prompt`: "Following ./instructions/A.agent.md and ./instructions/B.agent.md, do [task]."
 2. Compare the output to running each instruction separately.
 3. If the combined result is unexpected, identify which instruction's rules were overridden.
 4. Decide whether to adjust one instruction or keep them separate.
@@ -158,8 +158,8 @@ Key takeaways:
 3. What is the interference problem with instructions?
    a) When multiple instructions are active together, they can interact unpredictably — the AI must reconcile them, and the result may differ from what each instruction produces in isolation
    b) When an instruction file references another instruction, the referenced file’s rules take complete priority and the original file’s rules are ignored
-   c) When you add your own prompt alongside an instruction, the AI treats your prompt as a correction and rewrites the instruction file
+   c) When you add your own `prompt` alongside an instruction, the AI treats your `prompt` as a correction and rewrites the instruction file
    Correct answer: a.
-   - (a) is correct because instructions are context-sensitive. Combining multiple instructions or adding extra prompts changes how the AI interprets each instruction, potentially producing unexpected results.
+   - (a) is correct because instructions are context-sensitive. Combining multiple instructions or adding extra `prompts` changes how the AI interprets each instruction, potentially producing unexpected results.
    - (b) is incorrect because referenced instructions do not override the original. Both sets of rules are active simultaneously, which is precisely what causes the reconciliation challenge.
-   - (c) is incorrect because adding a prompt alongside an instruction does not rewrite the instruction file. The AI treats both as input for the current task, but the instruction file on disk remains unchanged.
+   - (c) is incorrect because adding a `prompt` alongside an instruction does not rewrite the instruction file. The AI treats both as input for the current task, but the instruction file on disk remains unchanged.
