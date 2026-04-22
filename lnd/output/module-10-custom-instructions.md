@@ -177,7 +177,7 @@ One instruction can reference another: `For test creation, follow './instruction
 
 ### Steps
 1. Review the instruction files you created on the previous page.
-2. If any instruction has more than 15 rules, consider splitting it.
+2. If any instruction is approaching 500–700 lines, consider splitting it.
 3. If any two instructions share common rules, extract the shared rules into a separate instruction referenced by both.
 4. After any changes, update `main.agent.md` and commit.
 
@@ -189,11 +189,12 @@ Remember that perfect `prompt` you spent 20 minutes refining — the one you cou
 
 Key takeaways:
 - Instructions transform one-time `prompts` into reusable rules the AI follows automatically.
-- Naming convention: [verb]-[subject].agent.md in the `instructions/` folder.
+- Naming convention: `[verb]-[subject].agent.md` in the `instructions/` folder.
 - The catalog (`main.agent.md`) lets the AI discover instructions without explicit references.
 - Follow the `Single Responsibility Principle`: one instruction per workflow — keep each file focused on a single type of task.
 - After every productive AI session, ask yourself: `Should I create or update an instruction from this?` The session contained iterations, failures, and refinements — capturing the result means you never repeat that trial-and-error.
 - Your `Jira`/`Confluence` workflow instructions are the first building blocks of your automation toolkit.
+
 ## Quiz
 1. What is the main advantage of custom instructions over copy-pasting `prompts`?
    a) Instructions are applied automatically, ensuring consistent results every time without manual copy-paste or re-discovery of constraints

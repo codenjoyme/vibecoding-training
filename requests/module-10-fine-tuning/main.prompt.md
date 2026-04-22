@@ -90,3 +90,12 @@ iterative-prompt.agent.md
 
 ### RESULT
 - `lnd/output/module-10-custom-instructions.md` — Page 5, Step 4: changed "Update `instructions/main.agent.md` with the new instruction entries" to "Verify that `instructions/main.agent.md` was updated automatically...— review the change rather than editing manually."
+
+## UPD12
+
+В 180 строчке написано `If any instruction has more than 15 rules, consider splitting it.` но правило скорее другое, не больше 500-700 строчек на инструкцию. Исправь везде где имеет смысл. go
+
+### RESULT
+- `lnd/output/module-10-custom-instructions.md` — Page 6 Step 2: changed "more than 15 rules" → "approaching 500–700 lines". The "50 rules" in the Too-broad example describes topic breadth and was intentionally left unchanged.
+
+##UPD13
