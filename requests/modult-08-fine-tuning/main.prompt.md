@@ -16,3 +16,10 @@ Why this works:
 
 ### RESULT
 - `lnd/output/module-08-clarifying-requirements.md` — added a callout block after the "Why this works" bullets explaining that all chat text (prompt + AI questions + answers) forms the prompt for what the AI generates next; the context window is the prompt for the text within it; warm it up with domain small talk if unsure what to put there.
+
+## UPD2
+
+Слушай в модуле есть `ТЗ` во всему тексту. Это сокращение от техническое задание. А у нас весь текст на английском. Давай вместо `ТЗ` использовать `requirements` или `specification`, так чтобы оно было консистентно всему тексту. go 
+
+### RESULT
+- `lnd/output/module-08-clarifying-requirements.md` — replaced all 5 occurrences of `ТЗ` with `specification` for consistency with the English text (lines 95, 134, 146, 147, 162).

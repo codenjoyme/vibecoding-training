@@ -92,7 +92,7 @@ You can control the interview process — setting the pace, focus, and depth of 
 
 ## Page 4: Create Your Technical Specification
 ### Background
-Now you will apply the interview technique to a real task: creating a Technical Specification for your `Jira`/`Confluence` automation project. This ТЗ will be the foundation for all practical work in the remaining modules.
+Now you will apply the interview technique to a real task: creating a Technical Specification for your `Jira`/`Confluence` automation project. This specification will be the foundation for all practical work in the remaining modules.
 
 Choose your automation idea (pick one or propose your own):
 - Weekly status report generator that pulls data from `Jira` and formats it for stakeholders.
@@ -107,7 +107,7 @@ Choose your automation idea (pick one or propose your own):
 3. Go through the interview (2-3 rounds of questions).
 4. When the AI creates `PROJECT_SPEC.md`, review it carefully.
 5. If anything is missing or incorrect, tell the AI directly (e.g., `Add a section about data refresh frequency — it should be daily`).
-6. When you are satisfied, commit the file: use the git workflow from Module 3.
+6. When you are satisfied, commit the file: use the git workflow from `Module 3`.
 
 ### ✅ Result
 You have a Technical Specification for your practical project, committed to your repository.
@@ -131,7 +131,7 @@ After the interview — two paths:
 - Option A: Ask the AI to create a requirements document first (recommended for complex projects). Then use that document as reference for implementation.
 - Option B: Proceed directly to implementation if the task is straightforward enough.
 
-For this course, your ТЗ document is the reference artifact. You will revisit and refine it in future modules as you learn new techniques.
+For this course, your specification document is the reference artifact. You will revisit and refine it in future modules as you learn new techniques.
 
 ### ✅ Result
 You know when to use the interview technique and when to skip it.
@@ -143,8 +143,8 @@ Key takeaways:
 - When you cannot think of what to specify, ask the AI: `Before we start, ask me clarifying questions`
 - The AI knows what information is needed and can identify gaps in your requirements.
 - You control the interview — set the pace, focus, and depth.
-- A structured ТЗ document is more valuable than jumping straight to implementation.
-- Your ТЗ is now committed to the repository and will evolve as the course progresses.
+- A structured specification document is more valuable than jumping straight to implementation.
+- Your specification is now committed to the repository and will evolve as the course progresses.
 
 [MG]: Вот уже начиная отсюда, где студент начинает генерить какие-то файлы по инструкциям, предлагаю переходить от квизов к практическим задачам, формата "загрузите файл такой-то в аудитора, он должен соответствовать критериям таким-то".
 ## Quiz
@@ -159,7 +159,7 @@ Key takeaways:
 
 2. What should you do after the AI finishes asking clarifying questions?
    a) Delete the entire conversation and start over with a new prompt based on what you learned
-   b) Ask the AI to create a structured requirements document (like a ТЗ), review it, and commit it to your repository
+   b) Ask the AI to create a structured specification, review it, and commit it to your repository
    c) Proceed directly to implementation and rely on the AI to remember all the discussed details
    Correct answer: b.
    - (a) is incorrect because the conversation already contains valuable context. Deleting it and rewriting from memory risks losing details that emerged naturally during the interview.
