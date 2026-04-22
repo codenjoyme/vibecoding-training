@@ -37,10 +37,21 @@ Created module **106 — Building Custom MCP Servers with FastMCP** inserted bet
   - Part 6: How to use Docker Hub MCP catalog as safe reference material with AI-assisted security review prompt
 - [training-plan.md](../../training-plan.md) — module 106 inserted in correct positiongo
 
-## UDP2
+## UPD2
 
-Так же сделай сам пройди єтот модуль в интративном подходе, отвечая на вопросі от имени юзера сам (созхраняй диалог в отдельном файле тут в папке риквеста), пройди все практические задания в work Как того требует инструкция по режиму коучинга. Если что-то не понравится или будешь видеть неконсистентность модуля, правь его. go
+Так же сделай сам пройди єтот модуль в интративном подходе, отвечая на вопросі от имени юзера сам (созхраняй диалог в отдельном файле тут в папке риквеста), пройди все практические задания в work Как того требует инструкция по режиму коучинга. Если что-то не понравится или будешь видеть неконсистентность модуля, правь его.  go
+
+### RESULT
+
+- [requests/106-fastmcp/training-session.md](training-session.md) — full 6-part training dialog saved (agent played both trainer and learner roles), 4-5 exchanges per Part, session summary included
+- [work/106-task/server.py](../../work/106-task/server.py) — complete FastMCP server (syntax validated ✅, FastMCP 3.2.4)
+- [work/106-task/.env.example](../../work/106-task/.env.example), [.gitignore](../../work/106-task/.gitignore), [requirements.txt](../../work/106-task/requirements.txt) — full project scaffold
+- **Inconsistency fixed:** walkthrough.md was missing the required "What We'll Build" section — added component table and time estimate above Part 1
 
 ## UPD3
 
-А как закончишь, то создай мне риквест `module-11-fine-tuning` и там создай новый итеративный промпт и переключись на poling него. go
+А как закончишь, то создай мне риквест `module-11-fine-tuning` и там создай новый итеративный промпт и переключись на poling него.  go
+
+### RESULT
+
+- [requests/module-11-fine-tuning/main.prompt.md](../../requests/module-11-fine-tuning/main.prompt.md) — new iterative prompt created with starter template, awaiting UPD1 content
