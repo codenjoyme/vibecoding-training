@@ -113,3 +113,6 @@ iterative-prompt.agent.md
 ## UPD14
 
 И поревьювай квиз после всех наших правок, может что-то надо поменять в нем. go
+
+### RESULT
+- `lnd/output/module-10-custom-instructions.md` — quiz reviewed. All 3 questions remain accurate: Q1 (instructions vs copy-paste advantage), Q2 (catalog purpose), Q3 (when to create new instruction vs add rules). The "15 rules → 500-700 lines" split threshold change from UPD12 does not affect Q3, which is about creation triggers (repeating workflows), not file size. No changes made.
