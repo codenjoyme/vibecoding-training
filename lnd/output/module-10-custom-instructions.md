@@ -117,6 +117,16 @@ This asks the AI to fetch the file, place it in your `instructions/` folder, and
 4. Open `instructions/main.agent.md` — confirm it now includes an entry for `creating-instructions.agent.md`.
 5. Commit the new files to your repository.
 
+The `creating-instructions.agent.md` instruction works in two additional modes beyond initial creation:
+
+**Ask questions about instructions:** Use the instruction as a reference when you need guidance. For example: `I have a question about the instruction for creating instructions: [your question]`. The AI will answer based on the instruction's own rules and conventions.
+
+**Convert a past session into an instruction:** Take any old chat session in which you did something useful with the AI step by step. Open it and say: `Following instructions, create an instruction that will [describe what from that process you want to capture]`. This turns a one-time successful workflow into a reusable, structured instruction.
+
+You can also extend an existing instruction the same way: `Following instructions, create an addition to the existing instruction [name], that will [describe the extension]`.
+
+> **Note:** The exact wording of the `prompt` does not matter — the LLM understands from context that you want to create or update an instruction. Use keywords like "follow instructions", "create instruction", or "create an addition to instruction" in any synonym or phrasing that feels natural. If the model does not find the instruction automatically, rephrase your request — just as we did in `Module 7`.
+
 ### ✅ Result
 You have the `creating-instructions.agent.md` meta-instruction installed. From this point, any request to create a new instruction will follow this file automatically, ensuring consistent structure across all your instructions.
 
