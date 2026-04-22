@@ -10,10 +10,34 @@ iterative-prompt.agent.md
 
 Стой стой, я откатил все. Мне надо чтобы ты правил не модуля программы, а модуля lnd тренинга. go
 
+### RESULT
+
+- Added style rule to `instructions/generate-lnd-modules.agent.md`: wrap `hallucination`/`hallucinations` in backticks in LND module prose (exceptions: compound forms like "hallucination-fixing", headings).
+- Applied backtick wrapping to all `hallucination`/`hallucinations` occurrences in:
+  - `lnd/output/module-11-learning-from-hallucinations.md` (all prose, quiz, practical task sections)
+  - `lnd/output/module-12-ai-skills-tools-creation.md` (lines 29, 82, 152, 155; compound forms on 103/116 left intact)
+  - `lnd/output/module-17-rapid-prototyping-speckit.md` (lines 16, 161)
+
 ## UPD2
 
 То же для слова `instructions`, `agent` и так далее все специафические тремины которые появляются с изучением этого курса. Во всех модулях lnd поправь и инструкцию по стилю модуля. [text](../../instructions/generate-lnd-modules.agent.md) go
 
+### RESULT
+
+- Added two new style rules to `instructions/generate-lnd-modules.agent.md`:
+  - `` `instructions` ``/`` `instruction` `` — wrap in backticks when referring to AI instruction files (.agent.md). Not for generic use.
+  - `` `agent` `` — wrap in backticks when referring to an AI agent acting autonomously. Not for generic use.
+- Applied backtick wrapping to `instructions`/`instruction` and `agent` prose occurrences in:
+  - `lnd/output/module-11-learning-from-hallucinations.md` (all pages, quiz, practical task)
+  - `lnd/output/module-12-ai-skills-tools-creation.md` (skill formula, page instructions, quiz)
+  - `lnd/output/module-06-agent-mode-under-the-hood.md` (intro, page 3 header, steps, result, summary)
+  - `lnd/output/module-19-github-coding-agent-delegation.md` (background, when to use, all pages, quiz, practical task)
+
 ## UPD3
 
 Перед резалт блоком в 34й строчке надо сделать следующее. Приведи метафору, что когда человеку снится сон, то он видит там все в перемешку - что происходило сегодня, на прошлой неделе, в детстве вместе с нереальными фактами которых никогда небыло и не могло быть - например человек с тремя пальцами. Модель работает так же - когда она генерирует текст, он ей "снится" на базе тех текстов что она когда-то читала (пока обучалась). Тех текстов уже нет, они растворены в ее синапсах/весовых коефициентах нейросетей внутри нее. И сейчас ей снится текст на тему заданного в сесии контекста. Потому галлюцинации неизбежны. Все что она генерирует есть одна большая галлюцинация, но наша задача через указагнием все более четких инструкицй привести их в русло, которое мы будем считать полезным. go
+
+### RESULT
+
+- Added dream metaphor paragraph **"Why `hallucinations` are inevitable — the dreaming mind analogy"** to `lnd/output/module-11-learning-from-hallucinations.md`, inserted between step 6 of the improvement cycle and the `### ✅ Result` block on page 1 (line 34 area).
+- The metaphor: dreams mix real memory with invented facts (person with three fingers); a language model works the same — it "dreams" text from training data dissolved into weights/parameters; this is why `hallucinations` are inevitable, and precise `instructions` channel that dreaming into useful output.
