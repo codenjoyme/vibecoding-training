@@ -94,7 +94,7 @@ Understanding which type you are building (or fixing) helps you keep each instru
 ### Steps
 1. Take two of your instruction files and try combining them in a single `prompt`: `Following '[instruction-a]' and '[instruction-b]', do [task].`. You can write it in simple: `Following instructions a and b, do some task`.
 2. Compare the output to running each instruction separately.
-3. If the combined result is unexpected, identify which instruction's rules were overridden.
+3. If the combined result is unexpected, identify which `instruction's` rules were overridden.
 4. Decide whether to adjust one instruction or keep them separate.
 
 ### ✅ Result
@@ -110,8 +110,7 @@ Now you will apply the `hallucination`-fixing workflow to your practical project
 3. For each execution, note any deviations — output format, missing fields, unexpected sections, wrong data structure.
 4. For each deviation, delegate the fix: `I ran this instruction with [input] and got [deviation]. Update the instruction to handle this correctly`
 5. After all fixes, run the `instruction` once more and verify it produces consistent output across different inputs.
-6. Document what you learned in a brief note in the `instruction` file itself or in a separate `CHANGELOG` section.
-7. Commit the improved instruction files.
+6. Commit the improved instruction files.
 
 ### ✅ Result
 Your `Jira`/`Confluence` workflow `instructions` are refined through real-world testing and `hallucination` fixing.
