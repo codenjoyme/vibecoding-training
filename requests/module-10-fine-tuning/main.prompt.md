@@ -86,6 +86,7 @@ iterative-prompt.agent.md
 
 ## UPD11
 
-В блоке с 145й строчки `### Steps` мы делаем абстрактную инструкцию. А давай сделаем конкретную инструкцию, но не сразу. Вначале скажем что нам надо создать 
+В блоке с 145й строчки `### Steps` сказано добавьте сами инфу в main.agent.md но єто уже не надо делать, оно будет сделано автоматом - надо только глянуть на изменение. go
 
-Плюс там сказано добавьте сами инфу в main.agent.md но єто уже не надо делать, оно будет сделано автоматом - надо только глянуть на изменение.  
+### RESULT
+- `lnd/output/module-10-custom-instructions.md` — Page 5, Step 4: changed "Update `instructions/main.agent.md` with the new instruction entries" to "Verify that `instructions/main.agent.md` was updated automatically...— review the change rather than editing manually."

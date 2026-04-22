@@ -147,7 +147,7 @@ Each instruction file captures what the AI should do, what format to use, what c
 2. For each pattern, ask the AI to create an instruction file:
    `Following instructions, create an instruction for [describe the workflow]. Include: input format, processing steps, output format, and constraints`
 3. Review each instruction file — are the rules specific enough to produce consistent results?
-4. Update `instructions/main.agent.md` with the new instruction entries.
+4. Verify that `instructions/main.agent.md` was updated automatically with the new instruction entries — review the change rather than editing manually.
 5. Test each instruction by asking the AI to perform the workflow.
 6. Commit all new files to your repository.
 
