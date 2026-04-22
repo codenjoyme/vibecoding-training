@@ -26,10 +26,10 @@ The key insight: LLMs generate. They do not compute. For any task that requires 
 2. Ask: "Calculate the compound interest for a principal of $15,847 at 7.34% annual rate, compounded monthly, over 8 years and 7 months. Show the final amount and total interest."
 3. Write down the AI's answer.
 4. Now verify using a calculator or spreadsheet (or ask the AI to write a `Python` script and run it).
-5. Compare the two numbers. They are likely different — the first is a hallucination, the second is a real calculation.
+5. Compare the two numbers. They are likely different — the first is a `hallucination`, the second is a real calculation.
 
 ### ✅ Result
-You have witnessed AI hallucinating a calculation and understand why tools are needed.
+You have witnessed AI `hallucinating` a calculation and understand why tools are needed.
 
 ## Page 2: The Skill Formula — Instruction + Tool
 ### Background
@@ -38,26 +38,26 @@ A skill is a reliable capability built from two components:
 1. Tool — a script, program, or API call that performs a precise action (e.g., a `Python` script that calculates compound interest).
 2. Instruction — a document that tells the AI when to use the tool and how to pass parameters.
 
-Without the instruction, the AI might read the entire script and try to predict its output instead of running it. Without the tool, the AI hallucinates the answer.
+Without the `instruction`, the AI might read the entire script and try to predict its output instead of running it. Without the tool, the AI `hallucinates` the answer.
 
-The formula: Instruction + Tool = Skill.
+The formula: `Instruction` + `Tool` = `Skill`.
 
 Key design principles:
 - Tools must be parameterized — accept arguments, never hardcode values.
-- Instructions must specify the exact command to run with parameter names and order.
+- `Instructions` must specify the exact command to run with parameter names and order.
 - Together they produce reliable, reproducible, auditable results.
 
 ### Steps
 1. Ask the AI to create a `Python` script:
    "Create a `Python` script at `tools/compound_interest.py` that calculates compound interest. Accept principal, annual rate, compounds per year, and total years as command-line arguments. Print the final amount and interest earned."
-2. Now create an instruction for using it:
-   "Create an instruction file at instructions/calculate-compound-interest.agent.md that describes: when to use the `compound_interest.py` tool, how to invoke it with command-line arguments, and how to present results."
-3. Test the skill by asking the same question from Page 1, but referencing the instruction:
-   "Following instructions/calculate-compound-interest.agent.md, calculate compound interest for $15,847 at 7.34% compounded monthly over 8 years and 7 months."
+2. Now create an `instruction` for using it:
+   `Create an instruction file at instructions/calculate-compound-interest.agent.md that describes: when to use the 'compound_interest.py' tool, how to invoke it with command-line arguments, and how to present results`
+3. Test the skill by asking the same question from Page 1, but referencing the `instruction`:
+   `Following 'instructions/calculate-compound-interest.agent.md', calculate compound interest for $15,847 at 7.34% compounded monthly over 8 years and 7 months`
 
 ![Using the instruction for py logic](img/module-12/01-using-the-instruction-for-py-logic.png)
 
-4. The AI should run the `Python` script instead of hallucinating. Compare the result with your manual verification from Page 1.
+4. The AI should run the `Python` script instead of `hallucinating`. Compare the result with your manual verification from Page 1.
 
 ### ✅ Result
 You have built your first skill (instruction + tool) and verified it produces accurate results.
@@ -79,14 +79,14 @@ Use a `prompt` when:
 - The task is one-time and will not repeat.
 - The output does not need to be auditable.
 
-For your `Jira`/`Confluence` project, most automation tasks will need skills because they involve API calls (fetching issues, updating pages) and data processing (counting items, generating reports) — both domains where hallucinations are unacceptable.
+For your `Jira`/`Confluence` project, most automation tasks will need skills because they involve API calls (fetching issues, updating pages) and data processing (counting items, generating reports) — both domains where `hallucinations` are unacceptable.
 
 ### ✅ Result
 You can decide when to build a skill versus when a `prompt` is sufficient.
 
 ## Page 4: Build Skills for Your Project
 ### Background
-Now you will create tools and instructions for your `Jira`/`Confluence` automation project. Based on your backlog from `Module 9`, identify 2-3 tasks that require precise data handling.
+Now you will create tools and `instructions` for your `Jira`/`Confluence` automation project. Based on your backlog from `Module 9`, identify 2-3 tasks that require precise data handling.
 
 Example skills for a `Jira` automation project:
 - A script that constructs `JQL` queries from parameters (project, status, assignee, date range) and returns the query string.
@@ -97,10 +97,10 @@ Example skills for a `Jira` automation project:
 1. Open your `BACKLOG.md` and identify 2-3 tasks that involve data retrieval or calculation.
 2. For each task, ask the AI to create a parameterized script:
    "Create a `Python` script at `tools/`[name].py that [describe what it does]. Accept [parameters] as command-line arguments."
-3. For each script, create a matching instruction:
-   "Create an instruction at instructions/use-[name].agent.md that describes when and how to use `tools/`[name].py."
+3. For each script, create a matching `instruction`:
+   `Create an instruction at 'instructions/use-[name].agent.md' that describes when and how to use 'tools/[name].py'`
 4. Test each skill by asking the AI to perform the task while referencing the instruction.
-5. If the AI does not use the tool correctly, apply the hallucination-fixing technique from `Module 11` to improve the instruction.
+5. If the AI does not use the tool correctly, apply the `hallucination`-fixing technique from `Module 11` to improve the `instruction`.
 6. Update `instructions/main.agent.md` with the new skill entries.
 7. Commit all new files.
 
@@ -113,9 +113,9 @@ As you build more skills, you create a library of reliable capabilities. Each sk
 - Discoverable — listed in `main.agent.md`.
 - Reusable — works with any input that matches the parameter format.
 - Testable — you can verify the tool's output independently.
-- Improvable — the hallucination-fixing cycle makes each skill more robust over time.
+- Improvable — the `hallucination`-fixing cycle makes each skill more robust over time.
 
-The pattern scales: instruction in `instructions/` folder, tool in `tools/` folder, entry in the catalog. When you ask the AI a question, it checks the catalog, finds the relevant skill, and uses the tool instead of hallucinating.
+The pattern scales: `instruction` in `instructions/` folder, tool in `tools/` folder, entry in the catalog. When you ask the AI a question, it checks the catalog, finds the relevant skill, and uses the tool instead of `hallucinating`.
 
 Optional: the AgentSkills.io standard proposes a machine-readable format for packaging skills. It is useful for sharing across teams and tools, but colocating instructions with tools in your project is sufficient for individual use.
 
@@ -149,10 +149,10 @@ Key takeaways:
    Correct answer: a.
    - (a) is correct because a skill combines an instruction file that guides the AI on when and how to invoke the tool, with a parameterized script or program that performs the actual computation or API call.
    - (b) is incorrect because even with step-by-step reasoning, the AI still predicts text rather than computing. Showing work does not make the underlying arithmetic accurate.
-   - (c) is incorrect because running the same hallucination multiple times and voting does not produce reliable results. Consistency across runs does not equal correctness — the model may consistently predict the same wrong answer.
+   - (c) is incorrect because running the same `hallucination` multiple times and voting does not produce reliable results. Consistency across runs does not equal correctness — the model may consistently predict the same wrong answer.
 
 3. When should you build a skill instead of using a `prompt` directly?
-   a) When the task requires precise calculations, API calls, or reproducible results that cannot tolerate hallucination
+   a) When the task requires precise calculations, API calls, or reproducible results that cannot tolerate `hallucination`
    b) When the `prompt` exceeds 10 lines and becomes difficult to manage in a single chat message
    c) When you need the output in a specific file format such as `JSON` or CSV rather than plain text
    Correct answer: a.

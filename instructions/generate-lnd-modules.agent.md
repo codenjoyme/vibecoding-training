@@ -89,6 +89,9 @@
   - AI model parameter names: `temperature`, `max_tokens`, `n`, `stream`, and any other API parameter passed in a request body.
   - Natural language names when used as technical specifications: `English`, `Ukrainian`, `Russian`, etc.
   - Key methodology and concept terms introduced and defined in the module (e.g., `arguing with the AI`, `context drift`, `statements`, `statement`, `temperature`, `TDD`). Apply backticks when the term itself is the subject, not when describing the concept in narrative.
+  - `hallucination`, `hallucinations` — always wrap with backticks in prose. The term is a course-specific concept (AI producing unexpected/incorrect output), not a medical term. Exception: leave compound noun forms intact (e.g. "hallucination-fixing cycle") and do not wrap inside headings.
+  - `instructions`, `instruction` — wrap with backticks when referring to the course concept of AI instruction files (`.agent.md` files that guide AI behavior). Do not wrap when `instructions` means generic directions (e.g. "follow the installation instructions").
+  - `agent` — wrap with backticks when referring to an AI agent or coding agent acting autonomously. Do not wrap in generic use (e.g. "agent of change").
   - Commands and code fragments inline in text.
   - **Inline prompt examples**: Any text the learner is instructed to type into the AI chat must use backtick inline code, NOT quotation marks. Example: `Create a status report template` instead of "Create a status report template." When a technical term (product name, file name, etc.) appears inside an inline prompt, use single quotes for it instead of backticks, since backticks cannot be nested: `Create a 'Python' file named 'bubble_sort.py'`. Do NOT add a period at the end of an inline prompt — people do not end chat messages with periods. Use `?` only if the prompt is genuinely a question.
   - Do NOT apply backticks inside fenced code blocks — only in regular text.

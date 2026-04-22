@@ -1,9 +1,9 @@
 # Module 6: `Agent Mode` — How AI Works Under the Hood
 
 ### Background
-When you click `Send` in your AI chat, what actually happens? Most people treat AI assistants as magic — type a question, get an answer. But understanding the mechanics behind agent mode transforms you from a passive user into someone who can predict, troubleshoot, and control AI behavior.
+When you click `Send` in your AI chat, what actually happens? Most people treat AI assistants as magic — type a question, get an answer. But understanding the mechanics behind `agent` mode transforms you from a passive user into someone who can predict, troubleshoot, and control AI behavior.
 
-In this module, you will build a mental model of how AI coding assistants work behind the scenes: how text is generated, who the key players are, and how the agent orchestrates tools on your behalf. This knowledge is the foundation for everything that follows in the course.
+In this module, you will build a mental model of how AI coding assistants work behind the scenes: how text is generated, who the key players are, and how the `agent` orchestrates tools on your behalf. This knowledge is the foundation for everything that follows in the course.
 
 Upon completion of this module, you will be able to:
 - Describe how AI models generate text `token` by `token` and explain the role of temperature.
@@ -64,7 +64,7 @@ The shared `context` (`context window`):
 ### ✅ Result
 You can name the four players (`User`, `Model`, `Agent System`, `Tools`) and explain how they interact on the shared `context`.
 
-## Page 3: How the Agent Orchestrates Tool Use
+## Page 3: How the `Agent` Orchestrates Tool Use
 ### Background
 The magic of `agent mode` is that the AI can do real things — create files, run commands, search code — not just chat. Here is the step-by-step orchestration process:
 
@@ -82,7 +82,7 @@ From the `Agent System's` perspective: it coordinated between you, the `Model`, 
 
 ### Steps
 1. Give the AI a multi-step prompt: `Create a folder called 'calculator', then inside it create two files: 'operations.py' with add and 'subtract' functions, and 'main.py' that imports operations and uses both functions`
-2. Watch the agent work — notice multiple status updates as it makes several `tool` calls in sequence.
+2. Watch the `agent` work — notice multiple status updates as it makes several `tool` calls in sequence.
 
 ![Tools at work](img/module-06/04-tools-at-work.png)
 
@@ -138,14 +138,14 @@ Understanding the `agent` architecture has practical consequences for how effect
 ### Steps
 1. Think about a recent AI interaction that surprised you (unexpected result, slow response, or inconsistent behavior).
 2. Using what you learned in this module, identify which mechanism explains that behavior (temperature? sequential tool calls? context overload?).
-3. Try a project-relevant exercise: ask the AI in `Agent Mode` — `Create a file called 'PROJECT_IDEAS.md' with 3 possible Jira/Confluence automation ideas for a manager. For each idea, describe the problem it solves and what data it needs`. Watch the agent mode cycle as it creates the file — notice the tool calls, the sequential generation, the `context` at work.
+3. Try a project-relevant exercise: ask the AI in `Agent Mode` — `Create a file called 'PROJECT_IDEAS.md' with 3 possible Jira/Confluence automation ideas for a manager. For each idea, describe the problem it solves and what data it needs`. Watch the `agent` mode cycle as it creates the file — notice the tool calls, the sequential generation, the `context` at work.
 
 ![Generation at work](img/module-06/05-generation-at-work.png)
 
 4. Commit any files you created during this module's exercises using the `git` workflow from `Module 3`.
 
 ### ✅ Result
-You have a mental model of AI agent behavior that helps you predict and troubleshoot issues. You also have a `PROJECT_IDEAS.md` file that will feed into your project planning in `Module 08`.
+You have a mental model of AI `agent` behavior that helps you predict and troubleshoot issues. You also have a `PROJECT_IDEAS.md` file that will feed into your project planning in `Module 08`.
 
 ## Summary
 So — what actually happens when you click "Send"? Now you know. Your prompt lands on a shared `context`, the `Agent System` injects tool descriptions, the `model` predicts one `token` at a time, and when it "decides" a `tool is needed`, the `Agent System` intercepts and executes it. The result goes back to the `context`, and the model continues generating its response to you.

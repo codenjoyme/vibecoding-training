@@ -13,7 +13,7 @@ Upon completion of this module, you will be able to:
 
 ## Page 1: What is `SpecKit` and Why It Matters
 ### Background
-`SpecKit` is a spec-driven development methodology designed for AI-assisted prototyping. Instead of jumping into code immediately (which leads to hallucinations, inconsistent architecture, and endless rework), `SpecKit` forces a structured preparation phase before a single line of code is written.
+`SpecKit` is a spec-driven development methodology designed for AI-assisted prototyping. Instead of jumping into code immediately (which leads to `hallucinations`, inconsistent architecture, and endless rework), `SpecKit` forces a structured preparation phase before a single line of code is written.
 
 The core idea: the more thoroughly you define what you are building, the better the AI will build it. Each phase produces a concrete artifact (a `Markdown` file) that feeds into the next phase.
 
@@ -158,11 +158,11 @@ Key takeaways:
 ## Quiz
 1. Why does `SpecKit` require a detailed specification before writing any code?
    a) It helps the team estimate the project timeline more accurately
-   b) The more precisely you define what to build, the fewer assumptions the AI makes — reducing hallucinations, rework, and inconsistent architecture
+   b) The more precisely you define what to build, the fewer assumptions the AI makes — reducing `hallucinations`, rework, and inconsistent architecture
    c) It generates documentation that can replace user testing
    Correct answer: b.
    - (a) Incorrect. While a spec can help with estimation, that is not `SpecKit`'s primary purpose. The spec exists to give the AI clear, unambiguous instructions so it generates correct code, not to predict timelines.
-   - (b) Correct. AI assistants generate better code when given detailed, unambiguous instructions. Without a spec, the AI fills in gaps with assumptions that often do not match your intent, causing costly rework.
+   - (b) Correct. AI assistants generate better code when given detailed, unambiguous `instructions`. Without a spec, the AI fills in gaps with assumptions that often do not match your intent, causing costly rework.
    - (c) Incorrect. Documentation and testing serve different purposes. The spec guides implementation; user testing validates that the implementation meets real user needs. One does not replace the other.
 
 2. What is the purpose of the Clarify phase in the `SpecKit` workflow?
