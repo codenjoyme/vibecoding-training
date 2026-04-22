@@ -3,14 +3,14 @@
 ### Background
 You have a general idea — "I want to automate my weekly status reports" — but when you sit down to write a prompt, you get stuck after two sentences. You know you need more details, but you cannot think of what to specify. Your head feels empty.
 
-This is the most common blocker for non-developers starting an automation project. The good news: the AI itself can solve this problem. Instead of asking the AI to implement something immediately, you ask it to interview you first. Through that conversation, the AI extracts the details you did not know you had.
+This is the most common blocker for non-developers starting an automation project. The good news: the AI itself can solve this problem. Instead of asking the AI to implement something immediately, you ask it to **interview you** first. Through that conversation, the AI extracts the details you did not know you had.
 
-In this module, you will learn the interview technique and use it to create a Technical Specification (ТЗ) for your `Jira`/`Confluence` automation project — the central artifact for the rest of the course.
+In this module, you will learn the interview technique and use it to create a Technical Specification for your `Jira`/`Confluence` automation project — the central artifact for the rest of the course.
 
 Upon completion of this module, you will be able to:
 - Use the "ask me clarifying questions" pattern to transform vague ideas into specific requirements.
 - Control the pace, focus, and depth of an AI-led interview.
-- Create a structured Technical Specification (ТЗ) from interview results.
+- Create a structured Technical Specification from interview results.
 - Determine when the interview technique is useful versus when to write prompts directly.
 
 ## Page 1: The Empty Head Problem
@@ -90,7 +90,7 @@ You can control the interview process — setting the pace, focus, and depth of 
 
 ## Page 4: Create Your Technical Specification
 ### Background
-Now you will apply the interview technique to a real task: creating a Technical Specification (ТЗ) for your `Jira`/`Confluence` automation project. This ТЗ will be the foundation for all practical work in the remaining modules.
+Now you will apply the interview technique to a real task: creating a Technical Specification for your `Jira`/`Confluence` automation project. This ТЗ will be the foundation for all practical work in the remaining modules.
 
 Choose your automation idea (pick one or propose your own):
 - Weekly status report generator that pulls data from `Jira` and formats it for stakeholders.
@@ -108,7 +108,7 @@ Choose your automation idea (pick one or propose your own):
 6. When you are satisfied, commit the file: use the git workflow from Module 3.
 
 ### ✅ Result
-You have a Technical Specification (ТЗ) for your practical project, committed to your repository.
+You have a Technical Specification for your practical project, committed to your repository.
 
 ## Page 5: When to Use the Interview Technique
 ### Background
