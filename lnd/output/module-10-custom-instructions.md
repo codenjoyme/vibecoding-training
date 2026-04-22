@@ -33,7 +33,7 @@ Stage 4 — Instruction system: The AI automatically sees relevant instructions 
 3. Try to recall the `prompt` that worked best for it. Can you reproduce it exactly? Most likely not — this is why instructions matter.
 
 ### ✅ Result
-You understand the four stages of `prompt` maturity and why the instruction system (stage 4) is the goal.
+You understand the four stages of `prompt` maturity and why the instruction system (`Stage 4`) is the goal.
 
 ## Page 2: Creating Your First Instruction File
 ### Background
