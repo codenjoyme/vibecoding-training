@@ -31,3 +31,10 @@ iterative-prompt.agent.md
 ### RESULT
 - **Commit 1:** `lnd/output/module-08-clarifying-requirements.md`, `lnd/output/module-09-agent-memory-management.md` — replaced all `PROJECT_SPEC.md` with `project_spec.md`.
 - **Commit 2:** 14 module files updated — wrapped bare `Module N` references (in prose, not headings) in backticks.
+
+## UPD4
+
+Там была инструкция, которая говорила что если есть какой-то термин технический, то его надо брать в кавычки. Про модули туда тоже добавь упоминание. go
+
+### RESULT
+- `instructions/generate-lnd-modules.agent.md` — added a cross-module references rule after the "Technical terms and modes" bullet: when referring to another module by number in prose (e.g. "you created this in Module 8"), wrap it in backticks: `` `Module 8` ``; headings are exempt.

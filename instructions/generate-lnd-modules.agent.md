@@ -85,6 +85,7 @@
   - File paths and folder references: `c:\workspace\`, `instructions/`, `.vscode/mcp.json`.
   - UI element names: buttons (`Download`, `Sign up`, `Install`, `Keep`), panels (`Explorer`, `Source Control`, `Extensions`), menus (`File` > `Open Folder`), tabs (`Welcome tab`), windows (`File Explorer`, `Finder`, `Terminal`, `Developer Console`), palettes (`Command Palette`), chat panels (`Copilot Chat`), settings screens (`Cursor Settings`, `Preferences`), dialog text.
   - Technical terms and modes: `Agent Mode`, `Ask Mode`, `REST API`, `API`, `API key`, `API Keys`, `JSON`, `HTTP`, `HTTPS`, `SSO`, `context window`, `context`, `session`, `token`, `prompt`.
+  - Cross-module references in prose: when referring to another module by number (e.g., "you created this in Module 8"), wrap it in backticks: `Module 8`. Do NOT wrap in headings (e.g., `# Module 9: Agent Memory Management` stays as-is).
   - AI model parameter names: `temperature`, `max_tokens`, `n`, `stream`, and any other API parameter passed in a request body.
   - Natural language names when used as technical specifications: `English`, `Ukrainian`, `Russian`, etc.
   - Key methodology and concept terms introduced and defined in the module (e.g., `arguing with the AI`, `context drift`, `statements`, `statement`, `temperature`, `TDD`). Apply backticks when the term itself is the subject, not when describing the concept in narrative.
