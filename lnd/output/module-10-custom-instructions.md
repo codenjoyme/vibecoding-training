@@ -105,17 +105,14 @@ The solution is a meta-instruction: `creating-instructions.agent.md`. This file 
 
 This instruction is available in the course repository and can be installed with a single `prompt`:
 ```
-Установи мне инструкцию и настрой работу с уже созданными мной инструкциям https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/creating-instructions.agent.md
+Set up the instruction and configure the work with the instructions I've already created https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/creating-instructions.agent.md
 ```
 
 This asks the AI to fetch the file, place it in your `instructions/` folder, and update `main.agent.md` to include it.
 
 ### Steps
 1. Open a new chat session.
-2. Run the following `prompt`:
-   ```
-   Установи мне инструкцию и настрой работу с уже созданными мной инструкциям https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/creating-instructions.agent.md
-   ```
+2. Run the `prompt` described above.
 3. Verify that `instructions/creating-instructions.agent.md` was created in your project.
 4. Open `instructions/main.agent.md` — confirm it now includes an entry for `creating-instructions.agent.md`.
 5. Commit the new files to your repository.
