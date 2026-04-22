@@ -56,3 +56,10 @@ iterative-prompt.agent.md
 
 ### RESULT
 - `lnd/output/module-10-custom-instructions.md` — strengthened Stage 3 text: removed "(or write them yourself)"; added bold "Key insight: you do not write these files yourself — you delegate the creation to the agent. This is the habit to build."
+
+## UPD8
+
+Давай все же откатим первую часть ## UPD1 про суфикс `.agent.md`. Все же оно должн ооставаться консистентно с другими инструкциями. go
+
+### RESULT
+- `lnd/output/module-10-custom-instructions.md` — reverted `.agent.md` rename back: restored `[verb]-[subject].agent.md` naming convention and examples at lines 13, 42, 158.

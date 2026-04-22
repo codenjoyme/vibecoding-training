@@ -10,7 +10,7 @@ If you cannot recover it, you start from scratch — re-discovering the same con
 In this module, you will learn how `prompts` evolve into instructions, how to organize them into a system the AI reads automatically, and you will create your first instruction files for the `Jira`/`Confluence` workflows in your practical project.
 
 Upon completion of this module, you will be able to:
-- Create reusable instruction files in `Markdown` format following the `[verb]-[subject].md` naming convention.
+- Create reusable instruction files in `Markdown` format following the `[verb]-[subject].agent.md` naming convention.
 - Build an instruction catalog (`main.agent.md`) that lets the AI discover relevant instructions automatically.
 - Apply the `Single Responsibility Principle` (one instruction = one workflow) to keep instructions focused and maintainable.
 - Create custom instruction files for your `Jira`/`Confluence` project workflows.
@@ -39,8 +39,8 @@ You understand the four stages of `prompt` maturity and why the instruction syst
 ### Background
 An instruction file is a `Markdown` document with rules the AI should follow for a specific type of task. It lives in your project's `instructions/` folder.
 
-Naming convention: [action-verb]-[subject].md
-Examples: create-function.md, write-tests.md, generate-report.md
+Naming convention: `[action-verb]-[subject].agent.md`
+Examples: `create-function.agent.md`, `write-tests.agent.md`, `generate-report.agent.md`
 
 A good instruction file contains:
 - Bullet points (not paragraphs) — easier for AI to parse.
@@ -51,12 +51,12 @@ A good instruction file contains:
 ### Steps
 1. Create the `instructions/` folder in your project if it does not exist yet.
 2. Ask the AI to help you create an instruction:
-   `Create an instruction file at instructions/create-status-report.agent.md for generating weekly status reports. It should specify: 'Markdown' format, sections (accomplishments, blockers, next week), bullet points only, maximum 20 lines, professional tone, no fluff words`
+   `Create an instruction file at 'instructions/create-status-report.agent.md' for generating weekly status reports. It should specify: 'Markdown' format, sections (accomplishments, blockers, next week), bullet points only, maximum 20 lines, professional tone, no fluff words`
 3. Review the generated file. Are the rules specific enough?
 
 ![instructions](img/module-10/01-instructions.png)
 
-4. Test it by asking: `Following instructions/create-status-report.agent.md, create a status report for a team that completed 3 features and has 1 blocker`
+4. Test it by asking: `Following 'instructions/create-status-report.agent.md', create a status report for a team that completed 3 features and has 1 blocker`
 5. If the result matches your expectations — the instruction works. If not, refine the instruction file.
 
 ### ✅ Result
@@ -71,9 +71,9 @@ This file lists all available instructions with brief descriptions. The AI check
 Example structure:
 ```
 # Instruction Catalog
-- create-status-report.agent.md — Weekly status report with fixed sections and format
-- write-meeting-notes.agent.md — Meeting summary with action items and owners
-- generate-jira-query.agent.md — JQL queries for common reporting scenarios
+- `create-status-report.agent.md` — Weekly status report with fixed sections and format
+- `write-meeting-notes.agent.md` — Meeting summary with action items and owners
+- `generate-jira-query.agent.md` — JQL queries for common reporting scenarios
 ```
 
 To make the AI load this catalog automatically, you need an entry point file:
@@ -155,7 +155,7 @@ Remember that perfect `prompt` you spent 20 minutes refining — the one you cou
 
 Key takeaways:
 - Instructions transform one-time `prompts` into reusable rules the AI follows automatically.
-- Naming convention: [verb]-[subject].md in the `instructions/` folder.
+- Naming convention: [verb]-[subject].agent.md in the `instructions/` folder.
 - The catalog (`main.agent.md`) lets the AI discover instructions without explicit references.
 - Follow the `Single Responsibility Principle`: one instruction per workflow — keep each file focused on a single type of task.
 - After every productive AI session, ask yourself: `Should I create or update an instruction from this?` The session contained iterations, failures, and refinements — capturing the result means you never repeat that trial-and-error.
