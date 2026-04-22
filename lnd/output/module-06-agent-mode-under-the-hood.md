@@ -19,8 +19,8 @@ Key concepts:
 - A `token` is roughly one word (sometimes part of a word, sometimes punctuation).
 - The `model` generates text one `token` at a time: it sees all previous text, predicts the next `token`, appends it, and repeats.
 - Critically, each new `token` is predicted based on the **entire text so far** — the original user prompt plus every `token` already generated. This is why the output stays coherent and on-topic.
-- All text the model can see at any moment is called the **context window** (or simply the **context**). Its size is finite — once it fills up, older content is dropped.
-- Example: given `Write a function to calculate,` the model might generate `the` → `sum` → `of` → and so on.
+- All text the `model` can see at any moment is called the **context window** (or simply the **context**). Its size is finite — once it fills up, older content is dropped.
+- Example: given `Write a function to calculate,` the `model` might generate `the` → `sum` → `of` → and so on.
 - The `model` was trained on massive text datasets — code, documentation, books, articles — and learned patterns of how words and concepts relate.
 - `Temperature` (randomness) means the same `prompt` can produce slightly different outputs each time. All outputs are valid — just varied in expression.
 
@@ -94,7 +94,7 @@ You can explain the orchestration process: `prompt` → hidden data in the `cont
 
 ## Page 4: What the Model Sees vs What You See
 ### Background
-One of the most important insights is the difference between what appears on your screen and what the AI model works with internally. The `context` contains far more information than you see.
+One of the most important insights is the difference between what appears on your screen and what the AI `model` works with internally. The `context` contains far more information than you see.
 
 What you see (simplified):
 - Your message: `Create a file called 'math_helper.py' with an add function`
@@ -126,7 +126,7 @@ You understand that the AI `model` works with a richer `context` than what appea
 Understanding the `agent` architecture has practical consequences for how effectively you use AI assistants:
 
 1. The `Model` does not "think" — it generates text. What looks like reasoning is pattern matching from training data. This explains unexpected choices and why specificity matters.
-2. `Agent Mode` extends capabilities. Without it, the `model` can only chat (`Ask mode`). With it, the model triggers real actions through `tools`.
+2. `Agent Mode` extends capabilities. Without it, the `model` can only chat (`Ask mode`). With it, the `model` triggers real actions through `tools`.
 3. Everything is sequential. The `model` generates one `token` at a time and cannot "go back." Each `tool` call requires a round trip: `Model` → `Agent` → `Tool` → Result → `Model`. Complex tasks take longer because of these sequential steps.
 4. `Context` is everything. The `model` sees all previous text on the `context`. More `context` means better responses, but too much `context` can slow down or confuse the `model`.
 5. `Temperature` explains variability. Same `prompt`, different results — this is normal and expected. If you need consistency, be more specific.
@@ -148,7 +148,7 @@ Understanding the `agent` architecture has practical consequences for how effect
 You have a mental model of AI `agent` behavior that helps you predict and troubleshoot issues. You also have a `PROJECT_IDEAS.md` file that will feed into your project planning in `Module 08`.
 
 ## Summary
-So — what actually happens when you click "Send"? Now you know. Your prompt lands on a shared `context`, the `Agent System` injects tool descriptions, the `model` predicts one `token` at a time, and when it "decides" a `tool is needed`, the `Agent System` intercepts and executes it. The result goes back to the `context`, and the model continues generating its response to you.
+So — what actually happens when you click "Send"? Now you know. Your `prompt` lands on a shared `context`, the `Agent System` injects `tool` descriptions, the `model` predicts one `token` at a time, and when it "decides" a `tool` is needed, the `Agent System` intercepts and executes it. The result goes back to the `context`, and the `model` continues generating its response to you.
 
 Key takeaways:
 - AI `models` predict text — they do not think or plan.
