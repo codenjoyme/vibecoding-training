@@ -158,9 +158,9 @@ You have custom instruction files for your `Jira`/`Confluence` workflows and an 
 ### Background
 Instructions follow the `Single Responsibility Principle` — a software engineering rule that means: one thing should do one job. Applied to instructions: one instruction file = one workflow. Keep each file focused on a single task type. Broad, catch-all files become hard to maintain and the AI applies them in the wrong contexts.
 
-Too broad (bad): A single "python-best-practices.agent.md" file with 50 rules covering functions, tests, style, setup, logging, and more. It applies to every `Python` task even when irrelevant, and is hard to maintain.
+Too broad (bad): A single `python-best-practices.agent.md` file with 50 rules covering functions, tests, style, setup, logging, and more. It applies to every `Python` task even when irrelevant, and is hard to maintain.
 
-Well split (good): Separate files for each workflow — create-function.agent.md, write-tests.agent.md, setup-project.agent.md. Each is specific, easy to update, and reusable.
+Well split (good): Separate files for each workflow — `create-function.agent.md`, `write-tests.agent.md`, `setup-project.agent.md`. Each is specific, easy to update, and reusable.
 
 When to create a new instruction:
 - Task repeats 3+ times.
@@ -173,7 +173,7 @@ When to keep in the same instruction:
 - Makes no sense separately.
 - Very short (2-3 bullets).
 
-One instruction can reference another: "For test creation, follow ./instructions/write-tests.agent.md." The AI loads referenced instructions automatically.
+One instruction can reference another: `For test creation, follow './instructions/write-tests.agent.md'` The AI loads referenced instructions automatically when the time comes.
 
 ### Steps
 1. Review the instruction files you created on the previous page.
