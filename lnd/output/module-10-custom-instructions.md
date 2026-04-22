@@ -106,7 +106,7 @@ Example workflows for `Jira`/`Confluence` automation:
 Each instruction file captures what the AI should do, what format to use, what constraints apply, and what output to produce.
 
 ### Steps
-1. Open your `BACKLOG.md` and identify 2-3 tasks that involve repeating patterns.
+1. Open your `backlog.md` and identify 2-3 tasks that involve repeating patterns.
 2. For each pattern, ask the AI to create an instruction file:
    `Following instructions/creating-instructions.agent.md, create an instruction for [describe the workflow]. Include: input format, processing steps, output format, and constraints`
 3. If you do not have creating-instructions.agent.md yet, describe the workflow directly and ask the AI to generate the instruction.
