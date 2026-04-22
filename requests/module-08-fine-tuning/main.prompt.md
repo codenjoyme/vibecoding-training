@@ -24,7 +24,7 @@ Why this works:
 ### RESULT
 - `lnd/output/module-08-clarifying-requirements.md` — replaced all 5 occurrences of `ТЗ` with `specification` for consistency with the English text (lines 95, 134, 146, 147, 162).
 
-### UPD3
+## UPD3
 
 В 149й строчке написано 
 ```
@@ -33,4 +33,12 @@ Why this works:
 Надо сделать блок практического задания после квиза, где предложить студенту засабмитать полученный файл specification к нам. Давайте пока укажем `Oleksandr_Baglai@epam.com` в качестве получателя. Квиз оставь. Комментарий ревьюера удаляй. go
 
 ### RESULT
+
 - `lnd/output/module-08-clarifying-requirements.md` — removed the `[MG]:` reviewer comment between Summary and Quiz; added `## Practical Task` section after the Quiz with instructions to email the specification to `Oleksandr_Baglai@epam.com`, including subject line and review criteria.
+
+## UPD4
+
+Переключись на файл [text](../module-09-fine-tuning/main.prompt.md) и следи уже за ним. go
+
+### RESULT
+- Switched monitoring to `requests/module-09-fine-tuning/main.prompt.md`. All future UPD blocks should be added there.
