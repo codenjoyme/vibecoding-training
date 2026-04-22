@@ -105,7 +105,7 @@ There are several account options depending on your situation:
    `I need to create an API token for accessing Jira and Confluence via their REST APIs. Here is my current screen. Can you walk me through the steps?`
 4. Follow the AI's instructions — it will guide you based on what it sees in your screenshot.
 5. When the token is generated, copy it to a safe location (a password manager or a secure note).
-6. Do NOT commit this token to your `Git` repository. Store it in a `.env` file (which is already in your `.gitignore` from Module 3).
+6. Do NOT commit this token to your `Git` repository. Store it in a `.env` file (which is already in your `.gitignore` from `Module 3`).
 7. Save the token with a descriptive name — for example, `JIRA_API_TOKEN` or `CONFLUENCE_API_TOKEN` — so you can easily identify it later when configuring integrations.
 ![Tokens in env](img/module-05/05-tokens-in-env.png)
 

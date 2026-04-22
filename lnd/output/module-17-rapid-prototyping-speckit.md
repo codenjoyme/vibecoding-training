@@ -31,7 +31,7 @@ The core idea: the more thoroughly you define what you are building, the better 
 1. Open your project in `VS Code`.
 2. Ask the AI: "What is `SpecKit`? Explain the spec-driven development methodology and its phases."
 3. Read the response and understand what each phase produces.
-4. Locate your ТЗ from Module 08 — this will be the input to the `SpecKit` workflow.
+4. Locate your ТЗ from `Module 08` — this will be the input to the `SpecKit` workflow.
 
 ### ✅ Result
 [MG]: Снова "ТЗ", попроси плз агенту по всему курсу в Context Aware режиме заменить это на что-то англоязычное.
@@ -101,7 +101,7 @@ You have a validated spec, an implementation plan, and a detailed task list.
 ### Background
 The Analyze phase reviews tasks for risks before you start coding. The Implement phase is where the AI writes the code, guided by everything you prepared.
 
-Implementation follows the "baby steps" pattern from Module 03: implement one task → verify it works → commit → move to the next task. Never implement multiple tasks at once.
+Implementation follows the "baby steps" pattern from `Module 03`: implement one task → verify it works → commit → move to the next task. Never implement multiple tasks at once.
 
 The analysis should surface four types of issues:
 - **Gaps** — requirements mentioned in the spec but not covered by any task.

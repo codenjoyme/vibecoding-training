@@ -100,7 +100,7 @@ Example skills for a `Jira` automation project:
 3. For each script, create a matching instruction:
    "Create an instruction at instructions/use-[name].agent.md that describes when and how to use `tools/`[name].py."
 4. Test each skill by asking the AI to perform the task while referencing the instruction.
-5. If the AI does not use the tool correctly, apply the hallucination-fixing technique from Module 11 to improve the instruction.
+5. If the AI does not use the tool correctly, apply the hallucination-fixing technique from `Module 11` to improve the instruction.
 6. Update `instructions/main.agent.md` with the new skill entries.
 7. Commit all new files.
 
@@ -158,5 +158,5 @@ Key takeaways:
    c) When you need the output in a specific file format such as `JSON` or CSV rather than plain text
    Correct answer: a.
    - (a) is correct because skills are needed when precision matters — calculations, data queries, API integrations, and any task where a “close enough” answer is not acceptable.
-   - (b) is incorrect because prompt length does not determine whether a skill is needed. Long prompts are better addressed with instruction files (Module 10), not necessarily with tools.
+   - (b) is incorrect because prompt length does not determine whether a skill is needed. Long prompts are better addressed with instruction files (`Module 10`), not necessarily with tools.
    - (c) is incorrect because the AI can generate `JSON` or CSV format from a prompt alone. File format is a formatting concern, not a precision concern that requires a tool.

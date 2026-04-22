@@ -5,7 +5,7 @@ What if you could bring one of the most capable AI models — `Anthropic`'s `Cla
 
 `Claude Code` is `Anthropic`'s answer to AI-assisted development. Compared to `Cursor` (a standalone AI-native IDE) and `GitHub Copilot` (tightly integrated with the `Microsoft`/`OpenAI` stack), `Claude Code` sits inside your existing `VS Code` as an extension — using `Anthropic`'s `Claude` family of models known for nuanced reasoning, long-context understanding, and strong code generation. `Codemie` complements it by managing corporate `SSO` authentication so developers never deal with raw `API` keys.
 
-This module is optional. If you are satisfied with your `VS Code` + `GitHub Copilot` setup from Module 1, you may skip ahead. If you work in an organization that provides a managed `Claude` account, or if you want a second AI assistant with a different reasoning style, both tools are worth adding.
+This module is optional. If you are satisfied with your `VS Code` + `GitHub Copilot` setup from `Module 1`, you may skip ahead. If you work in an organization that provides a managed `Claude` account, or if you want a second AI assistant with a different reasoning style, both tools are worth adding.
 
 **Learning objectives.** Upon completion of this module, you will be able to:
 - Install the `Codemie` CLI tool and configure it with your corporate `Claude` account.
@@ -35,7 +35,7 @@ The `Claude Code` extension relies on `Codemie` being present and authenticated,
 `Codemie` requires `Node.js` — a JavaScript runtime that includes `npm` (Node Package Manager). You will install `Node.js` directly from the `VS Code` integrated terminal, then use `npm` to install `Codemie`. Keeping everything in one window avoids switching between tools and reinforces the habit of using the terminal inside `VS Code`.
 
 ### Steps
-1. Open `VS Code` (installed in Module 1).
+1. Open `VS Code` (installed in `Module 1`).
 2. Go to `View` > `Terminal` to open the integrated terminal.
 3. Install `Node.js` using the package manager for your operating system:
    - **`Windows`** (using `winget`, built into `Windows 10`/`11`):
@@ -118,11 +118,11 @@ This page covers the corporate setup path. If you are using a personal `API` key
 
 ## Page 5: Test `Claude Code` in `VS Code`
 ### Background
-With installation and authentication in place, it is time to verify that everything works end-to-end. You will open the same workspace used in Module 1 and ask `Claude Code` a few questions — both practical coding requests and conceptual ones.
+With installation and authentication in place, it is time to verify that everything works end-to-end. You will open the same workspace used in `Module 1` and ask `Claude Code` a few questions — both practical coding requests and conceptual ones.
 
 ### Steps
 1. In `VS Code`, go to `File` > `Open Folder`.
-2. Navigate to `c:\workspace\hello-genai\` (`Windows`) or `~/workspace/hello-genai/` (`macOS`/`Linux`) — the workspace from Module 1.
+2. Navigate to `c:\workspace\hello-genai\` (`Windows`) or `~/workspace/hello-genai/` (`macOS`/`Linux`) — the workspace from `Module 1`.
 3. Open the folder. If prompted about trust, click `Yes, I trust`.
 4. Open the `Claude Code` chat panel from the Activity Bar.
 5. Type a code generation request:

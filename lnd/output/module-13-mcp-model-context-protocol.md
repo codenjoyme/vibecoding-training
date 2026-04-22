@@ -119,7 +119,7 @@ You can manage `MCP` tool visibility and understand its impact on performance an
 
 ## Page 5: `MCP` vs Custom Skills — When to Use Which
 ### Background
-You now have two approaches for extending your AI assistant: custom skills (Module 12) and `MCP` servers (this module). When should you use which?
+You now have two approaches for extending your AI assistant: custom skills (`Module 12`) and `MCP` servers (this module). When should you use which?
 
 Use `MCP` when:
 - A community-built server already exists for your service (`GitHub`, databases, `Slack`).

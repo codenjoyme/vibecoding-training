@@ -30,7 +30,7 @@ You understand the value of `GitHub` `MCP` for streamlining project management.
 
 ## Page 2: Configure the `GitHub` `MCP` Server
 ### Background
-The `GitHub` `MCP` server differs from the echo server in Module 13: it connects to a remote `HTTP` endpoint rather than a local script.
+The `GitHub` `MCP` server differs from the echo server in `Module 13`: it connects to a remote `HTTP` endpoint rather than a local script.
 
 Configuration for `VS Code` (`.vscode/mcp.json`):
 ```json
@@ -99,7 +99,7 @@ This is a powerful workflow: the AI reads your backlog, creates properly formatt
    "Read @BACKLOG.md. For each uncompleted task in Phase 1, create a `GitHub` issue in my jira-confluence-automation repository. Include the task description as the issue body. Add the label 'phase-1'."
 2. Approve each issue creation (one approval per issue).
 3. After all issues are created, verify: "List all open issues in the jira-confluence-automation repository."
-4. Pick one issue and add a comment: "Add a comment to issue #1 saying 'Starting work on this in Module 14 of the training course.'"
+4. Pick one issue and add a comment: "Add a comment to issue #1 saying 'Starting work on this in `Module 14` of the training course.'"
 5. Update your `BACKLOG.md` to note which tasks now have corresponding `GitHub` issues (add the issue number next to each task).
 6. Commit the updated `BACKLOG.md`.
 
@@ -115,11 +115,11 @@ Your project backlog tasks are now `GitHub` issues that you can track, assign, a
 - Milestones for grouping by release or phase.
 - Status (open/closed) for tracking completion.
 
-As you progress through the remaining modules, use `GitHub` issues to track your work. When you complete a task, close the corresponding issue through the AI chat: "Close issue #3 with comment 'Completed in Module 15.'"
+As you progress through the remaining modules, use `GitHub` issues to track your work. When you complete a task, close the corresponding issue through the AI chat: "Close issue #3 with comment 'Completed in `Module 15`.'"
 
 This workflow follows the **Agent Delegation Pattern** — a two-session approach:
 - **Session 1 (now):** You create structured, well-described issues — capturing context, requirements, and acceptance criteria.
-- **Session 2 (later):** A future AI session (or the `GitHub` coding agent in Module 19) reads the issue, has complete context, implements the solution, and closes the issue.
+- **Session 2 (later):** A future AI session (or the `GitHub` coding agent in `Module 19`) reads the issue, has complete context, implements the solution, and closes the issue.
 
 The key benefit: no information loss between sessions. The issue preserves everything needed for implementation, whether the implementer is you, another person, or an autonomous agent.
 
@@ -128,7 +128,7 @@ The key benefit: no information loss between sessions. The issue preserves every
 2. Try updating an existing issue: "Update the description of issue #1 to include a checklist of subtasks."
 3. Try filtering: "Show me all open issues in my repository with label 'phase-1'."
 4. Practice closing: "Close issue #[number] with comment 'Task completed.'"
-5. Think about which issues from your backlog could be delegated to the `GitHub` coding agent in Module 19. Make a note in `BACKLOG.md`.
+5. Think about which issues from your backlog could be delegated to the `GitHub` coding agent in `Module 19`. Make a note in `BACKLOG.md`.
 
 ### ✅ Result
 You can manage your project's issue lifecycle entirely through AI chat.
@@ -142,7 +142,7 @@ Key takeaways:
 - The `GitHub` `MCP` server provides `HTTP`-based access to repositories, issues, PRs, and more.
 - Authentication uses your `GitHub Copilot` subscription — no personal access tokens needed.
 - Creating issues from a backlog file is one of the most practical `MCP` workflows.
-- `GitHub` issues will serve as the foundation for task delegation in Module 19.
+- `GitHub` issues will serve as the foundation for task delegation in `Module 19`.
 - The context switching that slowed you down is now eliminated — everything happens in one place.
 
 [MG]: Опять же вот тут мы обновили как минимум бэклог, можно его попросить обновленный скинуть, либо же добавить какой-то дополнительный практический стэп по использованию `MCP`.
@@ -167,7 +167,7 @@ Key takeaways:
    - (b) Correct. The workflow eliminates context switching between browser and IDE. The AI creates structured issues from your backlog, enabling seamless project management.
    - (c) Incorrect. `GitHub` issues do not have built-in priority levels assigned automatically. You would need to add labels or milestones manually or through an explicit prompt.
 
-3. Why is the `GitHub` `MCP` integration important for Module 19 (`GitHub` Coding Agent)?
+3. Why is the `GitHub` `MCP` integration important for `Module 19` (`GitHub` Coding Agent)?
    a) The coding agent requires `MCP` to understand your programming language
    b) The issues you create now become tasks that can be delegated to an autonomous coding agent for implementation — the agent picks up issues and creates pull requests
    c) The coding agent uses `MCP` to report its progress back to your IDE in real time

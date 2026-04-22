@@ -18,7 +18,7 @@ Upon completion of this module, you will be able to:
 Key characteristics:
 - **Autonomous:** Works independently after you assign a task. No need to sit and watch.
 - **Server-side:** Runs on `GitHub`'s infrastructure, not your machine. Your laptop can be closed.
-- **Full repository access:** Reads the entire codebase for context, including your instruction files from Module 10.
+- **Full repository access:** Reads the entire codebase for context, including your instruction files from `Module 10`.
 - **Creates pull requests:** Delivers a complete implementation as a PR for your review.
 - **Session logs:** Provides a detailed work log so you can see every decision it made.
 - **Model selection:** Can use different AI models (`GPT-5.2-Codex`, `Claude Opus`, `Claude Sonnet`, or `Auto` mode).
@@ -59,10 +59,10 @@ A poorly written issue produces a poor implementation. A well-written issue with
 - Acceptance criteria (how to verify the task is done).
 
 ### Steps
-1. Open your project backlog (`BACKLOG.md` or `GitHub` Issues from Module 14).
+1. Open your project backlog (`BACKLOG.md` or `GitHub` Issues from `Module 14`).
 2. Choose a task that is well-defined and self-contained. Good candidates:
    - Add a new feature to the prototype (a new page, a new API endpoint).
-   - Fix a known bug from the QA report (Module 18).
+   - Fix a known bug from the QA report (`Module 18`).
    - Create documentation for an existing feature.
 3. If using an existing `GitHub` issue, review it. Does it have enough detail for an autonomous agent?
 4. If the issue is too vague, update it: ask the AI "Improve this `GitHub` issue description to make it suitable for autonomous implementation by a coding agent. Add acceptance criteria."
@@ -73,7 +73,7 @@ You have a well-defined `GitHub` issue ready for delegation and instruction file
 
 ## Page 3: Assigning the Coding Agent
 ### Background
-There are two ways to assign the Coding Agent to an issue: through the `GitHub` web interface or through the `GitHub` `MCP` from your IDE (as in Module 14). Both produce the same result. This walkthrough shows the web interface approach for clarity.
+There are two ways to assign the Coding Agent to an issue: through the `GitHub` web interface or through the `GitHub` `MCP` from your IDE (as in `Module 14`). Both produce the same result. This walkthrough shows the web interface approach for clarity.
 
 ### Steps
 1. Open the `GitHub` issue in your browser.
@@ -142,7 +142,7 @@ You prepared a well-defined issue, assigned it to `GitHub Copilot Coding Agent`,
 Key takeaways:
 - The Coding Agent works autonomously on `GitHub`'s servers — no need to watch it work.
 - Issue quality directly determines implementation quality. Clear requirements = clean PR.
-- Instruction files from Module 10 guide the agent's behavior on the server just as they guide the IDE assistant locally.
+- Instruction files from `Module 10` guide the agent's behavior on the server just as they guide the IDE assistant locally.
 - **Parallel delegation:** You can assign multiple issues to different agent sessions simultaneously. While 4 agents implement 4 features, you focus on architecture, planning, or code review. This is the "junior staff" pattern — the agents work in parallel, each producing a PR for your review.
 - Always review the work session log to understand the agent's decision process.
 - Submit all review comments at once to avoid multiple agent sessions.

@@ -7,7 +7,7 @@ What if a code editor was built from the ground up for AI-assisted work? That is
 
 `Cursor` is a fork of `VS Code` with a built-in AI assistant module. It appeared as a market response to the demand for an out-of-the-box AI coding solution at a time when no such turnkey product existed. Today, however, the landscape has changed — `GitHub Copilot` and `Claude Code` have become equally complete, boxed solutions. The race among leaders is now about shipping new features faster, while users must place their bets today. The author of this course chose the `GitHub` infrastructure — with which `Copilot` has deep integration — and the `Microsoft` giant, whose investments in `OpenAI` made the world of `GenAI` our present reality.
 
-This module is optional. If you are satisfied with your `VS Code` + `Copilot` setup from Module 1, you may skip ahead. If you are curious about alternatives or want a backup IDE, install `Cursor` alongside `VS Code`. Both can coexist on the same machine.
+This module is optional. If you are satisfied with your `VS Code` + `Copilot` setup from `Module 1`, you may skip ahead. If you are curious about alternatives or want a backup IDE, install `Cursor` alongside `VS Code`. Both can coexist on the same machine.
 
 **Learning objectives.** Upon completion of this module, you will be able to:
 - Install and configure `Cursor` IDE on your operating system.
@@ -46,7 +46,7 @@ This module is optional. If you are satisfied with your `VS Code` + `Copilot` se
 
 ## Page 2: Initial Configuration
 ### Background
-When `Cursor` starts for the first time, it offers to import your `VS Code` settings. This includes themes, keyboard bindings, and installed extensions. If you completed Module 1, importing gives you a familiar environment right away.
+When `Cursor` starts for the first time, it offers to import your `VS Code` settings. This includes themes, keyboard bindings, and installed extensions. If you completed `Module 1`, importing gives you a familiar environment right away.
 
 ### Steps
 1. `Cursor` may ask to import settings from `VS Code`. Choose Yes if you want to keep your `VS Code` settings, themes, and extensions. Choose No if you prefer a fresh start.
@@ -64,7 +64,7 @@ When `Cursor` starts for the first time, it offers to import your `VS Code` sett
 ### Steps
 1. In `Cursor`, go to `File` > `Open Folder`.
 ![Open Folder](img/module-02/06-open-folder.png)
-2. Navigate to `c:\workspace\hello-genai\` (`Windows`) or `~/workspace/hello-genai/` (`macOS`/Linux) — the same workspace you created in Module 1.
+2. Navigate to `c:\workspace\hello-genai\` (`Windows`) or `~/workspace/hello-genai/` (`macOS`/Linux) — the same workspace you created in `Module 1`.
 3. Open the folder. If prompted about trust, click Yes, I trust.
 4. Open the AI Chat panel using the menu or sidebar.
 5. Type a request:

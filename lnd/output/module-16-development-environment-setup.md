@@ -15,7 +15,7 @@ Upon completion of this module, you will be able to:
 ### Background
 Before installing anything, you should understand what each tool does and why your project needs it.
 
-**`Node.js`** is a program that runs `JavaScript` code outside of a web browser. When you build a web application (which you will do in Module 17), `Node.js` is the engine that powers the server — the part that handles requests, connects to APIs, and sends data back to the browser. Think of it as the "brain" of your application.
+**`Node.js`** is a program that runs `JavaScript` code outside of a web browser. When you build a web application (which you will do in `Module 17`), `Node.js` is the engine that powers the server — the part that handles requests, connects to APIs, and sends data back to the browser. Think of it as the "brain" of your application.
 
 **`npm` (`Node Package Manager`)** is a tool that comes with `Node.js`. It downloads and manages libraries — pre-built blocks of code that other developers have shared. Instead of writing everything from scratch, `npm` lets you install ready-made components (e.g., a library for connecting to `Jira` API) with a single command. Think of it as an "app store" for code building blocks.
 
@@ -58,7 +58,7 @@ You have `Node.js` and `npm` installed and verified. The `node` and `npm` comman
 
 ## Page 3: Installing `Docker`
 ### Background
-`Docker` lets you run databases, message queues, and other infrastructure locally without installing each service separately. In Module 17, your prototype will use `PostgreSQL` as a database — `Docker` makes this a one-command setup instead of a complex manual installation.
+`Docker` lets you run databases, message queues, and other infrastructure locally without installing each service separately. In `Module 17`, your prototype will use `PostgreSQL` as a database — `Docker` makes this a one-command setup instead of a complex manual installation.
 
 `Docker Desktop` is a graphical application that runs `Docker` on `Windows` and `macOS`. On `Linux`, `Docker Engine` is installed directly via the package manager.
 
@@ -101,11 +101,11 @@ Your full development environment is verified and ready for prototyping.
 
 ## Page 5: Practical Application — Prepare for Prototyping
 ### Background
-With all tools installed, set up the project structure for the prototype you will build in Module 17. This ensures a smooth start in the next module.
+With all tools installed, set up the project structure for the prototype you will build in `Module 17`. This ensures a smooth start in the next module.
 
 ### Steps
 [MG]: Наверное ТЗ надо чтобы не писал он в англоязычном курсе :)
-1. Ask the AI: "Based on my ТЗ (technical specification) from Module 08, what project structure will we need for a web application with `React` frontend and `Node.js` backend?"
+1. Ask the AI: "Based on my ТЗ (technical specification) from `Module 08`, what project structure will we need for a web application with `React` frontend and `Node.js` backend?"
 2. Review the AI's proposed structure. It should include folders like `frontend/`, `backend/`, and a `docker-compose.yml` file.
 3. Ask: "Create the basic project structure with empty placeholder files. Do not implement anything yet — just the folder skeleton."
 4. Review the created structure. You should see:
@@ -115,12 +115,12 @@ With all tools installed, set up the project structure for the prototype you wil
 5. Commit the skeleton: "Commit this project skeleton with message 'chore: project skeleton for prototype'."
 
 ### ✅ Result
-Your project has a clean structure ready for implementation in Module 17.
+Your project has a clean structure ready for implementation in `Module 17`.
 
 ## Summary
 At the start of this module, you had a backlog full of tasks and ideas — but no way to turn them into a working application you could open in a browser. Now you have the tools to make that happen.
 
-You installed `Node.js` (the engine that runs `JavaScript`), `npm` (the library manager), `nvm` (the version switcher), and `Docker` (the container platform). Each tool was explained in plain language before installation, and the AI handled the technical commands. Your verified environment is ready for prototyping in Module 17.
+You installed `Node.js` (the engine that runs `JavaScript`), `npm` (the library manager), `nvm` (the version switcher), and `Docker` (the container platform). Each tool was explained in plain language before installation, and the AI handled the technical commands. Your verified environment is ready for prototyping in `Module 17`.
 
 Key takeaways:
 - `Node.js` runs `JavaScript` code on your machine — it is the engine behind web applications.

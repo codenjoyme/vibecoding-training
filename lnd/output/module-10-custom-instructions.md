@@ -95,7 +95,7 @@ You have an instruction catalog and the AI can find relevant instructions automa
 
 ## Page 4: Create `Jira`/`Confluence` Workflow Instructions
 ### Background
-Now you will create instruction files for your practical project. Based on the task backlog from Module 9, identify 2-3 common workflows you want to automate and create an instruction for each.
+Now you will create instruction files for your practical project. Based on the task backlog from `Module 9`, identify 2-3 common workflows you want to automate and create an instruction for each.
 
 Example workflows for `Jira`/`Confluence` automation:
 - Fetching issue data from `Jira` API and formatting it.

@@ -1,7 +1,7 @@
 # Module 18: AI-Powered QA with `Chrome DevTools MCP`
 
 ### Background
-You have a working web application from Module 17. Now you need to test it — but you are not a QA engineer. Manual testing (clicking through every screen, checking every button) is tedious and easy to do incompletely. What if the AI could open your application in a real browser, click buttons, fill forms, take screenshots, and report issues — all by itself? That is exactly what `Chrome DevTools MCP` enables. It connects your AI assistant to a real `Chrome` browser, turning the AI into an automated QA tester that can see and interact with your application.
+You have a working web application from `Module 17`. Now you need to test it — but you are not a QA engineer. Manual testing (clicking through every screen, checking every button) is tedious and easy to do incompletely. What if the AI could open your application in a real browser, click buttons, fill forms, take screenshots, and report issues — all by itself? That is exactly what `Chrome DevTools MCP` enables. It connects your AI assistant to a real `Chrome` browser, turning the AI into an automated QA tester that can see and interact with your application.
 
 **Learning Objectives**
 
@@ -13,7 +13,7 @@ Upon completion of this module, you will be able to:
 
 ## Page 1: What is `Chrome DevTools MCP`
 ### Background
-`MCP` (Model Context Protocol) connects your AI assistant to external tools. In Module 13, you learned about `MCP` in general. `Chrome DevTools MCP` is a specific `MCP` server that gives the AI the ability to control a `Chrome` browser.
+`MCP` (Model Context Protocol) connects your AI assistant to external tools. In `Module 13`, you learned about `MCP` in general. `Chrome DevTools MCP` is a specific `MCP` server that gives the AI the ability to control a `Chrome` browser.
 
 What the AI can do through `Chrome DevTools MCP`:
 - **Open URLs** — navigate to any page of your application.
@@ -55,7 +55,7 @@ The `Chrome` browser must be launched in a special "debugging mode" that allows 
 If the `MCP` server does not appear, common issues include:
 - `Chrome` not found at the expected path — ask the AI to detect the correct path.
 - Port conflict — another application is using the debugging port.
-- Missing npx or `Node.js` — the `MCP` server requires `Node.js` (installed in Module 16).
+- Missing npx or `Node.js` — the `MCP` server requires `Node.js` (installed in `Module 16`).
 
 ### ✅ Result
 `Chrome DevTools MCP` is configured, and the AI has access to browser control tools.
@@ -65,7 +65,7 @@ If the `MCP` server does not appear, common issues include:
 With the `MCP` server connected, the AI can now open your application and interact with it. This is your first automated QA session — the AI will navigate your application, check that key elements are present, and report what it finds.
 
 ### Steps
-1. Start your application from Module 17: ask the AI "Start docker-compose, then start the backend and frontend servers."
+1. Start your application from `Module 17`: ask the AI "Start docker-compose, then start the backend and frontend servers."
 2. Wait for all services to start. The frontend should be accessible at [http://localhost:5173](http://localhost:5173) (or similar).
 
 ![Stack is up and running](img/module-18/02-stack-up-and-running.png)

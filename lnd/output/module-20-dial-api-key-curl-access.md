@@ -143,7 +143,7 @@ Now connect what you learned to your `Jira`/`Confluence` automation project. `DI
    --% -d "{\"messages\": [{\"role\": \"user\", \"content\": \"Your task-specific prompt here\"}], \"temperature\": 0.2, \"max_tokens\": 500}"
    ```
 3. Review the response. Is it useful? Adjust the prompt or parameters.
-4. If the task involves processing multiple items, consider combining this with the script-based approach from Module 15 — iterate over items, sending each to `DIAL API` individually for consistent results.
+4. If the task involves processing multiple items, consider combining this with the script-based approach from `Module 15` — iterate over items, sending each to `DIAL API` individually for consistent results.
 5. Save your working `cURL` command as a script file (e.g., `work/170-task/test-dial.ps1`).
 6. Commit the script: "feat: `DIAL API` test script for project automation."
 
