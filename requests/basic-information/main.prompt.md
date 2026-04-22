@@ -33,3 +33,28 @@ iterative-prompt.agent.md
 - `.github/prompts/*.prompt.md` (7 files) — replaced deprecated `mode: agent` with `agent: agent`
 - `instructions/creating-instructions.agent.md` — updated VSCode prompt template: `mode: agent` → `agent: agent`
 - `quickstart.prompt.md` — created new prompt file with `agent: agent` and `model: Claude Sonnet 4.6` frontmatter, same content as `quickstart.md`
+
+## UPD4
+
+Я удалил `quickstart.prompt.md` - не сработало как ожидалось. Давай в папке .github/prompts/ сделаем `quickstart.prompt.md` с `agent: agent` и `model: Claude Sonnet 4.6` в YAML frontmatter и одной ссылкой на `quickstart.md` внутри. 
+
+Порисерчи, что есть для курсора по этой теме. Тоже должен быть какой-то такой способ запуска. 
+
+И третье, надо нам создать инфрастуктуру для клода надо для  `quickstart.md` с включением агентного режиме и модели сделать. go
+
+## UPD5
+
+Так же я хочу еще один мануал в корне `for-authors.md` суть которой будет такая же как в `quickstart.md`, но с фокусом на авторов инструкций. Для этого файла надо так же в трех вариациях: claude, cursor и copilot сделать ярлыки с переключением модели и агентного режима. Но в самой инструкции надо пеерчислить вот такие важные моменты:
+- Смотрите папку [requests](..) там много примеров того как я создаю модули и другие правки через iterative prompt подход.
+- Смотрите инструкцию [text](../../instructions/iterative-prompt.agent.md) она расскажет как работает iterative prompt подход.
+- Когда вы просите создать модуль, то используется инструкция [text](../../instructions/create-training-module.agent.md).
+- Когда вы просите пройти модуль, то инструкция [text](../../instructions/training-mode.agent.md).
+  + Опционально, если хочется секономить токены то инструкция [text](../../instructions/training-mode-iterative-prompt.agent.md) добавляет вомзможность пройти тренинг в iterative prompt режиме.
+- А в инструкции [text](../../instructions/creating-instructions.agent.md) описана архитектура при которой агент добирается до инструкций через: 
+  + [Github Copilot](../../.github/copilot-instructions.md)
+  + [Claude](../../CLAUDE.md)
+  + [Cursor](../../.cursor/rules/core-instructions.mdc)
+  + [Другие](../../AGENT.md)
+  + Через [text](../../instructions/main.agent.md)
+  + К инструкциям в папке [text](../../instructions) 
+go
