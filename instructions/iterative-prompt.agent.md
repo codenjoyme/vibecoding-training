@@ -59,6 +59,12 @@ The net effect: you can open multiple IDE windows with different projects, each 
      + **Step D:** If there is a `## UPD` block at the end of the file that has no `### RESULT` and no `go` marker at the end, the user may still be typing. **Wait for the keyword `go` at the end of the block** before starting implementation. If `go` is not present, go back to Step A and sleep again.
      + **Step E:** If an unprocessed `## UPD` is found and it ends with `go` — implement it immediately, write `### RESULT`, commit, and return to Step A.
      + **Step F:** If no changes detected — go back to Step A (sleep again).
+     + **Step G — Anti-drift refresh (every 30 sleep cycles):** Maintain an internal counter of consecutive sleep cycles since session start (or since last refresh). After every 30 sleeps, before going back to Step A:
+       1. Re-read the **full content** of `instructions/iterative-prompt.agent.md` (this file).
+       2. Re-read any other instruction files referenced via `<follow>` in the active prompt file's header (e.g. `training-mode-iterative-prompt.agent.md`).
+       3. Re-read any standing user rules previously stated in the conversation (e.g. "no commits", "respond in Russian").
+       4. Reset the counter to 0.
+       This compensates for context drift during long-running sessions — the polling loop can run for hours, and earlier in the conversation the agent may have loaded these instructions only once. Without periodic refresh, the agent may forget polling rules, commit policy, or language preference. Do NOT skip this step even if "nothing has changed" — the point is to refresh the agent's working memory, not the file content.
      + This loop continues **indefinitely** until the user explicitly stops the agent.
      + Do NOT print "waiting for instructions" to the chat and stop. The agent must keep itself alive via the terminal sleep loop.
      + **⛔ CRITICAL: Chat messages do NOT break the loop.** If the user sends a message in the VS Code chat window while the polling loop is running, do NOT exit the loop and respond only in chat. Instead:
