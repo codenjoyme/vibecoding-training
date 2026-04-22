@@ -35,36 +35,39 @@ The continuous improvement cycle:
 
 Think about how dreams work. When you dream, your mind replays fragments of today, last week, childhood — mixed together with things that never happened and could never happen: a stranger with three fingers, a building that bends, your childhood home in a city you've never visited. Dreams do not distinguish between memory and invention. Everything feels equally real.
 
-A language model works the same way. When it generates text, it "dreams" that text — drawing on traces of everything it read during training. Those original texts no longer exist as discrete documents; they dissolved into the model's weights and parameters, the way memories dissolve into neural connections. What remains is a probability landscape shaped by billions of words. When you give the model a `prompt`, it dreams a response — a stream of `tokens` that feels statistically plausible, assembled from patterns absorbed during training, not from direct recall.
+A language model works the same way. When it generates text, it "dreams" that text — drawing on traces of everything it read during training. Those original texts no longer exist as discrete documents; they dissolved into the `model's` weights and parameters, the way memories dissolve into neural connections. What remains is a probability landscape shaped by billions of words. When you give the `model` a `prompt`, it dreams a response — a stream of `tokens` that feels statistically plausible, assembled from patterns absorbed during training, not from direct recall.
 
-This is why `hallucinations` are not bugs — they are the nature of generation. Everything a model produces is, in a sense, one large `hallucination`: a dream shaped by context. Your task, through increasingly precise `instructions`, is to guide that dreaming into something you will call useful.
+This is why `hallucinations` are not bugs — they are the nature of generation. Everything a `model` produces is, in a sense, one large `hallucination`: a dream shaped by `context`. Your task, through increasingly precise `instructions`, is to guide that dreaming into something you will call useful.
 
 ### ✅ Result
 You understand that `hallucinations` are feedback about `instruction` gaps, not AI failures.
 
 ## Page 2: Delegate the Fix — Do Not Edit Manually
 ### Background
-The key technique in this module is counterintuitive: when the AI produces unexpected output, you ask the AI itself to fix the instruction. You do not open the instruction file and edit it manually.
+The key technique in this module is counterintuitive: when the AI produces unexpected output, you ask the AI itself to fix the `instruction`. You do not open the `instruction` file and edit it manually.
 
 Why delegate?
 - The AI maintains consistency with the existing `instruction` style.
-- The AI understands the context of what went wrong better than a manual edit.
+- The AI understands the `context` of what went wrong better than a manual edit.
 - The process of self-correction makes `instructions` more precise.
 - You learn what was ambiguous by seeing how the AI interprets the fix.
 
 The workflow:
-1. Run the instruction and observe the deviation.
-2. Describe the problem to the AI: "The quiz questions have 5 options, but I need exactly 3 options."
-3. Ask the AI to update the `instruction` file: `Update './instructions/generate-quiz.agent.md' to specify exactly 3 answer options per question`
-4. The AI reads the instruction, finds the ambiguity, and adds the constraint.
-5. Rerun the instruction and verify the output now matches expectations.
+1. Run the `instruction` and observe the deviation.
+2. Describe the problem to the AI: `The quiz questions have 5 options, but I need exactly 3 options`.
+3. Ask the AI to update the `instruction` file: `Update 'generate-quiz' instruction to specify exactly 3 answer options per question`
+4. The AI reads the `instruction`, finds the ambiguity, and adds the constraint.
+5. Rerun the `instruction` and verify the output now matches expectations.
 
 ### Steps
 1. Open one of the `instruction` files you created in `Module 10` (e.g., a `Jira`/`Confluence` workflow `instruction`).
-2. Ask the AI to execute it: `Following './instructions/[your-instruction].agent.md', [your task]`
+2. Ask the AI to execute it: `Following '[your-instruction]', do [your task]`
 3. Review the output carefully. Note anything that deviates from what you expected — format, content, structure, missing elements, extra elements.
-4. If you find a deviation, do NOT edit the file manually. Instead, tell the AI: `I noticed [describe the deviation]. Please update './instructions/[your-instruction].agent.md' to prevent this in the future`
-5. After the update, run the same task again and compare results.
+4. If you find a deviation, do NOT edit the file manually. Instead, tell the AI: `I noticed [describe the deviation]. Please update '[your-instruction]' to prevent this in the future`
+5. Commit the updated `instruction` file immediately — before doing anything else. Use the same baby-steps commit pattern from `Module 3`. This step is critical: if you revert to an earlier `prompt` without committing first, the AI's undo mechanism may roll back the instruction file along with everything else, erasing the fix.
+6. Return to the `prompt` that came just before the `hallucination` and re-run it. This is the same recovery technique from `Module 7`, but instead of editing the `prompt` itself, you fixed the `instruction`. The AI's `context` still contains the "memory" of the wrong interpretation — you need to clear it. Two ways to do this:
+   - **Option A — edit and resend:** Go back one step in the chat history to the `prompt` before the `hallucination`, edit or resend it, and confirm that the updated `instruction` is loaded and the output is now correct.
+   - **Option B — fresh `context`:** Open a new chat session and repeat the original request from scratch in a clean `context`. This guarantees no residual "memory" of the failed interpretation.
 
 ### ✅ Result
 You can delegate instruction fixes to the AI and verify the improvements.
@@ -89,7 +92,7 @@ Types of `instructions` to be aware of:
 Understanding which type you are building (or fixing) helps you keep each instruction focused.
 
 ### Steps
-1. Take two of your instruction files and try combining them in a single `prompt`: "Following ./instructions/A.agent.md and ./instructions/B.agent.md, do [task]."
+1. Take two of your instruction files and try combining them in a single `prompt`: `Following './instructions/A.agent.md and ./instructions/B.agent.md, do [task]."
 2. Compare the output to running each instruction separately.
 3. If the combined result is unexpected, identify which instruction's rules were overridden.
 4. Decide whether to adjust one instruction or keep them separate.
