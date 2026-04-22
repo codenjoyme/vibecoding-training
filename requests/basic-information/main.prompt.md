@@ -27,3 +27,9 @@ iterative-prompt.agent.md
 Надо пофиксить инструкцию по созданию инструкций, чтобы там было `agent: agent` для промптов. Пофиксить промпты. 
 
 А так же сделай в `quickstart.md` чтобы он был промптом с именем `quickstart.prompt.md` и там уже указать `agent: agent` и `model: Claude Sonnet 4.6`. Go
+
+### RESULT
+
+- `.github/prompts/*.prompt.md` (7 files) — replaced deprecated `mode: agent` with `agent: agent`
+- `instructions/creating-instructions.agent.md` — updated VSCode prompt template: `mode: agent` → `agent: agent`
+- `quickstart.prompt.md` — created new prompt file with `agent: agent` and `model: Claude Sonnet 4.6` frontmatter, same content as `quickstart.md`
