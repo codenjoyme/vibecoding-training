@@ -64,6 +64,7 @@ After completing all modules, participants will build a complete application tha
 1. [CLI: Command Line Interface](modules/103-cli-command-line-interface/about.md) - Call REST APIs directly from terminal, bypass LLM for deterministic, token-efficient execution without hallucination risk
 1. [Port Existing Code into Skills](modules/104-port-to-skills/about.md) - Convert any backend service into a portable CLI tool and package it as a reusable AI Skill
 1. [MCP GitHub Integration](modules/105-mcp-github-integration-issues/about.md) - Manage GitHub issues as backlog through AI
+1. [Building Custom MCP Servers with FastMCP](modules/106-fastmcp-custom-mcp-server/about.md) - Wrap any self-hosted REST API in a secure FastMCP server and connect it to your IDE
 1. [Token & API Key Management](modules/108-token-api-key-management/about.md) - Manage secrets safely with .env files and prevent credential leaks
 1. [Development Environment Setup](modules/110-development-environment-setup/about.md) - Install essential tools for vibecoding
 1. [Rapid Prototyping](modules/120-rapid-poc-prototyping/about.md) - Build a PoC in 2 hours
