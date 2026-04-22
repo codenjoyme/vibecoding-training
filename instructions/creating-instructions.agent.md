@@ -173,7 +173,7 @@ Each entry below is an instruction file with a one-line description. Optional su
 - Add new file to the `./.github/prompts/` with name `to-[name].prompt.md` and the line we added to `main.agent.md` as reference to instruction file using platform-specific syntax as in example bellow: 
 ```markdown
 ---
-mode: agent
+agent: agent
 ---
 - When you are asked to _______________, please follow the instructions `./instructions/__________.agent.md`.
 ```
