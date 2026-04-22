@@ -57,4 +57,20 @@ iterative-prompt.agent.md
 В этом модуле перед 143 строчкой `### ✅ Result` давай добавим такой блок: Важно понимать, что ты не ограничен конкретно двумя этими файлами. Ты можешь создавать любые файлы, которые нужны для реализации, и заполнять их любым содержимым, которое поможет тебе реализовать функциональность. Эти два файла — просто примеры того, как можно структурировать информацию. Пожалуйста будь креативным в этом процессе и автоматизируй это так, чтобы тебе было максимально удобно. Цель этого модуля сообщить о том, что тебе стоит позаботиться о том, как между сессиями переносить информацию. Ты отвечаешь за долгосрочную память агента. Иначе он будет кук рыбка Дорри, у которой беда с краткосрочной памятью. go  
 
 ### RESULT
+
 - `lnd/output/module-09-agent-memory-management.md` — added a callout block before the `### ✅ Result` on "Tips" page explaining that students are not limited to two files, they own the agent's long-term memory, and a Dory analogy for sessions without persistent context.
+
+## UPD7
+
+В этом модуле так же есть упоминание `[MG]: Здесть тоже можно просить загрузить файл вместо квиза` Давай так же добавим после модуля практическое задание отправить нам файл с реализацией как в прошлом модулей. Сохрани структуру єтого раздела. 
+
+Так же посмотри на квиз. Мне надо кодревью его, все ли там адекватно и консистентно. 
+
+And когда будешь готов, создай мне iterative prompt для следующего модуля как заготовку и переключись на polling него. go
+
+### RESULT
+**Quiz review:** Looks good — 3 consistent questions with 3 options each, labeled correct answers, and clear explanations for all. No issues found.
+
+**Changes:**
+- `lnd/output/module-09-agent-memory-management.md` — removed `[MG]:` reviewer comment before Quiz; added `## Practical Task` section after Quiz (submit `project_spec.md` + `backlog.md` to `Oleksandr_Baglai@epam.com` with review criteria).
+- `requests/module-10-fine-tuning/main.prompt.md` — created starter iterative prompt file. Switching monitoring to it now.

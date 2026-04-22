@@ -157,7 +157,7 @@ Key takeaways:
 - The most effective pattern combines a specification document (the "why") with a backlog (the "how").
 - Your `project_spec.md` + `backlog.md` pair will guide all remaining practical work.
 
-[MG]: Здесть тоже можно просить загрузить файл вместо квиза.
+
 ## Quiz
 1. Why does the AI agent not remember what you discussed in a previous chat session?
    a) The `context window` is discarded when the chat closes — each new conversation starts from zero
@@ -185,3 +185,18 @@ Key takeaways:
    - (a) is incorrect because a flat list without structure or checkboxes gives the AI no way to track progress or determine what to work on next. Phases and priorities are essential for sequencing.
    - (b) is correct because a backlog breaks down high-level requirements into specific, trackable tasks with clear completion criteria and progress tracking that the AI can read and update.
    - (c) is incorrect because a backlog serves a different purpose than a specification. The spec defines "what" and "why"; the backlog defines "how" and "when" with actionable, granular tasks.
+
+## Practical Task
+
+You have created a `project_spec.md` and a `backlog.md` for your automation project and committed them to your repository.
+
+**Submit your files for review:**
+
+1. Locate `project_spec.md` and `backlog.md` in your repository.
+2. Send both files to: `Oleksandr_Baglai@epam.com`
+   - Subject line: `Module 09 — Memory Files Submission`
+   - Attach both files directly, or paste their contents in the email body.
+3. The reviewer will check that:
+   - `project_spec.md` clearly states the automation goal, requirements, and quality standards.
+   - `backlog.md` breaks the work into phases with checkboxes and specific, actionable tasks.
+   - Both files are written in English and are committed to your repository.
