@@ -52,3 +52,17 @@ iterative-prompt.agent.md
   - Step 5: Commit the updated `instruction` file immediately (before reverting), with a warning that reverting without committing may erase the fix.
   - Step 6: Return to the pre-hallucination `prompt` and re-run it — Option A (edit/resend in chat history), Option B (fresh `context` in new session). Cross-references `Module 7` and `Module 3`.
 
+## UPD5
+
+И подгрузи в контекст [text](../../instructions/generate-lnd-modules.agent.md) чтобы стилистику понимать, а то я снова вижу что специфические термины не берутся в кавычки ``. Посмотри все модули что мы уже отработали, пойми что там брали в кавычки и обнови эту инстркцию. Мне нужно все термины которые относятся в genAI чтобі тоже брались. Промпт. Модель. Контекст. Галлюцинация. Скилл. Тулл. И так далее. go
+
+### RESULT
+
+- Updated `instructions/generate-lnd-modules.agent.md` with four new style rules:
+  - `` `model` `` — wrap when referring to the AI language model concept (not product names or compound phrases like "mental model").
+  - `` `skill` `` — wrap when referring to the course-specific instruction+tool capability pair (Module 12 pattern). Not for generic human skills.
+  - `` `tool` `` — wrap when referring to scripts/programs invoked by an AI agent. Not for generic "useful tool" usage.
+  - (`` `hallucination` ``, `` `instruction` ``, `` `agent` `` were added in earlier UPDs.)
+- Applied new rules across:
+  - `lnd/output/module-12-ai-skills-tools-creation.md` — wrapped all `skill`, `tool`, `model` occurrences throughout (background, pages 1-5, summary, quiz, practical task).
+  - `lnd/output/module-06-agent-mode-under-the-hood.md` — fixed remaining unquoted `model` in prose (lines 22-23, 97, 129, 151) and unquoted `prompt` in summary.
