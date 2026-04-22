@@ -72,3 +72,11 @@ go
 - `.github/prompts/for-authors.prompt.md` — created GitHub Copilot prompt with `agent: agent` and `model: Claude Sonnet 4.6` and link to `for-authors.md`
 - `.cursor/rules/for-authors.mdc` — created Cursor rule for authors guide with description and reference to `for-authors.md`
 - `.claude/commands/for-authors.md` — created Claude Code command for authors with reference to `for-authors.md`
+
+## UPD6
+
+Вот есь мои рекомендации [text](base-course.md) давай создадим в корне проекте `base-course.md` с этими рекомендациями. 
+
+### RESULT
+
+- `base-course.md` — created in the project root with a formatted Markdown table of all recommended modules, level tags (`base`/`advanced`), importance markers, and a legend section
