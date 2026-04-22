@@ -146,7 +146,6 @@ Key takeaways:
 - A structured specification document is more valuable than jumping straight to implementation.
 - Your specification is now committed to the repository and will evolve as the course progresses.
 
-[MG]: Вот уже начиная отсюда, где студент начинает генерить какие-то файлы по инструкциям, предлагаю переходить от квизов к практическим задачам, формата "загрузите файл такой-то в аудитора, он должен соответствовать критериям таким-то".
 ## Quiz
 1. What is the main purpose of the interview technique?
    a) To help you discover and articulate requirements you did not know you had, by letting the AI ask clarifying questions before implementation
@@ -174,3 +173,19 @@ Key takeaways:
    - (a) is correct because if you already have a clear picture of the requirements, writing specific statements directly is more efficient. The interview adds value only when you have gaps.
    - (b) is incorrect because complex tasks with many unknowns are precisely when the interview technique is most valuable — the AI helps you surface questions you would not think of alone.
    - (c) is incorrect because first-time tasks in unfamiliar domains are ideal candidates for the interview technique, not for skipping it. The less you know, the more the AI’s questions help.
+   
+## Practical Task
+
+You have completed the interview technique and created a requirements specification document.
+
+**Submit your specification for review:**
+
+1. Locate the specification file you created and committed to your repository during Page 4.
+2. Send it to: `Oleksandr_Baglai@epam.com`
+   - Subject line: `Module 08 — Specification Submission`
+   - Attach the specification file directly, or paste its contents in the email body.
+3. The reviewer will check that your specification:
+   - Covers the automation goal clearly
+   - Includes at least the key requirements surfaced during the AI interview
+   - Is written in English
+   - Is structured (not a single paragraph of free text)
