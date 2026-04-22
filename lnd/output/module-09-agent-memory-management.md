@@ -23,7 +23,7 @@ This creates problems for multi-session projects:
 
 The solution: create external memory that persists between sessions. The AI reads this memory at the start of each conversation and writes updates at the end.
 
-Three approaches to external memory:
+Three approaches to managing agent memory:
 1. Built-in todo tool — visual task list that appears above the chat (single-session).
 2. External markdown todo list — a file in your project that the AI reads and updates (multi-session).
 3. Project documents — specification + task list combination for complex projects (multi-session, multi-document).
@@ -103,13 +103,13 @@ You can create and use external `Markdown` todo lists for persistent task tracki
 
 ## Page 4: Create Your Project Backlog
 ### Background
-Now you will apply the memory management technique to your practical project. You have a Technical Specification (`project_spec.md`) from `Module 8`. The next step is to convert it into a structured task backlog — a detailed list of implementation steps that will guide the work from `Module 10` till `Module 20`.
+Now you will apply the memory management technique to your practical project. You have a Technical Specification (`project_spec.md`) from `Module 8`. The next step is to convert it into a structured task backlog — a detailed list of implementation steps that will guide the work from `Module 10` through `Module 20`.
 
 This backlog becomes the AI's "memory" of your project. Every future session starts with the AI reading this file to understand what has been done and what comes next.
 
 ### Steps
 1. Open your AI chat in `Agent Mode`.
-2. Reference both your specification and the interview technique:
+2. Reference your specification and apply the interview technique:
    `Read @project_spec.md. Break it down into a detailed implementation backlog with specific, actionable tasks. Organize tasks into phases: Setup, Core Features, Integration, Testing, Documentation. Use checkboxes. Save as 'backlog.md'. Before creating it, ask me clarifying questions about priorities and phasing`
 3. Answer the AI's questions about priorities (which features first, any dependencies, any time constraints).
 4. Review the generated `backlog.md`.
