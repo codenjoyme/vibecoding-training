@@ -1,0 +1,30 @@
+services:
+  # Generic CLI runner for any *.py script with any arguments.
+  # Usage: docker compose run --rm app python read_messages.py CHAT_ID --top 30
+  app:
+    build: .
+    env_file: .env
+    volumes:
+      - ./data:/data
+    stdin_open: true
+    tty: true
+    entrypoint: []
+    command: ["python", "--help"]
+
+  smoke:
+    build: .
+    env_file: .env
+    volumes:
+      - ./data:/data
+    stdin_open: true
+    tty: true
+    command: ["python", "smoke_test.py"]
+
+  list-chats:
+    build: .
+    env_file: .env
+    volumes:
+      - ./data:/data
+    stdin_open: true
+    tty: true
+    command: ["python", "list_chats.py"]
