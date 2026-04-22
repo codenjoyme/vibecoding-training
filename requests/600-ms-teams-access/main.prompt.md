@@ -778,3 +778,58 @@ Select-String -Path requests/600-ms-teams-access/* -Pattern 'qwe|asd|zxc'
 Это даст полный E2E-цикл (read → summarize → write) на безопасном таргете (никто кроме тебя не увидит).
 
 Делать `## UPD22 ... go`? Возвращаюсь в polling.   
+
+## UPD22
+
+Теперь давай сделаем Step 9. go
+
+### RESULT
+
+Сделал. Добавил idempotent-скрипт создания notification-чата.
+
+**Изменения:**
+
+- 🆕 [create_notification_chat.py](create_notification_chat.py) — `python create_notification_chat.py [--topic "AI Teams Summaries"]`. Что делает:
+  1. Сначала ищет среди твоих `group`-чатов один с таким же `topic` (idempotency — можно гонять много раз без дубликатов).
+  2. Если нашёл — печатает его id.
+  3. Если нет — создаёт новый `group` chat с `topic = "AI Teams Summaries"` и тобой одним участником-owner. `oneOnOne` с самим собой Graph не разрешает — поэтому `group` с одним членом (известный workaround).
+- ✏️ [.env.example](.env.example) — добавил `NOTIFICATION_CHAT_ID=19:replace-with-chat-id@thread.v2` с комментарием как получить.
+
+**Запустил, получилось:**
+
+```
+Created chat 'AI Teams Summaries'.
+  id: 19:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@thread.v2
+
+Add to .env:
+  NOTIFICATION_CHAT_ID=19:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@thread.v2
+```
+
+Чат успешно создан в твоём Teams. Реальный id я тебе сейчас прислать не могу через этот файл (после sanitization; но он лежит в `data/token_cache.bin`-related выводе и в неhtcrашенном выводе терминала). 
+
+**Что нужно сделать тебе:**
+
+1. **Открой Teams** — там должен появиться новый чат с темой **"AI Teams Summaries"** (один участник — ты).
+2. **Возьми реальный id** из вывода терминала (`NOTIFICATION_CHAT_ID=...`) и добавь его строкой в свой `.env`:
+   ```
+   NOTIFICATION_CHAT_ID=19:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx@thread.v2
+   ```
+   (или просто перезапусти `docker compose run --rm app python create_notification_chat.py` — он найдёт уже существующий и снова распечатает id. Idempotency).
+3. Закинь скрин чата в Teams (с темой "AI Teams Summaries"), что появилось.
+
+**Что дальше — Step 10: первый E2E (read → summarize → write).**
+
+`summarize_and_notify.py SOURCE_CHAT_ID [--top 20]`:
+1. Читает последние N сообщений из `SOURCE_CHAT_ID` (через готовую логику).
+2. Шлёт текст в GitHub Models (`gpt-4o`) с system prompt типа: "Ты помогаешь читать переписку. Сделай короткий summary 3-5 буллетов на русском, сохраняя контекст и важные ссылки."
+3. Постит summary в `NOTIFICATION_CHAT_ID` через `POST /chats/{id}/messages`.
+
+Тестировать предлагаю на том же `<chat-topic-redacted>` чате — там 20 чистых сообщений, без attachments / системных эвентов, идеально.
+
+Делать `## UPD23 ... go`? Возвращаюсь в polling.
+
+## UPD23
+
+Обновил .env, добавив `NOTIFICATION_CHAT_ID`. 
+Вот канал ![alt text](image-26.png)
+go
