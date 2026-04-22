@@ -8,7 +8,7 @@ This is the most common blocker for non-developers starting an automation projec
 In this module, you will learn the interview technique and use it to create a Technical Specification for your `Jira`/`Confluence` automation project — the central artifact for the rest of the course.
 
 Upon completion of this module, you will be able to:
-- Use the "ask me clarifying questions" pattern to transform vague ideas into specific requirements.
+- Use the `ask me clarifying questions` pattern to transform vague ideas into specific requirements.
 - Control the pace, focus, and depth of an AI-led interview.
 - Create a structured Technical Specification from interview results.
 - Determine when the interview technique is useful versus when to write prompts directly.
@@ -38,10 +38,10 @@ The solution is a single phrase that transforms the AI from an implementer into 
 
 `Before we start, ask me clarifying questions`
 
-When you add this to the end of even a minimal prompt, the AI stops and interviews you. Instead of guessing and generating something immediately, it asks the questions you should have thought of but did not.
+When you add this to the end of even a minimal prompt, the AI starts interviews you. Instead of guessing and generating something immediately, it asks the questions you should have thought of but did not.
 
 Why this works:
-- The AI knows what information is needed for implementation (it has seen thousands of similar projects in its training data).
+- The AI "knows" what information is needed for implementation (it has seen thousands of similar projects in its training data).
 - The AI can identify gaps in your requirements.
 - Your answers fill in the missing details naturally.
 - The `context window` accumulates precise information through dialogue rather than through guessing.
