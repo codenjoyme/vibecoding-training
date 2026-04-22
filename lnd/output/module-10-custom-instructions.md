@@ -23,7 +23,7 @@ Stage 1 — Everything is a `prompt`: You type the full request every time. Work
 
 Stage 2 — Text file: You save good `prompts` to a file and copy-paste them when needed. Better, but still manual and the file becomes messy over time.
 
-Stage 3 — `Markdown` format: You ask the AI to create structured `.md` files with organized requirements, lists, and examples (or write them yourself). AI agents process `Markdown` well. Still requires manual attachment or copy-paste to each new chat.
+Stage 3 — `Markdown` format: You ask the AI to create structured `.md` files with organized requirements, lists, and examples. AI agents process `Markdown` well. **Key insight:** you do not write these files yourself — you delegate the creation to the agent. This is the habit to build. Still requires manual attachment or copy-paste to each new chat.
 
 Stage 4 — Instruction system: The AI automatically sees relevant instructions when you ask a question. No copy-paste needed. Consistent output every time. This is where you want to be.
 

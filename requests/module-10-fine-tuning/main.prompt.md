@@ -49,3 +49,10 @@ iterative-prompt.agent.md
 - `instructions/iterative-prompt.agent.md` — updated "Non-stop loop" to explicitly state each UPD = one separate commit, UPDs without `go` are skipped, parallel writing is supported.
 - `requests/iterative-prompt/main.prompt.md` — added UPD6 with RESULT documenting this change.
 - Going forward: each UPD in this session gets its own commit and reports separately.
+
+## UPD7
+
+В UPD4 сделал правку, но. Тут как раз важно не просто сказать, а подчеркнуть, что юзер не пишет сам файлы, мы делаем все через агента. К этому сложнее привыкнуть инженерам, чем менеджерам. Потому что у менеджеров наівік делегирования работает лучше. А инженеры до уровня team lead все пытаются сделать сами, часто не доверяя AI. go 
+
+### RESULT
+- `lnd/output/module-10-custom-instructions.md` — strengthened Stage 3 text: removed "(or write them yourself)"; added bold "Key insight: you do not write these files yourself — you delegate the creation to the agent. This is the habit to build."
