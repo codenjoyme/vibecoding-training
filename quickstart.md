@@ -1,5 +1,10 @@
 # 🚀 Quick Start
 
+## Prerequisites
+
+- **Model:** Use **Claude Sonnet 4.6** (or newer) as your AI model. Select it in the model picker of your AI Chat panel.
+- **Mode:** Make sure you are in **Agent Mode** (not Edit or Ask mode). Agent Mode allows the AI to read files, run commands, and make changes autonomously.
+
 ## Starting from scratch (no IDE installed)
 
 1. Complete **one** of the first two modules manually — they guide you through installation:
