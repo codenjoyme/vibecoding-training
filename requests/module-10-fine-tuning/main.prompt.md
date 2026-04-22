@@ -31,6 +31,9 @@ iterative-prompt.agent.md
 
 Так же в этом модуле сказано `Stage 3 — `Markdown` format: You create`. Тут надо дать пояснение. `You create` это не значит что ты пишешь, это значит, что ты просишь агента написать.  go
 
+### RESULT
+- `lnd/output/module-10-custom-instructions.md` — clarified Stage 3 description: changed "You create" to "You ask the AI to create... (or write them yourself)" so it's clear you can ask the agent to generate the files.
+
 ## UPD5
 
 В 36й строчке написано `(stage 4)` но везде в заголовках указано `Page N`. Давай так же посмотрим каждый модуль начиная от самого первого, на наличие подобных нестыковок и поправим их.  go
