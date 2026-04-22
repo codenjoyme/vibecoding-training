@@ -16,6 +16,7 @@ iterative-prompt.agent.md
 Следуя инструкции [text](../../instructions/organize-module-images.agent.md) обслужи картинки что я добавил толкьо что. Дальше я буду только говорить `обработай картинки`. go
 
 ### RESULT
+
 - `lnd/output/image-1.png` → moved to `lnd/output/img/module-09/04-using-at-mention.png`
 - `lnd/output/image.png` → moved to `lnd/output/img/module-09/05-move-file-to-chat.png`
 - `lnd/output/module-09-agent-memory-management.md` — updated references to use new paths.
@@ -29,6 +30,7 @@ iterative-prompt.agent.md
 Сделай это двумя разными коммитами. go
 
 ### RESULT
+
 - **Commit 1:** `lnd/output/module-08-clarifying-requirements.md`, `lnd/output/module-09-agent-memory-management.md` — replaced all `PROJECT_SPEC.md` with `project_spec.md`.
 - **Commit 2:** 14 module files updated — wrapped bare `Module N` references (in prose, not headings) in backticks.
 
@@ -37,4 +39,14 @@ iterative-prompt.agent.md
 Там была инструкция, которая говорила что если есть какой-то термин технический, то его надо брать в кавычки. Про модули туда тоже добавь упоминание. go
 
 ### RESULT
+
 - `instructions/generate-lnd-modules.agent.md` — added a cross-module references rule after the "Technical terms and modes" bullet: when referring to another module by number in prose (e.g. "you created this in Module 8"), wrap it in backticks: `` `Module 8` ``; headings are exempt.
+
+## UPD5
+
+Смотри по тексту я снова нахожу `ТЗ` вместо `specification`. Давай еще раз поищем и заменим во всех модулях. go
+
+### RESULT
+- `lnd/output/module-09-agent-memory-management.md` — replaced 1 remaining `ТЗ` with `specification`.
+- `lnd/output/module-17-rapid-prototyping-speckit.md` — replaced 5 `ТЗ` occurrences with `specification`, removed `[MG]:` reviewer comment, fixed inline prompt to backtick format.
+- `lnd/output/module-16-development-environment-setup.md` — replaced 1 `ТЗ`, removed `[MG]:` reviewer comment, fixed inline prompt to backtick format.

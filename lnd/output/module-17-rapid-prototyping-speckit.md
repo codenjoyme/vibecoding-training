@@ -19,7 +19,7 @@ The core idea: the more thoroughly you define what you are building, the better 
 
 **`SpecKit` phases:**
 1. **Constitution** — Define the project identity, tech stack, and constraints.
-2. **Specify** — Write a detailed spec from the ТЗ (technical specification).
+2. **Specify** — Write a detailed specification from your requirements.
 3. **Clarify** — Ask the AI to find gaps and contradictions in the spec.
 4. **Plan** — Generate an implementation plan with milestones.
 5. **Tasks** — Break the plan into individual tasks with acceptance criteria.
@@ -31,15 +31,14 @@ The core idea: the more thoroughly you define what you are building, the better 
 1. Open your project in `VS Code`.
 2. Ask the AI: "What is `SpecKit`? Explain the spec-driven development methodology and its phases."
 3. Read the response and understand what each phase produces.
-4. Locate your ТЗ from `Module 08` — this will be the input to the `SpecKit` workflow.
+4. Locate your specification from `Module 08` — this will be the input to the `SpecKit` workflow.
 
 ### ✅ Result
-[MG]: Снова "ТЗ", попроси плз агенту по всему курсу в Context Aware режиме заменить это на что-то англоязычное.
-You understand the `SpecKit` phases and have your ТЗ ready as input.
+You understand the `SpecKit` phases and have your specification ready as input.
 
 ## Page 2: Constitution and Specification
 ### Background
-The Constitution file defines the non-negotiable rules for your project: tech stack, coding conventions, folder structure, and constraints. The Specification expands your ТЗ into a detailed, AI-parseable document.
+The Constitution file defines the non-negotiable rules for your project: tech stack, coding conventions, folder structure, and constraints. The Specification expands your specification into a detailed, AI-parseable document.
 
 **Tech stack for this project:**
 - Frontend: `React` 18 + `Vite` (fast, modern UI framework).
@@ -56,8 +55,8 @@ The Constitution file defines the non-negotiable rules for your project: tech st
    - Tech stack with specific versions.
    - Folder structure conventions.
    - Coding standards (naming, file organization).
-3. Ask the AI: "Based on my ТЗ, create a detailed specification file following `SpecKit` format. Save to `spec/specification.md`."
-4. Review the spec. It should expand the ТЗ into:
+3. Ask the AI: `Based on my specification, create a detailed specification file following 'SpecKit' format. Save to 'spec/specification.md'`
+4. Review the spec. It should expand the specification into:
    - User stories or use cases.
    - API endpoints (what data goes where).
    - UI screens (what the user sees).

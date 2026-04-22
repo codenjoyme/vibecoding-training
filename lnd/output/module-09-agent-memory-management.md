@@ -113,7 +113,7 @@ This backlog becomes the AI's "memory" of your project. Every future session sta
    `Read @project_spec.md. Break it down into a detailed implementation backlog with specific, actionable tasks. Organize tasks into phases: Setup, Core Features, Integration, Testing, Documentation. Use checkboxes. Save as 'backlog.md'. Before creating it, ask me clarifying questions about priorities and phasing`
 3. Answer the AI's questions about priorities (which features first, any dependencies, any time constraints).
 4. Review the generated `backlog.md`.
-5. Verify it covers all requirements from your ТЗ.
+5. Verify it covers all requirements from your specification.
 6. If anything is missing, ask the AI to add it.
 7. Commit the file to your repository.
 
