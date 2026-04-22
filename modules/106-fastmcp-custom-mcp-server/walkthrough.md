@@ -10,6 +10,24 @@ See [module overview](about.md) for full prerequisites list.
 
 ---
 
+## What We'll Build
+
+In this module we will build a **local MCP server** that wraps the Jira REST API. After completing all parts you will have:
+
+| Component | Description |
+|---|---|
+| `server.py` | FastMCP server with 4 Jira tools |
+| `.env` | Credentials file (never committed) |
+| `.env.example` | Template for team members |
+| `requirements.txt` | Python dependencies |
+| `mcp.json` entry | IDE connection config |
+
+The server runs as a subprocess inside your IDE — no cloud infrastructure, no third-party code, complete control over every API call your AI can make.
+
+**Time estimate:** 15-20 minutes end to end.
+
+---
+
 ## Part 1: Five Approaches — The Decision Map
 
 Before writing any code, it helps to understand all your options. Each approach has a different risk profile, effort level, and maintenance cost.
