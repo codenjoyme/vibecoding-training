@@ -1,0 +1,6 @@
+---
+description: Quickstart guide for training - using Claude Sonnet 4.6 in agent mode
+alwaysApply: false
+---
+
+Follow the instructions in `./quickstart.md` when user asks for quickstart, getting started, or how to begin training.

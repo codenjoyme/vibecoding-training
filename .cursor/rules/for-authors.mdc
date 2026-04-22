@@ -1,0 +1,6 @@
+---
+description: Guide for content authors and module creators - using Claude Sonnet 4.6 in agent mode
+alwaysApply: false
+---
+
+Follow the instructions in `./for-authors.md` when user asks about creating content, authoring modules, or contributing to the training materials.
