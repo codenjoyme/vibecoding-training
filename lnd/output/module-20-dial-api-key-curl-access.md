@@ -1,4 +1,4 @@
-# Module 20: `DIAL API` Key and `cURL` Access
+﻿# Module 20: `DIAL API` Key and `cURL` Access
 
 ### Background
 Throughout this course, you have used AI through graphical interfaces — `VS Code`, `GitHub`, `Chrome`. But AI models can also be accessed directly through code, using simple `HTTP` requests. `EPAM` `AI DIAL` is an internal platform that gives you API access to multiple AI models (`GPT-4o`, `Claude`, `Gemini`) through a single endpoint. In this final module, you will request an `API key`, make your first programmatic call to an AI model using `cURL`, and understand the parameters that control model behavior. This opens the door to custom automation that goes beyond what any IDE plugin can offer.
@@ -79,7 +79,6 @@ Available models include:
    - **`Windows` `PowerShell`:** `$env:DIAL_API_KEY = "your-key-here"`
    - **`macOS`/Linux:** `export DIAL_API_KEY="your-key-here"`
 
-[MG]: Нужно попросить ии написать правильные курлы под каждую из систем чтобы они точно работали
 
 4. Send your first request (`Windows` `PowerShell`):
    ```
@@ -163,7 +162,6 @@ Key takeaways:
 - Direct API access enables custom automation: batch processing, report generation, data classification.
 - This completes your toolkit: IDE assistant → instructions → skills → `MCP` → prototyping → QA → delegation → API access.
 
-[MG]: Давай этот весь модуль сделаем Optional, далеко не каждому он понадобится.
 
 ## Quiz
 1. What is the purpose of `EPAM` `AI DIAL`?
@@ -192,3 +190,19 @@ Key takeaways:
    - (a) Incorrect. Standard `Git` does not have built-in `API key` detection. Some organizations add pre-commit hooks for this, but by default `Git` will happily commit any string. You cannot rely on `Git` to protect you.
    - (b) Correct. `Git` history is permanent — even if you delete the key later, it remains in the commit history. Anyone with access to the repo (including public repos) can extract the key and use it. Store keys in environment variables or secure vaults instead.
    - (c) Incorrect. `API keys` are plain text strings (typically hexadecimal) and do not cause any technical issues with `Git`. The risk is security exposure, not file corruption.
+
+## Practical Task
+
+You have accessed an AI model directly via the `EPAM AI DIAL` `API` using a `cURL` command.
+
+**Submit your API interaction log for review:**
+
+1. Run a `cURL` request to the `DIAL` `API` and capture the full terminal output (the `JSON` response).
+2. Send to: `Oleksandr_Baglai@epam.com`
+   - Subject line: `Module 20 - API Access Submission`
+   - Paste the `cURL` command (with your `API key` replaced by `[REDACTED]`) and the response in the email body.
+3. The reviewer will check that:
+   - The request reaches the `DIAL` endpoint and returns a valid `JSON` response.
+   - The model, temperature, and max_tokens parameters are visible in the command.
+   - The `API key` is not included in plain text - replace it with `[REDACTED]`.
+   - The response demonstrates a real use case relevant to your project context.

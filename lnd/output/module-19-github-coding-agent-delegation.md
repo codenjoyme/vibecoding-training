@@ -1,4 +1,4 @@
-# Module 19: `GitHub` Coding Agent Delegation
+﻿# Module 19: `GitHub` Coding Agent Delegation
 
 ### Background
 Up to this point, every task was completed by you and your AI assistant working together in the IDE. You described the task, the AI proposed a solution, you reviewed and approved it — all in real time. But what if you could delegate a task to an autonomous AI agent that works independently on `GitHub`'s servers while you do something else? `GitHub Copilot Coding Agent` does exactly that: you assign it a `GitHub` issue, and it reads the codebase, writes the code, and creates a pull request — without your involvement until it is time for code review. This module teaches you how to delegate effectively, monitor progress, and review the results.
@@ -148,7 +148,6 @@ Key takeaways:
 - Submit all review comments at once to avoid multiple agent sessions.
 - Treat every agent mistake as an instruction improvement opportunity.
 
-[MG]: вот тут можно и квиз оставить :)
 
 ## Quiz
 1. What is the key difference between `GitHub Copilot` in the IDE and `GitHub Copilot Coding Agent`?
@@ -177,3 +176,19 @@ Key takeaways:
    - (a) Incorrect. While readability matters, the primary concern is resource usage. `GitHub` does display individual comments fine, but each review submission triggers a new agent work session.
    - (b) Correct. Every review submission starts a new agent work session. If you submit 5 comments one by one, the agent runs 5 separate sessions. Submitting them together means one session handles everything — saving time and premium request quota.
    - (c) Incorrect. The agent reads all comments in a review submission equally. It does not prioritize or ignore based on submission order. The issue is that separate submissions trigger separate sessions, not that comments are lost.
+
+## Practical Task
+
+You have delegated a development task to `GitHub Copilot Coding Agent` and reviewed the resulting pull request.
+
+**Submit your pull request for review:**
+
+1. Locate the pull request created by the coding agent for the issue you assigned.
+2. Send to: `Oleksandr_Baglai@epam.com`
+   - Subject line: `Module 19 - Coding Agent Delegation Submission`
+   - Include the `GitHub` issue URL and the resulting PR URL in the email body.
+3. The reviewer will check that:
+   - The `GitHub` issue has a clear description with acceptance criteria.
+   - The PR was created by the coding agent (not manually committed).
+   - You submitted all review comments at once (not one by one).
+   - Any agent mistakes were treated as instruction improvement opportunities.

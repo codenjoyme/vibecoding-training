@@ -1,4 +1,4 @@
-# Module 18: AI-Powered QA with `Chrome DevTools MCP`
+﻿# Module 18: AI-Powered QA with `Chrome DevTools MCP`
 
 ### Background
 You have a working web application from `Module 17`. Now you need to test it — but you are not a QA engineer. Manual testing (clicking through every screen, checking every button) is tedious and easy to do incompletely. What if the AI could open your application in a real browser, click buttons, fill forms, take screenshots, and report issues — all by itself? That is exactly what `Chrome DevTools MCP` enables. It connects your AI assistant to a real `Chrome` browser, turning the AI into an automated QA tester that can see and interact with your application.
@@ -164,7 +164,6 @@ Key takeaways:
 - Every bug found should be fixed and committed immediately — baby steps approach applies to QA too.
 - A QA report documents what was tested and what was found — essential for project tracking.
 
-[MG]: можно попросить скинуть QA report, или test suite сгенеренный, или опять же чат сессию
 
 ## Quiz
 1. What does `Chrome DevTools MCP` enable the AI assistant to do?
@@ -193,3 +192,19 @@ Key takeaways:
    - (a) Incorrect. While documenting is important, deferring fixes creates risk. You may forget the context of the bug, or the fix may conflict with later changes. Fixing immediately while the details are fresh is more efficient.
    - (b) Correct. Fixing bugs immediately when found keeps the prototype in a working state. Each fix is a small, verifiable commit. If you defer all fixes to later, you risk forgetting details and creating harder-to-debug compound issues.
    - (c) Incorrect. Reverting and re-implementing is a drastic response to a single bug. The baby-steps approach means each commit is a working checkpoint — you only need to fix the specific issue, not rebuild the feature.
+
+## Practical Task
+
+You have run AI-driven QA on your prototype using `Chrome DevTools MCP` and produced a QA report.
+
+**Submit your QA report for review:**
+
+1. Locate the QA report file generated during this module.
+2. Send it to: `Oleksandr_Baglai@epam.com`
+   - Subject line: `Module 18 - QA Report Submission`
+   - Attach the QA report, or paste its contents in the email body.
+3. The reviewer will check that:
+   - The report covers at least 3 distinct UI scenarios (e.g., page navigation, form submission, error handling).
+   - Found bugs are documented with descriptions.
+   - All bugs found were fixed and committed before the report was finalized.
+   - The report confirms the prototype passed QA in its final state.

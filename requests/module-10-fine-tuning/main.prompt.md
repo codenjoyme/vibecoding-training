@@ -91,6 +91,14 @@ iterative-prompt.agent.md
 ### RESULT
 - `lnd/output/module-10-custom-instructions.md` — Page 5, Step 4: changed "Update `instructions/main.agent.md` with the new instruction entries" to "Verify that `instructions/main.agent.md` was updated automatically...— review the change rather than editing manually."
 
+## UPD13
+
+И давай так же добавим в конец после квиза, отправьте задание на почту. Давай этот блок сделаем для всех модулей начиная от текущего и до конца. Сохраняй структуру этого блока, но меняй текст задания в зависимости от темы модуля. go
+
+### RESULT
+- `lnd/output/module-10-custom-instructions.md` — added `## Practical Task` section (instruction files + catalog submission).
+- `lnd/output/module-11` through `module-20` — added `## Practical Task` section to each, with task text tailored to the module theme. Also removed `[MG]:` reviewer comments from all Summary sections in modules 11–20.
+
 ## UPD12
 
 В 180 строчке написано `If any instruction has more than 15 rules, consider splitting it.` но правило скорее другое, не больше 500-700 строчек на инструкцию. Исправь везде где имеет смысл. go
@@ -98,4 +106,10 @@ iterative-prompt.agent.md
 ### RESULT
 - `lnd/output/module-10-custom-instructions.md` — Page 6 Step 2: changed "more than 15 rules" → "approaching 500–700 lines". The "50 rules" in the Too-broad example describes topic breadth and was intentionally left unchanged.
 
-##UPD13
+## UPD13
+
+И давай так же добавим в конец после квиза, отправьте задание на почту. Давай этот блок сделаем для всех модулей начиная от текущего и до конца. Сохраняй структуру этого блока, но меняй текст задания в зависимости от темы модуля. go
+
+## UPD14
+
+И поревьювай квиз после всех наших правок, может что-то надо поменять в нем. go

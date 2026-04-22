@@ -1,4 +1,4 @@
-# Module 17: Rapid Prototyping with `SpecKit`
+﻿# Module 17: Rapid Prototyping with `SpecKit`
 
 ### Background
 You have a technical specification, a backlog of tasks, instruction files, and a fully configured development environment. Now it is time to build the actual working prototype. But how do you go from a text spec to a running web application when you have never coded before? The answer is `SpecKit` — a structured methodology that turns a specification document into a working application through a series of AI-guided phases: specify → clarify → plan → tasks → analyze → implement → checklist. In this module, you will follow the full `SpecKit` workflow and, by the end, have a working web application connected to your `Jira`/`Confluence` APIs.
@@ -154,7 +154,6 @@ Key takeaways:
 - Implementation follows one-task-at-a-time discipline: implement → verify → commit → next.
 - The Checklist phase is your final QA gate before declaring the prototype complete.
 
-[MG]: В этом модуле вообще прекрасно было бы попросить заэкстратить чат сессию, или же какие-то файлы которые были сгенерены в рамкуах чат сессии. Как минимум те на которые мы ссылаемся по конкретным адресам в шагах выше.
 
 ## Quiz
 1. Why does `SpecKit` require a detailed specification before writing any code?
@@ -183,3 +182,19 @@ Key takeaways:
    - (a) Incorrect. While context windows have limits, this is not the primary reason. Even with a large context window, implementing everything at once creates a debugging nightmare because you cannot isolate which change caused a failure.
    - (b) Correct. The baby-steps approach gives you a working checkpoint after each task. If task 5 breaks something, you know task 5 is the cause. If you implemented 10 tasks at once and it breaks, you have no idea which change caused the problem.
    - (c) Incorrect. `SpecKit` is a development methodology, not a governance process. You control the pace of implementation. The one-task-at-a-time discipline is about quality and debuggability, not approvals.
+
+## Practical Task
+
+You have built a working prototype using the `SpecKit` methodology.
+
+**Submit your prototype specification files for review:**
+
+1. Locate the `specification.md` (or equivalent spec file) created during the `SpecKit` workflow and the task list used for implementation.
+2. Send them to: `Oleksandr_Baglai@epam.com`
+   - Subject line: `Module 17 - Prototype Specification Submission`
+   - Attach the specification and task list files, or paste their contents in the email body.
+3. The reviewer will check that:
+   - The specification describes a real use case from your project (not a placeholder example).
+   - Tasks are broken into baby steps with clear acceptance criteria.
+   - At least one task was implemented, verified, and committed.
+   - A repository URL or commit reference demonstrates working code was produced.

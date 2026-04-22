@@ -1,4 +1,4 @@
-# Module 12: AI Skills and Tools Creation
+﻿# Module 12: AI Skills and Tools Creation
 
 ### Background
 You have instructions that tell the AI what to do. But what happens when you ask the AI to calculate compound interest, convert timezones, or count working days between two dates? It generates a plausible answer — but the answer is often wrong. Not because the AI is bad at math, but because it does not calculate at all. It predicts what a correct answer looks like based on text patterns.
@@ -132,7 +132,6 @@ Key takeaways:
 - Build skills for tasks requiring precision: calculations, API calls, data processing.
 - Use `prompts` for creative tasks where approximate answers are acceptable.
 
-[MG]: Опять же, можно дать практическое задание на написание какого-то особенного тула и потом проверить два файла instruction+tool в качестве практического теста.
 ## Quiz
 1. Why does the AI sometimes produce wrong answers for calculation tasks?
    a) The AI does not perform calculations — it predicts what a correct answer looks like based on text patterns, which can be plausible but incorrect
@@ -160,3 +159,19 @@ Key takeaways:
    - (a) is correct because skills are needed when precision matters — calculations, data queries, API integrations, and any task where a “close enough” answer is not acceptable.
    - (b) is incorrect because `prompt` length does not determine whether a skill is needed. Long `prompts` are better addressed with instruction files (`Module 10`), not necessarily with tools.
    - (c) is incorrect because the AI can generate `JSON` or CSV format from a `prompt` alone. File format is a formatting concern, not a precision concern that requires a tool.
+
+## Practical Task
+
+You have identified a precision-dependent task in your project and created a custom skill (an instruction paired with a tool) to handle it reliably.
+
+**Submit your skill for review:**
+
+1. Locate the instruction file and the tool file you created during this module (e.g., `instructions/[name].agent.md` and the corresponding script).
+2. Send them to: `Oleksandr_Baglai@epam.com`
+   - Subject line: `Module 12 - Custom Skill Submission`
+   - Attach both the instruction and the tool files, or paste their contents in the email body.
+3. The reviewer will check that:
+   - The task genuinely requires precision (calculation, API query, or data operation).
+   - The instruction clearly specifies when and how to invoke the tool.
+   - The tool accepts parameters - nothing is hardcoded.
+   - Both files are committed to your repository.

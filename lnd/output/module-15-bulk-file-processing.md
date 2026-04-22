@@ -1,4 +1,4 @@
-# Module 15: Bulk File Processing with AI
+﻿# Module 15: Bulk File Processing with AI
 
 ### Background
 You need to review 20 `Markdown` files for formatting issues. Or extract action items from 50 meeting notes. Or validate 30 configuration files against a checklist. You open the AI chat and paste your `prompt` — it works beautifully for the first 5 files, then the quality drops. By file 15, the AI is hallucinating information that was never in the source files.
@@ -155,7 +155,6 @@ Key takeaways:
 - Each file processed in a fresh context = no accumulated history = no drift.
 - Use the decision framework to choose the right approach for each batch task.
 
-[MG]: Снова таки, можно попрсить сделать анализ файлов каких-то заранее загатовленных, в папочке условно module-15-task, описать ожидаемый результат для практического занятия, и проверить этот ожидаемый результат как итог чат сессии.
 ## Quiz
 1. What is context drift and why does it matter for bulk file processing?
    a) The AI model gradually shifts its interpretation of instructions as conversation history accumulates, reducing accuracy for later files
@@ -183,3 +182,19 @@ Key takeaways:
    - (a) Incorrect. File structure does not prevent context drift. Even well-structured files cause the conversation to grow, and the AI's attention to original instructions still decays after several files.
    - (b) Correct. The single-request approach works for small batches where perfect consistency is not critical. Beyond 5 files, context drift makes the results unreliable.
    - (c) Incorrect. `Context window` size helps but does not eliminate drift. Even with large `context windows`, the model's attention distribution shifts as more content accumulates, reducing focus on the original instructions.
+
+## Practical Task
+
+You have processed a set of project files in bulk using an appropriate approach for your batch size.
+
+**Submit your processing script or approach note for review:**
+
+1. If you created a bulk processing script, locate it in your project folder.
+2. If you used a non-script approach, prepare a brief note (2-3 sentences): what files were processed, which approach you chose (single request / iterative / script), and why.
+3. Send to: `Oleksandr_Baglai@epam.com`
+   - Subject line: `Module 15 - Bulk Processing Submission`
+   - Attach the script or include the approach note in the email body.
+4. The reviewer will check that:
+   - The approach matches the batch size and consistency requirements from the module.
+   - If a script was used, each file is processed in a separate `context window`.
+   - The choice of approach is clearly justified.

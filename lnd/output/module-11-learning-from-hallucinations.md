@@ -1,4 +1,4 @@
-# Module 11: Learning from Hallucinations
+﻿# Module 11: Learning from Hallucinations
 
 ### Background
 You created a custom instruction in the previous module, and the AI followed it — mostly. But the quiz questions it generated have five answer options instead of three. Or the report format has an extra section you never asked for. Or the function has type hints when you explicitly said "no type hints."
@@ -135,7 +135,6 @@ Key takeaways:
 - Be aware of the interference problem when combining multiple instructions.
 - Progressive trust is earned through iterative testing and refinement.
 
-[MG]: Тоже можно вместо квиза сделать практическую проверку обновленного файла Instrctuions.
 ## Quiz
 1. What does a hallucination typically reveal about your instructions?
    a) That your instruction has an ambiguity or gap that the AI filled in with its own interpretation
@@ -163,3 +162,20 @@ Key takeaways:
    - (a) is correct because instructions are context-sensitive. Combining multiple instructions or adding extra `prompts` changes how the AI interprets each instruction, potentially producing unexpected results.
    - (b) is incorrect because referenced instructions do not override the original. Both sets of rules are active simultaneously, which is precisely what causes the reconciliation challenge.
    - (c) is incorrect because adding a `prompt` alongside an instruction does not rewrite the instruction file. The AI treats both as input for the current task, but the instruction file on disk remains unchanged.
+
+## Practical Task
+
+You have applied the hallucination improvement cycle: identified an unexpected AI output, traced it to a missing or ambiguous instruction rule, and delegated the fix to the AI.
+
+**Submit your improved instruction for review:**
+
+1. Locate the instruction file you updated as a result of a hallucination encountered during this module.
+2. Prepare a brief note describing: (1) what unexpected output occurred, (2) which instruction rule was missing or wrong, (3) what rule was added or changed.
+3. Send to: `Oleksandr_Baglai@epam.com`
+   - Subject line: `Module 11 - Hallucination Fix Submission`
+   - Attach the updated instruction file and include the brief note in the email body.
+4. The reviewer will check that:
+   - A specific, real hallucination is described (not a hypothetical example).
+   - The instruction fix targets the root cause, not just the symptom.
+   - The updated instruction has a rule that prevents the hallucination from recurring.
+   - The file is committed to your repository.

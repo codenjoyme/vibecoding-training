@@ -1,4 +1,4 @@
-# Module 13: `MCP` — Model Context Protocol
+﻿# Module 13: `MCP` — Model Context Protocol
 
 ### Background
 In the previous module, you built skills by pairing instructions with tools — `Python` scripts that the AI runs on your computer. This works, but every new integration requires writing a new script, creating an instruction, and testing the combination. What if there was a standard way to connect AI assistants to any data source without writing custom code every time?
@@ -155,7 +155,6 @@ Key takeaways:
 - Enable only the tools you need to avoid filling the `context window`.
 - Use `MCP` for standard integrations and custom skills for specialized business logic.
 
-[MG]: Тут ещё тоже можем оставить квиз, т.к. просто даём основы, но в следующем уже нужно практическое занятие дать какое-то.
 ## Quiz
 1. What problem does the Model Context Protocol (`MCP`) solve?
    a) It provides a standard way to connect AI assistants to external data sources and tools without writing custom integration code for each service
@@ -183,3 +182,18 @@ Key takeaways:
    - (a) is correct because custom skills fill gaps where `MCP` servers do not exist and handle specialized logic specific to your project or business needs.
    - (b) is incorrect because `MCP` servers can handle authentication — credentials are typically passed through environment variables or configuration parameters.
    - (c) is incorrect because the performance difference between a local script and an `MCP` tool call is negligible for most tasks. The choice depends on whether a standard server exists and whether you need custom logic, not raw speed.
+
+## Practical Task
+
+You have configured an `MCP` server and used it to connect your AI assistant to an external data source or service.
+
+**Submit your `MCP` configuration for review:**
+
+1. Locate your `MCP` configuration file (`.vscode/mcp.json` or `.cursor/mcp.json`) in your project.
+2. Send it to: `Oleksandr_Baglai@epam.com`
+   - Subject line: `Module 13 - MCP Configuration Submission`
+   - Attach the configuration file and include a one-sentence note on which server was configured and what it enables.
+3. The reviewer will check that:
+   - At least one `MCP` server is configured and functional.
+   - Only tools relevant to your project are enabled.
+   - The configuration file is committed to your repository with no credentials or `tokens` included.

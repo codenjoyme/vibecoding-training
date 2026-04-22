@@ -1,4 +1,4 @@
-# Module 14: `MCP` `GitHub` Integration — Issues
+﻿# Module 14: `MCP` `GitHub` Integration — Issues
 
 ### Background
 You know how to set up `MCP` servers and use their tools through chat. Now it is time to connect to a real production service — `GitHub`. The `GitHub` `MCP` server lets you manage repositories, issues, pull requests, and branches directly from your AI chat without switching to the browser.
@@ -145,7 +145,6 @@ Key takeaways:
 - `GitHub` issues will serve as the foundation for task delegation in `Module 19`.
 - The context switching that slowed you down is now eliminated — everything happens in one place.
 
-[MG]: Опять же вот тут мы обновили как минимум бэклог, можно его попросить обновленный скинуть, либо же добавить какой-то дополнительный практический стэп по использованию `MCP`.
 Ну или же, как мы в начале обсуждали - всегда же можно просто чат сессиию выгрузить, т.е. не обязательно сильно заморачиваться с практическими задачками, но как минимум проверить что человек поимел у себя в IDE чат сессию в агентном режиме на тему модуля, а не просто квиз натыкал.
 
 ## Quiz
@@ -175,3 +174,18 @@ Key takeaways:
    - (a) Incorrect. The coding agent understands programming languages through its training, not through `MCP`. `MCP` provides access to `GitHub` services, not language comprehension.
    - (b) Correct. `GitHub` issues serve as task descriptions for the coding agent. You write the issue, the agent implements the solution and opens a PR for your review.
    - (c) Incorrect. The coding agent works asynchronously on `GitHub`'s infrastructure. You review results through pull requests, not through real-time `MCP` updates in the IDE.
+
+## Practical Task
+
+You have configured the `GitHub` `MCP` server and created `GitHub` issues directly from your project backlog.
+
+**Submit your updated backlog for review:**
+
+1. Locate the `backlog.md` file you updated with `GitHub` issue references during this module.
+2. Send it to: `Oleksandr_Baglai@epam.com`
+   - Subject line: `Module 14 - GitHub Issues Submission`
+   - Attach the updated `backlog.md`, or paste its contents in the email body.
+3. The reviewer will check that:
+   - At least 3 backlog tasks have corresponding `GitHub` issue numbers or URLs added.
+   - Issues were created from the AI chat using the `GitHub` `MCP` server (not manually through the web interface).
+   - The updated `backlog.md` is committed to your repository.

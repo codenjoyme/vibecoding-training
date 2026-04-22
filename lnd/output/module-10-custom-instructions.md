@@ -222,3 +222,20 @@ Key takeaways:
    - (a) is correct because the `Single Responsibility Principle` (one instruction = one workflow) means each instruction should cover one distinct workflow. Splitting prevents instructions from becoming overly broad and ensures they are applied only when relevant.
    - (b) is incorrect because instruction files capture reusable workflows, not AI feature documentation. A new capability does not automatically warrant a new instruction unless it forms a repeatable workflow.
    - (c) is incorrect because the trigger for splitting is not a usage count threshold. It depends on whether the instruction has become too broad or whether a distinct, repeatable workflow has emerged.
+
+## Practical Task
+
+You have created custom instruction files for your `Jira`/`Confluence` workflows and set up an instruction catalog.
+
+**Submit your instruction files for review:**
+
+1. Locate the instruction files in your project's `instructions/` folder (created during Pages 4–5) and the `instructions/main.agent.md` catalog.
+2. Send them to: `Oleksandr_Baglai@epam.com`
+   - Subject line: `Module 10 — Custom Instructions Submission`
+   - Attach all instruction files and the catalog, or paste their contents in the email body.
+3. The reviewer will check that your submission:
+   - Uses the `[verb]-[subject].agent.md` naming convention for each instruction file.
+   - Each instruction covers a single workflow (no catch-all files).
+   - All instructions are listed with descriptions in `instructions/main.agent.md`.
+   - The entry point file (`.github/copilot-instructions.md` or `.cursor/rules/main.mdc`) exists and references the catalog.
+   - All files are committed to your repository.

@@ -1,4 +1,4 @@
-# Module 16: Development Environment Setup
+﻿# Module 16: Development Environment Setup
 
 ### Background
 You have a backlog of tasks, instruction files, skills, and even `MCP` integrations. But to build a working web application — something you can actually open in a browser — you need developer tools installed on your machine. This module walks you through installing `Node.js`, `npm`, `nvm`, and `Docker`, step by step, with the AI doing the heavy lifting. You do not need to understand programming to complete this module. Every tool is explained in plain language before you install it.
@@ -129,7 +129,6 @@ Key takeaways:
 - Verifying the full environment before starting a new project phase prevents wasted time on broken dependencies.
 
 
-[MG]: можно попросить запустить какую-то команду агента, типа а проверь какие версии зависимостей установлены, и попросить результат сбросить в модуль автокодер проверки, вместо квиза.
 ## Quiz
 1. What is the purpose of `Node.js` in a web application project?
    a) It is a text editor for writing `JavaScript` files
@@ -157,3 +156,19 @@ Key takeaways:
    - (a) Incorrect. `Docker` does not replace `Node.js` or `npm`. Your application still uses `Node.js` inside the container. `Docker` wraps the application and its environment together.
    - (b) Correct. `Docker` creates isolated containers that bundle your application with everything it needs. This ensures your prototype runs the same way on your machine, a colleague's machine, and a server.
    - (c) Incorrect. `Docker` does not analyze or monitor code. It handles packaging and running applications. Code analysis is done by linters, the IDE, or the AI assistant.
+
+## Practical Task
+
+You have installed and verified your full development environment: `Node.js`, `npm`, `nvm`, and `Docker`.
+
+**Submit your environment verification for review:**
+
+1. Open a terminal and run: `node --version`, `npm --version`, `nvm --version`, `docker --version`.
+2. Copy the output of all four commands.
+3. Send to: `Oleksandr_Baglai@epam.com`
+   - Subject line: `Module 16 - Environment Setup Submission`
+   - Paste the terminal output in the email body.
+4. The reviewer will check that:
+   - All four tools are installed and return a version number.
+   - `Node.js` version is 20 or higher (LTS recommended).
+   - `Docker` is installed and returns a version (it does not need to be running).
