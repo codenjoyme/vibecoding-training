@@ -5,10 +5,12 @@ You spent 20 minutes refining a prompt until the AI produced exactly what you ne
 
 If you cannot recover it, you start from scratch — re-discovering the same constraints, hitting the same pitfalls, wasting the same time. This is the problem custom instructions solve: they transform one-time prompts into reusable rules that the AI follows automatically.
 
+> **Connection to `Module 9`:** In the previous module you extracted session information about the *task* — what you are building and what has been done so far. Here you are capturing information about the *process* — how you want the AI to behave in your project. The goal is the same: make sure the agent starts each new session with full context, without you having to re-explain everything from scratch.
+
 In this module, you will learn how prompts evolve into instructions, how to organize them into a system the AI reads automatically, and you will create your first instruction files for the `Jira`/`Confluence` workflows in your practical project.
 
 Upon completion of this module, you will be able to:
-- Create reusable instruction files in `Markdown` format following the [verb]-[subject].agent.md naming convention.
+- Create reusable instruction files in `Markdown` format following the `[verb]-[subject].md` naming convention.
 - Build an instruction catalog (`main.agent.md`) that lets the AI discover relevant instructions automatically.
 - Apply the Single Responsibility Principle to keep instructions focused and maintainable.
 - Create custom instruction files for your `Jira`/`Confluence` project workflows.
@@ -37,8 +39,8 @@ You understand the four stages of prompt maturity and why the instruction system
 ### Background
 An instruction file is a `Markdown` document with rules the AI should follow for a specific type of task. It lives in your project's `instructions/` folder.
 
-Naming convention: [action-verb]-[subject].agent.md
-Examples: create-function.agent.md, write-tests.agent.md, generate-report.agent.md
+Naming convention: [action-verb]-[subject].md
+Examples: create-function.md, write-tests.md, generate-report.md
 
 A good instruction file contains:
 - Bullet points (not paragraphs) — easier for AI to parse.
@@ -153,13 +155,11 @@ Remember that perfect prompt you spent 20 minutes refining — the one you could
 
 Key takeaways:
 - Instructions transform one-time prompts into reusable rules the AI follows automatically.
-- Naming convention: [verb]-[subject].agent.md in the `instructions/` folder.
+- Naming convention: [verb]-[subject].md in the `instructions/` folder.
 - The catalog (`main.agent.md`) lets the AI discover instructions without explicit references.
 - Follow the Single Responsibility Principle: one instruction per workflow.
 - After every productive AI session, ask yourself: `Should I create or update an instruction from this?` The session contained iterations, failures, and refinements — capturing the result means you never repeat that trial-and-error.
 - Your `Jira`/`Confluence` workflow instructions are the first building blocks of your automation toolkit.
-
-[MG]: тоже можпо попросить загрузить свой `instructions.md` файл в качестве проверки вместо квизов.
 ## Quiz
 1. What is the main advantage of custom instructions over copy-pasting prompts?
    a) Instructions are applied automatically, ensuring consistent results every time without manual copy-paste or re-discovery of constraints
