@@ -46,6 +46,8 @@ Why this works:
 - Your answers fill in the missing details naturally.
 - The `context window` accumulates precise information through dialogue rather than through guessing.
 
+> **Remember:** Everything written in the chat so far — your original prompt, the AI's clarifying questions, and your answers about the topic — all together becomes the prompt for the text the AI generates next. The context window *is* the prompt for what is generated inside it. If you do not know how to fill the context, warm it up with small talk in the domain area where you want value — and the AI will orient itself toward more relevant outputs.
+
 ### Steps
 1. Open your AI chat in `Agent Mode`.
 2. Type a minimal prompt:
