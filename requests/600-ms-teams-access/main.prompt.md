@@ -1044,3 +1044,34 @@ Go
 **Не сделано:** ❗ Никаких git commit / push.
 
 Возвращаюсь в polling-режим, жду `## UPD28 ... go`.
+
+## UPD28
+
+А в `walkthrough.md` есть ссылки на скриншоты? Давай добавим все скриншоты, так чтобы агент когда будет коучить учащегося показывал и говорил `смотри тут`. Так можно? И давай инструкцию по [text](../../instructions/training-mode.agent.md) обновим так, чтобы там было понятно, что если скриншот появился внутри `walkthrough.md`, его надо показать юзеру. Go
+
+### RESULT
+
+Скриншотов в `walkthrough.md` действительно не было — только в `tools/readme.md`. Исправлено.
+
+**1. [walkthrough.md](../../modules/600-teams-ai-chat-summarizer/walkthrough.md) — добавлены 23 скриншота inline:**
+- **Part 2 (Register App):** скрины 01-azure-portal-home, 02-app-registrations-page, 03-supported-account-types, 04-registration-form-filled, 05-app-overview-page.
+- **Part 3 (Permissions):** 09-api-permissions-default, 10-choose-microsoft-graph, 11-delegated-permissions, 12-add-chatmessage-read, 13-add-chat-read, 14-add-offline-access, 15-add-chat-readwrite, 16-add-chatmessage-send, 17-permissions-final-list.
+- **Part 4 (Secrets):** 06-certificates-secrets-menu, 07-client-secret-added, 08-client-secret-value, 18-github-pat-page, 19-github-pat-expiration, 20-github-pat-readuser-scope, 21-github-pat-created.
+- **Part 5 (Smoke Test):** 22-device-code-request, 24-device-code-entered, 23-signed-in-successfully.
+- **Part 6 (Fix Public Client):** 25-allow-public-client-flows.
+- **Part 8 (Notification Chat):** 26-notification-chat-in-teams.
+- **Part 10 (Summary E2E):** 27-summary-received-in-teams.
+
+Каждый скриншот вставлен в правильный шаг (рядом с действием), а не списком в конце.
+
+**2. [instructions/training-mode.agent.md](../../instructions/training-mode.agent.md) — добавлено новое правило 🖼️:**
+В секции "Module Coaching" сразу после `If walkthrough references tools in ./tools/` — большой буллет с подбуллетами:
+- Скриншоты в walkthrough.md — НЕ декорация; они показывают что юзер должен увидеть в UI.
+- Когда агент доходит до шага со скриншотом — показывает его inline в чате с фразой *"Смотри, у тебя должно быть так:"* (на языке юзера).
+- Если скриншот показывает блокер/ошибку — сначала указать что искать и что делать, потом показать следующий скриншот с fix'ом.
+- Один скриншот на шаг, не дамп всех сразу.
+- Если юзер говорит "что-то не то" — переслать скриншот и попросить сравнить.
+
+**Не сделано:** ❗ Никаких git commit / push.
+
+Возвращаюсь в polling-режим, жду `## UPD29 ... go`.

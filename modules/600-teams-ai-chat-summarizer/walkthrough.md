@@ -54,15 +54,29 @@ Create a new App Registration in Microsoft Entra ID under your corporate tenant.
 ### Action
 
 1. Open https://portal.azure.com and sign in with your corporate account.
+
+   ![Azure portal home](tools/img/01-azure-portal-home.png)
+
 2. Navigate to **Microsoft Entra ID → App registrations**.
+
+   ![App registrations page](tools/img/02-app-registrations-page.png)
+
 3. Click **+ New registration** and fill in:
    - **Name:** any human-readable label, e.g. `teams-ai-assistant-<your-username>`.
    - **Supported account types:** *Accounts in this organizational directory only* (single tenant). This is the most restrictive and safest option.
+
+     ![Supported account types](tools/img/03-supported-account-types.png)
+
    - **Redirect URI:** type **Public client/native (mobile & desktop)**, value `http://localhost`.
+
+     ![Registration form filled](tools/img/04-registration-form-filled.png)
+
 4. Click **Register**.
 5. On the **Overview** page note the two GUIDs you will need shortly:
    - `Application (client) ID` → future `AZURE_CLIENT_ID`
    - `Directory (tenant) ID` → future `AZURE_TENANT_ID`
+
+   ![App overview page](tools/img/05-app-overview-page.png)
 
 ### What happened
 You created an identity for your custom app. The redirect URI must be registered as **Public client / native** (not Web) — otherwise Azure will treat the app as a confidential client and refuse the device-code flow we use later. We will tighten this further in [Part 6](#part-6-fix-public-client-flow).
@@ -78,13 +92,39 @@ Grant your app the minimum delegated permissions needed to read and write Teams 
 
 1. In the App Registration, go to **API permissions**.
 2. The default `User.Read` (Delegated) is fine — leave it.
+
+   ![API permissions default](tools/img/09-api-permissions-default.png)
+
 3. Click **+ Add a permission → Microsoft Graph → Delegated permissions**.
+
+   ![Choose Microsoft Graph](tools/img/10-choose-microsoft-graph.png)
+
+   ![Delegated permissions](tools/img/11-delegated-permissions.png)
+
 4. Add the following five permissions (search by name, tick the checkbox, click **Add permissions**):
-   - `Chat.Read` — read user's 1:1 and group chats
    - `ChatMessage.Read` — read chat messages
-   - `Chat.ReadWrite` — create chats and modify chat content
-   - `ChatMessage.Send` — send messages on the user's behalf
+
+     ![Add ChatMessage.Read](tools/img/12-add-chatmessage-read.png)
+
+   - `Chat.Read` — read user's 1:1 and group chats
+
+     ![Add Chat.Read](tools/img/13-add-chat-read.png)
+
    - `offline_access` (under *OpenId permissions*) — keep refresh tokens
+
+     ![Add offline_access](tools/img/14-add-offline-access.png)
+
+   - `Chat.ReadWrite` — create chats and modify chat content
+
+     ![Add Chat.ReadWrite](tools/img/15-add-chat-readwrite.png)
+
+   - `ChatMessage.Send` — send messages on the user's behalf
+
+     ![Add ChatMessage.Send](tools/img/16-add-chatmessage-send.png)
+
+5. Verify the final list — all six permissions present:
+
+   ![Permissions final list](tools/img/17-permissions-final-list.png)
 
 ### What happened
 
@@ -102,10 +142,29 @@ Capture the three Azure values into a local `.env` file, plus a GitHub Personal 
 ### Action
 
 1. **Optional:** Create an `AZURE_CLIENT_SECRET` — App Registration → **Certificates & secrets → + New client secret**. The secret is shown only once; copy it immediately. **For the device-code flow used in this module, the secret is NOT required.** Generate it only if your future code paths might switch to a confidential client.
+
+   ![Certificates & secrets menu](tools/img/06-certificates-secrets-menu.png)
+
+   ![Client secret added](tools/img/07-client-secret-added.png)
+
+   ![Client secret value (copy now — shown only once!)](tools/img/08-client-secret-value.png)
+
 2. Create a GitHub PAT for GitHub Models:
    - Open https://github.com/settings/tokens → **Generate new token (classic)**.
+
+     ![GitHub PAT page](tools/img/18-github-pat-page.png)
+
+   - Pick a sensible expiration (30-90 days for personal automation):
+
+     ![GitHub PAT expiration](tools/img/19-github-pat-expiration.png)
+
    - **Scopes:** only `read:user` is needed for GitHub Models access.
+
+     ![GitHub PAT read:user scope](tools/img/20-github-pat-readuser-scope.png)
+
    - Copy the token immediately (shown once).
+
+     ![GitHub PAT created](tools/img/21-github-pat-created.png)
 3. In the cloned repository, copy [tools/.env.example](tools/.env.example) to `tools/.env` and fill in:
    - `AZURE_TENANT_ID` ← Directory (tenant) ID
    - `AZURE_CLIENT_ID` ← Application (client) ID
@@ -131,16 +190,25 @@ From the `tools/` folder:
 docker compose run --rm smoke
 ```
 
-Docker will build the image (~30 seconds first time) and then print:
+Docker will build the image (~30 seconds first time) and then print a device-code prompt:
+
+![Device code request in terminal](tools/img/22-device-code-request.png)
 
 ```
 To sign in, use a web browser to open the page https://login.microsoftonline.com/device
 and enter the code XXXXXXXXX to authenticate.
 ```
 
-1. Open the URL, enter the code, sign in with your corporate account.
-2. On the **Permissions requested** screen, click **Accept**.
-3. Return to the terminal — the script will print your `displayName`, `mail`, and `id`.
+1. Open the URL, enter the code:
+
+   ![Enter device code in browser](tools/img/24-device-code-entered.png)
+
+2. Sign in with your corporate account. On the **Permissions requested** screen, click **Accept**.
+3. The browser confirms a successful sign-in:
+
+   ![Signed in successfully](tools/img/23-signed-in-successfully.png)
+
+4. Return to the terminal — the script will print your `displayName`, `mail`, and `id`.
 
 ### What happened
 You completed the first end-to-end auth round-trip. MSAL also persisted the token to `/data/token_cache.bin` (mounted from `./data` on your host). All future runs will refresh silently — no more device codes — until the refresh token chain expires.
@@ -160,6 +228,9 @@ Even though you registered the app as `Public client/native`, Azure has an expli
 1. App Registration → **Authentication (Preview)**.
 2. Scroll to **Settings** tab → **Allow public client flows** → switch to **Yes**.
 3. Click **Save** at the top — this is easy to forget; the change does nothing until you save.
+
+   ![Allow public client flows = Yes](tools/img/25-allow-public-client-flows.png)
+
 4. Re-run `docker compose run --rm smoke`.
 
 ### What happened
@@ -207,7 +278,9 @@ Add to .env:
 ```
 
 1. Copy that line into your `tools/.env`.
-2. Open Teams — the new chat **AI Teams Summaries** appears in your chat list.
+2. Open Teams — the new chat **AI Teams Summaries** appears in your chat list:
+
+   ![Notification chat in Teams](tools/img/26-notification-chat-in-teams.png)
 
 ---
 
@@ -247,7 +320,10 @@ The `--build` flag rebuilds the image so any new `.py` script is included. Use i
 1. The script ([summarize_and_notify.py](tools/summarize_and_notify.py)) fetched 20 messages and built a plain transcript (oldest first, HTML stripped).
 2. It called `POST $LLM_ENDPOINT/chat/completions` with a system prompt asking for a 3-7 bullet summary in your language.
 3. It converted the markdown bullets to small Teams HTML and called `POST /me/chats/{NOTIFICATION_CHAT_ID}/messages`.
-4. Open Teams → **AI Teams Summaries** — you should see a new message titled `AI summary (20 messages from <chat id>)` with the bullets.
+
+Open Teams → **AI Teams Summaries** — you should see a new message titled `AI summary (20 messages from <chat id>)` with the bullets:
+
+![Summary received in Teams](tools/img/27-summary-received-in-teams.png)
 
 This is your first complete read → summarize → write loop. From here you can extend in many directions — see [Next Steps](#next-steps).
 

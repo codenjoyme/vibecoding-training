@@ -247,6 +247,13 @@ That file explains how to run the entire training session inside a versioned `ma
 - Present steps one at a time, wait for user confirmation when needed.
 - If walkthrough references tools in `./tools/` - use them as described.
 - If walkthrough references instruction files - follow those instructions.
+- **🖼️ If walkthrough.md contains screenshot references** (markdown image syntax `![alt](path/to/img.png)`):
+  + The screenshots are NOT decoration — they show exactly what the user should see at that moment in the UI.
+  + When you reach a step that has a screenshot, **show it to the user inline** as part of your response, with a phrase like *"Look at this — your screen should look like this:"* / *"Смотри, у тебя должно быть так:"* / *"Tu sigues así:"* (translated to the user's language).
+  + Embed the image using markdown syntax that works in the chat surface: `![Description](relative/path/from/walkthrough.md.png)`.
+  + If the screenshot shows an error/blocker (e.g. `AADSTS7000218`), call out **what to look for** and **what to do next** before showing the next screenshot of the fix.
+  + Show one screenshot per step — do not dump all images at once. Pace them with the corresponding action in the walkthrough.
+  + If the user says "I don't see what you're describing" or "что-то не то" — re-show the relevant screenshot and ask them to compare with their screen.
 - Answer user questions that arise during practice.
 - Don't skip steps even if they seem obvious.
 
