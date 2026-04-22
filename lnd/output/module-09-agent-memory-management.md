@@ -103,7 +103,7 @@ You can create and use external `Markdown` todo lists for persistent task tracki
 
 ## Page 4: Create Your Project Backlog
 ### Background
-Now you will apply the memory management technique to your practical project. You have a Technical Specification (`project_spec.md`) from `Module 8`. The next step is to convert it into a structured task backlog — a detailed list of implementation steps that will guide the work in modules 10-20.
+Now you will apply the memory management technique to your practical project. You have a Technical Specification (`project_spec.md`) from `Module 8`. The next step is to convert it into a structured task backlog — a detailed list of implementation steps that will guide the work from `Module 10` till `Module 20`.
 
 This backlog becomes the AI's "memory" of your project. Every future session starts with the AI reading this file to understand what has been done and what comes next.
 
