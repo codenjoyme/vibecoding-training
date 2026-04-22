@@ -8,8 +8,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node src/index.ts",
-    "prepare": "tsc"
+    "dev": "ts-node src/index.ts"
   },
   "engines": {
     "node": ">=18.0.0"

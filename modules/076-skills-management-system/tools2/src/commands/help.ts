@@ -7,12 +7,13 @@ Usage:
 Commands:
   init      Initialize workspace from a central skills repository
               --repo <url|path>   URL or local path to the skills repo (required)
-              --groups <g1,g2>    Groups to activate (comma-separated or positional)
+              --groups <g1,g2>    Groups to activate (optional; omit for global-only)
 
   pull      Update local skills from the remote repository
 
   push      Propose changes to a skill via a branch and Pull Request
               <skill-name>        Name of the skill to push (required)
+              --groups <g1> <g2>  Add skill to group manifests (optional)
 
   list      List available skills in the repository
               --verbose           Show description and owner from info.json
@@ -38,10 +39,11 @@ Commands:
 Use "skills <command> --help" for more information about a command.
 
 Examples:
-  skills init --repo https://github.com/org/skills --groups backend
+  skills init --repo https://github.com/org/skills
   skills init --repo ../skills-repo --groups backend,security
   skills pull
   skills push code-review-base
+  skills push my-skill --groups backend security
   skills list --verbose
   skills create my-skill
   skills enable group security

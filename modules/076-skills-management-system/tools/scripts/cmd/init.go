@@ -39,6 +39,9 @@ func RunInit(args []string) {
 Clones the skills repository, resolves skills for the specified groups, and applies
 sparse checkout so only the needed skills are present in the local workspace.
 
+If --groups is omitted, only _global.json skills are initialized.
+Use ` + "`skills enable group <name>`" + ` later to add group-specific skills.
+
 Usage:
   skills init --repo <url-or-path> [--groups <group1>[,<group2>...]] [group...]
 
@@ -47,6 +50,7 @@ Flags:
 		fs.PrintDefaults()
 		fmt.Print(`
 Examples:
+  skills init --repo https://github.com/org/skills
   skills init --repo https://github.com/org/skills --groups backend
   skills init --repo ../skills-repo --groups backend,security
   skills init --repo ../skills-repo backend security
@@ -111,9 +115,8 @@ Examples:
 	// Combine --groups flag values with remaining positional args
 	groups := append([]string(groupsFlag), fs.Args()...)
 	if len(groups) == 0 {
-		fmt.Fprintln(os.Stderr, "Error: specify at least one group (use --groups flag or positional args)")
-		fs.Usage()
-		os.Exit(1)
+		fmt.Println("ℹ No --groups specified. Initializing with _global.json skills only.")
+		fmt.Println("  Use `skills enable group <name>` later to add group-specific skills.")
 	}
 
 	repoDir := config.RepoSubDir
@@ -132,7 +135,11 @@ Examples:
 	}
 	fmt.Println("  ✓ Cloned")
 
-	fmt.Printf("→ Resolving skills for groups: %s ...\n", strings.Join(groups, ", "))
+	groupsLabel := strings.Join(groups, ", ")
+	if groupsLabel == "" {
+		groupsLabel = "(none - global only)"
+	}
+	fmt.Printf("\u2192 Resolving skills for groups: %s ...\n", groupsLabel)
 	skills, err := manifest.ResolveSkills(repoDir, groups)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: manifest resolution failed: %v\n", err)
@@ -153,14 +160,22 @@ Examples:
 		ExtraSkills:    []string{},
 		ExcludedSkills: []string{},
 	}
+	// Ensure groups is never null in JSON output
+	if cfg.Groups == nil {
+		cfg.Groups = []string{}
+	}
 	if err := config.Save(cfg); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: failed to save config: %v\n", err)
 		os.Exit(1)
 	}
 
-	fmt.Printf("\n✅ Skills workspace initialized!\n")
+	groupDisplay := strings.Join(groups, ", ")
+	if groupDisplay == "" {
+		groupDisplay = "(none - global only)"
+	}
+	fmt.Printf("\n\u2705 Skills workspace initialized!\n")
 	fmt.Printf("   Repository: %s\n", *repo)
-	fmt.Printf("   Groups:     %s\n", strings.Join(groups, ", "))
+	fmt.Printf("   Groups:     %s\n", groupDisplay)
 	fmt.Printf("   Skills:     %s\n", strings.Join(skills, ", "))
 	fmt.Printf("   Location:   instructions/\n\n")
 	fmt.Println("Your AI agent can now read skills from instructions/<skill-name>/SKILL.md")

@@ -73,14 +73,18 @@ function printInitHelp() {
 Clones the skills repository, resolves skills for the specified groups,
 and applies sparse checkout so only the needed skills are present.
 
+If --groups is omitted, only _global.json skills are initialized.
+Use \`skills enable group <name>\` later to add group-specific skills.
+
 Usage:
   skills init --repo <url-or-path> [--groups <group1>[,<group2>...]] [group...]
 
 Flags:
   --repo    URL or local path to the central skills repository (required)
-  --groups  Groups to initialize (comma-separated or repeated flag; positional args also accepted)
+  --groups  Groups to initialize (comma-separated or repeated flag; positional args also accepted; optional)
 
 Examples:
+  skills init --repo https://github.com/org/skills
   skills init --repo https://github.com/org/skills --groups backend
   skills init --repo ../skills-repo --groups backend,security
   skills init --repo ../skills-repo backend security
@@ -144,9 +148,8 @@ function runInit(args) {
         return;
     }
     if (groups.length === 0) {
-        console.error('Error: specify at least one group (use --groups flag or positional args)');
-        printInitHelp();
-        process.exit(1);
+        console.log('ℹ No --groups specified. Initializing with _global.json skills only.');
+        console.log('  Use `skills enable group <name>` later to add group-specific skills.');
     }
     // Check already initialized
     if (fs.existsSync(config.CONFIG_FILE)) {
@@ -163,7 +166,8 @@ function runInit(args) {
         process.exit(1);
     }
     console.log('  ✓ Cloned');
-    console.log(`→ Resolving skills for groups: ${groups.join(', ')} ...`);
+    const groupLabel = groups.length > 0 ? groups.join(', ') : '(none — global only)';
+    console.log(`→ Resolving skills for groups: ${groupLabel} ...`);
     let skills;
     try {
         skills = manifest.resolveSkills(config.REPO_SUB_DIR, groups);
@@ -185,9 +189,10 @@ function runInit(args) {
     console.log('  ✓ Sparse checkout applied');
     const cfg = { repo_url: repo, groups, extra_skills: [], excluded_skills: [] };
     config.save(cfg);
-    console.log('\n✅ Skills workspace initialized!');
+    const groupDisplay = groups.length > 0 ? groups.join(', ') : '(none — global only)';
+    console.log(`\n✅ Skills workspace initialized!`);
     console.log(`   Repository: ${repo}`);
-    console.log(`   Groups:     ${groups.join(', ')}`);
+    console.log(`   Groups:     ${groupDisplay}`);
     console.log(`   Skills:     ${skills.join(', ')}`);
     console.log('   Location:   instructions/\n');
     console.log('Your AI agent can now read skills from instructions/<skill-name>/SKILL.md');

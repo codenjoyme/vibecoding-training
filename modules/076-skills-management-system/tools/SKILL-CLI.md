@@ -15,12 +15,13 @@ Skills live in a central Git repository and are distributed to project workspace
 ## Commands
 
 ```
-skills init --repo <url|path> --groups <g1>[,<g2>...]
+skills init --repo <url|path> [--groups <g1>[,<g2>...]]
 ```
 Initialize workspace: clones the skills repo into `instructions/`, reads manifests,
 resolves skills for the given groups, and applies sparse checkout.
 - `--repo` (required): Git URL or local path to the central skills repository.
 - `--groups` (optional): comma-separated group names. Also accepts positional args: `skills init --repo <url> backend security`.
+- If no groups specified, only `_global.json` skills are initialized. Use `skills enable group <name>` later.
 - If `skills.json` already exists and no flags given, re-runs resolution from existing config.
 
 ```
@@ -30,14 +31,16 @@ Pulls latest changes from the remote skills repository (`git pull` inside `instr
 Requires initialized workspace (`skills.json` must exist).
 
 ```
-skills push <skill-name>
+skills push <skill-name> [--groups <group1> <group2> ...]
 ```
 Proposes local changes to a skill via a feature branch:
 1. Creates branch `feature/<skill-name>-update`
 2. Stages changes in `instructions/<skill-name>/`
 3. Commits with a conventional message
-4. Pushes branch to origin
-5. Prints the Pull Request URL (GitHub/GitLab)
+4. (optional) Adds skill to specified group manifests and commits manifest changes
+5. Pushes branch to origin
+6. Prints the Pull Request URL (GitHub/GitLab)
+- `--groups` (optional): add skill to specified group manifests. Creates the group file if it doesn't exist. Changes are included in the same PR branch.
 
 ```
 skills list [--verbose] [--json]
@@ -100,11 +103,11 @@ Shows general CLI help with command list and examples.
 
 ## Typical Workflow
 
-1. `skills init --repo <url> --groups <group>` — set up workspace
-2. `skills list --verbose` — see what's available
+1. `skills init --repo <url>` - set up workspace (global skills only, or add `--groups <group>` for group-specific skills)
+2. `skills list --verbose` - see what's available
 3. Edit `instructions/<skill>/SKILL.md`
-4. `skills push <skill>` — propose changes via PR
-5. `skills pull` — get latest updates
+4. `skills push <skill>` - propose changes via PR (optionally `--groups <g1> <g2>` to assign to groups)
+5. `skills pull` - get latest updates
 
 ## Architecture and Motivation
 

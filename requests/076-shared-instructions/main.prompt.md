@@ -1276,3 +1276,58 @@ git diff scripts/test/commands.md
 4. `skills create` (error) — Go: подробнее (показывает SKILL.md + info.json), Node: только usage
 5. `skills init --repo ...`, `skills push *` (x3), `skills pull` — Go подавляет raw git output (`Cloning into...`, `Switched to a new branch...`, `To /workspace/...`), Node показывает
 6. `git log --oneline --all` — порядок gamma/beta перевёрнут (разный порядок git операций)
+
+## UPD38
+
+Есть две баги от коллеги. 
+- [text](bugs/bug1.md) Первая связана с тем, что в начале пути, когда еще нет никаких скилов на удаленном сервере, я не могу инициализировать проект, потому что надо группу указать, а группы нет. 
+- [text](bugs/bug2.md) Вторая бага о том, что он на своей операционной системе не смог установить скиллз из репозитория. 
+
+Что надо сделать, так это: 
+- поправить в этом репозитории для `node` [text](../../modules/076-skills-management-system/tools2);
+- так же для `Go` [ ](../../modules/076-skills-management-system/tools)(одну из багов)
+- потестить в нашем чудо тестировщике (папка `test`) (который через докер) (отдельно для `go` и `node`);
+- а потом в `api-lite` перенести изменения и там потестить тоже. 
+
+Да только давай не смотреть точно в `package.json` потому что его может не быть на проекте. Давай просто запускаться без группы. 
+
+А новый добавленный скилл который может захотим добавить позже, он ж не попадает у нас сейчас ни в какую группу. То давай опционально сделаем команду `skills push <skill-name> --groups <group-name1> <group-name2>` и если группа/группы не указаны, то просто пушить скилл без группы. Если при этом группы небыло, она создается. И изменение метаданных так же идет как `PR`. То есть во время `skills push` создаются группы. Ну или надо в доках пользователю сказать, чтобы сам правил файлы метаданных. 
+
+Пофикси так же все `SKILLS.md`, `SKILLS-CLI.md` и все где может быть полезно это знание. 
+
+### RESULT
+
+**Bug 1 (init requires groups)** — Fixed in both Go and Node.js. `skills init` now works without `--groups`. If no groups specified, prints info message and proceeds with `_global.json` skills only. Removed `detectProjectName()` / package.json detection per user request.
+
+**Bug 2 (npm install -g fails with prepare:tsc)** — Removed `"prepare": "tsc"` from `package.json`. Pre-built `dist/` is committed directly.
+
+**New feature: `skills push --groups`** — Implemented in both Go and Node.js:
+- `skills push <skill-name> --groups <g1> <g2>` — pushes skill AND creates/updates group manifest files
+- If group manifest doesn't exist, creates it with the skill
+- If group manifest exists, adds the skill to it (deduplicated, sorted)
+- Manifest changes committed separately on the same feature branch
+- Without `--groups`, pushes skill only (existing behavior)
+
+**Files changed (Node.js — tools2):**
+- `src/commands/init.ts` — groups optional, removed detectProjectName()
+- `src/commands/push.ts` — rewritten with --groups support, parseArgs(), addSkillToGroupManifest()
+- `src/commands/help.ts` — push shows `--groups`, init shows groups as optional
+- `package.json` — removed `prepare: "tsc"`
+- `SKILL-CLI.md` — updated init/push docs, 6-step push flow
+
+**Files changed (Go — tools/scripts):**
+- `cmd/init.go` — groups optional, removed detectProjectName()
+- `cmd/push.go` — rewritten with --groups support, addSkillToGroupManifest(), runGit()
+- `cmd/root.go` — same help changes
+- `internal/config/config.go` — Load() ensures Groups non-nil (prevents JSON null)
+
+**Files changed (docs):**
+- `tools/SKILL-CLI.md` — updated
+- `tools2/SKILL-CLI.md` — updated
+
+**Testing:**
+- Docker smoke test Node.js: 14 phases + Phase 13b (init without groups) + Phase 13c (push with --groups) — PASSED ✅
+- Docker smoke test Go: same phases — PASSED ✅
+- Docker smoke test apm-lite: same phases — PASSED ✅
+
+**apm-lite ported:** All 5 source files + test files copied, built, Docker tested.

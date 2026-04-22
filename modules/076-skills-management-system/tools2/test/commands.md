@@ -5,7 +5,7 @@
 > `npm uninstall -g skills-cli`
 ```
 
-up to date in 362ms
+up to date in 568ms
 ```
 > `rm -rf /workspace/skills-repo`
 ```
@@ -16,7 +16,7 @@ up to date in 362ms
 > `npm install -g --install-links /app`
 ```
 
-added 1 package in 2s
+added 1 package in 383ms
 ```
 > `command -v skills`
 ```
@@ -35,12 +35,13 @@ Usage:
 Commands:
   init      Initialize workspace from a central skills repository
               --repo <url|path>   URL or local path to the skills repo (required)
-              --groups <g1,g2>    Groups to activate (comma-separated or positional)
+              --groups <g1,g2>    Groups to activate (optional; omit for global-only)
 
   pull      Update local skills from the remote repository
 
   push      Propose changes to a skill via a branch and Pull Request
               <skill-name>        Name of the skill to push (required)
+              --groups <g1> <g2>  Add skill to group manifests (optional)
 
   list      List available skills in the repository
               --verbose           Show description and owner from info.json
@@ -66,10 +67,11 @@ Commands:
 Use "skills <command> --help" for more information about a command.
 
 Examples:
-  skills init --repo https://github.com/org/skills --groups backend
+  skills init --repo https://github.com/org/skills
   skills init --repo ../skills-repo --groups backend,security
   skills pull
   skills push code-review-base
+  skills push my-skill --groups backend security
   skills list --verbose
   skills create my-skill
   skills enable group security
@@ -97,12 +99,13 @@ Skills live in a central Git repository and are distributed to project workspace
 ## Commands
 
 '''
-skills init --repo <url|path> --groups <g1>[,<g2>...]
+skills init --repo <url|path> [--groups <g1>[,<g2>...]]
 '''
 Initialize workspace: clones the skills repo into 'instructions/', reads manifests,
 resolves skills for the given groups, and applies sparse checkout.
 - '--repo' (required): Git URL or local path to the central skills repository.
 - '--groups' (optional): comma-separated group names. Also accepts positional args: 'skills init --repo <url> backend security'.
+- If no groups specified, only '_global.json' skills are initialized. Use 'skills enable group <name>' later.
 - If 'skills.json' already exists and no flags given, re-runs resolution from existing config.
 
 '''
@@ -112,14 +115,16 @@ Pulls latest changes from the remote skills repository ('git pull' inside 'instr
 Requires initialized workspace ('skills.json' must exist).
 
 '''
-skills push <skill-name>
+skills push <skill-name> [--groups <group1> <group2> ...]
 '''
 Proposes local changes to a skill via a feature branch:
 1. Creates branch 'feature/<skill-name>-update'
 2. Stages changes in 'instructions/<skill-name>/'
 3. Commits with a conventional message
-4. Pushes branch to origin
-5. Prints the Pull Request URL (GitHub/GitLab)
+4. (optional) Adds skill to specified group manifests and commits manifest changes
+5. Pushes branch to origin
+6. Prints the Pull Request URL (GitHub/GitLab)
+- '--groups' (optional): add skill to specified group manifests. Creates the group file if it doesn't exist. Changes are included in the same PR branch.
 
 '''
 skills list [--verbose] [--json]
@@ -182,11 +187,11 @@ Shows general CLI help with command list and examples.
 
 ## Typical Workflow
 
-1. 'skills init --repo <url> --groups <group>' — set up workspace
-2. 'skills list --verbose' — see what's available
+1. 'skills init --repo <url>' - set up workspace (global skills only, or add '--groups <group>' for group-specific skills)
+2. 'skills list --verbose' - see what's available
 3. Edit 'instructions/<skill>/SKILL.md'
-4. 'skills push <skill>' — propose changes via PR
-5. 'skills pull' — get latest updates
+4. 'skills push <skill>' - propose changes via PR (optionally '--groups <g1> <g2>' to assign to groups)
+5. 'skills pull' - get latest updates
 
 ## Architecture and Motivation
 
@@ -526,14 +531,26 @@ Other skills exist in the repo but are not part of your current groups.
 Create a branch, commit local changes to a skill, and push for review.
 
 Usage:
-  skills push <skill-name>
+  skills push <skill-name> [--groups <group1> <group2> ...]
 
 The command will:
   1. Create branch: feature/<skill-name>-update
   2. Stage all changes in instructions/<skill-name>/
   3. Commit with a conventional commit message
-  4. Push the branch to origin
-  5. Print the Pull Request URL (for GitHub/GitLab remotes)
+  4. (optional) Add skill to specified group manifests and commit manifest changes
+  5. Push the branch to origin
+  6. Print the Pull Request URL (for GitHub/GitLab remotes)
+
+Flags:
+  --groups  Add skill to specified group manifests (creates group file if not found)
+
+Examples:
+  skills push my-skill
+  skills push my-skill --groups backend security
+  skills push my-skill --groups backend,frontend
+
+Note: when --groups is used, manifest changes are included in the same PR branch.
+If a group manifest does not exist, it will be created with the skill as its first entry.
 ```
 > `skills pull --help`
 ```
@@ -668,8 +685,8 @@ Initialized empty Git repository in /workspace/project-repo/.git/
 ```
 > `git commit -m "Initial commit"`
 ```
-[master (root-commit) 1e13ff7] Initial commit
- 6 files changed, 427 insertions(+)
+[master (root-commit) faf0c18] Initial commit
+ 6 files changed, 430 insertions(+)
  create mode 100644 .gitignore
  create mode 100644 .manifest/_global.json
  create mode 100644 .manifest/group-1.json
@@ -679,7 +696,7 @@ Initialized empty Git repository in /workspace/project-repo/.git/
 ```
 > `git log --oneline`
 ```
-1e13ff7 Initial commit
+faf0c18 Initial commit
 ```
 > `git branch --list`
 ```
@@ -765,14 +782,18 @@ Initialize skills workspace from a central repository.
 Clones the skills repository, resolves skills for the specified groups,
 and applies sparse checkout so only the needed skills are present.
 
+If --groups is omitted, only _global.json skills are initialized.
+Use 'skills enable group <name>' later to add group-specific skills.
+
 Usage:
   skills init --repo <url-or-path> [--groups <group1>[,<group2>...]] [group...]
 
 Flags:
   --repo    URL or local path to the central skills repository (required)
-  --groups  Groups to initialize (comma-separated or repeated flag; positional args also accepted)
+  --groups  Groups to initialize (comma-separated or repeated flag; positional args also accepted; optional)
 
 Examples:
+  skills init --repo https://github.com/org/skills
   skills init --repo https://github.com/org/skills --groups backend
   skills init --repo ../skills-repo --groups backend,security
   skills init --repo ../skills-repo backend security
@@ -867,9 +888,9 @@ Switched to branch 'master'
 
 ✅ Skill "alpha-skill" pushed for review
    Branch: feature/alpha-skill-update
-   (local repository — request a review from the skill owner)
+   (local repository - request a review from the skill owner)
 
-⚠  Note: switched back to the main branch — skill "alpha-skill" may not be visible locally.
+⚠  Note: switched back to the main branch - skill "alpha-skill" may not be visible locally.
    After the PR is merged, run 'skills pull' to get it back.
 ```
 > `cd /workspace/project-repo`
@@ -878,7 +899,7 @@ Switched to branch 'master'
 ```
 > `git merge feature/alpha-skill-update --no-edit`
 ```
-Updating 1e13ff7..c60cb3a
+Updating faf0c18..a611368
 Fast-forward
  alpha-skill/SKILL.md  | 9 +++++++++
  alpha-skill/info.json | 4 ++++
@@ -896,7 +917,7 @@ Fast-forward
 Already on 'master'
 From /workspace/skills-repo/../project-repo
  * branch            master     -> FETCH_HEAD
-   1e13ff7..c60cb3a  master     -> origin/master
+   faf0c18..a611368  master     -> origin/master
 ✅ Skills updated successfully
 ```
 
@@ -930,9 +951,9 @@ Switched to branch 'master'
 
 ✅ Skill "beta-skill" pushed for review
    Branch: feature/beta-skill-update
-   (local repository — request a review from the skill owner)
+   (local repository - request a review from the skill owner)
 
-⚠  Note: switched back to the main branch — skill "beta-skill" may not be visible locally.
+⚠  Note: switched back to the main branch - skill "beta-skill" may not be visible locally.
    After the PR is merged, run 'skills pull' to get it back.
 ```
 > `cd /workspace/project-repo`
@@ -941,7 +962,7 @@ Switched to branch 'master'
 ```
 > `git merge feature/beta-skill-update --no-edit`
 ```
-Updating c60cb3a..83b288c
+Updating a611368..4ee631e
 Fast-forward
  beta-skill/SKILL.md  | 9 +++++++++
  beta-skill/info.json | 4 ++++
@@ -959,7 +980,7 @@ Fast-forward
 Already on 'master'
 From /workspace/skills-repo/../project-repo
  * branch            master     -> FETCH_HEAD
-   c60cb3a..83b288c  master     -> origin/master
+   a611368..4ee631e  master     -> origin/master
 ✅ Skills updated successfully
 ```
 
@@ -988,9 +1009,9 @@ Switched to branch 'master'
 
 ✅ Skill "gamma-skill" pushed for review
    Branch: feature/gamma-skill-update
-   (local repository — request a review from the skill owner)
+   (local repository - request a review from the skill owner)
 
-⚠  Note: switched back to the main branch — skill "gamma-skill" may not be visible locally.
+⚠  Note: switched back to the main branch - skill "gamma-skill" may not be visible locally.
    After the PR is merged, run 'skills pull' to get it back.
 ```
 > `cd /workspace/project-repo`
@@ -999,7 +1020,7 @@ Switched to branch 'master'
 ```
 > `git merge feature/gamma-skill-update --no-edit`
 ```
-Updating 83b288c..9595e30
+Updating 4ee631e..5b41aee
 Fast-forward
  gamma-skill/SKILL.md  | 9 +++++++++
  gamma-skill/info.json | 4 ++++
@@ -1017,7 +1038,7 @@ Fast-forward
 Already on 'master'
 From /workspace/skills-repo/../project-repo
  * branch            master     -> FETCH_HEAD
-   83b288c..9595e30  master     -> origin/master
+   4ee631e..5b41aee  master     -> origin/master
 ✅ Skills updated successfully
 ```
 
@@ -1450,15 +1471,15 @@ Switched to a new branch 'feature/alpha-skill-update'
   ✓ Changes committed
 → Pushing branch feature/alpha-skill-update ...
 To /workspace/skills-repo/../project-repo
-   c60cb3a..97606aa  feature/alpha-skill-update -> feature/alpha-skill-update
+   a611368..b75b762  feature/alpha-skill-update -> feature/alpha-skill-update
 Switched to branch 'master'
   ✓ Branch pushed
 
 ✅ Skill "alpha-skill" pushed for review
    Branch: feature/alpha-skill-update
-   (local repository — request a review from the skill owner)
+   (local repository - request a review from the skill owner)
 
-⚠  Note: switched back to the main branch — skill "alpha-skill" may not be visible locally.
+⚠  Note: switched back to the main branch - skill "alpha-skill" may not be visible locally.
    After the PR is merged, run 'skills pull' to get it back.
 ```
 
@@ -1477,37 +1498,37 @@ Check what happened in the project repo:
 ```
 > `git log --oneline --all`
 ```
-97606aa feat(alpha-skill): update skill instructions
-83b288c feat(beta-skill): update skill instructions
-9595e30 feat(gamma-skill): update skill instructions
-c60cb3a feat(alpha-skill): update skill instructions
-1e13ff7 Initial commit
+b75b762 feat(alpha-skill): update skill instructions
+5b41aee feat(gamma-skill): update skill instructions
+4ee631e feat(beta-skill): update skill instructions
+a611368 feat(alpha-skill): update skill instructions
+faf0c18 Initial commit
 ```
 > `git log --oneline feature/alpha-skill-update`
 ```
-97606aa feat(alpha-skill): update skill instructions
-9595e30 feat(gamma-skill): update skill instructions
-83b288c feat(beta-skill): update skill instructions
-c60cb3a feat(alpha-skill): update skill instructions
-1e13ff7 Initial commit
+b75b762 feat(alpha-skill): update skill instructions
+5b41aee feat(gamma-skill): update skill instructions
+4ee631e feat(beta-skill): update skill instructions
+a611368 feat(alpha-skill): update skill instructions
+faf0c18 Initial commit
 ```
 
 Merge the feature branch:
 
 > `git merge feature/alpha-skill-update --no-edit`
 ```
-Updating 9595e30..97606aa
+Updating 5b41aee..b75b762
 Fast-forward
  alpha-skill/SKILL.md | 1 +
  1 file changed, 1 insertion(+)
 ```
 > `git log --oneline`
 ```
-97606aa feat(alpha-skill): update skill instructions
-9595e30 feat(gamma-skill): update skill instructions
-83b288c feat(beta-skill): update skill instructions
-c60cb3a feat(alpha-skill): update skill instructions
-1e13ff7 Initial commit
+b75b762 feat(alpha-skill): update skill instructions
+5b41aee feat(gamma-skill): update skill instructions
+4ee631e feat(beta-skill): update skill instructions
+a611368 feat(alpha-skill): update skill instructions
+faf0c18 Initial commit
 ```
 > `cat alpha-skill/SKILL.md`
 ```
@@ -1535,7 +1556,7 @@ Pull the merged changes:
 Already on 'master'
 From /workspace/skills-repo/../project-repo
  * branch            master     -> FETCH_HEAD
-   9595e30..97606aa  master     -> origin/master
+   5b41aee..b75b762  master     -> origin/master
 ✅ Skills updated successfully
 ```
 > `skills list --verbose`
@@ -1580,15 +1601,15 @@ Switched to a new branch 'feature/beta-skill-update'
   ✓ Changes committed
 → Pushing branch feature/beta-skill-update ...
 To /workspace/skills-repo/../project-repo
-   83b288c..fab7f0c  feature/beta-skill-update -> feature/beta-skill-update
+   4ee631e..352ccf5  feature/beta-skill-update -> feature/beta-skill-update
 Switched to branch 'master'
   ✓ Branch pushed
 
 ✅ Skill "beta-skill" pushed for review
    Branch: feature/beta-skill-update
-   (local repository — request a review from the skill owner)
+   (local repository - request a review from the skill owner)
 
-⚠  Note: switched back to the main branch — skill "beta-skill" may not be visible locally.
+⚠  Note: switched back to the main branch - skill "beta-skill" may not be visible locally.
    After the PR is merged, run 'skills pull' to get it back.
 ```
 
@@ -1605,19 +1626,19 @@ Switched to branch 'master'
 ```
 > `git merge feature/beta-skill-update --no-edit`
 ```
-Updating 97606aa..fab7f0c
+Updating b75b762..352ccf5
 Fast-forward
  beta-skill/SKILL.md | 1 +
  1 file changed, 1 insertion(+)
 ```
 > `git log --oneline`
 ```
-fab7f0c feat(beta-skill): update skill instructions
-97606aa feat(alpha-skill): update skill instructions
-9595e30 feat(gamma-skill): update skill instructions
-83b288c feat(beta-skill): update skill instructions
-c60cb3a feat(alpha-skill): update skill instructions
-1e13ff7 Initial commit
+352ccf5 feat(beta-skill): update skill instructions
+b75b762 feat(alpha-skill): update skill instructions
+5b41aee feat(gamma-skill): update skill instructions
+4ee631e feat(beta-skill): update skill instructions
+a611368 feat(alpha-skill): update skill instructions
+faf0c18 Initial commit
 ```
 > `cd /workspace/skills-repo`
 ```
@@ -1630,7 +1651,7 @@ c60cb3a feat(alpha-skill): update skill instructions
 Already on 'master'
 From /workspace/skills-repo/../project-repo
  * branch            master     -> FETCH_HEAD
-   97606aa..fab7f0c  master     -> origin/master
+   b75b762..352ccf5  master     -> origin/master
 ✅ Skills updated successfully
 ```
 
@@ -1757,6 +1778,255 @@ Groups:           group-1
 Active: 3  |  Total: 4
 ```
 
+## Phase 13b: Init without groups (global-only)
+
+> `rm -rf /workspace/no-groups-test`
+```
+```
+> `mkdir -p /workspace/no-groups-test`
+```
+```
+> `cd /workspace/no-groups-test`
+```
+/workspace/no-groups-test
+```
+> `skills init --repo /workspace/project-repo`
+```
+ℹ No --groups specified. Initializing with _global.json skills only.
+  Use 'skills enable group <name>' later to add group-specific skills.
+→ Cloning skills repo from /workspace/project-repo ...
+Cloning into 'instructions'...
+done.
+  ✓ Cloned
+→ Resolving skills for groups: (none — global only) ...
+  ✓ Resolved 1 skill(s): skills-cli
+→ Applying sparse checkout ...
+  ✓ Sparse checkout applied
+
+✅ Skills workspace initialized!
+   Repository: /workspace/project-repo
+   Groups:     (none — global only)
+   Skills:     skills-cli
+   Location:   instructions/
+
+Your AI agent can now read skills from instructions/<skill-name>/SKILL.md
+```
+> `cat skills.json`
+```
+{
+  "repo_url": "/workspace/project-repo",
+  "groups": [],
+  "extra_skills": [],
+  "excluded_skills": []
+}
+```
+> `skills list`
+```
+Skills repository: /workspace/project-repo
+Groups:           
+
+  ○  alpha-skill
+  ○  beta-skill
+  ○  gamma-skill
+  ✅ skills-cli
+
+Active: 1  |  Total: 4
+```
+> `ls instructions/`
+```
+skills-cli
+```
+> `cd /workspace/skills-repo`
+```
+/workspace/skills-repo
+```
+> `rm -rf /workspace/no-groups-test`
+```
+```
+
+## Phase 13c: Push with --groups
+
+> `cd /workspace/skills-repo`
+```
+/workspace/skills-repo
+```
+> `skills create delta-skill`
+```
+✅ Skill "delta-skill" created at instructions/delta-skill
+   → instructions/delta-skill/SKILL.md
+   → instructions/delta-skill/info.json
+
+Edit SKILL.md with your instructions, then use 'skills push' to propose it.
+```
+> `echo "# Delta Skill" > instructions/delta-skill/SKILL.md`
+```
+```
+> `skills push delta-skill --groups group-1`
+```
+→ Creating branch feature/delta-skill-update ...
+Switched to a new branch 'feature/delta-skill-update'
+  ✓ Branch created
+→ Staging and committing changes in delta-skill/ ...
+  ✓ Changes committed
+→ Adding skill to group manifest(s): group-1 ...
+  ✓ Added to "group-1"
+  ✓ Manifest changes committed
+→ Pushing branch feature/delta-skill-update ...
+To /workspace/skills-repo/../project-repo
+ * [new branch]      feature/delta-skill-update -> feature/delta-skill-update
+Switched to branch 'master'
+  ✓ Branch pushed
+
+✅ Skill "delta-skill" pushed for review
+   Branch: feature/delta-skill-update
+   Groups: group-1
+   (local repository - request a review from the skill owner)
+
+⚠  Note: switched back to the main branch - skill "delta-skill" may not be visible locally.
+   After the PR is merged, run 'skills pull' to get it back.
+```
+
+Verify manifest changes on feature branch in project-repo:
+
+> `cd /workspace/project-repo`
+```
+/workspace/project-repo
+```
+> `git log --oneline -2 feature/delta-skill-update`
+```
+57cae9c feat(delta-skill): add to groups group-1
+584aeea feat(delta-skill): update skill instructions
+```
+> `git show feature/delta-skill-update:.manifest/group-1.json`
+```
+{
+  "skills": [
+    "delta-skill"
+  ],
+  "sub-configs": [
+    "sub-group"
+  ]
+}
+```
+
+Merge the branch and verify on master:
+
+> `git merge feature/delta-skill-update`
+```
+Updating 352ccf5..57cae9c
+Fast-forward
+ .manifest/group-1.json | 8 ++++++--
+ delta-skill/SKILL.md   | 1 +
+ delta-skill/info.json  | 4 ++++
+ 3 files changed, 11 insertions(+), 2 deletions(-)
+ create mode 100644 delta-skill/SKILL.md
+ create mode 100644 delta-skill/info.json
+```
+> `cat .manifest/group-1.json`
+```
+{
+  "skills": [
+    "delta-skill"
+  ],
+  "sub-configs": [
+    "sub-group"
+  ]
+}
+```
+
+Back to skills-repo, pull, then create a new skill for new-group:
+
+> `cd /workspace/skills-repo`
+```
+/workspace/skills-repo
+```
+> `skills pull`
+```
+→ Pulling latest skills ...
+Already on 'master'
+From /workspace/skills-repo/../project-repo
+ * branch            master     -> FETCH_HEAD
+   352ccf5..57cae9c  master     -> origin/master
+✅ Skills updated successfully
+```
+> `skills create epsilon-skill`
+```
+✅ Skill "epsilon-skill" created at instructions/epsilon-skill
+   → instructions/epsilon-skill/SKILL.md
+   → instructions/epsilon-skill/info.json
+
+Edit SKILL.md with your instructions, then use 'skills push' to propose it.
+```
+> `echo "# Epsilon Skill" > instructions/epsilon-skill/SKILL.md`
+```
+```
+> `skills push epsilon-skill --groups new-group`
+```
+→ Creating branch feature/epsilon-skill-update ...
+Switched to a new branch 'feature/epsilon-skill-update'
+  ✓ Branch created
+→ Staging and committing changes in epsilon-skill/ ...
+  ✓ Changes committed
+→ Adding skill to group manifest(s): new-group ...
+  → Creating new group manifest: new-group.json
+  ✓ Added to "new-group"
+  ✓ Manifest changes committed
+→ Pushing branch feature/epsilon-skill-update ...
+To /workspace/skills-repo/../project-repo
+ * [new branch]      feature/epsilon-skill-update -> feature/epsilon-skill-update
+Switched to branch 'master'
+  ✓ Branch pushed
+
+✅ Skill "epsilon-skill" pushed for review
+   Branch: feature/epsilon-skill-update
+   Groups: new-group
+   (local repository - request a review from the skill owner)
+
+⚠  Note: switched back to the main branch - skill "epsilon-skill" may not be visible locally.
+   After the PR is merged, run 'skills pull' to get it back.
+```
+
+Verify new-group was created on project-repo feature branch:
+
+> `cd /workspace/project-repo`
+```
+/workspace/project-repo
+```
+> `git show feature/epsilon-skill-update:.manifest/new-group.json`
+```
+{
+  "skills": [
+    "epsilon-skill"
+  ],
+  "sub-configs": []
+}
+```
+> `git merge feature/epsilon-skill-update`
+```
+Updating 57cae9c..595c251
+Fast-forward
+ .manifest/new-group.json | 6 ++++++
+ epsilon-skill/SKILL.md   | 1 +
+ epsilon-skill/info.json  | 4 ++++
+ 3 files changed, 11 insertions(+)
+ create mode 100644 .manifest/new-group.json
+ create mode 100644 epsilon-skill/SKILL.md
+ create mode 100644 epsilon-skill/info.json
+```
+> `cat .manifest/new-group.json`
+```
+{
+  "skills": [
+    "epsilon-skill"
+  ],
+  "sub-configs": []
+}
+```
+> `cd /workspace/skills-repo`
+```
+/workspace/skills-repo
+```
+
 ## Phase 14: Final state
 
 > `cat skills.json`
@@ -1768,7 +2038,9 @@ Active: 3  |  Total: 4
   ],
   "extra_skills": [
     "alpha-skill",
-    "beta-skill"
+    "beta-skill",
+    "delta-skill",
+    "epsilon-skill"
   ],
   "excluded_skills": [
     "gamma-skill"
@@ -1791,6 +2063,12 @@ Active: 3  |  Total: 4
     "owner": "Your_Name@domain.com"
   },
   {
+    "name": "delta-skill",
+    "active": true,
+    "description": "This skill provides _____. It can be used for _____. The main features include _____.",
+    "owner": "Your_Name@domain.com"
+  },
+  {
     "name": "gamma-skill",
     "active": false,
     "description": "This skill provides _____. It can be used for _____. The main features include _____.",
@@ -1808,6 +2086,7 @@ Active: 3  |  Total: 4
 ```
 alpha-skill
 beta-skill
+delta-skill
 skills-cli
 ```
 > `ls instructions/.manifest/`
@@ -1823,17 +2102,23 @@ sub-group.json
 ```
 > `git log --oneline --all`
 ```
-97606aa feat(alpha-skill): update skill instructions
-fab7f0c feat(beta-skill): update skill instructions
-9595e30 feat(gamma-skill): update skill instructions
-83b288c feat(beta-skill): update skill instructions
-c60cb3a feat(alpha-skill): update skill instructions
-1e13ff7 Initial commit
+57cae9c feat(delta-skill): add to groups group-1
+595c251 feat(epsilon-skill): add to groups new-group
+584aeea feat(delta-skill): update skill instructions
+0071bd3 feat(epsilon-skill): update skill instructions
+352ccf5 feat(beta-skill): update skill instructions
+b75b762 feat(alpha-skill): update skill instructions
+5b41aee feat(gamma-skill): update skill instructions
+4ee631e feat(beta-skill): update skill instructions
+a611368 feat(alpha-skill): update skill instructions
+faf0c18 Initial commit
 ```
 > `git branch --list`
 ```
   feature/alpha-skill-update
   feature/beta-skill-update
+  feature/delta-skill-update
+  feature/epsilon-skill-update
   feature/gamma-skill-update
 * master
 ```

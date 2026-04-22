@@ -42,6 +42,9 @@ func Load() (*Config, error) {
 		return nil, fmt.Errorf("corrupted config (%s): %w", ConfigFile, err)
 	}
 	// Ensure all slice fields are non-nil (backward compat with older configs)
+	if cfg.Groups == nil {
+		cfg.Groups = []string{}
+	}
 	if cfg.ExtraSkills == nil {
 		cfg.ExtraSkills = []string{}
 	}
