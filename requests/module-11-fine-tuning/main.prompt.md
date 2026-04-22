@@ -41,3 +41,14 @@ iterative-prompt.agent.md
 
 - Added dream metaphor paragraph **"Why `hallucinations` are inevitable — the dreaming mind analogy"** to `lnd/output/module-11-learning-from-hallucinations.md`, inserted between step 6 of the improvement cycle and the `### ✅ Result` block on page 1 (line 34 area).
 - The metaphor: dreams mix real memory with invented facts (person with three fingers); a language model works the same — it "dreams" text from training data dissolved into weights/parameters; this is why `hallucinations` are inevitable, and precise `instructions` channel that dreaming into useful output.
+
+## UPD4
+
+В 67й строчке надо указать следующее вместо `5. After the update, run the same task again and compare results.`. надо сказать что после изменения инструкции ее надо закоммитить, а потом в новом пункте: вернуться к запросу, который предшествовал галлюцинации и запустить его снова, как мы делали в модуле 07, но там мы правили промпт, а тут вместо промпта была исправлена инструкция, и теперь нам надо удалить воспоминания об ошибке и неверного истолкования инструкции из контекста, и сделать это можно вернувшись на 1 промпт до галлюцинации, отредактировав его и проследив что инструкция загрузилась и что теперь поведение ожидаемое. Можно так же открыть новую сессию и попробовать сделать запрос в чистом контексте. Важно! Если вы не закомиитите инструкцию тут, то откат к предыдущему промпту может повлечь к отмене всех произведенных действий в файле, потому надо закомиитить. go 
+
+### RESULT
+
+- Replaced step 5 of the Page 2 Steps section in `lnd/output/module-11-learning-from-hallucinations.md` with two new steps:
+  - Step 5: Commit the updated `instruction` file immediately (before reverting), with a warning that reverting without committing may erase the fix.
+  - Step 6: Return to the pre-hallucination `prompt` and re-run it — Option A (edit/resend in chat history), Option B (fresh `context` in new session). Cross-references `Module 7` and `Module 3`.
+

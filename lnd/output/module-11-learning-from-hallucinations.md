@@ -92,7 +92,7 @@ Types of `instructions` to be aware of:
 Understanding which type you are building (or fixing) helps you keep each instruction focused.
 
 ### Steps
-1. Take two of your instruction files and try combining them in a single `prompt`: `Following './instructions/A.agent.md and ./instructions/B.agent.md, do [task]."
+1. Take two of your instruction files and try combining them in a single `prompt`: `Following '[instruction-a]' and '[instruction-b]', do [task].`. You can write it in simple: `Following instructions a and b, do some task`.
 2. Compare the output to running each instruction separately.
 3. If the combined result is unexpected, identify which instruction's rules were overridden.
 4. Decide whether to adjust one instruction or keep them separate.
