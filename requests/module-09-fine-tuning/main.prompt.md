@@ -47,6 +47,14 @@ iterative-prompt.agent.md
 Смотри по тексту я снова нахожу `ТЗ` вместо `specification`. Давай еще раз поищем и заменим во всех модулях. go
 
 ### RESULT
+
 - `lnd/output/module-09-agent-memory-management.md` — replaced 1 remaining `ТЗ` with `specification`.
 - `lnd/output/module-17-rapid-prototyping-speckit.md` — replaced 5 `ТЗ` occurrences with `specification`, removed `[MG]:` reviewer comment, fixed inline prompt to backtick format.
 - `lnd/output/module-16-development-environment-setup.md` — replaced 1 `ТЗ`, removed `[MG]:` reviewer comment, fixed inline prompt to backtick format.
+
+## UPD6
+
+В этом модуле перед 143 строчкой `### ✅ Result` давай добавим такой блок: Важно понимать, что ты не ограничен конкретно двумя этими файлами. Ты можешь создавать любые файлы, которые нужны для реализации, и заполнять их любым содержимым, которое поможет тебе реализовать функциональность. Эти два файла — просто примеры того, как можно структурировать информацию. Пожалуйста будь креативным в этом процессе и автоматизируй это так, чтобы тебе было максимально удобно. Цель этого модуля сообщить о том, что тебе стоит позаботиться о том, как между сессиями переносить информацию. Ты отвечаешь за долгосрочную память агента. Иначе он будет кук рыбка Дорри, у которой беда с краткосрочной памятью. go  
+
+### RESULT
+- `lnd/output/module-09-agent-memory-management.md` — added a callout block before the `### ✅ Result` on "Tips" page explaining that students are not limited to two files, they own the agent's long-term memory, and a Dory analogy for sessions without persistent context.

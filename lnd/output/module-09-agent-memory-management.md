@@ -140,6 +140,10 @@ Tips for maintaining these documents:
 - Periodically ask: `Verify @backlog.md reflects actual completion status`
 - Add a "Decisions Made" section to record important choices (technology selections, architecture decisions).
 
+> **Keep in mind:** You are not limited to exactly these two files. You can create any files your implementation needs and fill them with any content that helps you move the work forward. `project_spec.md` and `backlog.md` are simply examples of how you can structure information — be creative and organize things in whatever way works best for you.
+>
+> The goal of this module is to remind you that *someone* needs to take care of transferring information between sessions. You are responsible for the agent's long-term memory. Without that, the agent will be like Dory from `Finding Nemo` — well-meaning, but forgetting everything the moment the chat closes.
+
 ### ✅ Result
 You understand how to combine specification and backlog documents for persistent project memory across multiple AI sessions.
 
