@@ -40,11 +40,12 @@ The net effect: you can open multiple IDE windows with different projects, each 
   + Add 1–2 sentence description of what was done
   + Keep it concise — this is a changelog, not documentation
 - **Non-stop loop** — after writing the `### RESULT` for `## UPD[N]`:
-  1. Commit changes (following the project's git workflow).
+  1. Commit changes (following the project's git workflow). **Each `## UPD` block = one separate commit.** Never batch multiple UPDs into one commit.
   2. Immediately re-read the prompt file and check whether `## UPD[N+1]` (or any later `## UPD`) already exists without a `### RESULT`.
-  3. If it does — start implementing it right away, without pausing or asking the user.
-  4. Repeat until there are no more unprocessed `## UPD` sections.
-  5. Only stop and wait for the user when every `## UPD` block has its `### RESULT`.
+  3. If it does AND it ends with `go` — start implementing it right away, without pausing or asking the user.
+  4. Repeat until there are no more unprocessed `## UPD` sections that have a `go` marker.
+  5. Only stop and wait for the user when every `## UPD` block that has a `go` marker also has a `### RESULT`.
+  6. **Atomic, parallel writing:** The user and the agent work in parallel streams. While the agent processes `## UPD[N]`, the user may be writing `## UPD[N+1]` or even `## UPD[N+2]`. This is fine — the agent will find them after waking up from the next sleep cycle. Each `## UPD` block with `go` is an independent unit of work with its own commit. Blocks without `go` are still being written — skip them and sleep again.
   6. **After all `## UPD` blocks are processed:** enter an active terminal-based polling loop:
      + **Step A:** Run a blocking wait command in the terminal to pause for a timeout interval:
        * **Windows (PowerShell):** `Start-Sleep -Seconds 60`

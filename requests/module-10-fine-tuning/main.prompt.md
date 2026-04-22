@@ -44,3 +44,8 @@ iterative-prompt.agent.md
 ## UPD6
 
 Каждый из послудующих апдейтов сделай отдельным коммитом и отчитайся отдельно. Так же сделай новый UPD в риквесте по изменению iterative prompt, чтобы эта идея отражалась там, и в самой инструкии. После закрытия ## UPD6 тут, закрой его и там и в инструкции. Мне важно, чтобы я мог создавать серию апдейтов, и работать с ними атомарно. То есть пока ты рабоатешь скажем над UPD3, я могу заканчивать 4й и начинать 5й. Но ты будешь последовательно из обрабатывать. И для начала каждого ты ожидаешь его собственный go. go   
+
+### RESULT
+- `instructions/iterative-prompt.agent.md` — updated "Non-stop loop" to explicitly state each UPD = one separate commit, UPDs without `go` are skipped, parallel writing is supported.
+- `requests/iterative-prompt/main.prompt.md` — added UPD6 with RESULT documenting this change.
+- Going forward: each UPD in this session gets its own commit and reports separately.

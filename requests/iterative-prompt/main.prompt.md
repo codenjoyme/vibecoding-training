@@ -133,3 +133,10 @@ iterative-prompt.agent
 - Fixed `iterative-prompt.agent.md` — added `⛔ CRITICAL: Chat messages do NOT break the loop` rule: when user sends a chat message while loop is active, agent must apply the fix, write `### RESULT` in the **active prompt file**, commit, then return to `Start-Sleep` immediately
 - Fixed `training-mode-iterative-prompt.agent.md` — same rule added to the polling loop section (item 4)
 - Both files now explicitly state: the only valid reason to stop the loop is the user typing "stop" or "exit loop"
+
+## UPD6
+
+Хочу чтобы была поддержка атомарной работы с несколькими UPD: каждый UPD ждет своего `go` прежде чем агент начнет его выполнение. Пока агент работает над текущим UPD, пользователь может дописывать следующий. Каждый UPD — отдельный коммит. Доработай инструкцию. go
+
+### RESULT
+- `instructions/iterative-prompt.agent.md` — updated the "Non-stop loop" section: clarified that each `## UPD` = one separate commit; added rule that UPDs without `go` are skipped (user still writing); added explanation of parallel writing — user can write UPD N+1 while agent works on UPD N, and agent processes sequentially with a commit per UPD.
