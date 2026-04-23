@@ -156,3 +156,10 @@ iterative-prompt.agent
 ### RESULT
 
 - Modified [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) — в блоке `### RESULT` в секции "After implementing each update" добавлено требование: все пути к файлам оформлять как кликабельные markdown-ссылки (с примерами ✅/❌ и примечанием про относительный путь от `main.prompt.md`).
+
+## UPD9
+
+И так же давай сделаем, чтобы во время рипортинга так же менялся ссылки подобным образом в моем промпте, если я там ссылаюсь на какие-то файлы. Но только ссылки, остальной текст пусть остается. go
+### RESULT
+
+- Modified [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) — добавлен шаг 2 в секцию "After implementing each update": перед написанием `### RESULT` агент обязан найти в тексте `## UPD[N]` все пути к файлам (plain text и backtick) и конвертировать их в кликабельные markdown-ссылки in-place, не трогая остальной текст.

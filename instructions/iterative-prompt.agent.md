@@ -43,6 +43,7 @@ The net effect: you can open multiple IDE windows with different projects, each 
        * Use a path relative to the `main.prompt.md` file's location so links resolve correctly in VS Code
      + Add 1–2 sentence description of what was done
      + Keep it concise — this is a changelog, not documentation
+  2. **Fix file references in the UPD block itself** — before writing `### RESULT`, scan the `## UPD[N]` text for any file paths written as plain text or backtick code (e.g. `` `instructions/foo.agent.md` `` or `instructions/foo.agent.md`). Convert them to clickable markdown links in-place. Change only the link formatting — do not alter any other text in the UPD.
   2. **Commit everything in one atomic commit** — include both the changed files AND the updated `main.prompt.md` (with `### RESULT` already written). The commit message should summarize what was done. **Each `## UPD` block = one separate commit.** Never batch multiple UPDs into one commit. Never make a separate commit just for `### RESULT` — it must be part of the same commit as the work.
 - **Non-stop loop** — after committing `## UPD[N]` (with `### RESULT` included):
   2. Immediately re-read the prompt file and check whether `## UPD[N+1]` (or any later `## UPD`) already exists without a `### RESULT`.
