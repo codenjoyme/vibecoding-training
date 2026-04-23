@@ -273,7 +273,7 @@ go
 
 ### RESULT
 
-- Создал [.env.example](.env.example) с той же структурой ключей, что и `.env`, но с placeholder-значениями (нули вместо GUID-ов, `replace-with-...` вместо секретов). Оригинальный `.env` не открывал — взял структуру из своей же памяти (UPD8 RESULT).
+- Создал [.env.example](../../modules/600-teams-ai-chat-summarizer/tools/.env.example) с той же структурой ключей, что и `.env`, но с placeholder-значениями (нули вместо GUID-ов, `replace-with-...` вместо секретов). Оригинальный `.env` не открывал — взял структуру из своей же памяти (UPD8 RESULT).
 - `.env.example` **трекается в git** (он не в `.XXXXXXXXX`), `.env` остаётся локальным.
 
 Все 4 секрета теперь на месте. Готовы запускать первую проверку коннекта.
@@ -310,11 +310,11 @@ go
 
 Собрал минимальный Docker-сетап для smoke-теста. Файлы в этой же папке:
 
-- [smoke_test.py](smoke_test.py) — Python-скрипт: MSAL device-code flow → token cache → `GET /me` → печать `displayName`/`mail`/`UPN`/`id`.
-- [requirements.txt](requirements.txt) — `msal`, `requests`, `python-dotenv`.
-- [Dockerfile](Dockerfile) — `python:3.12-slim` + установка зависимостей + запуск скрипта.
-- [docker-compose.yml](docker-compose.yml) — монтирует `.env` (env_file) и `./data:/data` (для token cache); `stdin_open + tty` для интерактивного device flow.
-- [.dockerignore](.dockerignore) — исключает `.env`, картинки, транскрипты и пр. из image.
+- [smoke_test.py](../../modules/600-teams-ai-chat-summarizer/tools/smoke_test.py) — Python-скрипт: MSAL device-code flow → token cache → `GET /me` → печать `displayName`/`mail`/`UPN`/`id`.
+- [requirements.txt](../../modules/600-teams-ai-chat-summarizer/tools/requirements.txt) — `msal`, `requests`, `python-dotenv`.
+- [Dockerfile](../../modules/600-teams-ai-chat-summarizer/tools/Dockerfile) — `python:3.12-slim` + установка зависимостей + запуск скрипта.
+- [docker-compose.yml](../../modules/600-teams-ai-chat-summarizer/tools/docker-compose.yml) — монтирует `.env` (env_file) и `./data:/data` (для token cache); `stdin_open + tty` для интерактивного device flow.
+- [.dockerignore](../../modules/600-teams-ai-chat-summarizer/tools/.dockerignore) — исключает `.env`, картинки, транскрипты и пр. из image.
 - В `.XXXXXXXXX` добавил `data/` — чтобы кешированный токен не попал в git.
 
 **Как запустить (из папки `requests/600-ms-teams-access`):**
@@ -349,7 +349,7 @@ docker compose run --rm smoke
 Возможные подводные камни и как их фиксить:
 - **`AADSTS50194` / "not configured for multi-tenant"** — мы и не делали multi-tenant, всё ок; ошибка обычно про другое — присылай текст.
 - **`AADSTS65001` "user or admin has not consented"** — на consent-странице надо нажать Accept. Если consent screen вообще не показался — что-то с redirect URI или scopes.
-- **`AADSTS70011` "invalid scope"** — опечатка в scope; у нас в [smoke_test.py](smoke_test.py) они хардкоднуты, не должно случиться.
+- **`AADSTS70011` "invalid scope"** — опечатка в scope; у нас в [smoke_test.py](../../modules/600-teams-ai-chat-summarizer/tools/smoke_test.py) они хардкоднуты, не должно случиться.
 - **Docker не запускается / `docker: command not found`** — Docker Desktop должен быть установлен и поднят.
 
 Возвращаюсь в polling.
@@ -360,7 +360,7 @@ docker compose run --rm smoke
 
 ### RESULT
 
-Запустил, поймал и пофиксил баг: мой `.dockerignore` исключал `*.txt`, из-за чего `requirements.txt` не попадал в build context (`COPY requirements.txt .` падал с `not found`). Добавил исключение `!requirements.txt` в [.dockerignore](.dockerignore) — пересобралось чисто.
+Запустил, поймал и пофиксил баг: мой `.dockerignore` исключал `*.txt`, из-за чего `requirements.txt` не попадал в build context (`COPY requirements.txt .` падал с `not found`). Добавил исключение `!requirements.txt` в [.dockerignore](../../modules/600-teams-ai-chat-summarizer/tools/.dockerignore) — пересобралось чисто.
 
 Сейчас контейнер **запущен и ждёт тебя** в терминале (id `8314755c-...`). Вывод:
 
@@ -527,7 +527,7 @@ Azure side is wired up correctly.
 
 **Что предлагаю дальше — один маленький шаг за раз.** Цель ближайших 2-3 итераций: убедиться что мы видим чаты и сообщения, потом думать про suммаризацию и про dedicated notification chat.
 
-**Step 6 — список чатов.** Добавлю в [smoke_test.py](smoke_test.py) (или сделаю отдельный `list_chats.py` — как скажешь) вызов `GET /me/chats?$top=20&$expand=members` и распечатаю топ-20 твоих чатов: id, topic (или имена участников для 1:1), `chatType`, `lastUpdatedDateTime`. Это первое окно в твой Teams изнутри кода.
+**Step 6 — список чатов.** Добавлю в [smoke_test.py](../../modules/600-teams-ai-chat-summarizer/tools/smoke_test.py) (или сделаю отдельный `list_chats.py` — как скажешь) вызов `GET /me/chats?$top=20&$expand=members` и распечатаю топ-20 твоих чатов: id, topic (или имена участников для 1:1), `chatType`, `lastUpdatedDateTime`. Это первое окно в твой Teams изнутри кода.
 
 После него:
 - **Step 7** — выбрать один безопасный тестовый чат (1:1 с самим собой или с кем-то некритичным) и прочитать последние N сообщений: `GET /me/chats/{id}/messages?$top=20`.
@@ -553,11 +553,11 @@ Azure side is wired up correctly.
 
 **Изменения:**
 
-- 🆕 [graph_auth.py](graph_auth.py) — общий модуль: `get_access_token()`. MSAL device flow + token cache. Используется всеми скриптами.
-- 🆕 [list_chats.py](list_chats.py) — печатает топ-20 чатов: `chatType`, `lastUpdatedDateTime`, topic / participants, id.
-- ✏️ [smoke_test.py](smoke_test.py) — урезан до сути (`GET /me`), логика auth теперь импортируется из `graph_auth`.
-- ✏️ [Dockerfile](Dockerfile) — `COPY *.py` чтобы не плодить COPY на каждый новый файл.
-- ✏️ [docker-compose.yml](docker-compose.yml) — добавил сервис `list-chats`. Шаблон для будущих сервисов очевиден (см. два почти одинаковых блока).
+- 🆕 [graph_auth.py](../../modules/600-teams-ai-chat-summarizer/tools/graph_auth.py) — общий модуль: `get_access_token()`. MSAL device flow + token cache. Используется всеми скриптами.
+- 🆕 [list_chats.py](../../modules/600-teams-ai-chat-summarizer/tools/list_chats.py) — печатает топ-20 чатов: `chatType`, `lastUpdatedDateTime`, topic / participants, id.
+- ✏️ [smoke_test.py](../../modules/600-teams-ai-chat-summarizer/tools/smoke_test.py) — урезан до сути (`GET /me`), логика auth теперь импортируется из `graph_auth`.
+- ✏️ [Dockerfile](../../modules/600-teams-ai-chat-summarizer/tools/Dockerfile) — `COPY *.py` чтобы не плодить COPY на каждый новый файл.
+- ✏️ [docker-compose.yml](../../modules/600-teams-ai-chat-summarizer/tools/docker-compose.yml) — добавил сервис `list-chats`. Шаблон для будущих сервисов очевиден (см. два почти одинаковых блока).
 
 **Запустил, оно сработало без device flow** (silent refresh из `./data/token_cache.bin`):
 
@@ -612,8 +612,8 @@ Azure side is wired up correctly.
 
 **Изменения:**
 
-- 🆕 [read_messages.py](read_messages.py) — `python read_messages.py CHAT_ID [--top N]`. Печатает сообщения новейшие сверху: timestamp, sender, текст (HTML стрипнут).
-- ✏️ [docker-compose.yml](docker-compose.yml) — добавил generic-сервис `app` без жёсткой команды. Используется так:
+- 🆕 [read_messages.py](../../modules/600-teams-ai-chat-summarizer/tools/read_messages.py) — `python read_messages.py CHAT_ID [--top N]`. Печатает сообщения новейшие сверху: timestamp, sender, текст (HTML стрипнут).
+- ✏️ [docker-compose.yml](../../modules/600-teams-ai-chat-summarizer/tools/docker-compose.yml) — добавил generic-сервис `app` без жёсткой команды. Используется так:
   ```powershell
   docker compose run --rm app python read_messages.py "<CHAT_ID>" --top 20
   ```
@@ -789,11 +789,11 @@ Select-String -Path requests/600-ms-teams-access/* -Pattern 'qwe|asd|zxc'
 
 **Изменения:**
 
-- 🆕 [create_notification_chat.py](create_notification_chat.py) — `python create_notification_chat.py [--topic "AI Teams Summaries"]`. Что делает:
+- 🆕 [create_notification_chat.py](../../modules/600-teams-ai-chat-summarizer/tools/create_notification_chat.py) — `python create_notification_chat.py [--topic "AI Teams Summaries"]`. Что делает:
   1. Сначала ищет среди твоих `group`-чатов один с таким же `topic` (idempotency — можно гонять много раз без дубликатов).
   2. Если нашёл — печатает его id.
   3. Если нет — создаёт новый `group` chat с `topic = "AI Teams Summaries"` и тобой одним участником-owner. `oneOnOne` с самим собой Graph не разрешает — поэтому `group` с одним членом (известный workaround).
-- ✏️ [.env.example](.env.example) — добавил `NOTIFICATION_CHAT_ID=19:replace-with-chat-id@thread.v2` с комментарием как получить.
+- ✏️ [.env.example](../../modules/600-teams-ai-chat-summarizer/tools/.env.example) — добавил `NOTIFICATION_CHAT_ID=19:replace-with-chat-id@thread.v2` с комментарием как получить.
 
 **Запустил, получилось:**
 
@@ -840,7 +840,7 @@ go
 
 **Изменения:**
 
-- 🆕 [summarize_and_notify.py](summarize_and_notify.py) — `python summarize_and_notify.py SOURCE_CHAT_ID [--top N]`. Что делает:
+- 🆕 [summarize_and_notify.py](../../modules/600-teams-ai-chat-summarizer/tools/summarize_and_notify.py) — `python summarize_and_notify.py SOURCE_CHAT_ID [--top N]`. Что делает:
   1. `get_access_token()` (silent из кеша).
   2. `GET /me/chats/{src}/messages?$top=N` — забирает свежие сообщения.
   3. Чистит HTML/системные эвенты, собирает плоский transcript (oldest first — так LLM лучше понимает диалог).
