@@ -26,27 +26,7 @@ The starter scripts are already in [tools/](tools/) — you will follow the walk
 
 ---
 
-## Part 1: Plan the Integration
-
-Before touching Azure, understand what you are building and why.
-
-### What we'll do
-Read a meeting transcript or a knowledge-transfer document about Microsoft Graph integration, summarize it, and extract a clean LLM-targeted instruction (the basis of [tools/SKILL.md](tools/SKILL.md)).
-
-### Why
-A clear summary up front prevents you from blindly clicking through the Azure portal. You will know exactly which secrets to capture, which permissions to request, and which Graph endpoints to call — before writing a single line of code.
-
-### Action
-
-1. If you have an existing transcript (e.g. an `.docx` from a Teams call), use the inline PowerShell .docx-to-text procedure (or any text extractor) to convert it to plain text.
-2. Ask your AI agent to summarize the transcript focusing on: required secrets, Graph permissions, auth flow, key endpoints.
-3. Save the summary as `summary-YYYY-MM-DD.md` and a draft `skill-connect-to-teams.md`.
-
-> A worked reference of these artifacts lives next to the source files in [requests/600-ms-teams-access/](../../requests/600-ms-teams-access/) — read them before continuing.
-
----
-
-## Part 2: Register the Application in Azure
+## Part 1: Register the Application in Azure
 
 ### What we'll do
 Create a new App Registration in Microsoft Entra ID under your corporate tenant.
@@ -79,11 +59,11 @@ Create a new App Registration in Microsoft Entra ID under your corporate tenant.
    ![App overview page](tools/img/05-app-overview-page.png)
 
 ### What happened
-You created an identity for your custom app. The redirect URI must be registered as **Public client / native** (not Web) — otherwise Azure will treat the app as a confidential client and refuse the device-code flow we use later. We will tighten this further in [Part 6](#part-6-fix-public-client-flow).
+You created an identity for your custom app. The redirect URI must be registered as **Public client / native** (not Web) — otherwise Azure will treat the app as a confidential client and refuse the device-code flow we use later. We will tighten this further in [Part 5](#part-4-fix-public-client-flow).
 
 ---
 
-## Part 3: Add Microsoft Graph Permissions
+## Part 2: Add Microsoft Graph Permissions
 
 ### What we'll do
 Grant your app the minimum delegated permissions needed to read and write Teams chats on behalf of the signed-in user.
@@ -134,7 +114,7 @@ If your tenant flags any as "admin consent required", click **Grant admin consen
 
 ---
 
-## Part 4: Issue Secrets
+## Part 3: Issue Secrets
 
 ### What we'll do
 Capture the three Azure values into a local `.env` file, plus a GitHub Personal Access Token for the LLM call.
@@ -169,7 +149,7 @@ Capture the three Azure values into a local `.env` file, plus a GitHub Personal 
    - `AZURE_TENANT_ID` ← Directory (tenant) ID
    - `AZURE_CLIENT_ID` ← Application (client) ID
    - `GITHUB_TOKEN` ← the GitHub PAT
-   - Leave `NOTIFICATION_CHAT_ID` empty for now — we will populate it in [Part 8](#part-8-create-the-notification-chat).
+   - Leave `NOTIFICATION_CHAT_ID` empty for now — we will populate it in [Part 7](#part-7-create-the-notification-chat).
 4. Verify `.env` is gitignored (`.gitignore` in the tools folder already lists it).
 
 ### What happened
@@ -177,7 +157,7 @@ You now have all secrets for the Azure side and the LLM side stored locally and 
 
 ---
 
-## Part 5: Run the Smoke Test in Docker
+## Part 4: Run the Smoke Test in Docker
 
 ### What we'll do
 Build the Docker image and run the smoke test, which calls `GET /me` via Microsoft Graph using MSAL device-code authentication.
@@ -215,7 +195,7 @@ You completed the first end-to-end auth round-trip. MSAL also persisted the toke
 
 ---
 
-## Part 6: Fix Public Client Flow
+## Part 5: Fix Public Client Flow
 
 ### What we'll do
 If the smoke test fails with `AADSTS7000218: The request body must contain the following parameter: 'client_assertion' or 'client_secret'`, fix the App Registration so the device-code flow is allowed.
@@ -238,7 +218,7 @@ Your app is now correctly configured as a public client and can complete device-
 
 ---
 
-## Part 7: List Your Chats
+## Part 6: List Your Chats
 
 ### What we'll do
 Use the cached token (no device code needed!) to list your top 20 Teams chats.
@@ -250,13 +230,13 @@ docker compose run --rm list-chats
 ```
 
 ### What happened
-You should see a numbered list of chats with `chatType` (`oneOnOne`, `group`, `meeting`), `lastUpdatedDateTime`, topic / participant names, and the Graph `id`. Save the `id` of one chat — you will read messages from it in [Part 9](#part-9-read-messages).
+You should see a numbered list of chats with `chatType` (`oneOnOne`, `group`, `meeting`), `lastUpdatedDateTime`, topic / participant names, and the Graph `id`. Save the `id` of one chat — you will read messages from it in [Part 8](#part-8-read-messages).
 
 The script ([list_chats.py](tools/list_chats.py)) calls `GET /me/chats?$top=20&$expand=members&$orderby=lastMessagePreview/createdDateTime desc`.
 
 ---
 
-## Part 8: Create the Notification Chat
+## Part 7: Create the Notification Chat
 
 ### What we'll do
 Create a private Teams chat that will receive AI-generated summaries — your "AI assistant inbox".
@@ -284,7 +264,7 @@ Add to .env:
 
 ---
 
-## Part 9: Read Messages
+## Part 8: Read Messages
 
 ### What we'll do
 Fetch the latest N messages from any chat by its Graph id.
@@ -295,14 +275,14 @@ Fetch the latest N messages from any chat by its Graph id.
 docker compose run --rm app python read_messages.py "<CHAT_ID>" --top 20
 ```
 
-Replace `<CHAT_ID>` with one of the ids printed in Part 7. The script ([read_messages.py](tools/read_messages.py)) handles HTML stripping, sender resolution, and timestamps.
+Replace `<CHAT_ID>` with one of the ids printed in Part 6. The script ([read_messages.py](tools/read_messages.py)) handles HTML stripping, sender resolution, and timestamps.
 
 ### What happened
 You have proven that the Graph chat-message endpoint works with your token. You may also notice some messages with empty bodies or `messageType = unknownFutureValue` — those are attachments (files, images), system events, or message types newer than the SDK enumeration. They are safe to ignore for the summary use case.
 
 ---
 
-## Part 10: Summarize a Chat and Post Back to Teams
+## Part 9: Summarize a Chat and Post Back to Teams
 
 ### What we'll do
 Run the full pipeline: read messages → call GitHub Models (`gpt-4o`) → post the summary into the notification chat.
@@ -329,7 +309,7 @@ This is your first complete read → summarize → write loop. From here you can
 
 ---
 
-## Part 11: Sanitize Artifacts Before Sharing
+## Part 10: Sanitize Artifacts Before Sharing
 
 ### What we'll do
 Audit every tracked file for personally identifiable information (PII) and organizational identifiers before pushing the work to a shared repository.
@@ -392,7 +372,7 @@ Your tracked artifacts are safe to share. The local `.env`, token cache, and ori
 
 | Symptom | Likely cause | Fix |
 |---|---|---|
-| `AADSTS7000218: client_assertion or client_secret` | Public client flows not enabled | Part 6: Authentication → Allow public client flows = Yes → **Save** |
+| `AADSTS7000218: client_assertion or client_secret` | Public client flows not enabled | Part 5: Authentication → Allow public client flows = Yes → **Save** |
 | `AADSTS65001: user or admin has not consented` | Consent not granted | Sign in interactively and click **Accept** on the permissions screen, or have an admin grant consent |
 | `AADSTS70011: invalid scope` | Typo or unsupported scope | Verify scopes match the exact strings; do not include `openid`/`profile`/`offline_access` manually — MSAL adds them |
 | `failed to compute cache key: ".../requirements.txt": not found` | `.dockerignore` excludes `*.txt` | Add `!requirements.txt` exception |

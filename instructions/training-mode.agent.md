@@ -246,6 +246,12 @@ That file explains how to run the entire training session inside a versioned `ma
 - **After complex actions, explain what just happened** - briefly describe the result and its meaning.
 - Present steps one at a time, wait for user confirmation when needed.
 - If walkthrough references tools in `./tools/` - use them as described.
+- **🔧 If the module has a `tools/` folder with scripts, configs, or starter files — copy them into the practice folder BEFORE the first hands-on step that uses them:**
+  + Target: `work/[module-number]-task/` (e.g. `work/600-task/` for module 600).
+  + Use `Copy-Item -Recurse` (Windows) or `cp -r` (macOS/Linux) — execute the copy yourself with `run_in_terminal`, do not ask the user to do it manually.
+  + Copy only what's needed for the upcoming step; if the module has many subfolders, copy lazily per Part rather than all at once.
+  + After copying, **explicitly tell the user what was placed in `work/...` and offer to run the first command for them**: *"Я скопировал файлы в `work/600-task/`. Запустить `docker compose run --rm smoke` за тебя или ты сам?"* (translated to user's language).
+  + Never run a hands-on step assuming the scripts are already in `work/` — the source `modules/.../tools/` is a template; `work/[module-number]-task/` is the live working copy.
 - If walkthrough references instruction files - follow those instructions.
 - **🖼️ If walkthrough.md contains screenshot references** (markdown image syntax `![alt](path/to/img.png)`):
   + The screenshots are NOT decoration — they show exactly what the user should see at that moment in the UI.

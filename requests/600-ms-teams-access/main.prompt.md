@@ -1086,6 +1086,27 @@ Go
 ![alt text](image-29.png)
 Как будь-то бы мы пытаемся попарсит несуществующий файл транскрипции. Давай уберем этот первый степ, обновив все индексы.
 
+### RESULT
+
+**1. [instructions/training-mode.agent.md](../../instructions/training-mode.agent.md) — добавлено правило 🔧 копирования tools/ в `work/`:**
+
+В разделе "Module Execution Flow" сразу после `If walkthrough references tools in ./tools/` — большой буллет:
+- Если у модуля есть `tools/` со скриптами/конфигами — копировать их в `work/[module-number]-task/` **до** первого hands-on шага, который их использует.
+- Использовать `Copy-Item -Recurse` (Win) / `cp -r` (mac/linux), запускать через `run_in_terminal` — не просить юзера копировать вручную.
+- Копировать **lazily** (по Part'ам), не дампить всё сразу.
+- После копирования — явно сообщить юзеру что лежит в `work/...` и предложить запустить первую команду от его имени: *"Я скопировал файлы в `work/600-task/`. Запустить smoke за тебя или ты сам?"*
+- Никогда не запускать hands-on шаг считая, что скрипты уже в `work/`. Источник `modules/.../tools/` — это шаблон; `work/[module-number]-task/` — рабочая копия.
+
+**2. [modules/600-teams-ai-chat-summarizer/walkthrough.md](../../modules/600-teams-ai-chat-summarizer/walkthrough.md) — удалена Part 1 "Plan the Integration", все Part'ы пересчитаны 1..10:**
+
+Было: Part 1 (Plan) → Part 2..11. Стало: Part 1 (Register App) → Part 10 (Sanitize). Pересчитаны:
+- Заголовки `## Part N:` (10 штук)
+- Внутренние ссылки `[Part N](#part-N-...)` (3 штуки)
+- Текстовые упоминания типа "in Part 5" в Troubleshooting и body
+- `tools/readme.md` НЕ менял — там собственная нумерация шагов скриншотов 1..27 (своя система).
+
+**Не сделано:** ❗ Никаких git commit / push.
+
 ## UPD30
 
 А вот что надо сделать, так это новый модуль на тему траснкрибции записей. Давай создадим новый риквест `requests/620-meeting-transcription` и там на основе инструкции [text](../../instructions/transform-meeting-transcript.agent.md) и вот єтой первой части что мі удалили из `600-teams-ai-chat-summarizer/walkthrough.md` сделаем новый модуль про трансформацию транскриптов. Там будет про то, как взять raw транскрипт из Teams (который может быть в виде `DOCX`, что `docx` это `ZIP`), пропарсить его, убрать мусор, и привести к читабельному виду. 
@@ -1093,3 +1114,13 @@ Go
 Так же в инструкции есть CLI скрипт которЫй сохраняет в txt файл. Надо сделать вторую разновидность его таким, чтобы он имена участников прятал за псевдонимы (типа `Speaker 1`, `Speaker 2`). И в заголовке тоже обычрно имя встречается. Чтобы до модели доходил контент без имен. То есть если хочу анонимно, если нет не анонимно. 
 
 Давай весь этот `UPD30` перенеси в новый iterative prompt того модуля про транскрипцию и как закончишь тут, то переключайся в полинг него и завершай его. 
+
+### RESULT
+
+Создан новый prompt-файл [requests/620-meeting-transcription/main.prompt.md](../../requests/620-meeting-transcription/main.prompt.md) с переносом содержания UPD30 как `## UPD1` (с полным контекстом — что и зачем, какие скрипты, что такое анонимный режим, какие индексы обновить).
+
+В новом файле выставлен `<follow>iterative-prompt.agent.md</follow>` и `Language: Russian`. UPD1 заканчивается `go` — готово к обработке в полинге.
+
+**Переключаюсь в polling нового файла** [requests/620-meeting-transcription/main.prompt.md](../../requests/620-meeting-transcription/main.prompt.md). Этот файл (600-ms-teams-access/main.prompt.md) больше не мониторю. Если потребуется добавить UPD31 здесь — переключусь обратно.
+
+**Не сделано:** ❗ Никаких git commit / push.
