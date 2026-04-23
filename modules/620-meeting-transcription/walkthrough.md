@@ -62,45 +62,22 @@ You have a real input file. The `.docx` is actually a ZIP archive — you can re
 
 ---
 
-## Part 3: Extract Plain Text (Names Preserved)
+## Part 3: Extract Anonymized Text (the default)
 
 ### What we'll do
-Run the standard extraction. Speaker names stay as-is.
+Run `Extract-DocxText`. By design it anonymizes — speaker names are replaced with `Speaker 1`, `Speaker 2`, … at parse time. Real names never leave the parser.
 
 ### Action
 
 Open the agent and ask, in plain language:
 
-> Following `instructions/transform-meeting-transcript.agent.md`, extract the text from `work/620-task/<your-file>.docx` into `<your-file>.txt`. Do not anonymize.
+> Following `instructions/transform-meeting-transcript.agent.md`, extract `work/620-task/<your-file>.docx` into `<your-file>.anon.txt` using `Extract-DocxText -MappingPath <your-file>.mapping.json`.
 
 The agent will:
-1. Open the `.docx` as a ZIP.
-2. Read `word/document.xml`.
-3. Walk `<w:p>` paragraphs and concatenate `<w:t>` runs.
-4. Write `<your-file>.txt` next to the source.
-
-### What happened
-You have a clean text version of the meeting. Compare it side-by-side with the original — you should see one paragraph per speaker turn, real names intact.
-
----
-
-## Part 4: Extract Plain Text (Anonymized)
-
-### What we'll do
-Same as Part 3, but with the `-Anonymize` switch on `Extract-DocxText` (see the [Participant Anonymization](../../instructions/transform-meeting-transcript.agent.md#participant-anonymization-optional) section).
-
-### Action
-
-Ask the agent:
-
-> Following `instructions/transform-meeting-transcript.agent.md`, extract `work/620-task/<your-file>.docx` into `<your-file>.anon.txt` using `Extract-DocxText -Anonymize -MappingPath <your-file>.mapping.json`.
-
-The agent will:
-1. Run pass 1 to discover speakers in order of first appearance.
-2. Build the mapping: first speaker → `Speaker 1`, second → `Speaker 2`, …
-3. Run pass 2: rewrite speaker headers AND replace whole-word name mentions inside the body (longer names first, so `Stiven Pupkin` is not partially clobbered by `Stiven`).
-4. Sanitize personal names from the file header / metadata if present.
-5. Write the sidecar `.mapping.json`.
+1. Open the `.docx` as a ZIP, read `word/document.xml`.
+2. Walk `<w:p>` paragraphs. For every `<w:r>` whose `<w:rPr>` has the Teams "speaker name" formatting (`<w:b/>` + `<w:color w:val="616161"/>` + `<w:sz w:val="24"/>`), substitute `Speaker N` directly — never emit the real name.
+3. Write `<your-file>.anon.txt`.
+4. Write `<your-file>.mapping.json` with `original_name → pseudonym`.
 
 ### What happened
 You now have two files of very different sensitivity:
@@ -111,6 +88,26 @@ You now have two files of very different sensitivity:
 | `<your-file>.mapping.json` | **Sensitive** — never commit, never send anywhere | Local de-anonymization of LLM output |
 
 Add `*.mapping.json` to your `.gitignore` immediately if it's not already there.
+
+---
+
+## Part 4: When You Genuinely Need the Real Names (`-KeepNames`)
+
+### What we'll do
+Run with `-KeepNames` — the explicit opt-in for keeping real speaker names. Use this only when you actually need the original names (e.g. an internal accountability log) and never inside an agent chat.
+
+### Action
+
+In a **private** terminal (not in the agent chat), run:
+
+```powershell
+Extract-DocxText -docxPath work/620-task/<your-file>.docx -KeepNames | Set-Content -Encoding UTF8 work/620-task/<your-file>.named.txt
+```
+
+> ⚠️ **Operator rule.** Do not paste the contents of `<your-file>.named.txt` into any chat with an AI agent. Do not commit it. Treat it like the `.mapping.json` — local-only.
+
+### What happened
+You have a named copy strictly for offline human use. Anything that goes to an LLM still uses the `.anon.txt` from Part 3.
 
 ---
 

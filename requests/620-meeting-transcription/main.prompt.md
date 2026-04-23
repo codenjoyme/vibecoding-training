@@ -123,5 +123,70 @@ go
 
 В [walkthrough.md модуля 620](../../modules/620-meeting-transcription/walkthrough.md) Part 4 уже использует правильную сигнатуру `Extract-DocxText -Anonymize -MappingPath ...` — менять не надо.
 
+## UPD4
+
+Да но после вЫполенния скрипта, модель все равно видит юезров в аутпуте после
+```
+---PLAIN---
+Call 20260422_154426-Meeting Transcript
+April 22, 2026, 12:44PM
+35m 6s
+
+xxx xxx started transcription
+
+xxx xxx   0:03
+Да, давайужеидёт.
+
+xxx xxx 0:05
+Окей, тогда пошаривается момент.
+Он очень несли мою окну такой быстрый, как бы хотелось.
+
+xxx xxx   0:16
+И ты правда представляешь, чтобы обновили?
+---MAP---
+{
+  "xxx xxx": "Speaker 1",
+  "xxx xxx": "Speaker 2"
+} 
+```
+Там где xxxx - там реальные имена. А я просил чтобы модель не видела имен в анонимной версии. go
+### RESULT
+
+Признаю ошибку: на UPD3 я для отладки запустил `Extract-DocxText` без анонимизации и напечатал PLAIN-output (с реальными именами) в RESULT — модель/чат-история их увидели. Это и есть тот самый leak, против которого мы защищались. Виноват.
+
+Исправление архитектурное — **анонимизация теперь дефолт**, leak by accident больше невозможен:
+
+В [instructions/transform-meeting-transcript.agent.md](../../instructions/transform-meeting-transcript.agent.md) сигнатура изменена:
+
+- ❌ Было: `Extract-DocxText -docxPath ... [-Anonymize] [-MappingPath ...]` — анонимизация opt-in.
+- ✅ Стало: `Extract-DocxText -docxPath ... [-KeepNames] [-MappingPath ...]` — анонимизация **on by default**, для имён нужен явный `-KeepNames` (opt-in).
+
+Внутри функции — одна строка `$Anonymize = -not $KeepNames` после `param()`, остальная логика не тронута. Никакого if/else вокруг тела функции, никакого regex по тексту.
+
+Секция документации переименована в **"Anonymization is the default for `Extract-DocxText`"** + добавлено **Operator rule**: *"Never run `Extract-DocxText -KeepNames` (or print its output) inside an agent chat or shared log. The only legitimate use of `-KeepNames` is offline, in a private terminal, when you actively need the real names."*
+
+В [walkthrough.md модуля 620](../../modules/620-meeting-transcription/walkthrough.md):
+
+- **Part 3** переписан как "Extract Anonymized Text (the default)" — команда `Extract-DocxText -MappingPath <...>.mapping.json` без явных переключателей.
+- **Part 4** ("When You Genuinely Need the Real Names (`-KeepNames`)") — даёт opt-in рецепт с предупреждением запускать **только в приватном терминале** и не вставлять вывод в агентский чат.
+
+Cleanup:
+
+- Удалил тестовый `work/620-task/call.txt` (содержал реальные имена) — он был артефактом моего PLAIN-запуска.
+- В этом RESULT-блоке выкладываю только anonymized output:
+  ```
+  Speaker 1 started transcription
+  Speaker 1 0:03
+  Да, давайужеидёт.
+  Speaker 2 0:05
+  Окей, тогда пошаривается момент.
+  Speaker 1 0:16
+  И ты правда представляешь, чтобы обновили?
+  ```
+- Mapping JSON живёт только в `work/620-task/call.mapping.json` (gitignored), его содержимое в чат не выкладываю.
+
+В будущих UPD `-KeepNames` агент использовать не будет — стоит operator rule в самой инструкции.
+
 **Не сделано:** ❗ Никаких git commit / push.
+
 

@@ -27,9 +27,10 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 function Extract-DocxText {
     param(
         [string]$docxPath,
-        [switch]$Anonymize,        # replace speaker name runs with "Speaker N" at parse time
+        [switch]$KeepNames,        # opt-in: keep real speaker names (default behavior is anonymized)
         [string]$MappingPath       # optional: write original->pseudonym map (sensitive, gitignore!)
     )
+    $Anonymize = -not $KeepNames
     $zip = [System.IO.Compression.ZipFile]::OpenRead($docxPath)
     $entry = $zip.GetEntry("word/document.xml")
     $stream = $entry.Open()
@@ -95,14 +96,15 @@ function Extract-DocxText {
 - Include role in parentheses where known (e.g. `Participant B (Dev)`).
 - For internal/technical meetings anonymization is usually NOT required — keep names as-is unless the user asks otherwise.
 
-### Built-in `-Anonymize` switch on `Extract-DocxText`
+### Anonymization is the default for `Extract-DocxText`
 
-The PowerShell function above accepts `-Anonymize` (and optional `-MappingPath`). It works **at parse time, not as a post-pass**: while iterating XML runs, any run whose `<w:rPr>` matches the Teams "speaker name" formatting (`<w:b/>` + `<w:color w:val="616161"/>` + `<w:sz w:val="24"/>`) has its text substituted with a sequential pseudonym `Speaker 1`, `Speaker 2`, … *before* it ever lands in the output buffer.
+The PowerShell function above anonymizes by default. Pass `-KeepNames` only if you have a hard need for the real names (e.g. internal accountability log) — otherwise let the default protect you. It works **at parse time, not as a post-pass**: while iterating XML runs, any run whose `<w:rPr>` matches the Teams "speaker name" formatting (`<w:b/>` + `<w:color w:val="616161"/>` + `<w:sz w:val="24"/>`) has its text substituted with a sequential pseudonym `Speaker 1`, `Speaker 2`, … *before* it ever lands in the output buffer.
 
 Properties:
 
+- **Anonymized output is the default.** Real names never appear unless the caller explicitly passes `-KeepNames`. This protects against accidental leakage into chat logs, agent histories, downstream LLM calls, etc.
 - **No regex search for names in the text.** The function never scans the body for known names; the model's output therefore cannot know names that were never written.
-- **No code duplication.** There is one parsing loop. `-Anonymize` only changes how a single run is rendered.
+- **No code duplication.** There is one parsing loop. The anonymization branch only changes how a single run is rendered.
 - **Optional sidecar** `-MappingPath` writes `original_name → pseudonym` JSON. **This file is sensitive — gitignore it.** It exists only so a human can de-anonymize LLM-returned results.
 - **Trade-off:** if a participant is mentioned by name *inside the spoken text* (`"Stiven, can you confirm?"`), the name stays — by design, since we do not search for names in the body. If your transcripts routinely address participants by name, anonymize at the meeting policy level rather than at the parser.
 
@@ -110,6 +112,8 @@ Two trust levels:
 
 - The anonymized output is safe to send to an LLM.
 - The mapping JSON must never leave the local machine.
+
+> **Operator rule.** Never run `Extract-DocxText -KeepNames` (or print its output) inside an agent chat or shared log. The only legitimate use of `-KeepNames` is offline, in a private terminal, when you actively need the real names.
 
 ## Generic Meeting Summary Format
 
