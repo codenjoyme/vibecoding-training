@@ -58,8 +58,6 @@ Language: Russian
 - [training-plan.md](../../training-plan.md) — строка между 600 и 900.
 - [modules/module-catalog.md](../../modules/module-catalog.md) — строка после 600.
 
-**Не сделано:** ❗ Никаких git commit / push.
-
 ## UPD2
 
 ТЫ создал отдельную функцию, хотя я просил обнорвить лакончино саму `function Extract-DocxText($docxPath) {` для добавления в ней анонимизации. Go
@@ -78,8 +76,6 @@ Language: Russian
 Сопутствующие правки:
 - Секция "Built-in" переименована в **"Built-in `-Anonymize` switch on `Extract-DocxText`"**, текст ужат до 5 пунктов алгоритма + двух уровней доверия (без дублирования PowerShell-листинга — он уже выше).
 - В [walkthrough.md Part 4](../../modules/620-meeting-transcription/walkthrough.md) команда обновлена с `--anonymize` на `Extract-DocxText -Anonymize -MappingPath ...` чтобы соответствовать реальной сигнатуре PS-функции.
-
-**Не сделано:** ❗ Никаких git commit / push.
 
 ## UPD3
 
@@ -187,6 +183,8 @@ Cleanup:
 
 В будущих UPD `-KeepNames` агент использовать не будет — стоит operator rule в самой инструкции.
 
-**Не сделано:** ❗ Никаких git commit / push.
+## UPD5
+
+Есть картинки в папке [text](img). Распознай их. И следуя инструкции [text](../../instructions/organize-module-images.agent.md) по части генерации имени, расположи их в папке `img` рядом с `walkthrough.md`, в который вставь их в нужное место наверное на старте, потому что важно, чтобы люди понимали как получать транскрибцию митинга перед тем как ее оцифровывать. Давай Part 1 все же будет, а все остальные индексы сместим на 1. Go 
 
 

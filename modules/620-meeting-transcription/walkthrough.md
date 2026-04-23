@@ -20,7 +20,39 @@ See [module overview](about.md) for the full prerequisites list.
 
 ---
 
-## Part 1: Bootstrap the Instruction in Your Workspace
+## Part 1: Get a Transcript from Microsoft Teams
+
+### What we'll do
+Enable live transcription in a Teams meeting and download the resulting `.docx` file.
+
+### Action
+
+**Step 1 — Start transcription during the meeting.**
+In an active Teams call, click **More (⋯)** in the top toolbar → **Record and transcribe** → **Start transcription**.
+
+![More menu → Start transcription](img/01-start-transcription-menu.png)
+
+**Step 2 — Confirm the spoken language.**
+Teams will ask what language everyone is speaking. Select the correct locale and click **Confirm**.
+
+![Select spoken language dialog](img/02-select-language.png)
+
+**Step 3 — Wait for the transcript to appear in the call chat.**
+After the meeting ends the transcript is posted automatically into the chat thread.
+
+![Transcript card in meeting chat](img/03-transcript-in-chat.png)
+
+**Step 4 — Download as `.docx`.**
+Click **Download** in the Transcript panel → choose **Download as .docx**. This is the file the parser will consume.
+
+![Download transcript as .docx](img/04-download-transcript-docx.png)
+
+### What happened
+You now have a `.docx` transcript file — actually a ZIP archive containing `word/document.xml`, which is what the extraction instruction parses.
+
+---
+
+## Part 2: Bootstrap the Instruction in Your Workspace
 
 ### What we'll do
 Either reuse the instruction from this repo, or pull it into a different project where you don't yet have it.
@@ -47,7 +79,7 @@ You now have a single, version-controlled source of truth for transcript transfo
 
 ---
 
-## Part 2: Locate Your Source `.docx`
+## Part 3: Locate Your Source `.docx`
 
 ### What we'll do
 Pick a Teams transcript to work with.
@@ -62,7 +94,7 @@ You have a real input file. The `.docx` is actually a ZIP archive — you can re
 
 ---
 
-## Part 3: Extract Anonymized Text (the default)
+## Part 4: Extract Anonymized Text (the default)
 
 ### What we'll do
 Run `Extract-DocxText`. By design it anonymizes — speaker names are replaced with `Speaker 1`, `Speaker 2`, … at parse time. Real names never leave the parser.
@@ -91,7 +123,7 @@ Add `*.mapping.json` to your `.gitignore` immediately if it's not already there.
 
 ---
 
-## Part 4: When You Genuinely Need the Real Names (`-KeepNames`)
+## Part 5: When You Genuinely Need the Real Names (`-KeepNames`)
 
 ### What we'll do
 Run with `-KeepNames` — the explicit opt-in for keeping real speaker names. Use this only when you actually need the original names (e.g. an internal accountability log) and never inside an agent chat.
@@ -111,7 +143,7 @@ You have a named copy strictly for offline human use. Anything that goes to an L
 
 ---
 
-## Part 5: Use the Output
+## Part 6: Use the Output
 
 ### What we'll do
 Hand the clean `.txt` off to whatever consumes it — an LLM summary, a search index, a follow-up module like [600 — Microsoft Teams AI Chat Summarizer](../600-teams-ai-chat-summarizer/about.md), or a simple `grep` for action items.
