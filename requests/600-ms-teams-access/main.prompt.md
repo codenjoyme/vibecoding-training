@@ -4,7 +4,7 @@ iterative-prompt.agent.md
 
 ## UPD1
 
-Есть инструкция [text](../../work/project-merck/instructions/transform-meeting-transcript.agent.md) она помогает транскрибировать и структурировать встречи. Давай создадим у нас такую же инструкцию в папке `./instructions/transform-meeting-transcript.agent.md`. Если там есть информация про проект, то удаляем ее. 
+Есть инструкция [text](../../work/project1/instructions/transform-meeting-transcript.agent.md) она помогает транскрибировать и структурировать встречи. Давай создадим у нас такую же инструкцию в папке `./instructions/transform-meeting-transcript.agent.md`. Если там есть информация про проект, то удаляем ее. 
 
 Потом надо затранскрибировать митинг [text](<Call about teams.docx>) в той же папке давай сохраним результаты. 
 
