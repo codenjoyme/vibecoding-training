@@ -338,6 +338,42 @@ Your tracked artifacts are safe to share. The local `.env`, token cache, and ori
 
 ---
 
+## Part 11: Download a Meeting Transcript via Graph (optional)
+
+### What we'll do
+Skip the manual "Download transcript" click in the Teams UI — pull the `.docx` (or `.vtt`) straight from the Graph API.
+
+### Why
+If you want to automate transcript ingestion, scheduled summaries, or pipe the file into [620 — Microsoft Teams Meeting Transcription](../620-meeting-transcription/about.md) without a human download step, the API gives you a stable handle.
+
+### Action
+
+1. Add two more delegated permissions to the App Registration (Part 2 pattern):
+   - `OnlineMeetings.Read`
+   - `OnlineMeetingTranscript.Read.All`
+
+   Grant consent (admin consent may be required by tenant policy).
+2. Run [download_transcript.py](tools/download_transcript.py):
+   ```powershell
+   docker compose run --rm app python download_transcript.py `
+     --join-url "<paste teams meeting join URL>" `
+     --format docx `
+     --out /data/meeting.docx
+   ```
+   First run triggers a **new** device-code flow because the scopes differ from `graph_auth.py` — the script uses its own MSAL client.
+3. To list available transcripts on a meeting first (helpful when there are several recordings):
+   ```powershell
+   docker compose run --rm app python download_transcript.py --join-url "<URL>" --list
+   ```
+4. Use `--format vtt` if you want the WebVTT subtitle file instead of `.docx`.
+
+### What happened
+You have a `meeting.docx` produced by the API, byte-equivalent to the one you'd get from the Teams UI. Hand it off to module 620 to extract anonymized text and feed it to the summarizer from Part 9.
+
+> ℹ️ Both transcript scopes are **separate** from the chat scopes used elsewhere in this module. Adding them does not invalidate the existing token cache; you simply get a second cached account entry.
+
+---
+
 ## Success Criteria
 
 - ✅ App Registration exists in your Entra ID tenant with `Allow public client flows = Yes`

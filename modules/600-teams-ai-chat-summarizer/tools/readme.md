@@ -12,6 +12,7 @@ This folder is a drop-in starter kit. Below is a visual narrative of the same fl
 | [read_messages.py](read_messages.py) | Fetches N messages from a chat by id |
 | [create_notification_chat.py](create_notification_chat.py) | Idempotently creates the **AI Teams Summaries** chat |
 | [summarize_and_notify.py](summarize_and_notify.py) | Reads → summarizes (GitHub Models) → posts back to Teams |
+| [download_transcript.py](download_transcript.py) | Downloads a meeting transcript via Graph (`.docx` or `.vtt`) |
 | [requirements.txt](requirements.txt) | `msal`, `requests`, `python-dotenv` |
 | [Dockerfile](Dockerfile) | `python:3.12-slim` base; `PYTHONUNBUFFERED=1` |
 | [docker-compose.yml](docker-compose.yml) | Three services: `app`, `smoke`, `list-chats` |
@@ -210,6 +211,9 @@ docker compose run --rm app python create_notification_chat.py
 
 # Summarize and post back into Teams
 docker compose run --rm --build app python summarize_and_notify.py "<source_chat_id>" --top 20
+
+# Download a meeting transcript (.docx) via Graph (first run = new device-code flow for OnlineMeetingTranscript scope)
+docker compose run --rm app python download_transcript.py --join-url "<teams_meeting_join_url>" --format docx --out /data/transcript.docx
 ```
 
 ## Hygiene Reminder
