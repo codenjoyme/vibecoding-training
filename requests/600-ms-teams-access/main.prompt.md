@@ -14,10 +14,10 @@ iterative-prompt.agent.md
 
 ### RESULT
 
-- Created `instructions/transform-meeting-transcript.agent.md` — generalized version of the project instruction (project-specific bits removed; added a generic "Meeting Summary" format alongside the coaching-session formats).
-- Extracted `Call about teams.docx` → `requests/600-ms-teams-access/Call about teams.txt` using the in-house PowerShell .docx-to-text procedure.
-- Wrote `requests/600-ms-teams-access/summary-2026-04-22.md` — full meeting summary (context, architecture, decisions, action items, open questions).
-- Wrote `requests/600-ms-teams-access/skill-connect-to-teams.md` — draft v0.1 of the future `Skill.md`: Azure App Registration steps, env vars, Graph permissions, MSAL device-code flow, key Graph endpoints, container notes, verification checklist, and an "Open Items" section for iterative improvement.
+- Created [instructions/transform-meeting-transcript.agent.md](../../instructions/transform-meeting-transcript.agent.md) — generalized version of the project instruction (project-specific bits removed; added a generic "Meeting Summary" format alongside the coaching-session formats).
+- Extracted `Call about teams.docx` → `Call about teams.txt` using the in-house PowerShell .docx-to-text procedure.
+- Wrote [summary-2026-04-22.md](summary-2026-04-22.md) — full meeting summary (context, architecture, decisions, action items, open questions).
+- Wrote [skill-connect-to-teams.md](skill-connect-to-teams.md) — draft v0.1 of the future `Skill.md`: Azure App Registration steps, env vars, Graph permissions, MSAL device-code flow, key Graph endpoints, container notes, verification checklist, and an "Open Items" section for iterative improvement.
 - **Not committed** per user instruction. 
 
 ## UPD2
@@ -696,7 +696,7 @@ docker compose run --rm app python read_messages.py "<CHAT_ID>" --top 10
 
 **Часть 1 — PII / org / secrets аудит.**
 
-Прошёлся регексами по всем трекаемым файлам (`main.prompt.md`, `summary-2026-04-22.md`, `skill-connect-to-teams.md`). Что заменил:
+Прошёлся регексами по всем трекаемым файлам ([main.prompt.md](main.prompt.md), [summary-2026-04-22.md](summary-2026-04-22.md), [skill-connect-to-teams.md](skill-connect-to-teams.md)). Что заменил:
 
 | Категория | Старое | Новое |
 | --- | --- | --- |
@@ -946,27 +946,27 @@ Go
 
 Создан новый модуль **235 — Microsoft Teams AI Chat Summarizer** в полном соответствии с [create-training-module.agent.md](../../instructions/create-training-module.agent.md) и [organize-module-images.agent.md](../../instructions/organize-module-images.agent.md) (с поправкой на то, что изображения живут вокруг `tools/readme.md`).
 
-**Папка модуля:** [modules/235-teams-ai-chat-summarizer/](../../modules/235-teams-ai-chat-summarizer/)
+**Папка модуля:** [modules/600-teams-ai-chat-summarizer/](../../modules/600-teams-ai-chat-summarizer/)
 
 **Созданные markdown-файлы (новые, написаны через `create_file`):**
-- [about.md](../../modules/235-teams-ai-chat-summarizer/about.md) — обзор модуля, 30-45 минут, prerequisites (108, 110, 058), 8 топиков, ресурсы.
-- [walkthrough.md](../../modules/235-teams-ai-chat-summarizer/walkthrough.md) — пошаговая инструкция из 11 Part'ов, зеркалит UPD-шаги: план → регистрация App → permissions → секреты → smoke test → fix `AADSTS7000218` → list_chats → notification chat → read_messages → summarize_and_notify → PII sanitization. Success Criteria + Understanding Check (7 вопросов) + Troubleshooting + Next Steps.
-- [tools/SKILL.md](../../modules/235-teams-ai-chat-summarizer/tools/SKILL.md) — лаконичная LLM-targeted инструкция (мерж `skill-connect-to-teams.md` с проверенными фактами из этого файла: working scopes, public client flows tip, idempotent notification chat, GitHub Models endpoint, MSAL device flow snippet).
-- [tools/readme.md](../../modules/235-teams-ai-chat-summarizer/tools/readme.md) — human-friendly визуальный walkthrough с 27 скриншотами по порядку.
+- [about.md](../../modules/600-teams-ai-chat-summarizer/about.md) — обзор модуля, 30-45 минут, prerequisites (108, 110, 058), 8 топиков, ресурсы.
+- [walkthrough.md](../../modules/600-teams-ai-chat-summarizer/walkthrough.md) — пошаговая инструкция из 11 Part'ов, зеркалит UPD-шаги: план → регистрация App → permissions → секреты → smoke test → fix `AADSTS7000218` → list_chats → notification chat → read_messages → summarize_and_notify → PII sanitization. Success Criteria + Understanding Check (7 вопросов) + Troubleshooting + Next Steps.
+- [tools/SKILL.md](../../modules/600-teams-ai-chat-summarizer/tools/SKILL.md) — лаконичная LLM-targeted инструкция (мерж `skill-connect-to-teams.md` с проверенными фактами из этого файла: working scopes, public client flows tip, idempotent notification chat, GitHub Models endpoint, MSAL device flow snippet).
+- [tools/readme.md](../../modules/600-teams-ai-chat-summarizer/tools/readme.md) — human-friendly визуальный walkthrough с 27 скриншотами по порядку.
 
-**Скопированные через терминал (`Copy-Item`, без регенерации) файлы скриптов и инфраструктуры в [tools/](../../modules/235-teams-ai-chat-summarizer/tools/):**
-- `graph_auth.py`, `smoke_test.py`, `list_chats.py`, `read_messages.py`, `create_notification_chat.py`, `summarize_and_notify.py`
-- `requirements.txt`, `Dockerfile`, `docker-compose.yml`, `.dockerignore`, `.env.example`
-- `tools/.gitignore` (`.env`, `data/`, `__pycache__/`, `*.pyc`, `.venv/`)
+**Скопированные через терминал (`Copy-Item`, без регенерації) файлы скриптов и инфраструктуры в [tools/](../../modules/600-teams-ai-chat-summarizer/tools/):**
+- [graph_auth.py](../../modules/600-teams-ai-chat-summarizer/tools/graph_auth.py), [smoke_test.py](../../modules/600-teams-ai-chat-summarizer/tools/smoke_test.py), [list_chats.py](../../modules/600-teams-ai-chat-summarizer/tools/list_chats.py), [read_messages.py](../../modules/600-teams-ai-chat-summarizer/tools/read_messages.py), [create_notification_chat.py](../../modules/600-teams-ai-chat-summarizer/tools/create_notification_chat.py), [summarize_and_notify.py](../../modules/600-teams-ai-chat-summarizer/tools/summarize_and_notify.py)
+- [requirements.txt](../../modules/600-teams-ai-chat-summarizer/tools/requirements.txt), [Dockerfile](../../modules/600-teams-ai-chat-summarizer/tools/Dockerfile), [docker-compose.yml](../../modules/600-teams-ai-chat-summarizer/tools/docker-compose.yml), [.dockerignore](../../modules/600-teams-ai-chat-summarizer/tools/.dockerignore), [.env.example](../../modules/600-teams-ai-chat-summarizer/tools/.env.example)
+- [tools/.gitignore](../../modules/600-teams-ai-chat-summarizer/tools/.gitignore) (`.env`, `data/`, `__pycache__/`, `*.pyc`, `.venv/`)
 
-**Скриншоты в [tools/img/module-235/](../../modules/235-teams-ai-chat-summarizer/tools/img/module-235/):**
+**Скриншоты в [tools/img/](../../modules/600-teams-ai-chat-summarizer/tools/img/):**
 - 27 файлов скопированы и переименованы по схеме `NN-descriptive-name.png` (от `01-azure-portal-home.png` до `27-summary-received-in-teams.png`). Сиротский `image-12.png` (если он был) не переносился.
 
 **Обновлены индексы курса:**
 - [training-plan.md](../../training-plan.md) — добавлена строка между 230 и 240.
 - [modules/module-catalog.md](../../modules/module-catalog.md) — добавлена строка между 230 и 250.
 
-**Что осталось в этой папке** (`requests/600-ms-teams-access/`) как референс: исходники Python/Docker, `main.prompt.md`, `summary-2026-04-22.md`, `skill-connect-to-teams.md`, оригинальные `image-*.png`. Ничего не удалено.
+**Что осталось в этой папке** (`requests/600-ms-teams-access/`) как референс: исходники Python/Docker, [main.prompt.md](main.prompt.md), [summary-2026-04-22.md](summary-2026-04-22.md), [skill-connect-to-teams.md](skill-connect-to-teams.md), оригинальные `image-*.png`. Ничего не удалено.
 
 **Не сделано (по стоящему правилу):** ❗ Никаких git commit / push не выполнено — все изменения лежат локально, ждут вашего ревью.
 
@@ -1051,7 +1051,7 @@ Go
 
 ### RESULT
 
-Скриншотов в `walkthrough.md` действительно не было — только в `tools/readme.md`. Исправлено.
+Скриншотов в [walkthrough.md](../../modules/600-teams-ai-chat-summarizer/walkthrough.md) действительно не было — только в [tools/readme.md](../../modules/600-teams-ai-chat-summarizer/tools/readme.md). Исправлено.
 
 **1. [walkthrough.md](../../modules/600-teams-ai-chat-summarizer/walkthrough.md) — добавлены 23 скриншота inline:**
 - **Part 2 (Register App):** скрины 01-azure-portal-home, 02-app-registrations-page, 03-supported-account-types, 04-registration-form-filled, 05-app-overview-page.
@@ -1103,7 +1103,7 @@ Go
 - Заголовки `## Part N:` (10 штук)
 - Внутренние ссылки `[Part N](#part-N-...)` (3 штуки)
 - Текстовые упоминания типа "in Part 5" в Troubleshooting и body
-- `tools/readme.md` НЕ менял — там собственная нумерация шагов скриншотов 1..27 (своя система).
+- [tools/readme.md](../../modules/600-teams-ai-chat-summarizer/tools/readme.md) НЕ менял — там собственная нумерация шагов скриншотов 1..27 (своя система).
 
 **Не сделано:** ❗ Никаких git commit / push.
 
@@ -1122,5 +1122,21 @@ Go
 В новом файле выставлен `<follow>iterative-prompt.agent.md</follow>` и `Language: Russian`. UPD1 заканчивается `go` — готово к обработке в полинге.
 
 **Переключаюсь в polling нового файла** [requests/620-meeting-transcription/main.prompt.md](../../requests/620-meeting-transcription/main.prompt.md). Этот файл (600-ms-teams-access/main.prompt.md) больше не мониторю. Если потребуется добавить UPD31 здесь — переключусь обратно.
+
+**Не сделано:** ❗ Никаких git commit / push.
+
+## UPD31
+
+Давай сделаем вот что. Вот эта дока с логом разработки по сути, в разделах RESULT часто просто пути к файлу, но не кдликабельная маркдаун линка. Давай поправим все. ЧТобі каждая линка біла кликабельна и вела к файлу. Go 
+
+### RESULT
+
+Прошёлся по всем `### RESULT` блокам, нашёл и сделал кликабельными:
+
+- **UPD1 RESULT:** `instructions/transform-meeting-transcript.agent.md`, `requests/600-ms-teams-access/summary-2026-04-22.md`, `requests/600-ms-teams-access/skill-connect-to-teams.md` → [`instructions/transform-meeting-transcript.agent.md`](../../instructions/transform-meeting-transcript.agent.md), [summary-2026-04-22.md](summary-2026-04-22.md), [skill-connect-to-teams.md](skill-connect-to-teams.md).
+- **UPD21 RESULT:** файлы в скобках (`main.prompt.md`, `summary-2026-04-22.md`, `skill-connect-to-teams.md`) → кликабельные ссылки. То же в абзаце "Что осталось в этой папке".
+- **UPD25 RESULT:** все 7 ссылок на `modules/235-teams-ai-chat-summarizer/` обновлены до `modules/600-teams-ai-chat-summarizer/`; скопированные скрипты и конфиги (backtick-список) → кликабельные ссылки в [tools/](../../modules/600-teams-ai-chat-summarizer/tools/); путь `tools/img/module-235/` → [tools/img/](../../modules/600-teams-ai-chat-summarizer/tools/img/).
+- **UPD28 RESULT:** `walkthrough.md` и `tools/readme.md` в первом предложении → кликабельные ссылки.
+- **UPD29 RESULT:** `` `tools/readme.md` НЕ менял `` → [tools/readme.md](../../modules/600-teams-ai-chat-summarizer/tools/readme.md) НЕ менял.
 
 **Не сделано:** ❗ Никаких git commit / push.
