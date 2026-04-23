@@ -38,7 +38,7 @@ Language: Russian
 - При выводе заменить имена в репликах И в заголовке/метаданных, если они там есть.
 - Опционально — сохранить mapping `original_name → Speaker N` в отдельный sidecar-файл `*.mapping.json` (тоже gitignored), чтобы при ручном анализе можно было восстановить.
 
-**Скриншоты:** не нужны — модуль чисто CLI-шный.
+**Скриншоты:** не нужны — модуль чисто CLI-шный. *(upd5: оказалось, нужны)*
 
 Не стой, не надо создавать скрипты новые. Просто сошлись на уже существующую инструкцию `instructions/transform-meeting-transcript.agent.md` и скажи, что она всегда лежит тут `https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/transform-meeting-transcript.agent.md`. Как мы это делали с инструкцией по созданию инструкций в модуле [text](../../modules/070-custom-instructions). А в самой инструкции добавь легковестный скрипт (либо обнови существующий но добавь параметр анонимизации). Go
 
@@ -186,5 +186,25 @@ Cleanup:
 ## UPD5
 
 Есть картинки в папке [text](img). Распознай их. И следуя инструкции [text](../../instructions/organize-module-images.agent.md) по части генерации имени, расположи их в папке `img` рядом с `walkthrough.md`, в который вставь их в нужное место наверное на старте, потому что важно, чтобы люди понимали как получать транскрибцию митинга перед тем как ее оцифровывать. Давай Part 1 все же будет, а все остальные индексы сместим на 1. Go 
+### RESULT
 
+Распознаны 4 скриншота из `requests/620-meeting-transcription/img/`:
 
+| Исходный файл | Новое имя | Что на скриншоте |
+|---|---|---|
+| `image1.png` | `01-start-transcription-menu.png` | Teams-митинг → More → Record and transcribe → **Start transcription** |
+| `image2.png` | `02-select-language.png` | Диалог «What language is everyone speaking?» → English (US) → Confirm |
+| `image3.png` | `03-transcript-in-chat.png` | Карточка с Transcript в чате после митинга, кнопки Download / Delete |
+| `image4.png` | `04-download-transcript-docx.png` | Панель Download → **Download as .docx** с живым превью транскрипта |
+
+Файлы скопированы в `modules/620-meeting-transcription/img/` с новыми именами.
+
+В [walkthrough.md](../../modules/620-meeting-transcription/walkthrough.md) добавлен **Part 1: Get a Transcript from Microsoft Teams** (4 шага со скриншотами). Бывшие Part 1–5 сдвинуты в Part 2–6.
+
+## UPD6
+
+давай Part 1 все же будет, а все остальные индексы сместим на 1
+
+### RESULT
+
+Сделано. Part 1 теперь отдельный полноценный раздел с 4 скриншотами. Бывшие Part 1–5 → Part 2–6.
