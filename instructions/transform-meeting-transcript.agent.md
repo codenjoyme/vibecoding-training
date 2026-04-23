@@ -24,28 +24,64 @@
 ```powershell
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-function Extract-DocxText($docxPath) {
+function Extract-DocxText {
+    param(
+        [string]$docxPath,
+        [switch]$Anonymize,        # replace speaker name runs with "Speaker N" at parse time
+        [string]$MappingPath       # optional: write original->pseudonym map (sensitive, gitignore!)
+    )
     $zip = [System.IO.Compression.ZipFile]::OpenRead($docxPath)
     $entry = $zip.GetEntry("word/document.xml")
     $stream = $entry.Open()
     $reader = New-Object System.IO.StreamReader($stream)
     $xmlContent = $reader.ReadToEnd()
     $reader.Close(); $stream.Close(); $zip.Dispose()
-    $xml = [xml]$xmlContent
+    $xml = New-Object System.Xml.XmlDocument
+    $xml.PreserveWhitespace = $true     # keep <w:t xml:space="preserve"> spaces
+    $xml.LoadXml($xmlContent)
     $ns = New-Object System.Xml.XmlNamespaceManager($xml.NameTable)
     $ns.AddNamespace("w", "http://schemas.openxmlformats.org/wordprocessingml/2006/main")
     $paragraphs = $xml.SelectNodes("//w:p", $ns)
+    $map = [ordered]@{}            # original name -> pseudonym (only populated if -Anonymize)
     $lines = @()
     foreach ($p in $paragraphs) {
         $runs = $p.SelectNodes(".//w:r", $ns)
         $lineText = ""
+        $lastEmittedName = $null   # collapse consecutive speaker-name runs in the same paragraph
         foreach ($r in $runs) {
+            # Speaker-name run = bold + color #616161 + size 24 (Teams transcript convention).
+            $rPr = $r.SelectSingleNode("w:rPr", $ns)
+            $isSpeakerName = $false
+            if ($Anonymize -and $rPr) {
+                $b   = $rPr.SelectSingleNode("w:b", $ns)
+                $col = $rPr.SelectSingleNode("w:color/@w:val", $ns)
+                $sz  = $rPr.SelectSingleNode("w:sz/@w:val", $ns)
+                if ($b -and $col -and $col.Value -eq "616161" -and $sz -and $sz.Value -eq "24") {
+                    $isSpeakerName = $true
+                }
+            }
+            if ($isSpeakerName) {
+                # Collect the run's full name once, emit one pseudonym (do not iterate <w:t> children).
+                $name = ($r.SelectNodes(".//w:t", $ns) | ForEach-Object { $_.'#text' }) -join ''
+                $name = $name.Trim()
+                if ($name -and $name -ne $lastEmittedName) {
+                    if (-not $map.Contains($name)) { $map[$name] = "Speaker $($map.Count + 1)" }
+                    $lineText += $map[$name] + ' '
+                    $lastEmittedName = $name
+                }
+                continue
+            }
+            $lastEmittedName = $null   # any non-name run resets the collapse window
             foreach ($child in $r.ChildNodes) {
                 if ($child.LocalName -eq "t") { $lineText += $child.'#text' }
                 elseif ($child.LocalName -eq "br") { $lineText += "`n" }
             }
         }
         $lines += $lineText
+    }
+    if ($Anonymize -and $MappingPath) {
+        $map | ConvertTo-Json | Set-Content -Path $MappingPath -Encoding UTF8
+        Write-Warning "$MappingPath contains real names - gitignore it."
     }
     return ($lines -join "`n")
 }
@@ -58,6 +94,22 @@ function Extract-DocxText($docxPath) {
 - When the meeting is sensitive, replace real names with sequential labels: `Participant A`, `Participant B`, etc.
 - Include role in parentheses where known (e.g. `Participant B (Dev)`).
 - For internal/technical meetings anonymization is usually NOT required — keep names as-is unless the user asks otherwise.
+
+### Built-in `-Anonymize` switch on `Extract-DocxText`
+
+The PowerShell function above accepts `-Anonymize` (and optional `-MappingPath`). It works **at parse time, not as a post-pass**: while iterating XML runs, any run whose `<w:rPr>` matches the Teams "speaker name" formatting (`<w:b/>` + `<w:color w:val="616161"/>` + `<w:sz w:val="24"/>`) has its text substituted with a sequential pseudonym `Speaker 1`, `Speaker 2`, … *before* it ever lands in the output buffer.
+
+Properties:
+
+- **No regex search for names in the text.** The function never scans the body for known names; the model's output therefore cannot know names that were never written.
+- **No code duplication.** There is one parsing loop. `-Anonymize` only changes how a single run is rendered.
+- **Optional sidecar** `-MappingPath` writes `original_name → pseudonym` JSON. **This file is sensitive — gitignore it.** It exists only so a human can de-anonymize LLM-returned results.
+- **Trade-off:** if a participant is mentioned by name *inside the spoken text* (`"Stiven, can you confirm?"`), the name stays — by design, since we do not search for names in the body. If your transcripts routinely address participants by name, anonymize at the meeting policy level rather than at the parser.
+
+Two trust levels:
+
+- The anonymized output is safe to send to an LLM.
+- The mapping JSON must never leave the local machine.
 
 ## Generic Meeting Summary Format
 

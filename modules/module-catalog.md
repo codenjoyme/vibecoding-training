@@ -54,3 +54,4 @@
 | 250 | Export Chat Session | Extract, preserve, and share AI chat sessions from VS Code as portable HTML files |
 | 300 | DMtools — Agent Skill & Automation Catalog | Install a third-party agent skill, explore a catalog of 152+ automation tools across 16 integrations |
 | 600 | Microsoft Teams AI Chat Summarizer | Build a Dockerized Python app that authenticates to Entra ID, reads Teams chats via Microsoft Graph, summarizes with an LLM, and posts back to a dedicated chat |
+| 620 | Microsoft Teams Meeting Transcription | Convert Teams meeting `.docx` transcripts to clean text with optional speaker anonymization, ready for LLM summarization |
