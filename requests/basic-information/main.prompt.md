@@ -80,3 +80,15 @@ go
 ### RESULT
 
 - `base-course.md` — created in the project root with a formatted Markdown table of all recommended modules, level tags (`base`/`advanced`), importance markers, and a legend section
+
+## UPD7
+
+Давай уберем из всех описаний ридми и так далее что этот тренинг "Vibecoding for Managers Training", он будет теперь "Vibecoding for Everyone Training". Go
+
+### RESULT
+
+- [readme.md](../../readme.md) — renamed to "Vibecoding for Everyone Training", updated description and Target Audience section
+- [training-plan.md](../../training-plan.md) — renamed to "Vibecoding for Everyone - Training Plan", updated name in body text and Course Philosophy section
+- [modules/proposed-modules.md](../../modules/proposed-modules.md) — updated program name in intro
+- [modules/900-course-feedback-and-completion/walkthrough.md](../../modules/900-course-feedback-and-completion/walkthrough.md) — updated course name in feedback template header, mailto links (all 3 variants), and completion message
+- [modules/230-creating-training-modules-from-articles/walkthrough.md](../../modules/230-creating-training-modules-from-articles/walkthrough.md) — updated course name in example prompt

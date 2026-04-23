@@ -127,7 +127,7 @@ In VS Code or Cursor, open a new AI chat. Select **Claude Sonnet 4.5** as your m
 ### Send This Prompt
 
 ```
-I want to create a new training module for the "Vibecoding for Managers" course.
+I want to create a new training module for the "Vibecoding for Everyone" course.
 
 Source material: @source-article.md (read this file)
 

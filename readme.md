@@ -1,6 +1,6 @@
-# Vibecoding for Managers Training
+# Vibecoding for Everyone Training
 
-A comprehensive training program teaching managers how to effectively use AI coding assistants (vibecoding) in their work.
+A comprehensive training program teaching everyone how to effectively use AI coding assistants (vibecoding) in their work.
 
 ## Philosophy
 
@@ -26,7 +26,7 @@ Read more about the project motivation and approach: [Motivation](motivation.md)
 
 ## Target Audience
 
-Managers who want to leverage AI coding assistants to improve their productivity and technical capabilities.
+Everyone who wants to leverage AI coding assistants to improve their productivity and technical capabilities.
 
 ## Contributing
 

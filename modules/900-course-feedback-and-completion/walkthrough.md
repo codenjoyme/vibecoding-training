@@ -44,7 +44,7 @@ Before writing feedback, take a moment to review what you've learned.
 1. Copy the following feedback template into the file:
 
    ```markdown
-   # Course Feedback — Vibecoding for Managers
+   # Course Feedback — Vibecoding for Everyone
 
    **Date:** [today's date]
    **Name (optional):** [your name or anonymous]
@@ -136,9 +136,9 @@ You have several options to send your feedback. Choose the one that works best f
 
 1. Open this link in your browser (replace the body with your feedback or attach the file):
 
-   **Primary:** [apofig@gmail.com](mailto:apofig@gmail.com?subject=Course%20Feedback%20-%20Vibecoding%20for%20Managers)
+   **Primary:** [apofig@gmail.com](mailto:apofig@gmail.com?subject=Course%20Feedback%20-%20Vibecoding%20for%20Everyone)
 
-   **Alternative:** [oleksandr_baglai@epam.com](mailto:oleksandr_baglai@epam.com?subject=Course%20Feedback%20-%20Vibecoding%20for%20Managers)
+   **Alternative:** [oleksandr_baglai@epam.com](mailto:oleksandr_baglai@epam.com?subject=Course%20Feedback%20-%20Vibecoding%20for%20Everyone)
 
 1. Copy the contents of your `work/my-feedback.md` file and paste it into the email body.
 
@@ -149,7 +149,7 @@ You have several options to send your feedback. Choose the one that works best f
 1. Run the following command in your terminal to open your default email client with the feedback:
 
    ```powershell
-   Start-Process "mailto:apofig@gmail.com?subject=Course Feedback - Vibecoding for Managers"
+   Start-Process "mailto:apofig@gmail.com?subject=Course Feedback - Vibecoding for Everyone"
    ```
 
 1. Paste the contents of `work/my-feedback.md` into the email body and send.
@@ -163,7 +163,7 @@ You have several options to send your feedback. Choose the one that works best f
    import urllib.parse
 
    to = "apofig@gmail.com"
-   subject = "Course Feedback - Vibecoding for Managers"
+   subject = "Course Feedback - Vibecoding for Everyone"
 
    # Read your feedback file
    with open("work/my-feedback.md", "r", encoding="utf-8") as f:
@@ -191,7 +191,7 @@ Your feedback is on its way to the course author. Every piece of feedback — wh
 
 ## Part 4: Celebrate Your Achievement
 
-You've completed the Vibecoding for Managers course! Here's what you've accomplished:
+You've completed the Vibecoding for Everyone course! Here's what you've accomplished:
 
 - **Setup & Environment:** Installed and configured AI coding tools (VS Code, Cursor, GitHub Copilot)
 - **Prompting & Communication:** Learned to communicate effectively with AI assistants

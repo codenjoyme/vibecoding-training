@@ -1,6 +1,6 @@
 # Proposed New Modules — Elevator Pitches & Training Plans
 
-> This document describes 15 new modules proposed for the Vibecoding for Managers program.  
+> This document describes 15 new modules proposed for the Vibecoding for Everyone program.  
 > Each module includes: elevator pitch, training plan outline, what the student gets, proposed placement in the curriculum, and motivation for that placement.
 
 ---
