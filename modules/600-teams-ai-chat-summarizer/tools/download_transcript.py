@@ -100,6 +100,56 @@ def list_transcripts(token: str, meeting_id: str) -> list:
     return r.json().get("value", [])
 
 
+def list_recent_transcripts(token: str, days: int) -> list:
+    """List ALL of the user's transcripts created in the last N days, newest first.
+
+    Uses /me/onlineMeetings/getAllTranscripts which requires a $filter on
+    meetingOrganizerUserId or meetingStartDateTime. We use the latter.
+    """
+    from datetime import datetime, timedelta, timezone
+
+    since = (datetime.now(timezone.utc) - timedelta(days=days)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    flt = urllib.parse.quote(f"meetingStartDateTime ge {since}", safe="")
+    url = f"{GRAPH}/me/onlineMeetings/getAllTranscripts?$filter={flt}"
+    items: list = []
+    while url:
+        r = requests.get(url, headers={"Authorization": f"Bearer {token}"}, timeout=60)
+        r.raise_for_status()
+        body = r.json()
+        items.extend(body.get("value", []))
+        url = body.get("@odata.nextLink")
+    items.sort(key=lambda t: t.get("createdDateTime", ""), reverse=True)
+    return items
+
+
+def get_meeting(token: str, meeting_id: str) -> dict:
+    r = requests.get(
+        f"{GRAPH}/me/onlineMeetings/{meeting_id}",
+        headers={"Authorization": f"Bearer {token}"},
+        timeout=30,
+    )
+    r.raise_for_status()
+    return r.json()
+
+
+def participant_names(meeting: dict) -> list:
+    """Best-effort participant display names from an onlineMeeting payload."""
+    p = meeting.get("participants", {})
+    names = []
+    org = p.get("organizer", {})
+    if org:
+        ident = (org.get("upn") or
+                 (org.get("identity", {}).get("user") or {}).get("displayName"))
+        if ident:
+            names.append(f"organizer={ident}")
+    for a in p.get("attendees", []) or []:
+        ident = (a.get("upn") or
+                 (a.get("identity", {}).get("user") or {}).get("displayName"))
+        if ident:
+            names.append(ident)
+    return names
+
+
 def download(token: str, meeting_id: str, transcript_id: str, fmt: str, out_path: str) -> None:
     accept = {
         "vtt": "text/vtt",
@@ -125,14 +175,57 @@ def main() -> None:
     p.add_argument("--format", choices=["vtt", "docx"], default="docx")
     p.add_argument("--out", default="/data/transcript.docx")
     p.add_argument("--list", action="store_true", help="List transcripts for the meeting and exit")
+    p.add_argument("--list-recent", action="store_true",
+                   help="List recent transcripts across ALL meetings (newest first) and exit")
+    p.add_argument("--latest", action="store_true",
+                   help="Auto-pick the most recent transcript across all meetings in the last --days window")
+    p.add_argument("--days", type=int, default=14,
+                   help="Window in days for --list-recent / --latest (default: 14)")
     args = p.parse_args()
 
     token = get_token()
 
+    if args.list_recent or (args.latest and not (args.meeting_id or args.join_url)):
+        recent = list_recent_transcripts(token, args.days)
+        if not recent:
+            sys.exit(f"No transcripts in the last {args.days} day(s).")
+        if args.list_recent and not args.latest:
+            for t in recent:
+                mid = t.get("meetingId", "?")
+                created = t.get("createdDateTime", "?")
+                tid = t.get("id", "?")
+                # Best-effort: enrich with subject + participants.
+                try:
+                    m = get_meeting(token, mid)
+                    subj = m.get("subject", "(no subject)")
+                    parts = ", ".join(participant_names(m)) or "(no participants)"
+                except Exception as e:
+                    subj = f"(meeting fetch failed: {e})"
+                    parts = "?"
+                print(f"{created}  meeting={mid}")
+                print(f"  subject:      {subj}")
+                print(f"  participants: {parts}")
+                print(f"  transcript:   {tid}")
+                print()
+            return
+        # --latest path: pick top
+        latest = recent[0]
+        meeting_id = latest["meetingId"]
+        transcript_id = latest["id"]
+        print(f"Latest transcript: meeting={meeting_id}  transcript={transcript_id}  created={latest.get('createdDateTime')}")
+        try:
+            m = get_meeting(token, meeting_id)
+            print(f"  subject:      {m.get('subject', '(no subject)')}")
+            print(f"  participants: {', '.join(participant_names(m)) or '(no participants)'}")
+        except Exception as e:
+            print(f"  (could not fetch meeting metadata: {e})")
+        download(token, meeting_id, transcript_id, args.format, args.out)
+        return
+
     meeting_id = args.meeting_id
     if not meeting_id:
         if not args.join_url:
-            sys.exit("Provide --meeting-id or --join-url.")
+            sys.exit("Provide --meeting-id, --join-url, --list-recent, or --latest.")
         meeting_id = find_meeting_id(token, args.join_url)
 
     transcripts = list_transcripts(token, meeting_id)

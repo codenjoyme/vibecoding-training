@@ -49,7 +49,7 @@ tools/
 ├── read_messages.py              ← argparse: CHAT_ID --top N, prints messages (HTML stripped)
 ├── create_notification_chat.py   ← argparse: --topic STR, idempotent, prints chat id
 ├── summarize_and_notify.py       ← argparse: SOURCE_CHAT_ID --top N, full E2E pipeline
-└── download_transcript.py        ← argparse: --join-url|--meeting-id --format docx|vtt --out PATH
+├── download_transcript.py        ← argparse: --join-url|--meeting-id|--latest|--list-recent --days N --format docx|vtt --out PATH
 ```
 
 ### Architecture rule (OCP)
@@ -73,7 +73,7 @@ When extending, write a new `*.py` that imports `get_access_token`. Never re-imp
 | `read_messages.py` | Dumps recent messages from one chat. | `CHAT_ID [--top N]` (default N=20) | `GET /me/chats/{id}/messages?$top=N`. Strips HTML, resolves sender (user / application / system), prints timestamps in UTC. Skip messages with empty body — they are attachment-only / system events. |
 | `create_notification_chat.py` | Creates the dedicated "AI inbox" group chat. | `[--topic "AI Teams Summaries"]` | **Idempotent** — first calls `find_existing()` which scans group chats by topic; only creates if missing. Posts `POST /chats` with `chatType: "group"` + single `aadUserConversationMember` (you). Prints `NOTIFICATION_CHAT_ID=...` line ready to paste into `.env`. |
 | `summarize_and_notify.py` | Full read → summarize → post pipeline. | `SOURCE_CHAT_ID [--top N]` (default N=20) | Pipeline: `fetch_messages()` → `build_transcript()` (oldest first, HTML stripped, drops empty bodies) → `summarize()` (POST `{LLM_ENDPOINT}/chat/completions`, model `LLM_MODEL`, `temperature=0.3`) → `markdown_to_teams_html()` → `post_to_notification_chat()`. System prompt asks for "3-7 bullets" — change `SYSTEM_PROMPT` constant to retune. |
-| `download_transcript.py` | Downloads a Teams meeting transcript via Graph (the `.docx` you would otherwise click-download in the Teams UI). | `[--join-url URL] [--meeting-id ID] [--transcript-id TID] [--format docx\|vtt] [--out PATH] [--list]` | Uses its **own** scope set `["OnlineMeetings.Read", "OnlineMeetingTranscript.Read.All"]` — does NOT call `graph_auth.get_access_token` (different scopes ⇒ different consent). First run triggers a separate device-code flow. Endpoints: `GET /me/onlineMeetings?$filter=JoinWebUrl eq '...'` → `GET /me/onlineMeetings/{id}/transcripts` → `GET .../transcripts/{tid}/content?$format=application/msword` (or `text/vtt`). Both `OnlineMeetings.Read` and `OnlineMeetingTranscript.Read.All` MUST be added to the app registration manifest first; otherwise the call fails with HTTP 403. |
+| `download_transcript.py` | Downloads a Teams meeting transcript via Graph (the `.docx` you would otherwise click-download in the Teams UI). | `[--join-url URL] [--meeting-id ID] [--transcript-id TID] [--latest] [--list-recent] [--days N] [--format docx\|vtt] [--out PATH] [--list]` | Uses its **own** scope set `["OnlineMeetings.Read", "OnlineMeetingTranscript.Read.All"]` — does NOT call `graph_auth.get_access_token` (different scopes ⇒ different consent). First run triggers a separate device-code flow. Endpoints: `GET /me/onlineMeetings?$filter=JoinWebUrl eq '...'` → `GET /me/onlineMeetings/{id}/transcripts` → `GET .../transcripts/{tid}/content?$format=application/msword` (or `text/vtt`). When you don't know the meeting id: `--list-recent --days N` enumerates ALL of your transcripts in the last N days via `GET /me/onlineMeetings/getAllTranscripts?$filter=meetingStartDateTime ge ...` (paginates through `@odata.nextLink`) and enriches each row with `subject` + participants from `GET /me/onlineMeetings/{id}`; `--latest` picks the newest from the same window and downloads it. Both `OnlineMeetings.Read` and `OnlineMeetingTranscript.Read.All` MUST be added to the app registration manifest first; `OnlineMeetingTranscript.Read.All` is marked **Admin consent required = Yes** by Microsoft Graph policy, so admin-consent is mandatory — otherwise the device-code flow fails with HTTP 403 / "Need admin approval". |
 
 ### Key reusable helpers (already implemented — don't rewrite)
 
@@ -107,6 +107,12 @@ docker compose run --rm --build app python summarize_and_notify.py "<SOURCE_CHAT
 
 # Download a meeting transcript as .docx (first run triggers a fresh device-code flow for the new scope)
 docker compose run --rm app python download_transcript.py --join-url "<TEAMS_JOIN_URL>" --format docx --out /data/transcript.docx
+
+# Or, when you don't have a join URL: list transcripts of your meetings in the last 14 days
+docker compose run --rm app python download_transcript.py --list-recent --days 14
+
+# Or just grab the most recent one
+docker compose run --rm app python download_transcript.py --latest --days 14 --format docx --out /data/transcript.docx
 ```
 
 The `app` service has `entrypoint: []` and accepts arbitrary `python <file>.py <args>`. Add new scripts to the folder, run with `--build` once, then drop `--build` for subsequent runs.

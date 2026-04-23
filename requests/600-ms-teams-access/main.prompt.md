@@ -1233,4 +1233,126 @@ Go
 
 Текущее состояние папки `requests/600-ms-teams-access/`: только md-логи, `Call about teams.docx`/`.txt`, `chat.md`, `image-28/29.png`, `.env`, `.gitignore`, `data/`.
 
+## UPD34
+
+Давай потестим скачивание `docx` из последнего созвона с `Stiven Pupkin` в личке. Сразу же отработай его через инструкцию [text](../../instructions/transform-meeting-transcript.agent.md) анонимно. И размести все в папке `work/620-task/`. А креды тоже туда перенеси из папки [text](.) и ранай все там внутри `work/620-task/`. Если скрипт не работает - правь. Go
+
+### RESULT
+
+Сделал перенос окружения и расширил скрипт; на запуске упёрлись в политику Graph по scope (см. UPD35).
+
+**Перенос в [work/620-task/](../../work/620-task/):**
+
+- Скопировал из [tools/](../../modules/600-teams-ai-chat-summarizer/tools/): [graph_auth.py](../../work/620-task/graph_auth.py), [download_transcript.py](../../work/620-task/download_transcript.py), [requirements.txt](../../work/620-task/requirements.txt), [Dockerfile](../../work/620-task/Dockerfile), [docker-compose.yml](../../work/620-task/docker-compose.yml), [.dockerignore](../../work/620-task/.dockerignore).
+- **Перенёс** (move, не copy) `requests/600-ms-teams-access/.env` и `requests/600-ms-teams-access/data/` → `work/620-task/.env` и `work/620-task/data/`. Креды теперь живут в одном месте, рядом со скриптом.
+- Добавил [.gitignore](../../work/620-task/.gitignore) (`.env`, `data/`, `*.docx`, `*.txt`, `*.mapping.json`).
+
+**Расширил [download_transcript.py](../../work/620-task/download_transcript.py)** — без знания meeting-id скрипт не умел искать транскрипты. Добавил три флага:
+
+- `--list-recent --days N` — выводит ВСЕ транскрипты пользователя за последние N дней через `GET /me/onlineMeetings/getAllTranscripts?$filter=meetingStartDateTime ge ...`, обогащает каждую запись `subject` + участники из `GET /me/onlineMeetings/{id}`.
+- `--latest [--days N]` — то же самое, но сразу берёт самый свежий и качает.
+- `--days N` (default 14) — окно поиска.
+
+Plus две вспомогательные функции: `list_recent_transcripts(token, days)` (с pagination через `@odata.nextLink`) и `get_meeting(token, id)` + `participant_names(meeting)` для метаданных.
+
+**Запуск:**
+
+```powershell
+cd work/620-task
+docker compose build app
+docker compose run --rm app python download_transcript.py --list-recent --days 14
+```
+
+Билд прошёл (`620-task-app:latest`). Запуск списка транскриптов упал на consent — Azure показал экран **"Need admin approval"** для `teams-ai-assistant-baglai`. См. UPD35.
+
+**Не сделано:** ❗ Никаких git commit / push.
+
+## UPD35
+
+Вот что: *(прикрепил скрин Azure-диалога "Need admin approval" для `teams-ai-assistant-baglai` — текст: «teams-ai-assistant-baglai needs permission to access resources in your organization that only an admin can grant. Please ask an admin to grant permission to this app before you can use it.». Скрин в чате, не файлом.)*
+
+go
+
+### RESULT
+
+Это нормальная ожидаемая блокировка для `OnlineMeetingTranscript.Read.All` — Microsoft по умолчанию помечает этот scope как admin-only на уровне Graph (политика самого Microsoft, не твоего тенанта). Без админ-consent device-code flow не пройдёт, даже если scope добавлен в App Registration.
+
+**Варианты:**
+
+1. **Admin consent** — попроси IT-админа в портале нажать `Grant admin consent for ACME` в App registration → API permissions. После этого скрипт пройдёт сразу.
+2. **Admin consent request** — на экране "Need admin approval" есть ссылка `Submit a request` → улетит тикет, ждёшь.
+3. **Без API** — `download_transcript.py` положить на полку, продолжать работать с уже скачанным `.docx` (как мы делали в модуле 620). Скрипт остаётся в репе как готовый рецепт на случай, когда админ-consent появится.
+
+## UPD36
+
+А я их не включал вообще-то
+
+### RESULT
+
+Точно. Я скрипт написал под scope `OnlineMeetings.Read` + `OnlineMeetingTranscript.Read.All`, но в App Registration их **нет**. Когда MSAL запрашивает scope, которого нет в манифесте → AAD показывает "Need admin approval" (ему ничего не остаётся, никто их не разрешал явно).
+
+**Что сделать (по аналогии с Part 2 walkthrough):**
+
+1. Azure Portal → App registrations → **teams-ai-assistant-baglai** → **API permissions**.
+2. **+ Add a permission** → Microsoft Graph → **Delegated permissions**.
+3. Добавь две:
+   - `OnlineMeetings.Read`
+   - `OnlineMeetingTranscript.Read.All`
+4. **Add permissions**.
+
+После добавления посмотри колонку **Admin consent required**:
+
+- Если у обоих **No** → можно сразу запускать `download_transcript.py`, на consent screen жмёшь Accept.
+- Если у одной/обеих **Yes** → нужен админ-consent (тогда мой UPD35 ответ актуален).
+
+Кинь скрин страницы API permissions после добавления — увижу статус и скажу, дальше пробуем запускать или идём к админу.
+
+## UPD37
+
+Давай весь конверсейшен перенесем в `main.prompt.md` как это сказано в инструкции по итерейтив промптингу.
+
+Так же я добавил картинки `requests/600-ms-teams-access/image-30-1.png`, `requests/600-ms-teams-access/image-30-2.png`, `requests/600-ms-teams-access/image-31.png`, `requests/600-ms-teams-access/image-32.png` — их тоже надо встроить в walkthrough/readme и после переноса (распознай и пойми их имя) в модуль, тут обновить ссылки и удалять референсы как мы это делали. Этот промпт и другие мои промпты оформи как отдельные `## UPD` в промпте итеративном и свои ответы что ты мне тут писал.
+
+go
+
+### RESULT
+
+**Распознал и переименовал** твои 4 скрина под канонические имена в [tools/img/](../../modules/600-teams-ai-chat-summarizer/tools/img/):
+
+| Был | Стало | Что показывает |
+|---|---|---|
+| `image-30-1.png` | [28-transcript-add-onlinemeetingtranscript-readall.png](../../modules/600-teams-ai-chat-summarizer/tools/img/28-transcript-add-onlinemeetingtranscript-readall.png) | Add a permission → поиск `OnlineMeetingTranscript.Read.All`, чекбокс отмечен, Admin consent required = **Yes** |
+| `image-30-2.png` | [29-transcript-add-onlinemeetings-read.png](../../modules/600-teams-ai-chat-summarizer/tools/img/29-transcript-add-onlinemeetings-read.png) | Add a permission → поиск `OnlineMeetings.Read`, чекбокс отмечен, Admin consent required = **No** |
+| `image-31.png` | [30-transcript-permissions-final-list.png](../../modules/600-teams-ai-chat-summarizer/tools/img/30-transcript-permissions-final-list.png) | Финальный список API permissions: `OnlineMeetings.Read = No`, `OnlineMeetingTranscript.Read.All = Yes / Not granted for <tenant>` ⚠️ |
+| `image-32.png` | [31-onlinemeetingtranscript-readall-admin-consent-detail.png](../../modules/600-teams-ai-chat-summarizer/tools/img/31-onlinemeetingtranscript-readall-admin-consent-detail.png) | Detail-панель `OnlineMeetingTranscript.Read.All`, явно `Admin consent required: Yes` |
+
+После копии в `tools/img/` оригиналы из `requests/600-ms-teams-access/` удалены.
+
+**Встроены в:**
+
+- [walkthrough.md → Part 11](../../modules/600-teams-ai-chat-summarizer/walkthrough.md) — все 4 скрина инлайн в шаге "Add two more delegated permissions" с явным предупреждением про admin-only политику Microsoft на `OnlineMeetingTranscript.Read.All`.
+- [tools/readme.md](../../modules/600-teams-ai-chat-summarizer/tools/readme.md) — добавлен новый блок **Part 28 — Add Transcript Permissions** в Visual Walkthrough перед Quick Reference, с теми же 4 скриншотами.
+
+**Перенос conversation в этот файл:** оформил [UPD34 RESULT](#upd34) (что было сделано до блока — перенос в `work/620-task/`, расширение `download_transcript.py` тремя флагами, билд, запуск с фейлом), [UPD35](#upd35) (твой "Вот что" + Need admin approval скрин + мой ответ про admin-only политику), [UPD36](#upd36) ("А я их не включал" + мой ответ про отсутствующие в манифесте scopes), [UPD37](#upd37) (этот блок). Имя `Andrii Ostapenko1` в UPD34 sanitized → `Stiven Pupkin` по правилу из UPD21.
+
+## UPD38
+
+И еще ты делал правку в скрипте, давай это тоже в модуле отразим
+"Расширю скрипт: добавлю режим --latest чтобы найти самый свежий транскрипт без знания meeting-id."
+Во первых сохрани скрипт новый в модуле, а во вторых `ридми`, `волксру` и `скиллз.мд` тоже go
+
+### RESULT
+
+Синхронизировал расширенный скрипт из `work/620-task/` в канонический `tools/` и обновил всю документацию.
+
+**Скрипт:**
+
+- [modules/600-teams-ai-chat-summarizer/tools/download_transcript.py](../../modules/600-teams-ai-chat-summarizer/tools/download_transcript.py) — байт-в-байт копия [work/620-task/download_transcript.py](../../work/620-task/download_transcript.py) (хеши совпали). Новые функции `list_recent_transcripts(token, days)` (с pagination через `@odata.nextLink`), `get_meeting(token, id)`, `participant_names(meeting)` и три CLI-флага: `--list-recent`, `--latest`, `--days N` (default 14).
+
+**Документация:**
+
+- [SKILL.md](../../modules/600-teams-ai-chat-summarizer/tools/SKILL.md) — в дереве файлов добавил `--latest|--list-recent --days N` к строке `download_transcript.py`. В табличной строке `download_transcript.py` (Per-Script section) расширил CLI-сигнатуру и описал endpoint `getAllTranscripts?$filter=meetingStartDateTime ge ...`, его pagination и enrichment через `/me/onlineMeetings/{id}`. В Quick Reference добавил два примера: `--list-recent --days 14` и `--latest --days 14`. Также явно отметил, что `OnlineMeetingTranscript.Read.All` помечен Microsoft как `Admin consent required = Yes` и без admin-consent device-code flow упадёт с 403/"Need admin approval".
+- [walkthrough.md → Part 11](../../modules/600-teams-ai-chat-summarizer/walkthrough.md) — после старого шага про `--list` добавил два новых шага (4 и 5) с примерами `--list-recent --days 14` и `--latest --days 14 --format docx --out /data/meeting.docx`. Старый шаг про `--format vtt` стал шагом 6.
+- [tools/readme.md → Quick Reference](../../modules/600-teams-ai-chat-summarizer/tools/readme.md) — после команды `download_transcript.py --join-url ...` добавил команды `--list-recent --days 14` и `--latest --days 14 ...`.
+
 **Не сделано:** ❗ Никаких git commit / push.

@@ -349,10 +349,22 @@ If you want to automate transcript ingestion, scheduled summaries, or pipe the f
 ### Action
 
 1. Add two more delegated permissions to the App Registration (Part 2 pattern):
-   - `OnlineMeetings.Read`
-   - `OnlineMeetingTranscript.Read.All`
+   - `OnlineMeetings.Read` — `Admin consent required = No` (you can grant it yourself).
 
-   Grant consent (admin consent may be required by tenant policy).
+     ![Add OnlineMeetings.Read](tools/img/29-transcript-add-onlinemeetings-read.png)
+   - `OnlineMeetingTranscript.Read.All` — `Admin consent required = Yes` (must be granted by an Entra ID admin; without consent the device-code flow will hit a "Need admin approval" screen even though you "added" the scope).
+
+     ![Add OnlineMeetingTranscript.Read.All](tools/img/28-transcript-add-onlinemeetingtranscript-readall.png)
+
+   After both are added, the API permissions page looks like this — note the warning ⚠️ `Not granted for <tenant>` next to the transcript permission until an admin clicks **Grant admin consent**:
+
+   ![Final transcript permissions](tools/img/30-transcript-permissions-final-list.png)
+
+   The detail view confirms the admin-consent requirement for `OnlineMeetingTranscript.Read.All`:
+
+   ![OnlineMeetingTranscript.Read.All detail](tools/img/31-onlinemeetingtranscript-readall-admin-consent-detail.png)
+
+   > ⚠️ Microsoft marks `OnlineMeetingTranscript.Read.All` as admin-only at the Graph level — this is a Microsoft policy, not your tenant's choice. Without admin consent the device-code flow will fail with **"Need admin approval"**. File a ticket with IT before running the script (or use the **Submit a request** link on the consent screen).
 2. Run [download_transcript.py](tools/download_transcript.py):
    ```powershell
    docker compose run --rm app python download_transcript.py `
@@ -365,7 +377,15 @@ If you want to automate transcript ingestion, scheduled summaries, or pipe the f
    ```powershell
    docker compose run --rm app python download_transcript.py --join-url "<URL>" --list
    ```
-4. Use `--format vtt` if you want the WebVTT subtitle file instead of `.docx`.
+4. When you don't have a join URL — enumerate ALL of your transcripts in the last N days (uses `GET /me/onlineMeetings/getAllTranscripts?$filter=meetingStartDateTime ge ...`, paginates, enriches each row with subject + participants):
+   ```powershell
+   docker compose run --rm app python download_transcript.py --list-recent --days 14
+   ```
+5. Or just grab the most recent transcript without specifying anything:
+   ```powershell
+   docker compose run --rm app python download_transcript.py --latest --days 14 --format docx --out /data/meeting.docx
+   ```
+6. Use `--format vtt` if you want the WebVTT subtitle file instead of `.docx`.
 
 ### What happened
 You have a `meeting.docx` produced by the API, byte-equivalent to the one you'd get from the Teams UI. Hand it off to module 620 to extract anonymized text and feed it to the summarizer from Part 9.

@@ -192,6 +192,26 @@ A new message appears in **AI Teams Summaries** with a 3-7 bullet AI summary of 
 
 ![Summary received in Teams](img/27-summary-received-in-teams.png)
 
+### Part 28 — Add Transcript Permissions (optional, for `download_transcript.py`)
+
+To use [download_transcript.py](download_transcript.py) you need two more delegated Graph permissions on the App Registration. Add them via **API permissions → Add a permission → Microsoft Graph → Delegated permissions**:
+
+- `OnlineMeetings.Read` — `Admin consent required = No`, you grant it on first device-code login.
+
+  ![Add OnlineMeetings.Read](img/29-transcript-add-onlinemeetings-read.png)
+
+- `OnlineMeetingTranscript.Read.All` — `Admin consent required = Yes`. Microsoft marks this admin-only at the Graph level; without an admin consent the device-code flow will be blocked with a "Need admin approval" screen.
+
+  ![Add OnlineMeetingTranscript.Read.All](img/28-transcript-add-onlinemeetingtranscript-readall.png)
+
+After adding both, the page shows a ⚠️ `Not granted for <tenant>` next to the transcript permission until an admin clicks **Grant admin consent**:
+
+![Final transcript permissions](img/30-transcript-permissions-final-list.png)
+
+The detail panel confirms the policy:
+
+![OnlineMeetingTranscript.Read.All detail](img/31-onlinemeetingtranscript-readall-admin-consent-detail.png)
+
 ---
 
 ## Quick Reference — Common Commands
@@ -214,6 +234,12 @@ docker compose run --rm --build app python summarize_and_notify.py "<source_chat
 
 # Download a meeting transcript (.docx) via Graph (first run = new device-code flow for OnlineMeetingTranscript scope)
 docker compose run --rm app python download_transcript.py --join-url "<teams_meeting_join_url>" --format docx --out /data/transcript.docx
+
+# Or list all your transcripts in the last N days (no join URL needed)
+docker compose run --rm app python download_transcript.py --list-recent --days 14
+
+# Or just grab the most recent transcript
+docker compose run --rm app python download_transcript.py --latest --days 14 --format docx --out /data/transcript.docx
 ```
 
 ## Hygiene Reminder
