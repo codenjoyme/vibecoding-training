@@ -34,7 +34,7 @@ iterative-prompt.agent.md
 
 ## UPD3
 
-Зашел. ![alt text](image.png)
+Зашел. ![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/01-azure-portal-home.png)
 
 ### RESULT
 
@@ -46,7 +46,7 @@ iterative-prompt.agent.md
 
 ## UPD4
 
-Вот страничка. ![alt text](image-1.png) 
+Вот страничка. ![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/02-app-registrations-page.png) 
 
 ### RESULT 
 
@@ -68,10 +68,10 @@ iterative-prompt.agent.md
 ## UPD5
 
 По Supported account - что выбрать?: 
-![alt text](image-2.png)
+![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/03-supported-account-types.png)
 
 Сделал так  
-![alt text](image-3.png)
+![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/04-registration-form-filled.png)
 
 Пиши мне ответы не в чате, а тут и дальше poling занимайся. go
 
@@ -95,7 +95,7 @@ iterative-prompt.agent.md
 
 ## UPD6
 
-Вот ![alt text](image-4.png) go
+Вот ![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/05-app-overview-page.png) go
 
 ### RESULT
 
@@ -119,9 +119,9 @@ iterative-prompt.agent.md
 
 ## UPD7
 
-Вот меню выбрал ![alt text](image-5.png)
-Добавил ![alt text](image-6.png)
-Скопировал ![alt text](image-7.png)
+Вот меню выбрал ![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/06-certificates-secrets-menu.png)
+Добавил ![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/07-client-secret-added.png)
+Скопировал ![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/08-client-secret-value.png)
 go
 
 ### RESULT
@@ -204,15 +204,15 @@ go
 
 ## UPD9
 
-Вот скрин. ![alt text](image-8.png) Добавляю. 
-Дальше выбираю MS Graph ![alt text](image-9.png)
-Дальше Delegated permissions ![alt text](image-10.png)
-Добавил ChatMessage.Read ![alt text](image-11.png)
-Добавил Chat.Read ![alt text](image-13.png)
-Добавил offline_access ![alt text](image-14.png)
-Добавил Chat.ReadWrite ![alt text](image-15.png)
-Добавил ChatMessage.Send ![alt text](image-16.png)
-Вот что получилось ![alt text](image-17.png) Статус у меня пустой.
+Вот скрин. ![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/09-api-permissions-default.png) Добавляю. 
+Дальше выбираю MS Graph ![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/10-choose-microsoft-graph.png)
+Дальше Delegated permissions ![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/11-delegated-permissions.png)
+Добавил ChatMessage.Read ![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/12-add-chatmessage-read.png)
+Добавил Chat.Read ![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/13-add-chat-read.png)
+Добавил offline_access ![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/14-add-offline-access.png)
+Добавил Chat.ReadWrite ![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/15-add-chat-readwrite.png)
+Добавил ChatMessage.Send ![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/16-add-chatmessage-send.png)
+Вот что получилось ![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/17-permissions-final-list.png) Статус у меня пустой.
 go
 
 ### RESULT
@@ -261,13 +261,13 @@ go
 Секреты в `.env` заполнены. Сделай мне пожалуйста `.env.example`. Только не читай оригинальный файл. 
 
 Так же вот токены создаю 
-![alt text](image-18.png)
+![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/18-github-pat-page.png)
 Дату поставил без ограничений 
-![alt text](image-19.png)
+![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/19-github-pat-expiration.png)
 И выбрал `read:user` для классик токена
-![alt text](image-20.png)
+![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/20-github-pat-readuser-scope.png)
 Кликнул создать 
-![alt text](image-21.png)
+![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/21-github-pat-created.png)
 Вставил секрет в `GITHUB_TOKEN`.
 go
 
@@ -392,11 +392,11 @@ and enter the code XXXXXXXXX to authenticate.
 ## UPD13
  
 Код ввел.
-![alt text](image-24.png)
+![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/24-device-code-entered.png)
 Вот запросил.
-![alt text](image-22.png)
+![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/22-device-code-request.png)
 Вот что получил 
-![alt text](image-23.png)
+![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/23-signed-in-successfully.png)
 go
 
 ### RESULT
@@ -430,7 +430,7 @@ PS: client_secret, который ты сгенерил раньше, нам в 
 ## UPD14
 
 Вот сделал 
-![alt text](image-25.png)
+![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/25-allow-public-client-flows.png)
 
 ТЫ опять отвалился, продолжай polling.
 
@@ -831,7 +831,7 @@ Add to .env:
 ## UPD23
 
 Обновил .env, добавив `NOTIFICATION_CHAT_ID`. 
-Вот канал ![alt text](image-26.png)
+Вот канал ![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/26-notification-chat-in-teams.png)
 go
 
 ### RESULT
@@ -920,7 +920,7 @@ Done. Check your 'AI Teams Summaries' chat in Teams.
 ## UPD25
 
 Вот чат 
-![alt text](image-27.png)
+![alt text](../../modules/600-teams-ai-chat-summarizer/tools/img/27-summary-received-in-teams.png)
 
 Теперь давай сделаем вот что. 
 
@@ -960,7 +960,7 @@ Go
 - [tools/.gitignore](../../modules/600-teams-ai-chat-summarizer/tools/.gitignore) (`.env`, `data/`, `__pycache__/`, `*.pyc`, `.venv/`)
 
 **Скриншоты в [tools/img/](../../modules/600-teams-ai-chat-summarizer/tools/img/):**
-- 27 файлов скопированы и переименованы по схеме `NN-descriptive-name.png` (от `01-azure-portal-home.png` до `27-summary-received-in-teams.png`). Сиротский `image-12.png` (если он был) не переносился.
+- 27 файлов скопированы и переименованы по схеме `NN-descriptive-name.png` (от `01-azure-portal-home.png` до `27-summary-received-in-teams.png`).
 
 **Обновлены индексы курса:**
 - [training-plan.md](../../training-plan.md) — добавлена строка между 230 и 240.
@@ -1134,3 +1134,103 @@ Go
 Скажи, а есть ли ли возможность скачать docx с транскриптом скриптом или получить его через api? Просто ответь. Если не сложно реализовать, то добавь еще один скрипт для этого отдельный. И опиши его так же в конце `walkthrough.md` и в `SKILL.md` и в `readme.md`.  
 
 И наверное давай поправим все ссылки в этой доке не на локальную папку, а на файлы, которые уже есть в новом модуле находятся как часть skills. А из папки reference все удалим кроме того, что осталось тут в уникальном виде. Go
+
+### RESULT
+
+**Ответ на вопрос:** да, можно. Microsoft Graph отдаёт транскрипт через цепочку трёх вызовов:
+
+1. `GET /me/onlineMeetings?$filter=JoinWebUrl eq '<URL>'` → `meeting-id`
+2. `GET /me/onlineMeetings/{meeting-id}/transcripts` → список транскриптов
+3. `GET /me/onlineMeetings/{meeting-id}/transcripts/{tid}/content?$format=application/msword` (или `text/vtt`) → бинарь
+
+Нужны два delegated permission: `OnlineMeetings.Read` + `OnlineMeetingTranscript.Read.All`. Реализация легковесная — добавил отдельный скрипт.
+
+**Создан скрипт** [download_transcript.py](../../modules/600-teams-ai-chat-summarizer/tools/download_transcript.py):
+
+- argparse-CLI: `--join-url URL` (или `--meeting-id ID`) | `--format docx|vtt` (default docx) | `--out PATH` | `--list` (показать доступные транскрипты на митинге).
+- **Не использует** `graph_auth.get_access_token` — у скрипта свой scope-set `[OnlineMeetings.Read, OnlineMeetingTranscript.Read.All]`, разные scopes ⇒ разный consent. Первый запуск триггерит свой device-code flow.
+- Кеш токенов общий (`/data/token_cache.bin`), просто появляется второй account-entry.
+
+**Документация добавлена в трёх местах:**
+
+- [SKILL.md](../../modules/600-teams-ai-chat-summarizer/tools/SKILL.md) — добавлена строка в folder-layout, отдельная строка в per-script reference table (с эндпоинтами и required scopes), + команда в Standard run commands.
+- [readme.md](../../modules/600-teams-ai-chat-summarizer/tools/readme.md) — строка в "What's in This Folder", команда в Quick Reference.
+- [walkthrough.md](../../modules/600-teams-ai-chat-summarizer/walkthrough.md) — новый **Part 11: Download a Meeting Transcript via Graph (optional)** перед Success Criteria, со ссылкой на модуль 620 как downstream consumer.
+
+**Рефакторинг ссылок в этой доке:**
+
+Прошёлся regex'ом по всем `](filename)`-ссылкам, репойнтнул на канонические копии в модуле 600. 12 типов файлов, заменил все локальные ссылки:
+
+- `graph_auth.py`, `smoke_test.py`, `list_chats.py`, `read_messages.py`, `create_notification_chat.py`, `summarize_and_notify.py`
+- `requirements.txt`, `Dockerfile`, `docker-compose.yml`
+- `.dockerignore`, `.gitignore`, `.env.example`
+
+→ все теперь ведут в [../../modules/600-teams-ai-chat-summarizer/tools/](../../modules/600-teams-ai-chat-summarizer/tools/). Ссылки на локальный `.env` (с реальными секретами) и на локальные `image-N.png` оставил — `.env` уникален, картинки не имеют 1:1 mapping в `tools/img/` (там переименованный/курированный набор `01-azure-portal-home.png` … `27-summary-received-in-teams.png`).
+
+**Cleanup `requests/600-ms-teams-access/`:**
+
+Сравнил SHA256 каждого скрипта с копией в `modules/600-teams-ai-chat-summarizer/tools/` — 11 из 12 байт-в-байт идентичны. Удалил их:
+
+- `graph_auth.py`, `smoke_test.py`, `list_chats.py`, `read_messages.py`, `create_notification_chat.py`, `summarize_and_notify.py`
+- `requirements.txt`, `Dockerfile`, `docker-compose.yml`
+- `.dockerignore`, `.env.example`
+
+`.gitignore` локального requests-скоупа отличается от модульного (хеши не совпадают) — оставил, может содержать requests-специфичные правила.
+
+**Что осталось** в `requests/600-ms-teams-access/` — только уникальное:
+
+- `main.prompt.md` (этот session log), `summary-2026-04-22.md`, `skill-connect-to-teams.md`, `chat.md`
+- `Call about teams.docx` + `Call about teams.txt` (тестовые данные, использовались в модуле 620)
+- `image*.png` (28 raw скринов, оригиналы — переименованный курированный набор живёт в `tools/img/`)
+- `.env` (реальные секреты, gitignored, локально)
+- `.gitignore` (свой)
+- `data/`
+
+## UPD33
+
+Картинки сравни тож (по размеру файлов), и удали тут те, что уже есть в новом модуле. Go
+
+### RESULT
+
+Сначала сматчил по размеру (как ты просил), потом перепроверил SHA256 каждой пары — все 27 совпадений байт-в-байт. Маппинг (`image-N.png` → `tools/img/NN-...png`):
+
+| Local | Canonical |
+|---|---|
+| image.png | 01-azure-portal-home.png |
+| image-1.png | 02-app-registrations-page.png |
+| image-2.png | 03-supported-account-types.png |
+| image-3.png | 04-registration-form-filled.png |
+| image-4.png | 05-app-overview-page.png |
+| image-5.png | 06-certificates-secrets-menu.png |
+| image-6.png | 07-client-secret-added.png |
+| image-7.png | 08-client-secret-value.png |
+| image-8.png | 09-api-permissions-default.png |
+| image-9.png | 10-choose-microsoft-graph.png |
+| image-10.png | 11-delegated-permissions.png |
+| image-11.png | 12-add-chatmessage-read.png |
+| image-13.png | 13-add-chat-read.png |
+| image-14.png | 14-add-offline-access.png |
+| image-15.png | 15-add-chat-readwrite.png |
+| image-16.png | 16-add-chatmessage-send.png |
+| image-17.png | 17-permissions-final-list.png |
+| image-18.png | 18-github-pat-page.png |
+| image-19.png | 19-github-pat-expiration.png |
+| image-20.png | 20-github-pat-readuser-scope.png |
+| image-21.png | 21-github-pat-created.png |
+| image-22.png | 22-device-code-request.png |
+| image-23.png | 23-signed-in-successfully.png |
+| image-24.png | 24-device-code-entered.png |
+| image-25.png | 25-allow-public-client-flows.png |
+| image-26.png | 26-notification-chat-in-teams.png |
+| image-27.png | 27-summary-received-in-teams.png |
+
+Удалил 27 дубликатов. Ссылки в логе на `image-N.png` оставил как исторический контекст — они показывают, в какой момент сессии скриншот появился; визуально эти ссылки теперь сломаны, но идентичные картинки доступны в [tools/img/](../../modules/600-teams-ai-chat-summarizer/tools/img/) под новыми именами (см. таблицу выше).
+
+**Уникальные** — оставил без изменений:
+
+- `image-28.png` (15 607 B) — используется в UPD29 (story).
+- `image-29.png` (42 352 B) — используется в UPD29 (story).
+
+Текущее состояние папки `requests/600-ms-teams-access/`: только md-логи, `Call about teams.docx`/`.txt`, `chat.md`, `image-28/29.png`, `.env`, `.gitignore`, `data/`.
+
+**Не сделано:** ❗ Никаких git commit / push.
