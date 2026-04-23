@@ -37,7 +37,10 @@ The net effect: you can open multiple IDE windows with different projects, each 
 - After implementing each update:
   1. Append `### RESULT` inside the corresponding `## UPD[N]` section **before committing**:
      + Place it immediately after the update description text
-     + List file paths that were created or modified
+     + List file paths that were created or modified — **always as clickable markdown links**, never as plain text paths:
+       * ✅ `[instructions/some-file.agent.md](../../instructions/some-file.agent.md)`
+       * ❌ `` `instructions/some-file.agent.md` ``
+       * Use a path relative to the `main.prompt.md` file's location so links resolve correctly in VS Code
      + Add 1–2 sentence description of what was done
      + Keep it concise — this is a changelog, not documentation
   2. **Commit everything in one atomic commit** — include both the changed files AND the updated `main.prompt.md` (with `### RESULT` already written). The commit message should summarize what was done. **Each `## UPD` block = one separate commit.** Never batch multiple UPDs into one commit. Never make a separate commit just for `### RESULT` — it must be part of the same commit as the work.

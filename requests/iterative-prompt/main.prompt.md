@@ -148,3 +148,11 @@ iterative-prompt.agent
 ### RESULT
 
 - `instructions/iterative-prompt.agent.md` — updated commit workflow: `### RESULT` must be written to `main.prompt.md` **before** committing; all changed files + `main.prompt.md` go into one atomic commit; separate "RESULT-only" commits are now explicitly forbidden.
+
+## UPD8
+
+Давай обновим инструкцию так, что если в RESULT что-то сгенерировано, то это будут markdown ссылки на файлы, а не просто `dir/file-name.ext`. Чтобы читателю потом можно было кликнуть и открыть. Go
+
+### RESULT
+
+- Modified [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) — в блоке `### RESULT` в секции "After implementing each update" добавлено требование: все пути к файлам оформлять как кликабельные markdown-ссылки (с примерами ✅/❌ и примечанием про относительный путь от `main.prompt.md`).
