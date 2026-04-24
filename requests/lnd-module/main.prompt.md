@@ -167,3 +167,12 @@ DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/out
 - В [lnd/build_docx.py](../../lnd/build_docx.py) `EXTRA_SCALE` заменён на `SHARED_SCALE = 0.7`. Каждая картинка получает `width = native_width * 0.7` (в пикселях, при 96 DPI это её "натуральная физическая ширина" × 0.7).
 - Картинки, у которых после scale ширина или высота вылезла бы за `6.0" × 8.0"` (576×768px), индивидуально кэпятся пропорционально по странице. Они отклоняются от общего масштаба, но не разваливаются.
 - DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx).
+
+## UPD8
+
+Поставим не 0.7, а 1.2 go
+
+### RESULT
+
+- В [lnd/build_docx.py](../../lnd/build_docx.py) изменено: `SHARED_SCALE = 1.2`. Картинки, превышающие страницу, по-прежнему индивидуально кэпятся.
+- DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx).

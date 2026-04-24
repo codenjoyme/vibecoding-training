@@ -54,7 +54,7 @@ PANDOC_DEFAULT_DPI = 96
 # Per-image: if scaled width > page_w OR scaled height > page_h, that single
 # image is individually capped to fit the page (it loses the shared scale,
 # but it does not overflow).
-SHARED_SCALE = 0.7
+SHARED_SCALE = 1.2
 
 # Files to skip (per user instruction in UPD2).
 SKIP_FILES = {"module-02b-installing-claude-code-codemie.md"}
