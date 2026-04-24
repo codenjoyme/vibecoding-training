@@ -320,3 +320,68 @@ Go
 - `docx`-файлы доставать из stash не понадобилось: тот stash я ещё в UPD14 удалил, но физически файлы остались на диске (они и сейчас лежат: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx) ~9.4 MB и [lnd/reference.docx](../../lnd/reference.docx) ~11 KB) — они теперь просто untracked согласно правилу `lnd/output/*.docx` в [.gitignore](../../.gitignore). `lnd/reference.docx` остался tracked (build-скрипт его всё равно перегенерирует — это пометка "modified", можно игнорировать).
 - Backup-ветка `backup-before-docx-purge` (на старом `997febe` со старой историей и docx) сохранена как страховка. Удалить можно командой `git branch -D backup-before-docx-purge && git tag -d backup-before-docx-purge-tag`, когда подтвердишь, что всё ок.
 - Когда захочешь опубликовать: `git push origin main` (force не нужен — `origin/main` сейчас не содержит этих коммитов; обычный fast-forward push). Также можно сразу удалить старую ссылку backup на remote, если она там есть, — у тебя `backup-before-docx-purge` только локальная.
+
+## UPD16
+
+Смотри в чем проблема. Каждый блок на каждом модуле на автопроверку говорит, что надо скопилировать вручную какие-то результаты и отправить на проверку. Например.
+```
+Locate the specification file you created and committed to your repository during Page 4.
+Locate `project_spec.md` and `backlog.md` in your repository.
+Locate the instruction files in your project's `instructions/` folder (created during Pages 4–5) and the `instructions/main.agent.md` catalog.
+Locate the `instruction` file you updated as a result of a `hallucination` encountered during this module.
+Locate the instruction file and the tool file you created during this module (e.g., `instructions/[name].agent.md` and the corresponding script).
+Locate your `MCP` configuration file (`.vscode/mcp.json` or `.cursor/mcp.json`) in your project.
+Locate the `backlog.md` file you updated with `GitHub` issue references during this module.
+If you created a bulk processing script, locate it in your project folder.
+Open a terminal and run: `node --version`, `npm --version`, `nvm --version`, `docker --version`.
+Locate the `specification.md` (or equivalent spec file) created during the `SpecKit` workflow and the task list used for implementation.
+Locate the QA report file generated during this module.
+Locate the pull request created by the coding agent for the issue you assigned.
+Run a `cURL` request to the `DIAL` `API` and capture the full terminal output (the `JSON` response).
+```
+И многие из них не получится собрать, как например `PR` вот как его взять-то? Вместо этого я предлагаю в этой секции написать запрос агенту, кусочек промпта с ` ```markdown ` в котором будет описано что сделать, и формат в котором это собрать и положить в файл `report.md` а уже его засабмитать в систему. Главное, чтобы файл для каждого модуля был максимально в одном формате, потому что в эту систему я буду давать эталонный файл для проверки и промпт по каким критериям сравшивать его с юзеровым. И хоть контент от юзера к юзеру будет отличаться, но формат жолжен остаться одинаковым. Например если мы говори 
+```
+Open a terminal and run: `node --version`, `npm --version`, `nvm --version`, `docker --version`.
+```
+То значит структура должна быть
+```markdown
+# Environment Check
+- Node.js: `x.x.x`
+- npm: `x.x.x`
+- nvm: `x.x.x`
+- Docker: `x.x.x`
+```
+Или если речь про `PR`, то структура может быть
+```markdown
+# Pull Request Details
+- Title: [PR Title]
+- URL: [PR URL]
+- Created At: [Creation Date]
+- Status: [Open/Closed/Merged]
+- Description: [PR Description]
+```
+Ну и так далее. И в каждом модуле будет свой шаблон, который будет описывать что именно нужно собрать и в каком формате. И уже этот файл `report.md` юзер будет отправлять на проверку. И его задавай в промпте. 
+
+Но не весь блок, а только 1й пункт, где сказано что собрать, а остальрое пусть останется 
+```
+1. <вот тут заменяем>
+2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+3. The `autocheck` system will check that:
+   - The task genuinely requires precision (calculation, API query, or data operation).
+   - The instruction clearly specifies when and how to invoke the tool.
+   - The tool accepts parameters - nothing is hardcoded.
+   - Both files are committed to your repository.
+``` 
+Go
+
+### RESULT
+
+- Создан скрипт [lnd/rewrite_submission_with_report_prompt.py](../../lnd/rewrite_submission_with_report_prompt.py). Для каждого из 13 модулей (08…20) хранит спецификацию: `agent_prompt` (тело промпта агенту, который соберёт `report.md` в едином формате) + `criteria` (бывшие пункты "autocheck will check that…"). Скрипт находит блок `**Submit your … for automated check:**` и заменяет всё от заголовка до конца файла на новую секцию.
+- Структура итоговой секции одинаковая во всех модулях:
+  1. **Item 1** — инструкция запустить агента (`Copilot` / `Cursor` / `Claude Code`) с промптом внутри fenced-блока ` ````markdown … ```` `. Промпт сообщает агенту, что нужно собрать и в какой формат сложить `report.md` (бывшие "Locate file X", "Run terminal command", "Prepare brief note" — всё свернулось внутрь промпта). Используется `````markdown` (4-tilde-style fence из 4 backtick-ов) чтобы внутрь промпта мог попасть обычный ` ```markdown ` без поломки разметки.
+  2. **Item 2** — Submit `report.md` to the `autocheck` system (текст без изменений).
+  3. **Item 3** — критерии проверки (совпадают с тем, что было в исходных модулях; ничего не выдумывал).
+- Формат `report.md` одинаков по структуре во всех модулях: метаданные (модуль, репозиторий, коммит) + секции с конкретным содержимым. Это даст возможность подавать в `autocheck` эталонный `report.md` + промпт сравнения; контент юзера будет варьироваться, но шапка/секции/буллеты — всегда те же. Для модулей с секретами (`MCP` config, `DIAL` `API`) добавлено явное указание `[REDACTED]` для `tokens`/`API keys`.
+- Для модулей `module-11`, `module-15`, `module-16` бывшие промежуточные пункты ("Prepare a brief note…", "Open a terminal and run…", "Copy the output…") свёрнуты внутрь агентского промпта — финальный список всегда из 3 пунктов.
+- Затронутые файлы: 13 модулей (`module-08-clarifying-requirements.md` … `module-20-dial-api-key-curl-access.md`).
+- DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx).

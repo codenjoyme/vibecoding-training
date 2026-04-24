@@ -181,10 +181,42 @@ Key takeaways:
 
 You have delegated a development task to `GitHub Copilot Coding Agent` and reviewed the resulting pull request.
 
-**Submit your pull request for automated check:**
+**Submit your `report.md` for automated check:**
 
-1. Locate the pull request created by the coding agent for the issue you assigned.
-2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+
+   ````markdown
+   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+
+   Source: the `GitHub` issue I assigned to the coding agent during Module 19, and the pull request the agent created. Use the `GitHub` `MCP` server (if available) or `gh` CLI to fetch the data. Then write `report.md`:
+
+   # Coding Agent Delegation Report
+   - Module: 19 — `GitHub` Coding Agent Delegation
+   - Repository: `[owner/repo]`
+
+   ## Issue
+   - Number: `#[N]`
+   - URL: `[full URL]`
+   - Title: `[issue title]`
+   - Description quality: [one sentence — does it have a clear description with acceptance criteria? Yes/No + brief reason.]
+
+   ## Pull Request
+   - Number: `#[N]`
+   - URL: `[full URL]`
+   - Title: `[PR title]`
+   - Created at: `[ISO date]`
+   - Status: `[open | closed | merged]`
+   - Author: `[bot/agent username]`
+   - Created by the coding `agent` (not manually committed): [Yes | No]
+
+   ## Review Workflow
+   - Review comments submitted all at once (single review batch): [Yes | No]
+   - Total review comments: [N]
+   - `Agent` mistakes treated as `instruction` improvement opportunities: [Yes | No]
+   - Instruction file(s) updated as a result: `[list paths or N/A]`
+   ````
+
+2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:
    - The `GitHub` issue has a clear description with acceptance criteria.
    - The PR was created by the coding `agent` (not manually committed).

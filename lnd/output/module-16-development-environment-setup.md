@@ -161,12 +161,34 @@ Key takeaways:
 
 You have installed and verified your full development environment: `Node.js`, `npm`, `nvm`, and `Docker`.
 
-**Submit your environment verification for automated check:**
+**Submit your `report.md` for automated check:**
 
-1. Open a terminal and run: `node --version`, `npm --version`, `nvm --version`, `docker --version`.
-2. Copy the output of all four commands.
-3. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
-4. The `autocheck` system will check that:
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+
+   ````markdown
+   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+
+   Source: the local development environment on this machine. Run each version command in a terminal and capture the output. Then write `report.md`:
+
+   # Environment Check Report
+   - Module: 16 — Development Environment Setup
+   - OS: `[Windows | macOS | Linux] [version]`
+   - Shell: `[pwsh | bash | zsh | ...]`
+
+   ## Tool Versions
+   - Node.js: `[output of `node --version`]`
+   - npm: `[output of `npm --version`]`
+   - nvm: `[output of `nvm --version` — or `not installed`]`
+   - Docker: `[output of `docker --version` — or `not installed`]`
+
+   ## Checks
+   - All four tools return a version: [Yes | No]
+   - `Node.js` version is 20 or higher: [Yes | No]
+   - `Docker` is installed (does not need to be running): [Yes | No]
+   ````
+
+2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+3. The `autocheck` system will check that:
    - All four tools are installed and return a version number.
    - `Node.js` version is 20 or higher (LTS recommended).
    - `Docker` is installed and returns a version (it does not need to be running).

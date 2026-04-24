@@ -197,10 +197,38 @@ Key takeaways:
 
 You have run AI-driven QA on your prototype using `Chrome DevTools MCP` and produced a QA report.
 
-**Submit your QA report for automated check:**
+**Submit your `report.md` for automated check:**
 
-1. Locate the QA report file generated during this module.
-2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+
+   ````markdown
+   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+
+   Source: the QA report file generated during Module 18 (typically a markdown file produced by the `Chrome DevTools` `MCP` QA workflow). Locate it, read it, then write `report.md`:
+
+   # QA Report Summary
+   - Module: 18 — Chrome DevTools `MCP` QA
+   - Repository: `[git remote URL or local path]`
+   - Commit: `[short SHA of HEAD]`
+   - QA report file: `[relative/path/to/qa-report.md]`
+
+   ## Scenarios Tested
+   - [Scenario 1 name] — [one-sentence description]
+   - [Scenario 2 name] — [one-sentence description]
+   - [Scenario 3 name] — [one-sentence description]
+   - [... list every distinct UI scenario covered]
+
+   ## Bugs Found
+   - [Bug 1 short title] — fix commit: `[short SHA | N/A]`
+   - [Bug 2 short title] — fix commit: `[short SHA | N/A]`
+   - [... list every bug, or write `None`]
+
+   ## Final State
+   - All bugs fixed and committed before finalization: [Yes | No]
+   - Prototype passed QA in its final state: [Yes | No]
+   ````
+
+2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:
    - The report covers at least 3 distinct UI scenarios (e.g., page navigation, form submission, error handling).
    - Found bugs are documented with descriptions.

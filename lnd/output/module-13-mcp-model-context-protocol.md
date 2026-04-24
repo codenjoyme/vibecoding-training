@@ -187,10 +187,36 @@ Key takeaways:
 
 You have configured an `MCP` server and used it to connect your AI assistant to an external data source or service.
 
-**Submit your `MCP` configuration for automated check:**
+**Submit your `report.md` for automated check:**
 
-1. Locate your `MCP` configuration file (`.vscode/mcp.json` or `.cursor/mcp.json`) in your project.
-2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+
+   ````markdown
+   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+
+   Source: my `MCP` configuration file — `.vscode/mcp.json` (VS Code) or `.cursor/mcp.json` (Cursor). Locate it, then write `report.md`. CRITICAL: do NOT include any real `tokens`, `API keys`, or secrets — replace any such value with `[REDACTED]`.
+
+   # MCP Configuration Report
+   - Module: 13 — MCP (Model Context Protocol)
+   - Repository: `[git remote URL or local path]`
+   - Commit: `[short SHA of HEAD]`
+   - Config file: `[.vscode/mcp.json | .cursor/mcp.json]`
+
+   ## Servers
+   - `[server_name]` — command: `[command]`, status: `[functional | not tested]`
+   - [... list every configured server]
+
+   ## Enabled Tools (per server)
+   - `[server_name]`:
+     - `[tool_name]` — purpose: [one sentence, why it is relevant to my project]
+     - `[tool_name]` — purpose: [...]
+
+   ## Secrets Audit
+   - Any `tokens` / `API keys` present in plain text: [Yes | No]
+   - If yes, file path and field name: [list or `N/A`]
+   ````
+
+2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:
    - At least one `MCP` server is configured and functional.
    - Only tools relevant to your project are enabled.

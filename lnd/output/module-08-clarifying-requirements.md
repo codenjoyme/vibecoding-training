@@ -178,11 +178,39 @@ Key takeaways:
 
 You have completed the interview technique and created a requirements specification document.
 
-**Submit your specification for automated check:**
+**Submit your `report.md` for automated check:**
 
-1. Locate the specification file you created and committed to your repository during Page 4.
-2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
-3. The `autocheck` system will check that your specification:
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+
+   ````markdown
+   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+
+   Source: the specification file I created and committed during Module 08 — Clarifying Requirements (typical names: `specification.md`, `project_spec.md`, or similar in the repository root or `docs/`). Locate it, read it, then write `report.md` in this exact format:
+
+   # Specification Report
+   - Module: 08 — Clarifying Requirements
+   - Specification file: `[relative/path/to/file]`
+   - Repository: `[git remote URL or local path]`
+   - Commit: `[short SHA of HEAD]`
+   - Language: `[English | Other]`
+
+   ## Automation Goal
+   [One paragraph stating the automation goal in plain English, copied or summarized faithfully from the file.]
+
+   ## Key Requirements
+   - [Requirement 1, as it appears in the file]
+   - [Requirement 2]
+   - [Requirement 3]
+   - [... list ALL requirements surfaced during the AI interview, one per bullet]
+
+   ## Structure
+   - Top-level section count: [N]
+   - Top-level section names: [comma-separated list]
+   - Single-paragraph free text: [Yes | No]
+   ````
+
+2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+3. The `autocheck` system will check that:
    - Covers the automation goal clearly
    - Includes at least the key requirements surfaced during the AI interview
    - Is written in English

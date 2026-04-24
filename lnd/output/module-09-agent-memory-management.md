@@ -194,10 +194,41 @@ Key takeaways:
 
 You have created a `project_spec.md` and a `backlog.md` for your automation project and committed them to your repository.
 
-**Submit your files for automated check:**
+**Submit your `report.md` for automated check:**
 
-1. Locate `project_spec.md` and `backlog.md` in your repository.
-2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+
+   ````markdown
+   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+
+   Source: the files `project_spec.md` and `backlog.md` in my repository (Module 09 — Agent Memory Management). Locate both, read them, then write `report.md` in this exact format:
+
+   # Memory Files Report
+   - Module: 09 — Agent Memory Management
+   - Repository: `[git remote URL or local path]`
+   - Commit: `[short SHA of HEAD]`
+   - Language: `[English | Other]`
+
+   ## project_spec.md
+   - Path: `[relative/path/to/project_spec.md]`
+   - Automation goal: [one sentence quoted or summarized from the file]
+   - Requirements stated: [Yes | No]
+   - Quality standards stated: [Yes | No]
+
+   ## backlog.md
+   - Path: `[relative/path/to/backlog.md]`
+   - Phase count: [N]
+   - Total tasks: [N]
+   - Tasks use checkboxes (`- [ ]`): [Yes | No]
+   - Tasks are actionable (specific verbs, not vague goals): [Yes | No]
+
+   ## Phases
+   - [Phase 1 name] — [task count]
+   - [Phase 2 name] — [task count]
+   - [...]
+   ````
+
+2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:
    - `project_spec.md` clearly states the automation goal, requirements, and quality standards.
    - `backlog.md` breaks the work into phases with checkboxes and specific, actionable tasks.

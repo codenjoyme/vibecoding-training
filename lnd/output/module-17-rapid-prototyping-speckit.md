@@ -187,10 +187,37 @@ Key takeaways:
 
 You have built a working prototype using the `SpecKit` methodology.
 
-**Submit your prototype specification files for automated check:**
+**Submit your `report.md` for automated check:**
 
-1. Locate the `specification.md` (or equivalent spec file) created during the `SpecKit` workflow and the task list used for implementation.
-2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+
+   ````markdown
+   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+
+   Source: the `specification.md` (or equivalent spec file) created during the `SpecKit` workflow in Module 17, the task list used for implementation, and the commits demonstrating that at least one task was implemented. Locate everything, then write `report.md`:
+
+   # SpecKit Prototype Report
+   - Module: 17 — Rapid Prototyping with `SpecKit`
+   - Repository: `[git remote URL or local path]`
+   - Commit: `[short SHA of HEAD]`
+   - Specification file: `[relative/path/to/specification.md]`
+   - Task list file: `[relative/path/to/task-list.md or N/A]`
+
+   ## Use Case
+   [Two to three sentences describing the real use case from my project that the spec covers — not a placeholder example.]
+
+   ## Tasks
+   - [Task 1 name] — acceptance criteria: [one sentence] — status: `[done | in-progress | not started]`
+   - [Task 2 name] — acceptance criteria: [one sentence] — status: `[done | in-progress | not started]`
+   - [... list all tasks from the task list, in order]
+
+   ## Implemented Task Evidence
+   - Implemented task: `[task name]`
+   - Commit SHA(s): `[short SHA(s) where the implementation was committed]`
+   - Verification method: [one sentence — test run, manual check, etc.]
+   ````
+
+2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:
    - The specification describes a real use case from your project (not a placeholder example).
    - Tasks are broken into baby steps with clear acceptance criteria.

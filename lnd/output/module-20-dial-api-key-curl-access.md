@@ -195,10 +195,40 @@ Key takeaways:
 
 You have accessed an AI model directly via the `EPAM AI DIAL` `API` using a `cURL` command.
 
-**Submit your API interaction log for automated check:**
+**Submit your `report.md` for automated check:**
 
-1. Run a `cURL` request to the `DIAL` `API` and capture the full terminal output (the `JSON` response).
-2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+
+   ````markdown
+   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+
+   Source: a `cURL` request I run against the `DIAL` `API` and the `JSON` response I capture. Run the request, capture both the command and the response, then write `report.md`. CRITICAL: replace the real `API key` value in the command with `[REDACTED]` — do NOT include the actual key.
+
+   # DIAL API Interaction Report
+   - Module: 20 — `DIAL` `API` Key & `cURL` Access
+   - Endpoint URL: `[full URL of the request]`
+   - Project use case context: [two to three sentences describing why this `API` call is relevant to my project]
+
+   ## cURL Command
+   ```bash
+   [paste the exact command here, with the `API key` value replaced by [REDACTED]]
+   ```
+
+   ## Parameters Used
+   - model: `[model name]`
+   - temperature: `[value]`
+   - max_tokens: `[value]`
+
+   ## Response
+   - Status: `[HTTP status, e.g., 200]`
+   - Valid `JSON`: [Yes | No]
+   - Response body (full):
+   ```json
+   [paste the JSON response here]
+   ```
+   ````
+
+2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:
    - The request reaches the `DIAL` endpoint and returns a valid `JSON` response.
    - The model, temperature, and max_tokens parameters are visible in the command.

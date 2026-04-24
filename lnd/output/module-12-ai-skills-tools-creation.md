@@ -164,10 +164,37 @@ Key takeaways:
 
 You have identified a precision-dependent task in your project and created a custom `skill` (an `instruction` paired with a `tool`) to handle it reliably.
 
-**Submit your `skill` for automated check:**
+**Submit your `report.md` for automated check:**
 
-1. Locate the instruction file and the tool file you created during this module (e.g., `instructions/[name].agent.md` and the corresponding script).
-2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+
+   ````markdown
+   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+
+   Source: the instruction file and the corresponding tool/script I created during Module 12 — AI Skills & Tools Creation (typically `instructions/[name].agent.md` plus a script in the project). Locate both, then write `report.md`:
+
+   # Skill & Tool Report
+   - Module: 12 — AI Skills / Tools Creation
+   - Repository: `[git remote URL or local path]`
+   - Commit: `[short SHA of HEAD]`
+   - Instruction file: `[relative/path/to/instructions/[name].agent.md]`
+   - Tool / script file: `[relative/path/to/script]`
+   - Tool language / runtime: `[Python | Node.js | Bash | ...]`
+
+   ## Task Justification
+   [Two to three sentences explaining why this task genuinely requires precision (calculation, API query, deterministic data operation) and would be unreliable if done by the LLM directly.]
+
+   ## Invocation Rule
+   [Quote or paraphrase the rule from the instruction file that tells the AI WHEN to call the tool and HOW to pass arguments.]
+
+   ## Parameters
+   - Parameter `[name]`: [type, what it controls]
+   - Parameter `[name]`: [type, what it controls]
+   - [... list every parameter the tool accepts]
+   - Hardcoded inputs in the tool: [None | list them]
+   ````
+
+2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:
    - The task genuinely requires precision (calculation, API query, or data operation).
    - The instruction clearly specifies when and how to invoke the tool.

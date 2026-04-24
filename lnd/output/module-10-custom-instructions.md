@@ -227,11 +227,38 @@ Key takeaways:
 
 You have created custom instruction files for your `Jira`/`Confluence` workflows and set up an instruction catalog.
 
-**Submit your instruction files for automated check:**
+**Submit your `report.md` for automated check:**
 
-1. Locate the instruction files in your project's `instructions/` folder (created during Pages 4–5) and the `instructions/main.agent.md` catalog.
-2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
-3. The `autocheck` system will check that your submission:
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+
+   ````markdown
+   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+
+   Source: the instruction files in `instructions/` (created during Pages 4–5 of Module 10), the catalog `instructions/main.agent.md`, and the entry-point file (`.github/copilot-instructions.md` for VS Code or `.cursor/rules/main.mdc` for Cursor). Locate them, then write `report.md`:
+
+   # Instructions Report
+   - Module: 10 — Custom Instructions
+   - Repository: `[git remote URL or local path]`
+   - Commit: `[short SHA of HEAD]`
+   - Entry-point file: `[.github/copilot-instructions.md | .cursor/rules/main.mdc | N/A]`
+   - Catalog file: `[instructions/main.agent.md | N/A]`
+
+   ## Instruction Files
+   - `[instructions/verb-subject.agent.md]` — [one-sentence purpose]
+   - `[instructions/verb-subject.agent.md]` — [one-sentence purpose]
+   - [... list every file in `instructions/`]
+
+   ## Naming Convention Check
+   - Files following `[verb]-[subject].agent.md` pattern: [N of M]
+   - Files NOT following the pattern: [list filenames or `none`]
+
+   ## Catalog Check
+   - Each instruction file listed in catalog with description: [Yes | No]
+   - Entry-point file references the catalog: [Yes | No]
+   ````
+
+2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+3. The `autocheck` system will check that:
    - Uses the `[verb]-[subject].agent.md` naming convention for each instruction file.
    - Each instruction covers a single workflow (no catch-all files).
    - All instructions are listed with descriptions in `instructions/main.agent.md`.

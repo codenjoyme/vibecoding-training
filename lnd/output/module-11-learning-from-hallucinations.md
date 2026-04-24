@@ -177,12 +177,39 @@ Key takeaways:
 
 You have applied the `hallucination` improvement cycle: identified an unexpected AI output, traced it to a missing or ambiguous `instruction` rule, and delegated the fix to the AI.
 
-**Submit your improved `instruction` for automated check:**
+**Submit your `report.md` for automated check:**
 
-1. Locate the `instruction` file you updated as a result of a `hallucination` encountered during this module.
-2. Prepare a brief note describing: (1) what unexpected output occurred, (2) which `instruction` rule was missing or wrong, (3) what rule was added or changed.
-3. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
-4. The `autocheck` system will check that:
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+
+   ````markdown
+   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+
+   Source: the `instruction` file I updated as a result of a real `hallucination` I encountered during Module 11. Locate it (most recently changed file under `instructions/`), then write `report.md`:
+
+   # Hallucination-Driven Instruction Update Report
+   - Module: 11 — Learning From Hallucinations
+   - Repository: `[git remote URL or local path]`
+   - Commit: `[short SHA of HEAD]`
+   - Updated instruction file: `[relative/path/to/instructions/file.agent.md]`
+
+   ## Hallucination
+   [Two to four sentences describing the specific, real unexpected behavior I observed: what I asked, what the AI produced, why it was wrong.]
+
+   ## Root Cause
+   [One or two sentences explaining which `instruction` rule was missing, ambiguous, or wrong — the underlying gap, not just the symptom.]
+
+   ## Instruction Fix
+   - Rule added or changed: `[concise description of the new/edited rule]`
+   - Location in file: `[heading or section the rule lives in]`
+   - Why this prevents recurrence: [one sentence]
+
+   ## Diff Summary
+   - Lines added: [N]
+   - Lines removed: [N]
+   ````
+
+2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+3. The `autocheck` system will check that:
    - A specific, real `hallucination` is described (not a hypothetical example).
    - The `instruction` fix targets the root cause, not just the symptom.
    - The updated `instruction` has a rule that prevents the `hallucination` from recurring.

@@ -179,10 +179,37 @@ Key takeaways:
 
 You have configured the `GitHub` `MCP` server and created `GitHub` issues directly from your project backlog.
 
-**Submit your updated backlog for automated check:**
+**Submit your `report.md` for automated check:**
 
-1. Locate the `backlog.md` file you updated with `GitHub` issue references during this module.
-2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+
+   ````markdown
+   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+
+   Source: the `backlog.md` I updated with `GitHub` issue references during Module 14. Locate it, then write `report.md`:
+
+   # Backlog ↔ GitHub Issues Report
+   - Module: 14 — MCP `GitHub` Integration / Issues
+   - Repository: `[git remote URL or local path]`
+   - Commit: `[short SHA of HEAD]`
+   - Backlog file: `[relative/path/to/backlog.md]`
+
+   ## Linked Tasks
+   - [Task title]: `[#issue-number or full URL]`
+   - [Task title]: `[#issue-number or full URL]`
+   - [Task title]: `[#issue-number or full URL]`
+   - [... list every backlog task that has a `GitHub` issue link]
+
+   ## Counts
+   - Backlog tasks total: [N]
+   - Backlog tasks with `GitHub` issue links: [N]
+
+   ## Creation Method
+   - Issues were created from the AI chat using the `GitHub` `MCP` server: [Yes | No]
+   - Evidence: [one sentence describing the chat command or workflow used]
+   ````
+
+2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:
    - At least 3 backlog tasks have corresponding `GitHub` issue numbers or URLs added.
    - Issues were created from the AI chat using the `GitHub` `MCP` server (not manually through the web interface).

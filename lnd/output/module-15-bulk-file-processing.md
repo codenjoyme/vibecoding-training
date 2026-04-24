@@ -187,12 +187,37 @@ Key takeaways:
 
 You have processed a set of project files in bulk using an appropriate approach for your batch size.
 
-**Submit your processing script or approach note for automated check:**
+**Submit your `report.md` for automated check:**
 
-1. If you created a bulk processing script, locate it in your project folder.
-2. If you used a non-script approach, prepare a brief note (2-3 sentences): what files were processed, which approach you chose (single request / iterative / script), and why.
-3. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
-4. The `autocheck` system will check that:
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+
+   ````markdown
+   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+
+   Source: either the bulk processing script I created OR a brief note about the non-script approach I used during Module 15. Locate the script (if any) under the project, then write `report.md`:
+
+   # Bulk Processing Report
+   - Module: 15 — Bulk File Processing
+   - Repository: `[git remote URL or local path]`
+   - Commit: `[short SHA of HEAD]`
+   - Approach used: `[single-request | iterative | script]`
+   - Script file (if any): `[relative/path/to/script | N/A]`
+
+   ## Files Processed
+   - Total files: [N]
+   - File type / extension: `[.md | .json | ...]`
+   - Source folder: `[relative/path]`
+
+   ## Justification
+   [Two to three sentences: why this batch size and consistency requirement led to the chosen approach. If iterative or script: explain how each file got its own context window. If single-request: explain why batching was safe.]
+
+   ## Per-File Context Isolation
+   - Each file processed in a separate `context window`: [Yes | No | N/A — single request]
+   - Mechanism: [e.g., script loops and calls the agent once per file, OR new chat per file, OR N/A]
+   ````
+
+2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+3. The `autocheck` system will check that:
    - The approach matches the batch size and consistency requirements from the module.
    - If a script was used, each file is processed in a separate `context window`.
    - The choice of approach is clearly justified.
