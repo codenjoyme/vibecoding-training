@@ -222,3 +222,24 @@ DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/out
 - DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx). Page area `1248×960 px`. Переполняют только 8 картинок по ширине / 7 по высоте — это длинные scroll-screenshot'ы, которые Word поджмёт, но это редкие исключения, а не каждая вторая.
 
 Проверь: 1365px-картинка теперь должна быть ~12.65", 506px — ~4.69" (как и было).
+
+## UPD12
+
+Квизы почему-то поломанные 
+```
+1.	question
+   o	
+      (a)	answer
+   o  
+      (b)	answer
+   o 
+      (c)	answer
+```
+Поправь. Go
+### RESULT
+
+**Причина:** в `commonmark_x` по умолчанию включено расширение `+fancy_lists`, которое распознаёт `(a)`, `(b)`, `(c)` как маркеры буквенного нумерованного списка. Поэтому строка `- (a) is incorrect because ...` превращалась в bullet-точку с **вложенным внутрь** ordered list (`(a)` `(b)` `(c)`), и Word рисовал маркер `o`, а текст `(a)` уезжал на следующий уровень отступа.
+
+**Что сделано:** в [lnd/build_docx.py](../../lnd/build_docx.py) формат изменён на `commonmark_x+raw_attribute-fancy_lists`. Теперь `(a)` остаётся обычным текстом внутри bullet-пункта.
+
+DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx). Структура квизов восстановлена: вопрос → варианты ответов как continuation lines → `Correct answer: X.` → bullet-обоснования с `(a)/(b)/(c)` как обычным текстом.

@@ -313,7 +313,7 @@ def main() -> int:
         pypandoc.convert_file(
             str(tmp_md),
             to="docx",
-            format="commonmark_x+raw_attribute",
+            format="commonmark_x+raw_attribute-fancy_lists",
             outputfile=str(DOCX_PATH),
             extra_args=extra_args,
         )
