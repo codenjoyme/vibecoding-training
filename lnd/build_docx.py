@@ -44,16 +44,20 @@ W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 # the most-constraining image (whether wide or tall) just fits the page —
 # every other image is rendered at the same scale, keeping on-screenshot text
 # uniform in physical size.
-PAGE_TEXT_WIDTH_INCHES = 6.0
-PAGE_TEXT_HEIGHT_INCHES = 8.0
+PAGE_TEXT_WIDTH_INCHES = 13.0
+PAGE_TEXT_HEIGHT_INCHES = 10.0
 PANDOC_DEFAULT_DPI = 96
+
+# Page physical size (landscape, custom 14×11") and margins (0.5" all sides),
+# applied to reference.docx so wide screenshots are not auto-shrunk to page
+# width by Word. Numbers are in twentieths of a point (1 inch = 1440).
+PAGE_W_TWIPS = 14 * 1440
+PAGE_H_TWIPS = 11 * 1440
+PAGE_MARGIN_TWIPS = 720  # 0.5"
 
 # Uniform shared scale factor applied to every image's native pixel size.
 # 1.0 = render at native pixel size (96 DPI in pandoc).
-# Lower it if images overflow the page; raise it if they look too small.
-# IMPORTANT: there is intentionally NO per-image page-fit cap — capping would
-# break the "on-screenshot text size is uniform" property (large images would
-# end up shown smaller than small ones).
+# 0.89 ≈ 108 DPI (calibrated from user-supplied px-to-inch examples).
 SHARED_SCALE = 0.89
 
 # Files to skip (per user instruction in UPD2).
@@ -103,11 +107,43 @@ def _modify_styles_xml(styles_xml: bytes) -> bytes:
     return ET.tostring(root, xml_declaration=True, encoding="UTF-8")
 
 
-def ensure_reference_docx() -> Path:
-    """Generate `lnd/reference.docx` with a shaded inline-code style.
+def _modify_document_xml(document_xml: bytes) -> bytes:
+    """Set custom landscape page size + small margins on the section properties
+    so wide images are not auto-shrunk by Word to fit a narrower page."""
+    ET.register_namespace("w", W_NS)
+    root = ET.fromstring(document_xml)
+    body = root.find(f"{{{W_NS}}}body")
+    if body is None:
+        return document_xml
+    sect = body.find(f"{{{W_NS}}}sectPr")
+    if sect is None:
+        return document_xml
 
-    Always regenerates so the script remains the single source of truth.
-    """
+    for tag in ("pgSz", "pgMar"):
+        for el in sect.findall(f"{{{W_NS}}}{tag}"):
+            sect.remove(el)
+
+    pgsz = ET.SubElement(sect, f"{{{W_NS}}}pgSz")
+    pgsz.set(f"{{{W_NS}}}w", str(PAGE_W_TWIPS))
+    pgsz.set(f"{{{W_NS}}}h", str(PAGE_H_TWIPS))
+    pgsz.set(f"{{{W_NS}}}orient", "landscape")
+
+    pgmar = ET.SubElement(sect, f"{{{W_NS}}}pgMar")
+    pgmar.set(f"{{{W_NS}}}top", str(PAGE_MARGIN_TWIPS))
+    pgmar.set(f"{{{W_NS}}}right", str(PAGE_MARGIN_TWIPS))
+    pgmar.set(f"{{{W_NS}}}bottom", str(PAGE_MARGIN_TWIPS))
+    pgmar.set(f"{{{W_NS}}}left", str(PAGE_MARGIN_TWIPS))
+    pgmar.set(f"{{{W_NS}}}header", "720")
+    pgmar.set(f"{{{W_NS}}}footer", "720")
+    pgmar.set(f"{{{W_NS}}}gutter", "0")
+
+    return ET.tostring(root, xml_declaration=True, encoding="UTF-8")
+
+
+def ensure_reference_docx() -> Path:
+    """Generate `lnd/reference.docx` with a shaded inline-code style and a
+    custom wide landscape page size. Always regenerates so the script remains
+    the single source of truth."""
     pandoc_bin = pypandoc.get_pandoc_path()
 
     with tempfile.NamedTemporaryFile(suffix=".docx", delete=False) as tmp:
@@ -127,6 +163,8 @@ def ensure_reference_docx() -> Path:
                     data = zin.read(item.filename)
                     if item.filename == "word/styles.xml":
                         data = _modify_styles_xml(data)
+                    elif item.filename == "word/document.xml":
+                        data = _modify_document_xml(data)
                     zout.writestr(item, data)
     finally:
         try:
