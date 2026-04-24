@@ -270,3 +270,36 @@ Go
   + `The reviewer will check` → `The autocheck system will check`
 - Обработано 13 модулей (`module-08` … `module-20`), по 3 замены в каждом. Структура нумерации списка сохранена, имя модуля больше не упоминается.
 - DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx).
+
+## UPD14
+
+В коммитах:
+- 8700033716a4f13e954157daa0d3f1023f3308ce
+- e479427ed1147d79294cdbecca0c1285b16adc99
+- 9b7774624b06141e80bc5ab53865458787849933
+Был закоммичен `docx` файл, он большой по размеру. Давай его заигнорим в гите и удалим из этих коммитов. Как єто сделать? Go
+
+я отменил, давай сделаем проще без перезаписи всей истории. Делаешь ветку от origin/main и переносишь коммит за коммитом в новую ветку только без участия єтого файла. Так можно? go
+
+### RESULT
+
+Сделано через cherry-pick без `filter-branch`. Шаги:
+
+1. Сохранил рабочие изменения в stash (`git stash push -- requests/lnd-module/main.prompt.md`).
+2. Создал ветку от origin: `git checkout -b main-clean origin/main`.
+3. Прошёлся циклом по 15 локальным коммитам (от `2f1231f` `UPD1` до `997febe` `UPD13`) в их хронологическом порядке. Для каждого:
+   - `git cherry-pick -n <sha>` — применить изменения без коммита;
+   - `git rm --cached --ignore-unmatch lnd/output/all-modules.docx` — выкинуть docx из индекса;
+   - `git commit -C <sha> --allow-empty` — коммит с оригинальным сообщением и автором.
+4. Ветка `main-clean` теперь имеет те же 15 коммитов, но `lnd/output/all-modules.docx` отсутствует во всех (проверено `git rev-list --objects main-clean | grep all-modules.docx` — пусто).
+5. Добавил правило `lnd/output/*.docx` в [.gitignore](../../.gitignore), чтобы файл больше не попадал в коммиты.
+6. Сохранён страховочный backup: ветка `backup-before-docx-purge` и тег `backup-before-docx-purge-tag` указывают на старый `997febe` (со старой историей и docx). Их можно удалить (`git branch -D backup-before-docx-purge && git tag -d backup-before-docx-purge-tag`), когда убедишься, что новая ветка корректная.
+7. Старая локальная ветка `main` пока не тронута. Финальный шаг (требует подтверждения, потому что переписывает локальную `main`):
+   ```
+   git branch -f main main-clean
+   git checkout main
+   git branch -d main-clean
+   ```
+   Запушить нужно будет с `--force-with-lease` (на `origin/main` пушится первый раз, конфликта не должно быть — origin/main у тебя пока пуст по этим коммитам).
+
+Жду подтверждения, чтобы переставить `main` на чистую историю.

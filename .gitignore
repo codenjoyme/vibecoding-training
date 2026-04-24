@@ -13,3 +13,5 @@ lnd/rules
 lnd/stuff
 .golang
 *.exe
+
+lnd/output/*.docx
