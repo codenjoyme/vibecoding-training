@@ -53,3 +53,12 @@ iterative-prompt.agent
 7. Да, скрипт положить в [lnd/build_docx.py](../../lnd/build_docx.py) — ок.
 8. Дефолтный стиль Word ОК, кастомный не нужен — ок.
 go
+
+### RESULT
+
+- Создан скрипт [lnd/build_docx.py](../../lnd/build_docx.py): собирает все `module-*.md` из [lnd/output](../../lnd/output) (с пропуском `module-02b-installing-claude-code-codemie.md`), добавляет синтетический заголовок вида `Module NN — Name` из имени файла, ставит page break между модулями, генерирует TOC (depth=2), резолвит картинки через `--resource-path=lnd/output`, конвертирует одним вызовом `pypandoc` (с автоустановкой pandoc-бинарника).
+- Установлен `pypandoc` через `pip install pypandoc`. Pandoc-бинарник скачан автоматически при первом запуске.
+- Сгенерирован документ [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx) — 21 модуль (`module-01` … `module-20` + `module-02c`), все картинки встроены.
+- Замечание (контент, вне скрипта): в `module-09-agent-memory-management.md` есть ссылка на `img/module-09/03-todolist-appeared.png` — такого файла нет (есть только `03-todolist-appeared-black.png`). Pandoc подставил описание вместо картинки. При желании поправить — переименовать ссылку в самом MD.
+
+Запуск: `python lnd/build_docx.py`
