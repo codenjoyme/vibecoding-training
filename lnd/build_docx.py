@@ -48,12 +48,12 @@ PAGE_TEXT_WIDTH_INCHES = 6.0
 PAGE_TEXT_HEIGHT_INCHES = 8.0
 PANDOC_DEFAULT_DPI = 96
 
-# Direct shared scale factor applied to every image's native pixel dimensions.
-# 1.0 = render at native pixel size (96 DPI). Lowering it makes everything
-# smaller while keeping a uniform on-screenshot text size across the document.
-# Per-image: if scaled width > page_w OR scaled height > page_h, that single
-# image is individually capped to fit the page (it loses the shared scale,
-# but it does not overflow).
+# Uniform shared scale factor applied to every image's native pixel size.
+# 1.0 = render at native pixel size (96 DPI in pandoc).
+# Lower it if images overflow the page; raise it if they look too small.
+# IMPORTANT: there is intentionally NO per-image page-fit cap — capping would
+# break the "on-screenshot text size is uniform" property (large images would
+# end up shown smaller than small ones).
 SHARED_SCALE = 1.2
 
 # Files to skip (per user instruction in UPD2).
@@ -197,12 +197,11 @@ def _image_size(rel_path: str, base_dir: Path) -> tuple[int, int] | None:
 def add_image_widths(md: str, base_dir: Path) -> str:
     """Append `{width="Npx"}` to every standalone image reference.
 
-    Every image is scaled by the shared `SHARED_SCALE` factor applied to its
-    native pixel dimensions — this keeps on-screenshot text the same physical
-    size across all images. If an individual image's scaled width or height
-    would exceed the page text area, it is capped (proportionally) to fit the
-    page; that single image deviates from the shared scale but it no longer
-    overflows.
+    Width is computed as `native_width_px * SHARED_SCALE`. The same scale is
+    applied to every image without exception — this guarantees that text
+    rendered inside screenshots stays the same physical size from one picture
+    to the next. If a screenshot is larger than the page, Word will fit it to
+    the page width itself; the user controls overall sizing via SHARED_SCALE.
     """
     matches = list(_IMG_RE.finditer(md))
     sizes: dict[str, tuple[int, int]] = {}
@@ -219,22 +218,20 @@ def add_image_widths(md: str, base_dir: Path) -> str:
 
     target_w_px = PAGE_TEXT_WIDTH_INCHES * PANDOC_DEFAULT_DPI
     target_h_px = PAGE_TEXT_HEIGHT_INCHES * PANDOC_DEFAULT_DPI
+    over_w = sum(1 for w, _ in sizes.values() if w * SHARED_SCALE > target_w_px)
+    over_h = sum(1 for _, h in sizes.values() if h * SHARED_SCALE > target_h_px)
     print(
         f"  image scaling: shared scale = {SHARED_SCALE}, "
-        f"page area = {int(target_w_px)}×{int(target_h_px)}px (cap)"
+        f"page area = {int(target_w_px)}×{int(target_h_px)}px, "
+        f"images overflowing W/H: {over_w}/{over_h}"
     )
 
     def repl(m: re.Match[str]) -> str:
         rel = m.group(2)
         if rel not in sizes:
             return m.group(0)
-        w, h = sizes[rel]
-        rendered_w = w * SHARED_SCALE
-        rendered_h = h * SHARED_SCALE
-        # Per-image page-fit cap (proportional).
-        cap = min(target_w_px / rendered_w, target_h_px / rendered_h, 1.0)
-        rendered_w *= cap
-        rendered_w_int = max(1, int(round(rendered_w)))
+        w, _ = sizes[rel]
+        rendered_w_int = max(1, int(round(w * SHARED_SCALE)))
         return f'{m.group(1)}{{width="{rendered_w_int}px"}}'
 
     return _IMG_RE.sub(repl, md)
