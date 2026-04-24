@@ -303,3 +303,20 @@ Go
    Запушить нужно будет с `--force-with-lease` (на `origin/main` пушится первый раз, конфликта не должно быть — origin/main у тебя пока пуст по этим коммитам).
 
 Жду подтверждения, чтобы переставить `main` на чистую историю.
+
+## UPD15
+
+Разрешаю. И из stash достань файлы docx. go
+
+### RESULT
+
+- Переставил локальную `main` на чистую ветку:
+  ```
+  git branch -f main main-clean
+  git checkout main
+  git branch -D main-clean
+  ```
+  HEAD = `9973f8d` (UPD14). Локальная `main` опережает `origin/main` на 16 коммитов, ни один из них не содержит `lnd/output/all-modules.docx`.
+- `docx`-файлы доставать из stash не понадобилось: тот stash я ещё в UPD14 удалил, но физически файлы остались на диске (они и сейчас лежат: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx) ~9.4 MB и [lnd/reference.docx](../../lnd/reference.docx) ~11 KB) — они теперь просто untracked согласно правилу `lnd/output/*.docx` в [.gitignore](../../.gitignore). `lnd/reference.docx` остался tracked (build-скрипт его всё равно перегенерирует — это пометка "modified", можно игнорировать).
+- Backup-ветка `backup-before-docx-purge` (на старом `997febe` со старой историей и docx) сохранена как страховка. Удалить можно командой `git branch -D backup-before-docx-purge && git tag -d backup-before-docx-purge-tag`, когда подтвердишь, что всё ок.
+- Когда захочешь опубликовать: `git push origin main` (force не нужен — `origin/main` сейчас не содержит этих коммитов; обычный fast-forward push). Также можно сразу удалить старую ссылку backup на remote, если она там есть, — у тебя `backup-before-docx-purge` только локальная.
