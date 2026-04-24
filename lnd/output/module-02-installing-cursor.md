@@ -22,7 +22,9 @@ This module is optional. If you are satisfied with your `VS Code` + `Copilot` se
 ### Steps (Personal Use — Part A)
 1. Open your web browser and navigate to [https://cursor.sh/](https://cursor.sh/).
 2. Click the Download button for your operating system.
-![Download cursor](img/module-02/02-download-cursor.png)
+
+   ![Download cursor](img/module-02/02-download-cursor.png)
+
 3. Run the downloaded installer:
    - `Windows`: Run the `.exe` file and follow the installation wizard.
    - `macOS`: Open the `.dmg` file and drag `Cursor` to the Applications folder.
@@ -32,13 +34,19 @@ This module is optional. If you are satisfied with your `VS Code` + `Copilot` se
 
 ### Steps (`EPAM` Employees — Part B)
 1. Open the `EPAM` `Support portal`: [https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses](https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses).
-![Ask support - Choose Cursor](img/module-02/03-ask-support-choose-cursor.png)
+
+   ![Ask support - Choose Cursor](img/module-02/03-ask-support-choose-cursor.png)
+
 2. In the `Cursor will be used for` field, select `the project I am assigned to`.
 3. In the `General purpose (for further analysis)` field, select `evaluation/education`.
 4. Read and accept the User Agreement.
-![Ask support - Select options](img/module-02/04-ask-support-select-options.png)
+
+   ![Ask support - Select options](img/module-02/04-ask-support-select-options.png)
+
 5. Use the approved download link from the `EPAM` email.
-![Download Cursor](img/module-02/05-download-cursor-epam.png)
+
+   ![Download Cursor](img/module-02/05-download-cursor-epam.png)
+
 7. Launch `Cursor` after installation completes.
 
 ### ✅ Result
@@ -52,7 +60,8 @@ When `Cursor` starts for the first time, it offers to import your `VS Code` sett
 1. `Cursor` may ask to import settings from `VS Code`. Choose Yes if you want to keep your `VS Code` settings, themes, and extensions. Choose No if you prefer a fresh start.
 2. Complete the initial setup wizard if one is presented.
 3. Verify: You should see the main `Cursor` editor interface — it looks similar to `VS Code`.
-![Cursor window](img/module-02/01-cursor-window.png)
+
+   ![Cursor window](img/module-02/01-cursor-window.png)
 
 ### ✅ Result
 `Cursor` is configured and signed in. The interface is ready for use.
@@ -63,7 +72,9 @@ When `Cursor` starts for the first time, it offers to import your `VS Code` sett
 
 ### Steps
 1. In `Cursor`, go to `File` > `Open Folder`.
-![Open Folder](img/module-02/06-open-folder.png)
+
+   ![Open Folder](img/module-02/06-open-folder.png)
+
 2. Navigate to `c:\workspace\hello-genai\` (`Windows`) or `~/workspace/hello-genai/` (`macOS`/Linux) — the same workspace you created in `Module 1`.
 3. Open the folder. If prompted about trust, click Yes, I trust.
 4. Open the AI Chat panel using the menu or sidebar.
@@ -73,7 +84,8 @@ When `Cursor` starts for the first time, it offers to import your `VS Code` sett
 7. Ask a conceptual question in the chat:
    `What are the key differences between Python and JavaScript?`
 8. Verify: You receive a detailed response from the AI.
-![First questions](img/module-02/07-first-questions.png)
+
+   ![First questions](img/module-02/07-first-questions.png)
 
 ### ✅ Result
 `Cursor` opens your workspace, generates code, and answers questions through the AI Chat.

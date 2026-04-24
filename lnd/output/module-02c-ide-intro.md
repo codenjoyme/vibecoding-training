@@ -30,7 +30,7 @@ For a manager, this matters because the `AI assistant` (`GitHub Copilot`) lives 
 6. Locate the **top menu bar**: the row of menus at the very top (`File`, `Edit`, `View`, `Go`, `Terminal`, `Help`).
 7. Locate the **status bar**: the thin colored strip at the very bottom showing the current file, language, and `Copilot` status.
 
-![Overall View](img/module-02c/01-overall-view.png)
+   ![Overall View](img/module-02c/01-overall-view.png)
 
 ### ✅ Result
 You can identify the five structural zones of `VS Code`: the left sidebar, the main editor area, the bottom panel, the top menu bar, and the status bar. The interface no longer looks like an undifferentiated wall of panels.
@@ -46,13 +46,13 @@ For managers, the project tree is like a table of contents for a document. It te
 2. If no folder is open yet, click `Open Folder` and select the workspace folder you created in `Module 1` (e.g., `C:\workspace\my-first-project`).
 3. The `Explorer` panel now shows the folder name at the top and all files and subfolders below it.
 
-![Tree view](img/module-02c/02-tree-view.png)
+   ![Tree view](img/module-02c/02-tree-view.png)
 
 4. Click a file name in the tree — it opens in the main editor area to the right.
 5. Click the arrow (▶) next to a folder name to expand it and see its contents. Click again to collapse.
 6. Right-click anywhere in the `Explorer` panel to see options: `New File`, `New Folder`, `Rename`, `Delete`. These are the same actions you know from `File Explorer` on `Windows` or `Finder` on `macOS`.
 
-![Explorer Menu](img/module-02c/03-explorer-menu.png)
+   ![Explorer Menu](img/module-02c/03-explorer-menu.png)
 
 7. Notice that the path of the currently open file is shown at the top of the editor tab and in the status bar at the bottom.
 
@@ -70,7 +70,7 @@ The editor supports tabs (multiple files open at once), split views (two files s
 2. Open a second file by clicking another name in the tree. A second tab appears next to the first. You can switch between them by clicking the tabs.
 3. To see two files at the same time, right-click a tab and select `Split Editor Right`. The editor splits into two columns.
 
-![Split View](img/module-02c/04-split-view.png)
+   ![Split View](img/module-02c/04-split-view.png)
 
 4. Click anywhere in the open file to place your cursor. Type a few characters. Notice that the tab name gains a dot (●) to indicate unsaved changes.
 5. Press `Ctrl+S` (`Cmd+S` on `macOS`) to save. The dot disappears.
@@ -78,7 +78,7 @@ The editor supports tabs (multiple files open at once), split views (two files s
 7. To close a tab, click the × icon on the tab, or press `Ctrl+W` (`Cmd+W`).
 8. Notice the breadcrumb trail just above the editor — it shows the file path (`folder > subfolder > filename.md`) so you always know where the open file lives.
 
-![Bread crumbs](img/module-02c/05-editor-breadcrumbs.png)
+   ![Bread crumbs](img/module-02c/05-editor-breadcrumbs.png)
 
 ### ✅ Result
 You can open multiple files simultaneously, switch between them using tabs, edit content, save changes, and undo edits. You can read AI-generated output in the editor and make manual adjustments where needed.
@@ -94,7 +94,7 @@ The `VS Code` integrated terminal is not a separate application. It opens inside
 ### Steps
 1. Open the terminal using the menu: `Terminal` > `New Terminal`. A panel slides up from the bottom of the window.
 
-![New Terminal](img/module-02c/06-new-terminal.png)
+   ![New Terminal](img/module-02c/06-new-terminal.png)
 
 2. Look at the prompt line — it shows your current folder path (e.g., `C:\workspace\my-first-project>`). This confirms the terminal is already inside your project folder.
 3. Type the following command and press `Enter` to see what folder you are in:
@@ -106,7 +106,7 @@ The `VS Code` integrated terminal is not a separate application. It opens inside
    - `macOS` / `Linux`: `ls`
 6. Compare the list with the `Explorer` panel — they show the same files.
 
-![Get-Children Output](img/module-02c/07-get-childitem-output.png)
+   ![Get-Children Output](img/module-02c/07-get-childitem-output.png)
 
 7. To open a second terminal tab, click the `+` icon in the terminal panel header. You can run different commands in parallel in separate tabs.
 8. To close the terminal panel, click the × icon or press `Ctrl+`` ` (backtick) again to toggle it.
@@ -124,7 +124,7 @@ What makes the chat panel different from a standalone AI assistant (like a brows
 1. Click the `Copilot Chat` icon in the left sidebar (it looks like a speech bubble with a sparkle). The chat panel opens on the left.
 2. At the bottom of the chat panel, look for the mode selector. Make sure `Agent Mode` is selected (not `Ask Mode`). `Agent Mode` allows `Copilot` to take autonomous actions — creating files, running terminal commands, and making changes — not just answering questions.
 
-![Agent Mode](img/module-02c/08-agent-mode.png)
+   ![Agent Mode](img/module-02c/08-agent-mode.png)
 
 3. In the text field at the bottom of the chat panel, type the following and press `Enter`:
    `What files are in my current workspace?`
@@ -133,7 +133,7 @@ What makes the chat panel different from a standalone AI assistant (like a brows
    `Create a file called notes.md with a short welcome message`
 6. Watch the editor and the `Explorer` panel: a new file `notes.md` appears in the tree, and it opens in the editor with the generated content.
 
-![notes file created](img/module-02c/09-notes-file-created.png)
+   ![notes file created](img/module-02c/09-notes-file-created.png)
 
 7. Review the content in the editor. Edit it if needed. Save with `Ctrl+S`.
 8. You have just used `Copilot` to create a project file — without typing it manually.
@@ -161,14 +161,14 @@ Think of each project folder as a self-contained file cabinet drawer. Each drawe
 3. Create a new subfolder named `project-jira-automation` (right-click > `New` > `Folder`).
 4. Switch back to `VS Code`. Go to `File` > `Open Folder` and select `project-jira-automation`.
 
-![New Folder created](img/module-02c/10-new-folder-created.png)
+   ![New Folder created](img/module-02c/10-new-folder-created.png)
 
 5. The `Explorer` panel now shows an empty tree — a clean slate for a new project.
 6. Ask `Copilot` to set up a basic project structure:
    `Create a folder structure for a Jira automation project: a README.md, a scripts/ folder, and a data/ folder`
 7. Notice how `Copilot` creates everything inside the current folder — it does not reach outside the project boundary.
 
-![New project structure](img/module-02c/11-new-project-structure.png)
+   ![New project structure](img/module-02c/11-new-project-structure.png)
 
 8. Close this folder and reopen your original workspace: `File` > `Open Recent` > select your first project. Everything from before is exactly as you left it — the new folder did not disturb it.
 

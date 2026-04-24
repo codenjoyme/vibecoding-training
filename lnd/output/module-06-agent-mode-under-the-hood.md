@@ -29,7 +29,7 @@ Key concepts:
 2. Type the same simple prompt twice, for example: `Write a one-sentence definition of project management`
 3. Compare the two responses. Notice they say the same thing in different words — this is `temperature` at work.
 
-![Temperature at work](img/module-06/01-temperature-at-work.png)
+   ![Temperature at work](img/module-06/01-temperature-at-work.png)
 
 4. Try a very specific prompt: `Define project management in exactly 10 words` Notice the variability is much lower because you constrained the output.
 
@@ -49,9 +49,13 @@ The four players:
 The shared `context` (`context window`):
 - Imagine an invisible shared document where all four players write.
 - You see only the high-level summary — technical details (tool calls, system prompts) are hidden from you.
-![What user can see](img/module-06/02-what-user-can-see.png)
+
+  ![What user can see](img/module-06/02-what-user-can-see.png)
+
 - The AI `model` sees everything on this `context` — and that text is far larger than it might seem.
-![All the context](img/module-06/03-all-the-context.png)
+
+  ![All the context](img/module-06/03-all-the-context.png)
+
 - In practice, the `context` already contains a lot of hidden content before you type a single word: the agent's identity and behavioral rules, a list of things it can and cannot do, and the full descriptions of every available `tool`. In the screenshot above only 9 `tools` are shown, but real projects often expose more than 50 — each with its own name, description, and parameter list taking up space in the `context window`.
 - The `Agent System` manages who writes what and when.
 
@@ -84,7 +88,7 @@ From the `Agent System's` perspective: it coordinated between you, the `Model`, 
 1. Give the AI a multi-step prompt: `Create a folder called 'calculator', then inside it create two files: 'operations.py' with add and 'subtract' functions, and 'main.py' that imports operations and uses both functions`
 2. Watch the `agent` work — notice multiple status updates as it makes several `tool` calls in sequence.
 
-![Tools at work](img/module-06/04-tools-at-work.png)
+   ![Tools at work](img/module-06/04-tools-at-work.png)
 
 3. Each step follows the pattern: `Model` suggests → `Agent` executes → `Model` sees result → `Model` continues.
 4. Verify the folder and files were created correctly.
@@ -114,7 +118,7 @@ The `Agent System` manages this entire flow: injecting `tool` descriptions, dete
 1. Ask the AI a question about a file in your workspace: `List the files in my current workspace and tell me what you see`
 2. The AI will use a `tool` to list files, but you will only see the summary answer.
 
-![What user can see](img/module-06/02-what-user-can-see.png)
+   ![What user can see](img/module-06/02-what-user-can-see.png)
 
 3. Reflect: the `model` made a `tool` call, received a result, and then summarized it for you — all on the `context` you cannot see directly.
 
@@ -140,7 +144,7 @@ Understanding the `agent` architecture has practical consequences for how effect
 2. Using what you learned in this module, identify which mechanism explains that behavior (temperature? sequential tool calls? context overload?).
 3. Try a project-relevant exercise: ask the AI in `Agent Mode` — `Create a file called 'PROJECT_IDEAS.md' with 3 possible Jira/Confluence automation ideas for a manager. For each idea, describe the problem it solves and what data it needs`. Watch the `agent` mode cycle as it creates the file — notice the tool calls, the sequential generation, the `context` at work.
 
-![Generation at work](img/module-06/05-generation-at-work.png)
+   ![Generation at work](img/module-06/05-generation-at-work.png)
 
 4. Commit any files you created during this module's exercises using the `git` workflow from `Module 3`.
 

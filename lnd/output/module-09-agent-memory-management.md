@@ -39,9 +39,9 @@ How to find built-in tools:
 - In `VS Code`: click the wrench icon (🔧) or the keys icon next to the model name in the `Copilot Chat` panel. You will see tools like: agent, edit, execute, read, search, todo.
 - In `Cursor`: click the tools icon near the model selector in the AI Chat panel.
 
-![tools config](img/module-09/01-tools-config.png)
+  ![tools config](img/module-09/01-tools-config.png)
 
-![todo config](img/module-09/02-todo-config.png)
+  ![todo config](img/module-09/02-todo-config.png)
 
 The AI uses the todo tool automatically when you ask for multi-step work. Items turn from pending → in-progress → completed as the agent works.
 
@@ -51,7 +51,7 @@ The AI uses the todo tool automatically when you ask for multi-step work. Items 
    `I need to create three files in a folder called 'reports': 'template.md' with a status report template, 'instructions.md' with how to fill it out, and 'example.md' with a filled-in example. Create a todo list and work through each item step by step`
 3. Watch the todo list appear above the chat.
 
-![todolist appeared](img/module-09/03-todolist-appeared.png)
+   ![todolist appeared](img/module-09/03-todolist-appeared.png)
 
 4. Notice items update as the agent completes each step.
 5. When done, observe the final state — all items should be marked complete.
@@ -66,9 +66,13 @@ Built-in todos disappear when you close the chat. For multi-session projects, yo
 The pattern:
 1. Create a `TODO.md` file with checkboxes for each task.
 2. Reference it in your prompt using @-mention `@TODO.md`.
-![Using at mention](img/module-09/04-using-at-mention.png)
+
+   ![Using at mention](img/module-09/04-using-at-mention.png)
+
 3. Or just move this file into chat.
-![Move file to the chat](img/module-09/05-move-file-to-chat.png)
+
+   ![Move file to the chat](img/module-09/05-move-file-to-chat.png)
+
 4. Ask the AI to read the file, work through items, and update checkboxes as tasks complete.
 5. When you start a new session, the AI reads the file and continues from the next uncompleted item.
 

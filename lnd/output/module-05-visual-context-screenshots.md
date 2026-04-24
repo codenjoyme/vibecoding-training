@@ -57,7 +57,7 @@ Every operating system provides built-in tools for capturing screenshots. You do
 5. Click in the message input field and paste the screenshot (`Ctrl + V` on `Windows`/`Linux`, `Cmd + V` on `macOS`).
 6. You should see the image appear as a thumbnail in the input field.
 
-![Pasted screenshot](img/module-05/01-pasted-screenshot.png)
+   ![Pasted screenshot](img/module-05/01-pasted-screenshot.png)
 
 ### ✅ Result
 You can take a screenshot and paste it into the AI chat.
@@ -73,15 +73,20 @@ To practice the screenshot workflow, you will complete a real task: opening the 
 4. Type this message along with the screenshot:
    `I want to open the Developer Console in this browser and write 'Hello World' in the console. Can you guide me step by step? Point out exactly where to click in my interface`
 5. Send the message. The AI will identify your browser and provide specific instructions.
-![How to open console](img/module-05/02-how-to-open-console.png)
+
+   ![How to open console](img/module-05/02-how-to-open-console.png)
+
 6. Follow the AI's instructions to open the `Developer Console`.
 7. Once the console is open, take another screenshot showing the console panel.
 8. Paste this new screenshot and ask:
    `The console is now open. How do I write "Hello World" here? Show me exactly where to type`
+
    ![Write code in the console](img/module-05/03-write-code-in-console.png)
+
 9. Follow the AI's instructions. Typically, you will type `console.log("Hello World")` and press `Enter`.
 10. Verify: `Hello World` appears in the console output.
-![Hello World](img/module-05/04-hello-world.png)
+
+    ![Hello World](img/module-05/04-hello-world.png)
 
 ### ✅ Result
 You completed a browser task using screenshot-assisted AI guidance. The AI adapted its instructions to your specific browser.
@@ -107,7 +112,8 @@ There are several account options depending on your situation:
 5. When the token is generated, copy it to a safe location (a password manager or a secure note).
 6. Do NOT commit this token to your `Git` repository. Store it in a `.env` file (which is already in your `.gitignore` from `Module 3`).
 7. Save the token with a descriptive name — for example, `JIRA_API_TOKEN` or `CONFLUENCE_API_TOKEN` — so you can easily identify it later when configuring integrations.
-![Tokens in env](img/module-05/05-tokens-in-env.png)
+
+   ![Tokens in env](img/module-05/05-tokens-in-env.png)
 
 Important: `API tokens` are sensitive credentials. **Never** share them in screenshots, chat histories, or code repositories.
 

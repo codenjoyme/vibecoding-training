@@ -45,7 +45,9 @@ Before learning `Git` commands, you need a small project to practice on. You wil
 ### Steps
 1. In your IDE, open the workspace folder: `c:\workspace\hello-genai\` (`Windows`) or `~/workspace/hello-genai/` (`macOS`/`Linux`).
 2. Create a subfolder: `work/module03-task`. All course exercises go in `work/`[module-number]-task.
-![Create new folder](img/module-03/01-create-new-folder.png)
+
+   ![Create new folder](img/module-03/01-create-new-folder.png)
+
 3. Open the chat and ask the AI assistant in `Agent` mode:
 ```
    Create a simple `Python` calculator project with:
@@ -54,19 +56,27 @@ Before learning `Git` commands, you need a small project to practice on. You wil
    - `README.md` with project description
    Place these files in the `work/module03-task` directory.
 ```
+
 ![Ask to create file - VSCode](img/module-03/02-ask-to-create-file-vscode.png)
+
 ![Ask to create file - Cursor](img/module-03/03-ask-to-create-file-cursor.png)
+
 4. Verify that three files appear in `work/module03-task`: `calculator.py`, `main.py`, and `README.md`.
-![Check result - VSCode](img/module-03/04-check-result-vscode.png)
-![Check result - Cursor](img/module-03/05-check-result-cursor.png)
+
+   ![Check result - VSCode](img/module-03/04-check-result-vscode.png)
+
+   ![Check result - Cursor](img/module-03/05-check-result-cursor.png)
+
 5. Notice the `Keep` and `Undo` buttons that appear next to the changed files. These are provided by the AI assistant — any change made during the current session can be accepted or rolled back using them.
    - `Keep` — confirms the change and leaves the file as-is.
    - `Undo` — reverts the file to its state before the AI touched it.
    - These controls can appear at multiple levels: next to each individual change block inside a file, next to each file card in chat, and sometimes in a separate review area.
    - The exact placement depends on the IDE (`VS Code` or `Cursor`) and the current UI version.
    It is important to understand that **the files are already modified on disk** at this point. The AI writes changes immediately. `Keep`/`Undo` are simply your review controls — they let you accept or discard what the AI did before you move on. This is not `Git`: no commit is involved, and this works only within the current session.
-![Keep undo - VSCode](img/module-03/07-keep-undo-vscode.png)
-![Keep undo - Cursor](img/module-03/06-keep-undo-cursor.png)
+
+   ![Keep undo - VSCode](img/module-03/07-keep-undo-vscode.png)
+
+   ![Keep undo - Cursor](img/module-03/06-keep-undo-cursor.png)
 
 ### ✅ Result
 You have a small practice project with three files ready for version control.
@@ -79,19 +89,26 @@ You have a small practice project with three files ready for version control.
 
 ### Steps
 > **Note:** In this section, the AI may run terminal commands for you when you click the corresponding run/execute button in chat (screenshot will be added). Even if it runs them automatically, pay attention to the commands. In this step, it will most likely run several commands like: `git init`, `git status`, and `git config --global --list`. You can also click the dedicated button to inspect what was executed in the terminal.
+
 ![Check terminal - VSCode](img/module-03/09-check-terminal-vscode.png)
+
 ![Check terminal - Cursor](img/module-03/11-check-terminal-cursor.png)
 
 > **Note:** While running commands, the IDE may show a confirmation prompt asking whether to allow execution. If you click `Allow`, you are approving only the current command. This exists for safety: you are expected to make the decision and take responsibility for what is executed on your machine. If you do not understand a command, ask the AI in chat to explain it before approving. You may also see an option to add the command to an allowlist or trusted commands list. The exact wording and location of these options differ between IDEs and versions. You can always review these permissions later and change them if needed.
+
 ![Allow - VSCode](img/module-03/12-allow-vscode.png)
+
 ![Allow - Cursor](img/module-03/13-allow-cursor.png)
 
 1. Ask the AI:
    `Initialize Git in my current folder 'work/module03-task'`
    The AI will most likely run:
    `cd work/module03-task & git init`
+
    ![Git init - VSCode](img/module-03/08-git-init-vscode.png)
+
    ![Git init - Corsor](img/module-03/10-git-init-cursor.png)
+
 2. Ask the AI:
    `Check Git status in the current folder and explain what it means`
    The AI will most likely run:
@@ -113,22 +130,32 @@ You have a small practice project with three files ready for version control.
 ## Page 4: Create `.gitignore` and First Commit
 ### Background
 Not every file belongs in version control. Secrets (`API keys`, passwords), temporary files, and IDE configuration should be excluded. A `.gitignore` file tells `Git` which files to skip.
+
 ![Git ignore patterns](img/module-03/14-git-ignore-patterns.png)
 
 ### Steps
 1. Ask the AI:
    `Create a '.gitignore'. Ignore the '.env' file and basic Python stuff`
 2. Review the generated `.gitignore` — make sure it includes `.env`.
-![Ignored env](img/module-03/15-ignored-env.png)
+
+   ![Ignored env](img/module-03/15-ignored-env.png)
+
 3. Now stage all project files for your first commit. In the IDE, open the `Source Control` panel (look for the branch icon in the left sidebar). You should see all changed files listed.
-![Stage all changes](img/module-03/16-stage-all-changes.png)
+
+   ![Stage all changes](img/module-03/16-stage-all-changes.png)
+
 4. Click the + icon next to each file to stage it (or ask AI to make `git add`).
 5. Type a commit message: `Initial calculator with add and subtract` or press autogenerate commit message button.
-![Commit message](img/module-03/17-commit-message.png)
+
+   ![Commit message](img/module-03/17-commit-message.png)
+
 6. Click the commit button.
-![Commit without ai](img/module-03/18-commit-without-ai.png)
+
+   ![Commit without ai](img/module-03/18-commit-without-ai.png)
+
 7. Or you can ask AI to do commit with some informative message
-![Commit with ai](img/module-03/19-commit-with-ai.png)
+
+   ![Commit with ai](img/module-03/19-commit-with-ai.png)
 
 ### ✅ Result
 Your first commit is saved. You now have a baseline snapshot to return to at any time.
@@ -141,24 +168,35 @@ Now that you have a baseline, practice the core loop: make a change → test →
 1. Ask the AI:
    `Create calculator python script and add a multiply() function to it`
 2. After the AI adds the function, you can open it.
-![Calculator multiply](img/module-03/20-calculator-multiply.png)
+
+   ![Calculator multiply](img/module-03/20-calculator-multiply.png)
+
 3. Stage `calculator.py` immediately (click `+` in `Source Control` or ask AI to `stage calculator file`). Do not commit yet — you are building up a feature.
-![Stage the file without AI](img/module-03/21-stage-file-without-ai.png)
-![Stage the file with AI](img/module-03/22-stage-file-with-ai.png)
+
+   ![Stage the file without AI](img/module-03/21-stage-file-without-ai.png)
+
+   ![Stage the file with AI](img/module-03/22-stage-file-with-ai.png)
+
 4. Ask the AI:
    `Create main.py to demonstrate the multiply function`
 5. Check that both files work together. 
-![Main demo script](img/module-03/23-main-demo-script.png)
+
+   ![Main demo script](img/module-03/23-main-demo-script.png)
+
 6. Stage `main.py`.
-![Stage it](img/module-03/24-stage-it.png)
+
+   ![Stage it](img/module-03/24-stage-it.png)
+
 7. Ask the AI:
    `Create README.md to document the multiply function`
 8. Review the `README`.
-![Readme](img/module-03/25-readme.png) 
+
+   ![Readme](img/module-03/25-readme.png)
 
 9. Stage it. Now commit. You can do it in `Source Control` as we did before, ask AI `please commit it` and do following command in the terminal:
    `git commit -m "Add multiply function"`
-![Commit all files](img/module-03/26-commit-all-files.png)
+
+   ![Commit all files](img/module-03/26-commit-all-files.png)
 
 The feature took three small steps instead of one big confusing change. Each step was verified before moving on.
 
@@ -217,7 +255,9 @@ Pushing your repository to `GitHub` creates a remote backup. If your local machi
 3. Choose Public or Private (your preference).
 4. Do NOT check "Initialize this repository" — you already have local files.
 5. Click Create repository.
-![Create repository](img/module-03/30-create-repository.png)
+
+   ![Create repository](img/module-03/30-create-repository.png)
+
 6. Ask the AI:
    `I created a GitHub repo at 'https://github.com/[username]/git-baby-steps-practice.git'. How do I connect my local repository and push?`
 7. The AI will provide commands like:
@@ -226,12 +266,17 @@ Pushing your repository to `GitHub` creates a remote backup. If your local machi
    git branch -M main
    git push -u origin main
 ```
+
 ![List of commands](img/module-03/31-list-of-commands.png)
+
 8. Ask AI to `run the commands`. 
 9. When you run `git push` for the first time, a browser window will open asking you to sign in to `GitHub`. This is normal — `Git` uses `HTTPS` and handles authentication automatically via `Git Credential Manager` (included with `Git` for Windows and macOS). Just log in once and your credentials are saved for future pushes. No SSH keys or manual tokens are needed.
-![Choose the account](img/module-03/32-choose-the-account.png)
+
+   ![Choose the account](img/module-03/32-choose-the-account.png)
+
 10. Your code is now on `GitHub`.
-![Repo is on Github](img/module-03/33-repo-is-on-github.png)
+
+    ![Repo is on Github](img/module-03/33-repo-is-on-github.png)
 
 ### ✅ Result
 Your project is backed up to `GitHub`. You can continue making baby steps and push regularly.

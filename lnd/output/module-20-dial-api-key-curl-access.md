@@ -46,7 +46,7 @@ To access `DIAL` programmatically, you need an `API key`. The key is requested t
 2. Scroll to the bottom of the page.
 3. Find and click the **"Request `API key`"** link in the footer.
 
-![Request API Key](img/module-20/01-request-api-key.png)
+   ![Request API Key](img/module-20/01-request-api-key.png)
 
 4. You will be redirected to the `EPAM` Support Portal with a pre-filled ticket.
 5. Fill in:
@@ -89,7 +89,7 @@ Available models include:
    ```
 5. You should receive a `JSON` response containing the model's answer in `choices[0].message.content`.
 
-![JSON Response](img/module-20/02-json-response.png)
+   ![JSON Response](img/module-20/02-json-response.png)
 
 6. If you get an error:
    - **401 Unauthorized:** Check the `API key` — make sure it is copied correctly with no extra spaces.

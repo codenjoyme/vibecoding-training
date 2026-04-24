@@ -23,12 +23,12 @@ AI coding assistants offer multiple models with different capabilities and costs
    - 1x — Standard models (1 premium request per use).
    - 3x — Advanced models (3 premium requests per use).
 
-![Models with Tiers](img/module-04/01-models-with-tiers.png)
+     ![Models with Tiers](img/module-04/01-models-with-tiers.png)
    
 4. The logic: higher multipliers consume quota faster but provide better quality responses.
 5. Check your account settings to see your current premium request balance.
 
-![Premium request balances](img/module-04/02-premium-request-balances.png)
+   ![Premium request balances](img/module-04/02-premium-request-balances.png)
 
 > **Note:** If the indicator appears stuck at 100%, this does not necessarily mean your personal quota is exhausted. Organizations often apply a company-level spending cap — typically set between 200% and 400% of the base quota — after which premium models truly become unavailable. To check whether a company-level limit is in effect (for GitHub Copilot), navigate to [github.com/settings/copilot/features](https://github.com/settings/copilot/features) — that page shows both your personal usage and any organization-imposed restrictions.
 
@@ -46,10 +46,15 @@ With many models available, it is tempting to switch constantly. Research shows 
 ### Steps
 1. Open the model selection in your IDE:
    - `VS Code`: Open the `Command Palette` and type `> Chat: Manage Language Models` — select it from the list.
-   ![Manage models in vscode](img/module-04/07-manage-models-vscode.png)
+
+     ![Manage models in vscode](img/module-04/07-manage-models-vscode.png)
+
    - `Cursor`: Go to `File` → `Preferences` → `Cursor Settings` → `Models`.
-   ![Cursor settings](img/module-04/08-cursor-settings.png)
-   ![Cursor models](img/module-04/09-cursor-models.png)
+
+     ![Cursor settings](img/module-04/08-cursor-settings.png)
+
+     ![Cursor models](img/module-04/09-cursor-models.png)
+
 2. Review the available models. Recommended choices:
    - `Claude Sonnet 4.6` — Best for coding tasks, excellent balance of price and quality.
    - `GPT-4.1` — Free tier (0x), no quota cost, but noticeably mediocre at following instructions and writing code — use only as a fallback when premium quota is exhausted.
@@ -65,7 +70,7 @@ With many models available, it is tempting to switch constantly. Research shows 
 
    > **Tip:** The higher the version number, the better the model — prefer 4.6 over 4.6 wherever available. If your IDE does not yet offer a 4.6 version, select the equivalent 4.6 model instead.
 
-![Claude selected](img/module-04/03-claude-selected.png)
+   ![Claude selected](img/module-04/03-claude-selected.png)
 
 4. Verify: The selected model should be displayed in your settings or status bar.
 
@@ -87,7 +92,7 @@ Your AI assistant can operate in two modes. `Ask Mode` is simple Q&A — it answ
 1. In your AI assistant settings, look for mode selection (usually in the chat panel or settings).
 2. Enable `Agent Mode`.
 
-![Agent Mode Enabled](img/module-04/04-agent-mode-enabled.png)
+   ![Agent Mode Enabled](img/module-04/04-agent-mode-enabled.png)
 
 3. Verify by testing all three capabilities:
    - Test 1 — Ask a technical question:
@@ -99,6 +104,7 @@ Your AI assistant can operate in two modes. `Ask Mode` is simple Q&A — it answ
    - Test 3 — Test autonomous file access:
      `List the files in my current workspace and tell me what you see`
      The AI should read the file system and report back (this proves `Agent Mode` works).
+
      ![All files in project](img/module-04/10-all-files-in-project.png)
 
 ### ✅ Result

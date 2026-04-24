@@ -62,3 +62,59 @@ go
 - Замечание (контент, вне скрипта): в `module-09-agent-memory-management.md` есть ссылка на `img/module-09/03-todolist-appeared.png` — такого файла нет (есть только `03-todolist-appeared-black.png`). Pandoc подставил описание вместо картинки. При желании поправить — переименовать ссылку в самом MD.
 
 Запуск: `python lnd/build_docx.py`
+
+## UPD3
+
+**Первый момент**. Смотри что я увидел. Часто картинки в MD-файлах указаны так:
+```md
+2. Click the `Download` button for your operating system (`Windows`, `macOS`, or `Linux`).
+![Download VSCode](img/module-01/02-download-vscode.png)
+3. Run the downloaded installer: 
+```
+И от єтого получается что при вставке в Word картинка отображается в том же предложении, что и текст. И это выглядит не очень хорошо. Я предлагаю делать так 
+```md
+2. Some text.
+
+   ![Image](img/image1.png)
+
+3. Some other text.
+```
+И тогда все будет хорошо, а картинка останется относящейся к пункту 2, но будет отображаться на отдельной строке. 
+
+При этом картинки что находятся на одном уровне с текстом (не внутри пунктов) их не надо смещать, но так же отступить по 1 пустой строке сверху и снизу для красоты.
+```md
+Some text.
+
+![Image](img/image1.png)
+
+Some other text.
+```
+Ну а если картинка находится внутри пункта вложенного более чем 1 уровень, то смещение должно быть пропорционально уровню вложенности. 
+
+Передедай все markdown файлы в таком виде и закоммить. 
+
+**Второй момент**, что надо сделать - так это `текст, который выделен` надо отмечать так не не просто шрифтом отдельнім, а выделять фоном, чтобы было видно. Сгенерь новый docx с этими настройками.
+
+go
+
+### RESULT
+
+**Момент 1 — переформатирование MD-файлов с картинками:**
+- Создан скрипт [lnd/format_md_images.py](../../lnd/format_md_images.py): находит "image-only" строки (`![alt](path)` на отдельной строке), окружает их пустыми строками сверху и снизу, и выравнивает отступ:
+  + если предыдущая непустая строка — пункт списка → отступ = `len(item_indent) + len(marker) + 1` (continuation indent CommonMark, поддерживает любую глубину вложенности);
+  + если предыдущая строка — обычный текст с отступом → совпадает с её отступом;
+  + иначе — без отступа.
+- Картинки внутри code-блоков (между ```` ``` ````) и inline-картинки (в одной строке с текстом) НЕ трогаются. Скрипт идемпотентный.
+- Обработаны все [lnd/output](../../lnd/output)/`module-*.md`: 17 из 22 файлов изменено, 5 уже были в нужном формате.
+
+**Момент 2 — фон для inline `code` в DOCX:**
+- В [lnd/build_docx.py](../../lnd/build_docx.py) добавлены функции `ensure_reference_docx()` и `_modify_styles_xml()`: при каждом запуске извлекают дефолтный pandoc'овский `reference.docx` (`pandoc --print-default-data-file=reference.docx`), находят character-style `VerbatimChar` (используется Pandoc для inline `code`) и добавляют ему `<w:shd w:val="clear" w:color="auto" w:fill="EEEEEE"/>` (светло-серый фон). Сохраняют как [lnd/reference.docx](../../lnd/reference.docx). Затем pandoc вызывается с `--reference-doc=lnd/reference.docx`.
+- DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx) — все inline `code` подсвечены фоном, картинки правильно отделены от текста.
+
+Запуск (полный пайплайн):
+```
+python lnd/format_md_images.py
+python lnd/build_docx.py
+```
+
+ 

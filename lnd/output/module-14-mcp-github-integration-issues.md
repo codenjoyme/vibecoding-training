@@ -65,7 +65,7 @@ Key differences from local servers: type is "http" (not a local command), the UR
 4. Check the Output panel (View → Output → "Model Context Protocol") for connection confirmation.
 5. Verify your `GitHub` login in the IDE. In `VS Code`, check the bottom-left corner for the `GitHub` account indicator. Sign in if needed.
 
-![alt text](img/module-14/01-github-account-indicator.png)
+   ![alt text](img/module-14/01-github-account-indicator.png)
 
 6. Enable `GitHub` `MCP` tools in the chat panel tools configuration.
 

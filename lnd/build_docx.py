@@ -9,8 +9,12 @@ Output: lnd/output/all-modules.docx
 from __future__ import annotations
 
 import re
+import subprocess
 import sys
+import tempfile
+import zipfile
 from pathlib import Path
+from xml.etree import ElementTree as ET
 
 try:
     import pypandoc
@@ -22,6 +26,11 @@ except ImportError:
 SCRIPT_DIR = Path(__file__).resolve().parent
 OUTPUT_DIR = SCRIPT_DIR / "output"
 DOCX_PATH = OUTPUT_DIR / "all-modules.docx"
+REFERENCE_DOCX = SCRIPT_DIR / "reference.docx"
+
+# Shading color for inline `code` (light gray).
+INLINE_CODE_SHADE = "EEEEEE"
+W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 
 # Files to skip (per user instruction in UPD2).
 SKIP_FILES = {"module-02b-installing-claude-code-codemie.md"}
@@ -42,6 +51,66 @@ def ensure_pandoc() -> None:
     except OSError:
         print("Pandoc binary not found. Downloading...")
         pypandoc.download_pandoc()
+
+
+def _modify_styles_xml(styles_xml: bytes) -> bytes:
+    """Add a background shading to the `VerbatimChar` character style so that
+    inline `code` is visually highlighted in the rendered DOCX."""
+    ET.register_namespace("w", W_NS)
+    root = ET.fromstring(styles_xml)
+    target = None
+    for style in root.findall(f"{{{W_NS}}}style"):
+        if style.get(f"{{{W_NS}}}styleId") == "VerbatimChar":
+            target = style
+            break
+    if target is None:
+        # Style not present in default reference — leave as-is.
+        return styles_xml
+
+    rpr = target.find(f"{{{W_NS}}}rPr")
+    if rpr is None:
+        rpr = ET.SubElement(target, f"{{{W_NS}}}rPr")
+    for shd in rpr.findall(f"{{{W_NS}}}shd"):
+        rpr.remove(shd)
+    shd = ET.SubElement(rpr, f"{{{W_NS}}}shd")
+    shd.set(f"{{{W_NS}}}val", "clear")
+    shd.set(f"{{{W_NS}}}color", "auto")
+    shd.set(f"{{{W_NS}}}fill", INLINE_CODE_SHADE)
+    return ET.tostring(root, xml_declaration=True, encoding="UTF-8")
+
+
+def ensure_reference_docx() -> Path:
+    """Generate `lnd/reference.docx` with a shaded inline-code style.
+
+    Always regenerates so the script remains the single source of truth.
+    """
+    pandoc_bin = pypandoc.get_pandoc_path()
+
+    with tempfile.NamedTemporaryFile(suffix=".docx", delete=False) as tmp:
+        default_path = Path(tmp.name)
+
+    try:
+        with default_path.open("wb") as f:
+            subprocess.run(
+                [pandoc_bin, "--print-default-data-file=reference.docx"],
+                check=True,
+                stdout=f,
+            )
+
+        with zipfile.ZipFile(default_path, "r") as zin:
+            with zipfile.ZipFile(REFERENCE_DOCX, "w", zipfile.ZIP_DEFLATED) as zout:
+                for item in zin.infolist():
+                    data = zin.read(item.filename)
+                    if item.filename == "word/styles.xml":
+                        data = _modify_styles_xml(data)
+                    zout.writestr(item, data)
+    finally:
+        try:
+            default_path.unlink()
+        except OSError:
+            pass
+
+    return REFERENCE_DOCX
 
 
 def title_from_filename(stem: str) -> str:
@@ -91,6 +160,8 @@ def main() -> int:
         return 1
 
     ensure_pandoc()
+    ref_path = ensure_reference_docx()
+    print(f"Reference docx: {ref_path}")
 
     files = collect_md_files()
     if not files:
@@ -113,6 +184,7 @@ def main() -> int:
         "--toc-depth=2",
         "--standalone",
         f"--resource-path={OUTPUT_DIR}",
+        f"--reference-doc={REFERENCE_DOCX}",
     ]
 
     try:

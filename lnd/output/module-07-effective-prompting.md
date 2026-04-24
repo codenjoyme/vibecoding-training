@@ -45,14 +45,22 @@ The practical tool for controlling precision is breaking your requirements into 
 
 Example progression:
 - 1 statement: `Print a sorting function` → could be any language, any algorithm, any structure.
-![case 1 - attempt 1](img/module-07/01-case1-attempt1.png)
-![case 1 - attempt 2](img/module-07/02-case1-attempt2.png)
+
+  ![case 1 - attempt 1](img/module-07/01-case1-attempt1.png)
+
+  ![case 1 - attempt 2](img/module-07/02-case1-attempt2.png)
+
 - 3 statements: `Print a sorting function. Use 'bubble sort'. Write it in 'Python'` → language and algorithm locked, structure still varies.
-![case 2 - attempt 1](img/module-07/03-case2-attempt1.png)
-![case 2 - attempt 2](img/module-07/04-case2-attempt2.png)
+
+  ![case 2 - attempt 1](img/module-07/03-case2-attempt1.png)
+
+  ![case 2 - attempt 2](img/module-07/04-case2-attempt2.png)
+
 - 5 statements: `Print a sorting function. Use 'bubble sort'. Write it in 'Python'. Takes a list of integers. Returns the sorted list. No comments, no type hints` → minimal variation, consistent output.
-![case 3 - attempt 1](img/module-07/05-case3-attempt1.png)
-![case 3 - attempt 2](img/module-07/06-case3-attempt2.png)
+
+  ![case 3 - attempt 1](img/module-07/05-case3-attempt1.png)
+
+  ![case 3 - attempt 2](img/module-07/06-case3-attempt2.png)
 
 Rule: More statements = less variability = more control. Each statement narrows the space of possible solutions.
 
@@ -66,10 +74,14 @@ Two things to keep in mind about prompt language:
 2. Type a very abstract prompt: `Print a sorting function`
 3. Observe the result: note the language, algorithm, extras (comments, tests, docstrings).
 4. Now edit your original prompt (Important! **do not write a new message below — go back and edit**) to add two constraints: `... Use 'bubble sort'. Write it in 'Python'`
-![Update prompt](img/module-07/07-update-prompt.png)
+
+   ![Update prompt](img/module-07/07-update-prompt.png)
+
 5. Press `Enter` and compare the new result to the previous one.
 6. Edit again, adding more constraints: `... Takes a list of integers. Returns the sorted list. No comments, no type hints`
-![Update prompt again](img/module-07/08-update-prompt-again.png)
+
+   ![Update prompt again](img/module-07/08-update-prompt-again.png)
+
 7. Compare all three results. Notice how each added statement reduced variability.
 
 ### ✅ Result
@@ -93,7 +105,9 @@ Defining through negation does not work:
 1. Think about a recent interaction where you went back and forth with the AI trying to fix something.
 2. Count how many messages were in that exchange. If more than 3 — context was likely `polluted`.
 3. In your next AI session, when you see the `model` generating something wrong, **stop immediately**.
-![Stop generating](img/module-07/09-stop-generating.png)
+
+   ![Stop generating](img/module-07/09-stop-generating.png)
+
 4. Do not write a new message. Instead, **go back and edit your original prompt** with more specific statements.
 5. Regenerate from the edited `prompt` — the model starts fresh with a clean `context`.
 
@@ -108,7 +122,7 @@ The effective workflow for correcting AI output follows a simple loop:
 
 1. **Stop immediately** when you see the `model` generating something wrong (do not wait for the complete response).
 
-![Stop generating](img/module-07/10-stop-generating-workflow.png)
+   ![Stop generating](img/module-07/10-stop-generating-workflow.png)
 
 2. Do not write a new message — this continues the `polluted` conversation.
 3. **Go back and edit** your original `prompt`: add more `statements`, technical `terms`, or constraints you forgot.

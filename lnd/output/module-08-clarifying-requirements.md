@@ -54,7 +54,7 @@ Why this works:
    `I want to automate my weekly status report for stakeholders. Before we start, ask me clarifying questions`
 3. Send it. The AI will ask several questions — about format, data sources, audience, frequency, sections, and so on.
 
-![Asking questions](img/module-08/01-asking-questions.png)
+   ![Asking questions](img/module-08/01-asking-questions.png)
 
 4. Answer the questions honestly. If you do not know the answer, say so — the AI will suggest options.
 5. After answering, type: `Are there any more questions?`

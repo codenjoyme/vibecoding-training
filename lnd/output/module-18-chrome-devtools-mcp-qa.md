@@ -50,7 +50,7 @@ The `Chrome` browser must be launched in a special "debugging mode" that allows 
 4. Restart `VS Code` to load the new `MCP` server.
 5. Verify the `MCP` server is available: ask the AI "List all available `MCP` tools." The `Chrome DevTools` tools should appear in the list (e.g., browser_navigate, browser_click, browser_screenshot).
 
-![Chrome Dev Tools MCP](img/module-18/01-chrome-devtools-mcp.png)
+   ![Chrome Dev Tools MCP](img/module-18/01-chrome-devtools-mcp.png)
 
 If the `MCP` server does not appear, common issues include:
 - `Chrome` not found at the expected path — ask the AI to detect the correct path.
@@ -68,7 +68,7 @@ With the `MCP` server connected, the AI can now open your application and intera
 1. Start your application from `Module 17`: ask the AI "Start docker-compose, then start the backend and frontend servers."
 2. Wait for all services to start. The frontend should be accessible at [http://localhost:5173](http://localhost:5173) (or similar).
 
-![Stack is up and running](img/module-18/02-stack-up-and-running.png)
+   ![Stack is up and running](img/module-18/02-stack-up-and-running.png)
 
 3. Ask the AI: "Open my application in `Chrome` and take a screenshot of the main page."
 4. The AI will use `MCP` tools to:
@@ -77,16 +77,16 @@ With the `MCP` server connected, the AI can now open your application and intera
    - Take a screenshot.
    - Show you the screenshot.
 
-![Chrome Devtools MCP in action](img/module-18/03-chrome-devtools-mcp-action.png)
+     ![Chrome Devtools MCP in action](img/module-18/03-chrome-devtools-mcp-action.png)
    
 5. Review the screenshot. Does it match what you expected?
 
-![Screenshot taken and stored](img/module-18/04-screenshot-taken-and-stored.png)
+   ![Screenshot taken and stored](img/module-18/04-screenshot-taken-and-stored.png)
 
 6. Ask: "Navigate through all main pages of the application. For each page, take a screenshot and list all visible elements (buttons, links, forms, text)."
 7. The AI will walk through your application page by page, documenting what it sees.
 
-![All screens are captured](img/module-18/05-all-screens-captured.png)
+   ![All screens are captured](img/module-18/05-all-screens-captured.png)
 
 8. Review the output. This is your first QA report — a visual record of every screen.
 
@@ -106,7 +106,7 @@ Seeing the pages is the first step. Now the AI will interact with your applicati
    - Check the response (success message, redirect, error).
    - Report the result.
 
-![Test are running automatically](img/module-18/06-tests-running-automatically.png)
+     ![Test are running automatically](img/module-18/06-tests-running-automatically.png)
 
 3. If the AI finds an error (broken button, missing validation, server error):
    - Read the error details.
@@ -115,7 +115,7 @@ Seeing the pages is the first step. Now the AI will interact with your applicati
 4. Ask: "Check the browser console for any `JavaScript` errors or warnings."
 5. The AI will read the console output and report anything suspicious.
 
-![Checked the console](img/module-18/07-checked-console.png)
+   ![Checked the console](img/module-18/07-checked-console.png)
 
 6. For each bug found and fixed, commit with a descriptive message (e.g., "fix: form validation error on submit").
 
@@ -143,7 +143,7 @@ A typical development day with this workflow: start the morning by running regre
    - Fixes applied (with commit references).
    - Current application status (all tests passing / known issues).
 
-![QA Report is done](img/module-18/08-qa-report-done.png)
+     ![QA Report is done](img/module-18/08-qa-report-done.png)
 
 3. If additional testing is needed, add test cases to the report and execute them.
 4. Commit the report: "docs: add QA report from AI-driven testing session."

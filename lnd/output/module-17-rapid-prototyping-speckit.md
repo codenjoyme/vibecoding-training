@@ -84,12 +84,12 @@ These three phases are the critical preparation that separates `SpecKit` from "j
    - Phase 3: Feature implementation (one feature at a time).
    - Phase 4: Integration and testing.
 
-![Phases](img/module-17/01-phases.png)
+     ![Phases](img/module-17/01-phases.png)
 
 5. Ask the AI: "Break the plan into individual tasks with acceptance criteria. Save to `spec/tasks.md`."
 6. Review the tasks. Each should have: title, description, acceptance criteria, dependencies.
 
-![Tasks view](img/module-17/02-tasks-view.png)
+   ![Tasks view](img/module-17/02-tasks-view.png)
 
 7. Commit all three files.
 
