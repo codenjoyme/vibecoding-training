@@ -48,10 +48,13 @@ PAGE_TEXT_WIDTH_INCHES = 6.0
 PAGE_TEXT_HEIGHT_INCHES = 8.0
 PANDOC_DEFAULT_DPI = 96
 
-# Extra multiplier applied on top of the auto-computed shared scale. Use this
-# to globally shrink/grow all images without changing the page-fit logic.
-# 1.0 = widest source image fills the page text width.
-EXTRA_SCALE = 0.7
+# Direct shared scale factor applied to every image's native pixel dimensions.
+# 1.0 = render at native pixel size (96 DPI). Lowering it makes everything
+# smaller while keeping a uniform on-screenshot text size across the document.
+# Per-image: if scaled width > page_w OR scaled height > page_h, that single
+# image is individually capped to fit the page (it loses the shared scale,
+# but it does not overflow).
+SHARED_SCALE = 0.7
 
 # Files to skip (per user instruction in UPD2).
 SKIP_FILES = {"module-02b-installing-claude-code-codemie.md"}
@@ -194,14 +197,12 @@ def _image_size(rel_path: str, base_dir: Path) -> tuple[int, int] | None:
 def add_image_widths(md: str, base_dir: Path) -> str:
     """Append `{width="Npx"}` to every standalone image reference.
 
-    The global scale factor is chosen so that the widest source image just
-    fills the page text width — every "normal" image then renders at the same
-    scale, keeping on-screenshot text uniform in physical size.
-
-    Outlier images whose scaled height would exceed the page text height
-    (typically very long scroll-capture screenshots) are individually shrunk
-    to fit the page height. They lose the shared scale, but they no longer
-    blow up vertically across multiple pages.
+    Every image is scaled by the shared `SHARED_SCALE` factor applied to its
+    native pixel dimensions — this keeps on-screenshot text the same physical
+    size across all images. If an individual image's scaled width or height
+    would exceed the page text area, it is capped (proportionally) to fit the
+    page; that single image deviates from the shared scale but it no longer
+    overflows.
     """
     matches = list(_IMG_RE.finditer(md))
     sizes: dict[str, tuple[int, int]] = {}
@@ -216,14 +217,11 @@ def add_image_widths(md: str, base_dir: Path) -> str:
     if not sizes:
         return md
 
-    max_w = max(s[0] for s in sizes.values())
     target_w_px = PAGE_TEXT_WIDTH_INCHES * PANDOC_DEFAULT_DPI
     target_h_px = PAGE_TEXT_HEIGHT_INCHES * PANDOC_DEFAULT_DPI
-    scale = (target_w_px / max_w) * EXTRA_SCALE
     print(
-        f"  image scaling: max source width = {max_w}px, "
-        f"page area = {int(target_w_px)}×{int(target_h_px)}px, "
-        f"extra = {EXTRA_SCALE}, shared scale = {scale:.3f}"
+        f"  image scaling: shared scale = {SHARED_SCALE}, "
+        f"page area = {int(target_w_px)}×{int(target_h_px)}px (cap)"
     )
 
     def repl(m: re.Match[str]) -> str:
@@ -231,11 +229,11 @@ def add_image_widths(md: str, base_dir: Path) -> str:
         if rel not in sizes:
             return m.group(0)
         w, h = sizes[rel]
-        rendered_w = w * scale
-        rendered_h = h * scale
-        if rendered_h > target_h_px:
-            # Outlier (e.g. very long scroll screenshot) — cap by height.
-            rendered_w = target_h_px * w / h
+        rendered_w = w * SHARED_SCALE
+        rendered_h = h * SHARED_SCALE
+        # Per-image page-fit cap (proportional).
+        cap = min(target_w_px / rendered_w, target_h_px / rendered_h, 1.0)
+        rendered_w *= cap
         rendered_w_int = max(1, int(round(rendered_w)))
         return f'{m.group(1)}{{width="{rendered_w_int}px"}}'
 
