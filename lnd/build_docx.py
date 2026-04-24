@@ -38,12 +38,14 @@ REFERENCE_DOCX = SCRIPT_DIR / "reference.docx"
 INLINE_CODE_SHADE = "EEEEEE"
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 
-# Page text-area width used for image scaling. Default reference.docx uses
-# Letter (8.5") with ~1.25" margins, leaving ~6.0" for content. We pick the
-# largest source image and scale it to this width; every other image is then
-# scaled by the same factor — this keeps the rendered text size on screenshots
-# uniform across the whole document.
+# Page text-area dimensions used for image scaling. Default reference.docx
+# uses Letter (8.5×11") with ~1.25" margins, leaving ~6.0×8.0" for content.
+# We compute a single shared scale factor from BOTH width and height so that
+# the most-constraining image (whether wide or tall) just fits the page —
+# every other image is rendered at the same scale, keeping on-screenshot text
+# uniform in physical size.
 PAGE_TEXT_WIDTH_INCHES = 6.0
+PAGE_TEXT_HEIGHT_INCHES = 8.0
 PANDOC_DEFAULT_DPI = 96
 
 # Files to skip (per user instruction in UPD2).
@@ -172,50 +174,65 @@ def build_combined_markdown(files: list[Path]) -> str:
 _IMG_RE = re.compile(r"(!\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\))(?!\{)")
 
 
-def _image_pixel_width(rel_path: str, base_dir: Path) -> int | None:
+def _image_size(rel_path: str, base_dir: Path) -> tuple[int, int] | None:
     clean = rel_path.split("#", 1)[0].split("?", 1)[0]
     img_path = (base_dir / clean).resolve()
     if not img_path.is_file():
         return None
     try:
         with Image.open(img_path) as im:
-            return int(im.size[0])
+            return (int(im.size[0]), int(im.size[1]))
     except Exception:
         return None
 
 
 def add_image_widths(md: str, base_dir: Path) -> str:
-    """Append `{width="Npx"}` to every standalone image reference using a
-    single shared scale factor: the largest image fills the page text width;
-    smaller images shrink proportionally so on-screenshot text stays the same
-    physical size in the rendered DOCX."""
+    """Append `{width="Npx"}` to every standalone image reference.
+
+    The global scale factor is chosen so that the widest source image just
+    fills the page text width — every "normal" image then renders at the same
+    scale, keeping on-screenshot text uniform in physical size.
+
+    Outlier images whose scaled height would exceed the page text height
+    (typically very long scroll-capture screenshots) are individually shrunk
+    to fit the page height. They lose the shared scale, but they no longer
+    blow up vertically across multiple pages.
+    """
     matches = list(_IMG_RE.finditer(md))
-    widths: dict[str, int] = {}
+    sizes: dict[str, tuple[int, int]] = {}
     for m in matches:
         rel = m.group(2)
-        if rel in widths:
+        if rel in sizes:
             continue
-        w = _image_pixel_width(rel, base_dir)
-        if w is not None and w > 0:
-            widths[rel] = w
+        s = _image_size(rel, base_dir)
+        if s is not None and s[0] > 0 and s[1] > 0:
+            sizes[rel] = s
 
-    if not widths:
+    if not sizes:
         return md
 
-    max_px = max(widths.values())
-    target_max_px = PAGE_TEXT_WIDTH_INCHES * PANDOC_DEFAULT_DPI
-    scale = target_max_px / max_px
+    max_w = max(s[0] for s in sizes.values())
+    target_w_px = PAGE_TEXT_WIDTH_INCHES * PANDOC_DEFAULT_DPI
+    target_h_px = PAGE_TEXT_HEIGHT_INCHES * PANDOC_DEFAULT_DPI
+    scale = target_w_px / max_w
     print(
-        f"  image scaling: largest source = {max_px}px wide, "
-        f"target page width = {int(target_max_px)}px, scale = {scale:.3f}"
+        f"  image scaling: max source width = {max_w}px, "
+        f"page area = {int(target_w_px)}×{int(target_h_px)}px, "
+        f"shared scale = {scale:.3f}"
     )
 
     def repl(m: re.Match[str]) -> str:
         rel = m.group(2)
-        if rel not in widths:
+        if rel not in sizes:
             return m.group(0)
-        rendered = max(1, int(round(widths[rel] * scale)))
-        return f'{m.group(1)}{{width="{rendered}px"}}'
+        w, h = sizes[rel]
+        rendered_w = w * scale
+        rendered_h = h * scale
+        if rendered_h > target_h_px:
+            # Outlier (e.g. very long scroll screenshot) — cap by height.
+            rendered_w = target_h_px * w / h
+        rendered_w_int = max(1, int(round(rendered_w)))
+        return f'{m.group(1)}{{width="{rendered_w_int}px"}}'
 
     return _IMG_RE.sub(repl, md)
 
@@ -258,7 +275,7 @@ def main() -> int:
         pypandoc.convert_file(
             str(tmp_md),
             to="docx",
-            format="gfm+raw_attribute",
+            format="commonmark_x+raw_attribute",
             outputfile=str(DOCX_PATH),
             extra_args=extra_args,
         )
