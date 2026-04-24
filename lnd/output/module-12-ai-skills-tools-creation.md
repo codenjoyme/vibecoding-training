@@ -164,13 +164,11 @@ Key takeaways:
 
 You have identified a precision-dependent task in your project and created a custom `skill` (an `instruction` paired with a `tool`) to handle it reliably.
 
-**Submit your `skill` for review:**
+**Submit your `skill` for automated check:**
 
 1. Locate the instruction file and the tool file you created during this module (e.g., `instructions/[name].agent.md` and the corresponding script).
-2. Send them to: `Oleksandr_Baglai@epam.com`
-   - Subject line: `Module 12 - Custom Skill Submission`
-   - Attach both the instruction and the tool files, or paste their contents in the email body.
-3. The reviewer will check that:
+2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+3. The `autocheck` system will check that:
    - The task genuinely requires precision (calculation, API query, or data operation).
    - The instruction clearly specifies when and how to invoke the tool.
    - The tool accepts parameters - nothing is hardcoded.

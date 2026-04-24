@@ -243,3 +243,30 @@ DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/out
 **Что сделано:** в [lnd/build_docx.py](../../lnd/build_docx.py) формат изменён на `commonmark_x+raw_attribute-fancy_lists`. Теперь `(a)` остаётся обычным текстом внутри bullet-пункта.
 
 DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx). Структура квизов восстановлена: вопрос → варианты ответов как continuation lines → `Correct answer: X.` → bullet-обоснования с `(a)/(b)/(c)` как обычным текстом.
+
+## UPD13
+
+Последняя правка, надо все модули где написано 
+`**Submit your prototype specification files for review:**`
+заменить на то, что вы сабмитите задание не на почту, а на *autocheck* решение, которое мы доделаем параллельно. СТруктура останется но 
+```
+1. Locate the specification file you created and committed to your repository during Page 4.
+2. Send it to: `Oleksandr_Baglai@epam.com` - тут написать что надо отправить на автоматическую проверку без указания названия модуля.
+   - Subject line: `Module 08 — Specification Submission`
+   - Attach the specification file directly, or paste its contents in the email body.
+3. The reviewer will check that your specification: - тут надо написать, что проверка будет сделана автоматом.
+   - Covers the automation goal clearly
+   - Includes at least the key requirements surfaced during the AI interview
+   - Is written in English
+   - Is structured (not a single paragraph of free text)
+```
+Go
+
+### RESULT
+
+- Создан скрипт [lnd/replace_submission_instructions.py](../../lnd/replace_submission_instructions.py): идемпотентная замена email-блока сабмишена на autocheck-блок во всех `module-*.md`. Регексп ловит строку "Send to: `Oleksandr_Baglai@epam.com`" + следующий за ней саб-буллет "Subject line: …" + саб-буллет "Attach/Paste/Include …" и заменяет всё на одну строку: «Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).»
+- Также автоматически переписаны два других места:
+  + `**Submit your X for review:**` → `**Submit your X for automated check:**`
+  + `The reviewer will check` → `The autocheck system will check`
+- Обработано 13 модулей (`module-08` … `module-20`), по 3 замены в каждом. Структура нумерации списка сохранена, имя модуля больше не упоминается.
+- DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx).

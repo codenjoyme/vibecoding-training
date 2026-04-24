@@ -187,13 +187,11 @@ Key takeaways:
 
 You have configured an `MCP` server and used it to connect your AI assistant to an external data source or service.
 
-**Submit your `MCP` configuration for review:**
+**Submit your `MCP` configuration for automated check:**
 
 1. Locate your `MCP` configuration file (`.vscode/mcp.json` or `.cursor/mcp.json`) in your project.
-2. Send it to: `Oleksandr_Baglai@epam.com`
-   - Subject line: `Module 13 - MCP Configuration Submission`
-   - Attach the configuration file and include a one-sentence note on which server was configured and what it enables.
-3. The reviewer will check that:
+2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+3. The `autocheck` system will check that:
    - At least one `MCP` server is configured and functional.
    - Only tools relevant to your project are enabled.
    - The configuration file is committed to your repository with no credentials or `tokens` included.

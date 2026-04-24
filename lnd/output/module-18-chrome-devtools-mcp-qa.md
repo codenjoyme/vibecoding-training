@@ -197,13 +197,11 @@ Key takeaways:
 
 You have run AI-driven QA on your prototype using `Chrome DevTools MCP` and produced a QA report.
 
-**Submit your QA report for review:**
+**Submit your QA report for automated check:**
 
 1. Locate the QA report file generated during this module.
-2. Send it to: `Oleksandr_Baglai@epam.com`
-   - Subject line: `Module 18 - QA Report Submission`
-   - Attach the QA report, or paste its contents in the email body.
-3. The reviewer will check that:
+2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+3. The `autocheck` system will check that:
    - The report covers at least 3 distinct UI scenarios (e.g., page navigation, form submission, error handling).
    - Found bugs are documented with descriptions.
    - All bugs found were fixed and committed before the report was finalized.

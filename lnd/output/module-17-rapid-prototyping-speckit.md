@@ -187,13 +187,11 @@ Key takeaways:
 
 You have built a working prototype using the `SpecKit` methodology.
 
-**Submit your prototype specification files for review:**
+**Submit your prototype specification files for automated check:**
 
 1. Locate the `specification.md` (or equivalent spec file) created during the `SpecKit` workflow and the task list used for implementation.
-2. Send them to: `Oleksandr_Baglai@epam.com`
-   - Subject line: `Module 17 - Prototype Specification Submission`
-   - Attach the specification and task list files, or paste their contents in the email body.
-3. The reviewer will check that:
+2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+3. The `autocheck` system will check that:
    - The specification describes a real use case from your project (not a placeholder example).
    - Tasks are broken into baby steps with clear acceptance criteria.
    - At least one task was implemented, verified, and committed.

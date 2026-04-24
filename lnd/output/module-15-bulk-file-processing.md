@@ -187,14 +187,12 @@ Key takeaways:
 
 You have processed a set of project files in bulk using an appropriate approach for your batch size.
 
-**Submit your processing script or approach note for review:**
+**Submit your processing script or approach note for automated check:**
 
 1. If you created a bulk processing script, locate it in your project folder.
 2. If you used a non-script approach, prepare a brief note (2-3 sentences): what files were processed, which approach you chose (single request / iterative / script), and why.
-3. Send to: `Oleksandr_Baglai@epam.com`
-   - Subject line: `Module 15 - Bulk Processing Submission`
-   - Attach the script or include the approach note in the email body.
-4. The reviewer will check that:
+3. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+4. The `autocheck` system will check that:
    - The approach matches the batch size and consistency requirements from the module.
    - If a script was used, each file is processed in a separate `context window`.
    - The choice of approach is clearly justified.

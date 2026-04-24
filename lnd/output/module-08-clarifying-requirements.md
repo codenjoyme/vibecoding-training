@@ -178,13 +178,11 @@ Key takeaways:
 
 You have completed the interview technique and created a requirements specification document.
 
-**Submit your specification for review:**
+**Submit your specification for automated check:**
 
 1. Locate the specification file you created and committed to your repository during Page 4.
-2. Send it to: `Oleksandr_Baglai@epam.com`
-   - Subject line: `Module 08 — Specification Submission`
-   - Attach the specification file directly, or paste its contents in the email body.
-3. The reviewer will check that your specification:
+2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+3. The `autocheck` system will check that your specification:
    - Covers the automation goal clearly
    - Includes at least the key requirements surfaced during the AI interview
    - Is written in English

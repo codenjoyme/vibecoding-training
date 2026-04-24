@@ -194,13 +194,11 @@ Key takeaways:
 
 You have created a `project_spec.md` and a `backlog.md` for your automation project and committed them to your repository.
 
-**Submit your files for review:**
+**Submit your files for automated check:**
 
 1. Locate `project_spec.md` and `backlog.md` in your repository.
-2. Send both files to: `Oleksandr_Baglai@epam.com`
-   - Subject line: `Module 09 — Memory Files Submission`
-   - Attach both files directly, or paste their contents in the email body.
-3. The reviewer will check that:
+2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+3. The `autocheck` system will check that:
    - `project_spec.md` clearly states the automation goal, requirements, and quality standards.
    - `backlog.md` breaks the work into phases with checkboxes and specific, actionable tasks.
    - Both files are written in English and are committed to your repository.

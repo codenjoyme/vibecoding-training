@@ -195,13 +195,11 @@ Key takeaways:
 
 You have accessed an AI model directly via the `EPAM AI DIAL` `API` using a `cURL` command.
 
-**Submit your API interaction log for review:**
+**Submit your API interaction log for automated check:**
 
 1. Run a `cURL` request to the `DIAL` `API` and capture the full terminal output (the `JSON` response).
-2. Send to: `Oleksandr_Baglai@epam.com`
-   - Subject line: `Module 20 - API Access Submission`
-   - Paste the `cURL` command (with your `API key` replaced by `[REDACTED]`) and the response in the email body.
-3. The reviewer will check that:
+2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+3. The `autocheck` system will check that:
    - The request reaches the `DIAL` endpoint and returns a valid `JSON` response.
    - The model, temperature, and max_tokens parameters are visible in the command.
    - The `API key` is not included in plain text - replace it with `[REDACTED]`.

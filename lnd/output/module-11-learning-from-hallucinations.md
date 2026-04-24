@@ -177,14 +177,12 @@ Key takeaways:
 
 You have applied the `hallucination` improvement cycle: identified an unexpected AI output, traced it to a missing or ambiguous `instruction` rule, and delegated the fix to the AI.
 
-**Submit your improved `instruction` for review:**
+**Submit your improved `instruction` for automated check:**
 
 1. Locate the `instruction` file you updated as a result of a `hallucination` encountered during this module.
 2. Prepare a brief note describing: (1) what unexpected output occurred, (2) which `instruction` rule was missing or wrong, (3) what rule was added or changed.
-3. Send to: `Oleksandr_Baglai@epam.com`
-   - Subject line: `Module 11 - Hallucination Fix Submission`
-   - Attach the updated `instruction` file and include the brief note in the email body.
-4. The reviewer will check that:
+3. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+4. The `autocheck` system will check that:
    - A specific, real `hallucination` is described (not a hypothetical example).
    - The `instruction` fix targets the root cause, not just the symptom.
    - The updated `instruction` has a rule that prevents the `hallucination` from recurring.

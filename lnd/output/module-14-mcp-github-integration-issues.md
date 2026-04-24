@@ -179,13 +179,11 @@ Key takeaways:
 
 You have configured the `GitHub` `MCP` server and created `GitHub` issues directly from your project backlog.
 
-**Submit your updated backlog for review:**
+**Submit your updated backlog for automated check:**
 
 1. Locate the `backlog.md` file you updated with `GitHub` issue references during this module.
-2. Send it to: `Oleksandr_Baglai@epam.com`
-   - Subject line: `Module 14 - GitHub Issues Submission`
-   - Attach the updated `backlog.md`, or paste its contents in the email body.
-3. The reviewer will check that:
+2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+3. The `autocheck` system will check that:
    - At least 3 backlog tasks have corresponding `GitHub` issue numbers or URLs added.
    - Issues were created from the AI chat using the `GitHub` `MCP` server (not manually through the web interface).
    - The updated `backlog.md` is committed to your repository.

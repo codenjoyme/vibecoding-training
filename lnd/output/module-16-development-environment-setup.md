@@ -161,14 +161,12 @@ Key takeaways:
 
 You have installed and verified your full development environment: `Node.js`, `npm`, `nvm`, and `Docker`.
 
-**Submit your environment verification for review:**
+**Submit your environment verification for automated check:**
 
 1. Open a terminal and run: `node --version`, `npm --version`, `nvm --version`, `docker --version`.
 2. Copy the output of all four commands.
-3. Send to: `Oleksandr_Baglai@epam.com`
-   - Subject line: `Module 16 - Environment Setup Submission`
-   - Paste the terminal output in the email body.
-4. The reviewer will check that:
+3. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+4. The `autocheck` system will check that:
    - All four tools are installed and return a version number.
    - `Node.js` version is 20 or higher (LTS recommended).
    - `Docker` is installed and returns a version (it does not need to be running).

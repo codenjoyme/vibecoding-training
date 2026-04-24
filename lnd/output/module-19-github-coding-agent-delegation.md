@@ -181,13 +181,11 @@ Key takeaways:
 
 You have delegated a development task to `GitHub Copilot Coding Agent` and reviewed the resulting pull request.
 
-**Submit your pull request for review:**
+**Submit your pull request for automated check:**
 
 1. Locate the pull request created by the coding agent for the issue you assigned.
-2. Send to: `Oleksandr_Baglai@epam.com`
-   - Subject line: `Module 19 - Coding Agent Delegation Submission`
-   - Include the `GitHub` issue URL and the resulting PR URL in the email body.
-3. The reviewer will check that:
+2. Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
+3. The `autocheck` system will check that:
    - The `GitHub` issue has a clear description with acceptance criteria.
    - The PR was created by the coding `agent` (not manually committed).
    - You submitted all review comments at once (not one by one).
