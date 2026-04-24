@@ -22,6 +22,12 @@ except ImportError:
     print("pypandoc is not installed. Install with: pip install pypandoc")
     sys.exit(1)
 
+try:
+    from PIL import Image
+except ImportError:
+    print("Pillow is not installed. Install with: pip install Pillow")
+    sys.exit(1)
+
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 OUTPUT_DIR = SCRIPT_DIR / "output"
@@ -31,6 +37,14 @@ REFERENCE_DOCX = SCRIPT_DIR / "reference.docx"
 # Shading color for inline `code` (light gray).
 INLINE_CODE_SHADE = "EEEEEE"
 W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+
+# Page text-area width used for image scaling. Default reference.docx uses
+# Letter (8.5") with ~1.25" margins, leaving ~6.0" for content. We pick the
+# largest source image and scale it to this width; every other image is then
+# scaled by the same factor — this keeps the rendered text size on screenshots
+# uniform across the whole document.
+PAGE_TEXT_WIDTH_INCHES = 6.0
+PANDOC_DEFAULT_DPI = 96
 
 # Files to skip (per user instruction in UPD2).
 SKIP_FILES = {"module-02b-installing-claude-code-codemie.md"}
@@ -154,6 +168,58 @@ def build_combined_markdown(files: list[Path]) -> str:
     return "\n".join(parts)
 
 
+# Match a markdown image NOT already followed by a `{...}` Pandoc attribute.
+_IMG_RE = re.compile(r"(!\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\))(?!\{)")
+
+
+def _image_pixel_width(rel_path: str, base_dir: Path) -> int | None:
+    clean = rel_path.split("#", 1)[0].split("?", 1)[0]
+    img_path = (base_dir / clean).resolve()
+    if not img_path.is_file():
+        return None
+    try:
+        with Image.open(img_path) as im:
+            return int(im.size[0])
+    except Exception:
+        return None
+
+
+def add_image_widths(md: str, base_dir: Path) -> str:
+    """Append `{width="Npx"}` to every standalone image reference using a
+    single shared scale factor: the largest image fills the page text width;
+    smaller images shrink proportionally so on-screenshot text stays the same
+    physical size in the rendered DOCX."""
+    matches = list(_IMG_RE.finditer(md))
+    widths: dict[str, int] = {}
+    for m in matches:
+        rel = m.group(2)
+        if rel in widths:
+            continue
+        w = _image_pixel_width(rel, base_dir)
+        if w is not None and w > 0:
+            widths[rel] = w
+
+    if not widths:
+        return md
+
+    max_px = max(widths.values())
+    target_max_px = PAGE_TEXT_WIDTH_INCHES * PANDOC_DEFAULT_DPI
+    scale = target_max_px / max_px
+    print(
+        f"  image scaling: largest source = {max_px}px wide, "
+        f"target page width = {int(target_max_px)}px, scale = {scale:.3f}"
+    )
+
+    def repl(m: re.Match[str]) -> str:
+        rel = m.group(2)
+        if rel not in widths:
+            return m.group(0)
+        rendered = max(1, int(round(widths[rel] * scale)))
+        return f'{m.group(1)}{{width="{rendered}px"}}'
+
+    return _IMG_RE.sub(repl, md)
+
+
 def main() -> int:
     if not OUTPUT_DIR.is_dir():
         print(f"Output dir not found: {OUTPUT_DIR}")
@@ -173,6 +239,7 @@ def main() -> int:
         print(f"  - {p.name}")
 
     combined_md = build_combined_markdown(files)
+    combined_md = add_image_widths(combined_md, OUTPUT_DIR)
 
     # Write the combined markdown to a temp file so Pandoc can resolve image
     # paths relative to lnd/output (where img/ lives).
