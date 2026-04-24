@@ -54,7 +54,7 @@ PANDOC_DEFAULT_DPI = 96
 # IMPORTANT: there is intentionally NO per-image page-fit cap — capping would
 # break the "on-screenshot text size is uniform" property (large images would
 # end up shown smaller than small ones).
-SHARED_SCALE = 1.2
+SHARED_SCALE = 0.89
 
 # Files to skip (per user instruction in UPD2).
 SKIP_FILES = {"module-02b-installing-claude-code-codemie.md"}
