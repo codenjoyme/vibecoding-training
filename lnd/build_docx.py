@@ -48,6 +48,11 @@ PAGE_TEXT_WIDTH_INCHES = 6.0
 PAGE_TEXT_HEIGHT_INCHES = 8.0
 PANDOC_DEFAULT_DPI = 96
 
+# Extra multiplier applied on top of the auto-computed shared scale. Use this
+# to globally shrink/grow all images without changing the page-fit logic.
+# 1.0 = widest source image fills the page text width.
+EXTRA_SCALE = 0.7
+
 # Files to skip (per user instruction in UPD2).
 SKIP_FILES = {"module-02b-installing-claude-code-codemie.md"}
 
@@ -214,11 +219,11 @@ def add_image_widths(md: str, base_dir: Path) -> str:
     max_w = max(s[0] for s in sizes.values())
     target_w_px = PAGE_TEXT_WIDTH_INCHES * PANDOC_DEFAULT_DPI
     target_h_px = PAGE_TEXT_HEIGHT_INCHES * PANDOC_DEFAULT_DPI
-    scale = target_w_px / max_w
+    scale = (target_w_px / max_w) * EXTRA_SCALE
     print(
         f"  image scaling: max source width = {max_w}px, "
         f"page area = {int(target_w_px)}×{int(target_h_px)}px, "
-        f"shared scale = {scale:.3f}"
+        f"extra = {EXTRA_SCALE}, shared scale = {scale:.3f}"
     )
 
     def repl(m: re.Match[str]) -> str:

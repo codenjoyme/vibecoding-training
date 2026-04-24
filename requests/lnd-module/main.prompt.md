@@ -145,3 +145,12 @@ python lnd/build_docx.py
 - Page area сейчас: `6.0" × 8.0"` × `96 DPI` = `576 × 768 px`. Подкрутить можно через `PAGE_TEXT_WIDTH_INCHES` / `PAGE_TEXT_HEIGHT_INCHES`.
 
 DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx). Текущий запуск: `max_w=2559px`, `scale=0.225`. Атрибуты теперь применяются к картинкам в DOCX, а не торчат как литералка.
+
+## UPD6
+
+Давай теперь сделаем скейл 0.7 go
+
+### RESULT
+
+- В [lnd/build_docx.py](../../lnd/build_docx.py) добавлена константа `EXTRA_SCALE = 0.7`. Она множится на авто-вычисленный shared scale (`scale = (page_w / max_w) * EXTRA_SCALE`). Логика "вписать в страницу" сохранена, просто всё дополнительно ужимается до 70%.
+- DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx). Текущий запуск: `max_w=2559px`, `extra=0.7`, итоговый shared scale = `0.158`.
