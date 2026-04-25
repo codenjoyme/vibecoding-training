@@ -71,6 +71,45 @@ The net effect: you can open multiple IDE windows with different projects, each 
        This compensates for context drift during long-running sessions — the polling loop can run for hours, and earlier in the conversation the agent may have loaded these instructions only once. Without periodic refresh, the agent may forget polling rules, commit policy, or language preference. Do NOT skip this step even if "nothing has changed" — the point is to refresh the agent's working memory, not the file content.
      + This loop continues **indefinitely** until the user explicitly stops the agent.
      + Do NOT print "waiting for instructions" to the chat and stop. The agent must keep itself alive via the terminal sleep loop.
+     + **Step H — Wake-on-change watcher (preferred over plain sleep):** Instead of sleeping for a fixed 60s and re-reading the file every cycle, run a single longer-lived terminal command that does the polling internally and **only returns to the agent when something actually changed**. This frees the agent from one premium request per 60 s of idle time — the watcher prints a `CHANGED` line to stdout and exits, and the agent sees that line in the terminal output and reacts.
+
+       Use the watcher command appropriate for the OS. The file path is the active prompt file (the `*.prompt.md` that triggered this session).
+
+       **Windows (PowerShell):**
+       ```powershell
+       $f = 'requests/<folder>/main.prompt.md'
+       $h0 = (Get-FileHash $f).Hash
+       Write-Host "WATCH baseline=$h0"
+       for ($i = 1; $i -le 120; $i++) {
+         Start-Sleep -Seconds 60
+         $h = (Get-FileHash $f).Hash
+         if ($h -ne $h0) { Write-Host "CHANGED after $i min hash=$h"; break }
+         Write-Host "[$i min] no change"
+       }
+       ```
+
+       **Linux / macOS (bash):**
+       ```bash
+       f='requests/<folder>/main.prompt.md'
+       h0=$(sha256sum "$f" | awk '{print $1}')
+       echo "WATCH baseline=$h0"
+       for i in $(seq 1 120); do
+         sleep 60
+         h=$(sha256sum "$f" | awk '{print $1}')
+         if [ "$h" != "$h0" ]; then echo "CHANGED after $i min hash=$h"; break; fi
+         echo "[$i min] no change"
+       done
+       ```
+
+       Run via `run_in_terminal` in **sync** mode with a timeout matching the loop budget (e.g. 120 minutes → `timeout: 7300000` ms). When the command returns:
+       1. Re-read the prompt file.
+       2. If a new `## UPD[N]` ending with `go` is found → process it (Step E).
+       3. If the file changed but no new ready-to-go UPD is present (user is still typing, no `go` yet) → restart the watcher (back to Step H).
+       4. If the watcher hit its 120-min budget without changes → restart the watcher (back to Step H). Also do the Step G anti-drift refresh on every restart.
+
+       **Why this matters:** while the watcher is blocked in `Start-Sleep` / `sleep`, the agent consumes **zero premium requests**. Earlier sessions used the raw "sleep 60 → re-read → sleep again" loop (Steps A–G), which costs one request per cycle. The watcher collapses many cycles into one request. The user can also write **multiple** `## UPD` blocks in parallel — once the watcher fires on any change, the agent processes every ready `## UPD` that has `go`, so previously-completed `go`-blocks waiting for their RESULT can be unblocked in a single wake.
+
+       **Fallback:** if the watcher command fails on the host (no PowerShell, no `sha256sum`, file path with unusual characters, etc.) — fall back to the plain Steps A–F sleep-and-recheck loop above. The plain loop is the backup; the watcher is the preferred path.
      + **⛔ CRITICAL: Chat messages do NOT break the loop.** If the user sends a message in the VS Code chat window while the polling loop is running, do NOT exit the loop and respond only in chat. Instead:
        1. Apply any fix or instruction from the chat message
        2. Write the result of that fix as a `### RESULT` block inside the **active prompt file** (not only in chat)
