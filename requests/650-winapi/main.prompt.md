@@ -132,7 +132,7 @@ session boot.
 
 Я запустил сервер. Отвечай мне лаконично тут что дальше
 
-![alt text](image.png) 
+![alt text](img/06-mcp-server-registered.png) 
 
 Go
 
@@ -152,7 +152,7 @@ Go
 
 Вот я добавил тулы, они должны быть тебе видны.
 
-![alt text](image-1.png)
+![alt text](img/07-tools-enabled.png)
 
 Go
 
@@ -212,8 +212,34 @@ Go
 
 Я вот сделал еще пару скриншотов 
 
-![alt text](image-final.png) это покажи на старте, то что мы получим
-![alt text](image-1.png)
-![alt text](image.png)
+![alt text](img/00-final-result.png) это покажи на старте, то что мы получим
+![alt text](img/07-tools-enabled.png)
+![alt text](img/06-mcp-server-registered.png)
 
-Распознай их и давай сделаем по мотивам нашего эксперимента мануал для живого человека там, возле skill.md - просто `readme.md` файл с человекочитаемім тестом, что за чем надо сделать чтобы эта демка случилась. Я хочу, чтобы кто-то другой мог повторить её по инструкции, глядя на эти скриншоты как на ориентиры. Из риквеста скриншоты удаляй, когда перенесешь их, а тут в файле меняй ссылки на новое местоположение их. 
+Распознай их и давай сделаем по мотивам нашего эксперимента мануал для живого человека там, возле skill.md - просто `readme.md` файл с человекочитаемім тестом, что за чем надо сделать чтобы эта демка случилась. Я хочу, чтобы кто-то другой мог повторить её по инструкции, глядя на эти скриншоты как на ориентиры. Из риквеста скриншоты удаляй, когда перенесешь их, а тут в файле меняй ссылки на новое местоположение их. Go
+
+### RESULT
+
+Распознал три новых скриншота:
+
+- **`image-final.png`** — финальный кадр: снег падает поверх `google.com`, в правой панели чат с агентом, где он сам рассуждает про paste-protection и пишет `Snow is running on google.com. Saving final screenshot...`. Это итоговый "wow"-кадр демо — поставил его в начало `readme.md` под заголовком *"Что вы получите в финале"*.
+- **`image.png`** — `.vscode/mcp.json` с записью `winapi-mcp` (тип `stdio`, `powershell` + `run.ps1`) и инлайн-индикатор `Running | 11 tools`; в Output panel снизу — лог `[info] Discovered 11 tools`. Это иллюстрация **Шага 2 — Регистрация сервера в VS Code**.
+- **`image-1.png`** — диалог `Configure Tools` с раскрытой веткой `winapi-mcp` и всеми 11 чекбоксами (clipboard_get/set, get_window_content, list_processes, mouse_click/drag/move, screenshot_area/window, send_hotkey, window_tree). Это иллюстрация **Шага 3 — Включение инструментов в чате**.
+
+Сделано:
+
+1. Перенёс скриншоты из `requests/650-winapi/` в `requests/650-winapi/img/` с осмысленными именами:
+   - `image-final.png` → [`img/00-final-result.png`](img/00-final-result.png) (стартовый "wow"-кадр)
+   - `image.png` → [`img/06-mcp-server-registered.png`](img/06-mcp-server-registered.png)
+   - `image-1.png` → [`img/07-tools-enabled.png`](img/07-tools-enabled.png)
+2. Создал [`modules/650-winapi/tools/readme.md`](../../modules/650-winapi/tools/readme.md) — человекочитаемый мануал на русском (язык запроса). Структура:
+   - **Что вы получите в финале** — превью со скриншотом `00-final-result.png`.
+   - **Шаг 1 — Установка** — `install.ps1`, требования.
+   - **Шаг 2 — Регистрация в VS Code** — JSON-блок и скриншот `06-mcp-server-registered.png` с подсветкой `Discovered 11 tools`.
+   - **Шаг 3 — Включение инструментов** — скриншот `07-tools-enabled.png`, перечень всех 11 тулов, важная заметка про "MCP-серверы подтягиваются на старте чат-сессии".
+   - **Шаг 4 — Запуск демо** — пошаговый разбор (4.1...4.5) с встроенными скриншотами `01-05`, JS-payload-ом снега и блоками вызовов `list_processes` / `send_hotkey` / `clipboard_set` / sequence с `delay`.
+   - **Уроки** — `_focus_pid` сайд-эффект, `^+j` тоглит, paste-protection per-origin, `delay` против гонок.
+   - **Безопасность** — предупреждение про "сервер физически управляет машиной".
+   - **Куда дальше** — ссылки на [SKILL.md](../../modules/650-winapi/tools/SKILL.md), [walkthrough.md](../../modules/650-winapi/walkthrough.md), [server.py](../../modules/650-winapi/tools/scripts/server.py).
+3. Обновил все ссылки в этом файле (`main.prompt.md`): UPD3 → `img/06-...`, UPD4 → `img/07-...`, UPD5 → новые имена. Оригиналы из корня `requests/650-winapi/` удалены (через `Move-Item`).
+4. Разделение ролей файлов: [SKILL.md](../../modules/650-winapi/tools/SKILL.md) остался AI-ориентированным (cheat-sheet тулов, JSON Schema, troubleshooting), а новый [readme.md](../../modules/650-winapi/tools/readme.md) — для человека, повторяющего демо по шагам со скриншотами как ориентирами.
