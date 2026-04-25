@@ -20,7 +20,7 @@ from pathlib import Path
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-OUTPUT_DIR = SCRIPT_DIR / "output"
+OUTPUT_DIR = SCRIPT_DIR.parent / "output"
 
 IMG_LINE_RE = re.compile(r"^(\s*)(!\[[^\]]*\]\([^)]+\))\s*$")
 LIST_ITEM_RE = re.compile(r"^(\s*)((?:[0-9]+\.|[-*+]))\s+\S")

@@ -410,3 +410,23 @@ Go
   - **module-20**: verbatim `cURL` команда (key → `[REDACTED]`) + verbatim request body + verbatim status + verbatim full JSON response + verbatim use-case context файл.
 - Затронутые файлы: 13 модулей (`module-08` … `module-20`).
 - DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx).
+
+## UPD18
+
+Давай все же вернем к формату ` ````markdown ` я понял зачем это. Так лучше. 
+
+и скрипты которые мы создали `*.py` (+ `reference.docx`) надо оформить в папку `scripts`. go
+
+### RESULT
+
+- Все Python-скрипты и `reference.docx` перенесены через `git mv` в [lnd/scripts/](../../lnd/scripts/):
+  - [build_docx.py](../../lnd/scripts/build_docx.py)
+  - [extract_pdfs.py](../../lnd/scripts/extract_pdfs.py)
+  - [format_md_images.py](../../lnd/scripts/format_md_images.py)
+  - [replace_submission_instructions.py](../../lnd/scripts/replace_submission_instructions.py)
+  - [rewrite_submission_with_report_prompt.py](../../lnd/scripts/rewrite_submission_with_report_prompt.py)
+  - [rewrite_submission_raw_data.py](../../lnd/scripts/rewrite_submission_raw_data.py)
+  - [reference.docx](../../lnd/scripts/reference.docx)
+- В каждом скрипте обновил вычисление `OUTPUT_DIR`: было `Path(__file__).parent / "output"`, стало `Path(__file__).parent.parent / "output"` (или `SCRIPT_DIR.parent / "output"`). `REFERENCE_DOCX` остался как `SCRIPT_DIR / "reference.docx"` — он теперь рядом со скриптом в `lnd/scripts/`. `extract_pdfs.py` использовал абсолютные пути — не трогал.
+- В [rewrite_submission_raw_data.py](../../lnd/scripts/rewrite_submission_raw_data.py) внешний fence промпта возвращён к ` ````markdown ` (4 backtick). Скрипт перезапущен — все 13 модулей перегенерированы.
+- DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx). Запуск из новой локации (`python lnd/scripts/build_docx.py`) проходит без ошибок.

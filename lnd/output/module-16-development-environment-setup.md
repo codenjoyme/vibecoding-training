@@ -165,7 +165,7 @@ You have installed and verified your full development environment: `Node.js`, `n
 
 1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will collect raw artifacts from your project and write them into a `report.md` file in the project root. The server-side `autocheck` will read the raw data and decide whether the submission is acceptable — your local agent must NOT make judgments itself.
 
-   ```markdown
+   ````markdown
    You are a data-collection agent. Your job is to gather RAW artifacts from my project workspace and write them into a file named `report.md` in the project root. Do NOT make judgments, do NOT summarize, do NOT add opinions. Paste file contents verbatim. Paste command outputs verbatim. If a value is genuinely missing, write `N/A`. Use tilde fences (`~~~`) for every inner code block so they don't conflict with the outer markdown fence. Replace any real `tokens`, `API keys`, passwords, or secrets with the literal text `[REDACTED]` everywhere they appear.
 
    Collect the following raw artifacts for Module 16 — Development Environment Setup. Write them into `report.md` in this exact structure. Each command output must be pasted VERBATIM, including any error messages.
@@ -206,7 +206,7 @@ You have installed and verified your full development environment: `Node.js`, `n
    ~~~
    [paste full output verbatim, OR `N/A` if node is missing]
    ~~~
-   ```
+   ````
 
 2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:

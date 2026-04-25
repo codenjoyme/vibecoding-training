@@ -30,7 +30,8 @@ except ImportError:
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-OUTPUT_DIR = SCRIPT_DIR / "output"
+LND_DIR = SCRIPT_DIR.parent
+OUTPUT_DIR = LND_DIR / "output"
 DOCX_PATH = OUTPUT_DIR / "all-modules.docx"
 REFERENCE_DOCX = SCRIPT_DIR / "reference.docx"
 

@@ -15,7 +15,7 @@ import re
 import sys
 from pathlib import Path
 
-OUTPUT_DIR = Path(__file__).resolve().parent / "output"
+OUTPUT_DIR = Path(__file__).resolve().parent.parent / "output"
 
 # Match the email submission step (numbered item N) and its two sub-bullets:
 #   N. Send [it/them/to]: `Oleksandr_Baglai@epam.com`

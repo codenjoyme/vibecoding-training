@@ -17,7 +17,7 @@ import sys
 from pathlib import Path
 from textwrap import dedent
 
-OUTPUT_DIR = Path(__file__).resolve().parent / "output"
+OUTPUT_DIR = Path(__file__).resolve().parent.parent / "output"
 
 # Common preamble to every agent prompt: explains where the report should go
 # and that the autocheck expects EXACTLY this format.

@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 from textwrap import dedent
 
-OUTPUT_DIR = Path(__file__).resolve().parent / "output"
+OUTPUT_DIR = Path(__file__).resolve().parent.parent / "output"
 
 PROMPT_PREAMBLE = (
     "You are a data-collection agent. Your job is to gather RAW artifacts from "
@@ -61,9 +61,9 @@ def build_section(agent_prompt_body: str, criteria_lines: list[str]) -> str:
         "\n"
         "1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will collect raw artifacts from your project and write them into a `report.md` file in the project root. The server-side `autocheck` will read the raw data and decide whether the submission is acceptable — your local agent must NOT make judgments itself.\n"
         "\n"
-        "   ```markdown\n"
+        "   ````markdown\n"
         f"{prompt_block}\n"
-        "   ```\n"
+        "   ````\n"
         "\n"
         "2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).\n"
         "3. The `autocheck` system will check that:\n"
