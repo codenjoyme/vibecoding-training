@@ -464,4 +464,14 @@ Go
 
 ### RESULT
 
-(см. отдельный коммит UPD20 — этот блок временно вынесен, чтобы UPD19 коммитился отдельно от UPD20)
+- Создан skill [instructions/lnd/build-md-to-docx/SKILL.md](../../instructions/lnd/build-md-to-docx/SKILL.md) согласно [creating-instructions.agent.md](../../instructions/creating-instructions.agent.md):
+  + Frontmatter (`name`, `description`, `version`).
+  + Bullet-style sections: Prerequisites (как ставить `pandoc` через winget/brew/apt + auto-download fallback, `pip install pypandoc Pillow`), How to invoke (CLI с примерами для 1 файла / 3 файлов / всех модулей), технические детали (page setup, image scaling, TOC, формат pandoc), Troubleshooting.
+- Обобщённый скрипт [instructions/lnd/build-md-to-docx/scripts/build_docx.py](../../instructions/lnd/build-md-to-docx/scripts/build_docx.py): принимает позиционно список input-файлов; флаги `--output`, `--resource-path`, `--reference-docx`, `--shared-scale`, `--no-toc`, `--toc-depth`, `--title-from-filename`, `--skip`. Все hardcoded константы (`OUTPUT_DIR`, `SKIP_FILES`, `DOCX_PATH`) удалены — теперь это reusable инструмент.
+- Reference template `scripts/reference.docx` автогенерируется при каждом запуске рядом со скриптом.
+- Catalog [instructions/main.agent.md](../../instructions/main.agent.md) пополнен ссылкой на `lnd/build-md-to-docx/SKILL.md` с keywords `docx, build docx, markdown to docx, ...`.
+- **Тесты** прошли:
+  + 1 файл (`module-01`) → `work/test-one.docx` (1.2 MB) ✅
+  + 3 файла (`module-01`, `-03`, `-08`) → `work/test-three.docx` (2.8 MB) ✅
+  + Все 22 модуля (с `--skip module-02b-...`) → [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx) (~9.8 MB, идентичен предыдущему билду) ✅
+- Удалены `lnd/scripts/build_docx.py` и `lnd/scripts/reference.docx` через `git rm`. Остальные скрипты в `lnd/scripts/` (rewrite_*, replace_*, format_md_images, extract_pdfs) — не трогал, они не относятся к md→docx.
