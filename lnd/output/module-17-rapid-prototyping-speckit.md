@@ -189,33 +189,57 @@ You have built a working prototype using the `SpecKit` methodology.
 
 **Submit your `report.md` for automated check:**
 
-1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will collect raw artifacts from your project and write them into a `report.md` file in the project root. The server-side `autocheck` will read the raw data and decide whether the submission is acceptable — your local agent must NOT make judgments itself.
 
-   ````markdown
-   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+   ```markdown
+   You are a data-collection agent. Your job is to gather RAW artifacts from my project workspace and write them into a file named `report.md` in the project root. Do NOT make judgments, do NOT summarize, do NOT add opinions. Paste file contents verbatim. Paste command outputs verbatim. If a value is genuinely missing, write `N/A`. Use tilde fences (`~~~`) for every inner code block so they don't conflict with the outer markdown fence. Replace any real `tokens`, `API keys`, passwords, or secrets with the literal text `[REDACTED]` everywhere they appear.
 
-   Source: the `specification.md` (or equivalent spec file) created during the `SpecKit` workflow in Module 17, the task list used for implementation, and the commits demonstrating that at least one task was implemented. Locate everything, then write `report.md`:
+   Collect the following raw artifacts for Module 17 — Rapid Prototyping with SpecKit. Write them into `report.md` in this exact structure:
 
-   # SpecKit Prototype Report
-   - Module: 17 — Rapid Prototyping with `SpecKit`
-   - Repository: `[git remote URL or local path]`
-   - Commit: `[short SHA of HEAD]`
-   - Specification file: `[relative/path/to/specification.md]`
-   - Task list file: `[relative/path/to/task-list.md or N/A]`
+   # Module 17 Submission — Raw Data
+   - Module: 17 — Rapid Prototyping with SpecKit
+   - Repository remote URL: `[output of `git remote get-url origin` or `N/A`]`
+   - Repository local path: `[absolute path to the project root]`
+   - Current commit SHA: `[output of `git rev-parse HEAD`]`
+   - Current branch: `[output of `git rev-parse --abbrev-ref HEAD`]`
+   - Report generated at: `[ISO 8601 timestamp]`
 
-   ## Use Case
-   [Two to three sentences describing the real use case from my project that the spec covers — not a placeholder example.]
+   ## Specification File
+   - Path: `[relative/path/to/specification.md]`
+   - Size (bytes): `[N]`
 
-   ## Tasks
-   - [Task 1 name] — acceptance criteria: [one sentence] — status: `[done | in-progress | not started]`
-   - [Task 2 name] — acceptance criteria: [one sentence] — status: `[done | in-progress | not started]`
-   - [... list all tasks from the task list, in order]
+   ### Verbatim Contents
+   ~~~markdown
+   [Paste full file contents here, byte-for-byte.]
+   ~~~
 
-   ## Implemented Task Evidence
-   - Implemented task: `[task name]`
-   - Commit SHA(s): `[short SHA(s) where the implementation was committed]`
-   - Verification method: [one sentence — test run, manual check, etc.]
-   ````
+   ## Task List File
+   - Path: `[relative/path/to/task-list.md | N/A]`
+
+   ### Verbatim Contents
+   ~~~markdown
+   [Paste full file contents here. If no task list file exists, write `NO TASK LIST FILE`.]
+   ~~~
+
+   ## Recent Commits (last 20)
+   Output of `git log --oneline -20`:
+   ~~~
+   [paste output verbatim]
+   ~~~
+
+   ## Last Commit Diff Stat
+   Output of `git show --stat HEAD`:
+   ~~~
+   [paste output verbatim]
+   ~~~
+
+   ## Implementation Evidence
+   For the most recent commit that implements work from the task list, paste the diff:
+   Output of `git show [SHA]`:
+   ~~~diff
+   [paste output verbatim, truncated at ~500 lines if longer; note "TRUNCATED AT N LINES" at the end if so]
+   ~~~
+   ```
 
 2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:

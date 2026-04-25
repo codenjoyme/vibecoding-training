@@ -163,29 +163,50 @@ You have installed and verified your full development environment: `Node.js`, `n
 
 **Submit your `report.md` for automated check:**
 
-1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will collect raw artifacts from your project and write them into a `report.md` file in the project root. The server-side `autocheck` will read the raw data and decide whether the submission is acceptable — your local agent must NOT make judgments itself.
 
-   ````markdown
-   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+   ```markdown
+   You are a data-collection agent. Your job is to gather RAW artifacts from my project workspace and write them into a file named `report.md` in the project root. Do NOT make judgments, do NOT summarize, do NOT add opinions. Paste file contents verbatim. Paste command outputs verbatim. If a value is genuinely missing, write `N/A`. Use tilde fences (`~~~`) for every inner code block so they don't conflict with the outer markdown fence. Replace any real `tokens`, `API keys`, passwords, or secrets with the literal text `[REDACTED]` everywhere they appear.
 
-   Source: the local development environment on this machine. Run each version command in a terminal and capture the output. Then write `report.md`:
+   Collect the following raw artifacts for Module 16 — Development Environment Setup. Write them into `report.md` in this exact structure. Each command output must be pasted VERBATIM, including any error messages.
 
-   # Environment Check Report
+   # Module 16 Submission — Raw Data
    - Module: 16 — Development Environment Setup
-   - OS: `[Windows | macOS | Linux] [version]`
-   - Shell: `[pwsh | bash | zsh | ...]`
+   - Repository remote URL: `[output of `git remote get-url origin` or `N/A`]`
+   - Repository local path: `[absolute path to the project root]`
+   - Current commit SHA: `[output of `git rev-parse HEAD`]`
+   - Current branch: `[output of `git rev-parse --abbrev-ref HEAD`]`
+   - Report generated at: `[ISO 8601 timestamp]`
 
-   ## Tool Versions
-   - Node.js: `[output of `node --version`]`
-   - npm: `[output of `npm --version`]`
-   - nvm: `[output of `nvm --version` — or `not installed`]`
-   - Docker: `[output of `docker --version` — or `not installed`]`
+   ## Host
+   - OS: `[output of `uname -a` on Unix, or `[System.Environment]::OSVersion` on Windows]`
+   - Shell: `[$SHELL on Unix, or $PSVersionTable.PSVersion on Windows]`
 
-   ## Checks
-   - All four tools return a version: [Yes | No]
-   - `Node.js` version is 20 or higher: [Yes | No]
-   - `Docker` is installed (does not need to be running): [Yes | No]
-   ````
+   ## node --version
+   ~~~
+   [paste full output verbatim, including stderr if any. If command is not found, paste the shell error verbatim.]
+   ~~~
+
+   ## npm --version
+   ~~~
+   [paste full output verbatim]
+   ~~~
+
+   ## nvm --version
+   ~~~
+   [paste full output verbatim]
+   ~~~
+
+   ## docker --version
+   ~~~
+   [paste full output verbatim]
+   ~~~
+
+   ## node --print process.versions
+   ~~~
+   [paste full output verbatim, OR `N/A` if node is missing]
+   ~~~
+   ```
 
 2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:

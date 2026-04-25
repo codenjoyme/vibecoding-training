@@ -189,32 +189,42 @@ You have configured an `MCP` server and used it to connect your AI assistant to 
 
 **Submit your `report.md` for automated check:**
 
-1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will collect raw artifacts from your project and write them into a `report.md` file in the project root. The server-side `autocheck` will read the raw data and decide whether the submission is acceptable — your local agent must NOT make judgments itself.
 
-   ````markdown
-   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+   ```markdown
+   You are a data-collection agent. Your job is to gather RAW artifacts from my project workspace and write them into a file named `report.md` in the project root. Do NOT make judgments, do NOT summarize, do NOT add opinions. Paste file contents verbatim. Paste command outputs verbatim. If a value is genuinely missing, write `N/A`. Use tilde fences (`~~~`) for every inner code block so they don't conflict with the outer markdown fence. Replace any real `tokens`, `API keys`, passwords, or secrets with the literal text `[REDACTED]` everywhere they appear.
 
-   Source: my `MCP` configuration file — `.vscode/mcp.json` (VS Code) or `.cursor/mcp.json` (Cursor). Locate it, then write `report.md`. CRITICAL: do NOT include any real `tokens`, `API keys`, or secrets — replace any such value with `[REDACTED]`.
+   Collect the following raw artifacts for Module 13 — MCP. Write them into `report.md` in this exact structure. CRITICAL: scan the configuration for any `tokens`, `API keys`, or password-like values and replace them with `[REDACTED]` BEFORE pasting; never paste real secrets.
 
-   # MCP Configuration Report
+   # Module 13 Submission — Raw Data
    - Module: 13 — MCP (Model Context Protocol)
-   - Repository: `[git remote URL or local path]`
-   - Commit: `[short SHA of HEAD]`
-   - Config file: `[.vscode/mcp.json | .cursor/mcp.json]`
+   - Repository remote URL: `[output of `git remote get-url origin` or `N/A`]`
+   - Repository local path: `[absolute path to the project root]`
+   - Current commit SHA: `[output of `git rev-parse HEAD`]`
+   - Current branch: `[output of `git rev-parse --abbrev-ref HEAD`]`
+   - Report generated at: `[ISO 8601 timestamp]`
 
-   ## Servers
-   - `[server_name]` — command: `[command]`, status: `[functional | not tested]`
-   - [... list every configured server]
+   ## MCP Config File
+   - Path: `[.vscode/mcp.json | .cursor/mcp.json]`
+   - Size (bytes): `[N]`
 
-   ## Enabled Tools (per server)
-   - `[server_name]`:
-     - `[tool_name]` — purpose: [one sentence, why it is relevant to my project]
-     - `[tool_name]` — purpose: [...]
+   ### Verbatim Contents (with secrets redacted)
+   ~~~json
+   [Paste full JSON contents here. Replace every token/key/secret value with the literal string "[REDACTED]". Keep all keys, server names, command paths, and tool lists intact.]
+   ~~~
 
-   ## Secrets Audit
-   - Any `tokens` / `API keys` present in plain text: [Yes | No]
-   - If yes, file path and field name: [list or `N/A`]
-   ````
+   ## Git Tracking Status
+   Output of `git ls-files .vscode/mcp.json .cursor/mcp.json`:
+   ~~~
+   [paste output verbatim]
+   ~~~
+
+   ## Secret Audit Detection
+   List every key/path in the JSON that you replaced with `[REDACTED]` (one per line, format `key.path: REDACTED`). If none, write `NONE`:
+   ~~~
+   [list]
+   ~~~
+   ```
 
 2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:

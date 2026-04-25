@@ -166,33 +166,46 @@ You have identified a precision-dependent task in your project and created a cus
 
 **Submit your `report.md` for automated check:**
 
-1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will collect raw artifacts from your project and write them into a `report.md` file in the project root. The server-side `autocheck` will read the raw data and decide whether the submission is acceptable — your local agent must NOT make judgments itself.
 
-   ````markdown
-   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+   ```markdown
+   You are a data-collection agent. Your job is to gather RAW artifacts from my project workspace and write them into a file named `report.md` in the project root. Do NOT make judgments, do NOT summarize, do NOT add opinions. Paste file contents verbatim. Paste command outputs verbatim. If a value is genuinely missing, write `N/A`. Use tilde fences (`~~~`) for every inner code block so they don't conflict with the outer markdown fence. Replace any real `tokens`, `API keys`, passwords, or secrets with the literal text `[REDACTED]` everywhere they appear.
 
-   Source: the instruction file and the corresponding tool/script I created during Module 12 — AI Skills & Tools Creation (typically `instructions/[name].agent.md` plus a script in the project). Locate both, then write `report.md`:
+   Collect the following raw artifacts for Module 12 — AI Skills / Tools Creation. Write them into `report.md` in this exact structure:
 
-   # Skill & Tool Report
+   # Module 12 Submission — Raw Data
    - Module: 12 — AI Skills / Tools Creation
-   - Repository: `[git remote URL or local path]`
-   - Commit: `[short SHA of HEAD]`
-   - Instruction file: `[relative/path/to/instructions/[name].agent.md]`
-   - Tool / script file: `[relative/path/to/script]`
-   - Tool language / runtime: `[Python | Node.js | Bash | ...]`
+   - Repository remote URL: `[output of `git remote get-url origin` or `N/A`]`
+   - Repository local path: `[absolute path to the project root]`
+   - Current commit SHA: `[output of `git rev-parse HEAD`]`
+   - Current branch: `[output of `git rev-parse --abbrev-ref HEAD`]`
+   - Report generated at: `[ISO 8601 timestamp]`
 
-   ## Task Justification
-   [Two to three sentences explaining why this task genuinely requires precision (calculation, API query, deterministic data operation) and would be unreliable if done by the LLM directly.]
+   ## Instruction File
+   - Path: `[relative/path/to/instructions/[name].agent.md]`
+   - Size (bytes): `[N]`
 
-   ## Invocation Rule
-   [Quote or paraphrase the rule from the instruction file that tells the AI WHEN to call the tool and HOW to pass arguments.]
+   ### Verbatim Contents
+   ~~~markdown
+   [Paste full file contents here, byte-for-byte.]
+   ~~~
 
-   ## Parameters
-   - Parameter `[name]`: [type, what it controls]
-   - Parameter `[name]`: [type, what it controls]
-   - [... list every parameter the tool accepts]
-   - Hardcoded inputs in the tool: [None | list them]
-   ````
+   ## Tool / Script File
+   - Path: `[relative/path/to/script]`
+   - Size (bytes): `[N]`
+   - Language / runtime: `[Python | Node.js | Bash | ...]`
+
+   ### Verbatim Contents
+   ~~~
+   [Paste full file contents here, byte-for-byte. Use a tilde fence; pick the language hint that matches.]
+   ~~~
+
+   ## Recent Commits Touching These Files
+   Output of `git log --oneline -10 -- [instruction-path] [tool-path]`:
+   ~~~
+   [paste output verbatim]
+   ~~~
+   ```
 
 2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:

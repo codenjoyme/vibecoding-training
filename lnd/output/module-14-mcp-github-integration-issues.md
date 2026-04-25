@@ -181,33 +181,56 @@ You have configured the `GitHub` `MCP` server and created `GitHub` issues direct
 
 **Submit your `report.md` for automated check:**
 
-1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will collect raw artifacts from your project and write them into a `report.md` file in the project root. The server-side `autocheck` will read the raw data and decide whether the submission is acceptable — your local agent must NOT make judgments itself.
 
-   ````markdown
-   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+   ```markdown
+   You are a data-collection agent. Your job is to gather RAW artifacts from my project workspace and write them into a file named `report.md` in the project root. Do NOT make judgments, do NOT summarize, do NOT add opinions. Paste file contents verbatim. Paste command outputs verbatim. If a value is genuinely missing, write `N/A`. Use tilde fences (`~~~`) for every inner code block so they don't conflict with the outer markdown fence. Replace any real `tokens`, `API keys`, passwords, or secrets with the literal text `[REDACTED]` everywhere they appear.
 
-   Source: the `backlog.md` I updated with `GitHub` issue references during Module 14. Locate it, then write `report.md`:
+   Collect the following raw artifacts for Module 14 — MCP GitHub Integration / Issues. Write them into `report.md` in this exact structure:
 
-   # Backlog ↔ GitHub Issues Report
-   - Module: 14 — MCP `GitHub` Integration / Issues
-   - Repository: `[git remote URL or local path]`
-   - Commit: `[short SHA of HEAD]`
-   - Backlog file: `[relative/path/to/backlog.md]`
+   # Module 14 Submission — Raw Data
+   - Module: 14 — MCP GitHub Integration / Issues
+   - Repository remote URL: `[output of `git remote get-url origin` or `N/A`]`
+   - Repository local path: `[absolute path to the project root]`
+   - Current commit SHA: `[output of `git rev-parse HEAD`]`
+   - Current branch: `[output of `git rev-parse --abbrev-ref HEAD`]`
+   - Report generated at: `[ISO 8601 timestamp]`
 
-   ## Linked Tasks
-   - [Task title]: `[#issue-number or full URL]`
-   - [Task title]: `[#issue-number or full URL]`
-   - [Task title]: `[#issue-number or full URL]`
-   - [... list every backlog task that has a `GitHub` issue link]
+   ## backlog.md
+   - Path: `[relative/path/to/backlog.md]`
+   - Size (bytes): `[N]`
+   - Last modified: `[ISO 8601 timestamp]`
 
-   ## Counts
-   - Backlog tasks total: [N]
-   - Backlog tasks with `GitHub` issue links: [N]
+   ### Verbatim Contents
+   ~~~markdown
+   [Paste full file contents here, byte-for-byte.]
+   ~~~
 
-   ## Creation Method
-   - Issues were created from the AI chat using the `GitHub` `MCP` server: [Yes | No]
-   - Evidence: [one sentence describing the chat command or workflow used]
-   ````
+   ## GitHub Issues (live)
+   Output of `gh issue list --state all --limit 50 --json number,title,state,createdAt,author,url` (or `gh issue list --limit 50` if `--json` is unavailable). If `gh` CLI is not installed, write `gh CLI NOT AVAILABLE`:
+   ~~~json
+   [paste output verbatim]
+   ~~~
+
+   ## Issue Creation Evidence
+   If a chat transcript, MCP log, or session file in the repository shows that issues were created from the AI chat using the `GitHub` `MCP` server, list those file paths and paste their contents below. Otherwise write `NO MCP-CREATION TRANSCRIPT FOUND`.
+
+   ### Source files
+   ~~~
+   [list paths or NO MCP-CREATION TRANSCRIPT FOUND]
+   ~~~
+
+   ### Verbatim contents
+   ~~~
+   [paste full contents of each listed file, separated by `--- next file ---`]
+   ~~~
+
+   ## Recent Commits to backlog.md
+   Output of `git log --oneline -10 -- [path/to/backlog.md]`:
+   ~~~
+   [paste output verbatim]
+   ~~~
+   ```
 
 2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:

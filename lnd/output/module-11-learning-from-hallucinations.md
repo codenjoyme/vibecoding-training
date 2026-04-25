@@ -179,34 +179,54 @@ You have applied the `hallucination` improvement cycle: identified an unexpected
 
 **Submit your `report.md` for automated check:**
 
-1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will collect raw artifacts from your project and write them into a `report.md` file in the project root. The server-side `autocheck` will read the raw data and decide whether the submission is acceptable — your local agent must NOT make judgments itself.
 
-   ````markdown
-   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+   ```markdown
+   You are a data-collection agent. Your job is to gather RAW artifacts from my project workspace and write them into a file named `report.md` in the project root. Do NOT make judgments, do NOT summarize, do NOT add opinions. Paste file contents verbatim. Paste command outputs verbatim. If a value is genuinely missing, write `N/A`. Use tilde fences (`~~~`) for every inner code block so they don't conflict with the outer markdown fence. Replace any real `tokens`, `API keys`, passwords, or secrets with the literal text `[REDACTED]` everywhere they appear.
 
-   Source: the `instruction` file I updated as a result of a real `hallucination` I encountered during Module 11. Locate it (most recently changed file under `instructions/`), then write `report.md`:
+   Collect the following raw artifacts for Module 11 — Learning From Hallucinations. Write them into `report.md` in this exact structure:
 
-   # Hallucination-Driven Instruction Update Report
+   # Module 11 Submission — Raw Data
    - Module: 11 — Learning From Hallucinations
-   - Repository: `[git remote URL or local path]`
-   - Commit: `[short SHA of HEAD]`
-   - Updated instruction file: `[relative/path/to/instructions/file.agent.md]`
+   - Repository remote URL: `[output of `git remote get-url origin` or `N/A`]`
+   - Repository local path: `[absolute path to the project root]`
+   - Current commit SHA: `[output of `git rev-parse HEAD`]`
+   - Current branch: `[output of `git rev-parse --abbrev-ref HEAD`]`
+   - Report generated at: `[ISO 8601 timestamp]`
 
-   ## Hallucination
-   [Two to four sentences describing the specific, real unexpected behavior I observed: what I asked, what the AI produced, why it was wrong.]
+   ## Updated Instruction File
+   - Path: `[relative/path/to/instructions/file.agent.md]`
+   - Size (bytes): `[N]`
+   - Last modified: `[ISO 8601 timestamp]`
 
-   ## Root Cause
-   [One or two sentences explaining which `instruction` rule was missing, ambiguous, or wrong — the underlying gap, not just the symptom.]
+   ### Verbatim Contents (current version)
+   ~~~markdown
+   [Paste full current contents here, byte-for-byte.]
+   ~~~
 
-   ## Instruction Fix
-   - Rule added or changed: `[concise description of the new/edited rule]`
-   - Location in file: `[heading or section the rule lives in]`
-   - Why this prevents recurrence: [one sentence]
+   ## Diff Against the Previous Commit
+   Output of `git log -p -1 --follow [path/to/instruction/file]` (or `git diff HEAD~1 HEAD -- [path]`):
+   ~~~diff
+   [paste output verbatim]
+   ~~~
 
-   ## Diff Summary
-   - Lines added: [N]
-   - Lines removed: [N]
-   ````
+   ## Hallucination Evidence
+   If a chat transcript, conversation log, or notes file documenting the hallucination exists in the repository (e.g., under `requests/`, `chat-history/`, `notes/`, or similar), paste it verbatim below. Otherwise write `NO TRANSCRIPT FILE FOUND`.
+
+   ### Source File
+   - Path: `[relative/path | N/A]`
+
+   ### Verbatim Contents
+   ~~~
+   [paste full contents OR `NO TRANSCRIPT FILE FOUND`]
+   ~~~
+
+   ## Recent Commits to Instructions Folder
+   Output of `git log --oneline -10 -- instructions/`:
+   ~~~
+   [paste output verbatim]
+   ~~~
+   ```
 
 2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:

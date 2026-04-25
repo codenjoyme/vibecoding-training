@@ -189,32 +189,59 @@ You have processed a set of project files in bulk using an appropriate approach 
 
 **Submit your `report.md` for automated check:**
 
-1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will collect raw artifacts from your project and write them into a `report.md` file in the project root. The server-side `autocheck` will read the raw data and decide whether the submission is acceptable — your local agent must NOT make judgments itself.
 
-   ````markdown
-   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+   ```markdown
+   You are a data-collection agent. Your job is to gather RAW artifacts from my project workspace and write them into a file named `report.md` in the project root. Do NOT make judgments, do NOT summarize, do NOT add opinions. Paste file contents verbatim. Paste command outputs verbatim. If a value is genuinely missing, write `N/A`. Use tilde fences (`~~~`) for every inner code block so they don't conflict with the outer markdown fence. Replace any real `tokens`, `API keys`, passwords, or secrets with the literal text `[REDACTED]` everywhere they appear.
 
-   Source: either the bulk processing script I created OR a brief note about the non-script approach I used during Module 15. Locate the script (if any) under the project, then write `report.md`:
+   Collect the following raw artifacts for Module 15 — Bulk File Processing. Write them into `report.md` in this exact structure:
 
-   # Bulk Processing Report
+   # Module 15 Submission — Raw Data
    - Module: 15 — Bulk File Processing
-   - Repository: `[git remote URL or local path]`
-   - Commit: `[short SHA of HEAD]`
-   - Approach used: `[single-request | iterative | script]`
-   - Script file (if any): `[relative/path/to/script | N/A]`
+   - Repository remote URL: `[output of `git remote get-url origin` or `N/A`]`
+   - Repository local path: `[absolute path to the project root]`
+   - Current commit SHA: `[output of `git rev-parse HEAD`]`
+   - Current branch: `[output of `git rev-parse --abbrev-ref HEAD`]`
+   - Report generated at: `[ISO 8601 timestamp]`
 
-   ## Files Processed
-   - Total files: [N]
-   - File type / extension: `[.md | .json | ...]`
-   - Source folder: `[relative/path]`
+   ## Approach Marker
+   One of: `single-request` | `iterative` | `script`. Determined mechanically: if a script file is present and was used, write `script`; if multiple chat sessions for the same task exist, write `iterative`; otherwise `single-request`.
+   - Approach: `[single-request | iterative | script]`
 
-   ## Justification
-   [Two to three sentences: why this batch size and consistency requirement led to the chosen approach. If iterative or script: explain how each file got its own context window. If single-request: explain why batching was safe.]
+   ## Source Folder
+   - Path: `[relative/path]`
 
-   ## Per-File Context Isolation
-   - Each file processed in a separate `context window`: [Yes | No | N/A — single request]
-   - Mechanism: [e.g., script loops and calls the agent once per file, OR new chat per file, OR N/A]
-   ````
+   ### File listing
+   Output of `git ls-files [source-folder]`:
+   ~~~
+   [paste output verbatim]
+   ~~~
+
+   - File count: `[N]`
+   - File extension(s): `[.md | .json | ...]`
+
+   ## Script (if any)
+   - Path: `[relative/path/to/script | N/A]`
+
+   ### Verbatim Contents
+   ~~~
+   [Paste full script contents byte-for-byte, OR write `NO SCRIPT — APPROACH WAS [single-request|iterative]`. Use a tilde fence with the matching language hint.]
+   ~~~
+
+   ## Justification Note
+   - Path: `[relative/path/to/note.md | N/A]`
+
+   ### Verbatim Contents
+   ~~~markdown
+   [Paste full note contents, OR write `NO NOTE FILE`. The note should describe why this approach matches the batch size and consistency requirement.]
+   ~~~
+
+   ## Recent Commits Touching Source Folder or Script
+   Output of `git log --oneline -10 -- [source-folder] [script-path]`:
+   ~~~
+   [paste output verbatim]
+   ~~~
+   ```
 
 2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:

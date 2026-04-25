@@ -199,34 +199,49 @@ You have run AI-driven QA on your prototype using `Chrome DevTools MCP` and prod
 
 **Submit your `report.md` for automated check:**
 
-1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will collect raw artifacts from your project and write them into a `report.md` file in the project root. The server-side `autocheck` will read the raw data and decide whether the submission is acceptable — your local agent must NOT make judgments itself.
 
-   ````markdown
-   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+   ```markdown
+   You are a data-collection agent. Your job is to gather RAW artifacts from my project workspace and write them into a file named `report.md` in the project root. Do NOT make judgments, do NOT summarize, do NOT add opinions. Paste file contents verbatim. Paste command outputs verbatim. If a value is genuinely missing, write `N/A`. Use tilde fences (`~~~`) for every inner code block so they don't conflict with the outer markdown fence. Replace any real `tokens`, `API keys`, passwords, or secrets with the literal text `[REDACTED]` everywhere they appear.
 
-   Source: the QA report file generated during Module 18 (typically a markdown file produced by the `Chrome DevTools` `MCP` QA workflow). Locate it, read it, then write `report.md`:
+   Collect the following raw artifacts for Module 18 — Chrome DevTools MCP QA. Write them into `report.md` in this exact structure:
 
-   # QA Report Summary
-   - Module: 18 — Chrome DevTools `MCP` QA
-   - Repository: `[git remote URL or local path]`
-   - Commit: `[short SHA of HEAD]`
-   - QA report file: `[relative/path/to/qa-report.md]`
+   # Module 18 Submission — Raw Data
+   - Module: 18 — Chrome DevTools MCP QA
+   - Repository remote URL: `[output of `git remote get-url origin` or `N/A`]`
+   - Repository local path: `[absolute path to the project root]`
+   - Current commit SHA: `[output of `git rev-parse HEAD`]`
+   - Current branch: `[output of `git rev-parse --abbrev-ref HEAD`]`
+   - Report generated at: `[ISO 8601 timestamp]`
 
-   ## Scenarios Tested
-   - [Scenario 1 name] — [one-sentence description]
-   - [Scenario 2 name] — [one-sentence description]
-   - [Scenario 3 name] — [one-sentence description]
-   - [... list every distinct UI scenario covered]
+   ## QA Report File
+   - Path: `[relative/path/to/qa-report.md]`
+   - Size (bytes): `[N]`
+   - Last modified: `[ISO 8601 timestamp]`
 
-   ## Bugs Found
-   - [Bug 1 short title] — fix commit: `[short SHA | N/A]`
-   - [Bug 2 short title] — fix commit: `[short SHA | N/A]`
-   - [... list every bug, or write `None`]
+   ### Verbatim Contents
+   ~~~markdown
+   [Paste full QA report contents here, byte-for-byte.]
+   ~~~
 
-   ## Final State
-   - All bugs fixed and committed before finalization: [Yes | No]
-   - Prototype passed QA in its final state: [Yes | No]
-   ````
+   ## Recent Commits Touching the QA Report
+   Output of `git log --oneline -10 -- [path/to/qa-report.md]`:
+   ~~~
+   [paste output verbatim]
+   ~~~
+
+   ## Recent Bug-Fix Commits (last 30)
+   Output of `git log --oneline -30`:
+   ~~~
+   [paste output verbatim]
+   ~~~
+
+   ## Repository State
+   - Output of `git status --short`:
+   ~~~
+   [paste output verbatim]
+   ~~~
+   ```
 
 2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:

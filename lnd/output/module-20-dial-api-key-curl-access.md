@@ -197,36 +197,53 @@ You have accessed an AI model directly via the `EPAM AI DIAL` `API` using a `cUR
 
 **Submit your `report.md` for automated check:**
 
-1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will collect raw artifacts from your project and write them into a `report.md` file in the project root. The server-side `autocheck` will read the raw data and decide whether the submission is acceptable — your local agent must NOT make judgments itself.
 
-   ````markdown
-   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+   ```markdown
+   You are a data-collection agent. Your job is to gather RAW artifacts from my project workspace and write them into a file named `report.md` in the project root. Do NOT make judgments, do NOT summarize, do NOT add opinions. Paste file contents verbatim. Paste command outputs verbatim. If a value is genuinely missing, write `N/A`. Use tilde fences (`~~~`) for every inner code block so they don't conflict with the outer markdown fence. Replace any real `tokens`, `API keys`, passwords, or secrets with the literal text `[REDACTED]` everywhere they appear.
 
-   Source: a `cURL` request I run against the `DIAL` `API` and the `JSON` response I capture. Run the request, capture both the command and the response, then write `report.md`. CRITICAL: replace the real `API key` value in the command with `[REDACTED]` — do NOT include the actual key.
+   Collect the following raw artifacts for Module 20 — DIAL API Key & cURL Access. Write them into `report.md` in this exact structure. CRITICAL: replace the real `API key` value in the command with `[REDACTED]` — never paste the actual key. The full JSON response stays unredacted.
 
-   # DIAL API Interaction Report
-   - Module: 20 — `DIAL` `API` Key & `cURL` Access
-   - Endpoint URL: `[full URL of the request]`
-   - Project use case context: [two to three sentences describing why this `API` call is relevant to my project]
+   # Module 20 Submission — Raw Data
+   - Module: 20 — DIAL API Key & cURL Access
+   - Repository remote URL: `[output of `git remote get-url origin` or `N/A`]`
+   - Repository local path: `[absolute path to the project root]`
+   - Current commit SHA: `[output of `git rev-parse HEAD`]`
+   - Current branch: `[output of `git rev-parse --abbrev-ref HEAD`]`
+   - Report generated at: `[ISO 8601 timestamp]`
 
-   ## cURL Command
-   ```bash
-   [paste the exact command here, with the `API key` value replaced by [REDACTED]]
+   ## Endpoint
+   - URL: `[full request URL]`
+   - HTTP method: `[GET | POST | ...]`
+
+   ## cURL Command (with API key redacted)
+   ~~~bash
+   [Paste the exact command verbatim. Replace the API key value with the literal string [REDACTED]. Do not remove any other parameter.]
+   ~~~
+
+   ## Request Body (with secrets redacted)
+   ~~~json
+   [Paste the JSON request body verbatim if applicable, OR write `NO BODY` for GET requests. Redact any secret values.]
+   ~~~
+
+   ## HTTP Status
+   ~~~
+   [paste status line and headers verbatim from `-i` output, OR just the numeric status if only the body is available]
+   ~~~
+
+   ## Response Body — Verbatim JSON
+   ~~~json
+   [Paste the FULL response body byte-for-byte. Do not redact response content; redact only credentials in the request.]
+   ~~~
+
+   ## Use Case Context File
+   - Path: `[relative/path/to/file describing why this API call matters in my project | N/A]`
+
+   ### Verbatim Contents
+   ~~~markdown
+   [Paste full file contents, OR write `NO CONTEXT FILE`.]
+   ~~~
    ```
-
-   ## Parameters Used
-   - model: `[model name]`
-   - temperature: `[value]`
-   - max_tokens: `[value]`
-
-   ## Response
-   - Status: `[HTTP status, e.g., 200]`
-   - Valid `JSON`: [Yes | No]
-   - Response body (full):
-   ```json
-   [paste the JSON response here]
-   ```
-   ````
 
 2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:

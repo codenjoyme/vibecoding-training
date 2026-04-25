@@ -385,3 +385,28 @@ Go
 - Для модулей `module-11`, `module-15`, `module-16` бывшие промежуточные пункты ("Prepare a brief note…", "Open a terminal and run…", "Copy the output…") свёрнуты внутрь агентского промпта — финальный список всегда из 3 пунктов.
 - Затронутые файлы: 13 модулей (`module-08-clarifying-requirements.md` … `module-20-dial-api-key-curl-access.md`).
 - DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx).
+
+## UPD17
+
+Смотри, сейчас создается контент, который по какому-то признаку считается финальным вердиктом о том, что сделано. Там есть суждения которые сделал агент на стороне юзера и добавил их в файл. Идея хорошая, но позволяет читерить юзеру, имзеняя файл перед отправкой. Мне же надо чтобы проверку делал ауточек на стороне сервера, а юзерный агент предложил макисмально raw данные которые могли бы создаться внутри модуля. То есть юзер будет в сесиии, и в ней будет видно агенту что юзера делал. Вот промпт должен попросить данные такие, чтобы другой агент (серверный) потом решил что все ок, или нет и насколько. Понимаешь? Делай замену модуль за модулем промпта. Но в целом идея которую ты сделал ок. Только почему-то там ` ````markdown ` не почему не ` ```markdown ` Go
+
+### RESULT
+
+- Создан новый скрипт [lnd/rewrite_submission_raw_data.py](../../lnd/rewrite_submission_raw_data.py) на замену UPD16-вского. Философия теперь анти-чит: локальный агент собирает только **raw артефакты** (verbatim contents файлов, verbatim output команд, git-метаданные, листинги), без ни одного оценочного поля. Серверный `autocheck` сам решает, всё ли ок.
+- Исправлена косметика: внешний fence теперь `` ```markdown `` (3 backtick) — как и просил. Внутренние code-блоки внутри промпта используют `~~~` (CommonMark позволяет смешивать backtick- и tilde-fence; тильды не закрывают backtick-родителя).
+- Поэтапные изменения по 13 модулям:
+  - **module-08**: вместо буллетов "Automation Goal / Key Requirements / Structure" → теперь полный verbatim спецификации + git log + ls-files.
+  - **module-09**: verbatim `project_spec.md` + `backlog.md` + git log; никаких "Yes/No phases use checkboxes".
+  - **module-10**: листинг `instructions/`, verbatim каталога, verbatim entry-point файла, verbatim КАЖДОГО instruction-файла.
+  - **module-11**: verbatim updated instruction file + `git log -p -1` диф + дамп любого транскрипта по галлюцинациям.
+  - **module-12**: verbatim instruction + verbatim script (без "task justification" buckets).
+  - **module-13**: verbatim `mcp.json` (с явным `[REDACTED]` для секретов) + явный список того, что было заредачено.
+  - **module-14**: verbatim `backlog.md` + `gh issue list --json` + поиск MCP-creation transcripts + git log.
+  - **module-15**: verbatim script (или `NO SCRIPT`) + verbatim note + `git ls-files source-folder` + git log.
+  - **module-16**: verbatim output `node/npm/nvm/docker --version` + `node --print process.versions`. Никаких "Yes/No is Node 20+".
+  - **module-17**: verbatim `specification.md` + verbatim task-list + `git log -20` + `git show HEAD` + дифф последнего коммита (truncate at 500 lines).
+  - **module-18**: verbatim QA-report + git log файла + последние 30 коммитов + `git status`.
+  - **module-19**: `gh issue view --json` + `gh pr list/view --json` + `gh pr diff --name-only` + `gh api .../comments` + `git log instructions/`.
+  - **module-20**: verbatim `cURL` команда (key → `[REDACTED]`) + verbatim request body + verbatim status + verbatim full JSON response + verbatim use-case context файл.
+- Затронутые файлы: 13 модулей (`module-08` … `module-20`).
+- DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx).

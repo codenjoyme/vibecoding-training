@@ -196,37 +196,47 @@ You have created a `project_spec.md` and a `backlog.md` for your automation proj
 
 **Submit your `report.md` for automated check:**
 
-1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will inspect your project and create a `report.md` file in the project root, in the exact format the `autocheck` expects:
+1. In your AI agent (`Copilot` / `Cursor` / `Claude Code`), open your project workspace and run the prompt below. The agent will collect raw artifacts from your project and write them into a `report.md` file in the project root. The server-side `autocheck` will read the raw data and decide whether the submission is acceptable — your local agent must NOT make judgments itself.
 
-   ````markdown
-   You are helping me prepare a submission report for an `autocheck` system. Inspect my current project workspace and create a file named `report.md` in the project root with EXACTLY the structure shown below. Replace bracketed placeholders with real values from my project. Do not add extra sections, do not omit sections, do not invent data. If a value is genuinely unknown or missing, write `N/A`.
+   ```markdown
+   You are a data-collection agent. Your job is to gather RAW artifacts from my project workspace and write them into a file named `report.md` in the project root. Do NOT make judgments, do NOT summarize, do NOT add opinions. Paste file contents verbatim. Paste command outputs verbatim. If a value is genuinely missing, write `N/A`. Use tilde fences (`~~~`) for every inner code block so they don't conflict with the outer markdown fence. Replace any real `tokens`, `API keys`, passwords, or secrets with the literal text `[REDACTED]` everywhere they appear.
 
-   Source: the files `project_spec.md` and `backlog.md` in my repository (Module 09 — Agent Memory Management). Locate both, read them, then write `report.md` in this exact format:
+   Collect the following raw artifacts for Module 09 — Agent Memory Management. Write them into `report.md` in this exact structure:
 
-   # Memory Files Report
+   # Module 09 Submission — Raw Data
    - Module: 09 — Agent Memory Management
-   - Repository: `[git remote URL or local path]`
-   - Commit: `[short SHA of HEAD]`
-   - Language: `[English | Other]`
+   - Repository remote URL: `[output of `git remote get-url origin` or `N/A`]`
+   - Repository local path: `[absolute path to the project root]`
+   - Current commit SHA: `[output of `git rev-parse HEAD`]`
+   - Current branch: `[output of `git rev-parse --abbrev-ref HEAD`]`
+   - Report generated at: `[ISO 8601 timestamp]`
 
-   ## project_spec.md
+   ## project_spec.md — Metadata
    - Path: `[relative/path/to/project_spec.md]`
-   - Automation goal: [one sentence quoted or summarized from the file]
-   - Requirements stated: [Yes | No]
-   - Quality standards stated: [Yes | No]
+   - Size (bytes): `[N]`
+   - Last modified: `[ISO 8601 timestamp]`
 
-   ## backlog.md
+   ## project_spec.md — Verbatim Contents
+   ~~~markdown
+   [Paste the ENTIRE file contents here, byte-for-byte.]
+   ~~~
+
+   ## backlog.md — Metadata
    - Path: `[relative/path/to/backlog.md]`
-   - Phase count: [N]
-   - Total tasks: [N]
-   - Tasks use checkboxes (`- [ ]`): [Yes | No]
-   - Tasks are actionable (specific verbs, not vague goals): [Yes | No]
+   - Size (bytes): `[N]`
+   - Last modified: `[ISO 8601 timestamp]`
 
-   ## Phases
-   - [Phase 1 name] — [task count]
-   - [Phase 2 name] — [task count]
-   - [...]
-   ````
+   ## backlog.md — Verbatim Contents
+   ~~~markdown
+   [Paste the ENTIRE file contents here, byte-for-byte.]
+   ~~~
+
+   ## Recent Commits Touching These Files
+   Output of `git log --oneline -10 -- project_spec.md backlog.md`:
+   ~~~
+   [paste output verbatim]
+   ~~~
+   ```
 
 2. Submit `report.md` to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).
 3. The `autocheck` system will check that:
