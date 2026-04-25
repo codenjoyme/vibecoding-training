@@ -1,0 +1,8 @@
+mcp>=1.0.0
+mss>=9.0.1
+pywin32>=306; platform_system=="Windows"
+psutil>=5.9.0
+pyautogui>=0.9.54
+pyperclip>=1.8.2
+pywinauto>=0.6.8; platform_system=="Windows"
+Pillow>=10.0.0

@@ -1,0 +1,13 @@
+# Auto-generated Python artefacts (do not commit)
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.python-version
+
+# Note: scripts/output/ is kept in git as an empty folder (.gitkeep) but its
+# generated screenshots are excluded by scripts/output/.gitignore.
+
+# Local logs / temp
+*.log

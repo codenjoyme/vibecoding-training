@@ -1,0 +1,14 @@
+{
+  "servers": {
+    "winapi-mcp": {
+      "type": "stdio",
+      "command": "powershell",
+      "args": [
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "./modules/650-winapi/tools/scripts/run.ps1"
+      ]
+    }
+  }
+}

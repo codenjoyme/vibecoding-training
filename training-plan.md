@@ -102,6 +102,7 @@ After completing all modules, participants will build a complete application tha
 1. [AI Workflow Decision Guide — Daily Tasks with the Right Tools](modules/500-ai-workflow-decision-guide/about.md) - Know exactly which AI tools to use, when to use them, and how to combine them for any daily development task
 1. [Microsoft Teams AI Chat Summarizer](modules/600-teams-ai-chat-summarizer/about.md) - Build a Dockerized Python app that authenticates to Entra ID, reads Teams chats via Microsoft Graph, summarizes them with an LLM, and posts back to a dedicated chat
 1. [Microsoft Teams Meeting Transcription](modules/620-meeting-transcription/about.md) - Convert Teams meeting `.docx` transcripts to clean text with optional speaker anonymization, ready for LLM summarization
+1. [WinAPI MCP Toolbox — Give the Agent Hands and Eyes on Windows](modules/650-winapi/about.md) - Install a self-contained Python MCP server that exposes WinAPI screenshots, mouse/keyboard control, and clipboard access so the agent can drive your desktop
 1. [Course Feedback & Completion](modules/900-course-feedback-and-completion/about.md) - Reflect on your learning journey, provide detailed feedback, and send it to the course author
 
 ---
