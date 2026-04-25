@@ -264,3 +264,15 @@ Go
    - [`walkthrough.md`](../../modules/650-winapi/walkthrough.md): таблица обзорa, "complete file" ссылки в Part 4 (VS Code) и Part 5 (Cursor), а также "consult both templates" в финале — все на `tools/config/.vscode/mcp.json` / `tools/config/.cursor/mcp.json`.
    - `main.prompt.md` (этот файл): UPD3, UPD4, UPD5 — все image-ссылки переведены на `../../modules/650-winapi/tools/img/...`.
 4. `.gitignore` тулов уже не упоминает явные пути к конфигам — структура переезда не сломала ignore.
+
+## UPD7
+
+Да, только in english пожалуйсьта. 
+И продолжай polling как сказано в инструкции по итеративному промптингу. А то тЫ стал отваливаться.
+Go
+
+### RESULT
+
+Translated [`modules/650-winapi/tools/readme.md`](../../modules/650-winapi/tools/readme.md) to English (full rewrite — every section: intro, what-you-get, install, register, enable, demo 4.1–4.5, lessons, security, where-to-go-next). Image links and JS payload preserved verbatim. Aligns with `main.agent.md` rule: project content is English, chat language stays as-is.
+
+Resuming polling loop per `iterative-prompt.agent.md`.

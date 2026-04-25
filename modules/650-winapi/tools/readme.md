@@ -1,53 +1,55 @@
 # WinAPI MCP — Hands-On Reproduction Guide (Snow on google.com)
 
-> Это **человекочитаемый мануал** на русском по мотивам реального эксперимента
-> "AI агент сам открывает Chrome и через DevTools Console устраивает снегопад
-> на google.com". Если [SKILL.md](SKILL.md) — это для агента, то этот файл —
-> для вас. Идите по шагам, скриншоты ниже служат ориентирами.
+> A **human-readable manual** for reproducing the live experiment where an AI
+> agent opens Chrome, opens DevTools Console, and starts a snowfall animation
+> on `google.com` — all by itself, through MCP. If [SKILL.md](SKILL.md) is the
+> agent-facing reference, this file is for you. Walk through it step by step;
+> the screenshots act as visual checkpoints.
 
 ---
 
-## Что вы получите в финале
+## What You Will Get at the End
 
-![Финальный кадр: снег идёт на google.com, рядом видно как агент рассуждает](img/00-final-result.png)
+![Final frame: snow falling on google.com, with the agent reasoning in the side panel](img/00-final-result.png)
 
-Над страницей `google.com` поверх UI летят белые снежинки разного размера.
-Логотип, поле поиска и кнопки продолжают работать (`pointer-events:none` у
-canvas-а). В правой панели — чат с агентом, где он сам ищет процесс Chrome,
-шлёт хоткеи, кладёт JS в буфер, разрешает paste-protection и снимает
-финальный скриншот.
+White snowflakes of varying size and speed are falling over `google.com`. The
+logo, search box, and buttons keep working (the canvas uses
+`pointer-events:none`). The right-hand panel shows the agent's chat — it
+located the Chrome process by itself, sent hotkeys, copied JS into the
+clipboard, defeated paste-protection, and saved the final screenshot.
 
-Чтобы повторить это, нужно:
-1. Установить и зарегистрировать MCP-сервер `winapi-mcp` (один раз).
-2. Включить его инструменты в чате.
-3. Дать агенту задание словами — он сам прокликает.
+To reproduce this, you need to:
+
+1. Install and register the `winapi-mcp` server (one-time setup).
+2. Enable its tools in your chat session.
+3. Give the agent the task in plain language — it will click everything itself.
 
 ---
 
-## Шаг 1 — Установка сервера
+## Step 1 — Install the Server
 
-Из корня репозитория, в **PowerShell**:
+From the workspace root, in **PowerShell**:
 
 ```powershell
 pwsh -ExecutionPolicy Bypass -File ./modules/650-winapi/tools/scripts/install.ps1
 ```
 
-Скрипт идемпотентный: создаст `.venv/` рядом с `server.py`, обновит pip,
-поставит зависимости из `requirements.txt`. Если в вашей сборке Python
-отсутствует модуль `venv` — он автоматически переключится на `virtualenv`.
+The script is idempotent: it creates `.venv/` next to `server.py`, upgrades
+`pip`, and installs everything in `requirements.txt`. If your Python build is
+missing the `venv` module, it transparently falls back to `virtualenv`.
 
-> Требуется **Python 3.10+** и **Windows**. На macOS/Linux сервер не
-> запустится (зависит от `pywin32` / `pywinauto`).
+> Requires **Python 3.10+** and **Windows**. The server will not load on
+> macOS or Linux (it depends on `pywin32` / `pywinauto`).
 
 ---
 
-## Шаг 2 — Регистрация сервера в VS Code
+## Step 2 — Register the Server in VS Code
 
-Откройте `.vscode/mcp.json` в корне рабочего пространства и добавьте блок
-`winapi-mcp`. Если файла нет — создайте; обратите внимание, что у VS Code
-ключ `"servers"` (у Cursor было бы `"mcpServers"`). Готовый шаблон лежит в
-[`config/.vscode/mcp.json`](config/.vscode/mcp.json) (для Cursor — в
-[`config/.cursor/mcp.json`](config/.cursor/mcp.json)).
+Open `.vscode/mcp.json` at your workspace root and add the `winapi-mcp` block.
+If the file does not exist, create it; note that VS Code uses the key
+`"servers"` (Cursor would use `"mcpServers"`). Ready-to-copy templates live in
+[`config/.vscode/mcp.json`](config/.vscode/mcp.json) (and
+[`config/.cursor/mcp.json`](config/.cursor/mcp.json) for Cursor).
 
 ```jsonc
 {
@@ -64,93 +66,92 @@ pwsh -ExecutionPolicy Bypass -File ./modules/650-winapi/tools/scripts/install.ps
 }
 ```
 
-Сохраните файл. Над JSON-блоком VS Code покажет инлайн-панель управления:
-**Start | Stop | Restart | N tools**. Нажмите **Start**.
+Save the file. VS Code shows an inline action bar above the JSON block:
+**Start | Stop | Restart | N tools**. Click **Start**.
 
-В логе **Output → Model Context Protocol** должно появиться
-`Discovered 11 tools` — это сигнал что сервер запустился и MCP-handshake
-прошёл успешно.
+In **Output → Model Context Protocol** you should see `Discovered 11 tools` —
+that means the server started and the MCP handshake succeeded.
 
-![mcp.json с winapi-mcp и логом "Discovered 11 tools"](img/06-mcp-server-registered.png)
+![mcp.json with winapi-mcp and the "Discovered 11 tools" log](img/06-mcp-server-registered.png)
 
-На скриншоте подсвечены: запись `winapi-mcp` в `servers`, инлайн-кнопка
-`Running | 11 tools` и строка `Discovered 11 tools` в логе.
-
----
-
-## Шаг 3 — Включение инструментов в чате
-
-Откройте Copilot Chat → переключите в **Agent Mode** → нажмите иконку
-гаечного ключа (Configure Tools). В дереве найдите ветку `winapi-mcp` и
-убедитесь что все 11 чекбоксов отмечены:
-
-![Configure Tools — все 11 winapi-mcp инструментов включены](img/07-tools-enabled.png)
-
-Список инструментов (см. [SKILL.md](SKILL.md) для подробностей):
-
-- `screenshot_window`, `screenshot_area` — скриншоты
-- `mouse_move`, `mouse_click`, `mouse_drag` — мышь
-- `send_hotkey` — клавиатура (хоткеи / именованные клавиши / текст /
-  последовательности)
-- `clipboard_get`, `clipboard_set` — буфер обмена
-- `list_processes`, `window_tree`, `get_window_content` — инспекция окон
-
-> **Если только что добавили сервер, а в списке тулзов пусто** — VS Code
-> подтягивает MCP-серверы при старте чат-сессии. Откройте новый чат
-> (`+` рядом с моделью), либо через `Configure Tools` явно подтвердите
-> новый сервер.
+The screenshot highlights: the `winapi-mcp` entry under `servers`, the inline
+`Running | 11 tools` indicator, and the `Discovered 11 tools` line in the log.
 
 ---
 
-## Шаг 4 — Запуск демо
+## Step 3 — Enable the Tools in the Chat
 
-Откройте новый чат в Agent Mode и попросите агента:
+Open Copilot Chat → switch to **Agent Mode** → click the wrench icon
+(Configure Tools). Find the `winapi-mcp` branch in the tree and make sure all
+11 checkboxes are ticked:
 
-> Открой Chrome на `google.com`, открой DevTools Console и вставь туда
-> JavaScript, который рисует падающий снег поверх страницы. Делай скриншоты
-> на каждом шаге, объясняй что видишь.
+![Configure Tools — all 11 winapi-mcp tools enabled](img/07-tools-enabled.png)
 
-Дальше агент пройдёт примерно такой маршрут (каждый шаг → один MCP-вызов):
+Tool list (see [SKILL.md](SKILL.md) for full details):
 
-### 4.1. Найти и сфокусировать Chrome
+- `screenshot_window`, `screenshot_area` — screenshots
+- `mouse_move`, `mouse_click`, `mouse_drag` — mouse
+- `send_hotkey` — keyboard (hotkeys / named keys / text / sequences)
+- `clipboard_get`, `clipboard_set` — clipboard
+- `list_processes`, `window_tree`, `get_window_content` — window inspection
+
+> **If you just registered the server but the tool list is empty** — VS Code
+> discovers MCP servers at chat-session startup. Open a fresh chat (`+` next
+> to the model) or explicitly approve the new server via `Configure Tools`.
+
+---
+
+## Step 4 — Run the Demo
+
+Open a new Agent Mode chat and ask the agent something like:
+
+> Open Chrome on `google.com`, open the DevTools Console, and paste a
+> JavaScript snippet that draws falling snow over the page. Take a screenshot
+> after every step and explain what you see.
+
+The agent will go through roughly the following route (each step → one MCP
+call):
+
+### 4.1. Find and focus Chrome
 
 ```
 list_processes filter=chrome only_with_windows=true
 → pid=78812
-send_hotkey pid=78812 key=ESC      # побочный эффект _focus_pid → set_focus()+restore()
+send_hotkey pid=78812 key=ESC      # side effect of _focus_pid → set_focus()+restore()
 screenshot_window window_name="Google Chrome"
 ```
 
-![01 — Chrome со страницей google.com на переднем плане](img/01-chrome-google-loaded.png)
+![01 — Chrome with google.com in the foreground](img/01-chrome-google-loaded.png)
 
-### 4.2. Открыть DevTools, перейти на Console
+### 4.2. Open DevTools, switch to Console
 
 ```
-send_hotkey hotkey="^+i"           # Ctrl+Shift+I — DevTools (вкладка Elements по умолчанию)
+send_hotkey hotkey="^+i"           # Ctrl+Shift+I — DevTools (Elements tab by default)
 screenshot_window window_name="Google Chrome"
 ```
 
-![02 — DevTools открыт, активна вкладка Elements](img/02-devtools-elements.png)
+![02 — DevTools open, Elements tab active](img/02-devtools-elements.png)
 
 ```
-send_hotkey hotkey="^+j"           # Ctrl+Shift+J — переключение на Console
+send_hotkey hotkey="^+j"           # Ctrl+Shift+J — switch to Console
 screenshot_window window_name="Google Chrome"
 ```
 
-![03 — Активна вкладка Console, поле ввода готово](img/03-console-tab-ready.png)
+![03 — Console tab active, input prompt ready](img/03-console-tab-ready.png)
 
-> ⚠️ Если DevTools уже был открыт — `^+j` его закроет. Тогда нажмите ещё раз.
+> ⚠️ If DevTools was already open on Console, `^+j` will close it. Send it
+> again in that case.
 
-### 4.3. Подложить JS в буфер и вставить
+### 4.3. Put JS in the clipboard and paste it
 
-JS-payload (569 символов, IIFE — рисует canvas и анимирует 200 снежинок):
+JS payload (569 chars, IIFE — creates a canvas and animates 200 snowflakes):
 
 ```js
 (()=>{const c=document.createElement('canvas');Object.assign(c.style,{position:'fixed',inset:'0',pointerEvents:'none',zIndex:'2147483647'});c.width=innerWidth;c.height=innerHeight;document.body.appendChild(c);const x=c.getContext('2d');const f=Array.from({length:200},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:1+Math.random()*3,s:0.5+Math.random()*1.5}));(function t(){x.clearRect(0,0,c.width,c.height);x.fillStyle='white';for(const k of f){x.beginPath();x.arc(k.x,k.y,k.r,0,7);x.fill();k.y+=k.s;if(k.y>c.height)k.y=0;}requestAnimationFrame(t);})();})();
 ```
 
 ```
-clipboard_set text="<JS выше>"
+clipboard_set text="<JS above>"
 send_hotkey pid=78812 sequence=[
   {type: hotkey, value: "^v"},
   {type: delay,  value: 400},
@@ -158,14 +159,14 @@ send_hotkey pid=78812 sequence=[
 ]
 ```
 
-### 4.4. Преодолеть paste-protection (один раз для origin)
+### 4.4. Defeat paste-protection (one time per origin)
 
-Chrome по умолчанию не даёт первый paste в DevTools Console (защита от
-self-XSS). На первом скриншоте Console выйдет жёлтая полоса:
+By default Chrome blocks the first paste into the DevTools Console (self-XSS
+protection). The first attempt shows a yellow warning bar:
 
-![04 — предупреждение "Don't paste code into the DevTools Console"](img/04-paste-protection-warning.png)
+![04 — "Don't paste code into the DevTools Console" warning](img/04-paste-protection-warning.png)
 
-Снимаем разрешением:
+Unlock it by typing the magic phrase, then re-paste:
 
 ```
 send_hotkey pid=78812 sequence=[
@@ -179,54 +180,57 @@ send_hotkey pid=78812 sequence=[
 ]
 ```
 
-### 4.5. Финальный скриншот — снег идёт
+### 4.5. Final screenshot — snow is falling
 
 ```
-send_hotkey pid=78812 key=ESC      # снова сфокусировать Chrome поверх остального
+send_hotkey pid=78812 key=ESC      # focus Chrome on top of everything else
 screenshot_window window_name="Google - Google Chrome"
 ```
 
-![05 — снег идёт на google.com](img/05-snow-running.png)
+![05 — snow falling on google.com](img/05-snow-running.png)
 
-В консоли видно вставленный код, под ним `undefined` (IIFE ничего не
-возвращает — это нормально), а поверх UI Google падают снежинки.
-
----
-
-## Уроки, добытые на этом эксперименте
-
-- **`screenshot_window` снимает экранный bbox окна, а не bitmap.** Если
-  целевое окно перекрыто другим — на снимке будет то, что сверху.
-  Перед каждым важным скриншотом фокусьте окно: `send_hotkey pid=...` (любой
-  безопасный хоткей вроде ESC), у `_focus_pid` есть побочный эффект
-  `set_focus()` + `restore()`.
-- **Хоткей через `pid` стабильнее глобального.** При `pid` сервер сначала
-  фокусит окно, и только потом отправляет клавиши — никаких "ушло не туда".
-- **`Ctrl+Shift+J` тоглит Console.** Если DevTools уже открыт на Console,
-  второе нажатие закроет его. Иногда нужно слать дважды — иногда не нужно
-  слать вообще. Скриншотом проверяйте.
-- **Paste-protection в Chrome — per-origin.** Один раз ввели `allow pasting`
-  на `google.com` — дальше в этой сессии Chrome `^v` работает молча.
-- **`sequence` с `delay` решает гонки.** Без `delay` ENTER может прилететь
-  раньше, чем `^v` успел вставить длинный текст.
+You should see the pasted code in the console, `undefined` underneath
+(an IIFE returns nothing — that is expected), and snowflakes drifting down
+across the Google UI.
 
 ---
 
-## Безопасность
+## Lessons Learned
 
-Этот сервер **физически управляет вашей машиной**: двигает мышь, печатает
-в любое сфокусированное окно, читает экран. Включайте его только для тех
-чатов, где вы хотите UI-автоматизацию, и выключайте/удаляйте из `mcp.json`
-когда закончили. У агента нет понятия "это окно с паролем" — если
-менеджер паролей сфокусирован, и `send_hotkey` шлёт текст, текст уйдёт туда.
+- **`screenshot_window` captures the window's screen bbox, not its bitmap.**
+  If the target window is occluded, the screenshot shows whatever is on top.
+  Focus the window before each important screenshot via
+  `send_hotkey pid=...` (any safe key like ESC works) — `_focus_pid` has the
+  side effect of `set_focus()` + `restore()`.
+- **Hotkey-via-`pid` is more reliable than a global hotkey.** With `pid` the
+  server focuses the window first and only then sends keys — no more
+  "the keystroke went to the wrong window".
+- **`Ctrl+Shift+J` toggles Console.** If DevTools is already open on Console,
+  the second press closes it. Sometimes you need to send it twice, sometimes
+  not at all — verify with a screenshot.
+- **Chrome paste-protection is per-origin.** Once you typed `allow pasting`
+  on `google.com`, all later `^v` operations in that session work silently.
+- **`sequence` with `delay` solves race conditions.** Without `delay`, ENTER
+  can arrive before a long `^v` paste has actually landed in the input.
 
 ---
 
-## Куда идти дальше
+## Security
 
-- [SKILL.md](SKILL.md) — полная справка по всем инструментам и их параметрам
-  (для агента и для глубокого чтения).
-- [walkthrough.md модуля](../walkthrough.md) — пошаговый разбор всего, от
-  установки до собственных команд.
-- [scripts/server.py](scripts/server.py) — посмотрите как добавить свой
-  собственный MCP-инструмент рядом с существующими 11.
+This server **physically drives your machine**: it moves the mouse, types
+into whatever window is focused, and reads the screen. Only enable it for
+chats where you actively want UI automation, and disable / unregister it from
+`mcp.json` when you are done. The agent has no concept of "this is a
+sensitive window" — if your password manager is focused when `send_hotkey`
+fires with `text: "..."`, that text goes there.
+
+---
+
+## Where to Go Next
+
+- [SKILL.md](SKILL.md) — full reference for every tool and its parameters
+  (agent-facing and deep-read for humans).
+- [Module walkthrough.md](../walkthrough.md) — step-by-step coverage of
+  everything, from install to writing your own MCP commands.
+- [scripts/server.py](scripts/server.py) — see how to plug in your own MCP
+  tool next to the existing 11.
