@@ -475,3 +475,62 @@ Go
   + 3 файла (`module-01`, `-03`, `-08`) → `work/test-three.docx` (2.8 MB) ✅
   + Все 22 модуля (с `--skip module-02b-...`) → [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx) (~9.8 MB, идентичен предыдущему билду) ✅
 - Удалены `lnd/scripts/build_docx.py` и `lnd/scripts/reference.docx` через `git rm`. Остальные скрипты в `lnd/scripts/` (rewrite_*, replace_*, format_md_images, extract_pdfs) — не трогал, они не относятся к md→docx.
+## UPD11
+
+Дальше надо вот что сделать для LND. В контексте вот этого упражнения мне написали текст что:
+
+`
+The goal of this course is to help managers work effectively with AI in technical environments and safely turn ideas into working results.
+
+Upon completion of this course, you should be able to:
+
+Work confidently with AI assistants inside an IDE without a developer background
+Translate business or managerial intent into clear, structured instructions for AI agents
+Apply safety mechanisms (version control and incremental changes) to protect and recover work
+Control AI output quality by defining constraints, structure, and instructions
+Identify and correct common AI failure patterns such as hallucinations and unintended changes
+Reuse effective AI solutions through instructions instead of repeating prompts
+Automate typical managerial workflows such as reports, analytics, and integrations
+Move from an idea to a working prototype using a structured, AI-assisted approach
+`
+
+Но я думаю что цель тренинга, который мы делаем для LND ([lnd/output](../../lnd/output)), намного шире. Давай перепишем эту цель, чтобы она включала в себя все, что мы делаем тут. Менеджеры не только вайбкодить научатся, но они еще и смогут понять как лучше поддержать своих инженеров на этом пути, и как вообще работает genAI мир, смогут запрототипировать свои инструменты сами не привлекая инженеров, смогут продавать лучше GenAI клиентам. Скопируй этот запрос в итеративный промпт lnd риквеста и там отчитайся. Go
+
+### RESULT
+
+- Создан [lnd/output/course-goal.md](../../lnd/output/course-goal.md) — переписанная цель курса и расширенные learning outcomes, разбитые на 4 слоя:
+  1. **Practitioner outcomes (vibe-coding)** — оригинальные 7 пунктов, отшлифованы.
+  2. **Ecosystem-literacy outcomes** — agent loop под капотом, выбор модели, MCP (включая написание собственных серверов), skills/instructions/memory, экономика premium-requests.
+  3. **Leverage-multiplier outcomes (manager-as-enabler)** — коучинг инженеров, командные конвенции через shared instructions, автоматизация менеджерских workflow, rapid POC через Spec Kit / MCP / browser automation, критическая оценка вендоров.
+  4. **Commercial outcomes (selling GenAI)** — продавать GenAI клиентам с реальным hands-on бэкграундом, scope/deliverables/success-criteria для GenAI engagements, live prototyping вместо slideware.
+- Запрос пришёл из [requests/650-winapi/main.prompt.md UPD10](../650-winapi/main.prompt.md), продублирован сюда полностью по инструкции пользователя.
+
+## UPD11
+
+Дальше надо вот что сделать для LND. В контексте вот этого упражнения мне написали текст что:
+
+`
+The goal of this course is to help managers work effectively with AI in technical environments and safely turn ideas into working results.
+
+Upon completion of this course, you should be able to:
+
+Work confidently with AI assistants inside an IDE without a developer background
+Translate business or managerial intent into clear, structured instructions for AI agents
+Apply safety mechanisms (version control and incremental changes) to protect and recover work
+Control AI output quality by defining constraints, structure, and instructions
+Identify and correct common AI failure patterns such as hallucinations and unintended changes
+Reuse effective AI solutions through instructions instead of repeating prompts
+Automate typical managerial workflows such as reports, analytics, and integrations
+Move from an idea to a working prototype using a structured, AI-assisted approach
+`
+
+Но я думаю что цель тренинга, который мы делаем для LND ([lnd/output](../../lnd/output)), намного шире. Давай перепишем эту цель, чтобы она включала в себя все, что мы делаем тут. Менеджеры не только вайбкодить научатся, но они еще и смогут понять как лучше поддержать своих инженеров на этом пути, и как вообще работает genAI мир, смогут запрототипировать свои инструменты сами не привлекая инженеров, смогут продавать лучше GenAI клиентам. Скопируй этот запрос в итеративный промпт lnd риквеста и там отчитайся. Go
+
+### RESULT
+
+- Создан [lnd/output/course-goal.md](../../lnd/output/course-goal.md) — переписанная цель курса и расширенные learning outcomes, разбитые на 4 слоя:
+  1. **Practitioner outcomes (vibe-coding)** — оригинальные 7 пунктов, отшлифованы.
+  2. **Ecosystem-literacy outcomes** — agent loop под капотом, выбор модели, MCP (включая написание собственных серверов), skills/instructions/memory, экономика premium-requests.
+  3. **Leverage-multiplier outcomes (manager-as-enabler)** — коучинг инженеров, командные конвенции через shared instructions, автоматизация менеджерских workflow, rapid POC через Spec Kit / MCP / browser automation, критическая оценка вендоров.
+  4. **Commercial outcomes (selling GenAI)** — продавать GenAI клиентам с реальным hands-on бэкграундом, scope/deliverables/success-criteria для GenAI engagements, live prototyping вместо slideware.
+- Запрос пришёл из [requests/650-winapi/main.prompt.md UPD10](../650-winapi/main.prompt.md), продублирован сюда полностью по инструкции пользователя.

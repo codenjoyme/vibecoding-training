@@ -342,6 +342,35 @@ I'm entering the polling loop now.
 
 Мне написали текст что 
 ```
+AI is already part of everyday work - drafting texts, summarizing information, brainstorming ideas. 
+But when it comes to real work artifacts such as files, scripts, automations, or integrations, many managers still rely heavily on others or avoid AI altogether due to lack of confidence and control. 
+Have you ever felt that: 
+
+AI could help you more, but results feel unpredictable? 
+
+turning an idea into a working solution takes too many explanation cycles? 
+
+you are unsure how to safely use AI for technical tasks without breaking things? 
+
+If this sounds familiar - welcome to this course. 
+Vibe Coding for Managers introduces a practical and structured way of working with AI inside professional tools. You will learn how to collaborate with AI in an IDE, delegate technical execution to an AI agent, and stay fully in control of outcomes, quality, and safety - without becoming a developer. 
+This course focuses on real managerial use cases and hands‑on practice, helping you turn AI from an experiment into a reliable working partner. 
+
+Audience: 
+This course is designed for: 
+
+Delivery Managers 
+
+Project Managers 
+
+Engineering Managers 
+
+Product‑oriented leaders 
+
+Managers working closely with technical teams 
+
+No programming background is required. The course is suitable for participants with little or no coding experience. 
+
 The goal of this course is to help managers work effectively with AI in technical environments and safely turn ideas into working results. 
 
 Upon completion of this course, you should be able to: 
@@ -363,3 +392,7 @@ Automate typical managerial workflows such as reports, analytics, and integratio
 Move from an idea to a working prototype using a structured, AI‑assisted approach 
 ```
 Но я думаю что цель тренинга колторый мы делаем для LND [text](../../lnd/output) намного шире. Давай перепишем эту цель, чтобы она включала в себя все, что мы делаем тут. Менеджеры не только вайбкодить научатся, но они еще и смогут понять как лучше поддержать своих инденеров на этом пути, и как вообще работает genAI мир, смогут запрототипиролвать свои инстурменті сами не привлекая инженеров, смогут продавать лучше GenAI клиентам. Скопируй єтот запрос в итеративный промпт lnd риквеста и там отчитайся. Go
+
+### RESULT
+
+Сделано в [requests/lnd-module/main.prompt.md UPD11](../lnd-module/main.prompt.md). Создан [lnd/output/course-goal.md](../../lnd/output/course-goal.md) с переписанной целью курса в 4 слоя: practitioner (vibe-coding), ecosystem-literacy (как работает GenAI мир изнутри), leverage-multiplier (поддержка инженеров + менеджерская автоматизация), commercial (продажа GenAI клиентам).
