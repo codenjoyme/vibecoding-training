@@ -98,7 +98,7 @@
   - Commands and code fragments inline in text.
   - **Inline prompt examples**: Any text the learner is instructed to type into the AI chat must use backtick inline code, NOT quotation marks. Example: `Create a status report template` instead of "Create a status report template." When a technical term (product name, file name, etc.) appears inside an inline prompt, use single quotes for it instead of backticks, since backticks cannot be nested: `Create a 'Python' file named 'bubble_sort.py'`. Do NOT add a period at the end of an inline prompt — people do not end chat messages with periods. Use `?` only if the prompt is genuinely a question.
   - Do NOT apply backticks inside fenced code blocks — only in regular text.
-- **Image organization.** Screenshots are added during manual review and organized separately via `organize-module-images.agent.md`. Images are stored in `lnd/output/img/module-NN/MM-short-description.png` and referenced as `![Alt text](img/module-NN/MM-short-description.png)`. Generated module files should NOT include image placeholders — images are added by the course owner during review.
+- **Image organization.** Screenshots are added during manual review and organized separately via `lnd/organize-module-images.agent.md`. Images are stored in `lnd/output/img/module-NN/MM-short-description.png` and referenced as `![Alt text](img/module-NN/MM-short-description.png)`. Generated module files should NOT include image placeholders — images are added by the course owner during review.
 - Each "Page" corresponds to a logical section that can be rendered as one LMS page/screen.
 - Keep pages focused: one concept or one hands-on task per page.
 - Aim for 3-7 pages per module depending on complexity.

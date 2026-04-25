@@ -430,3 +430,38 @@ Go
 - В каждом скрипте обновил вычисление `OUTPUT_DIR`: было `Path(__file__).parent / "output"`, стало `Path(__file__).parent.parent / "output"` (или `SCRIPT_DIR.parent / "output"`). `REFERENCE_DOCX` остался как `SCRIPT_DIR / "reference.docx"` — он теперь рядом со скриптом в `lnd/scripts/`. `extract_pdfs.py` использовал абсолютные пути — не трогал.
 - В [rewrite_submission_raw_data.py](../../lnd/scripts/rewrite_submission_raw_data.py) внешний fence промпта возвращён к ` ````markdown ` (4 backtick). Скрипт перезапущен — все 13 модулей перегенерированы.
 - DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/output/all-modules.docx). Запуск из новой локации (`python lnd/scripts/build_docx.py`) проходит без ошибок.
+
+## UPD19
+
+Давай сделаем следующее. Мне надо чтобы все инструкции, которые для обслуживания lnd разместились в папку `instructions/lnd`. Так же найди все места, во всех файлах проекта, где встречается упоминание этих инструкций и если там есть путь, замени его. 
+- [text](../../instructions/lnd/generate-lnd-modules.agent.md)
+- [text](../../instructions/lnd/organize-module-images.agent.md)
+А вот эти, забери в папку `instructions/coaching` и сделай все по аналогии.
+- [text](../../instructions/coaching/interview-sdlc.agent.md)
+- [text](../../instructions/coaching/generate-coaching-offer.agent.md)
+- [text](../../instructions/coaching/transform-meeting-transcript.agent.md)
+Go
+
+### RESULT
+
+- Через `git mv` перенесены 5 файлов:
+  + [instructions/lnd/generate-lnd-modules.agent.md](../../instructions/lnd/generate-lnd-modules.agent.md)
+  + [instructions/lnd/organize-module-images.agent.md](../../instructions/lnd/organize-module-images.agent.md)
+  + [instructions/coaching/interview-sdlc.agent.md](../../instructions/coaching/interview-sdlc.agent.md)
+  + [instructions/coaching/generate-coaching-offer.agent.md](../../instructions/coaching/generate-coaching-offer.agent.md)
+  + [instructions/coaching/transform-meeting-transcript.agent.md](../../instructions/coaching/transform-meeting-transcript.agent.md)
+- Bulk-rewrite Python-скриптом обновил все ссылки во всех `.md/.json/.yaml/.txt` файлах проекта (исключая `lnd/output/` и `work/` — последнее это пользовательские воркспейсы). Затронуты:
+  + Catalog [instructions/main.agent.md](../../instructions/main.agent.md) — 4 пункта получили префиксы `lnd/` или `coaching/`.
+  + Внутренняя ссылка в [generate-lnd-modules.agent.md](../../instructions/lnd/generate-lnd-modules.agent.md) (на `organize-module-images`).
+  + Wrappers [.github/prompts/to-interview-sdlc.prompt.md](../../.github/prompts/to-interview-sdlc.prompt.md), [.github/prompts/to-generate-coaching-offer.prompt.md](../../.github/prompts/to-generate-coaching-offer.prompt.md).
+  + Модули [modules/620-meeting-transcription/walkthrough.md](../../modules/620-meeting-transcription/walkthrough.md), [modules/620-meeting-transcription/about.md](../../modules/620-meeting-transcription/about.md) (включая публичный GitHub URL `…/instructions/coaching/transform-meeting-transcript.agent.md`).
+  + [modules/500-ai-workflow-decision-guide/walkthrough.md](../../modules/500-ai-workflow-decision-guide/walkthrough.md) — ручная правка bare-ссылки.
+  + Исторические request-логи в `requests/*/main.prompt.md` — также обновлены, чтобы клик по ссылке внутри них продолжал работать.
+
+## UPD20
+
+Еще мне нужен `skills` в `instructions/lnd` который будет делать преобразование `markdown` → `docx` с указанием списка файлов на добавление. Сделай его на базе того, что мы использовали в этой сесии. Добавь так же информацию про установку `pandoc` и `Pillow` и как запускать. Короче следуя инструкции по созданию инструкций, сделай мне `sdkill` для этого со скриптами которые надо для этого. Как потестишь на примере 1 и нескольких `markdown` файлов, то можешь удалять `python` скрипт который делал это в `lnd/scripts/`. Go
+
+### RESULT
+
+(см. отдельный коммит UPD20 — этот блок временно вынесен, чтобы UPD19 коммитился отдельно от UPD20)

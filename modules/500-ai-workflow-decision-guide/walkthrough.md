@@ -39,7 +39,7 @@ A stakeholder sends you a vague request. Instead of asking for clarification in 
 ### Steps
 
 1. Open a new AI chat and paste the vague request as-is.
-2. Use the `interview-sdlc.agent.md` instruction prompt to run a structured clarification interview.
+2. Use the `coaching/interview-sdlc.agent.md` instruction prompt to run a structured clarification interview.
 3. At the end of the interview, ask the AI to produce a one-page spec in markdown.
 4. Use the MCP GitHub tool to create a GitHub issue from that spec.
 5. Optionally: assign the issue to GitHub Copilot for implementation.

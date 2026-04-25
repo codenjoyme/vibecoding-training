@@ -39,6 +39,6 @@ You can take any Teams meeting recording transcript, turn it into a clean text f
 
 ## Resources
 
-- [`transform-meeting-transcript.agent.md`](../../instructions/transform-meeting-transcript.agent.md) — the canonical instruction with the full extraction pipeline, anonymization algorithm, summary templates, and quality checklist
-- The same file on GitHub (so you can `Setup ...` it from any project): https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/transform-meeting-transcript.agent.md
+- [`transform-meeting-transcript.agent.md`](../../instructions/coaching/transform-meeting-transcript.agent.md) — the canonical instruction with the full extraction pipeline, anonymization algorithm, summary templates, and quality checklist
+- The same file on GitHub (so you can `Setup ...` it from any project): https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/coaching/transform-meeting-transcript.agent.md
 - [600 — Microsoft Teams AI Chat Summarizer](../600-teams-ai-chat-summarizer/about.md) — the natural follow-up: post the resulting summary back into Teams

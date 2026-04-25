@@ -4,7 +4,7 @@ iterative-prompt.agent.md
 
 ## UPD1
 
-Есть инструкция [text](../../work/project1/instructions/transform-meeting-transcript.agent.md) она помогает транскрибировать и структурировать встречи. Давай создадим у нас такую же инструкцию в папке `./instructions/transform-meeting-transcript.agent.md`. Если там есть информация про проект, то удаляем ее. 
+Есть инструкция [text](../../work/project1/instructions/coaching/transform-meeting-transcript.agent.md) она помогает транскрибировать и структурировать встречи. Давай создадим у нас такую же инструкцию в папке `./instructions/coaching/transform-meeting-transcript.agent.md`. Если там есть информация про проект, то удаляем ее. 
 
 Потом надо затранскрибировать митинг [text](<Call about teams.docx>) в той же папке давай сохраним результаты. 
 
@@ -14,7 +14,7 @@ iterative-prompt.agent.md
 
 ### RESULT
 
-- Created [instructions/transform-meeting-transcript.agent.md](../../instructions/transform-meeting-transcript.agent.md) — generalized version of the project instruction (project-specific bits removed; added a generic "Meeting Summary" format alongside the coaching-session formats).
+- Created [instructions/coaching/transform-meeting-transcript.agent.md](../../instructions/coaching/transform-meeting-transcript.agent.md) — generalized version of the project instruction (project-specific bits removed; added a generic "Meeting Summary" format alongside the coaching-session formats).
 - Extracted `Call about teams.docx` → `Call about teams.txt` using the in-house PowerShell .docx-to-text procedure.
 - Wrote [summary-2026-04-22.md](summary-2026-04-22.md) — full meeting summary (context, architecture, decisions, action items, open questions).
 - Wrote [skill-connect-to-teams.md](skill-connect-to-teams.md) — draft v0.1 of the future `Skill.md`: Azure App Registration steps, env vars, Graph permissions, MSAL device-code flow, key Graph endpoints, container notes, verification checklist, and an "Open Items" section for iterative improvement.
@@ -932,7 +932,7 @@ Done. Check your 'AI Teams Summaries' chat in Teams.
 
 Так же сделай `readme.md` с читаемой для человека инструкцией на базе того что мы делали тут, с моими скриншотами (их переиспользуй полностью). 
 
-Для организации скриншотов пользуйся инструкцией [text](../../instructions/organize-module-images.agent.md) но с поправкой на то, что это будет вокруг `readme.md` в папке `tools`. 
+Для организации скриншотов пользуйся инструкцией [text](../../instructions/lnd/organize-module-images.agent.md) но с поправкой на то, что это будет вокруг `readme.md` в папке `tools`. 
 
 Так же в папку `tools` сохрани все скрипты, докерфайлы, докер-композы и так далее, что мы делали с тобой тут. 
 
@@ -944,7 +944,7 @@ Go
 
 ### RESULT
 
-Создан новый модуль **235 — Microsoft Teams AI Chat Summarizer** в полном соответствии с [create-training-module.agent.md](../../instructions/create-training-module.agent.md) и [organize-module-images.agent.md](../../instructions/organize-module-images.agent.md) (с поправкой на то, что изображения живут вокруг `tools/readme.md`).
+Создан новый модуль **235 — Microsoft Teams AI Chat Summarizer** в полном соответствии с [create-training-module.agent.md](../../instructions/create-training-module.agent.md) и [organize-module-images.agent.md](../../instructions/lnd/organize-module-images.agent.md) (с поправкой на то, что изображения живут вокруг `tools/readme.md`).
 
 **Папка модуля:** [modules/600-teams-ai-chat-summarizer/](../../modules/600-teams-ai-chat-summarizer/)
 
@@ -1101,7 +1101,7 @@ Go
 
 ## UPD30
 
-А вот что надо сделать, так это новый модуль на тему траснкрибции записей. Давай создадим новый риквест `requests/620-meeting-transcription` и там на основе инструкции [text](../../instructions/transform-meeting-transcript.agent.md) и вот єтой первой части что мі удалили из `600-teams-ai-chat-summarizer/walkthrough.md` сделаем новый модуль про трансформацию транскриптов. Там будет про то, как взять raw транскрипт из Teams (который может быть в виде `DOCX`, что `docx` это `ZIP`), пропарсить его, убрать мусор, и привести к читабельному виду. 
+А вот что надо сделать, так это новый модуль на тему траснкрибции записей. Давай создадим новый риквест `requests/620-meeting-transcription` и там на основе инструкции [text](../../instructions/coaching/transform-meeting-transcript.agent.md) и вот єтой первой части что мі удалили из `600-teams-ai-chat-summarizer/walkthrough.md` сделаем новый модуль про трансформацию транскриптов. Там будет про то, как взять raw транскрипт из Teams (который может быть в виде `DOCX`, что `docx` это `ZIP`), пропарсить его, убрать мусор, и привести к читабельному виду. 
 
 Так же в инструкции есть CLI скрипт которЫй сохраняет в txt файл. Надо сделать вторую разновидность его таким, чтобы он имена участников прятал за псевдонимы (типа `Speaker 1`, `Speaker 2`). И в заголовке тоже обычрно имя встречается. Чтобы до модели доходил контент без имен. То есть если хочу анонимно, если нет не анонимно. 
 
@@ -1123,7 +1123,7 @@ Go
 
 Прошёлся по всем `### RESULT` блокам, нашёл и сделал кликабельными:
 
-- **UPD1 RESULT:** `instructions/transform-meeting-transcript.agent.md`, `requests/600-ms-teams-access/summary-2026-04-22.md`, `requests/600-ms-teams-access/skill-connect-to-teams.md` → [`instructions/transform-meeting-transcript.agent.md`](../../instructions/transform-meeting-transcript.agent.md), [summary-2026-04-22.md](summary-2026-04-22.md), [skill-connect-to-teams.md](skill-connect-to-teams.md).
+- **UPD1 RESULT:** `instructions/coaching/transform-meeting-transcript.agent.md`, `requests/600-ms-teams-access/summary-2026-04-22.md`, `requests/600-ms-teams-access/skill-connect-to-teams.md` → [`instructions/coaching/transform-meeting-transcript.agent.md`](../../instructions/coaching/transform-meeting-transcript.agent.md), [summary-2026-04-22.md](summary-2026-04-22.md), [skill-connect-to-teams.md](skill-connect-to-teams.md).
 - **UPD21 RESULT:** файлы в скобках (`main.prompt.md`, `summary-2026-04-22.md`, `skill-connect-to-teams.md`) → кликабельные ссылки. То же в абзаце "Что осталось в этой папке".
 - **UPD25 RESULT:** все 7 ссылок на `modules/235-teams-ai-chat-summarizer/` обновлены до `modules/600-teams-ai-chat-summarizer/`; скопированные скрипты и конфиги (backtick-список) → кликабельные ссылки в [tools/](../../modules/600-teams-ai-chat-summarizer/tools/); путь `tools/img/module-235/` → [tools/img/](../../modules/600-teams-ai-chat-summarizer/tools/img/).
 - **UPD28 RESULT:** `walkthrough.md` и `tools/readme.md` в первом предложении → кликабельные ссылки.
@@ -1235,7 +1235,7 @@ Go
 
 ## UPD34
 
-Давай потестим скачивание `docx` из последнего созвона с `Stiven Pupkin` в личке. Сразу же отработай его через инструкцию [text](../../instructions/transform-meeting-transcript.agent.md) анонимно. И размести все в папке `work/620-task/`. А креды тоже туда перенеси из папки [text](.) и ранай все там внутри `work/620-task/`. Если скрипт не работает - правь. Go
+Давай потестим скачивание `docx` из последнего созвона с `Stiven Pupkin` в личке. Сразу же отработай его через инструкцию [text](../../instructions/coaching/transform-meeting-transcript.agent.md) анонимно. И размести все в папке `work/620-task/`. А креды тоже туда перенеси из папки [text](.) и ранай все там внутри `work/620-task/`. Если скрипт не работает - правь. Go
 
 ### RESULT
 

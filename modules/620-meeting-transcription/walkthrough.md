@@ -1,6 +1,6 @@
 # Microsoft Teams Meeting Transcription - Hands-on Walkthrough
 
-In this short module you wire up a tiny pipeline that converts a Microsoft Teams transcript (`.docx`) into a clean `.txt` that an LLM can consume. We do not write the parser by hand — instead, the existing repo instruction [`transform-meeting-transcript.agent.md`](../../instructions/transform-meeting-transcript.agent.md) already contains the full algorithm. Your job is to point the agent at it (locally or via its public GitHub URL), pick the mode you want (named or anonymized), and run.
+In this short module you wire up a tiny pipeline that converts a Microsoft Teams transcript (`.docx`) into a clean `.txt` that an LLM can consume. We do not write the parser by hand — instead, the existing repo instruction [`transform-meeting-transcript.agent.md`](../../instructions/coaching/transform-meeting-transcript.agent.md) already contains the full algorithm. Your job is to point the agent at it (locally or via its public GitHub URL), pick the mode you want (named or anonymized), and run.
 
 ## Prerequisites
 
@@ -12,7 +12,7 @@ See [module overview](about.md) for the full prerequisites list.
 
 | Component | Description |
 |---|---|
-| Source instruction | `instructions/transform-meeting-transcript.agent.md` — the full extraction + anonymization recipe |
+| Source instruction | `instructions/coaching/transform-meeting-transcript.agent.md` — the full extraction + anonymization recipe |
 | Extracted `.txt` | Clean plain-text transcript next to the source `.docx` |
 | Optional `.mapping.json` | Sidecar file containing real-name → pseudonym mapping (anonymized mode only) |
 
@@ -59,17 +59,17 @@ Either reuse the instruction from this repo, or pull it into a different project
 
 ### Action
 
-**If you are inside this repo** — the instruction is already at [`instructions/transform-meeting-transcript.agent.md`](../../instructions/transform-meeting-transcript.agent.md). Skip to Part 2.
+**If you are inside this repo** — the instruction is already at [`instructions/coaching/transform-meeting-transcript.agent.md`](../../instructions/coaching/transform-meeting-transcript.agent.md). Skip to Part 2.
 
 **If you are inside a fresh / unrelated project** — open a new agent session and type:
 
 ```
-Setup https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/transform-meeting-transcript.agent.md
+Setup https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/coaching/transform-meeting-transcript.agent.md
 ```
 
 The agent will:
 1. Fetch the instruction.
-2. Save it as `instructions/transform-meeting-transcript.agent.md` in your project.
+2. Save it as `instructions/coaching/transform-meeting-transcript.agent.md` in your project.
 3. Register it in `instructions/main.agent.md` (creating that catalog if missing).
 
 > This is the same bootstrap pattern you saw in [Module 070 — Custom Instructions](../070-custom-instructions/walkthrough.md). The instruction itself is the artifact you ship between projects, not a script.
@@ -103,7 +103,7 @@ Run `Extract-DocxText`. By design it anonymizes — speaker names are replaced w
 
 Open the agent and ask, in plain language:
 
-> Following `instructions/transform-meeting-transcript.agent.md`, extract `work/620-task/<your-file>.docx` into `<your-file>.anon.txt` using `Extract-DocxText -MappingPath <your-file>.mapping.json`.
+> Following `instructions/coaching/transform-meeting-transcript.agent.md`, extract `work/620-task/<your-file>.docx` into `<your-file>.anon.txt` using `Extract-DocxText -MappingPath <your-file>.mapping.json`.
 
 The agent will:
 1. Open the `.docx` as a ZIP, read `word/document.xml`.
@@ -163,7 +163,7 @@ The instruction-as-skill pattern paid off: you did not maintain a custom Python 
 
 ## Success Criteria
 
-- ✅ The instruction `instructions/transform-meeting-transcript.agent.md` is reachable in your workspace
+- ✅ The instruction `instructions/coaching/transform-meeting-transcript.agent.md` is reachable in your workspace
 - ✅ A real `.docx` was extracted into a `.txt` with real names
 - ✅ The same `.docx` was re-extracted into an `<...>.anon.txt` with `Speaker N` pseudonyms and a sidecar `.mapping.json`
 - ✅ `*.mapping.json` is in `.gitignore`

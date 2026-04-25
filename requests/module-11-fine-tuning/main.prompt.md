@@ -12,7 +12,7 @@ iterative-prompt.agent.md
 
 ### RESULT
 
-- Added style rule to `instructions/generate-lnd-modules.agent.md`: wrap `hallucination`/`hallucinations` in backticks in LND module prose (exceptions: compound forms like "hallucination-fixing", headings).
+- Added style rule to `instructions/lnd/generate-lnd-modules.agent.md`: wrap `hallucination`/`hallucinations` in backticks in LND module prose (exceptions: compound forms like "hallucination-fixing", headings).
 - Applied backtick wrapping to all `hallucination`/`hallucinations` occurrences in:
   - `lnd/output/module-11-learning-from-hallucinations.md` (all prose, quiz, practical task sections)
   - `lnd/output/module-12-ai-skills-tools-creation.md` (lines 29, 82, 152, 155; compound forms on 103/116 left intact)
@@ -20,11 +20,11 @@ iterative-prompt.agent.md
 
 ## UPD2
 
-То же для слова `instructions`, `agent` и так далее все специафические тремины которые появляются с изучением этого курса. Во всех модулях lnd поправь и инструкцию по стилю модуля. [text](../../instructions/generate-lnd-modules.agent.md) go
+То же для слова `instructions`, `agent` и так далее все специафические тремины которые появляются с изучением этого курса. Во всех модулях lnd поправь и инструкцию по стилю модуля. [text](../../instructions/lnd/generate-lnd-modules.agent.md) go
 
 ### RESULT
 
-- Added two new style rules to `instructions/generate-lnd-modules.agent.md`:
+- Added two new style rules to `instructions/lnd/generate-lnd-modules.agent.md`:
   - `` `instructions` ``/`` `instruction` `` — wrap in backticks when referring to AI instruction files (.agent.md). Not for generic use.
   - `` `agent` `` — wrap in backticks when referring to an AI agent acting autonomously. Not for generic use.
 - Applied backtick wrapping to `instructions`/`instruction` and `agent` prose occurrences in:
@@ -54,11 +54,11 @@ iterative-prompt.agent.md
 
 ## UPD5
 
-И подгрузи в контекст [text](../../instructions/generate-lnd-modules.agent.md) чтобы стилистику понимать, а то я снова вижу что специфические термины не берутся в кавычки ``. Посмотри все модули что мы уже отработали, пойми что там брали в кавычки и обнови эту инстркцию. Мне нужно все термины которые относятся в genAI чтобі тоже брались. Промпт. Модель. Контекст. Галлюцинация. Скилл. Тулл. И так далее. go
+И подгрузи в контекст [text](../../instructions/lnd/generate-lnd-modules.agent.md) чтобы стилистику понимать, а то я снова вижу что специфические термины не берутся в кавычки ``. Посмотри все модули что мы уже отработали, пойми что там брали в кавычки и обнови эту инстркцию. Мне нужно все термины которые относятся в genAI чтобі тоже брались. Промпт. Модель. Контекст. Галлюцинация. Скилл. Тулл. И так далее. go
 
 ### RESULT
 
-- Updated `instructions/generate-lnd-modules.agent.md` with four new style rules:
+- Updated `instructions/lnd/generate-lnd-modules.agent.md` with four new style rules:
   - `` `model` `` — wrap when referring to the AI language model concept (not product names or compound phrases like "mental model").
   - `` `skill` `` — wrap when referring to the course-specific instruction+tool capability pair (Module 12 pattern). Not for generic human skills.
   - `` `tool` `` — wrap when referring to scripts/programs invoked by an AI agent. Not for generic "useful tool" usage.

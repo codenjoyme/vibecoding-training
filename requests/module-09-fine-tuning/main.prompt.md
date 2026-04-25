@@ -13,7 +13,7 @@ iterative-prompt.agent.md
 
 ## UPD2
 
-Следуя инструкции [text](../../instructions/organize-module-images.agent.md) обслужи картинки что я добавил толкьо что. Дальше я буду только говорить `обработай картинки`. go
+Следуя инструкции [text](../../instructions/lnd/organize-module-images.agent.md) обслужи картинки что я добавил толкьо что. Дальше я буду только говорить `обработай картинки`. go
 
 ### RESULT
 
@@ -40,7 +40,7 @@ iterative-prompt.agent.md
 
 ### RESULT
 
-- `instructions/generate-lnd-modules.agent.md` — added a cross-module references rule after the "Technical terms and modes" bullet: when referring to another module by number in prose (e.g. "you created this in Module 8"), wrap it in backticks: `` `Module 8` ``; headings are exempt.
+- `instructions/lnd/generate-lnd-modules.agent.md` — added a cross-module references rule after the "Technical terms and modes" bullet: when referring to another module by number in prose (e.g. "you created this in Module 8"), wrap it in backticks: `` `Module 8` ``; headings are exempt.
 
 ## UPD5
 

@@ -6,14 +6,14 @@ iterative-prompt.agent.md
 
 Language: Russian
 
-Источник этого риквеста — UPD30 из [requests/600-ms-teams-access/main.prompt.md](../600-ms-teams-access/main.prompt.md). Там был сделан модуль `600-teams-ai-chat-summarizer`, и в его исходном [walkthrough.md](../../modules/600-teams-ai-chat-summarizer/walkthrough.md) была "Part 1: Plan the Integration" про парсинг транскрипта Teams-встречи. Эту часть оттуда убрали (она не относилась к основному скоупу). Из неё и из инструкции [instructions/transform-meeting-transcript.agent.md](../../instructions/transform-meeting-transcript.agent.md) надо собрать самостоятельный модуль про трансформацию транскриптов.
+Источник этого риквеста — UPD30 из [requests/600-ms-teams-access/main.prompt.md](../600-ms-teams-access/main.prompt.md). Там был сделан модуль `600-teams-ai-chat-summarizer`, и в его исходном [walkthrough.md](../../modules/600-teams-ai-chat-summarizer/walkthrough.md) была "Part 1: Plan the Integration" про парсинг транскрипта Teams-встречи. Эту часть оттуда убрали (она не относилась к основному скоупу). Из неё и из инструкции [instructions/coaching/transform-meeting-transcript.agent.md](../../instructions/coaching/transform-meeting-transcript.agent.md) надо собрать самостоятельный модуль про трансформацию транскриптов.
 
 ## UPD1
 
 Создай новый модуль про трансформацию Teams-транскриптов в читаемый текст.
 
 **Базис для модуля:**
-- Инструкция [instructions/transform-meeting-transcript.agent.md](../../instructions/transform-meeting-transcript.agent.md) — там CLI-скрипт распаковки `.docx` (это zip-архив) → плоский текст с очисткой от мусора.
+- Инструкция [instructions/coaching/transform-meeting-transcript.agent.md](../../instructions/coaching/transform-meeting-transcript.agent.md) — там CLI-скрипт распаковки `.docx` (это zip-архив) → плоский текст с очисткой от мусора.
 - Удалённая Part 1 из [modules/600-teams-ai-chat-summarizer/walkthrough.md](../../modules/600-teams-ai-chat-summarizer/walkthrough.md) (см. git history того файла, либо контекст из UPD29 в [600-ms-teams-access/main.prompt.md](../600-ms-teams-access/main.prompt.md)).
 
 **Структура нового модуля:**
@@ -40,17 +40,17 @@ Language: Russian
 
 **Скриншоты:** не нужны — модуль чисто CLI-шный. *(upd5: оказалось, нужны)*
 
-Не стой, не надо создавать скрипты новые. Просто сошлись на уже существующую инструкцию [instructions/transform-meeting-transcript.agent.md](../../instructions/transform-meeting-transcript.agent.md) и скажи, что она всегда лежит тут `https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/transform-meeting-transcript.agent.md`. Как мы это делали с инструкцией по созданию инструкций в модуле [070-custom-instructions](../../modules/070-custom-instructions). А в самой инструкции добавь легковестный скрипт (либо обнови существующий но добавь параметр анонимизации). Go
+Не стой, не надо создавать скрипты новые. Просто сошлись на уже существующую инструкцию [instructions/coaching/transform-meeting-transcript.agent.md](../../instructions/coaching/transform-meeting-transcript.agent.md) и скажи, что она всегда лежит тут `https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/coaching/transform-meeting-transcript.agent.md`. Как мы это делали с инструкцией по созданию инструкций в модуле [070-custom-instructions](../../modules/070-custom-instructions). А в самой инструкции добавь легковестный скрипт (либо обнови существующий но добавь параметр анонимизации). Go
 
 ### RESULT
 
-Понято — пересобрал по новому требованию. Никаких новых Python/CLI скриптов. Модуль ссылается на единственный источник истины — инструкцию [transform-meeting-transcript.agent.md](../../instructions/transform-meeting-transcript.agent.md). Удалил преждевременно созданные `tools/transcript_parser.py` и `tools/transcript_to_text.py`, папка `tools/` целиком убрана.
+Понято — пересобрал по новому требованию. Никаких новых Python/CLI скриптов. Модуль ссылается на единственный источник истины — инструкцию [transform-meeting-transcript.agent.md](../../instructions/coaching/transform-meeting-transcript.agent.md). Удалил преждевременно созданные `tools/transcript_parser.py` и `tools/transcript_to_text.py`, папка `tools/` целиком убрана.
 
 **Создан модуль** [modules/620-meeting-transcription/](../../modules/620-meeting-transcription/):
 - [about.md](../../modules/620-meeting-transcription/about.md) — 15-25 минут, prerequisites (108, 110), 6 топиков, learning outcome. В ресурсах указана инструкция и её GitHub URL по аналогии с модулем 070.
 - [walkthrough.md](../../modules/620-meeting-transcription/walkthrough.md) — 5 Part'ов: (1) Bootstrap инструкции в воркспейсе через `Setup https://github.com/.../transform-meeting-transcript.agent.md`, (2) локализация исходного `.docx` в `work/620-task/`, (3) обычная экстракция (имена сохраняются), (4) анонимная экстракция с разъяснением двух уровней доверия `.anon.txt` vs `.mapping.json`, (5) downstream использование (summary, action items, передача в модуль 600). Success Criteria + Understanding Check (5 вопросов) + Troubleshooting + Next Steps.
 
-**Обновлена инструкция** [instructions/transform-meeting-transcript.agent.md](../../instructions/transform-meeting-transcript.agent.md):
+**Обновлена инструкция** [instructions/coaching/transform-meeting-transcript.agent.md](../../instructions/coaching/transform-meeting-transcript.agent.md):
 - В секции "Participant Anonymization (optional)" добавлена подсекция **"Built-in `--anonymize` switch for the extraction step"** — алгоритм 6 шагов + PowerShell skeleton + CLI-контракт.
 - ⚠️ Создал **отдельную** функцию `Extract-DocxText-Anonymized` вместо обновления существующей `Extract-DocxText` параметром. Поправлю в UPD2.
 
@@ -66,7 +66,7 @@ Language: Russian
 
 Исправил. Удалил отдельную функцию `Extract-DocxText-Anonymized` целиком.
 
-В [instructions/transform-meeting-transcript.agent.md](../../instructions/transform-meeting-transcript.agent.md) теперь **одна** функция `Extract-DocxText` с двумя дополнительными параметрами:
+В [instructions/coaching/transform-meeting-transcript.agent.md](../../instructions/coaching/transform-meeting-transcript.agent.md) теперь **одна** функция `Extract-DocxText` с двумя дополнительными параметрами:
 
 - `[switch]$Anonymize` — включает rewrite pipeline (default off)
 - `[string]$MappingPath` — опциональный путь для sidecar `.mapping.json`
@@ -90,7 +90,7 @@ go
 
 Архитектурно: фильтрация теперь — **часть единственного цикла парсинга XML**, не post-pass.
 
-В [instructions/transform-meeting-transcript.agent.md](../../instructions/transform-meeting-transcript.agent.md) функция `Extract-DocxText`:
+В [instructions/coaching/transform-meeting-transcript.agent.md](../../instructions/coaching/transform-meeting-transcript.agent.md) функция `Extract-DocxText`:
 
 1. Внутри foreach по `<w:r>` смотрим `<w:rPr>`. Если `-Anonymize` и форматирование run'а совпадает с Teams "speaker name" сигнатурой (`<w:b/>` + `<w:color w:val="616161"/>` + `<w:sz w:val="24"/>`), флаг `$isSpeakerName = $true`.
 2. Для speaker-name run'а: собираем имя из всех `<w:t>` детей **один раз**, выдаём pseudonym `Speaker N` (нумерация по порядку появления через `[ordered]@{}`), `continue`. Никакой regex по тексту, никаких whole-word replacements в body.
@@ -152,7 +152,7 @@ xxx xxx   0:16
 
 Исправление архитектурное — **анонимизация теперь дефолт**, leak by accident больше невозможен:
 
-В [instructions/transform-meeting-transcript.agent.md](../../instructions/transform-meeting-transcript.agent.md) сигнатура изменена:
+В [instructions/coaching/transform-meeting-transcript.agent.md](../../instructions/coaching/transform-meeting-transcript.agent.md) сигнатура изменена:
 
 - ❌ Было: `Extract-DocxText -docxPath ... [-Anonymize] [-MappingPath ...]` — анонимизация opt-in.
 - ✅ Стало: `Extract-DocxText -docxPath ... [-KeepNames] [-MappingPath ...]` — анонимизация **on by default**, для имён нужен явный `-KeepNames` (opt-in).
@@ -185,7 +185,7 @@ Cleanup:
 
 ## UPD5
 
-Есть картинки в папке [img/](img/). Распознай их. И следуя инструкции [instructions/organize-module-images.agent.md](../../instructions/organize-module-images.agent.md) по части генерации имени, расположи их в папке [img/](../../modules/620-meeting-transcription/img/) рядом с [walkthrough.md](../../modules/620-meeting-transcription/walkthrough.md), в который вставь их в нужное место наверное на старте, потому что важно, чтобы люди понимали как получать транскрибцию митинга перед тем как ее оцифровывать. Давай Part 1 все же будет, а все остальные индексы сместим на 1. Go 
+Есть картинки в папке [img/](img/). Распознай их. И следуя инструкции [instructions/lnd/organize-module-images.agent.md](../../instructions/lnd/organize-module-images.agent.md) по части генерации имени, расположи их в папке [img/](../../modules/620-meeting-transcription/img/) рядом с [walkthrough.md](../../modules/620-meeting-transcription/walkthrough.md), в который вставь их в нужное место наверное на старте, потому что важно, чтобы люди понимали как получать транскрибцию митинга перед тем как ее оцифровывать. Давай Part 1 все же будет, а все остальные индексы сместим на 1. Go 
 ### RESULT
 
 Распознаны 4 скриншота из `requests/620-meeting-transcription/img/`:
