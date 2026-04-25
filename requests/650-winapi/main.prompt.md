@@ -47,3 +47,83 @@ Tools exposed by the server:
 End-to-end test verified:
 - `install.ps1` succeeds (after fallback to `virtualenv` for embedded Python)
 - `test_client.py` confirms `initialize` returns `serverInfo: winapi-mcp`, `tools/list` returns all 11 tools, `screenshot_area` returns a 13 KB base64 PNG saved to `output/`, `list_processes filter=python` returns matches, clipboard round-trip works
+
+## UPD2
+
+Давай добавим сервер в [.vscode/mcp.json](../../.vscode/mcp.json) и я буду просить тебя сделать что-то в чате. Ну скажем открой хром, в нем зайди на гугл страничку, открой инспектор, и дойди до терминала, там вставь js инъекцию которая сделает снег на этой страничке. Сам смотри скриншотами что делаешь. И весь процесс сохраняй со скриншотами тут. А картинки в папку `img` и имену их как указано тут [organize-module-images.agent.md](../../instructions/lnd/organize-module-images.agent.md). Сохраняй прямо тут в `RESULT` блоке записывай что и как ты делаешь после каждого вызова `MCP` тула, мне интересно твое размышление. Go
+
+### RESULT
+
+**Step 1 — registered the server.** Added `winapi-mcp` to [.vscode/mcp.json](../../.vscode/mcp.json) right after `image-viewer-windows`:
+
+```jsonc
+"winapi-mcp": {
+  "type": "stdio",
+  "command": "powershell",
+  "args": ["-ExecutionPolicy", "Bypass", "-File", "./modules/650-winapi/tools/scripts/run.ps1"]
+}
+```
+
+**Step 2 — honest note about driving the demo from THIS chat.**
+
+I cannot execute `screenshot_window`, `mouse_click`, etc. inside this very chat session. The reason is structural, not a missing skill:
+
+- VS Code discovers MCP tools at the moment a chat session starts. The list of tools I receive at session start is frozen for this session.
+- This chat began before `winapi-mcp` existed in `.vscode/mcp.json`, so the tools that the new server exposes (`screenshot_window`, `screenshot_area`, `mouse_*`, `send_hotkey`, `clipboard_*`, `list_processes`, `window_tree`, `get_window_content`) were never sent to me by the IDE.
+- Therefore my "hands and eyes" for this demo do not actually exist in this session — calling them would just be me writing fake tool-call blocks. I will not do that.
+
+**Step 3 — what to do to run the demo for real.**
+
+1. In VS Code, open `.vscode/mcp.json`. Above the new `"winapi-mcp"` block VS Code shows an inline action bar — click **Start**. Confirm the Output panel → **Model Context Protocol** says `winapi-mcp ... Discovered 11 tools`.
+2. Open a **new** Copilot Chat in **Agent Mode** (the existing one will still be missing the tools).
+3. Paste a prompt like the one below — it tells the agent to drive the demo, screenshot every meaningful step, save the PNGs into `requests/650-winapi/img/`, and append its reasoning back into this same `RESULT` block.
+
+Ready-to-paste prompt for the new chat:
+
+> You have access to the `winapi-mcp` MCP server. Run this demo end-to-end and
+> document every step in `requests/650-winapi/main.prompt.md` under the
+> `### RESULT` of UPD2.
+>
+> Naming convention for screenshots — follow
+> [`instructions/lnd/organize-module-images.agent.md`](../../instructions/lnd/organize-module-images.agent.md):
+> save every PNG produced by `screenshot_window` / `screenshot_area` into
+> `requests/650-winapi/img/MM-short-description.png` (sequential `MM` from `01`,
+> 2-5 lowercase words, hyphenated). The MCP server saves originals to
+> `modules/650-winapi/tools/scripts/output/` — copy/rename them into
+> `requests/650-winapi/img/` after each capture.
+>
+> Demo steps:
+> 1. `list_processes filter=chrome only_with_windows=true`. If empty, launch
+>    Chrome (PowerShell: `Start-Process chrome`). Re-list. Pick the PID with a
+>    real main window.
+> 2. `screenshot_window window_name="Google Chrome"` → save as
+>    `01-chrome-just-launched.png`. Describe what is visible.
+> 3. Use `send_hotkey` with that PID, hotkey `^l` (focus address bar), then
+>    `text: "https://www.google.com"`, then `key: "ENTER"`. Wait ~1.5 s.
+>    `screenshot_window` → `02-google-loaded.png`.
+> 4. `send_hotkey` with that PID, hotkey `^+i` to open DevTools.
+>    `screenshot_window` → `03-devtools-open.png`. If DevTools opened in a
+>    separate window, also `screenshot_window window_name="DevTools"`.
+> 5. Switch to the Console tab — `send_hotkey` hotkey `^+j` (or click the
+>    "Console" tab using `mouse_click` after locating it via
+>    `get_window_content target_window="DevTools"`).
+>    `screenshot_window` → `04-console-tab.png`.
+> 6. Inject the snow JS by `clipboard_set` then `send_hotkey` `^v`, `key
+>    ENTER`. Use this payload (single line):
+>    ```js
+>    (()=>{const c=document.createElement('canvas');Object.assign(c.style,{position:'fixed',inset:'0',pointerEvents:'none',zIndex:'2147483647'});c.width=innerWidth;c.height=innerHeight;document.body.appendChild(c);const x=c.getContext('2d');const f=Array.from({length:200},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:1+Math.random()*3,s:0.5+Math.random()*1.5}));(function t(){x.clearRect(0,0,c.width,c.height);x.fillStyle='white';for(const k of f){x.beginPath();x.arc(k.x,k.y,k.r,0,7);x.fill();k.y+=k.s;if(k.y>c.height)k.y=0;}requestAnimationFrame(t);})();})();
+>    ```
+> 7. `screenshot_window` of the main Chrome window → `05-snow-running.png`.
+>    Describe what changed visually.
+>
+> After each `screenshot_*` call, append a short paragraph into the RESULT
+> block of UPD2 explaining (a) what you observed in the image, (b) what you
+> decided to do next and why, (c) which tool you called next. Commit at the
+> end with the iterative-prompt rules.
+
+**Step 4 — why I am not also performing it via a sub-agent.**
+
+A sub-agent would inherit the same fixed tool list (it spawns from the parent
+session), so it would not see `winapi-mcp` either. The only path is a fresh
+Agent Mode chat after the server is started — the IDE's MCP discovery runs at
+session boot.
