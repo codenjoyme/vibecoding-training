@@ -5,17 +5,27 @@ over stdio. Designed to be invoked from .vscode/mcp.json or .cursor/mcp.json
 through the bundled run.ps1 (which activates the local .venv).
 
 Tools exposed:
-  screenshot_window   - capture a window (by title substring) and return as image
-  screenshot_area     - capture a screen rectangle and return as image
-  mouse_click         - click at (x, y) with optional button / double-click
-  mouse_move          - move cursor to (x, y)
-  mouse_drag          - press, move, release: drag from (x1, y1) to (x2, y2)
-  send_hotkey         - send hotkeys / keys / text / sequences (PID-targeted or global)
-  clipboard_get       - read text from the system clipboard
-  clipboard_set       - write text to the system clipboard
-  list_processes      - list processes (optionally only those with main windows)
-  window_tree         - dump the window tree for a given PID
-  get_window_content  - deep UI Automation dump of a process
+  screenshot_window     - capture a window (by title substring) and return as image
+  screenshot_area       - capture a screen rectangle and return as image
+  mouse_click           - click at (x, y) with optional button / double-click
+  mouse_click_window    - click at (x, y) RELATIVE to a window's top-left, after focusing it
+  mouse_move            - move cursor to (x, y)
+  mouse_drag            - press, move, release: drag from (x1, y1) to (x2, y2)
+  mouse_scroll          - scroll the wheel at (x, y) by N clicks (negative = down)
+  mouse_position        - report the current cursor position
+  send_hotkey           - send hotkeys / keys / text / sequences (PID-targeted or global)
+  clipboard_get         - read text from the system clipboard
+  clipboard_set         - write text to the system clipboard
+  list_processes        - list processes (optionally only those with main windows)
+  window_list           - list visible top-level windows with their pid, title, class, rect
+  window_focus          - bring a window to the foreground (by pid or window_name)
+  window_get_rect       - return rect/title/class/pid for a window matched by name
+  wait_for_window       - poll until a window with given title appears, then return its rect
+  window_tree           - dump the window tree for a given PID
+  get_window_content    - deep UI Automation dump of a process
+  find_element          - find UI Automation elements by name (and optional control_type) under a pid
+  click_element         - find an element by name under a pid and click its center (auto-focus)
+  screen_size           - return primary monitor + virtual screen dimensions
 
 This is a deliberately narrow port of mcpyrex's `lng_winapi/*` tools, plus
 mouse and screenshot capabilities, packaged so it can be installed and run
@@ -214,6 +224,56 @@ def _get_window_rect(hwnd: int) -> tuple[int, int, int, int] | None:
         return None
 
 
+def _get_pid_for_hwnd(hwnd: int) -> int | None:
+    if win32gui is None:
+        return None
+    try:
+        user32 = ctypes.windll.user32
+        ppid = ctypes.wintypes.DWORD()
+        user32.GetWindowThreadProcessId(hwnd, ctypes.byref(ppid))
+        return int(ppid.value) if ppid.value else None
+    except Exception:
+        return None
+
+
+def _resolve_window(name: str | None, pid: int | None) -> tuple[int | None, int | None, str]:
+    """Resolve a (hwnd, pid, error) tuple from optional name and/or pid.
+
+    If name is given, find by substring. If only pid, return its first
+    visible top-level main window. Returns (None, None, error_message)
+    when nothing matches.
+    """
+    if not name and pid is None:
+        return None, None, "Provide window_name or pid"
+    if name:
+        hwnd = _find_window_by_name(name)
+        if not hwnd:
+            return None, None, f"No window matching: {name!r}"
+        return hwnd, _get_pid_for_hwnd(hwnd), ""
+    # pid only
+    if win32gui is None:
+        return None, None, _missing("pywin32")
+    user32 = ctypes.windll.user32
+    target_pid = int(pid)
+    for cand in _enum_top_level_windows():
+        if _get_pid_for_hwnd(cand) == target_pid:
+            return cand, target_pid, ""
+    return None, target_pid, f"No visible top-level window for pid {target_pid}"
+
+
+def _try_focus_pid(pid: int | None) -> str | None:
+    """Best-effort focus; returns error string or None on success."""
+    if pid is None:
+        return "no pid"
+    if pywinauto is None:
+        return _missing("pywinauto")
+    try:
+        _focus_pid(int(pid))
+        return None
+    except Exception as exc:
+        return str(exc)
+
+
 # ---------------------------------------------------------------------------
 # Screenshot tools
 # ---------------------------------------------------------------------------
@@ -233,7 +293,8 @@ def _capture_bbox(left: int, top: int, right: int, bottom: int) -> bytes:
 
 
 async def _tool_screenshot_window(arguments: dict) -> list[types.Content]:
-    name = (arguments or {}).get("window_name")
+    args = arguments or {}
+    name = args.get("window_name")
     if not name:
         return _err("window_name is required")
     if win32gui is None:
@@ -241,6 +302,12 @@ async def _tool_screenshot_window(arguments: dict) -> list[types.Content]:
     hwnd = _find_window_by_name(name)
     if not hwnd:
         return _err(f"No window matching: {name!r}")
+    bring_to_front = bool(args.get("bring_to_front", True))
+    if bring_to_front:
+        pid = _get_pid_for_hwnd(hwnd)
+        if pid is not None:
+            _try_focus_pid(pid)
+            time.sleep(0.15)
     rect = _get_window_rect(hwnd)
     if not rect:
         return _err(f"Window {hwnd} has no usable rectangle")
@@ -335,6 +402,75 @@ async def _tool_mouse_drag(arguments: dict) -> list[types.Content]:
     return _ok({
         "action": "drag", "from": [x1, y1], "to": [x2, y2],
         "duration": duration, "button": button,
+    })
+
+
+async def _tool_mouse_scroll(arguments: dict) -> list[types.Content]:
+    if pyautogui is None:
+        return _err(_missing("pyautogui"))
+    args = arguments or {}
+    try:
+        clicks = int(args.get("clicks", -3))
+    except (TypeError, ValueError):
+        return _err("'clicks' must be an integer (negative = scroll down)")
+    pid = args.get("pid")
+    if pid is not None:
+        err = _try_focus_pid(int(pid))
+        if err:
+            return _err(f"Could not focus pid {pid}: {err}")
+    x = args.get("x"); y = args.get("y")
+    if x is not None and y is not None:
+        pyautogui.moveTo(int(x), int(y))
+        time.sleep(0.05)
+    pyautogui.scroll(clicks)
+    return _ok({"action": "scroll", "clicks": clicks, "x": x, "y": y, "pid": pid})
+
+
+async def _tool_mouse_position(_args: dict) -> list[types.Content]:
+    if pyautogui is None:
+        return _err(_missing("pyautogui"))
+    pos = pyautogui.position()
+    return _ok({"x": int(pos.x), "y": int(pos.y)})
+
+
+async def _tool_mouse_click_window(arguments: dict) -> list[types.Content]:
+    """Click at coordinates RELATIVE to a window's top-left, after focusing it.
+
+    Solves the common bug where the agent computes pixel coords from a window
+    screenshot but the window itself sits at non-zero (or even negative)
+    desktop coordinates, so a global click misses.
+    """
+    if pyautogui is None or win32gui is None:
+        return _err(_missing("pyautogui / pywin32"))
+    args = arguments or {}
+    try:
+        rel_x = int(args["x"]); rel_y = int(args["y"])
+    except (KeyError, TypeError, ValueError):
+        return _err("x and y are required integers (relative to window's top-left)")
+    button = (args.get("button") or "left").lower()
+    if button not in ("left", "right", "middle"):
+        return _err("button must be one of: left, right, middle")
+    clicks = int(args.get("clicks", 2 if args.get("double") else 1))
+    interval = float(args.get("interval", 0.05))
+
+    hwnd, pid, err = _resolve_window(args.get("window_name"), args.get("pid"))
+    if err:
+        return _err(err)
+    rect = _get_window_rect(hwnd)
+    if not rect:
+        return _err(f"Window {hwnd} has no usable rectangle")
+    if bool(args.get("focus", True)):
+        _try_focus_pid(pid)
+        time.sleep(0.1)
+    abs_x = rect[0] + rel_x
+    abs_y = rect[1] + rel_y
+    pyautogui.click(x=abs_x, y=abs_y, clicks=clicks, interval=interval, button=button)
+    return _ok({
+        "action": "click_window", "hwnd": hwnd, "pid": pid,
+        "window_origin": [rect[0], rect[1]],
+        "window_size": [rect[2] - rect[0], rect[3] - rect[1]],
+        "relative": [rel_x, rel_y], "absolute": [abs_x, abs_y],
+        "button": button, "clicks": clicks,
     })
 
 
@@ -661,6 +797,227 @@ async def _tool_get_window_content(arguments: dict) -> list[types.Content]:
 
 
 # ---------------------------------------------------------------------------
+# New: window discovery / focus / wait helpers
+# ---------------------------------------------------------------------------
+
+async def _tool_window_list(arguments: dict) -> list[types.Content]:
+    if win32gui is None:
+        return _err(_missing("pywin32"))
+    args = arguments or {}
+    flt = (args.get("filter") or "").lower()
+    out = []
+    for hwnd in _enum_top_level_windows():
+        title = _get_window_text(hwnd)
+        cls = _get_class_name(hwnd)
+        if not title and not cls:
+            continue
+        if flt and flt not in title.lower() and flt not in cls.lower():
+            continue
+        rect = _get_window_rect(hwnd)
+        out.append({
+            "hwnd": hwnd,
+            "pid": _get_pid_for_hwnd(hwnd),
+            "title": title,
+            "class": cls,
+            "rect": (
+                {"left": rect[0], "top": rect[1], "right": rect[2], "bottom": rect[3],
+                 "width": rect[2] - rect[0], "height": rect[3] - rect[1]}
+                if rect else None
+            ),
+        })
+    return _ok(out)
+
+
+async def _tool_window_focus(arguments: dict) -> list[types.Content]:
+    args = arguments or {}
+    hwnd, pid, err = _resolve_window(args.get("window_name"), args.get("pid"))
+    if err:
+        return _err(err)
+    err2 = _try_focus_pid(pid)
+    if err2:
+        return _err(f"Could not focus pid {pid}: {err2}")
+    rect = _get_window_rect(hwnd) if hwnd else None
+    return _ok({
+        "focused": True, "hwnd": hwnd, "pid": pid,
+        "title": _get_window_text(hwnd) if hwnd else None,
+        "rect": list(rect) if rect else None,
+    })
+
+
+async def _tool_window_get_rect(arguments: dict) -> list[types.Content]:
+    if win32gui is None:
+        return _err(_missing("pywin32"))
+    args = arguments or {}
+    hwnd, pid, err = _resolve_window(args.get("window_name"), args.get("pid"))
+    if err:
+        return _err(err)
+    rect = _get_window_rect(hwnd)
+    if not rect:
+        return _err(f"Window {hwnd} has no usable rectangle")
+    left, top, right, bottom = rect
+    return _ok({
+        "hwnd": hwnd, "pid": pid,
+        "title": _get_window_text(hwnd),
+        "class": _get_class_name(hwnd),
+        "rect": {
+            "left": left, "top": top, "right": right, "bottom": bottom,
+            "width": right - left, "height": bottom - top,
+            "center_x": (left + right) // 2, "center_y": (top + bottom) // 2,
+        },
+    })
+
+
+async def _tool_wait_for_window(arguments: dict) -> list[types.Content]:
+    if win32gui is None:
+        return _err(_missing("pywin32"))
+    args = arguments or {}
+    name = args.get("window_name")
+    if not name:
+        return _err("window_name is required")
+    timeout = float(args.get("timeout", 10.0))
+    poll = float(args.get("poll", 0.25))
+    started = time.time()
+    deadline = started + timeout
+    while time.time() < deadline:
+        hwnd = _find_window_by_name(name)
+        if hwnd:
+            rect = _get_window_rect(hwnd)
+            return _ok({
+                "hwnd": hwnd,
+                "pid": _get_pid_for_hwnd(hwnd),
+                "title": _get_window_text(hwnd),
+                "rect": list(rect) if rect else None,
+                "waited_seconds": round(time.time() - started, 3),
+            })
+        await asyncio.sleep(poll)
+    return _err(f"Window {name!r} did not appear within {timeout}s")
+
+
+# ---------------------------------------------------------------------------
+# New: UI Automation element search & click
+# ---------------------------------------------------------------------------
+
+def _scan_elements(root, needle: str, control_type: str | None,
+                   max_depth: int, depth: int = 0,
+                   visible_only: bool = True) -> list:
+    out: list = []
+    if depth > max_depth:
+        return out
+    try:
+        txt = root.window_text() or ""
+        ct = getattr(root.element_info, "control_type", "") or ""
+        match_name = needle in txt.lower() if needle else True
+        match_ct = (not control_type) or control_type.lower() == ct.lower()
+        if match_name and match_ct:
+            try:
+                vis = root.is_visible() if hasattr(root, "is_visible") else True
+            except Exception:
+                vis = True
+            if vis or not visible_only:
+                try:
+                    r = root.rectangle()
+                    out.append({
+                        "name": txt, "control_type": ct,
+                        "class_name": getattr(root.element_info, "class_name", "") or "",
+                        "is_visible": vis,
+                        "rect": {
+                            "left": r.left, "top": r.top,
+                            "right": r.right, "bottom": r.bottom,
+                            "width": r.right - r.left, "height": r.bottom - r.top,
+                            "center_x": (r.left + r.right) // 2,
+                            "center_y": (r.top + r.bottom) // 2,
+                        },
+                    })
+                except Exception:
+                    pass
+        for child in root.children():
+            out.extend(_scan_elements(child, needle, control_type, max_depth,
+                                      depth + 1, visible_only))
+    except Exception:
+        pass
+    return out
+
+
+async def _tool_find_element(arguments: dict) -> list[types.Content]:
+    if pywinauto is None:
+        return _err(_missing("pywinauto"))
+    args = arguments or {}
+    pid = args.get("pid")
+    name = args.get("name") or ""
+    control_type = args.get("control_type")
+    if pid is None or not name:
+        return _err("pid and name are required")
+    max_depth = int(args.get("max_depth", 8))
+    visible_only = bool(args.get("visible_only", True))
+    try:
+        app = pywinauto.Application(backend="uia").connect(process=int(pid))
+    except Exception as exc:
+        return _err(f"Connect failed for pid {pid}: {exc}")
+    matches: list = []
+    needle = name.lower()
+    for w in app.windows():
+        matches.extend(_scan_elements(w, needle, control_type, max_depth, 0, visible_only))
+    return _ok({"pid": int(pid), "matches": matches, "count": len(matches)})
+
+
+async def _tool_click_element(arguments: dict) -> list[types.Content]:
+    if pywinauto is None or pyautogui is None:
+        return _err(_missing("pywinauto / pyautogui"))
+    args = arguments or {}
+    pid = args.get("pid")
+    name = args.get("name") or ""
+    control_type = args.get("control_type")
+    if pid is None or not name:
+        return _err("pid and name are required")
+    button = (args.get("button") or "left").lower()
+    clicks = int(args.get("clicks", 2 if args.get("double") else 1))
+    max_depth = int(args.get("max_depth", 8))
+    try:
+        app = pywinauto.Application(backend="uia").connect(process=int(pid))
+    except Exception as exc:
+        return _err(f"Connect failed for pid {pid}: {exc}")
+    matches: list = []
+    needle = name.lower()
+    for w in app.windows():
+        matches.extend(_scan_elements(w, needle, control_type, max_depth, 0, True))
+        if matches:
+            break
+    if not matches:
+        return _err(f"No visible element matching name={name!r}"
+                    + (f" control_type={control_type!r}" if control_type else ""))
+    target = matches[0]
+    _try_focus_pid(int(pid))
+    time.sleep(0.1)
+    cx = target["rect"]["center_x"]
+    cy = target["rect"]["center_y"]
+    pyautogui.click(x=cx, y=cy, clicks=clicks, button=button)
+    return _ok({
+        "clicked": target, "button": button, "clicks": clicks,
+        "alternatives": matches[1:5],  # first few other matches for debugging
+    })
+
+
+# ---------------------------------------------------------------------------
+# New: screen size
+# ---------------------------------------------------------------------------
+
+async def _tool_screen_size(_args: dict) -> list[types.Content]:
+    if win32api is None:
+        return _err(_missing("pywin32"))
+    primary_w = win32api.GetSystemMetrics(0)
+    primary_h = win32api.GetSystemMetrics(1)
+    virtual_x = win32api.GetSystemMetrics(76)  # SM_XVIRTUALSCREEN
+    virtual_y = win32api.GetSystemMetrics(77)  # SM_YVIRTUALSCREEN
+    virtual_w = win32api.GetSystemMetrics(78)  # SM_CXVIRTUALSCREEN
+    virtual_h = win32api.GetSystemMetrics(79)  # SM_CYVIRTUALSCREEN
+    return _ok({
+        "primary": {"width": primary_w, "height": primary_h},
+        "virtual": {"x": virtual_x, "y": virtual_y,
+                    "width": virtual_w, "height": virtual_h},
+    })
+
+
+# ---------------------------------------------------------------------------
 # Tool registry
 # ---------------------------------------------------------------------------
 
@@ -670,8 +1027,9 @@ TOOLS: dict[str, dict] = {
         "description": (
             "Capture a screenshot of a window whose title (or class name) contains the "
             "given substring. Returns the PNG as MCP image content and saves it to the "
-            "scripts/output/ folder. Use list_processes + window_tree if you need to "
-            "discover the exact window name first."
+            "scripts/output/ folder. By default the window is brought to the foreground "
+            "first (set bring_to_front=false to skip). Use list_processes + window_tree "
+            "if you need to discover the exact window name first."
         ),
         "schema": {
             "type": "object",
@@ -679,7 +1037,8 @@ TOOLS: dict[str, dict] = {
                 "window_name": {
                     "type": "string",
                     "description": "Case-insensitive substring to match against the window title or class name.",
-                }
+                },
+                "bring_to_front": {"type": "boolean", "default": True},
             },
             "required": ["window_name"],
         },
@@ -836,6 +1195,165 @@ TOOLS: dict[str, dict] = {
             },
             "required": ["pid"],
         },
+    },
+    "mouse_scroll": {
+        "handler": _tool_mouse_scroll,
+        "description": (
+            "Scroll the mouse wheel by N clicks. Negative clicks scroll DOWN, positive UP. "
+            "If x/y are provided, the cursor moves there first. If pid is provided, the "
+            "process's main window is focused first (so the scroll lands in the right window)."
+        ),
+        "schema": {
+            "type": "object",
+            "properties": {
+                "clicks": {"type": "integer", "default": -3,
+                           "description": "Negative scrolls down, positive scrolls up."},
+                "x": {"type": "integer"}, "y": {"type": "integer"},
+                "pid": {"type": "integer"},
+            },
+            "required": [],
+        },
+    },
+    "mouse_position": {
+        "handler": _tool_mouse_position,
+        "description": "Return the current cursor position {x, y} in absolute screen coordinates.",
+        "schema": {"type": "object", "properties": {}, "required": []},
+    },
+    "mouse_click_window": {
+        "handler": _tool_mouse_click_window,
+        "description": (
+            "Click at (x, y) RELATIVE to a window's top-left corner, after focusing the window. "
+            "Use this when you computed coordinates from a screenshot of the window: the screenshot "
+            "is window-relative but mouse_click is screen-absolute, so global clicks miss when the "
+            "window is at non-zero (or negative) desktop coordinates. Provide either window_name "
+            "(substring) or pid."
+        ),
+        "schema": {
+            "type": "object",
+            "properties": {
+                "window_name": {"type": "string"},
+                "pid": {"type": "integer"},
+                "x": {"type": "integer", "description": "X relative to window's top-left corner."},
+                "y": {"type": "integer", "description": "Y relative to window's top-left corner."},
+                "button": {"type": "string", "enum": ["left", "right", "middle"], "default": "left"},
+                "clicks": {"type": "integer", "default": 1},
+                "double": {"type": "boolean", "default": False},
+                "interval": {"type": "number", "default": 0.05},
+                "focus": {"type": "boolean", "default": True,
+                          "description": "Bring the window to the front first."},
+            },
+            "required": ["x", "y"],
+        },
+    },
+    "window_list": {
+        "handler": _tool_window_list,
+        "description": (
+            "List visible top-level windows with hwnd, pid, title, class, and rect. "
+            "Optional case-insensitive substring 'filter' against title or class."
+        ),
+        "schema": {
+            "type": "object",
+            "properties": {"filter": {"type": "string"}},
+            "required": [],
+        },
+    },
+    "window_focus": {
+        "handler": _tool_window_focus,
+        "description": (
+            "Bring a window to the foreground (set_focus + restore via pywinauto). "
+            "Identify the target by 'window_name' (substring) or by 'pid'. Returns the "
+            "focused window's hwnd, pid, title, and rect."
+        ),
+        "schema": {
+            "type": "object",
+            "properties": {
+                "window_name": {"type": "string"},
+                "pid": {"type": "integer"},
+            },
+            "required": [],
+        },
+    },
+    "window_get_rect": {
+        "handler": _tool_window_get_rect,
+        "description": (
+            "Return rect/title/class/pid for a window matched by 'window_name' substring "
+            "(or pid). Use this BEFORE clicks at known visual coordinates so you can convert "
+            "from window-relative to screen-absolute, or to know the window's size for scroll/drag."
+        ),
+        "schema": {
+            "type": "object",
+            "properties": {
+                "window_name": {"type": "string"},
+                "pid": {"type": "integer"},
+            },
+            "required": [],
+        },
+    },
+    "wait_for_window": {
+        "handler": _tool_wait_for_window,
+        "description": (
+            "Poll until a window whose title contains the given substring appears, then return "
+            "its hwnd/pid/title/rect. Replaces ad-hoc 'delay' calls when waiting for an app to "
+            "launch or a dialog to open. timeout in seconds (default 10), poll in seconds (default 0.25)."
+        ),
+        "schema": {
+            "type": "object",
+            "properties": {
+                "window_name": {"type": "string"},
+                "timeout": {"type": "number", "default": 10.0},
+                "poll": {"type": "number", "default": 0.25},
+            },
+            "required": ["window_name"],
+        },
+    },
+    "find_element": {
+        "handler": _tool_find_element,
+        "description": (
+            "Find UI Automation elements under a process whose 'name' (window_text) contains "
+            "the substring (case-insensitive), optionally filtered by 'control_type' "
+            "(e.g. 'Button', 'Edit', 'TabItem'). Returns a list of matches with rect & center "
+            "coordinates so you can click them with mouse_click x=center_x y=center_y."
+        ),
+        "schema": {
+            "type": "object",
+            "properties": {
+                "pid": {"type": "integer"},
+                "name": {"type": "string"},
+                "control_type": {"type": "string"},
+                "max_depth": {"type": "integer", "default": 8},
+                "visible_only": {"type": "boolean", "default": True},
+            },
+            "required": ["pid", "name"],
+        },
+    },
+    "click_element": {
+        "handler": _tool_click_element,
+        "description": (
+            "Find an element by name (and optional control_type) under the given pid and click "
+            "its center. Auto-focuses the process first. Convenience wrapper for find_element + "
+            "mouse_click. Returns the element's metadata and a few alternative matches."
+        ),
+        "schema": {
+            "type": "object",
+            "properties": {
+                "pid": {"type": "integer"},
+                "name": {"type": "string"},
+                "control_type": {"type": "string"},
+                "button": {"type": "string", "enum": ["left", "right", "middle"], "default": "left"},
+                "clicks": {"type": "integer", "default": 1},
+                "double": {"type": "boolean", "default": False},
+                "max_depth": {"type": "integer", "default": 8},
+            },
+            "required": ["pid", "name"],
+        },
+    },
+    "screen_size": {
+        "handler": _tool_screen_size,
+        "description": (
+            "Return primary monitor and virtual screen dimensions. Useful before computing "
+            "absolute coordinates so you don't go off-screen."
+        ),
+        "schema": {"type": "object", "properties": {}, "required": []},
     },
 }
 

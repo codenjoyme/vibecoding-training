@@ -276,3 +276,54 @@ Go
 Translated [`modules/650-winapi/tools/readme.md`](../../modules/650-winapi/tools/readme.md) to English (full rewrite — every section: intro, what-you-get, install, register, enable, demo 4.1–4.5, lessons, security, where-to-go-next). Image links and JS payload preserved verbatim. Aligns with `main.agent.md` rule: project content is English, chat language stays as-is.
 
 Resuming polling loop per `iterative-prompt.agent.md`.
+## UPD8
+
+Проанализируй сессию, в ней ты делал некоторые не очень оптимальные действия. Например у тебя не получался скролинг. Наверное надо добавить такую возможность в наше решение. Проанализируй другие вещи, которые ты делал не совсем оптимально. И опиши это все в итеративном промпте в конце вместе с моим этим запросом. Сделай так же gap анализ инструментов, которые юзеру может не хватить в будущем от winapi. реализуй их всех. А так же добавь описание в walkstough.md и skills.md по новым возможностям. После попроси меня перезапустить MCP, я это сделаю пока ты спишь в polling процессе. И как сделаю - ты повторишь весь путь от начала до конца и мы потестим как все поменялось. Погнали!
+
+
+### RESULT
+
+**Retrospective — sub-optimal patterns from the live Firefox/Azure Portal session:**
+
+1. **No mouse-wheel tool.** Scrolling inside an Azure Portal iframe was impossible via `send_hotkey END` / `PAGEDOWN` — focus stayed on the chrome, not the iframe. I escaped by spawning `python -c "import pyautogui; pyautogui.scroll(...)"` from the terminal. Duct tape, not a tool.
+2. **No first-class window-focus tool.** I used `send_hotkey pid=X key=ESC` purely for its `_focus_pid` side-effect. Grimy and surprising.
+3. **Coordinate-frame confusion.** Firefox sat at desktop `(-6, 0)`. Coordinates measured on a window screenshot are window-relative; `mouse_click x=163 y=583` is screen-absolute → the click landed 6 px off and hit the wrong link (`AttractorAI` instead of `teams-ai-assistant-baglai`).
+4. **screenshot_window of an occluded window** silently captured whatever was on top. No way to say "bring it to front first".
+5. **No way to learn a window's rect** without taking a screenshot.
+6. **UI-element discovery via get_window_content** dumps the full tree — heavy and noisy when I just wanted "the button labelled X".
+7. **Arbitrary delays (`delay 2000`)** instead of waiting for an actual window to appear.
+8. **No way to query screen size or current cursor position** before computing absolute coordinates.
+
+**Gap analysis — 10 new tools added (server now exposes 21 total):**
+
+| Tool | Purpose |
+|---|---|
+| `mouse_scroll` | Wheel scroll N clicks (negative = down), optionally focusing a pid first and moving the cursor. |
+| `mouse_position` | Read the current cursor `{x, y}`. |
+| `mouse_click_window` | Click at `(x, y)` **relative to a window's top-left**, after focusing it. Solves the negative-origin Firefox bug. |
+| `window_list` | Enumerate visible top-level windows with `hwnd / pid / title / class / rect`. Filterable. |
+| `window_focus` | Bring a window to foreground by name or pid (no more ESC hack). |
+| `window_get_rect` | Return rect + width/height/center for one window. |
+| `wait_for_window` | Async poll until a window with matching title appears (replaces arbitrary `delay`). |
+| `find_element` | UI Automation scan under a pid for elements matching a name + optional control_type. |
+| `click_element` | Find an element by name and click its center (skips coordinate math). |
+| `screen_size` | Primary monitor + virtual screen dimensions. |
+
+Plus: `screenshot_window` now defaults to `bring_to_front: true` — pass `false` to keep the old occluded-capture behaviour.
+
+**Files modified:**
+
+- [modules/650-winapi/tools/scripts/server.py](../../modules/650-winapi/tools/scripts/server.py) — 3 helpers (`_get_pid_for_hwnd`, `_resolve_window`, `_try_focus_pid`), 10 new tool handlers, `screenshot_window` enhancement, `TOOLS` dict expanded to 21 entries, docstring updated.
+- [modules/650-winapi/tools/SKILL.md](../../modules/650-winapi/tools/SKILL.md) — tool table 11 → 21 rows, `Discovered 11 tools` → `21`, new "Usage Examples" subsections for window-relative click / scroll / wait / click-by-name.
+- [modules/650-winapi/walkthrough.md](../../modules/650-winapi/walkthrough.md) — new section `6.6 Discover, Focus, and Click Inside Windows`, success-criteria entries for each new tool, count bumps.
+- [modules/650-winapi/tools/readme.md](../../modules/650-winapi/tools/readme.md) — count bumps, refreshed tool inventory in Step 3.
+
+**Validation:** `python -c '... len(m.TOOLS)'` → `tool count = 21`. `test_client.py` initialise/list/screenshot_area/clipboard round-trip all green.
+
+**Action required from you (then I sleep):**
+
+1. Open [.vscode/mcp.json](../../.vscode/mcp.json), click **Restart** above the `winapi-mcp` block. Wait for the Output panel to show `Discovered 21 tools`.
+2. Open a fresh **Copilot Chat in Agent Mode** — the tool list is frozen per chat session, so the existing chat still sees only 11.
+3. In the new chat, append `## UPD9 ... go` to this file (anything — `"Re-run the Firefox/Azure walkthrough using the new tools."` works).
+
+I'm entering the polling loop now.

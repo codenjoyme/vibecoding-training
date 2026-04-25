@@ -69,13 +69,13 @@ If the file does not exist, create it; note that VS Code uses the key
 Save the file. VS Code shows an inline action bar above the JSON block:
 **Start | Stop | Restart | N tools**. Click **Start**.
 
-In **Output → Model Context Protocol** you should see `Discovered 11 tools` —
+In **Output → Model Context Protocol** you should see `Discovered 21 tools` —
 that means the server started and the MCP handshake succeeded.
 
-![mcp.json with winapi-mcp and the "Discovered 11 tools" log](img/06-mcp-server-registered.png)
+![mcp.json with winapi-mcp and the "Discovered 11 tools" log (the screenshot is from the original 11-tool build; after UPD8 the count is 21)](img/06-mcp-server-registered.png)
 
 The screenshot highlights: the `winapi-mcp` entry under `servers`, the inline
-`Running | 11 tools` indicator, and the `Discovered 11 tools` line in the log.
+`Running | 21 tools` indicator, and the `Discovered 21 tools` line in the log.
 
 ---
 
@@ -85,15 +85,19 @@ Open Copilot Chat → switch to **Agent Mode** → click the wrench icon
 (Configure Tools). Find the `winapi-mcp` branch in the tree and make sure all
 11 checkboxes are ticked:
 
-![Configure Tools — all 11 winapi-mcp tools enabled](img/07-tools-enabled.png)
+![Configure Tools — all winapi-mcp tools enabled](img/07-tools-enabled.png)
 
 Tool list (see [SKILL.md](SKILL.md) for full details):
 
 - `screenshot_window`, `screenshot_area` — screenshots
-- `mouse_move`, `mouse_click`, `mouse_drag` — mouse
+- `mouse_move`, `mouse_click`, `mouse_click_window`, `mouse_drag`,
+  `mouse_scroll`, `mouse_position` — mouse
 - `send_hotkey` — keyboard (hotkeys / named keys / text / sequences)
 - `clipboard_get`, `clipboard_set` — clipboard
-- `list_processes`, `window_tree`, `get_window_content` — window inspection
+- `list_processes`, `window_list`, `window_focus`, `window_get_rect`,
+  `wait_for_window`, `window_tree`, `get_window_content` — process & window inspection
+- `find_element`, `click_element` — UI Automation by accessible name
+- `screen_size` — monitor dimensions
 
 > **If you just registered the server but the tool list is empty** — VS Code
 > discovers MCP servers at chat-session startup. Open a fresh chat (`+` next

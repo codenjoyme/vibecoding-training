@@ -155,7 +155,7 @@ automatically — you just confirmed the server speaks the protocol.
 VS Code shows an inline action bar above the JSON block:
 
 ```
-✓ Running | Stop | Restart | 11 tools | More...
+✓ Running | Stop | Restart | 21 tools | More...
 ```
 
 If it says **Stopped**, click **Start**. If you see **0 tools**, click
@@ -230,19 +230,55 @@ will do):
 >
 > Set the clipboard to `winapi-mcp works`. Then read it back to confirm.
 
+### 6.6 Discover, Focus, and Click Inside Windows (post-UPD8 helpers)
+
+The original 11 tools left a few sharp edges. Sessions in `requests/650-winapi/`
+showed three recurring problems: the agent had to fake-focus windows by sending
+ESC, it computed pixel coordinates from a window screenshot but then clicked
+in absolute desktop space (and missed when the window started at e.g.
+`x=-6`), and it had no way to scroll. The next 10 tools cover those gaps.
+
+> List visible windows whose title contains "Firefox" using `window_list`.
+> Then call `window_get_rect window_name="Firefox"` and tell me the window's
+> origin and size.
+
+> Bring Firefox to the foreground via `window_focus window_name="Firefox"`.
+> Then `mouse_click_window window_name="Firefox" x=200 y=400` — explain why
+> this is safer than `mouse_click x=200 y=400` if the window happens to sit
+> at a negative desktop x.
+
+> Inside Firefox, find the cursor over the page area and `mouse_scroll
+> clicks=-8 x=560 y=400` to scroll one screenful down.
+
+> Open Notepad. Use `wait_for_window window_name="Untitled - Notepad"
+> timeout=5` to wait for it. Then `find_element pid=<pid> name="File"
+> control_type="MenuItem"` to locate the menu, and `click_element` on it.
+
+> Call `screen_size` and report the primary monitor + virtual screen
+> dimensions before computing any absolute coordinate.
+
+> Use `mouse_position` to read the cursor's current location.
+
 ---
 
 ## Success Criteria
 
 - ✅ `install.ps1` finished without errors and `tools/scripts/.venv/` exists
 - ✅ `run.ps1` starts and blocks on stdin (server is alive)
-- ✅ VS Code Output → "Model Context Protocol" reports `Discovered 11 tools` for `winapi-mcp`
+- ✅ VS Code Output → "Model Context Protocol" reports `Discovered 21 tools` for `winapi-mcp`
 - ✅ `screenshot_window` returns an MCP image attachment that the agent can describe
 - ✅ `screenshot_area` saves a PNG into `tools/scripts/output/`
 - ✅ `mouse_move`, `mouse_click`, `mouse_drag` move the cursor on your screen
 - ✅ `send_hotkey` delivers text and hotkeys to a focused window
 - ✅ `clipboard_get` / `clipboard_set` round-trip a string
 - ✅ `list_processes`, `window_tree`, `get_window_content` return usable JSON
+- ✅ `window_list` / `window_get_rect` enumerate windows and report their bbox
+- ✅ `window_focus` brings a target window to the foreground reliably
+- ✅ `mouse_click_window` clicks at coordinates **relative** to a window (handles negative-origin windows)
+- ✅ `mouse_scroll` scrolls inside a focused window
+- ✅ `wait_for_window` returns once a target dialog appears (or errors on timeout)
+- ✅ `find_element` / `click_element` resolve UI elements by name and click their center
+- ✅ `screen_size` and `mouse_position` provide ground-truth coordinates
 
 ---
 

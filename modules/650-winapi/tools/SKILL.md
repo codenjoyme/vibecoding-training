@@ -14,16 +14,26 @@ control over a Windows desktop:
 
 | Tool | Purpose |
 |---|---|
-| `screenshot_window` | Capture a window by title (or class) substring; returns PNG as MCP image |
+| `screenshot_window` | Capture a window by title (or class) substring; returns PNG as MCP image. By default brings the window to the foreground first (`bring_to_front=true`). |
 | `screenshot_area` | Capture a rectangle `(x1,y1)-(x2,y2)` of the screen; returns PNG as MCP image |
 | `mouse_move` | Move the cursor to absolute `(x, y)` |
 | `mouse_click` | Click at a point or current position; `left/right/middle`, single or double |
+| `mouse_click_window` | Click at `(x, y)` **relative to a window's top-left**, after focusing it. Use this when you got coordinates from a window screenshot — global clicks miss when the window sits at non-zero (or negative) desktop coords. |
 | `mouse_drag` | Drag from `(x1,y1)` to `(x2,y2)` with held button — drag-and-drop |
+| `mouse_scroll` | Scroll the wheel by N clicks at `(x, y)` (negative = down). Optional `pid` focuses the right window first. |
+| `mouse_position` | Return the current cursor `{x, y}` |
 | `send_hotkey` | Send hotkeys, named keys, text, or sequences (`^t`, `F12`, plain text, `[{type, value}, ...]`); optionally focus a process by `pid` first |
 | `clipboard_get` / `clipboard_set` | Read / write the system clipboard |
 | `list_processes` | Enumerate processes (with optional name filter and "only with windows" mode) |
+| `window_list` | List visible top-level windows with `hwnd, pid, title, class, rect` (optional `filter` substring) |
+| `window_focus` | Bring a window to the foreground by `window_name` or `pid` |
+| `window_get_rect` | Return `hwnd/pid/title/class/rect` for a window matched by name. Use **before** clicking at known visual coords. |
+| `wait_for_window` | Poll until a window with the given title appears (replaces ad-hoc `delay` calls when launching apps or opening dialogs) |
 | `window_tree` | Dump window hierarchy `(hwnd, title, class)` for a `pid` |
 | `get_window_content` | Deep UI-Automation dump (control type, name, position, children) for a `pid` |
+| `find_element` | Find UI-Automation elements under a `pid` by `name` substring (and optional `control_type`); returns rect+center for each match |
+| `click_element` | Find an element by name + click its center (auto-focuses the process). One-shot wrapper for `find_element` + `mouse_click`. |
+| `screen_size` | Return primary monitor + virtual screen dimensions |
 
 Screenshots are returned as `{ "type": "image", "mimeType": "image/png", "data": "<base64>" }`
 content — the same shape used by `chrome-devtools-mcp` and module 107's image viewer.
@@ -103,7 +113,7 @@ A ready-to-copy file is at [tools/config/.vscode/mcp.json](config/.vscode/mcp.js
 After saving, VS Code shows an inline **Start | Stop | Restart | N tools**
 action bar above the JSON block. Click **Start**. Open the Output panel
 (View → Output → "Model Context Protocol") — you should see
-`Discovered 11 tools`.
+`Discovered 21 tools`.
 
 ### Cursor
 
@@ -136,7 +146,7 @@ In the IDE chat, switch to **Agent Mode** and ask:
 
 > List the tools provided by the `winapi-mcp` MCP server.
 
-You should see all 11 tools above. If you only see some, click the wrench icon
+You should see all 21 tools above. If you only see some, click the wrench icon
 in the chat input and enable the missing ones for `winapi-mcp`.
 
 ---
@@ -183,6 +193,33 @@ PNG as MCP image content — no manual attachment.
 >   {"type": "key",    "value": "ENTER"}
 > ]
 > ```
+
+### Click using window-relative coordinates (avoid the offset trap)
+
+When you read coordinates from a window screenshot, those are relative to the
+window — not to the desktop. If the window is positioned at e.g. `(-6, 0)`,
+a global `mouse_click x=163 y=583` lands in the wrong place. Use:
+
+> `mouse_click_window window_name="Firefox" x=163 y=583` — the server
+> resolves the window's rect, focuses it, and translates `(163, 583)` into
+> the correct absolute screen coordinates.
+
+### Scroll inside a specific window
+
+> `mouse_scroll x=560 y=400 clicks=-8 pid=16660` — focuses the process,
+> moves the cursor, then sends 8 wheel clicks down.
+
+### Wait for a window to appear (instead of arbitrary delays)
+
+> `wait_for_window window_name="Save As" timeout=5` — returns its
+> `hwnd/pid/rect` as soon as the dialog opens, or errors after 5 s.
+
+### Click a button by its accessible name
+
+> `click_element pid=16660 name="Settings" control_type="TabItem"` — finds
+> the matching UI Automation element, focuses the process, and clicks the
+> element's center. Skips the "compute pixel coordinates from a screenshot"
+> dance entirely when the target has a name.
 
 ---
 
