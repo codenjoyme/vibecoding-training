@@ -41,8 +41,8 @@ Every screenshot is also written to `scripts/output/` for later inspection.
 | `tools/scripts/run.ps1` | Entry point used by `mcp.json`; activates venv, launches `server.py` |
 | `tools/scripts/output/` | Screenshots saved by the screenshot tools (gitignored) |
 | `tools/scripts/test_client.py` | Optional smoke-test client — initializes, lists tools, takes a tiny screenshot, round-trips the clipboard |
-| `tools/.vscode/mcp.json` | VS Code config template (key: `servers`) |
-| `tools/.cursor/mcp.json` | Cursor config template (key: `mcpServers`) |
+| `tools/config/.vscode/mcp.json` | VS Code config template (key: `servers`) |
+| `tools/config/.cursor/mcp.json` | Cursor config template (key: `mcpServers`) |
 | `tools/.gitignore` | Keeps `.venv/`, `__pycache__/`, `output/` out of git |
 
 ---
@@ -98,7 +98,7 @@ Add this entry inside `.vscode/mcp.json` at the **workspace root**:
 }
 ```
 
-A ready-to-copy file is at [tools/.vscode/mcp.json](.vscode/mcp.json).
+A ready-to-copy file is at [tools/config/.vscode/mcp.json](config/.vscode/mcp.json).
 
 After saving, VS Code shows an inline **Start | Stop | Restart | N tools**
 action bar above the JSON block. Click **Start**. Open the Output panel
@@ -123,7 +123,7 @@ Add this entry inside `.cursor/mcp.json` at the workspace root:
 }
 ```
 
-A ready-to-copy file is at [tools/.cursor/mcp.json](.cursor/mcp.json).
+A ready-to-copy file is at [tools/config/.cursor/mcp.json](config/.cursor/mcp.json).
 
 Then: Command Palette → **Reload Window**. Settings → **MCP** — verify
 `winapi-mcp` is listed and its tools are toggled on.

@@ -20,8 +20,8 @@ See [module overview](about.md) for full prerequisites list.
 | `tools/scripts/server.py` | Single-file Python MCP server with 11 WinAPI tools |
 | `tools/scripts/install.ps1` | Bootstrap — creates `.venv/`, installs `mcp`, `mss`, `pywin32`, `pyautogui`, `pywinauto`, `pyperclip`, `psutil`, `Pillow` |
 | `tools/scripts/run.ps1` | Launcher invoked by the IDE; activates `.venv` and runs the server |
-| `tools/.vscode/mcp.json` | VS Code config template (root key `servers`) |
-| `tools/.cursor/mcp.json` | Cursor config template (root key `mcpServers`) |
+| `tools/config/.vscode/mcp.json` | VS Code config template (root key `servers`) |
+| `tools/config/.cursor/mcp.json` | Cursor config template (root key `mcpServers`) |
 | `tools/scripts/output/` | Folder where screenshots are saved (gitignored) |
 
 All Python artefacts (`.venv/`, `__pycache__/`) and the `output/` folder live
@@ -147,7 +147,7 @@ automatically — you just confirmed the server speaks the protocol.
    }
    ```
 
-   A complete file is at [tools/.vscode/mcp.json](tools/.vscode/mcp.json) —
+   A complete file is at [tools/config/.vscode/mcp.json](tools/config/.vscode/mcp.json) —
    copy it directly if you do not yet have a `.vscode/mcp.json`.
 
 ### 4.2 Start the Server from the Editor
@@ -175,7 +175,7 @@ View → Output → "Model Context Protocol" for the traceback).
 
 1. Create or open `.cursor/mcp.json` in your workspace root.
 1. Inside `"mcpServers": { ... }`, add the same `winapi-mcp` entry as above.
-   A complete file is at [tools/.cursor/mcp.json](tools/.cursor/mcp.json).
+   A complete file is at [tools/config/.cursor/mcp.json](tools/config/.cursor/mcp.json).
 1. Command Palette → **Reload Window**.
 1. Settings → search **MCP** → confirm `winapi-mcp` is listed and its tools
    are toggled on.
@@ -251,8 +251,8 @@ will do):
 1. **Why does VS Code use `servers` while Cursor uses `mcpServers`?**
    > Each IDE was built independently against draft versions of the MCP spec.
    > The payload shape is the same — only the parent key differs. Always
-   > consult both templates ([tools/.vscode/mcp.json](tools/.vscode/mcp.json),
-   > [tools/.cursor/mcp.json](tools/.cursor/mcp.json)) when porting a server
+   > consult both templates ([tools/config/.vscode/mcp.json](tools/config/.vscode/mcp.json),
+   > [tools/config/.cursor/mcp.json](tools/config/.cursor/mcp.json)) when porting a server
    > between IDEs.
 
 2. **Why is the screenshot returned as base64 instead of just a file path?**

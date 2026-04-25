@@ -132,7 +132,7 @@ session boot.
 
 Я запустил сервер. Отвечай мне лаконично тут что дальше
 
-![alt text](img/06-mcp-server-registered.png) 
+![alt text](../../modules/650-winapi/tools/img/06-mcp-server-registered.png) 
 
 Go
 
@@ -152,7 +152,7 @@ Go
 
 Вот я добавил тулы, они должны быть тебе видны.
 
-![alt text](img/07-tools-enabled.png)
+![alt text](../../modules/650-winapi/tools/img/07-tools-enabled.png)
 
 Go
 
@@ -170,24 +170,24 @@ Go
 **4. `send_hotkey pid=58504 key=ESC`** — безопасный no-op, единственная цель — побочный эффект `_focus_pid`. Хром поднялся на передний план.
 
 **5. `screenshot_window` → `01-chrome-google-loaded.png`** ✅
-   ![01](img/01-chrome-google-loaded.png)
+   ![01](../../modules/650-winapi/tools/img/01-chrome-google-loaded.png)
    Видно google.com на турецкой локали. UI чистый — никаких куки-баннеров, можно сразу в DevTools.
 
 **6. `send_hotkey pid=58504 hotkey="^+i"` → `02-devtools-elements.png`**
-   ![02](img/02-devtools-elements.png)
+   ![02](../../modules/650-winapi/tools/img/02-devtools-elements.png)
    DevTools открылись внизу окна, активная вкладка — Elements. Мне нужна Console.
 
 **7. `send_hotkey pid=58504 hotkey="^+j"`** → DevTools **закрылись** (Ctrl+Shift+J в уже открытом DevTools работает как toggle на этой версии Chrome). Бывает.
 
 **8. `send_hotkey pid=58504 hotkey="^+j"` повторно → `03-console-tab-ready.png`** ✅
-   ![03](img/03-console-tab-ready.png)
+   ![03](../../modules/650-winapi/tools/img/03-console-tab-ready.png)
    DevTools снова открыты, сразу на вкладке Console, курсор моргает — ввод направлен в консоль.
 
 **9. `clipboard_set text="(()=>{const c=document.createElement('canvas')..."`** (569 символов)
    Кладу в буфер однострочный IIFE: создаёт fixed-canvas поверх всего (z-index 2147483647, pointer-events:none — клики проходят насквозь), 200 снежинок, requestAnimationFrame-цикл. Один-единственный statement — Enter в консоли его выполнит как expression.
 
 **10. `send_hotkey sequence=[^v, delay 300, ENTER]` → `04-paste-protection-warning.png`**
-    ![04](img/04-paste-protection-warning.png)
+    ![04](../../modules/650-winapi/tools/img/04-paste-protection-warning.png)
     Сюрприз: Chrome теперь по умолчанию блокирует первую вставку в DevTools Console:
     > Don't paste code into the DevTools Console... Please type 'allow pasting' below and press Enter.
     Это защита от self-XSS. Она привязана к origin — на google.com её надо разблокировать один раз.
@@ -196,7 +196,7 @@ Go
     Печатаю фразу-разрешение, Enter. Видно её на скриншоте 05 над пастом — Chrome её принял молча.
 
 **12. `send_hotkey sequence=[^v, delay 400, ENTER]` → `05-snow-running.png`** ✅
-    ![05](img/05-snow-running.png)
+    ![05](../../modules/650-winapi/tools/img/05-snow-running.png)
     Сработало. В консоли видна вставленная строка кода, под ней `undefined` (IIFE ничего не возвращает — это ожидаемо). Поверх google.com сверху падают белые точки разного размера и скорости — снег идёт. UI Google под ним работает (logo, search box, кнопки) — `pointer-events:none` на canvas сделал своё дело.
 
 **Итог по инструментам:**
@@ -212,9 +212,9 @@ Go
 
 Я вот сделал еще пару скриншотов 
 
-![alt text](img/00-final-result.png) это покажи на старте, то что мы получим
-![alt text](img/07-tools-enabled.png)
-![alt text](img/06-mcp-server-registered.png)
+![alt text](../../modules/650-winapi/tools/img/00-final-result.png) это покажи на старте, то что мы получим
+![alt text](../../modules/650-winapi/tools/img/07-tools-enabled.png)
+![alt text](../../modules/650-winapi/tools/img/06-mcp-server-registered.png)
 
 Распознай их и давай сделаем по мотивам нашего эксперимента мануал для живого человека там, возле skill.md - просто `readme.md` файл с человекочитаемім тестом, что за чем надо сделать чтобы эта демка случилась. Я хочу, чтобы кто-то другой мог повторить её по инструкции, глядя на эти скриншоты как на ориентиры. Из риквеста скриншоты удаляй, когда перенесешь их, а тут в файле меняй ссылки на новое местоположение их. Go
 
@@ -229,9 +229,9 @@ Go
 Сделано:
 
 1. Перенёс скриншоты из `requests/650-winapi/` в `requests/650-winapi/img/` с осмысленными именами:
-   - `image-final.png` → [`img/00-final-result.png`](img/00-final-result.png) (стартовый "wow"-кадр)
-   - `image.png` → [`img/06-mcp-server-registered.png`](img/06-mcp-server-registered.png)
-   - `image-1.png` → [`img/07-tools-enabled.png`](img/07-tools-enabled.png)
+   - `image-final.png` → [`../../modules/650-winapi/tools/img/00-final-result.png`](../../modules/650-winapi/tools/img/00-final-result.png) (стартовый "wow"-кадр)
+   - `image.png` → [`../../modules/650-winapi/tools/img/06-mcp-server-registered.png`](../../modules/650-winapi/tools/img/06-mcp-server-registered.png)
+   - `image-1.png` → [`../../modules/650-winapi/tools/img/07-tools-enabled.png`](../../modules/650-winapi/tools/img/07-tools-enabled.png)
 2. Создал [`modules/650-winapi/tools/readme.md`](../../modules/650-winapi/tools/readme.md) — человекочитаемый мануал на русском (язык запроса). Структура:
    - **Что вы получите в финале** — превью со скриншотом `00-final-result.png`.
    - **Шаг 1 — Установка** — `install.ps1`, требования.
@@ -243,3 +243,24 @@ Go
    - **Куда дальше** — ссылки на [SKILL.md](../../modules/650-winapi/tools/SKILL.md), [walkthrough.md](../../modules/650-winapi/walkthrough.md), [server.py](../../modules/650-winapi/tools/scripts/server.py).
 3. Обновил все ссылки в этом файле (`main.prompt.md`): UPD3 → `img/06-...`, UPD4 → `img/07-...`, UPD5 → новые имена. Оригиналы из корня `requests/650-winapi/` удалены (через `Move-Item`).
 4. Разделение ролей файлов: [SKILL.md](../../modules/650-winapi/tools/SKILL.md) остался AI-ориентированным (cheat-sheet тулов, JSON Schema, troubleshooting), а новый [readme.md](../../modules/650-winapi/tools/readme.md) — для человека, повторяющего демо по шагам со скриншотами как ориентирами.
+
+## UPD6
+
+Давай рисунки переместим рядом с [`modules/650-winapi/tools/readme.md`](../../modules/650-winapi/tools/readme.md) там создай папку `img` но перемести. И тут обнови все ссылки на них. 
+
+Дальше `.cursor` и `.vscode` перемести через терминал в папку ``modules/650-winapi/tools/config/`. И обнови ссылки на `walkthrough.md`, `SKILL.md` и `readme.md` на новые пути. Go
+
+### RESULT
+
+Сделано:
+
+1. **Скриншоты переехали** из `requests/650-winapi/img/` в [`modules/650-winapi/tools/img/`](../../modules/650-winapi/tools/img/). Папка `requests/650-winapi/img/` удалена. Все 8 PNG (00..07) теперь лежат рядом с `readme.md`.
+2. **Конфиги переехали** через `Move-Item`:
+   - `modules/650-winapi/tools/.vscode/` → [`modules/650-winapi/tools/config/.vscode/`](../../modules/650-winapi/tools/config/.vscode/mcp.json)
+   - `modules/650-winapi/tools/.cursor/` → [`modules/650-winapi/tools/config/.cursor/`](../../modules/650-winapi/tools/config/.cursor/mcp.json)
+3. **Ссылки обновлены:**
+   - [`readme.md`](../../modules/650-winapi/tools/readme.md): все 8 `<img>` ссылок переведены с `../../../requests/650-winapi/img/...` на локальные `img/...`. В Шаге 2 добавлено упоминание готовых шаблонов в [`config/.vscode/mcp.json`](../../modules/650-winapi/tools/config/.vscode/mcp.json) и [`config/.cursor/mcp.json`](../../modules/650-winapi/tools/config/.cursor/mcp.json).
+   - [`SKILL.md`](../../modules/650-winapi/tools/SKILL.md): таблица `Files in This Skill` и оба блока *"A ready-to-copy file is at..."* теперь указывают на `tools/config/.vscode/mcp.json` и `tools/config/.cursor/mcp.json`.
+   - [`walkthrough.md`](../../modules/650-winapi/walkthrough.md): таблица обзорa, "complete file" ссылки в Part 4 (VS Code) и Part 5 (Cursor), а также "consult both templates" в финале — все на `tools/config/.vscode/mcp.json` / `tools/config/.cursor/mcp.json`.
+   - `main.prompt.md` (этот файл): UPD3, UPD4, UPD5 — все image-ссылки переведены на `../../modules/650-winapi/tools/img/...`.
+4. `.gitignore` тулов уже не упоминает явные пути к конфигам — структура переезда не сломала ignore.
