@@ -127,3 +127,8 @@ A sub-agent would inherit the same fixed tool list (it spawns from the parent
 session), so it would not see `winapi-mcp` either. The only path is a fresh
 Agent Mode chat after the server is started — the IDE's MCP discovery runs at
 session boot.
+
+## UPD3
+
+Я запустил сервер. Отвечай мне лаконично тут что дальше
+![alt text](image.png) Go
