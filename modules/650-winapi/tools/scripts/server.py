@@ -1200,6 +1200,11 @@ TOOLS: dict[str, dict] = {
         "handler": _tool_mouse_scroll,
         "description": (
             "Scroll the mouse wheel by N clicks. Negative clicks scroll DOWN, positive UP. "
+            "WARNING: 'clicks' here are pyautogui raw wheel-delta units, NOT real mouse-wheel "
+            "notches. One physical wheel notch is ~120 of these units, so values like -3 or -15 "
+            "are typically a 'drop in the ocean' and produce only a few pixels of scroll (or none "
+            "in apps with smooth/inertial scrolling like Azure portal, Office, Teams). For a "
+            "noticeable scroll use magnitudes of -100..-300; for a full page use ~-500..-800. "
             "If x/y are provided, the cursor moves there first. If pid is provided, the "
             "process's main window is focused first (so the scroll lands in the right window)."
         ),
@@ -1207,7 +1212,12 @@ TOOLS: dict[str, dict] = {
             "type": "object",
             "properties": {
                 "clicks": {"type": "integer", "default": -3,
-                           "description": "Negative scrolls down, positive scrolls up."},
+                           "description": (
+                               "Raw wheel-delta units (NOT real wheel notches). Negative "
+                               "scrolls down, positive up. One physical wheel notch ~= 120 "
+                               "units. Use -100..-300 for a meaningful scroll, -500..-800 "
+                               "for ~one screen. Small values like -3 or -15 often do nothing."
+                           )},
                 "x": {"type": "integer"}, "y": {"type": "integer"},
                 "pid": {"type": "integer"},
             },
