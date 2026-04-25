@@ -131,7 +131,10 @@ session boot.
 ## UPD3
 
 Я запустил сервер. Отвечай мне лаконично тут что дальше
-![alt text](image.png) Go
+
+![alt text](image.png) 
+
+Go
 
 ### RESULT
 
@@ -144,3 +147,73 @@ session boot.
 3. Тот новый чат будет видеть все 11 тулов и сможет реально кликать/скриншотить/вставлять JS, дописывая свои размышления сюда же — в этот файл.
 
 Я остаюсь в polling-loop здесь — пиши `## UPD4` если нужно что-то ещё со стороны кода/конфига.
+
+## UPD4
+
+Вот я добавил тулы, они должны быть тебе видны.
+
+![alt text](image-1.png)
+
+Go
+
+### RESULT
+
+Тулы видны — VS Code докинул их в этот чат после того как ты нажал "Always Allow". Прогнал демо до конца — снег падает на google.com.
+
+**1. `list_processes filter=chrome only_with_windows=true` → `[]`**
+   Хром не запущен. Стартую его через PowerShell сразу с целевым URL: `Start-Process chrome "https://www.google.com"` — экономлю один шаг (не нужно потом фокусить адресную строку и печатать URL).
+
+**2. `list_processes` повторно → `pid=58504`** (chrome.exe). Беру именно его — `only_with_windows=true` отсёк дочерние chrome-процессы (рендереры, GPU), у них нет main window.
+
+**3. `screenshot_window window_name="Google Chrome"`** — первая попытка вернула картинку VS Code (!). Окно Chrome нашлось (`hwnd=3870698`, `rect=(9,10,977,710)`), но в этой области экрана сверху лежал VS Code с диалогом "Allow Tools". `screenshot_window` снимает пиксели экрана в bbox окна, а не bitmap самого окна — если окно перекрыто, получишь то, что сверху. **Урок**: перед `screenshot_window` надо принудительно поднять окно на передний план. У `send_hotkey` с параметром `pid` это делает `_focus_pid()` (`win.set_focus()` + `win.restore()`), поэтому...
+
+**4. `send_hotkey pid=58504 key=ESC`** — безопасный no-op, единственная цель — побочный эффект `_focus_pid`. Хром поднялся на передний план.
+
+**5. `screenshot_window` → `01-chrome-google-loaded.png`** ✅
+   ![01](img/01-chrome-google-loaded.png)
+   Видно google.com на турецкой локали. UI чистый — никаких куки-баннеров, можно сразу в DevTools.
+
+**6. `send_hotkey pid=58504 hotkey="^+i"` → `02-devtools-elements.png`**
+   ![02](img/02-devtools-elements.png)
+   DevTools открылись внизу окна, активная вкладка — Elements. Мне нужна Console.
+
+**7. `send_hotkey pid=58504 hotkey="^+j"`** → DevTools **закрылись** (Ctrl+Shift+J в уже открытом DevTools работает как toggle на этой версии Chrome). Бывает.
+
+**8. `send_hotkey pid=58504 hotkey="^+j"` повторно → `03-console-tab-ready.png`** ✅
+   ![03](img/03-console-tab-ready.png)
+   DevTools снова открыты, сразу на вкладке Console, курсор моргает — ввод направлен в консоль.
+
+**9. `clipboard_set text="(()=>{const c=document.createElement('canvas')..."`** (569 символов)
+   Кладу в буфер однострочный IIFE: создаёт fixed-canvas поверх всего (z-index 2147483647, pointer-events:none — клики проходят насквозь), 200 снежинок, requestAnimationFrame-цикл. Один-единственный statement — Enter в консоли его выполнит как expression.
+
+**10. `send_hotkey sequence=[^v, delay 300, ENTER]` → `04-paste-protection-warning.png`**
+    ![04](img/04-paste-protection-warning.png)
+    Сюрприз: Chrome теперь по умолчанию блокирует первую вставку в DevTools Console:
+    > Don't paste code into the DevTools Console... Please type 'allow pasting' below and press Enter.
+    Это защита от self-XSS. Она привязана к origin — на google.com её надо разблокировать один раз.
+
+**11. `send_hotkey sequence=[text "allow pasting", delay 200, ENTER]`**
+    Печатаю фразу-разрешение, Enter. Видно её на скриншоте 05 над пастом — Chrome её принял молча.
+
+**12. `send_hotkey sequence=[^v, delay 400, ENTER]` → `05-snow-running.png`** ✅
+    ![05](img/05-snow-running.png)
+    Сработало. В консоли видна вставленная строка кода, под ней `undefined` (IIFE ничего не возвращает — это ожидаемо). Поверх google.com сверху падают белые точки разного размера и скорости — снег идёт. UI Google под ним работает (logo, search box, кнопки) — `pointer-events:none` на canvas сделал своё дело.
+
+**Итог по инструментам:**
+
+- `screenshot_window` снимает экранный bbox, а не bitmap окна → перед каждым важным скриншотом надо фокусить целевое окно (`send_hotkey pid=...` — самый простой способ).
+- `send_hotkey` с `pid` стабильнее любого глобального хоткея: `_focus_pid` гарантирует что хоткей ушёл именно в нужное окно.
+- `clipboard_set` + `^v` хорошо работает для длинных payload-ов, но в Chrome DevTools требуется первичное `allow pasting` per-origin.
+- `sequence` с `delay` решает проблему "Enter пришёл раньше чем вставился текст".
+
+Картинки лежат в [requests/650-winapi/img/](img/), оригиналы PNG также сохранены сервером в [modules/650-winapi/tools/scripts/output/](../../modules/650-winapi/tools/scripts/output/).
+
+## UPD5
+
+Я вот сделал еще пару скриншотов 
+
+![alt text](image-final.png) это покажи на старте, то что мы получим
+![alt text](image-1.png)
+![alt text](image.png)
+
+Распознай их и давай сделаем по мотивам нашего эксперимента мануал для живого человека там, возле skill.md - просто `readme.md` файл с человекочитаемім тестом, что за чем надо сделать чтобы эта демка случилась. Я хочу, чтобы кто-то другой мог повторить её по инструкции, глядя на эти скриншоты как на ориентиры. Из риквеста скриншоты удаляй, когда перенесешь их, а тут в файле меняй ссылки на новое местоположение их. 
