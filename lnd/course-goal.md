@@ -1,19 +1,28 @@
-# Course Goal and Learning Outcomes
+# Vibe Coding for Managers — About This Course
 
-## Goal
+## Overview
 
-This course equips managers and non-engineering professionals with the
-practical fluency, judgement, and tooling to thrive in a world where GenAI
-is embedded into every layer of software work. By the end of the course
-participants are not only able to vibe-code their own prototypes — they
-also understand how the modern GenAI ecosystem operates, can intelligently
-guide and support the engineers on their teams who are using these tools
-day-to-day, can prototype managerial and analytical instruments themselves
-without pulling engineering capacity, and can speak about and sell GenAI
-solutions to clients with credibility grounded in hands-on experience.
+AI is already part of everyday work: drafting texts, summarising information,
+brainstorming ideas. But when it comes to **real work artefacts** — files,
+scripts, automations, integrations — many managers still rely heavily on
+others or avoid AI altogether due to a lack of confidence and control.
 
-The course deliberately blends three layers that are usually taught
-separately:
+Have you ever felt that:
+
+- AI could help you more, but results feel unpredictable?
+- Turning an idea into a working solution takes too many explanation cycles?
+- You are unsure how to safely use AI for technical tasks without breaking
+  things?
+
+If this sounds familiar — welcome to this course.
+
+**Vibe Coding for Managers** introduces a practical and structured way of
+working with AI inside professional tools. You will learn how to collaborate
+with AI in an IDE, delegate technical execution to an AI agent, and stay
+fully in control of outcomes, quality, and safety — without becoming a
+developer.
+
+The course deliberately blends three layers that are usually taught separately:
 
 1. **Hands-on practitioner skills** — using AI assistants inside an IDE,
    prompting, version control, debugging AI output, building reusable
@@ -23,8 +32,25 @@ separately:
    how MCP servers extend an agent, what the cost trade-offs are.
 3. **Managerial and commercial leverage** — how to support engineers
    adopting these tools, how to evaluate AI output quality, how to set
-   team conventions via shared instructions, how to position GenAI work
-   honestly to clients.
+   team conventions via shared instructions, and how to position and sell
+   GenAI work credibly to clients.
+
+---
+
+## Audience
+
+This course is designed for:
+
+- Delivery Managers
+- Project Managers
+- Engineering Managers
+- Product-oriented leaders
+- Managers working closely with technical teams
+
+No programming background is required. The course is suitable for
+participants with little or no coding experience.
+
+---
 
 ## Learning Outcomes
 

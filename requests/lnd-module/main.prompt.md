@@ -578,4 +578,9 @@ Move from an idea to a working prototype using a structured, AI‑assisted appro
 ## UPD12
 
 Смотри я обновил текст в ## UPD11
-Нам надо в подобной структуре с тем что тЫ описал в [text](../../lnd/output/course-goal.md) и перемести его на уровень выше. Go
+Нам надо в подобной структуре с тем что тЫ описал в [lnd/output/course-goal.md](../../lnd/output/course-goal.md) и перемести его на уровень выше. Go
+
+### RESULT
+
+- Перемещен [lnd/output/course-goal.md](../../lnd/output/course-goal.md) → [lnd/course-goal.md](../../lnd/course-goal.md) (уровень выше).
+- Файл расширен: добавлены **Overview** (intro-hook из обновлённого UPD11 с "AI is already part of everyday work…" + описание трёх слоёв курса) и **Audience** (Delivery/Project/Engineering Managers, Product-oriented leaders, no coding background required). Раздел Learning Outcomes с 4-layer структурой сохранён без изменений.
