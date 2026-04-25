@@ -163,14 +163,6 @@ iterative-prompt.agent
 ### RESULT
 
 - Modified [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) — добавлен шаг 2 в секцию "After implementing each update": перед написанием `### RESULT` агент обязан найти в тексте `## UPD[N]` все пути к файлам (plain text и backtick) и конвертировать их в кликабельные markdown-ссылки in-place, не трогая остальной текст.
-## UPD10
-
-Слушай, ты сделал интересный loop механизм, который позволяет тебе не запускать много раз одно и то же. Там у тебя что-то с хешами. Но доработай его так, чтобы он когда изменение задетектено печатало для модельки аутпут. Короче я ж могу несколько UPD делать и для тех кто уже Свое go получил, для них можно отлачиваться. Давай отразим это в iterative промпт инструкции, как команду. И такую же надо для linux. При єтом оставь старый механизм как бекап, если этот не получится. Отчитайся по єтой работе вместе с єтим запросом вот [requests/iterative-prompt/main.prompt.md](../iterative-prompt/main.prompt.md) тут вместе с єтим запросом. Потом закоммити. И иди к следующему ниже. Go
-
-### RESULT
-
-- Modified [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) — добавлен **Step H — Wake-on-change watcher** после Step G. Это длительная команда (PowerShell для Windows + bash для Linux/macOS), которая внутри себя делает sleep+hash в цикле до 120 минут и возвращает управление агенту только когда файл реально изменился (печатает `CHANGED after N min`) или когда исчерпан бюджет. Описано: запуск через `run_in_terminal` в sync-режиме с большим timeout, обработка возврата (несколько UPD с `go` обрабатываются за одно пробуждение), fallback на старый Steps A–F цикл если watcher не сработает на хосте.
-- Запрос пришёл из [requests/650-winapi/main.prompt.md UPD9](../650-winapi/main.prompt.md) — продублирован сюда полностью по инструкции пользователя.
 
 ## UPD10
 
