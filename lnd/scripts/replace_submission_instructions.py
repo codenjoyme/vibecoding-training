@@ -18,7 +18,7 @@ from pathlib import Path
 OUTPUT_DIR = Path(__file__).resolve().parent.parent / "output"
 
 # Match the email submission step (numbered item N) and its two sub-bullets:
-#   N. Send [it/them/to]: `Oleksandr_Baglai@epam.com`
+#   N. Send [it/them/to]: `Name_Surname@example.com`
 #      - Subject line: `Module XX ...`
 #      - Attach/Paste/Include ...
 EMAIL_BLOCK_RE = re.compile(

@@ -251,7 +251,7 @@ DOCX перегенерирован: [lnd/output/all-modules.docx](../../lnd/out
 заменить на то, что вы сабмитите задание не на почту, а на *autocheck* решение, которое мы доделаем параллельно. СТруктура останется но 
 ```
 1. Locate the specification file you created and committed to your repository during Page 4.
-2. Send it to: `Oleksandr_Baglai@epam.com` - тут написать что надо отправить на автоматическую проверку без указания названия модуля.
+2. Send it to: `Name_Surname@example.com` - тут написать что надо отправить на автоматическую проверку без указания названия модуля.
    - Subject line: `Module 08 — Specification Submission`
    - Attach the specification file directly, or paste its contents in the email body.
 3. The reviewer will check that your specification: - тут надо написать, что проверка будет сделана автоматом.
@@ -264,7 +264,7 @@ Go
 
 ### RESULT
 
-- Создан скрипт [lnd/replace_submission_instructions.py](../../lnd/replace_submission_instructions.py): идемпотентная замена email-блока сабмишена на autocheck-блок во всех `module-*.md`. Регексп ловит строку "Send to: `Oleksandr_Baglai@epam.com`" + следующий за ней саб-буллет "Subject line: …" + саб-буллет "Attach/Paste/Include …" и заменяет всё на одну строку: «Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).»
+- Создан скрипт [lnd/replace_submission_instructions.py](../../lnd/replace_submission_instructions.py): идемпотентная замена email-блока сабмишена на autocheck-блок во всех `module-*.md`. Регексп ловит строку "Send to: `Name_Surname@example.com`" + следующий за ней саб-буллет "Subject line: …" + саб-буллет "Attach/Paste/Include …" и заменяет всё на одну строку: «Submit it to the `autocheck` system (the submission endpoint is being set up in parallel; instructions for accessing it will be shared once it is available).»
 - Также автоматически переписаны два других места:
   + `**Submit your X for review:**` → `**Submit your X for automated check:**`
   + `The reviewer will check` → `The autocheck system will check`

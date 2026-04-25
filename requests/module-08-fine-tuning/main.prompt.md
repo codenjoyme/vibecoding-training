@@ -30,11 +30,11 @@ Why this works:
 ```
 [MG]: Вот уже начиная отсюда, где студент начинает генерить какие-то файлы по инструкциям, предлагаю переходить от квизов к практическим задачам, формата "загрузите файл такой-то в аудитора, он должен соответствовать критериям таким-то".
 ```
-Надо сделать блок практического задания после квиза, где предложить студенту засабмитать полученный файл specification к нам. Давайте пока укажем `Oleksandr_Baglai@epam.com` в качестве получателя. Квиз оставь. Комментарий ревьюера удаляй. go
+Надо сделать блок практического задания после квиза, где предложить студенту засабмитать полученный файл specification к нам. Давайте пока укажем `Name_Surname@example.com` в качестве получателя. Квиз оставь. Комментарий ревьюера удаляй. go
 
 ### RESULT
 
-- `lnd/output/module-08-clarifying-requirements.md` — removed the `[MG]:` reviewer comment between Summary and Quiz; added `## Practical Task` section after the Quiz with instructions to email the specification to `Oleksandr_Baglai@epam.com`, including subject line and review criteria.
+- `lnd/output/module-08-clarifying-requirements.md` — removed the `[MG]:` reviewer comment between Summary and Quiz; added `## Practical Task` section after the Quiz with instructions to email the specification to `Name_Surname@example.com`, including subject line and review criteria.
 
 ## UPD4
 

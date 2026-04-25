@@ -12,7 +12,7 @@ iterative-prompt.agent.md
 - Created `modules/900-course-feedback-and-completion/walkthrough.md` — 4-part walkthrough: reflect on journey, fill structured feedback template, send via email (4 options: mailto link, PowerShell, Python, AI agent), celebrate completion
 - Updated `training-plan.md` — added module 900 as the last entry in the module sequence
 - Feedback template covers: overall impression, most/least valuable modules, difficulty, missing topics, format, AI proficiency delta, team rollout, open comments
-- Email targets: `apofig@gmail.com` (primary), `oleksandr_baglai@epam.com` (alternative)
+- Email targets: `Name_Surname@example.com` (primary), `Name_Surname@example.com` (alternative)
 
 ## UPD2
 
