@@ -505,26 +505,66 @@ Move from an idea to a working prototype using a structured, AI-assisted approac
   4. **Commercial outcomes (selling GenAI)** — продавать GenAI клиентам с реальным hands-on бэкграундом, scope/deliverables/success-criteria для GenAI engagements, live prototyping вместо slideware.
 - Запрос пришёл из [requests/650-winapi/main.prompt.md UPD10](../650-winapi/main.prompt.md), продублирован сюда полностью по инструкции пользователя.
 
-## UPD11
+## UPD11 
 
-Дальше надо вот что сделать для LND. В контексте вот этого упражнения мне написали текст что:
+Дальше надо вот что сделать для LND. В контекстее вот этого упражнгения 
 
-`
-The goal of this course is to help managers work effectively with AI in technical environments and safely turn ideas into working results.
+Мне написали текст что 
+```
+AI is already part of everyday work - drafting texts, summarizing information, brainstorming ideas. 
+But when it comes to real work artifacts such as files, scripts, automations, or integrations, many managers still rely heavily on others or avoid AI altogether due to lack of confidence and control. 
+Have you ever felt that: 
 
-Upon completion of this course, you should be able to:
+AI could help you more, but results feel unpredictable? 
 
-Work confidently with AI assistants inside an IDE without a developer background
-Translate business or managerial intent into clear, structured instructions for AI agents
-Apply safety mechanisms (version control and incremental changes) to protect and recover work
-Control AI output quality by defining constraints, structure, and instructions
-Identify and correct common AI failure patterns such as hallucinations and unintended changes
-Reuse effective AI solutions through instructions instead of repeating prompts
-Automate typical managerial workflows such as reports, analytics, and integrations
-Move from an idea to a working prototype using a structured, AI-assisted approach
-`
+turning an idea into a working solution takes too many explanation cycles? 
 
-Но я думаю что цель тренинга, который мы делаем для LND ([lnd/output](../../lnd/output)), намного шире. Давай перепишем эту цель, чтобы она включала в себя все, что мы делаем тут. Менеджеры не только вайбкодить научатся, но они еще и смогут понять как лучше поддержать своих инженеров на этом пути, и как вообще работает genAI мир, смогут запрототипировать свои инструменты сами не привлекая инженеров, смогут продавать лучше GenAI клиентам. Скопируй этот запрос в итеративный промпт lnd риквеста и там отчитайся. Go
+you are unsure how to safely use AI for technical tasks without breaking things? 
+
+If this sounds familiar - welcome to this course. 
+Vibe Coding for Managers introduces a practical and structured way of working with AI inside professional tools. You will learn how to collaborate with AI in an IDE, delegate technical execution to an AI agent, and stay fully in control of outcomes, quality, and safety - without becoming a developer. 
+This course focuses on real managerial use cases and hands‑on practice, helping you turn AI from an experiment into a reliable working partner. 
+
+Audience: 
+This course is designed for: 
+
+Delivery Managers 
+
+Project Managers 
+
+Engineering Managers 
+
+Product‑oriented leaders 
+
+Managers working closely with technical teams 
+
+No programming background is required. The course is suitable for participants with little or no coding experience. 
+ 
+ 
+
+Learning objectives: 
+
+The goal of this course is to help managers work effectively with AI in technical environments and safely turn ideas into working results. 
+
+Upon completion of this course, you should be able to: 
+
+Work confidently with AI assistants inside an IDE without a developer background 
+
+Translate business or managerial intent into clear, structured instructions for AI agents 
+
+Apply safety mechanisms (version control and incremental changes) to protect and recover work 
+
+Control AI output quality by defining constraints, structure, and instructions 
+
+Identify and correct common AI failure patterns such as hallucinations and unintended changes 
+
+Reuse effective AI solutions through instructions instead of repeating prompts 
+
+Automate typical managerial workflows such as reports, analytics, and integrations 
+
+Move from an idea to a working prototype using a structured, AI‑assisted approach 
+```
+Но я думаю что цель тренинга колторый мы делаем для LND [text](../../lnd/output) намного шире. Давай перепишем эту цель, чтобы она включала в себя все, что мы делаем тут. Менеджеры не только вайбкодить научатся, но они еще и смогут понять как лучше поддержать своих инденеров на этом пути, и как вообще работает genAI мир, смогут запрототипиролвать свои инстурменті сами не привлекая инженеров, смогут продавать лучше GenAI клиентам. Скопируй єтот запрос в итеративный промпт lnd риквеста и там отчитайся. Go
 
 ### RESULT
 
@@ -534,3 +574,8 @@ Move from an idea to a working prototype using a structured, AI-assisted approac
   3. **Leverage-multiplier outcomes (manager-as-enabler)** — коучинг инженеров, командные конвенции через shared instructions, автоматизация менеджерских workflow, rapid POC через Spec Kit / MCP / browser automation, критическая оценка вендоров.
   4. **Commercial outcomes (selling GenAI)** — продавать GenAI клиентам с реальным hands-on бэкграундом, scope/deliverables/success-criteria для GenAI engagements, live prototyping вместо slideware.
 - Запрос пришёл из [requests/650-winapi/main.prompt.md UPD10](../650-winapi/main.prompt.md), продублирован сюда полностью по инструкции пользователя.
+
+## UPD12
+
+Смотри я обновил текст в ## UPD11
+Нам надо в подобной структуре с тем что тЫ описал в [text](../../lnd/output/course-goal.md) и перемести его на уровень выше. Go
