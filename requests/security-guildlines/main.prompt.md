@@ -259,3 +259,39 @@ Clear-Content $env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_h
 - cross-references на три файла этой папки
 
 Эта инструкция теперь подгружается через `main.agent.md` в каждой сессии и работает как enforcement-counterpart к system-prompt safety rules (которые, как показал инцидент в начале расследования, advisory at best).
+
+## UPD5
+
+Сделал 
+```
+> git reflog expire --expire=now --all
+> git gc --prune=now --aggressive    
+Enumerating objects: 5404, done.
+Counting objects: 100% (5404/5404), done.
+Delta compression using up to 16 threads
+Compressing objects: 100% (5207/5207), done.
+Writing objects: 100% (5404/5404), done.
+Total 5404 (delta 3232), reused 0 (delta 0), pack-reused 0 (from 0)
+Removing duplicate objects: 100% (256/256), done. 
+```
+Что-то еще? 
+
+Давай с нашей новой инструкцией по безопасности пройдемся по всем файлам проекта. Прям вот все что есть, смотри и изучай и создай файл отчета отдельный в котором скидывай какой файл, что править. Только на русском его веди. Его коммитить конечно же не будем. Но тут отчет кратенько создай. Go
+
+### RESULT
+
+#### Что-то ещё после `reflog expire` + `gc --prune=now --aggressive`?
+
+Проверил — git чист:
+
+- `git fsck --unreachable` показывает 8 unreachable blob-ов (артефакты gc), но среди них **литерала ключа нет** (проверял по 32-hex needle).
+- `git rev-list --all --reflog | foreach { git show $_ }` — литерал не встречается ни в одном reachable объекте.
+- При `git push` уйдут только новые коммиты (`<feat-security-guidelines>`, `<remove-duplicate>`); leak-touching commits больше не существуют как объекты, на которые можно сослаться.
+
+В git больше делать нечего. Что **остаётся** вне git — IDE workspaceStorage, Win+V, PSReadLine, OneDrive sync — описано в UPD3. Поскольку ключи ротированы, это уже cleanup, не remediation.
+
+#### Аудит проекта по новой инструкции
+
+Отчёт: [`work/security-audit-report.md`](../../work/security-audit-report.md) (gitignored — см. `.gitignore:5`, в коммит не уйдёт).
+
+Метрики: 402 tracked-файла просканированы, 11 regex-паттернов (5 token-shapes + 3 PII + 3 hygiene). Полный список с file:line, описанием «что не так» и «что править» — в [`work/security-audit-report.md`](../../work/security-audit-report.md).
