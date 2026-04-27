@@ -133,7 +133,7 @@ We'll configure a Remote MCP server in Elitea that connects to GitHub API using 
 
 1. Open your browser and navigate to https://next.elitea.ai/
 
-1. Login with your EPAM credentials
+1. Login with your corporate credentials
 
 1. In the left sidebar, click on "MCPs" section
 
@@ -616,4 +616,4 @@ Proceed to **[Module 170: DIAL API Key CURL Access](../170-dial-api-key-curl-acc
 
 ---
 
-**Note**: This module requires an active EPAM employee account with Elitea platform access. The GitHub example requires a GitHub account with a Personal Access Token. The Atlassian example requires access to an Atlassian Cloud site.
+**Note**: This module requires an active corporate employee account with Elitea platform access. The GitHub example requires a GitHub account with a Personal Access Token. The Atlassian example requires access to an Atlassian Cloud site.

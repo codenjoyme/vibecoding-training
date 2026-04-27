@@ -1263,13 +1263,13 @@ docker compose build app
 docker compose run --rm app python download_transcript.py --list-recent --days 14
 ```
 
-Билд прошёл (`620-task-app:latest`). Запуск списка транскриптов упал на consent — Azure показал экран **"Need admin approval"** для `teams-ai-assistant-baglai`. См. UPD35.
+Билд прошёл (`620-task-app:latest`). Запуск списка транскриптов упал на consent — Azure показал экран **"Need admin approval"** для `teams-ai-assistant-<name>`. См. UPD35.
 
 **Не сделано:** ❗ Никаких git commit / push.
 
 ## UPD35
 
-Вот что: *(прикрепил скрин Azure-диалога "Need admin approval" для `teams-ai-assistant-baglai` — текст: «teams-ai-assistant-baglai needs permission to access resources in your organization that only an admin can grant. Please ask an admin to grant permission to this app before you can use it.». Скрин в чате, не файлом.)*
+Вот что: *(прикрепил скрин Azure-диалога "Need admin approval" для `teams-ai-assistant-<name>` — текст: «teams-ai-assistant-<name> needs permission to access resources in your organization that only an admin can grant. Please ask an admin to grant permission to this app before you can use it.». Скрин в чате, не файлом.)*
 
 go
 
@@ -1293,7 +1293,7 @@ go
 
 **Что сделать (по аналогии с Part 2 walkthrough):**
 
-1. Azure Portal → App registrations → **teams-ai-assistant-baglai** → **API permissions**.
+1. Azure Portal → App registrations → **teams-ai-assistant-<name>** → **API permissions**.
 2. **+ Add a permission** → Microsoft Graph → **Delegated permissions**.
 3. Добавь две:
    - `OnlineMeetings.Read`

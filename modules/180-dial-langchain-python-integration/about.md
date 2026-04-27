@@ -2,7 +2,7 @@
 
 **Duration:** 7-10 minutes
 
-**Skill:** Set up Python virtual environment, install langchain framework, and build a working AI application that connects to EPAM AI DIAL programmatically.
+**Skill:** Set up Python virtual environment, install langchain framework, and build a working AI application that connects to DIAL programmatically.
 
 **👉 [Start hands-on walkthrough](walkthrough.md)**
 
@@ -17,7 +17,7 @@
 
 ## Learning Outcome
 
-You will create a fully functional Python application with isolated virtual environment, install all necessary dependencies, configure DIAL credentials securely, and execute a working script that queries EPAM AI models through langchain framework. Your script will demonstrate proper project structure for AI application development.
+You will create a fully functional Python application with isolated virtual environment, install all necessary dependencies, configure DIAL credentials securely, and execute a working script that queries Corporate AI models through langchain framework. Your script will demonstrate proper project structure for AI application development.
 
 ## Prerequisites
 
@@ -27,7 +27,7 @@ You will create a fully functional Python application with isolated virtual envi
 
 ### Required Skills & Tools
 
-- Valid DIAL API key obtained from EPAM support
+- Valid DIAL API key obtained from support
 - Python 3.10+ installed on your system
 - Basic understanding of command line operations
 - Text editor or IDE (VS Code recommended)

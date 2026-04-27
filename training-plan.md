@@ -82,7 +82,7 @@ After completing all modules, participants will build a complete application tha
 1. [Bulk File Processing with AI](modules/160-bulk-file-processing-with-ai/about.md) - Process multiple files efficiently with AI agent automation
 1. [Elitea Platform MCP Integration](modules/165-elitea-platform-mcp-integration/about.md) - Connect to Elitea platform and manage AI agents through MCP from VS Code
 1. [Elitea Remote MCP — HTTP Integration](modules/168-elitea-remote-mcp-http-integration/about.md) - Configure Remote MCP servers on Elitea to connect cloud services (GitHub, Atlassian) via HTTP without local installation
-1. [DIAL API Key and cURL Access](modules/170-dial-api-key-curl-access/about.md) - Get EPAM AI DIAL API key and test with cURL requests
+1. [DIAL API Key and cURL Access](modules/170-dial-api-key-curl-access/about.md) - Get DIAL API key and test with cURL requests
 1. [DIAL Integration with Python and Langchain](modules/180-dial-langchain-python-integration/about.md) - Build AI applications with Python, langchain, and virtual environments
 1. [Prompt Templates for Dynamic Queries](modules/185-prompt-templates-dynamic-queries/about.md) - Create reusable parameterized prompts for scalable AI applications
 1. [Structured Output & JSON Mode](modules/187-structured-output-json-mode/about.md) - Get reliable JSON from any LLM using Pydantic schemas and Langchain output parsers

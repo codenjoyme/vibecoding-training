@@ -2,9 +2,9 @@
 
 In this walkthrough, you'll install Visual Studio Code, set up GitHub Copilot, and create your first AI-assisted coding workspace.
 
-## ⚠️ Important Note for EPAM Employees
+## ⚠️ Important Note for Corporate Employees
 
-**If you are an EPAM employee**, please use **Part 2.2** below for GitHub Copilot subscription. All other users should follow **Part 2.1**.
+**If you are an corporate employee**, please use **Part 2.2** below for GitHub Copilot subscription. All other users should follow **Part 2.1**.
 
 ---
 
@@ -51,11 +51,11 @@ See [module overview](about.md) for full prerequisites list.
 
 1. Verify that Copilot is enabled in your account settings
 
-### Part 2.2: Request GitHub Copilot License (EPAM Employees)
+### Part 2.2: Request GitHub Copilot License (Corporate Employees)
 
-**For EPAM employees only:**
+**For corporate employees only:**
 
-1. Open your browser and navigate to the EPAM Support portal:
+1. Open your browser and navigate to the `Support portal`:
    - [https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses](https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses)
 
 1. In the Software Licenses request form, select **GitHub Copilot** from the available options
@@ -79,18 +79,18 @@ See [module overview](about.md) for full prerequisites list.
 
 1. Once approved, you'll receive instructions on how to activate your GitHub Copilot license
 
-1. **Important**: Your GitHub username will be in the format: `Name-Surname_epam`
-   - Example: `Ivan-Petrov_epam`
+1. **Important**: Your GitHub username will be in the format: `Name-Surname_company`
+   - Example: `Stiven-Pupkin_company`
    - Use this exact username format for authentication
 
 1. Open your browser and navigate to GitHub ([https://github.com/](https://github.com/))
 
-1. Sign in using your EPAM GitHub account:
-   - Username: `Name-Surname_epam` (the one provided to you)
+1. Sign in using your corporate GitHub account:
+   - Username: `Name-Surname_company` (the one provided to you)
    - You will be redirected to Microsoft SSO authentication page
 
 1. On the Microsoft SSO page:
-   - Enter your EPAM credentials (same as for other EPAM portals)
+   - Enter your corporate credentials (same as for other corporate portals)
    - Complete multi-factor authentication if prompted
    - You'll be redirected back to GitHub after successful authentication
 

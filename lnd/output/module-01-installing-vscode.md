@@ -13,7 +13,7 @@ Think of `VS Code` as your workbench, and `GitHub Copilot` as an always-availabl
 
 **Learning objectives.** Upon completion of this module, you will be able to:
 - Install and launch `Visual Studio Code` on your operating system.
-- Activate a `GitHub Copilot` subscription (personal or `EPAM` license path).
+- Activate a `GitHub Copilot` subscription (personal or corporate license path).
 - Authorize `GitHub Copilot` inside `VS Code` and verify the connection.
 - Create a dedicated workspace folder and interact with `Copilot Chat`.
 
@@ -41,7 +41,7 @@ Think of `VS Code` as your workbench, and `GitHub Copilot` as an always-availabl
 ### Background
 `GitHub Copilot` is an AI-powered coding assistant built by `GitHub` (a `Microsoft` company). It integrates directly into `VS Code` and can generate code, answer questions, explain concepts, and perform multi-step tasks autonomously. To use it, you need a `GitHub` account with an active `Copilot subscription`.
 
-There are two paths depending on whether you are using a personal account or an `EPAM` corporate account.
+There are two paths depending on whether you are using a personal or corporate account.
 
 ### Steps (Personal Use — Part A)
 1. Open your browser and go to [https://github.com/](https://github.com/).
@@ -62,8 +62,8 @@ There are two paths depending on whether you are using a personal account or an 
 
    ![Copilot status](img/module-01/05-copilot-status.png)
 
-### Steps (`EPAM` Employees — Part B)
-1. Open the `EPAM` `Support portal`: [https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses](https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses).
+### Steps (Corporate Employees — Part B)
+1. Open the `Support portal`: [https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses](https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses).
 
    ![Support portal - Ask for copilot](img/module-01/06-support-portal-ask-for-copilot.png)
 
@@ -80,12 +80,12 @@ There are two paths depending on whether you are using a personal account or an 
 
    ![Check invitation email](img/module-01/09-check-invitation-email.png)
 
-6. Your `EPAM GitHub username` follows the format: `Name-Surname_epam` (for example, `Ivan-Petrov_epam`).
-7. Go to [https://github.com/](https://github.com/) and sign in with your `EPAM GitHub username`. You will be redirected to a `Microsoft SSO page` — enter your `EPAM` credentials there.
+6. Your `Corporate GitHub username` follows the format: `Name-Surname_company` (for example, `Stiben-Pupkin_company`).
+7. Go to [https://github.com/](https://github.com/) and sign in with your `Corporate GitHub username`. You will be redirected to a `Microsoft SSO page` — enter your corporate credentials there.
 
-   ![Epam sign in](img/module-01/10-epam-sign-in.png)
+   ![Corporate sign in](img/module-01/10-corporate-sign-in.png)
 
-   ![Epam sign in 2](img/module-01/11-epam-sign-in-sso.png)
+   ![Corporate sign in 2](img/module-01/11-corporate-sign-in-sso.png)
 
 8. After authentication, verify that `Copilot` is enabled in your `GitHub` account settings by clicking [https://github.com/settings/copilot/features](https://github.com/settings/copilot/features)
 

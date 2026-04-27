@@ -1,19 +1,19 @@
 ﻿# Module 20: `DIAL API` Key and `cURL` Access
 
 ### Background
-Throughout this course, you have used AI through graphical interfaces — `VS Code`, `GitHub`, `Chrome`. But AI models can also be accessed directly through code, using simple `HTTP` requests. `EPAM` `AI DIAL` is an internal platform that gives you API access to multiple AI models (`GPT-4o`, `Claude`, `Gemini`) through a single endpoint. In this final module, you will request an `API key`, make your first programmatic call to an AI model using `cURL`, and understand the parameters that control model behavior. This opens the door to custom automation that goes beyond what any IDE plugin can offer.
+Throughout this course, you have used AI through graphical interfaces — `VS Code`, `GitHub`, `Chrome`. But AI models can also be accessed directly through code, using simple `HTTP` requests. `AI DIAL` is an internal platform that gives you API access to multiple AI models (`GPT-4o`, `Claude`, `Gemini`) through a single endpoint. In this final module, you will request an `API key`, make your first programmatic call to an AI model using `cURL`, and understand the parameters that control model behavior. This opens the door to custom automation that goes beyond what any IDE plugin can offer.
 
 **Learning Objectives**
 
 Upon completion of this module, you will be able to:
-- Explain what `EPAM` `AI DIAL` is and why programmatic API access is valuable for managers.
+- Explain what `AI DIAL` is and why programmatic API access is valuable for managers.
 - Request a `DIAL` `API key` and store it securely using environment variables.
 - Make a `cURL` request to an AI model and interpret the `JSON` response.
 - Adjust API parameters (temperature, max_tokens) to control model behavior for different use cases.
 
 ## Page 1: What is `DIAL` and Why Programmatic Access Matters
 ### Background
-`EPAM` `AI DIAL` is `EPAM`'s internal AI gateway. It provides a unified API interface to multiple AI providers — `OpenAI` (`GPT`), `Anthropic` (`Claude`), and `Google` (`Gemini`) — through a single endpoint and a single `API key`.
+`AI DIAL` is internal AI gateway. It provides a unified API interface to multiple AI providers — `OpenAI` (`GPT`), `Anthropic` (`Claude`), and `Google` (`Gemini`) — through a single endpoint and a single `API key`.
 
 **Why would a manager need programmatic access?**
 - Automate document analysis and report generation for your team.
@@ -22,14 +22,14 @@ Upon completion of this module, you will be able to:
 - Create proof-of-concepts to evaluate AI capabilities for your business case.
 - Control costs and usage by implementing your own rate limiting.
 
-**What is an `API key`?** Think of it as a password that identifies you when your scripts talk to `DIAL` servers. It is a long string like `57bde47684bd39aebc382b4ca4638abd` that you include in every request. Without it, the server rejects your request.
+**What is an `API key`?** Think of it as a password that identifies you when your scripts talk to `DIAL` servers. It is a long string like `1234567890abcdef1234567890abcdef` that you include in every request. Without it, the server rejects your request.
 
 **What is `cURL`?** A command-line tool for making `HTTP` requests — the same kind of requests your browser makes when you open a webpage. `cURL` is pre-installed on most operating systems.
 
 **What is a `REST API`?** A way for programs to talk to servers using `HTTP`. You send a request (your question) and receive a response (the AI's answer) — all in structured `JSON` format.
 
 ### Steps
-1. Ask the AI: "Explain what `EPAM` `AI DIAL` is, what a `REST API` is, and what `cURL` does — in simple terms for someone who has never programmed."
+1. Ask the AI: "Explain what `AI DIAL` is, what a `REST API` is, and what `cURL` does — in simple terms for someone who has never programmed."
 2. Read the response. The key concepts: `DIAL` = AI gateway, `API key` = your identity, `cURL` = command-line `HTTP` client, `REST API` = structured request/response protocol.
 
 ### ✅ Result
@@ -37,7 +37,7 @@ You understand what `DIAL` is, why you need an `API key`, and how `cURL` sends r
 
 ## Page 2: Requesting Your API Key
 ### Background
-To access `DIAL` programmatically, you need an `API key`. The key is requested through `EPAM`'s support portal and is typically approved within 1-3 business days.
+To access `DIAL` programmatically, you need an `API key`. The key is requested through company's support portal and is typically approved within 1-3 business days.
 
 **Security warning:** Your `API key` is like a password. Anyone with your key can make requests on your behalf, consume your quota, and all actions will be logged under your name. Never commit `API keys` to `Git` repositories, share them in chats, or store them in plain text files accessible to others.
 
@@ -48,7 +48,7 @@ To access `DIAL` programmatically, you need an `API key`. The key is requested t
 
    ![Request API Key](img/module-20/01-request-api-key.png)
 
-4. You will be redirected to the `EPAM` Support Portal with a pre-filled ticket.
+4. You will be redirected to the `Support Portal` with a pre-filled ticket.
 5. Fill in:
    - **What is your API usage pattern?** "Personal usage: experimentation, self-education"
 6. Read and Accept all the Conditions and Policies, and Submit
@@ -93,7 +93,7 @@ Available models include:
 
 6. If you get an error:
    - **401 Unauthorized:** Check the `API key` — make sure it is copied correctly with no extra spaces.
-   - **Connection refused:** Make sure you are on the `EPAM` `VPN`.
+   - **Connection refused:** Make sure you are on the corporate `VPN`.
    - **Model not found:** Check the model name in the URL — it must match an available deployment.
 7. Try a different model: replace the model name in the URL with `claude-sonnet-4@20250514` and send the same prompt. Compare the responses.
 
@@ -155,7 +155,7 @@ Remember how, at the start of this module, your entire AI experience happened th
 With a `DIAL` `API key` and a simple `cURL` command, you have access to `GPT`, `Claude`, and `Gemini` through a single endpoint. Parameters like temperature and max_tokens give you precise control over how the model responds. Combined with everything you learned in this course — prompting, instructions, skills, `MCP`, prototyping, QA, delegation — you now have a full toolkit for leveraging AI in your management workflows.
 
 Key takeaways:
-- `EPAM` `AI DIAL` provides unified API access to multiple AI providers through a single key and endpoint.
+- `AI DIAL` provides unified API access to multiple AI providers through a single key and endpoint.
 - `cURL` is a simple command-line tool for testing API requests — no programming language required.
 - API parameters like temperature and max_tokens let you control creativity and response length.
 - Your `API key` is a credential — store it securely, never commit to `Git` or share in chats.
@@ -164,10 +164,10 @@ Key takeaways:
 
 
 ## Quiz
-1. What is the purpose of `EPAM` `AI DIAL`?
+1. What is the purpose of `AI DIAL`?
    a) It is a proxy that routes requests to the cheapest available AI provider to minimize costs
    b) It is an internal AI gateway that provides unified API access to multiple AI providers (OpenAI, Anthropic, Google) through a single endpoint and `API key`
-   c) It is a monitoring dashboard that tracks AI usage across `EPAM` projects
+   c) It is a monitoring dashboard that tracks AI usage across corporate projects
    Correct answer: b.
    - (a) Incorrect. `DIAL` does not select providers based on cost. It provides access to specific models you choose in the request URL. You decide which model to use; `DIAL` routes the request to that model.
    - (b) Correct. `DIAL` acts as a single entry point to multiple AI models. Instead of getting separate keys for `GPT`, `Claude`, and `Gemini`, you use one `DIAL` `API key` to access all of them through the same request format.
@@ -193,7 +193,7 @@ Key takeaways:
 
 ## Practical Task
 
-You have accessed an AI model directly via the `EPAM AI DIAL` `API` using a `cURL` command.
+You have accessed an AI model directly via the `DIAL` `API` using a `cURL` command.
 
 **Submit your `report.md` for automated check:**
 

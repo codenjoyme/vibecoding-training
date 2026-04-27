@@ -67,7 +67,7 @@ python $batch --output-dir ./my_exports
 python $batch --format json
 
 # Export only from specific VS Code variant
-python $batch --vscode-path "C:/Users/user/AppData/Roaming/Code - Insiders"
+python $batch --vscode-path "C:/Users/user/AppData/Roaming/Code"
 ```
 
 ### Batch Export Output Structure
@@ -114,7 +114,7 @@ python $script export abc123def456 uuid1,uuid2,uuid3
 python $script search "some important text"
 
 # Override VS Code path if auto-detect fails
-python $script workspaces --vscode-path "C:/Users/user/AppData/Roaming/Code - Insiders"
+python $script workspaces --vscode-path "C:/Users/user/AppData/Roaming/Code"
 ```
 
 ## Export Formats

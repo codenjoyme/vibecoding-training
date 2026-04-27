@@ -1,5 +1,5 @@
 from color import header
-header("Query on EPAM AI DIAL example", "yellow")
+header("Query on DIAL example", "yellow")
 
 import sys
 import os
@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-# Configure connection to EPAM AI DIAL
+# Configure connection to DIAL
 llm = AzureChatOpenAI(
     azure_deployment = os.getenv("AZURE_OPENAI_API_DEPLOYMENT"),
     api_version      = os.getenv("AZURE_OPENAI_API_VERSION"),

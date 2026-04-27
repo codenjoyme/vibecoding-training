@@ -99,7 +99,7 @@ If you do not have access to `Jira`/`Confluence` yet, you can skip this exercise
 
 There are several account options depending on your situation:
 
-- **EPAM employees:** Use your corporate `EPAM Jira` instance. Check with your team lead or project manager for the URL and access credentials.
+- **Corporate employees:** Use your corporate `Jira` instance. Check with your team lead or project manager for the URL and access credentials.
 - **Free `Atlassian` account (new):** Create a free account at [https://www.atlassian.com/try](https://www.atlassian.com/try) and set up a new `Jira` project for this course.
 - **Existing free `Atlassian` account:** If you already use a free `Atlassian Jira` account for personal or other projects, register a new temporary email address (e.g. using `Gmail` or similar) and create a separate `Atlassian` account exclusively for this training. This avoids mixing course work with your existing projects.
 

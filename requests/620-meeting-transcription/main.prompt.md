@@ -102,7 +102,7 @@ go
 
 **Тест на реальном файле** `requests/600-ms-teams-access/Call about teams.docx`:
 
-- `Extract-DocxText` (без -Anonymize) → `work/620-task/call.txt` — имена сохранены: `Oleksandr Baglai   0:03`, `Expert  0:05`.
+- `Extract-DocxText` (без -Anonymize) → `work/620-task/call.txt` — имена сохранены: `Stiven Pupkin   0:03`, `Expert  0:05`.
 - `Extract-DocxText -Anonymize -MappingPath work/620-task/call.mapping.json` → `work/620-task/call.anon.txt`:
   ```
   Speaker 1 started transcription
@@ -113,7 +113,7 @@ go
   Speaker 1 0:16
   ...
   ```
-- mapping JSON: `{ "Oleksandr Baglai": "Speaker 1", "Expert": "Speaker 2" }`.
+- mapping JSON: `{ "Stiven Pupkin": "Speaker 1", "Expert": "Speaker 2" }`.
 
 Известный baseline-issue, не из этого UPD: некоторые слова слипаются (`давайужеидёт`) — это уже было в оригинальной функции из-за того как Teams экспортирует runs. Можно поднять отдельным UPD если нужно.
 

@@ -30,7 +30,7 @@ You will be able to create and configure Remote MCP servers on Elitea platform t
 
 ### Required Skills & Tools
 
-- Active EPAM account with access to Elitea platform (https://next.elitea.ai)
+- Active corporate account with access to Elitea platform (https://next.elitea.ai)
 - GitHub account with Personal Access Token or OAuth credentials
 - Basic understanding of HTTP/HTTPS and REST APIs
 - Internet connection for remote MCP server access

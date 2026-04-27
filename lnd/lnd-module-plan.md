@@ -44,7 +44,7 @@ The course follows a single practical project that evolves across modules. By th
 ### Module 01: Installing VS Code + GitHub Copilot
 - **Source:** `modules/010-installing-vscode-github-copilot/`
 - **Status:** Include as-is
-- **LND notes:** Entry-point module. Standard installation walkthrough. Include EPAM-specific license request path (Part 2.2). No changes to practical content needed.
+- **LND notes:** Entry-point module. Standard installation walkthrough. Include company-specific license request path (Part 2.2). No changes to practical content needed.
 - **Practical thread:** None yet — pure setup.
 - **Quiz focus:** What is GitHub Copilot? How to verify it's working?
 
@@ -177,7 +177,7 @@ The course follows a single practical project that evolves across modules. By th
 ### Module 20: DIAL API Key and cURL Access
 - **Source:** `modules/170-dial-api-key-curl-access/`
 - **Status:** Include
-- **LND notes:** Connecting to EPAM AI DIAL for custom model access. Final module — expands the toolkit.
+- **LND notes:** Connecting to DIAL for custom model access. Final module — expands the toolkit.
 - **Practical thread:** Test DIAL API access and explore how it could extend the project with custom model capabilities.
 - **Quiz focus:** What is DIAL? How to test an API connection without programming?
 

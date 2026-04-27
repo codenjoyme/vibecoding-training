@@ -1,6 +1,6 @@
 # DIAL Integration with Python and Langchain - Hands-on Walkthrough
 
-In this walkthrough, you'll build a complete Python project that connects to EPAM AI DIAL using the langchain framework. You'll learn proper project structure, virtual environments, dependency management, and secure credential handling.
+In this walkthrough, you'll build a complete Python project that connects to DIAL using the langchain framework. You'll learn proper project structure, virtual environments, dependency management, and secure credential handling.
 
 ## Prerequisites
 
@@ -726,7 +726,7 @@ pip install langchain langchain-openai
 **Solution:**
 - Open `.env` file and verify API key is correct (no quotes, no spaces)
 - Ensure you copied the actual key, not the placeholder text
-- Verify you're connected to EPAM VPN if working remotely
+- Verify you're connected to VPN if working remotely
 - Check API key hasn't expired (request new one if needed)
 
 ### Issue: Script runs but shows "None" or empty response
@@ -743,13 +743,13 @@ pip install langchain langchain-openai
 - DIAL has usage quotas per user
 - Wait a few minutes before retrying
 - Reduce `max_tokens` in script to use less quota per request
-- Contact EPAM DIAL support if you need higher limits for project work
+- Contact DIAL support if you need higher limits for project work
 
 ### Issue: Slow response times (30+ seconds)
 
 **Solution:**
 - Normal for GPT-4 model - try `gpt-4o-mini` for faster responses
-- Check network connection (EPAM VPN can be slow)
+- Check network connection (VPN can be slow)
 - Reduce `max_tokens` parameter to limit response length
 - Consider using streaming for better UX (advanced topic)
 

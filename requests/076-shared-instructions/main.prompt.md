@@ -1048,7 +1048,7 @@ apm-lite синхронизирован.
 
 ## UPD35
 
-В папке `C:\Users\Oleksandr_Baglai\AppData\Roaming\Code - Insiders\User\workspaceStorage\46c755f9bf5456a6b7d05b5a208b9cb1\chatSessions` есть:
+В папке `.\Code\User\workspaceStorage\00000000000000000000000000000000\chatSessions` есть:
 - `089d775f-db9b-4301-a23e-31768523870e.jsonl`
 - `e5388a9f-2fdb-4e3c-b251-2a2b594168db.jsonl`
 - `044c8c8a-fb98-458c-a0e1-2d3beda34d86.jsonl`

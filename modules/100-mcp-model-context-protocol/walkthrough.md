@@ -276,7 +276,7 @@ In most cases, MCP tools are **enabled automatically** after the server starts. 
    The dialog shows:
    - **Tool name:** `echo` (from your MCP server)
    - **Input parameters:** `{"text": "Hello MCP!"}`
-   - **Warning:** "Note that MCP servers or malicious conversation content may attempt to misuse 'Code - Insiders' through tools"
+   - **Warning:** "Note that MCP servers or malicious conversation content may attempt to misuse 'Code' through tools"
    
    This is a **security feature**. MCP tools can execute code, read files, or access APIs, so you must explicitly approve each call.
    

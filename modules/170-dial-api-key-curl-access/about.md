@@ -2,13 +2,13 @@
 
 **Duration:** 5-7 minutes
 
-**Skill:** Obtain EPAM AI DIAL API key and test connection to AI models using simple cURL requests without programming.
+**Skill:** Obtain DIAL API key and test connection to AI models using simple cURL requests without programming.
 
 **👉 [Start hands-on walkthrough](walkthrough.md)**
 
 ## Topics
 
-- Requesting API key through EPAM AI DIAL support portal
+- Requesting API key through DIAL support portal
 - Understanding REST API basics for AI model access
 - Testing DIAL connection with cURL commands
 - Verifying API key validity and model availability
@@ -16,7 +16,7 @@
 
 ## Learning Outcome
 
-You will successfully request and receive your EPAM AI DIAL API key, then execute a cURL command to query an AI model and receive a response. This validates your access to EPAM's AI infrastructure without writing any code.
+You will successfully request and receive your DIAL API key, then execute a cURL command to query an AI model and receive a response. This validates your access to corporate AI infrastructure without writing any code.
 
 ## Prerequisites
 
@@ -26,15 +26,15 @@ You will successfully request and receive your EPAM AI DIAL API key, then execut
 
 ### Required Skills & Tools
 
-- Access to EPAM AI DIAL chat interface: https://chat.lab.epam.com/
-- Ability to create support tickets on EPAM support portal
+- Access to DIAL chat interface: https://chat.lab.epam.com/
+- Ability to create support tickets on support portal
 - Basic command line skills (PowerShell on Windows or Terminal on macOS/Linux)
-- VPN connection to EPAM internal network
+- VPN connection to company's internal network
 - No programming knowledge required
 
 ## When to Use
 
-- First-time setup for accessing EPAM AI models
+- First-time setup for accessing models
 - Testing API connectivity before building applications
 - Troubleshooting authentication issues
 - Validating new API keys after rotation
@@ -42,6 +42,6 @@ You will successfully request and receive your EPAM AI DIAL API key, then execut
 
 ## Resources
 
-- [EPAM AI DIAL Chat Interface](https://chat.lab.epam.com/)
+- [DIAL Chat Interface](https://chat.lab.epam.com/)
 - [DIAL REST API Documentation](https://epam-rail.com/dial-api)
 - Example cURL script in `tools/` directory

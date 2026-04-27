@@ -23,7 +23,7 @@ Every time you chat with GitHub Copilot in VS Code, the entire conversation is s
 **The Key Insight:**
 
 1. VS Code stores chat sessions in its workspace storage directory:
-   - Windows: `%APPDATA%/Code/User/workspaceStorage/` (or `Code - Insiders`)
+   - Windows: `%APPDATA%/Code/User/workspaceStorage/` (or `Code`)
    - macOS: `~/Library/Application Support/Code/User/workspaceStorage/`
    - Linux: `~/.config/Code/User/workspaceStorage/`
 
@@ -458,7 +458,7 @@ Congratulations! You've completed this module if:
 **Script shows 0 workspaces**
 - Make sure VS Code (or VS Code Insiders) has been used with Copilot chat at least once
 - Check that the script auto-detects the correct VS Code variant
-- Try specifying the path manually: `--vscode-path "%APPDATA%/Code - Insiders"`
+- Try specifying the path manually: `--vscode-path "%APPDATA%/Code"`
 
 **Batch export skips everything (all sessions "already exist")**
 - This means all sessions were exported in a previous run

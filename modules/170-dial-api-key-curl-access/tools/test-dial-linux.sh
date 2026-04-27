@@ -1,11 +1,11 @@
 #!/bin/bash
-# Bash script to test EPAM AI DIAL connection
-# Replace YOUR_API_KEY_HERE with your actual API key from EPAM support
+# Bash script to test DIAL connection
+# Replace YOUR_API_KEY_HERE with your actual API key from support
 
 API_KEY="YOUR_API_KEY_HERE"
 ENDPOINT="https://ai-proxy.lab.epam.com/openai/deployments/gpt-4o-mini-2024-07-18/chat/completions"
 
-echo -e "\033[1;33mTesting EPAM AI DIAL connection...\033[0m"
+echo -e "\033[1;33mTesting DIAL connection...\033[0m"
 echo -e "\033[1;36mEndpoint: $ENDPOINT\033[0m"
 echo ""
 
@@ -45,6 +45,6 @@ else
     echo -e "\n\033[1;31mError occurred!\033[0m"
     echo -e "\n\033[1;33mTroubleshooting tips:\033[0m"
     echo "1. Verify your API key is correct"
-    echo "2. Ensure you're connected to EPAM VPN"
+    echo "2. Ensure you're connected to VPN"
     echo "3. Check that the model deployment name is current"
 fi

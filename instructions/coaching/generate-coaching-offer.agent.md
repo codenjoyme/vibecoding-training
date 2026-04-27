@@ -42,7 +42,7 @@
 
 **Prepared for:** [Decision-maker name/role, team/department]
 **Date:** [YYYY-MM-DD]
-**Coach:** Oleksandr Baglai
+**Coach:** Stiven Pupkin
 
 ---
 

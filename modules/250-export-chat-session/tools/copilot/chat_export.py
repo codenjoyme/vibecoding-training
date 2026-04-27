@@ -208,19 +208,19 @@ def detect_vscode_paths():
     if sys.platform == 'win32':
         appdata = os.environ.get('APPDATA', '')
         if appdata:
-            for variant in ['Code', 'Code - Insiders']:
+            for variant in ['Code', 'Code']:
                 p = os.path.join(appdata, variant)
                 if os.path.isdir(p):
                     paths.append(p)
     elif sys.platform == 'darwin':
         home = os.path.expanduser('~')
-        for variant in ['Code', 'Code - Insiders']:
+        for variant in ['Code', 'Code']:
             p = os.path.join(home, 'Library', 'Application Support', variant)
             if os.path.isdir(p):
                 paths.append(p)
     else:  # Linux
         home = os.path.expanduser('~')
-        for variant in ['Code', 'Code - Insiders']:
+        for variant in ['Code', 'Code']:
             p = os.path.join(home, '.config', variant)
             if os.path.isdir(p):
                 paths.append(p)

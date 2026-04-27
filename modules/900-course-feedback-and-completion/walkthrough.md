@@ -138,8 +138,6 @@ You have several options to send your feedback. Choose the one that works best f
 
    **Primary:** [apofig@gmail.com](mailto:apofig@gmail.com?subject=Course%20Feedback%20-%20Vibecoding%20for%20Everyone)
 
-   **Alternative:** [oleksandr_baglai@epam.com](mailto:oleksandr_baglai@epam.com?subject=Course%20Feedback%20-%20Vibecoding%20for%20Everyone)
-
 1. Copy the contents of your `work/my-feedback.md` file and paste it into the email body.
 
 1. Send the email.
@@ -218,7 +216,7 @@ You are now equipped to lead AI-assisted development in your team and organizati
    - Structured feedback pinpoints specific modules, topics, and format aspects — making it actionable for the course author to prioritize improvements.
 
 2. **What are the two email addresses for sending course feedback?**
-   - `apofig@gmail.com` (primary) and `oleksandr_baglai@epam.com` (alternative).
+   - primary and alternative.
 
 3. **Why does the feedback template ask about "before and after" AI proficiency?**
    - To measure the learning delta — how much the course actually moved the needle on your skills, which helps evaluate course effectiveness.

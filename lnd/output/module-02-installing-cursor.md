@@ -32,8 +32,8 @@ This module is optional. If you are satisfied with your `VS Code` + `Copilot` se
 4. Launch `Cursor` after installation completes.
 5. You should see the `Cursor` welcome screen.
 
-### Steps (`EPAM` Employees — Part B)
-1. Open the `EPAM` `Support portal`: [https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses](https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses).
+### Steps (Corporate Employees — Part B)
+1. Open the `Support portal`: [https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses](https://support.epam.com/ess?id=sc_cat_item_guide&sys_id=ae81891897eb5d98386e3a871153afdf&name=SoftwareLicenses).
 
    ![Ask support - Choose Cursor](img/module-02/03-ask-support-choose-cursor.png)
 
@@ -43,9 +43,9 @@ This module is optional. If you are satisfied with your `VS Code` + `Copilot` se
 
    ![Ask support - Select options](img/module-02/04-ask-support-select-options.png)
 
-5. Use the approved download link from the `EPAM` email.
+5. Use the approved download link from the corporate email.
 
-   ![Download Cursor](img/module-02/05-download-cursor-epam.png)
+   ![Download Cursor](img/module-02/05-download-cursor-corporate.png)
 
 7. Launch `Cursor` after installation completes.
 

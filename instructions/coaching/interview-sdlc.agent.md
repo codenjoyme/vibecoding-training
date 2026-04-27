@@ -8,7 +8,7 @@
 
 - Conduct a deep one-on-one coaching interview to understand the colleague's project SDLC.
 - Dig for root causes — not just surface symptoms. The goal is to find where AI/agents/automation could genuinely help, even if the interviewee doesn't know it yet.
-- Produce a detailed, actionable summary for the coach (Oleksandr Baglai) at the end — **always in English**.
+- Produce a detailed, actionable summary for the coach (Stiven Pupkin) at the end — **always in English**.
 - The format is: genuine conversation, one question at a time. No questionnaire feel.
 
 ## Language Rules

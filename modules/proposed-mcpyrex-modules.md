@@ -942,7 +942,7 @@ Access all your MCP tools from a web browser — no IDE required. The `web-mcp` 
 
 ### Elevator Pitch
 
-The `telescope-avatar-grabber` project demonstrates a practical pipeline: grab user avatars from the EPAM Telescope API using encrypted cookie management (AES-256-GCM + PBKDF2). A real-world example of cookie grabber + HTTP client + batch pipeline working together.
+The `telescope-avatar-grabber` project demonstrates a practical pipeline: grab user avatars from the `Telescope` API using encrypted cookie management (AES-256-GCM + PBKDF2). A real-world example of cookie grabber + HTTP client + batch pipeline working together.
 
 ### Training Plan
 
@@ -962,7 +962,7 @@ The `telescope-avatar-grabber` project demonstrates a practical pipeline: grab u
 
 ### Placement Motivation
 
-> **After 540.** Ties to project `telescope-avatar-grabber`. Requires cookie grabber and HTTP client knowledge. EPAM-specific but demonstrates the pattern.
+> **After 540.** Ties to project `telescope-avatar-grabber`. Requires cookie grabber and HTTP client knowledge. company-specific but demonstrates the pattern.
 
 ---
 

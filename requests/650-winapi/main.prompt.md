@@ -287,7 +287,7 @@ Resuming polling loop per `iterative-prompt.agent.md`.
 
 1. **No mouse-wheel tool.** Scrolling inside an Azure Portal iframe was impossible via `send_hotkey END` / `PAGEDOWN` — focus stayed on the chrome, not the iframe. I escaped by spawning `python -c "import pyautogui; pyautogui.scroll(...)"` from the terminal. Duct tape, not a tool.
 2. **No first-class window-focus tool.** I used `send_hotkey pid=X key=ESC` purely for its `_focus_pid` side-effect. Grimy and surprising.
-3. **Coordinate-frame confusion.** Firefox sat at desktop `(-6, 0)`. Coordinates measured on a window screenshot are window-relative; `mouse_click x=163 y=583` is screen-absolute → the click landed 6 px off and hit the wrong link (`AttractorAI` instead of `teams-ai-assistant-baglai`).
+3. **Coordinate-frame confusion.** Firefox sat at desktop `(-6, 0)`. Coordinates measured on a window screenshot are window-relative; `mouse_click x=163 y=583` is screen-absolute → the click landed 6 px off and hit the wrong link (`AttractorAI` instead of `teams-ai-assistant-<name>`).
 4. **screenshot_window of an occluded window** silently captured whatever was on top. No way to say "bring it to front first".
 5. **No way to learn a window's rect** without taking a screenshot.
 6. **UI-element discovery via get_window_content** dumps the full tree — heavy and noisy when I just wanted "the button labelled X".

@@ -64,7 +64,7 @@ Many tools now ship their own MCP server. These are reviewed by the vendor, use 
 
 ### Approach 3 — Elitea Platform (✅ Enterprise option)
 
-If your organization uses the Elitea platform (available to EPAM employees), you can create no-code agents on Elitea and connect them to your IDE via MCP. Elitea handles authentication, security, and infrastructure.
+If your organization uses the Elitea platform (available to corporate employees), you can create no-code agents on Elitea and connect them to your IDE via MCP. Elitea handles authentication, security, and infrastructure.
 
 > Full details in module [165 — Elitea Platform MCP Integration](../165-elitea-platform-mcp-integration/about.md). This approach is out of scope for this module.
 

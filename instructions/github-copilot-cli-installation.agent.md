@@ -65,7 +65,7 @@ C:\Users\<Username>\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\
 
 Or for VS Code Insiders:
 ```
-C:\Users\<Username>\AppData\Roaming\Code - Insiders\User\globalStorage\github.copilot-chat\copilotCli\copilot.bat
+C:\Users\<Username>\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\copilotCli\copilot.bat
 ```
 
 ## Step 4: Using Copilot CLI

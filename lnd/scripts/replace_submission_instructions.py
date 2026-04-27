@@ -22,7 +22,7 @@ OUTPUT_DIR = Path(__file__).resolve().parent.parent / "output"
 #      - Subject line: `Module XX ...`
 #      - Attach/Paste/Include ...
 EMAIL_BLOCK_RE = re.compile(
-    r"^(?P<indent>\s*)(?P<num>[0-9]+\.)\s*Send (?:it |them |to |both files |both )?to:?\s*`Oleksandr_Baglai@epam\.com`\s*\n"
+    r"^(?P<indent>\s*)(?P<num>[0-9]+\.)\s*Send (?:it |them |to |both files |both )?to:?\s*`Stiven_Pupkin@example\.com`\s*\n"
     r"(?:^(?P=indent)\s+-\s+Subject line:.*\n)?"
     r"(?:^(?P=indent)\s+-\s+(?:Attach|Paste|Include).*\n)?",
     re.MULTILINE,

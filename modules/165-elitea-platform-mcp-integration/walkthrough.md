@@ -25,7 +25,7 @@ We'll login to Elitea platform, navigate to the Agents section, and create a sim
 
 1. Open your web browser and navigate to https://next.elitea.ai/
 
-1. Click "Login" button and authenticate with your EPAM credentials
+1. Click "Login" button and authenticate with your corporate credentials
 
 1. After successful login, you'll see the Elitea dashboard with various sections
 
@@ -408,7 +408,7 @@ Test your comprehension with these questions:
 1. Verify token was copied correctly (no extra spaces or newlines)
 1. Check token hasn't expired in Elitea Settings → Personal Tokens
 1. Ensure deployment URL is exactly: `https://nexus.elitea.ai` (no trailing slash)
-1. Confirm EPAM account has Elitea platform access
+1. Confirm corporate account has Elitea platform access
 1. Try generating a new token and running bootstrap again
 1. Check if there are any network/proxy restrictions blocking access to Elitea
 
@@ -564,4 +564,4 @@ This architecture provides:
 
 ---
 
-**Note**: This module requires an active EPAM employee account with Elitea platform access. External users should check alternative AI agent platforms with MCP support, such as Claude MCP servers, Langchain MCP integrations, or other enterprise AI platforms.
+**Note**: This module requires an active corporate employee account with Elitea platform access. External users should check alternative AI agent platforms with MCP support, such as Claude MCP servers, Langchain MCP integrations, or other enterprise AI platforms.

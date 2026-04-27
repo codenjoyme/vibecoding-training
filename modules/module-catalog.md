@@ -44,8 +44,8 @@
 | 160 | Bulk File Processing with AI | Learn three approaches for processing multiple files with AI agents |
 | 165 | Elitea Platform MCP Integration | Connect to Elitea platform and manage AI agents through MCP from VS Code |
 | 168 | Elitea Remote MCP — HTTP Integration | Configure Remote MCP servers on Elitea platform to connect cloud services via HTTP without local installation |
-| 170 | DIAL API Key and cURL Access | Obtain EPAM AI DIAL API key and test connection to AI models using simple cURL requests |
-| 180 | DIAL Integration with Python and Langchain | Set up Python virtual environment, install langchain framework, and build a working AI application that connects to EPAM AI DIAL |
+| 170 | DIAL API Key and cURL Access | Obtain DIAL API key and test connection to AI models using simple cURL requests |
+| 180 | DIAL Integration with Python and Langchain | Set up Python virtual environment, install langchain framework, and build a working AI application that connects to DIAL |
 | 185 | Prompt Templates for Dynamic Queries | Use Langchain prompt templates to create reusable, parameterized AI queries |
 | 187 | Structured Output & JSON Mode | Get reliable JSON from any LLM using Pydantic schemas and Langchain output parsers |
 | 190 | RAG: Document Question Answering | Build Retrieval-Augmented Generation systems that search your documents, find relevant context, and generate accurate answers |

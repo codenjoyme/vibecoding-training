@@ -26,5 +26,5 @@ You can score any AI response objectively, recognise the most common hallucinati
 
 ### Required Skills & Tools
 
-- Access to at least one AI model (GitHub Copilot or EPAM AI DIAL)
+- Access to at least one AI model (GitHub Copilot or DIAL)
 - Access to a second AI model for cross-validation (any free tier works)

@@ -62,7 +62,7 @@ Find your actual spending in the dashboard and identify the top cost drivers.
 1. Open github.com → Settings → Copilot → Usage
 2. Note: monthly request count, completions vs. chat ratio
 
-**EPAM AI DIAL:**
+**DIAL:**
 1. Open your organisation's DIAL portal
 2. Navigate to Usage or Analytics section
 3. Look for: tokens consumed per model, requests per day, cost breakdown

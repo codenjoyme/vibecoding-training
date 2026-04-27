@@ -8,7 +8,7 @@
 
 ## Topics
 
-- Authentication on Elitea Platform with EPAM credentials
+- Authentication on Elitea Platform with corporate credentials
 - Creating no-code agents on Elitea cloud platform
 - Configuring agent settings and "mcp" tag for MCP access
 - Generating MCP personal tokens for API access
@@ -29,7 +29,7 @@ You will be able to create and configure AI agents on Elitea no-code platform, c
 
 ### Required Skills & Tools
 
-- Active EPAM account with access to Elitea platform
+- Active corporate account with access to Elitea platform
 - Python 3.10+ installed on local machine
 - Basic understanding of virtual environments
 - Internet connection for Elitea platform access

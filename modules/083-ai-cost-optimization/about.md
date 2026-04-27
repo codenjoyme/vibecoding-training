@@ -28,7 +28,7 @@ You can read an AI usage bill, identify where money is going, apply at least thr
 
 ### Required Skills & Tools
 
-- Active GitHub Copilot subscription or EPAM AI DIAL API key
+- Active GitHub Copilot subscription or DIAL API key
 - Basic familiarity with making AI requests (covered in modules 010–035)
 
 ## When to Use

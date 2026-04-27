@@ -40,7 +40,7 @@ Examples:
   %(prog)s                                          Export all to ./work/copilot_export_all/
   %(prog)s --output-dir ./my_exports                Custom output directory
   %(prog)s --format json                            Export as JSON instead of HTML
-  %(prog)s --vscode-path "C:/Users/me/AppData/Roaming/Code - Insiders"
+  %(prog)s --vscode-path "C:/Users/me/AppData/Roaming/Code"
         '''
     )
     parser.add_argument('--output-dir', default=None,

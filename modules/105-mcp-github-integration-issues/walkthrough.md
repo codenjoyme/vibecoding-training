@@ -230,13 +230,13 @@ For this walkthrough, we'll focus on **repositories** and **issues**.
 
 ---
 
-## Part 3.5: Enterprise Managed Users (EMU) — EPAM Account Setup
+## Part 3.5: Enterprise Managed Users (EMU) — Corporate account Setup
 
-> **Skip this section** if you are not using an Enterprise Managed User account (e.g., non-EPAM users).
+> **Skip this section** if you are not using an Enterprise Managed User account (e.g., non-corporate users).
 
 ### Understanding EMU Restrictions
 
-If your GitHub account is an Enterprise Managed User (e.g., EPAM accounts ending in `_epam`), you will see this error when trying to create repositories through MCP:
+If your GitHub account is an Enterprise Managed User (e.g., corporate accounts ending in `_company`), you will see this error when trying to create repositories through MCP:
 
 ```
 Your account is an Enterprise Managed User (EMU), which has strict restrictions:
@@ -245,11 +245,11 @@ Cannot create public repositories
 Cannot create repositories under your personal account at all
 To create a repository, it needs to be done within your organization on GitHub Enterprise.
 You'd need:
-  The organization name (e.g., epam or similar)
+  The organization name
   Organization admin permissions to create repos there
 ```
 
-**The solution:** Use a **personal GitHub account** (non-EPAM) for repository operations, and your **corporate EPAM account** for Copilot AI tokens.
+**The solution:** Use a **personal GitHub account** (non-corporate) for repository operations, and your **corporate account** for Copilot AI tokens.
 
 ### The Three Connection Points
 
@@ -259,7 +259,7 @@ GitHub account authentication appears in **three separate places** in this workf
 |---|---|---|---|
 | 1 | **MCP Server** — manage GitHub via AI chat | Personal account | Create repos, manage issues |
 | 2 | **Git Remote** — push/pull code | Personal account | Code storage |
-| 3 | **Copilot Chat** — AI token consumption | Corporate `_epam` account | AI model access |
+| 3 | **Copilot Chat** — AI token consumption | Corporate `_company` account | AI model access |
 
 ---
 
@@ -277,7 +277,7 @@ The GitHub MCP server connects to one specific GitHub account. To verify or chan
    - Show Configuration / Show Output
    - Configure Model Access / Browse Resources
 5. Click **"Disconnect Account"** to switch accounts
-6. The server restarts — authenticate with your **personal** GitHub account (not the `_epam` one)
+6. The server restarts — authenticate with your **personal** GitHub account (not the `_company` one)
 
 **Why personal account for MCP?** EMU accounts cannot create repositories at the personal level. Your personal account is required for the `create_repository` MCP tool to work.
 
@@ -293,17 +293,17 @@ No extra steps needed here — it follows from Connection 1.
 
 ### Connection 3: Copilot Chat Account Preferences
 
-This controls which account's license funds the AI model usage. To ensure it uses your EPAM corporate subscription:
+This controls which account's license funds the AI model usage. To ensure it uses your corporate subscription:
 
 1. Open the **Extensions** panel in VS Code (`Ctrl+Shift+X`)
 2. Find **GitHub Copilot Chat** in the Installed list
 3. Right-click on it → select **"Account Preferences"**
 4. A dropdown shows all connected GitHub accounts
-5. Select the account ending in **`_epam`** (e.g., `Oleksandr-Baglai_epam`)
+5. Select the account ending in **`_company`** (e.g., `Stiven-Pupkin_company`)
 
-**Result:** Copilot Chat uses your corporate EPAM license for AI model access. Your personal account handles all repository operations. Both work seamlessly together in the same VS Code window.
+**Result:** Copilot Chat uses your corporate license for AI model access. Your personal account handles all repository operations. Both work seamlessly together in the same VS Code window.
 
-> **Summary:** `_epam` account = AI brain (Copilot tokens). Personal account = code home (repositories & Git).
+> **Summary:** `_company` account = AI brain (Copilot tokens). Personal account = code home (repositories & Git).
 
 ---
 
@@ -772,20 +772,20 @@ Answer these questions to verify comprehension:
 - Error: "Cannot create public repositories" or "Cannot create repositories under your personal account at all"
 - MCP tool call fails with Enterprise Managed User restriction message
 
-**Root cause:** Your MCP server is authenticated with an EPAM enterprise account (`_epam`), which has repository creation restrictions.
+**Root cause:** Your MCP server is authenticated with an enterprise account (`_company`), which has repository creation restrictions.
 
 **Solution — use personal account for MCP:**
 1. Open `.vscode/mcp.json`
 2. Click **"More..."** above the `"github"` server block
-3. Select **"Disconnect Account (your-epam-username)"**
-4. Re-authenticate with your **personal** GitHub account (the non-`_epam` one)
+3. Select **"Disconnect Account (your-corporate-username)"**
+4. Re-authenticate with your **personal** GitHub account (the non-`_company` one)
 5. Retry the repository creation command
 
-**Copilot tokens still from EPAM account:**
-- This change only affects MCP — your AI model access stays under the EPAM subscription
-- To verify: open Extensions → right-click **GitHub Copilot Chat** → **Account Preferences** → confirm `_epam` account is selected
+**Copilot tokens still from corporate account:**
+- This change only affects MCP — your AI model access stays under the corporate subscription
+- To verify: open Extensions → right-click **GitHub Copilot Chat** → **Account Preferences** → confirm `_company` account is selected
 
-See [Part 3.5](#part-35-enterprise-managed-users-emu--epam-account-setup) for full setup details.
+See [Part 3.5](#part-35-enterprise-managed-users-emu-corporate-account-setup) for full setup details.
 
 ### Problem: Git push fails with "permission denied"
 

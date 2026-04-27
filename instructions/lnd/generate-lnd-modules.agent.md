@@ -1,6 +1,6 @@
 ## Motivation
 
-- The course "Vibe Coding for Managers" needs to be published into the EPAM LND LMS platform.
+- The course "Vibe Coding for Managers" needs to be published into the LND LMS platform.
 - LND (Learning & Development) department accepts content following strict formatting rules and quality standards.
 - This instruction automates the generation of LMS-ready markdown files from existing `walkthrough.md` modules.
 - Each generated file is a standalone lesson storyboard for one LND module, ready for LMS upload.
@@ -78,7 +78,7 @@
 - **All URLs must be markdown links.** Never leave bare URLs in the text. Use `[https://example.com](https://example.com)` format. The only exception is URLs inside fenced code blocks (JSON, shell commands, etc.) — those stay as plain text.
 - **Inline code formatting for technical terms.** Wrap the following in backticks (`` ` ``):
   - Product and tool names: `VS Code`, `Visual Studio Code`, `GitHub Copilot`, `GitHub`, `Copilot`, `Cursor`, `Git`, `Docker`, `Node.js`, `npm`, `nvm`, `React`, `Jira`, `Confluence`, `MCP`, `Python`, `JavaScript`, `PowerShell`, `Claude`, `Claude Code`, `Codemie`, `Homebrew`, `winget`, `GenAI`, etc.
-  - Company and organization names: `Microsoft`, `EPAM`, `Atlassian`, `GitHub`, `OpenAI`, `Anthropic`.
+  - Company and organization names: `Microsoft`, `Atlassian`, `GitHub`, `OpenAI`, `Anthropic`.
   - Operating system names: `Windows`, `macOS`, `Linux`, `Ubuntu`, `Debian`.
   - Browser names: `Chrome`, `Firefox`, `Safari`, `Edge`.
   - File names and extensions: `main.py`, `mcp.json`, `.exe`, `.env`, `.gitignore`.
