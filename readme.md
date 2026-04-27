@@ -1,73 +1,54 @@
 # Vibecoding for Everyone Training
 
-A comprehensive training program teaching everyone how to effectively use AI coding assistants (vibecoding) in their work.
-
-## Philosophy
-
-This training is highly practical and hands-on. Each module provides a new actionable skill that you can immediately apply to your work, building your capabilities step by step.
+A comprehensive, hands-on training program teaching everyone how to effectively use AI coding assistants (vibecoding) in their work. Each module delivers one actionable skill you can apply immediately.
 
 Read more about the project motivation and approach: [Motivation](motivation.md)
 
-## 🚀 [Quick Start](quickstart.md)
+## 🚀 Get Started
 
----
+- **Learners** → open [quickstart.md](quickstart.md) — install the IDE, pick a model, and start your first module.
+- **Authors / contributors** → open [for-authors.md](for-authors.md) — everything you need to write modules and improve the course.
+- **Recommended path** → see [base-course.md](base-course.md) for a curated sequence of base + advanced modules.
 
-## Structure
+## 💬 Just Talk to Your IDE
 
-- **modules/** - All training modules with theory and hands-on walkthroughs
-- **instructions/** - Helper agents and prompts for course development
-- **work/** - Workspace for practice projects and exercises
-- [training-plan.md](training-plan.md) - Course plan, curriculum, and module sequence
+Open this project in **VS Code (Copilot)**, **Cursor**, or **Claude Code** in agent mode and ask in plain language:
 
-## Training Format
+- `давай пройдем модуль 050` / `let's do module 050`
+- `я хочу решить такую-то задачу — какие модуля мне помогут?` / `which modules help me with X?`
+- `создай новый модуль про Y` / `create a new module about Y`
 
-- Interactive AI-guided modules — each teaches one actionable skill
-- Hands-on exercises with real tools and code
+The AI will pick the right instructions, walk you through the module, and track your progress.
 
-## Target Audience
+## 🗂 Module Catalog
 
-Everyone who wants to leverage AI coding assistants to improve their productivity and technical capabilities.
+The full, up-to-date list of modules (ID, name, description) lives in [modules/module-catalog.md](modules/module-catalog.md). Browse the [training plan](training-plan.md) for the recommended sequence.
 
-## Contributing
+## 🧱 How a Module Is Structured
 
-This training is actively developed and we welcome contributions! The course itself is "vibecoded" - built with AI assistance following its own instructions and patterns.
+Each module is a single folder under [modules/](modules/) and contains, at minimum:
 
-### Ways to Contribute
+- **about.md** — duration, skill statement, topics, learning outcome, prerequisites
+- **walkthrough.md** — step-by-step hands-on practice
+- **tools/** *(optional)* — `skills.md`, scripts, reference materials, sample data — anything the practical part needs
 
-**Add New Modules** 🆕
-- Each module teaches one specific skill (5-7 minutes)
-- Follow the [module creation instructions](instructions/create-training-module.agent.md)
-- Submit a PR with your module (about.md + walkthrough.md + tools if needed)
-- Modules progress from simple to complex - find the right sequence position
+## 🤖 How the Automation Works
 
-**Fix Issues & Improve Content** 🔧
-- Found a hallucination or inaccuracy while going through modules?
-- Use the AI agent to fix it and submit a PR with corrections
-- Prefer not to create PRs? Open an issue describing what needs improvement
+All automation is driven by **tool-agnostic instruction files** in [instructions/](instructions/). The architecture is described in [creating-instructions.agent.md](instructions/creating-instructions.agent.md): IDE-specific entry points (Copilot / Claude / Cursor / others) all route into [main.agent.md](instructions/main.agent.md), which dispatches to the right instruction.
 
-**Request New Topics** 💡
-- Open an issue describing skills or topics you'd like to see covered
-- We'll research and potentially create modules based on community needs
+Two instructions do most of the heavy lifting:
 
-**Share Ideas** 🌟
-- Anything related to vibecoding, training methods, or skill development
-- Improvements to existing structure, tools, or workflows
-- New approaches to teaching AI-assisted development
+- [create-training-module.agent.md](instructions/create-training-module.agent.md) — used whenever you ask the agent to create a module
+- [training-mode.agent.md](instructions/training-mode.agent.md) — used whenever you ask the agent to run you through a module in coaching mode
 
-### Module Architecture
+Full author workflow is documented in [for-authors.md](for-authors.md).
 
-Each module is self-contained with:
-- **about.md** - Description, learning outcomes, prerequisites
-- **walkthrough.md** - Step-by-step hands-on practice
-- **tools/** - Scripts, instructions, and artifacts (when applicable)
+## 🛠 How Improvements Are Made
 
-The training uses its own instructions, scripts, and AI agents for development and quality control.
+Course-wide changes and new module proposals are tracked as **iterative prompts** in [requests/](requests/), following the [iterative-prompt.agent.md](instructions/iterative-prompt.agent.md) approach. Browse that folder to see exactly how previous modules and edits were created — it's the best way to learn the contribution style by example.
 
-### Getting Started with Contributing
+## 🤝 Contributing
 
-1. Read the [training plan](training-plan.md) to understand the course structure
-2. Check existing [modules](modules/) to see the format
-3. Review [contribution guidelines](instructions/create-training-module.agent.md)
-4. Pick an area: new module, fix existing, or suggest improvements
+Contributions of any size are welcome — typo fixes, content improvements, new modules, new topic requests. Start with [for-authors.md](for-authors.md), or open an issue describing what you'd like to see.
 
-We appreciate all contributions - from typo fixes to complete new modules! 🙏
+The course itself is "vibecoded" — built with AI assistance following its own instructions and patterns. 🙏

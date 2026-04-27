@@ -15,14 +15,19 @@
 | 064 | Debugging AI-Generated Code | Break the infinite error loop with a systematic debugging workflow for AI-generated code |
 | 070 | Custom Instructions | Evolution from one-time prompts to instruction architecture |
 | 075 | Shared Instructions & Team Conventions | Scale personal AI instructions to your whole team via a Git-versioned shared repository |
+| 076 | Advanced Skills Management System | Set up a centralized AI skills repository with manifest-driven sparse checkout and the `skills` CLI to manage team-wide AI instructions at scale |
 | 080 | Learning from Hallucinations | Transform AI output deviations into instruction improvements by delegating fixes to the agent itself |
 | 083 | AI Cost Optimization & Token Economics *(optional)* | Understand how tokens are counted, what context windows cost, and how to cut your AI bill without losing quality — primarily for team leads and managers |
 | 085 | Evaluating AI Output Quality | Score and validate AI responses using a systematic quality framework including hallucination detection |
+| 088 | IDE Workspace as Knowledge Base | Use your IDE workspace as a lightweight knowledge base — drop documents into a folder and query them through AI chat instead of building a full RAG pipeline |
 | 090 | AI Skills & Tools Creation | Create reliable AI skills by combining instructions with parameterized tools to eliminate hallucinations |
+| 091 | CLI Snapshot Testing with Docker | Test any CLI tool by capturing its full output as a golden Markdown snapshot and reviewing changes via `git diff` |
 | 100 | Model Context Protocol (MCP) | Connect AI to any data source |
 | 103 | CLI: Command Line Interface | Call REST APIs directly from terminal using curl — bypassing LLM for deterministic, token-efficient tool execution without hallucination risk |
 | 104 | Port Existing Code into Skills | Port an existing backend service into a portable CLI tool and package it as a reusable AI Skill |
 | 105 | MCP GitHub Integration — Issues Management | Connect AI to GitHub repositories for automated issue management |
+| 106 | Building Custom MCP Servers with FastMCP | Build a secure, Python-based MCP server that wraps any REST API using the FastMCP framework |
+| 107 | MCP Image Viewer Tool in PowerShell | Build a PowerShell MCP server that returns local images as base64 so AI can load and analyze images from the filesystem without manual attachment |
 | 108 | Token & API Key Management | Manage API keys and secrets safely using .env files and prevent credential leaks to Git |
 | 110 | Development Environment Setup | Set up Node.js and Docker development environment |
 | 120 | Rapid Prototyping with SpecKit | Build a spec-driven PoC from idea to working full-stack prototype using SpecKit methodology |
@@ -51,7 +56,13 @@
 | 200 | AI for Data Analysis & Reporting | Analyse any CSV dataset and generate executive reports through AI conversation — no data science skills required |
 | 220 | AI Study Buddy — Learning New Tech | Use AI as a structured learning partner to rapidly understand any unfamiliar technology through the Feynman method |
 | 230 | Creating Training Modules from Articles | Transform any article or resource into a structured, course-quality training module using AI agent |
+| 240 | Engineering Career Evolution with AI | Reframe AI disruption as a career accelerator — map your engineering strengths to the agent-led workflow and build a personal evolution plan |
 | 250 | Export Chat Session | Extract, preserve, and share AI chat sessions from VS Code as portable HTML files |
 | 300 | DMtools — Agent Skill & Automation Catalog | Install a third-party agent skill, explore a catalog of 152+ automation tools across 16 integrations |
+| 350 | OpenClaw — AI Personal Assistant Platform | Install OpenClaw, connect an AI model, and interact with a personal AI assistant through a local Gateway, dashboard, and chat channels |
+| 400 | Installing mcpyrex — MCP Python Toolbox | Install mcpyrex (open-source MCP server with 30+ Python/Langchain tools) into a dedicated workspace and run your first deterministic tool |
+| 500 | AI Workflow Decision Guide | Know exactly which AI tools to use, when to use them, and how to combine them for any daily development task |
 | 600 | Microsoft Teams AI Chat Summarizer | Build a Dockerized Python app that authenticates to Entra ID, reads Teams chats via Microsoft Graph, summarizes with an LLM, and posts back to a dedicated chat |
 | 620 | Microsoft Teams Meeting Transcription | Convert Teams meeting `.docx` transcripts to clean text with optional speaker anonymization, ready for LLM summarization |
+| 650 | WinAPI MCP Toolbox | Install a self-contained Python MCP server that exposes Windows automation tools (screenshots, mouse, keyboard, clipboard, processes) so the agent can drive your desktop |
+| 900 | Course Feedback & Completion | Reflect on your learning journey, provide structured feedback on the training course, and send it to the course author for continuous improvement |

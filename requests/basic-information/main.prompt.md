@@ -92,3 +92,31 @@ go
 - [modules/proposed-modules.md](../../modules/proposed-modules.md) — updated program name in intro
 - [modules/900-course-feedback-and-completion/walkthrough.md](../../modules/900-course-feedback-and-completion/walkthrough.md) — updated course name in feedback template header, mailto links (all 3 variants), and completion message
 - [modules/230-creating-training-modules-from-articles/walkthrough.md](../../modules/230-creating-training-modules-from-articles/walkthrough.md) — updated course name in example prompt
+
+## UPD8
+
+В базовом ридми есть 
+```
+Getting Started with Contributing
+
+    Read the training plan to understand the course structure
+    Check existing modules to see the format
+    Review contribution guidelines
+    Pick an area: new module, fix existing, or suggest improvements
+```
+Мне не надо перевоидть человека на инструкцию по созданию модулей. Лучше так сделаем: 
+- Сошлись на [text](../../for-authors.md) для авторов там все детально расписано.
+- Сошлись на [text](../../quickstart.md) для тех, кто хочет быстро начать проходить тренинг.
+- Напиши, что если проект открыт в VSCode/Cursor/Claude Code то можно просто попросить `давай пройдем модуль NNN` или `я хочу решить такой-то вопрос, скажи какие модуля мне помогут?`.
+- Вся автоматизация работает на инстркукциях расположенных тут [text](../../instructions) они tools agnostic и заведует там процессом [text](../../instructions/creating-instructions.agent.md). 
+- Весь остальной процесс создания модулей и прохождения их в коучинговом режиме базируется на других двух инструкциях [text](../../instructions/create-training-module.agent.md) и [text](../../instructions/training-mode.agent.md). Только кратко, ведь все это расписано в [text](../../for-authors.md) подробно. 
+- Так же все риквесты по улучшению тренинга я веду в папке [requests](..) и там используеся [text](../../instructions/iterative-prompt.agent.md) подход. Там можно посмотреть как создавались прошлые модуля и делались правки.
+- Каталог модулей тут [text](../../modules/module-catalog.md). Кстати посмотри на этот файл, его скорее всего надо обновить добавив новые модуля, которых там нет.
+- Так же скажи очень кратко что каждый модуль это папка с `about.md` и `walkthrough.md` и `tools` где могут быть или `skils.md` или референс, или что угодно что поможет модулю случиться в практическом аспекте. 
+Перерабатывай весь `readme` не только тот блок который я показал как отправную точку. Сделай его максимаьно полезным для человека, но не перегружай его водой и деталями. 
+Go
+
+### RESULT
+
+- [readme.md](../../readme.md) — fully rewritten: concise intro, "Get Started" section linking to `quickstart.md` / `for-authors.md` / `base-course.md`, "Just Talk to Your IDE" examples for VS Code / Cursor / Claude Code, link to `modules/module-catalog.md`, brief module structure (`about.md` + `walkthrough.md` + optional `tools/`), automation architecture pointing to `instructions/creating-instructions.agent.md` + `main.agent.md` with `create-training-module.agent.md` and `training-mode.agent.md` highlighted, iterative-prompt workflow pointing to `requests/` + `iterative-prompt.agent.md`, and a short Contributing section
+- [modules/module-catalog.md](../../modules/module-catalog.md) — added missing modules: 076, 088, 091, 106, 107, 240, 350, 400, 500, 650, 900 
