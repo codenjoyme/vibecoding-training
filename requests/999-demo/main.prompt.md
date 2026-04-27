@@ -24,7 +24,7 @@ Simulated full training-mode walkthrough of module 900 as "demo user":
 
 - **Part 1 (Reflect):** Reviewed training-plan.md module list, mentally assessed each module's value
 - **Part 2 (Prepare):** Created `work/my-feedback.md` with filled-out feedback template — rated course 9/10, highlighted modules 120/070/100 as most valuable, suggested 2 missing topics, reported AI proficiency growth from 3→8
-- **Part 3 (Send):** Opened email client via `Start-Process mailto:apofig@gmail.com` (Option B)
+- **Part 3 (Send):** Opened email client via `Start-Process mailto:<feedback-email>` (Option B)
 - **Part 4 (Celebrate):** Acknowledged course completion and skill summary
 - Updated `training-progress.md` — marked module 900 as `[x]` completed
 - Created `feedback/900-course-feedback-and-completion.md` with module feedback

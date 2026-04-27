@@ -2,6 +2,10 @@
 
 Congratulations on reaching the final module! This walkthrough will guide you through reflecting on your learning journey and providing detailed feedback that helps improve the course for future participants.
 
+## Author contacts
+
+Please read [contacts](../../contacts.md) to replace `<feedback-email>` here bellow.
+
 ## Prerequisites
 
 See [module overview](about.md) for full prerequisites list.
@@ -136,7 +140,7 @@ You have several options to send your feedback. Choose the one that works best f
 
 1. Open this link in your browser (replace the body with your feedback or attach the file):
 
-   **Primary:** [apofig@gmail.com](mailto:apofig@gmail.com?subject=Course%20Feedback%20-%20Vibecoding%20for%20Everyone)
+   **Primary:** [<feedback-email>](mailto:<feedback-email>?subject=Course%20Feedback%20-%20Vibecoding%20for%20Everyone)
 
 1. Copy the contents of your `work/my-feedback.md` file and paste it into the email body.
 
@@ -147,7 +151,7 @@ You have several options to send your feedback. Choose the one that works best f
 1. Run the following command in your terminal to open your default email client with the feedback:
 
    ```powershell
-   Start-Process "mailto:apofig@gmail.com?subject=Course Feedback - Vibecoding for Everyone"
+   Start-Process "mailto:<feedback-email>?subject=Course Feedback - Vibecoding for Everyone"
    ```
 
 1. Paste the contents of `work/my-feedback.md` into the email body and send.
@@ -160,7 +164,7 @@ You have several options to send your feedback. Choose the one that works best f
    import webbrowser
    import urllib.parse
 
-   to = "apofig@gmail.com"
+   to = "<feedback-email>"
    subject = "Course Feedback - Vibecoding for Everyone"
 
    # Read your feedback file
@@ -177,7 +181,7 @@ You have several options to send your feedback. Choose the one that works best f
 
 1. Simply ask your AI assistant in chat:
 
-   > Read my feedback from `work/my-feedback.md` and help me send it to apofig@gmail.com
+   > Read my feedback from `work/my-feedback.md` and help me send it to <feedback-email>
 
 1. The agent can help format, refine, and assist with sending the feedback.
 
