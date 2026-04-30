@@ -2,7 +2,7 @@
 
 **Duration:** 25-35 minutes
 
-**Skill:** Build a Python CLI tool that queries Jira via REST API, configure a secure API token, and teach the AI agent to drive it using a `skill.md` descriptor — then optionally port the solution to any language.
+**Skill:** Build a Python CLI tool that queries Jira via REST API, configure a secure API token, and teach the AI agent to drive it using a [SKILL.md](tools/SKILL.md) descriptor — then optionally port the solution to any language.
 
 **👉 [Start hands-on walkthrough](walkthrough.md)**
 
@@ -13,12 +13,12 @@
 - Using VPN to protect your token even if it leaks
 - Building a Python CLI with `argparse` and `requests` using `.env` for secrets
 - Downloading binary attachments — something MCP tools cannot do cleanly
-- Creating a `skill.md` so the AI agent knows how to invoke the CLI
+- Creating a [SKILL.md](tools/SKILL.md) so the AI agent knows how to invoke the CLI
 - Porting the solution to Node.js, Go, or Java using AI assistance
 
 ## Learning Outcome
 
-You will have a working Jira CLI tool that can search issues, fetch details, and download attachments — secured by a scoped API token behind a VPN. You will also have a `skill.md` that lets any AI agent use this CLI as a tool, and the knowledge to port the pattern to any language.
+You will have a working Jira CLI tool that can search issues, fetch details, and download attachments — secured by a scoped API token behind a VPN. You will also have a [SKILL.md](tools/SKILL.md) that lets any AI agent use this CLI as a tool, and the knowledge to port the pattern to any language.
 
 ## Prerequisites
 

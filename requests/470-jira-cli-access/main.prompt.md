@@ -120,3 +120,23 @@ Created module **470 — Jira CLI Access via MCPyrex Python Script** placed betw
 ### RESULT
 
 - [requests/470-jira-cli-access/main.prompt.md](main.prompt.md) — секция `# Context / Chat` заменена: теперь содержит дословный диалог из чата (вопрос «У нас есть модуль?», ответ агента, и полный оригинальный текст запроса на русском). Краткое саммари убрано из тела промпта — оно и так есть в RESULT блоках.
+
+## UPD2
+
+Следуя инструкции по созданию модулей работал? Прочто я вижу что скилз создан на одном уровне с модулем а надо в папке `tools`. 
+
+Второе, что я не вижу самого скрипта. Его хочу видеть в папке `scripts` внутри `tools`. Он упоминается только нигде его не видно. Если он где-то внутри `modules/470-jira-cli-access/walkthrough.md` расположен, то выдели его вместе совсеми остальными скриптами. Я думаю что ты не загрузил инструкцию по созданию модулей, и потому так пошел. Исправь. `walkthrough` должен содержать ссылки только. как и скилз. 
+
+Так само надо потестить это все в папке work. Давай создадим по правилам указанным в инструкции по прохождению модуля имя папки `work/470-task` и там уже будем тестить. Скопируй `.env.example` в `work/470-task/.env` и я запишу туда ключик. Линк на тикет я тебе дам отдельно в файле `work/470-task/ticket.md`.  go
+
+### RESULT
+
+Fixed module structure per `create-training-module.agent.md`:
+- [modules/470-jira-cli-access/tools/SKILL.md](../../modules/470-jira-cli-access/tools/SKILL.md) — moved from root `skill.md` to `tools/SKILL.md`
+- [modules/470-jira-cli-access/tools/scripts/jira_cli.py](../../modules/470-jira-cli-access/tools/scripts/jira_cli.py) — extracted full Python script from walkthrough into `tools/scripts/`
+- [modules/470-jira-cli-access/tools/.env.example](../../modules/470-jira-cli-access/tools/.env.example) — credentials template
+- [modules/470-jira-cli-access/walkthrough.md](../../modules/470-jira-cli-access/walkthrough.md) — rewritten to reference files only (no inline scripts); links to `tools/scripts/jira_cli.py` and `tools/SKILL.md`
+- [modules/470-jira-cli-access/about.md](../../modules/470-jira-cli-access/about.md) — `skill.md` references updated to `tools/SKILL.md`
+- `work/470-task/.env` — copy of `.env.example`, ready to fill in your key (gitignored)
+- `work/470-task/ticket.md` — empty template, paste your ticket link there
+- `work/470-task/.gitignore` — `.env` and venv protected from commits

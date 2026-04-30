@@ -1,6 +1,10 @@
-# Jira CLI Access via MCPyrex Python Script
+# Jira CLI Access via MCPyrex Python Script — Hands-on Walkthrough
 
-> **Module 470** | Duration: 25-35 min | Python + Jira REST API + AI skill
+In this module you will build a Python CLI that queries Jira via the REST API, secure an API token with minimum permissions and IP restriction, connect the CLI to an AI agent via a skill descriptor, and optionally port the solution to another language.
+
+## Prerequisites
+
+See [module overview](about.md) for full prerequisites list.
 
 ---
 
@@ -8,9 +12,9 @@
 
 | Component | Location | Purpose |
 |-----------|----------|---------|
-| `jira_cli.py` | `work/470-jira-cli/` | CLI script for querying Jira |
-| `.env` | `work/470-jira-cli/` | Credentials (never committed) |
-| `skill.md` | `modules/470-jira-cli-access/` | AI agent descriptor |
+| `jira_cli.py` | `work/470-task/` | CLI script for querying Jira |
+| `.env` | `work/470-task/` | Credentials (never committed) |
+| `SKILL.md` | `tools/SKILL.md` | AI agent descriptor |
 
 ---
 
@@ -60,7 +64,7 @@ MCP tools return JSON. JSON cannot encode binary data cleanly. If you want to do
 
 ### Step 1: Find Your Current IP
 
-Before creating the token, know which IP you'll whitelist:
+Before creating the token, know which IP you will whitelist:
 
 ```powershell
 # Windows PowerShell
@@ -107,7 +111,7 @@ For self-hosted Jira: configure IP restrictions at the reverse proxy level (ngin
 
 ### Knowledge Check
 
-*Q: Your token leaked in a public GitHub commit. What's the blast radius if you had IP restriction enabled with VPN IP?*
+*Q: Your token leaked in a public GitHub commit. What is the blast radius if you had IP restriction enabled with VPN IP?*
 
 **A:** Very limited — the attacker has the token but cannot use it without access to your VPN. Revoke the token immediately at id.atlassian.com, then rotate. No VPN access = no Jira access.
 
@@ -117,12 +121,28 @@ For self-hosted Jira: configure IP restrictions at the reverse proxy level (ngin
 
 **Time: 10 min**
 
-### Project Setup
+### What We Will Build
+
+We will set up a working directory at `work/470-task/`, fill in credentials, and run the CLI against a real Jira ticket.
+
+### Step 1: Open the Work Folder
+
+The directory `work/470-task/` is already prepared. Open it in your terminal:
 
 ```powershell
 # Windows
-New-Item -ItemType Directory -Path work/470-jira-cli
-cd work/470-jira-cli
+cd work/470-task
+```
+
+```bash
+# macOS / Linux
+cd work/470-task
+```
+
+### Step 2: Install Dependencies
+
+```powershell
+# Windows
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install requests python-dotenv
@@ -130,27 +150,14 @@ pip install requests python-dotenv
 
 ```bash
 # macOS / Linux
-mkdir -p work/470-jira-cli && cd work/470-jira-cli
 python3 -m venv .venv
 source .venv/bin/activate
 pip install requests python-dotenv
 ```
 
-### `.gitignore`
+### Step 3: Fill In Your Credentials
 
-Create `work/470-jira-cli/.gitignore`:
-
-```
-.env
-.venv/
-__pycache__/
-downloads/
-*.pyc
-```
-
-### `.env`
-
-Create `work/470-jira-cli/.env`:
+Open `work/470-task/.env` and fill in your values:
 
 ```
 JIRA_URL=https://your-org.atlassian.net
@@ -158,190 +165,37 @@ JIRA_EMAIL=your.email@company.com
 JIRA_API_TOKEN=your_api_token_here
 ```
 
-### `jira_cli.py`
+The `.env` file is already in `.gitignore` — it will never be committed.
 
-Create `work/470-jira-cli/jira_cli.py`:
+### Step 4: Copy the CLI Script
 
-```python
-#!/usr/bin/env python3
-"""Jira CLI — query Jira issues, fetch details, download attachments."""
+Copy the script from the module tools folder:
 
-import argparse
-import json
-import os
-import sys
-from pathlib import Path
-
-import requests
-from dotenv import load_dotenv
-
-load_dotenv()
-
-JIRA_URL = os.getenv("JIRA_URL", "").rstrip("/")
-JIRA_EMAIL = os.getenv("JIRA_EMAIL", "")
-JIRA_API_TOKEN = os.getenv("JIRA_API_TOKEN", "")
-
-
-def validate_config():
-    if not JIRA_URL.startswith("https://"):
-        sys.exit("ERROR: JIRA_URL must start with https://")
-    if not JIRA_EMAIL or not JIRA_API_TOKEN:
-        sys.exit("ERROR: JIRA_EMAIL and JIRA_API_TOKEN must be set in .env")
-
-
-def auth():
-    return (JIRA_EMAIL, JIRA_API_TOKEN)
-
-
-def api_get(path, params=None):
-    url = f"{JIRA_URL}/rest/api/3{path}"
-    resp = requests.get(url, auth=auth(), params=params, timeout=15)
-    if resp.status_code == 401:
-        sys.exit("ERROR: 401 Unauthorized — check JIRA_EMAIL and JIRA_API_TOKEN")
-    if resp.status_code == 403:
-        sys.exit("ERROR: 403 Forbidden — token lacks permission for this operation")
-    resp.raise_for_status()
-    return resp.json()
-
-
-def format_table(rows, headers):
-    widths = [len(h) for h in headers]
-    for row in rows:
-        for i, cell in enumerate(row):
-            widths[i] = max(widths[i], len(str(cell)))
-    fmt = "  ".join(f"{{:<{w}}}" for w in widths)
-    print(fmt.format(*headers))
-    print("  ".join("-" * w for w in widths))
-    for row in rows:
-        print(fmt.format(*[str(c) for c in row]))
-
-
-def cmd_search(args):
-    data = api_get("/search", params={
-        "jql": args.jql,
-        "maxResults": args.max,
-        "fields": "summary,status,assignee,priority"
-    })
-    issues = data.get("issues", [])
-    if not issues:
-        print("No issues found.")
-        return
-    if args.format == "json":
-        print(json.dumps(issues, indent=2))
-    elif args.format == "plain":
-        for i in issues:
-            print(f"{i['key']}: {i['fields']['summary']}")
-    else:
-        rows = []
-        for i in issues:
-            f = i["fields"]
-            rows.append([
-                i["key"],
-                f["summary"][:60],
-                f.get("status", {}).get("name", "-"),
-                (f.get("assignee") or {}).get("displayName", "Unassigned"),
-            ])
-        format_table(rows, ["KEY", "SUMMARY", "STATUS", "ASSIGNEE"])
-
-
-def cmd_get(args):
-    data = api_get(f"/issue/{args.key}")
-    f = data["fields"]
-    if args.format == "json":
-        print(json.dumps(data, indent=2))
-    else:
-        fields = [
-            ("Key", data["key"]),
-            ("Summary", f.get("summary", "-")),
-            ("Status", f.get("status", {}).get("name", "-")),
-            ("Assignee", (f.get("assignee") or {}).get("displayName", "Unassigned")),
-            ("Reporter", (f.get("reporter") or {}).get("displayName", "-")),
-            ("Priority", (f.get("priority") or {}).get("name", "-")),
-            ("Created", f.get("created", "-")[:10]),
-            ("Updated", f.get("updated", "-")[:10]),
-            ("Labels", ", ".join(f.get("labels", [])) or "-"),
-            ("Comments", str(f.get("comment", {}).get("total", 0))),
-        ]
-        for label, value in fields:
-            print(f"{label:<12}: {value}")
-        desc = f.get("description")
-        if desc and isinstance(desc, dict):
-            # Atlassian Document Format — extract plain text
-            content = desc.get("content", [])
-            texts = []
-            for block in content:
-                for node in block.get("content", []):
-                    if node.get("type") == "text":
-                        texts.append(node.get("text", ""))
-            if texts:
-                print(f"\nDescription:\n{''.join(texts)}")
-
-
-def cmd_attachments(args):
-    data = api_get(f"/issue/{args.key}", params={"fields": "attachment"})
-    attachments = data["fields"].get("attachment", [])
-    if not attachments:
-        print("No attachments found.")
-        return
-    rows = [[a["filename"], a["mimeType"], f"{a['size']:,} bytes"] for a in attachments]
-    format_table(rows, ["FILENAME", "TYPE", "SIZE"])
-
-
-def cmd_download(args):
-    data = api_get(f"/issue/{args.key}", params={"fields": "attachment"})
-    attachments = data["fields"].get("attachment", [])
-    target = next((a for a in attachments if a["filename"] == args.filename), None)
-    if not target:
-        sys.exit(f"ERROR: Attachment '{args.filename}' not found on {args.key}")
-    output_dir = Path(args.output)
-    output_dir.mkdir(parents=True, exist_ok=True)
-    dest = output_dir / args.filename
-    resp = requests.get(target["content"], auth=auth(), stream=True, timeout=30)
-    resp.raise_for_status()
-    with open(dest, "wb") as fh:
-        for chunk in resp.iter_content(chunk_size=8192):
-            fh.write(chunk)
-    print(f"Downloaded: {dest} ({dest.stat().st_size:,} bytes)")
-
-
-def main():
-    validate_config()
-    parser = argparse.ArgumentParser(description="Jira CLI")
-    sub = parser.add_subparsers(dest="command", required=True)
-
-    p_search = sub.add_parser("search", help="Search issues with JQL")
-    p_search.add_argument("--jql", required=True)
-    p_search.add_argument("--format", choices=["table", "json", "plain"], default="table")
-    p_search.add_argument("--max", type=int, default=20)
-
-    p_get = sub.add_parser("get", help="Get issue details")
-    p_get.add_argument("--key", required=True)
-    p_get.add_argument("--format", choices=["table", "json", "plain"], default="table")
-
-    p_att = sub.add_parser("attachments", help="List attachments on an issue")
-    p_att.add_argument("--key", required=True)
-
-    p_dl = sub.add_parser("download", help="Download an attachment")
-    p_dl.add_argument("--key", required=True)
-    p_dl.add_argument("--filename", required=True)
-    p_dl.add_argument("--output", default="./downloads")
-
-    args = parser.parse_args()
-    dispatch = {"search": cmd_search, "get": cmd_get, "attachments": cmd_attachments, "download": cmd_download}
-    dispatch[args.command](args)
-
-
-if __name__ == "__main__":
-    main()
+```powershell
+# Windows
+Copy-Item ..\..\modules\470-jira-cli-access\tools\scripts\jira_cli.py .
 ```
 
-### Verify the Setup
+```bash
+# macOS / Linux
+cp ../../modules/470-jira-cli-access/tools/scripts/jira_cli.py .
+```
+
+The full script source is at [tools/scripts/jira_cli.py](tools/scripts/jira_cli.py).
+
+### Step 5: Verify the Setup
 
 ```bash
 python jira_cli.py search --jql "project=YOUR_PROJECT AND status=Open" --max 5
 ```
 
-Expected: a table of issues. If you see `401 Unauthorized`, your token is wrong or the email doesn't match the Atlassian account.
+Expected: a table of issues. If you see `401 Unauthorized`, your token is wrong or the email does not match the Atlassian account.
+
+To test against the sample ticket, open `work/470-task/ticket.md`, find the issue key, then run:
+
+```bash
+python jira_cli.py get --key <ISSUE-KEY>
+```
 
 ### Knowledge Check
 
@@ -355,21 +209,21 @@ Expected: a table of issues. If you see `401 Unauthorized`, your token is wrong 
 
 **Time: 5 min**
 
-The `skill.md` file (at `modules/470-jira-cli-access/skill.md`) is a descriptor that teaches the AI agent how to use the CLI. You don't need to write prompts every time — you attach the skill once and the agent reads it.
+The AI agent skill descriptor lives at [tools/SKILL.md](tools/SKILL.md). It teaches the AI agent how to use the CLI — you do not need to repeat instructions every session. Attach it once and the agent reads it.
 
 ### How to attach the skill in VS Code
 
 In your agent chat, reference the skill file:
 
 ```
-@workspace /path/to/modules/470-jira-cli-access/skill.md
+@workspace modules/470-jira-cli-access/tools/SKILL.md
 ```
 
 Or add it to your workspace's `.github/copilot-instructions.md`:
 
 ```markdown
 ## Jira CLI Skill
-Read and follow: modules/470-jira-cli-access/skill.md
+Read and follow: modules/470-jira-cli-access/tools/SKILL.md
 ```
 
 ### Demo workflow with the AI agent
@@ -391,9 +245,9 @@ The agent will:
 
 ### Knowledge Check
 
-*Q: Why does the skill.md list error codes like 401 and 403?*
+*Q: Why does the SKILL.md list error codes like 401 and 403?*
 
-**A:** So the agent can self-diagnose failures and guide the user to the right fix without asking the trainer — it's embedded troubleshooting knowledge.
+**A:** So the agent can self-diagnose failures and guide the user to the right fix without asking the trainer — it is embedded troubleshooting knowledge.
 
 ---
 
@@ -405,7 +259,7 @@ Review before going to production:
 
 - [ ] **Token scope:** uses minimum required permissions (read-only if possible)
 - [ ] **Token expiry:** expiration date set in Atlassian token settings
-- [ ] **IP restriction:** VPN egress IP is in Jira's allowlist
+- [ ] **IP restriction:** VPN egress IP is in Jira allowlist
 - [ ] **VPN active:** always connect to VPN before running the CLI
 - [ ] **`.env` protected:** listed in `.gitignore`, never committed
 - [ ] **HTTPS enforced:** `validate_config()` rejects plain HTTP URLs
@@ -437,38 +291,58 @@ The pattern is always the same:
 
 ### Practical Task — Port with AI Assistance
 
-Ask your AI agent:
+Attach [tools/scripts/jira_cli.py](tools/scripts/jira_cli.py) to your AI agent and ask:
 
 ```
-I have this Python Jira CLI script (paste jira_cli.py).
-Port it to [your language of choice] keeping the same command structure:
+Port this Python Jira CLI to [your language of choice] keeping the same command structure:
   search, get, attachments, download
 Use the same environment variable names for credentials.
 ```
 
-The agent will produce a functionally equivalent CLI. Review that:
+Review that:
 - Credentials come from env vars (not hardcoded)
 - HTTPS-only check is preserved
 - Token is never printed
 
 ### Knowledge Check
 
-*Q: You ported to Node.js. Your colleague asks why you didn't just use the official Jira MCP for VS Code. What's your answer?*
+*Q: You ported to Node.js. Your colleague asks why you did not just use the official Jira MCP for VS Code. What is your answer?*
 
 **A:** The official Jira MCP (Rovo) only supports Atlassian Cloud, not self-hosted instances. The CLI approach works with any Jira version, handles binary downloads, runs outside the context window to save tokens, and can be called from CI/CD pipelines without an IDE.
 
 ---
 
-## Module Summary
+## Success Criteria
 
-| What you built | Why it matters |
-|----------------|---------------|
-| Python Jira CLI with 4 commands | Reusable tool, no MCP server needed |
-| Scoped API token with expiry + IP restriction | Minimal blast radius if token leaks |
-| VPN-first workflow | Token useless without VPN access |
-| `skill.md` descriptor | AI agent uses CLI without manual prompting |
-| Language-portable pattern | Team can replicate in any stack |
+- ✅ `jira_cli.py search` returns a table of issues from your Jira project
+- ✅ `jira_cli.py get --key <KEY>` shows issue details without errors
+- ✅ `.env` is listed in `.gitignore` and does not appear in `git status`
+- ✅ Token has an expiration date and you know the VPN IP it is restricted to
+- ✅ AI agent uses the CLI via `tools/SKILL.md` without manual prompting
+- ✅ You can explain the difference between CLI and MCP for binary file handling
 
-**Next modules:**
-- [475 — mcpyrex: JavaScript Execution Engine](../400-installing-mcpyrex-mcp-python-toolbox/about.md)
-- [106 — FastMCP: Custom MCP Server](../106-fastmcp-custom-mcp-server/about.md) — when you do need a proper MCP tool
+## Understanding Check
+
+1. **Why does CLI save tokens compared to MCP?** — CLI output is plain text; MCP loads full tool schemas and all responses into the context window.
+2. **What happens if you do not set a token expiry?** — The token stays valid indefinitely; if it leaks, it can be used forever without rotation.
+3. **Why whitelist the VPN IP instead of your home IP?** — The VPN egress is a stable, shared IP you control; whitelisting it means a leaked token is unusable without VPN access.
+4. **What is the SKILL.md file for?** — It teaches the AI agent how to invoke the CLI, what commands are available, and how to handle errors — without manual prompting each session.
+5. **Why must `JIRA_URL` start with `https://`?** — Plain HTTP transmits credentials in cleartext; the CLI rejects it to prevent accidental token exposure.
+6. **How does the CLI handle binary attachments differently from MCP?** — The CLI streams bytes directly to disk via chunked download; MCP would need to base64-encode the binary into JSON.
+7. **What is the first thing to do if your token leaks?** — Revoke it immediately at id.atlassian.com, then generate a new one and update `.env`.
+
+## Troubleshooting
+
+| Problem | Likely cause | Solution |
+|---------|-------------|----------|
+| `401 Unauthorized` | Token invalid or email mismatch | Re-check `.env`; regenerate token at id.atlassian.com |
+| `403 Forbidden` | Token lacks permissions | Use account with at least Browse Projects permission |
+| `400 Bad Request` | Invalid JQL | Fix the query; test JQL in Jira UI first |
+| `Connection refused` | Wrong `JIRA_URL` | Verify URL; check VPN is connected |
+| `ModuleNotFoundError: requests` | venv not activated | Activate the virtual environment first |
+| `.env` not found | Missing file | Copy from `tools/.env.example` and fill in values |
+
+## Next Steps
+
+- [106 — FastMCP: Custom MCP Server](../106-fastmcp-custom-mcp-server/about.md) — when you need a full MCP tool with real-time agent integration
+- [108 — Token & API Key Management](../108-token-api-key-management/about.md) — deeper dive into secrets hygiene
