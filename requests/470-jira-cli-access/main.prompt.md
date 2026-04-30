@@ -165,3 +165,29 @@ Fixed module structure per `create-training-module.agent.md`:
 6. Убедись что `JIRA_AUTH_TYPE=bearer` стоит в `.env`
 
 После этого запусти: `python jira_cli.py get --key QWERTY-123`
+
+## UPD4
+
+Сделал. go
+
+### RESULT
+
+CLI работает. Вывод `jira_cli.py get --key QWERTY-123`:
+
+```
+Key         : QWERTY-123
+Summary     : Teams/Dashboard page improvements
+Status      : Open
+Assignee    : Stiven Pupkin
+Reporter    : Stiven Pupkin
+Priority    : Major
+Created     : 2026-04-28
+Updated     : 2026-04-30
+Labels      : week-focus
+Comments    : 0
+```
+
+`attachments --key QWERTY-123` → `No attachments found.` — на тикете нет файлов.
+
+Подключение к Corporate Jira через Bearer PAT работает. Скрипт в `work/470-task/jira_cli.py` готов к использованию.
+
