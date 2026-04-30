@@ -2,11 +2,15 @@
 iterative-prompt.agent.md
 </follow>
 
-# Context
+## UPD1
+
+Давай новый риквест сделаем в iterative prompt подходе. Прям из нашего чата что с тобой уже случился и моих запросов и твоих ответов. Определи где лучше модулю біть лучше ти от чего он зависит, и после по предложенной айдишке в папке риквеста создай `resuest/NNN-jira-cli-access` и там создай `main.prompt.md` и там уже весь наш чат. А вот суть запроса.
+
+Давай на основе MCPyrex скрипта, создадим CLI для доступа к джире и апитокен для работы с ним. В модуле скажи, что создавая апитокен лучше ограничить его правами, скажем только чтения. Тграничить во времени. И желательно поставить доступ по IP. Свой айпи можно узнать. Конечно же лучше работать из под VPN так мЫ максимально сократим риск утечки токена. А ещше CLI подход нужен потому что он гибче чем MCP и можно докурчивать много всякого - например для работЫ с бинарными файлами. А так же контекст економится потому что работа идет через CLI мимо контекста. Вот єто все разложи в модуле. И дай так же возможность юзеру портировать в конце эжто на любой язык какой он захочет. Мы будем делать все на питоне. И конечно же огранизуй skill.md файл вокруг которого будет сам модуль. Дальше ожидаю что ты будешь в poling режиме и коммуникацию мі перенесем в iterative prompt.
+
+### RESULT
 
 This prompt was created from a live chat session on 2026-04-30.
-
-## Chat
 
 **User:** У нас есть модуль по доступу к джире?
 
@@ -16,16 +20,6 @@ This prompt was created from a live chat session on 2026-04-30.
 - [modules/proposed-mcpyrex-modules.md](../../modules/proposed-mcpyrex-modules.md) — предложен модуль `470: mcpyrex: Jira Integration & PDF Processing`, но он ещё не создан.
 
 Если нужен полноценный модуль по работе с Jira — можем создать.
-
----
-
-**User:** Давай новый риквест сделаем в iterative prompt подходе. Прям из нашего чата что с тобой уже случился и моих запросов и твоих ответов. Определи где лучше модулю біть лучше ти от чего он зависит, и после по предложенной айдишке в папке риквеста создай `resuest/NNN-jira-cli-access` и там создай `main.prompt.md` и там уже весь наш чат. А вот суть запроса.
-
-Давай на основе MCPyrex скрипта, создадим CLI для доступа к джире и апитокен для работы с ним. В модуле скажи, что создавая апитокен лучше ограничить его правами, скажем только чтения. Тграничить во времени. И желательно поставить доступ по IP. Свой айпи можно узнать. Конечно же лучше работать из под VPN так мЫ максимально сократим риск утечки токена. А ещше CLI подход нужен потому что он гибче чем MCP и можно докурчивать много всякого - например для работЫ с бинарными файлами. А так же контекст економится потому что работа идет через CLI мимо контекста. Вот єто все разложи в модуле. И дай так же возможность юзеру портировать в конце эжто на любой язык какой он захочет. Мы будем делать все на питоне. И конечно же огранизуй skill.md файл вокруг которого будет сам модуль. Дальше ожидаю что ты будешь в poling режиме и коммуникацию мі перенесем в iterative prompt.
-
----
-
-## UPD1
 
 Create training module **470 — Jira CLI Access via MCPyrex** in `modules/470-jira-cli-access/`.
 
@@ -92,35 +86,18 @@ Create training module **470 — Jira CLI Access via MCPyrex** in `modules/470-j
 - Show equivalents: Node.js (axios + dotenv + commander), Go (net/http + cobra), Java (OkHttp + picocli)
 - Practical task: ask user to pick their preferred language and port the script using AI assistance
 
+**Created files:**
+- [modules/470-jira-cli-access/about.md](../../modules/470-jira-cli-access/about.md)
+- [modules/470-jira-cli-access/skill.md](../../modules/470-jira-cli-access/skill.md)
+- [modules/470-jira-cli-access/walkthrough.md](../../modules/470-jira-cli-access/walkthrough.md)
+- [modules/module-catalog.md](../../modules/module-catalog.md) — module 470 added
+- [training-plan.md](../../training-plan.md) — module 470 added after 400
+
 **skill.md requirements:**
 - Must follow the SKILL.md format used in other modules (e.g., [modules/076-skills-management-system/tools/SKILL.md](../../modules/076-skills-management-system/tools/SKILL.md) or [modules/090-ai-skills-tools-creation/](../../modules/090-ai-skills-tools-creation/about.md))
 - Should define: what the skill does, when to invoke it, CLI usage examples, expected output format, error handling guidance
 
 **Add module 470 to [modules/module-catalog.md](../../modules/module-catalog.md) and [training-plan.md](../../training-plan.md).**
-
-go
-
-### RESULT
-
-Created module **470 — Jira CLI Access via MCPyrex Python Script** placed between 400 (mcpyrex toolbox) and 500 (AI workflow guide).
-
-- [modules/470-jira-cli-access/about.md](../../modules/470-jira-cli-access/about.md) — module overview with prerequisites (400, 108), topics, outcomes, and resource links
-- [modules/470-jira-cli-access/skill.md](../../modules/470-jira-cli-access/skill.md) — AI agent skill descriptor: what the CLI does, when to invoke it, all commands with examples, error handling table, and language-porting guide
-- [modules/470-jira-cli-access/walkthrough.md](../../modules/470-jira-cli-access/walkthrough.md) — 6-part hands-on walkthrough: CLI vs MCP, secure token creation, full `jira_cli.py`, skill.md attachment, security checklist, language porting
-- [modules/module-catalog.md](../../modules/module-catalog.md) — module 470 added
-- [training-plan.md](../../training-plan.md) — module 470 added after 400
-- Context section updated: verbatim chat text restored (UPD2 fix)
-- Practical task: ask user to pick their preferred language and port the script using AI assistance
-
-**skill.md requirements:**
-- Must follow the SKILL.md format used in other modules (e.g., `modules/076-skills-management-system/` or `modules/090-ai-skills-tools-creation/`)
-- Should define: what the skill does, when to invoke it, CLI usage examples, expected output format, error handling guidance
-
-**Add module 470 to `modules/module-catalog.md` and `training-plan.md`.**
-
-go
-
-### RESULT
 
 Created module **470 — Jira CLI Access via MCPyrex Python Script** placed between 400 (mcpyrex toolbox) and 500 (AI workflow guide).
 
@@ -138,7 +115,7 @@ Created module **470 — Jira CLI Access via MCPyrex Python Script** placed betw
 
 ## UPD2
 
-Ты написал в `UPD1` саммари чата, а я просил мой запрос слово в слово. Сделай саммари в блок RESULT а мой текст слово в свлово. И отвечай тут на языке запроса.   go
+Ты написал в `UPD1` саммари чата, а я просил мой запрос слово в слово. Сделай саммари в блок RESULT а мой текст слово в свлово. И отвечай тут на языке запроса. go
 
 ### RESULT
 
