@@ -15,24 +15,39 @@ load_dotenv()
 JIRA_URL = os.getenv("JIRA_URL", "").rstrip("/")
 JIRA_EMAIL = os.getenv("JIRA_EMAIL", "")
 JIRA_API_TOKEN = os.getenv("JIRA_API_TOKEN", "")
+# JIRA_AUTH_TYPE: 'basic' (Atlassian Cloud) or 'bearer' (Jira Server/Data Center PAT)
+JIRA_AUTH_TYPE = os.getenv("JIRA_AUTH_TYPE", "basic").lower()
+# JIRA_API_VERSION: '2' (Jira Server/DC default) or '3' (Atlassian Cloud default)
+JIRA_API_VERSION = os.getenv("JIRA_API_VERSION", "2" if JIRA_AUTH_TYPE == "bearer" else "3")
 
 
 def validate_config():
     if not JIRA_URL.startswith("https://"):
         sys.exit("ERROR: JIRA_URL must start with https://")
-    if not JIRA_EMAIL or not JIRA_API_TOKEN:
-        sys.exit("ERROR: JIRA_EMAIL and JIRA_API_TOKEN must be set in .env")
+    if not JIRA_API_TOKEN:
+        sys.exit("ERROR: JIRA_API_TOKEN must be set in .env")
+    if JIRA_AUTH_TYPE == "basic" and not JIRA_EMAIL:
+        sys.exit("ERROR: JIRA_EMAIL must be set for basic auth mode")
 
 
-def auth():
+def _request_headers():
+    if JIRA_AUTH_TYPE == "bearer":
+        return {"Authorization": f"Bearer {JIRA_API_TOKEN}"}
+    return {}
+
+
+def _request_auth():
+    if JIRA_AUTH_TYPE == "bearer":
+        return None
     return (JIRA_EMAIL, JIRA_API_TOKEN)
 
 
 def api_get(path, params=None):
-    url = f"{JIRA_URL}/rest/api/3{path}"
-    resp = requests.get(url, auth=auth(), params=params, timeout=15)
+    url = f"{JIRA_URL}/rest/api/{JIRA_API_VERSION}{path}"
+    resp = requests.get(url, auth=_request_auth(), headers=_request_headers(), params=params, timeout=15)
     if resp.status_code == 401:
-        sys.exit("ERROR: 401 Unauthorized — check JIRA_EMAIL and JIRA_API_TOKEN")
+        hint = "check JIRA_API_TOKEN" if JIRA_AUTH_TYPE == "bearer" else "check JIRA_EMAIL and JIRA_API_TOKEN"
+        sys.exit(f"ERROR: 401 Unauthorized — {hint} (JIRA_AUTH_TYPE={JIRA_AUTH_TYPE})")
     if resp.status_code == 403:
         sys.exit("ERROR: 403 Forbidden — token lacks permission for this operation")
     resp.raise_for_status()

@@ -140,3 +140,28 @@ Fixed module structure per `create-training-module.agent.md`:
 - `work/470-task/.env` — copy of `.env.example`, ready to fill in your key (gitignored)
 - `work/470-task/ticket.md` — empty template, paste your ticket link there
 - `work/470-task/.gitignore` — `.env` and venv protected from commits
+
+## UPD3
+
+Заполнил все файлы в папке `work/470-task`. go
+
+### RESULT
+
+**Диагностика 401:** Corporate Jira (`jira.company.com`) — self-hosted Data Center за SSO-прокси. Стандартный Basic Auth (Cloud) и Bearer с коротким токеном не проходят; в ответ приходит HTML-страница "Unauthorized (401)", а не JSON — это признак SSO-интерцепта.
+
+**Что обновлено:**
+- [modules/470-jira-cli-access/tools/scripts/jira_cli.py](../../modules/470-jira-cli-access/tools/scripts/jira_cli.py) — добавлена поддержка `JIRA_AUTH_TYPE=bearer` и `JIRA_API_VERSION`, автоматический выбор API v2 для Bearer режима
+- [modules/470-jira-cli-access/tools/.env.example](../../modules/470-jira-cli-access/tools/.env.example) — добавлены комментарии для Cloud vs Server/DC, пример для bearer
+- `work/470-task/jira_cli.py` — обновлённая копия скрипта
+- `work/470-task/.env` — добавлена строка `JIRA_AUTH_TYPE=bearer`
+
+**Следующий шаг для тебя:**
+Нужен PAT, сгенерированный **внутри Corporate Jira** (не с id.atlassian.com):
+1. Войди в `https://jira.company.com` через браузер (SSO)
+2. Перейди: **Profile → Personal Access Tokens → Create token**
+3. Задай имя токена и срок действия
+4. Скопируй токен (показывается один раз)
+5. Вставь в `work/470-task/.env` как `JIRA_API_TOKEN=<новый токен>`
+6. Убедись что `JIRA_AUTH_TYPE=bearer` стоит в `.env`
+
+После этого запусти: `python jira_cli.py get --key QWERTY-123`
