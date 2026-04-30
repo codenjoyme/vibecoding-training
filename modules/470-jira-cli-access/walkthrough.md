@@ -13,8 +13,9 @@ See [module overview](about.md) for full prerequisites list.
 | Component | Location | Purpose |
 |-----------|----------|---------|
 | `jira_cli.py` | `work/470-task/` | CLI script for querying Jira |
-| `.env` | `work/470-task/` | Credentials (never committed) |
+| `.env` | **project root** | Credentials (never committed) — shared by all tools |
 | `SKILL.md` | `tools/SKILL.md` | AI agent descriptor |
+| `test/` | `modules/470-jira-cli-access/test/` | Snapshot tests (Docker) |
 
 ---
 
@@ -80,12 +81,19 @@ curl -s ifconfig.me
 
 ### Step 2: Create the Token
 
+**Atlassian Cloud (jira.atlassian.net):**
 1. Go to: [https://id.atlassian.com/manage-api-tokens](https://id.atlassian.com/manage-api-tokens)
 2. Click **Create API token**
-3. Fill in:
-   - **Label:** `jira-cli-dev` (descriptive name)
-   - **Expiration:** set a date — **never leave it "no expiry"**; 90 days is reasonable for dev work
+3. Set a **label** (`jira-cli-dev`) and an **expiration date** (90 days is reasonable)
 4. Click **Create** → copy the token immediately (shown only once)
+5. In `.env`: set `JIRA_AUTH_TYPE=basic` and fill in `JIRA_EMAIL`
+
+**Jira Server / Data Center (self-hosted, e.g. jiraeu.epam.com):**
+1. Log in to Jira → click your avatar → **Profile**
+2. In the left sidebar: **Personal Access Tokens** → **Create token**
+3. Set a **name** and **expiration date**
+4. Click **Create** → copy the token (shown only once)
+5. In `.env`: set `JIRA_AUTH_TYPE=bearer` — no email required
 
 ### Step 3: Apply Minimum Permissions
 
@@ -157,15 +165,29 @@ pip install requests python-dotenv
 
 ### Step 3: Fill In Your Credentials
 
-Open `work/470-task/.env` and fill in your values:
+Add your Jira credentials to the **project root `.env`** (the file at the root of this repository). The CLI uses `find_dotenv()` which searches from the current directory upward, so it will find the root `.env` whether you run from `work/470-task/` or from the module directory.
 
-```
-JIRA_URL=https://your-org.atlassian.net
-JIRA_EMAIL=your.email@company.com
-JIRA_API_TOKEN=your_api_token_here
+```dotenv
+# ── Jira Server / Data Center (Bearer PAT) ────────────────────────────────────
+JIRA_URL=https://jiraeu.epam.com
+JIRA_API_TOKEN=your_personal_access_token_here
+JIRA_AUTH_TYPE=bearer
+
+# ── Atlassian Cloud (Basic Auth) ─────────────────────────────────────────────
+# JIRA_URL=https://your-org.atlassian.net
+# JIRA_EMAIL=your.email@company.com
+# JIRA_API_TOKEN=your_atlassian_api_token_here
+# JIRA_AUTH_TYPE=basic
+
+# ── Test helpers (used by snapshot tests) ────────────────────────────────────
+JIRA_TEST_KEY=YOUR-PROJECT-123
+JIRA_SEARCH_JQL=assignee = currentUser() ORDER BY updated DESC
+JIRA_WRITE_PROJECT=YOUR-PROJECT
 ```
 
-The `.env` file is already in `.gitignore` — it will never be committed.
+The root `.env` is already in `.gitignore` — it will never be committed. You can still keep a local `work/470-task/.env` for overrides; if it exists, it takes priority over the root file.
+
+> **Why root `.env`?** A single credentials file is used by the CLI, the snapshot tests (mounted via `--env-file` in Docker), and any other tools in this workspace — no copying or syncing required.
 
 ### Step 4: Copy the CLI Script
 
@@ -342,7 +364,65 @@ Review that:
 | `ModuleNotFoundError: requests` | venv not activated | Activate the virtual environment first |
 | `.env` not found | Missing file | Copy from `tools/.env.example` and fill in values |
 
+## Part 7 — Snapshot Testing the CLI
+
+**Time: 10 min**
+
+Module [091 — CLI Testing](../091-cli-testing/about.md) introduced snapshot testing. Here we apply it to the Jira CLI.
+
+### How It Works
+
+1. Scenario files (`test/scenarios/*.md`) describe commands to run
+2. `run-tests.ps1` builds a Docker image, mounts the scenarios, and runs them
+3. Output is written back into the `.md` files — you review and commit the snapshot
+
+Credentials come from the **root `.env`** via Docker `--env-file` — never baked into the image.
+
+### Step 1: Add Test Env Vars to Root `.env`
+
+Make sure these exist in your root `.env`:
+
+```dotenv
+JIRA_TEST_KEY=YOUR-PROJECT-123      # a real issue key for read tests
+JIRA_SEARCH_JQL=project = YOUR-PROJECT AND status = Open
+JIRA_WRITE_PROJECT=YOUR-PROJECT     # for create test (needs write token)
+```
+
+### Step 2: Run the Tests
+
+From the project root:
+
+```powershell
+& modules/470-jira-cli-access/test/run-tests.ps1
+```
+
+First run builds the Docker image (`jira-cli-test`) — takes ~1-2 minutes. Subsequent runs with `-NoBuild` are fast:
+
+```powershell
+& modules/470-jira-cli-access/test/run-tests.ps1 -NoBuild
+```
+
+### Step 3: Review and Commit
+
+```powershell
+git diff modules/470-jira-cli-access/test/scenarios/
+```
+
+If the output looks correct, commit as the new golden snapshot. ⚠️ **Review carefully** — output may contain issue keys or Jira data. Redact or omit sensitive lines before committing.
+
+### How the Reuse Works
+
+| Component reused | From module | What it does |
+|-----------------|-------------|-------------|
+| `run-scenarios.sh` | 091-cli-testing | Engine that processes `.md` scenario files inside Docker |
+| Dockerfile pattern | 091-cli-testing | Generated on the fly from `python:3.12-slim` base |
+| Scenario format | 091-cli-testing | `` > `command` `` lines → captured output |
+| `run-tests.ps1` | 470 (new) | Wrapper that adds `--env-file` for secrets + copies `jira_cli.py` |
+
+---
+
 ## Next Steps
 
+- [091 — CLI Snapshot Testing](../091-cli-testing/about.md) — full snapshot testing framework
 - [106 — FastMCP: Custom MCP Server](../106-fastmcp-custom-mcp-server/about.md) — when you need a full MCP tool with real-time agent integration
 - [108 — Token & API Key Management](../108-token-api-key-management/about.md) — deeper dive into secrets hygiene

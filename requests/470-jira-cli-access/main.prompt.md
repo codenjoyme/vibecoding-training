@@ -231,3 +231,42 @@ Comments    : 0
 Оба файла идентичны: `modules/470-jira-cli-access/tools/scripts/jira_cli.py` и `work/470-task/jira_cli.py`.
 
 **Следующий шаг:** Создавай write-токен в Jira (Profile → Personal Access Tokens), положи в `work/470-task/.env` как `JIRA_API_TOKEN`, и давай тестировать! Начнём с `create`, потом `comment`, `upload`, `download`.
+
+## UPD7
+
+Давай потестим CLI наш хитрым способом. `modules/091-cli-testing/tools/cli-test-runner/SKILL.md` есть способ тестирования. Давай напишем скрипт, но будем переиспользовать `modules/091-cli-testing/tools/cli-test-runner/run-scenarios.ps1` и тот подход что там есть для тестирования внутри докера. `.env` берем из корня проекта `.env` опять же не копируем, а по пути берем из того места где он лежит. 
+
+И наверное давай поправим программу тренинга, чтобы во время тестирования в `work/470-task` секреты тоже брались из корневого `.env`. Там скорее всего уже будут какие-то данные, потому мы просто добавимся в конец. 
+
+Я уже это сделал вручную. 
+
+И да, никогда не свети секреты в логах и тут в промпте. Номер тикета и сайт с которым работаем тоде. go  
+
+### RESULT
+
+Создал структуру snapshot-тестов + обновил весь модуль для работы с root `.env`.
+
+**Новые файлы:**
+
+| Файл | Что делает |
+|------|------------|
+| `modules/470-jira-cli-access/test/setup.sh` | Устанавливает `requests`, `python-dotenv`, кладёт `jira_cli.py` в `/workspace/` |
+| `modules/470-jira-cli-access/test/scenarios/jira-cli-smoke.md` | Сценарии: help, search, get, comments, transitions, comment, create, error handling |
+| `modules/470-jira-cli-access/test/run-tests.ps1` | Обёртка: собирает Docker-образ, запускает с `--env-file` из корневого `.env` |
+
+**Изменения в существующих файлах:**
+
+- `jira_cli.py` — `load_dotenv()` заменён на `find_dotenv(usecwd=True)` — ищет `.env` от CWD вверх по дереву; находит root `.env` автоматически
+- `walkthrough.md` — Step 3 обновлён: credentials в root `.env`, пример с `JIRA_TEST_KEY` / `JIRA_SEARCH_JQL` / `JIRA_WRITE_PROJECT`; добавлена Part 7 "Snapshot Testing"
+
+**Как запустить тесты:**
+
+```powershell
+# Первый раз — строит Docker-образ ~1-2 мин
+& modules/470-jira-cli-access/test/run-tests.ps1
+
+# Повторный прогон без пересборки
+& modules/470-jira-cli-access/test/run-tests.ps1 -NoBuild
+```
+
+Секреты передаются через `docker run --env-file root.env` — в образ не попадают. Сценарии используют `$JIRA_TEST_KEY` и `$JIRA_SEARCH_JQL` из `.env` — никаких хардкодных тикетов или URL.

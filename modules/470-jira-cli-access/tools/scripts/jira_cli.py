@@ -8,9 +8,11 @@ import sys
 from pathlib import Path
 
 import requests
-from dotenv import load_dotenv
+from dotenv import find_dotenv, load_dotenv
 
-load_dotenv()
+# Search for .env from CWD upward (finds project root .env if no local .env exists)
+_env_file = os.getenv("JIRA_ENV_FILE") or find_dotenv(usecwd=True) or ".env"
+load_dotenv(_env_file)
 
 JIRA_URL = os.getenv("JIRA_URL", "").rstrip("/")
 JIRA_EMAIL = os.getenv("JIRA_EMAIL", "")
