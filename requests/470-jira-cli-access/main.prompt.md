@@ -4,24 +4,24 @@ iterative-prompt.agent.md
 
 # Context
 
-This prompt was created from a live chat session on 2026-04-30. The conversation explored Jira access options and led to a request to build a dedicated training module using the MCPyrex CLI approach.
+This prompt was created from a live chat session on 2026-04-30.
 
-## Chat Summary
+## Chat
 
-**User:** Do we have a module about Jira access?
+**User:** У нас есть модуль по доступу к джире?
 
-**Agent:** No standalone Jira module exists. Jira is partially covered in:
-- `modules/168-elitea-remote-mcp-http-integration/walkthrough.md` — Atlassian OAuth 2.0 Remote MCP section with tools: `jira_create_issue`, `jira_search_issues`, `jira_get_board`, etc.
-- `modules/proposed-mcpyrex-modules.md` — module 470 "mcpyrex: Jira Integration & PDF Processing" proposed but not yet created.
+**Agent:** Отдельного модуля по Jira нет. Тема Jira частично покрыта в:
 
-**User:** Let's create a new module using the iterative prompt approach. Based on a MCPyrex Python script, build a CLI for Jira access with an API token. Key points to cover in the module:
-- When creating an API token — recommend limiting its permissions (e.g., read-only), setting a time limit, and restricting access by IP
-- Show how to discover your own IP address
-- Recommend using VPN to minimize the risk of token leakage
-- Explain why CLI is more flexible than MCP: supports binary files, can be extended easily, saves context because work happens via CLI outside the AI context window
-- Allow the user to port the solution to any language they prefer at the end
-- Organize everything around a `skill.md` file at the module core
-- Switch to polling mode after creating the request
+- [modules/168-elitea-remote-mcp-http-integration/walkthrough.md](../../modules/168-elitea-remote-mcp-http-integration/walkthrough.md) — там есть раздел про подключение Jira через Remote MCP (OAuth 2.0) с инструментами `jira_create_issue`, `jira_search_issues`, `jira_get_board` и др.
+- [modules/proposed-mcpyrex-modules.md](../../modules/proposed-mcpyrex-modules.md) — предложен модуль `470: mcpyrex: Jira Integration & PDF Processing`, но он ещё не создан.
+
+Если нужен полноценный модуль по работе с Jira — можем создать.
+
+---
+
+**User:** Давай новый риквест сделаем в iterative prompt подходе. Прям из нашего чата что с тобой уже случился и моих запросов и твоих ответов. Определи где лучше модулю біть лучше ти от чего он зависит, и после по предложенной айдишке в папке риквеста создай `resuest/NNN-jira-cli-access` и там создай `main.prompt.md` и там уже весь наш чат. А вот суть запроса.
+
+Давай на основе MCPyrex скрипта, создадим CLI для доступа к джире и апитокен для работы с ним. В модуле скажи, что создавая апитокен лучше ограничить его правами, скажем только чтения. Тграничить во времени. И желательно поставить доступ по IP. Свой айпи можно узнать. Конечно же лучше работать из под VPN так мЫ максимально сократим риск утечки токена. А ещше CLI подход нужен потому что он гибче чем MCP и можно докурчивать много всякого - например для работЫ с бинарными файлами. А так же контекст економится потому что работа идет через CLI мимо контекста. Вот єто все разложи в модуле. И дай так же возможность юзеру портировать в конце эжто на любой язык какой он захочет. Мы будем делать все на питоне. И конечно же огранизуй skill.md файл вокруг которого будет сам модуль. Дальше ожидаю что ты будешь в poling режиме и коммуникацию мі перенесем в iterative prompt.
 
 ---
 
@@ -115,3 +115,11 @@ Created module **470 — Jira CLI Access via MCPyrex Python Script** placed betw
   - Part 6: Language porting table (Node.js, Go, Java, Bash) with AI-assisted porting prompt
 - [modules/module-catalog.md](../../modules/module-catalog.md) — module 470 added
 - [training-plan.md](../../training-plan.md) — module 470 added after 400
+
+## UPD2
+
+Ты написал в `UPD1` саммари чата, а я просил мой запрос слово в слово. Сделай саммари в блок RESULT а мой текст слово в свлово. И отвечай тут на языке запроса.  go
+
+### RESULT
+
+- [requests/470-jira-cli-access/main.prompt.md](main.prompt.md) — секция `# Context / Chat` заменена: теперь содержит дословный диалог из чата (вопрос «У нас есть модуль?», ответ агента, и полный оригинальный текст запроса на русском). Краткое саммари убрано из тела промпта — оно и так есть в RESULT блоках.
