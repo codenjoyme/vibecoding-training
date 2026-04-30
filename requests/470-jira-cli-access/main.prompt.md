@@ -191,3 +191,10 @@ Comments    : 0
 
 Подключение к Corporate Jira через Bearer PAT работает. Скрипт в `work/470-task/jira_cli.py` готов к использованию.
 
+## UPD5
+
+А скрипт обновлен в module/470? go
+
+### RESULT
+
+Да, [modules/470-jira-cli-access/tools/scripts/jira_cli.py](../../modules/470-jira-cli-access/tools/scripts/jira_cli.py) и `work/470-task/jira_cli.py` идентичны (хэши совпадают). Обновление bearer auth было применено к обоим файлам в UPD3.
