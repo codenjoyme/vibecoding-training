@@ -316,3 +316,15 @@ Snapshot-тесты запущены и прошли успешно. Два ба
 | `tools/SKILL.md` | `your-company.jira.example.com` |
 
 3. Один коммит: `470: UPD8+9 — snapshot tests (Docker, read+write+errors); redact PII from scenario output`
+
+## UPD10
+
+Слушай я тут начал править, и вижу что в `SKILL.md` есть много упоминания папки `work` но она должна быть агностична для программы тренинга. Вот в `walkthrough.md` должно быть упоминание про `work` а сам скилл должн говорить как запустить скрипт, и что `.env` где-то будет искаться на уровнях выше. Поправи. go 
+
+### RESULT
+
+Убрано 2 упоминания `work/470-task/` из `tools/SKILL.md`:
+
+- **Prerequisites:** `work/470-task/jira_cli.py exists` → `jira_cli.py is accessible — either in the current directory, on PATH, or at a known path`
+- **CLI Usage Reference:** `All commands run from the work/470-task/ directory` → `Run from any directory where jira_cli.py is accessible`
+- Добавлена заметка о `.env` auto-discovery: `find_dotenv(usecwd=True)` ищет от текущей директории вверх — `.env` на корне проекта работает из любой поддиректории
