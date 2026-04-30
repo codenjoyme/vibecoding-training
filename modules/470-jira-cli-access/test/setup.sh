@@ -5,6 +5,7 @@ set -e
 pip install --no-cache-dir requests python-dotenv
 
 # Copy the CLI script to /workspace so scenarios can run it with `python jira_cli.py`
+mkdir -p /workspace
 cp /app/jira_cli.py /workspace/jira_cli.py
 
 echo "Setup complete."

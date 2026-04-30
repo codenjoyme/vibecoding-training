@@ -108,7 +108,7 @@ RUN chmod +x /app/run-scenarios.sh
 RUN mkdir -p /workspace /app/scenarios
 WORKDIR /workspace
 
-ENTRYPOINT ["bash", "-c", "sed 's/\r$//' /app/run-scenarios.sh > /tmp/run.sh && bash /tmp/run.sh `"`$@`"", "--"]
+ENTRYPOINT ["bash", "-c", "sed 's/\\r`$//' /app/run-scenarios.sh > /tmp/run.sh && bash /tmp/run.sh \"`$@\"", "--"]
 "@
         [System.IO.File]::WriteAllText((Join-Path $tmpCtx "Dockerfile"), $dockerfile)
 

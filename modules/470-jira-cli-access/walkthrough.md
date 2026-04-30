@@ -88,7 +88,7 @@ curl -s ifconfig.me
 4. Click **Create** → copy the token immediately (shown only once)
 5. In `.env`: set `JIRA_AUTH_TYPE=basic` and fill in `JIRA_EMAIL`
 
-**Jira Server / Data Center (self-hosted, e.g. jiraeu.epam.com):**
+**Jira Server / Data Center (self-hosted, e.g. your-company.jira.internal):**
 1. Log in to Jira → click your avatar → **Profile**
 2. In the left sidebar: **Personal Access Tokens** → **Create token**
 3. Set a **name** and **expiration date**
@@ -169,7 +169,7 @@ Add your Jira credentials to the **project root `.env`** (the file at the root o
 
 ```dotenv
 # ── Jira Server / Data Center (Bearer PAT) ────────────────────────────────────
-JIRA_URL=https://jiraeu.epam.com
+JIRA_URL=https://your-company.jira.example.com
 JIRA_API_TOKEN=your_personal_access_token_here
 JIRA_AUTH_TYPE=bearer
 
@@ -180,9 +180,9 @@ JIRA_AUTH_TYPE=bearer
 # JIRA_AUTH_TYPE=basic
 
 # ── Test helpers (used by snapshot tests) ────────────────────────────────────
-JIRA_TEST_KEY=YOUR-PROJECT-123
+JIRA_TEST_KEY=PROJECT-1000
 JIRA_SEARCH_JQL=assignee = currentUser() ORDER BY updated DESC
-JIRA_WRITE_PROJECT=YOUR-PROJECT
+JIRA_WRITE_PROJECT=PROJECT
 ```
 
 The root `.env` is already in `.gitignore` — it will never be committed. You can still keep a local `work/470-task/.env` for overrides; if it exists, it takes priority over the root file.

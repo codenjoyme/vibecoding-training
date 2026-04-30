@@ -160,7 +160,7 @@ The CLI reads credentials from `work/470-task/.env`:
 
 ```
 # Jira Server / Data Center (PAT)
-JIRA_URL=https://jiraeu.epam.com
+JIRA_URL=https://your-company.jira.example.com
 JIRA_API_TOKEN=your_personal_access_token
 JIRA_AUTH_TYPE=bearer
 
