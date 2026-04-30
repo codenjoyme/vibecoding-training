@@ -6,7 +6,7 @@
 
 ## What This Skill Does
 
-This skill gives the AI agent access to a Jira instance via a local Python CLI script (`jira_cli.py`). The agent can search for issues using JQL, fetch issue details, list attachments, and download binary files — all without loading an MCP server into the context window.
+This skill gives the AI agent access to a Jira instance via a local Python CLI script (`jira_cli.py`). The agent can search issues, fetch details, read comments, list/download attachments, **and write**: create issues, post comments, upload files, transition status, update fields — all without loading an MCP server into the context window.
 
 **Key advantages over MCP tools:**
 - Works outside the AI context window — saves tokens
@@ -24,25 +24,30 @@ Use this skill when the user asks to:
 - List or download attachments from an issue
 - Check sprint status or board contents
 - Summarize or analyze Jira data
+- **Create** a new issue in a project
+- **Add a comment** to an issue
+- **Upload** a file as an attachment
+- **Transition** an issue to a different status
+- **Update** summary, priority, or labels
 
 Do **not** use this skill if:
-- The user wants to create or modify issues at scale (prefer Jira UI or dedicated scripts)
 - The Jira instance is not configured in `.env`
+- The token was created without write scope (403 errors will occur on write commands)
 
 ---
 
 ## Prerequisites
 
 Before invoking any CLI command, confirm:
-1. `work/470-jira-cli/jira_cli.py` exists in the workspace
-2. `work/470-jira-cli/.env` exists with `JIRA_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN`
+1. `work/470-task/jira_cli.py` exists in the workspace
+2. `work/470-task/.env` exists with `JIRA_URL`, `JIRA_API_TOKEN`, and `JIRA_AUTH_TYPE`
 3. Python environment has `requests` and `python-dotenv` installed
 
 ---
 
 ## CLI Usage Reference
 
-All commands run from the `work/470-jira-cli/` directory:
+All commands run from the `work/470-task/` directory:
 
 ```
 python jira_cli.py <command> [options]
@@ -90,16 +95,80 @@ python jira_cli.py download --key ABC-123 --filename "screenshot.png" --output .
 
 Downloads the named attachment to the `--output` directory. Works for any file type including PDFs, images, and ZIP archives.
 
+### `comments` — List comments on an issue
+
+```
+python jira_cli.py comments --key ABC-123
+```
+
+Prints each comment with author, date, and body (first 300 chars).
+
+### `transitions` — List available status transitions
+
+```
+python jira_cli.py transitions --key ABC-123
+```
+
+Prints transition IDs and names. Use the ID with the `transition` command.
+
+---
+
+## Write Commands (require write-scoped token)
+
+### `create` — Create a new issue
+
+```
+python jira_cli.py create --project ABC --summary "Fix login bug" [--type Task] [--description "..."] [--priority Major] [--labels "bug,urgent"]
+```
+
+Prints the new issue key and browse URL on success.
+
+### `comment` — Add a comment
+
+```
+python jira_cli.py comment --key ABC-123 --text "Verified in staging."
+```
+
+### `upload` — Upload a file as an attachment
+
+```
+python jira_cli.py upload --key ABC-123 --file ./report.pdf
+```
+
+Uses `multipart/form-data` with `X-Atlassian-Token: no-check` header (required by Jira).
+
+### `transition` — Move issue to a new status
+
+```
+python jira_cli.py transitions --key ABC-123   # first: get available IDs
+python jira_cli.py transition  --key ABC-123 --id 21
+```
+
+### `update` — Update issue fields
+
+```
+python jira_cli.py update --key ABC-123 [--summary "New title"] [--priority Minor] [--labels "qa,verified"]
+```
+
+At least one field flag is required. `--labels` replaces all existing labels.
+
 ---
 
 ## Environment Variables
 
-The CLI reads credentials from `work/470-jira-cli/.env`:
+The CLI reads credentials from `work/470-task/.env`:
 
 ```
-JIRA_URL=https://your-org.atlassian.net
-JIRA_EMAIL=your.email@company.com
-JIRA_API_TOKEN=your_api_token_here
+# Jira Server / Data Center (PAT)
+JIRA_URL=https://jiraeu.epam.com
+JIRA_API_TOKEN=your_personal_access_token
+JIRA_AUTH_TYPE=bearer
+
+# Atlassian Cloud
+# JIRA_URL=https://your-org.atlassian.net
+# JIRA_EMAIL=your.email@company.com
+# JIRA_API_TOKEN=your_atlassian_api_token
+# JIRA_AUTH_TYPE=basic
 ```
 
 **Security rules enforced by the CLI:**
@@ -118,7 +187,8 @@ When the user asks about Jira issues, follow this workflow:
 3. **Run `search`** — get matching issues in table format for quick scan
 4. **Run `get`** if the user wants full details on a specific issue
 5. **Run `attachments`** if the user needs to inspect or download files
-6. **Summarize results** in plain language — do not dump raw JSON to the user
+6. **Run `transitions`** before `transition` to get valid IDs
+7. **Summarize results** in plain language — do not dump raw JSON to the user
 
 **Example agent workflow:**
 ```
@@ -136,7 +206,7 @@ Agent steps:
 
 | Error | Likely cause | Agent action |
 |-------|-------------|--------------|
-| `401 Unauthorized` | Token invalid or expired | Ask user to regenerate token at https://id.atlassian.com/manage-api-tokens |
+| `401 Unauthorized` | Token invalid or expired | For bearer: regenerate PAT inside Jira (Profile → Personal Access Tokens). For basic: regenerate at https://id.atlassian.com/manage-api-tokens |
 | `403 Forbidden` | Token lacks permissions for this operation | Ask user to check token scope |
 | `400 Bad Request` | Invalid JQL syntax | Fix the JQL query and retry |
 | `Connection refused` | Wrong `JIRA_URL` or network issue | Verify URL and VPN connection |
@@ -157,5 +227,7 @@ This CLI pattern is language-agnostic. The core logic is:
 - **Go:** `net/http` + `godotenv` + `cobra`
 - **Java:** `OkHttp` + `dotenv-java` + `picocli`
 - **Bash:** `curl` + `.env` file sourced manually
+
+**Auth note:** Jira Server/Data Center uses Bearer PAT (`JIRA_AUTH_TYPE=bearer`). Atlassian Cloud uses Basic Auth email+token (`JIRA_AUTH_TYPE=basic`). The CLI selects API version automatically (v2 for bearer, v3 for basic).
 
 Ask your AI agent: *"Port `jira_cli.py` to [language] keeping the same command structure"*

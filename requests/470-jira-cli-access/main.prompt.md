@@ -198,3 +198,36 @@ Comments    : 0
 ### RESULT
 
 Да, [modules/470-jira-cli-access/tools/scripts/jira_cli.py](../../modules/470-jira-cli-access/tools/scripts/jira_cli.py) и `work/470-task/jira_cli.py` идентичны (хэши совпадают). Обновление bearer auth было применено к обоим файлам в UPD3.
+
+## UPD6
+
+Какие операции умеет делать скрипт с тикетами? Какие вообще операции есть? Я щас сделаю ключик write и давай потестим создание нового тикета. Добавление коммента. Аплоад файла. Довлоад файла. Что еще там может быть в джире? go  
+
+### RESULT
+
+Расширил скрипт до полного набора операций. Теперь `jira_cli.py` поддерживает:
+
+**READ (существующие + новые):**
+| Команда | Что делает |
+|---------|------------|
+| `search` | JQL-поиск, форматы table / json / plain |
+| `get` | Полные детали тикета |
+| `attachments` | Список вложений |
+| `download` | Скачать файл-вложение |
+| `comments` | Список комментариев с автором и датой |
+| `transitions` | Доступные переходы статуса (ID + имя) |
+
+**WRITE (новые, требуют токен с write-правами):**
+| Команда | Что делает |
+|---------|------------|
+| `create` | Создать тикет (`--project ABC --summary "..."`) |
+| `comment` | Добавить комментарий (`--key ABC-123 --text "..."`) |
+| `upload` | Загрузить файл как вложение (`--key ABC-123 --file ./report.pdf`) |
+| `transition` | Сменить статус (`--key ABC-123 --id 21`) |
+| `update` | Обновить summary / priority / labels |
+
+Также исправлен баг: `cmd_download` использовал старый `auth()` вместо `_auth()`.
+
+Оба файла идентичны: `modules/470-jira-cli-access/tools/scripts/jira_cli.py` и `work/470-task/jira_cli.py`.
+
+**Следующий шаг:** Создавай write-токен в Jira (Profile → Personal Access Tokens), положи в `work/470-task/.env` как `JIRA_API_TOKEN`, и давай тестировать! Начнём с `create`, потом `comment`, `upload`, `download`.
