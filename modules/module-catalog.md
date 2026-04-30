@@ -61,6 +61,7 @@
 | 300 | DMtools — Agent Skill & Automation Catalog | Install a third-party agent skill, explore a catalog of 152+ automation tools across 16 integrations |
 | 350 | OpenClaw — AI Personal Assistant Platform | Install OpenClaw, connect an AI model, and interact with a personal AI assistant through a local Gateway, dashboard, and chat channels |
 | 400 | Installing mcpyrex — MCP Python Toolbox | Install mcpyrex (open-source MCP server with 30+ Python/Langchain tools) into a dedicated workspace and run your first deterministic tool |
+| 470 | Jira CLI Access via MCPyrex Python Script | Build a Python CLI for Jira REST API access, create a scoped API token with expiry and IP restriction, use VPN for protection, and teach the AI agent to drive it via a skill.md descriptor |
 | 500 | AI Workflow Decision Guide | Know exactly which AI tools to use, when to use them, and how to combine them for any daily development task |
 | 600 | Microsoft Teams AI Chat Summarizer | Build a Dockerized Python app that authenticates to Entra ID, reads Teams chats via Microsoft Graph, summarizes with an LLM, and posts back to a dedicated chat |
 | 620 | Microsoft Teams Meeting Transcription | Convert Teams meeting `.docx` transcripts to clean text with optional speaker anonymization, ready for LLM summarization |
