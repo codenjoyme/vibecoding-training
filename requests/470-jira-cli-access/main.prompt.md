@@ -300,3 +300,19 @@ Snapshot-тесты запущены и прошли успешно. Два ба
 ## UPD9
 
 Давай откати последних два коммита, но оставь изменения. Я хочу PII поправить (следуй инструкции по этому и поправь все). А потом одним коммитом закоммить. go
+
+### RESULT
+
+Выполнено по инструкции `handle-secrets-in-ai-workflows.agent.md`:
+
+1. `git reset --soft HEAD~2` — оба UPD8-коммита откатаны, изменения остались staged
+
+2. **PII отредактировано** во всех файлах:
+
+| Файл | Что заменено |
+|------|-------------|
+| `test/scenarios/jira-cli-smoke.md` | Реальные ключи тикетов → `PROJECT-NNN`; имена → `Stiven Pupkin` / `Jane Smith`; URL → `https://your-jira.example.com`; comment ID → `XXXXXXXX`; содержимое тикета → placeholder-описание |
+| `walkthrough.md` | `your-company.jira.example.com`;  `PROJECT-1000` |
+| `tools/SKILL.md` | `your-company.jira.example.com` |
+
+3. Один коммит: `470: UPD8+9 — snapshot tests (Docker, read+write+errors); redact PII from scenario output`
