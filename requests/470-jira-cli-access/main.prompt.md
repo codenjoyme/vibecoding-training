@@ -93,6 +93,26 @@ Create training module **470 — Jira CLI Access via MCPyrex** in `modules/470-j
 - Practical task: ask user to pick their preferred language and port the script using AI assistance
 
 **skill.md requirements:**
+- Must follow the SKILL.md format used in other modules (e.g., [modules/076-skills-management-system/tools/SKILL.md](../../modules/076-skills-management-system/tools/SKILL.md) or [modules/090-ai-skills-tools-creation/](../../modules/090-ai-skills-tools-creation/about.md))
+- Should define: what the skill does, when to invoke it, CLI usage examples, expected output format, error handling guidance
+
+**Add module 470 to [modules/module-catalog.md](../../modules/module-catalog.md) and [training-plan.md](../../training-plan.md).**
+
+go
+
+### RESULT
+
+Created module **470 — Jira CLI Access via MCPyrex Python Script** placed between 400 (mcpyrex toolbox) and 500 (AI workflow guide).
+
+- [modules/470-jira-cli-access/about.md](../../modules/470-jira-cli-access/about.md) — module overview with prerequisites (400, 108), topics, outcomes, and resource links
+- [modules/470-jira-cli-access/skill.md](../../modules/470-jira-cli-access/skill.md) — AI agent skill descriptor: what the CLI does, when to invoke it, all commands with examples, error handling table, and language-porting guide
+- [modules/470-jira-cli-access/walkthrough.md](../../modules/470-jira-cli-access/walkthrough.md) — 6-part hands-on walkthrough: CLI vs MCP, secure token creation, full `jira_cli.py`, skill.md attachment, security checklist, language porting
+- [modules/module-catalog.md](../../modules/module-catalog.md) — module 470 added
+- [training-plan.md](../../training-plan.md) — module 470 added after 400
+- Context section updated: verbatim chat text restored (UPD2 fix)
+- Practical task: ask user to pick their preferred language and port the script using AI assistance
+
+**skill.md requirements:**
 - Must follow the SKILL.md format used in other modules (e.g., `modules/076-skills-management-system/` or `modules/090-ai-skills-tools-creation/`)
 - Should define: what the skill does, when to invoke it, CLI usage examples, expected output format, error handling guidance
 
@@ -118,7 +138,7 @@ Created module **470 — Jira CLI Access via MCPyrex Python Script** placed betw
 
 ## UPD2
 
-Ты написал в `UPD1` саммари чата, а я просил мой запрос слово в слово. Сделай саммари в блок RESULT а мой текст слово в свлово. И отвечай тут на языке запроса.  go
+Ты написал в `UPD1` саммари чата, а я просил мой запрос слово в слово. Сделай саммари в блок RESULT а мой текст слово в свлово. И отвечай тут на языке запроса.   go
 
 ### RESULT
 
