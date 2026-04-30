@@ -39,15 +39,17 @@ Do **not** use this skill if:
 ## Prerequisites
 
 Before invoking any CLI command, confirm:
-1. `work/470-task/jira_cli.py` exists in the workspace
-2. `work/470-task/.env` exists with `JIRA_URL`, `JIRA_API_TOKEN`, and `JIRA_AUTH_TYPE`
+1. `jira_cli.py` is accessible — either in the current directory, on PATH, or at a known path
+2. `.env` with `JIRA_URL`, `JIRA_API_TOKEN`, and `JIRA_AUTH_TYPE` exists somewhere in the directory tree (current dir or any parent)
 3. Python environment has `requests` and `python-dotenv` installed
+
+> **`.env` discovery:** The script uses `find_dotenv(usecwd=True)` which searches from the current working directory upward. You can place `.env` at the project root and run the script from any subdirectory — it will find it automatically.
 
 ---
 
 ## CLI Usage Reference
 
-All commands run from the `work/470-task/` directory:
+Run from any directory where `jira_cli.py` is accessible (`.env` is searched upward automatically):
 
 ```
 python jira_cli.py <command> [options]
@@ -156,7 +158,7 @@ At least one field flag is required. `--labels` replaces all existing labels.
 
 ## Environment Variables
 
-The CLI reads credentials from `work/470-task/.env`:
+The CLI reads credentials from `.env`:
 
 ```
 # Jira Server / Data Center (PAT)
