@@ -29,6 +29,7 @@ The net effect: you can open multiple IDE windows with different projects, each 
 ## How I Work
 
 - This instruction manages iterative prompt updates using `UPD[N]` markers where `N` is the sequential update number starting at 1.
+- Plans, refusals, clarifications, and any other non-execution responses also go inside `### RESULT` (not chat-only) — chat is breadcrumb only.
 - When invoked, always check what the user added first:
   + Run `git diff` to see uncommitted or recently committed changes
   + Or use IDE diff/change detection tools if available
