@@ -52,8 +52,8 @@ The net effect: you can open multiple IDE windows with different projects, each 
   4. Repeat until there are no more unprocessed `## UPD` sections that have a `go` marker.
   5. Only stop and wait for the user when every `## UPD` block that has a `go` marker also has a `### RESULT`.
   6. **Atomic, parallel writing:** The user and the agent work in parallel streams. While the agent processes `## UPD[N]`, the user may be writing `## UPD[N+1]` or even `## UPD[N+2]`. This is fine — the agent will find them after waking up from the next sleep cycle. Each `## UPD` block with `go` is an independent unit of work with its own commit. Blocks without `go` are still being written — skip them and sleep again.
-  6. **After all `## UPD` blocks are processed:** enter an active terminal-based polling loop:
-     + **Step A:** Run a blocking wait command in the terminal to pause for a timeout interval:
+  6. **After all `## UPD` blocks are processed:** enter an active terminal-based polling loop. **Prefer the smart hash-watcher (Step A2) over fixed sleep — it wakes the agent only when the file actually changes AND ends with `go`, eliminating wasted polls and saving subprocess turns.**
+     + **Step A1 (legacy / fallback):** Run a blocking wait command in the terminal to pause for a timeout interval:
        * **Windows (PowerShell):** `Start-Sleep -Seconds 60`
        * **Linux/macOS (bash):** `sleep 60`
        * Use `run_in_terminal` in **sync** mode with a matching timeout so the agent blocks on it.
@@ -72,41 +72,57 @@ The net effect: you can open multiple IDE windows with different projects, each 
        This compensates for context drift during long-running sessions — the polling loop can run for hours, and earlier in the conversation the agent may have loaded these instructions only once. Without periodic refresh, the agent may forget polling rules, commit policy, or language preference. Do NOT skip this step even if "nothing has changed" — the point is to refresh the agent's working memory, not the file content.
      + This loop continues **indefinitely** until the user explicitly stops the agent.
      + Do NOT print "waiting for instructions" to the chat and stop. The agent must keep itself alive via the terminal sleep loop.
-     + **Step H — Wake-on-change watcher (preferred over plain sleep):** Instead of sleeping for a fixed 60s and re-reading the file every cycle, run a single longer-lived terminal command that does the polling internally and **only returns to the agent when something actually changed**. This frees the agent from one premium request per 60 s of idle time — the watcher prints a `CHANGED` line to stdout and exits, and the agent sees that line in the terminal output and reacts.
+     + **Step H — Wake-on-change-and-go watcher (PREFERRED, supersedes Step A1):** Instead of sleeping for a fixed 60 s and re-reading the file every cycle, run a single longer-lived terminal command that does the polling internally and **only returns to the agent when the file changed AND its tail contains `go`**. This frees the agent from one premium request per 60 s of idle time — the watcher prints a `NEW UPD ready` line to stdout and exits, and the agent sees that line in the terminal output and reacts.
 
        Use the watcher command appropriate for the OS. The file path is the active prompt file (the `*.prompt.md` that triggered this session).
 
        **Windows (PowerShell):**
        ```powershell
        $f = 'requests/<folder>/main.prompt.md'
-       $h0 = (Get-FileHash $f).Hash
-       Write-Host "WATCH baseline=$h0"
-       for ($i = 1; $i -le 120; $i++) {
-         Start-Sleep -Seconds 60
-         $h = (Get-FileHash $f).Hash
-         if ($h -ne $h0) { Write-Host "CHANGED after $i min hash=$h"; break }
-         Write-Host "[$i min] no change"
+       $h = (Get-FileHash $f).Hash
+       Write-Host "watching baseline $($h.Substring(0,12))"
+       while ($true) {
+         Start-Sleep -Seconds 4
+         $n = (Get-FileHash $f).Hash
+         if ($n -ne $h) {
+           $tail = (Get-Content $f -Tail 3) -join "`n"
+           if ($tail -match '\bgo\b') {
+             Write-Host "NEW UPD ready: hash $($n.Substring(0,12))"
+             break
+           } else {
+             Write-Host "file changed but no 'go' yet"
+             $h = $n
+           }
+         }
        }
        ```
 
        **Linux / macOS (bash):**
        ```bash
        f='requests/<folder>/main.prompt.md'
-       h0=$(sha256sum "$f" | awk '{print $1}')
-       echo "WATCH baseline=$h0"
-       for i in $(seq 1 120); do
-         sleep 60
-         h=$(sha256sum "$f" | awk '{print $1}')
-         if [ "$h" != "$h0" ]; then echo "CHANGED after $i min hash=$h"; break; fi
-         echo "[$i min] no change"
+       h=$(sha256sum "$f" | awk '{print $1}')
+       echo "watching baseline ${h:0:12}"
+       while true; do
+         sleep 4
+         n=$(sha256sum "$f" | awk '{print $1}')
+         if [ "$n" != "$h" ]; then
+           if tail -n 3 "$f" | grep -Eq '\bgo\b'; then
+             echo "NEW UPD ready: hash ${n:0:12}"
+             break
+           else
+             echo "file changed but no 'go' yet"
+             h=$n
+           fi
+         fi
        done
        ```
 
-       Run via `run_in_terminal` in **sync** mode with a timeout matching the loop budget (e.g. 120 minutes → `timeout: 7300000` ms). When the command returns:
+       Run via `run_in_terminal` in **sync** mode with a generous timeout (e.g. `timeout: 7300000` ms = ~2 h). When the command returns:
        1. Re-read the prompt file.
-       2. If a new `## UPD[N]` ending with `go` is found → process it (Step E).
-       3. If the file changed but no new ready-to-go UPD is present (user is still typing, no `go` yet) → restart the watcher (back to Step H).
-       4. If the watcher hit its 120-min budget without changes → restart the watcher (back to Step H). Also do the Step G anti-drift refresh on every restart.
+       2. Process the new `## UPD[N]` (it is guaranteed to end with `go` because the watcher already checked).
+       3. After processing, restart the watcher (back to Step H). Also do the Step G anti-drift refresh on every restart.
+
+     + **Step I — Watcher resilience (CRITICAL):** if the watcher subprocess exits unexpectedly — empty output (`Command produced no output`), `WinError`, race-on-shell-init, taskkill from VS Code restart, context-compaction interrupting the run, or any non-zero exit code — **immediately restart it on the next agent turn**. Do NOT pause, do NOT ask the user, do NOT respond only in chat. Empty exit is not a signal to stop; it is a signal to retry. The polling loop is the heartbeat of the session.
 
        **Why this matters:** while the watcher is blocked in `Start-Sleep` / `sleep`, the agent consumes **zero premium requests**. Earlier sessions used the raw "sleep 60 → re-read → sleep again" loop (Steps A–G), which costs one request per cycle. The watcher collapses many cycles into one request. The user can also write **multiple** `## UPD` blocks in parallel — once the watcher fires on any change, the agent processes every ready `## UPD` that has `go`, so previously-completed `go`-blocks waiting for their RESULT can be unblocked in a single wake.
 
