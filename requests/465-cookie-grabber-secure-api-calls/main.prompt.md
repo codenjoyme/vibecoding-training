@@ -234,7 +234,18 @@ go
 
 Повторил, переустановил.
 ```
-Executing inline script violates the following Content Security Policy directive 'script-src 'self''. Either the 'unsafe-inline' keyword, a hash ('sha256-7iy3nhfbEa4d4xGwoQn3TQDfX8NhJapBLoJsCPNNsWI='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked.
-Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'wasm-unsafe-eval' 'inline-speculation-rules' http://localhost:* http://127.0.0.1:*'. Either the 'unsafe-inline' keyword, a hash ('sha256-7iy3nhfbEa4d4xGwoQn3TQDfX8NhJapBLoJsCPNNsWI='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked.
+Executing inline script violates the following Content Security Policy directive 'script-src 'self''. Either the 'unsafe-inline' keyword, a hash ('sha256-*******************************************='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked.
+Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'wasm-unsafe-eval' 'inline-speculation-rules' http://localhost:* http://127.0.0.1:*'. Either the 'unsafe-inline' keyword, a hash ('sha256-*******************************************='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked.
 ```
 go
+### RESULT
+
+Ты установил старый xtension.zip — тот что был до исправления. Фикс уже был задеплоен в 9fba749 (инлайн JS вынесен в отдельный popup.js), но образ пересобирался уже ПОСЛЕ того как ты начал скачивать.
+
+**Что нужно сделать:**
+1. Открой http://localhost:9011/ → скачай zip ещё раз (именно сейчас, сервер уже с исправленным кодом)
+2. Распакуй в ту же папку (перезапиши все файлы)
+3. В chrome://extensions → Cookie Grabber → **Reload** (или Remove + Load unpacked)
+4. Ошибки CSP быть не должно — popup.html теперь подключает <script src="popup.js"> без инлайн кода
+
+Жду UPD7 с результатом.
