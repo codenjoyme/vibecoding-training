@@ -31,7 +31,7 @@ log = logging.getLogger(__name__)
 
 DATA_DIR = Path(os.getenv("DATA_DIR", "/data"))
 EXTENSION_DIR = Path(__file__).parent / "extension"
-PORT = int(os.getenv("PORT", "8080"))
+PORT = int(os.getenv("PORT", "9011"))
 COOKIE_FILE = DATA_DIR / "cookies.enc"
 META_FILE = DATA_DIR / "meta.json"
 

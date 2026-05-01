@@ -74,7 +74,7 @@ You should now see: `server.py`, `cli.py`, `Dockerfile`, `docker-compose.yml`, `
 
 ### What we'll do
 
-Build and start the HTTP + WebSocket server inside Docker on port 8080. No Python needs to be installed on the host for the server.
+Build and start the HTTP + WebSocket server inside Docker on port 9011. No Python needs to be installed on the host for the server.
 
 1. From `./workspace/465-task/scripts/`, build and start the container:
    ```
@@ -87,14 +87,14 @@ Build and start the HTTP + WebSocket server inside Docker on port 8080. No Pytho
    ```
    You should see one container in state `running`.
 
-3. Open the status page in your browser: `http://localhost:8080/`
+3. Open the status page in your browser: `http://localhost:9011/`
    - You should see the **Cookie Grabber** page with: `❌ No cookies stored yet`
    - There's a download link for `extension.zip`
 
 ### Verify
 
 ✅ `docker compose ps` shows one running container  
-✅ `http://localhost:8080/` loads the status page
+✅ `http://localhost:9011/` loads the status page
 
 ---
 
@@ -104,7 +104,7 @@ Build and start the HTTP + WebSocket server inside Docker on port 8080. No Pytho
 
 Load the Chrome extension as an "unpacked" extension so it can read cookies and send them to your local server.
 
-1. From the status page (`http://localhost:8080/`), click **`extension.zip`** to download
+1. From the status page (`http://localhost:9011/`), click **`extension.zip`** to download
 2. Unzip to a folder (any location, e.g. `./workspace/465-task/extension-installed/`)
 3. In Chrome, open `chrome://extensions`
 4. Enable **Developer mode** (top-right toggle)
@@ -129,13 +129,13 @@ Use the extension popup to grab cookies for a target domain, encrypt them with a
 2. Click the Cookie Grabber extension icon
 3. Fill in the popup:
    - **Target domain:** the domain (e.g. `telescope.example.com`)
-   - **WebSocket server URL:** `ws://localhost:8080/ws` (default)
+   - **WebSocket server URL:** `ws://localhost:9011/ws` (default)
    - **Master password:** any strong password (you'll need it again in the CLI — remember it!)
 4. Click **Grab & Send Cookies**
 
 You should see: `✅ Sent N cookies for <domain>` in green.
 
-5. Refresh `http://localhost:8080/` — the page now shows: `✅ Cookies stored — domain: ...`
+5. Refresh `http://localhost:9011/` — the page now shows: `✅ Cookies stored — domain: ...`
 
 ### What just happened
 
@@ -223,8 +223,8 @@ The agent will:
 
 ## Success Criteria
 
-- ✅ Docker container running on port 8080
-- ✅ Status page accessible at `http://localhost:8080/`
+- ✅ Docker container running on port 9011
+- ✅ Status page accessible at `http://localhost:9011/`
 - ✅ Chrome extension loaded and visible in toolbar
 - ✅ Cookies grabbed and encrypted blob stored in `data/cookies.enc`
 - ✅ `cli.py status` confirms storage
@@ -264,12 +264,12 @@ Answer these to verify you understood the security model:
 
 | Problem | Solution |
 |---------|----------|
-| Extension popup shows "WebSocket connection failed" | Server not running. Run `docker compose up -d`. Check firewall isn't blocking port 8080. |
+| Extension popup shows "WebSocket connection failed" | Server not running. Run `docker compose up -d`. Check firewall isn't blocking port 9011. |
 | `cli.py` says "Decryption failed" | Wrong master password. Re-enter, or grab cookies again with a new password. |
 | `cli.py get` returns HTML login page | Cookies expired. Re-grab via extension. |
 | Extension shows "No cookies found for domain" | You're not logged in to the site, or the domain string is wrong (try with/without `www.`). |
 | Server logs show `Invalid JSON from extension` | Extension version mismatch — reload the extension in `chrome://extensions`. |
-| `data/cookies.enc` doesn't appear on host | Check Docker volume mount — `docker compose ps` should show port 8080 bound. |
+| `data/cookies.enc` doesn't appear on host | Check Docker volume mount — `docker compose ps` should show port 9011 bound. |
 
 ---
 

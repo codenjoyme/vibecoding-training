@@ -2,7 +2,7 @@ services:
   cookie-server:
     build: .
     ports:
-      - "8080:8080"
+      - "9011:9011"
     volumes:
       - ./data:/data
     restart: unless-stopped

@@ -10,6 +10,6 @@ COPY extension/ ./extension/
 
 RUN mkdir -p /data
 
-EXPOSE 8080
+EXPOSE 9011
 
 CMD ["python", "server.py"]
