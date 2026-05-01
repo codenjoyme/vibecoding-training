@@ -1,0 +1,3 @@
+# CLI dependencies (runs on the host machine)
+requests
+cryptography

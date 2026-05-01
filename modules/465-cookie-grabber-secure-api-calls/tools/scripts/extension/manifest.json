@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Cookie Grabber",
+  "version": "1.0",
+  "description": "Grab cookies from any domain and send them (AES-256-GCM encrypted) to a local server for CLI-based API access by AI agents.",
+  "permissions": [
+    "cookies",
+    "activeTab",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Cookie Grabber"
+  }
+}

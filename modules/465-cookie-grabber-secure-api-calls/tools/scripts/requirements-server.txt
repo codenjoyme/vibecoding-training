@@ -1,0 +1,2 @@
+# Server dependencies (runs inside Docker)
+aiohttp>=3.9

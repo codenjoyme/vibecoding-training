@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Cookie Grabber</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      width: 320px;
+      padding: 1rem;
+      margin: 0;
+    }
+    h2 { color: #2563eb; margin: 0 0 1rem; font-size: 1.1rem; }
+    label {
+      display: block;
+      font-size: 0.82rem;
+      color: #374151;
+      margin-bottom: 0.2rem;
+      margin-top: 0.6rem;
+    }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.45rem 0.6rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      font-size: 0.88rem;
+    }
+    button {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.6rem;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    button:hover    { background: #1d4ed8; }
+    button:disabled { background: #9ca3af; cursor: default; }
+    #status {
+      margin-top: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.375rem;
+      font-size: 0.82rem;
+      display: none;
+      line-height: 1.5;
+    }
+    .ok  { background: #dcfce7; color: #166534; }
+    .err { background: #fee2e2; color: #991b1b; }
+  </style>
+</head>
+<body>
+  <h2>🍪 Cookie Grabber</h2>
+
+  <label>Target domain</label>
+  <input id="domain" type="text" placeholder="example.com">
+
+  <label>WebSocket server URL</label>
+  <input id="server" type="text" value="ws://localhost:8080/ws">
+
+  <label>Master password</label>
+  <input id="password" type="password" placeholder="Enter master password">
+
+  <button id="grab">Grab &amp; Send Cookies</button>
+
+  <div id="status"></div>
+
+  <script>
+    const grabBtn  = document.getElementById('grab');
+    const statusEl = document.getElementById('status');
+
+    function showStatus(msg, isOk) {
+      statusEl.textContent = msg;
+      statusEl.className   = isOk ? 'ok' : 'err';
+      statusEl.style.display = 'block';
+    }
+
+    // Restore saved domain + server from extension storage
+    chrome.storage.local.get(['domain', 'serverUrl'], prefs => {
+      if (prefs.domain)     document.getElementById('domain').value = prefs.domain;
+      if (prefs.serverUrl)  document.getElementById('server').value = prefs.serverUrl;
+    });
+
+    grabBtn.addEventListener('click', async () => {
+      const domain     = document.getElementById('domain').value.trim();
+      const serverUrl  = document.getElementById('server').value.trim();
+      const masterPass = document.getElementById('password').value;
+
+      if (!domain || !masterPass) {
+        showStatus('Please fill in domain and master password.', false);
+        return;
+      }
+
+      // Save domain + server (not the password)
+      chrome.storage.local.set({ domain, serverUrl });
+
+      grabBtn.disabled = true;
+      showStatus('Grabbing cookies…', true);
+
+      try {
+        const result = await chrome.runtime.sendMessage({
+          action: 'grabAndSend',
+          domain,
+          serverUrl,
+          masterPassword: masterPass,
+        });
+
+        if (result.ok) {
+          showStatus(`✅ Sent ${result.count} cookies for ${result.domain}`, true);
+          document.getElementById('password').value = ''; // clear password from DOM
+        } else {
+          showStatus(`❌ ${result.error}`, false);
+        }
+      } catch (err) {
+        showStatus(`❌ ${err.message}`, false);
+      } finally {
+        grabBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
