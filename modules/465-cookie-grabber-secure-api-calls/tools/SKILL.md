@@ -37,7 +37,11 @@ Do **not** use this skill if:
 1. Docker server is running: `docker compose up -d` (from `tools/scripts/`)
 2. `tools/scripts/data/cookies.enc` exists (extension was used to grab cookies)
 3. CLI dependencies installed: `pip install -r tools/scripts/requirements-cli.txt`
-4. `MASTER_PASSWORD` env var set, or ready to type it interactively
+4. Master password available via one of these methods (in priority order):
+   - `--password "..."` flag (quick, but visible in shell history)
+   - `-P` / `--ask-password` flag (secure interactive prompt, hidden input)
+   - `MASTER_PASSWORD` env var
+   - automatic getpass prompt if nothing is set
 
 ---
 
@@ -46,7 +50,14 @@ Do **not** use this skill if:
 Run `cli.py` from any directory — `.env` is searched upward automatically if `python-dotenv` is used, or set `COOKIE_FILE` explicitly.
 
 ```
-python tools/scripts/cli.py <command> [options]
+python tools/scripts/cli.py [--password PASSWORD | --ask-password] <command> [options]
+```
+
+**Password modes (mutually exclusive):**
+```
+python tools/scripts/cli.py --password "mypass" get --url ...   # explicit, visible in history
+python tools/scripts/cli.py -P get --url ...                    # interactive hidden prompt
+# or set $env:MASTER_PASSWORD before running
 ```
 
 ### `status` — Check if cookies are stored
@@ -89,7 +100,7 @@ python tools/scripts/cli.py clear
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `MASTER_PASSWORD` | (prompt) | Password used to decrypt cookies |
+| `MASTER_PASSWORD` | (prompt) | Password used to decrypt cookies. Overridden by `--password` or `-P` flags. |
 | `COOKIE_FILE` | `./data/cookies.enc` | Path to encrypted cookie file |
 
 ---
