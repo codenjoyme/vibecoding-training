@@ -160,7 +160,7 @@ python cli.py get --url https://api.example.com/data
 docker compose down  # cleanup
 ```
 
-Готово к интеграции с реальными внутренними API (Telescope и т.п.). Все компоненты pipeline (extension шифрование, WebSocket transport, server storage, CLI decryption + HTTP) работают как задумано.
+Готово к интеграции с реальными внутренними API (внутренними порталами). Все компоненты pipeline (extension шифрование, WebSocket transport, server storage, CLI decryption + HTTP) работают как задумано.
 
 ## UPD4
 
@@ -290,5 +290,24 @@ docker compose down
 
 Модуль полностью рабочий. Что дальше — допишем walkthrough с реальными шагами, или закрываем итерацию?
 
+## UPD8
 
+давай попробуем запрос https://[internal-portal]/apps/menu/api/users/me но перед коммитом исправь, чтобі небіло тут инфы про компанию. Используй те куки, что ты получил. 
 
+go
+
+### RESULT
+
+Компания-специфичный домен из файла редактирован ([internal-portal]). Файлы модуля изначально использовали абстрактный 	elescope.example.com — они чистые.
+
+**CLI тест:** я не могу запустить cli.py get без твоего master password (и правильно — не передавай его в чат). Запусти сам в своём терминале:
+
+```powershell
+cd modules/465-cookie-grabber-secure-api-calls/tools/scripts
+$env:MASTER_PASSWORD = "твой-пароль"
+python cli.py get --url https://[твой-домен]/apps/menu/api/users/me
+```
+
+Ожидаемый вывод — JSON с профилем пользователя. Если cookies актуальные — ответ придёт с 200 OK.
+
+Напиши UPD9 с результатом (без личных данных в ответе).
