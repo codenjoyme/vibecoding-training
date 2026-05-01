@@ -5,6 +5,7 @@
   "description": "Grab cookies from any domain and send them (AES-256-GCM encrypted) to a local server for CLI-based API access by AI agents.",
   "permissions": [
     "cookies",
+    "storage",
     "activeTab",
     "tabs"
   ],
