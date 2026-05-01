@@ -249,3 +249,46 @@ go
 4. Ошибки CSP быть не должно — popup.html теперь подключает <script src="popup.js"> без инлайн кода
 
 Жду UPD7 с результатом.
+
+## UPD7
+
+✅ Sent 4 cookies for [internal-portal]
+Получилось. go
+
+### RESULT
+
+**Полный e2e pipeline на реальном браузере работает!**
+
+Extension захватил 4 cookies для целевого домена, зашифровал их (AES-256-GCM, PBKDF2 600k iterations), передал по WebSocket на локальный сервер. CLI подтверждает:
+
+```
+$ python cli.py status
+✅ Cookies stored
+   Domain  : [целевой домен]
+   File    : .../data/cookies.enc
+
+$ python cli.py info
+Domain  : [целевой домен]
+Version : 1
+Cookies : [encrypted — values hidden; use 'get' or 'post' to make API calls]
+```
+
+**Для использования CLI с реальными запросами:**
+```powershell
+$env:MASTER_PASSWORD = "твой-пароль"
+python cli.py get --url https://[целевой-домен]/api/some-endpoint
+python cli.py post --url https://[целевой-домен]/api/endpoint --data '{"key":"value"}'
+```
+
+Сервер никогда не видел plaintext cookies — только зашифрованный blob. Расшифровка происходит только в CLI на стороне хоста.
+
+**Cleanup:**
+```powershell
+cd modules/465-cookie-grabber-secure-api-calls/tools/scripts
+docker compose down
+```
+
+Модуль полностью рабочий. Что дальше — допишем walkthrough с реальными шагами, или закрываем итерацию?
+
+
+
