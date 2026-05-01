@@ -400,3 +400,32 @@ python cli.py -P get --url https://[твой-домен]/apps/menu/api/users/me
 
 Модуль готов. Закрываем итерацию?
 
+## UPD12
+
+Посмотри надо ли исправить `SKILL.md` иди самой программе тренинга. 
+Так же посмотри весь контент что мы создали с тобой коммит за коммитом по 465 модулю, чтобы найти какие-то упоминания домена компании или пароля, и замени их на абстрактные. go
+
+### RESULT
+
+**Полный аудит всех файлов модуля 465:**
+
+| Файл | Статус | Действие |
+|------|--------|----------|
+| `modules/465-cookie-grabber-secure-api-calls/walkthrough.md` | ✅ Чистый | Использует `telescope.example.com` — абстрактный placeholder |
+| `modules/465-cookie-grabber-secure-api-calls/about.md` | ✅ Чистый | Упоминание "Telescope" как пример, не реальный домен |
+| `modules/465-cookie-grabber-secure-api-calls/tools/SKILL.md` | ✅ Обновлён | Добавлены новые режимы пароля (`--password`, `-P`). Commit `dea22f8` |
+| `modules/465-cookie-grabber-secure-api-calls/tools/scripts/*.py` | ✅ Чистые | Нет personal data |
+| `modules/465-cookie-grabber-secure-api-calls/tools/scripts/data/` | ✅ Не в git | `.gitignore` исключает `data/`, `*.enc` — `meta.json` с реальным доменом не коммитится |
+| `requests/465-cookie-grabber-secure-api-calls/main.prompt.md` | ✅ Очищен | Все реальные домены заменены на `[internal-portal]`, пароль `[REDACTED]` |
+| `training-plan.md` | ✅ Чистый | Нет company-specific данных |
+
+**SKILL.md обновлён** — добавлены 3 режима передачи пароля в Prerequisites, CLI Usage Reference и Environment Variables секции.
+
+**Итого по модулю 465 — всё готово:**
+- Архитектура: Chrome extension → WebSocket → Docker server → CLI ✅
+- 3 баги исправлены в процессе live-теста (порт, `storage` permission, CSP) ✅
+- e2e тест на реальном браузере + реальном API: HTTP 200 ✅
+- 4 режима мастер-пароля: `--password`, `-P`, env var, prompt ✅
+- Все секреты и PII вычищены из файлов ✅
+ 
+
