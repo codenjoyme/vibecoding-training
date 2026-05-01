@@ -328,3 +328,14 @@ Snapshot-тесты запущены и прошли успешно. Два ба
 - **Prerequisites:** `work/470-task/jira_cli.py exists` → `jira_cli.py is accessible — either in the current directory, on PATH, or at a known path`
 - **CLI Usage Reference:** `All commands run from the work/470-task/ directory` → `Run from any directory where jira_cli.py is accessible`
 - Добавлена заметка о `.env` auto-discovery: `find_dotenv(usecwd=True)` ищет от текущей директории вверх — `.env` на корне проекта работает из любой поддиректории
+
+## UPD11
+
+Давай создадим новый `iterative prompt` в `requests` для модуля из серии `mcpyrex` а именно `## ✅ Module 465: Cookie Grabber & Secure API Calls` в с индексом 465. И перенеси туда этот мой риквест слово в слово и переключись на файл там. 
+go
+
+### RESULT
+
+Создан `requests/465-cookie-grabber-secure-api-calls/main.prompt.md` с заголовком iterative prompt и UPD1-запросом слово в слово.
+
+Продолжение работы по модулю 465 ведётся в том файле.
