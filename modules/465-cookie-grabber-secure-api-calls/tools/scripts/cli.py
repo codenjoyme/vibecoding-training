@@ -10,8 +10,13 @@ Usage:
   python cli.py clear                               delete stored cookie file
 
 Credentials:
-  MASTER_PASSWORD env var  — or interactive prompt if not set
-  COOKIE_FILE     env var  — or --cookie-file flag (default: ./data/cookies.enc)
+  Priority order for master password:
+    1. --password VALUE       explicit flag (visible in shell history — use only in safe environments)
+    2. --ask-password / -P    force interactive prompt (getpass — hidden input, no echo)
+    3. MASTER_PASSWORD env    environment variable
+    4. automatic prompt       if none of the above is set, getpass is called automatically
+
+  COOKIE_FILE env var  — or --cookie-file flag (default: ./data/cookies.enc)
 """
 
 import argparse
@@ -62,9 +67,23 @@ def _load_blob(cookie_file: str) -> dict:
     return json.loads(cf.read_text(encoding="utf-8"))
 
 
-def _load_cookies(cookie_file: str) -> tuple[list[dict], str]:
+def _resolve_password(args: argparse.Namespace) -> str:
+    """Determine master password from args → env → interactive prompt."""
+    if getattr(args, "password", None):
+        return args.password
+    if getattr(args, "ask_password", False):
+        return getpass.getpass("Master password: ")
+    env_pw = os.getenv("MASTER_PASSWORD")
+    if env_pw:
+        return env_pw
+    return getpass.getpass("Master password: ")
+
+
+def _load_cookies(cookie_file: str, args: argparse.Namespace | None = None) -> tuple[list[dict], str]:
     blob = _load_blob(cookie_file)
-    password = os.getenv("MASTER_PASSWORD") or getpass.getpass("Master password: ")
+    password = _resolve_password(args) if args is not None else (
+        os.getenv("MASTER_PASSWORD") or getpass.getpass("Master password: ")
+    )
     try:
         cookies = _decrypt(blob, password)
     except Exception:
@@ -124,14 +143,14 @@ def cmd_clear(args: argparse.Namespace) -> None:
 
 
 def cmd_get(args: argparse.Namespace) -> None:
-    cookies, _ = _load_cookies(args.cookie_file)
+    cookies, _ = _load_cookies(args.cookie_file, args)
     headers = _parse_headers(args.header)
     resp = requests.get(args.url, cookies=_cookies_dict(cookies), headers=headers, timeout=30)
     _print_response(resp)
 
 
 def cmd_post(args: argparse.Namespace) -> None:
-    cookies, _ = _load_cookies(args.cookie_file)
+    cookies, _ = _load_cookies(args.cookie_file, args)
     headers = _parse_headers(args.header)
     body = json.loads(args.data) if args.data else {}
     resp = requests.post(args.url, json=body, cookies=_cookies_dict(cookies), headers=headers, timeout=30)
@@ -148,6 +167,18 @@ def build_parser() -> argparse.ArgumentParser:
         "--cookie-file",
         default=str(DEFAULT_COOKIE_FILE),
         help="Path to encrypted cookie file (default: ./data/cookies.enc)",
+    )
+    pw_group = p.add_mutually_exclusive_group()
+    pw_group.add_argument(
+        "--password",
+        metavar="PASSWORD",
+        help="Master password as plain text flag (use only in secure environments — visible in shell history)",
+    )
+    pw_group.add_argument(
+        "--ask-password", "-P",
+        action="store_true",
+        dest="ask_password",
+        help="Force interactive password prompt (hidden input via getpass)",
     )
     sub = p.add_subparsers(dest="command", required=True)
 
