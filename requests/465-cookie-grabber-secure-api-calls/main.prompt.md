@@ -229,3 +229,12 @@ $ curl http://localhost:9011/api/status
 
 Жду подтверждения в UPD6.
 go
+
+## UPD6
+
+Повторил, переустановил.
+```
+Executing inline script violates the following Content Security Policy directive 'script-src 'self''. Either the 'unsafe-inline' keyword, a hash ('sha256-7iy3nhfbEa4d4xGwoQn3TQDfX8NhJapBLoJsCPNNsWI='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked.
+Executing inline script violates the following Content Security Policy directive 'script-src 'self' 'wasm-unsafe-eval' 'inline-speculation-rules' http://localhost:* http://127.0.0.1:*'. Either the 'unsafe-inline' keyword, a hash ('sha256-7iy3nhfbEa4d4xGwoQn3TQDfX8NhJapBLoJsCPNNsWI='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked.
+```
+go
