@@ -162,5 +162,47 @@ docker compose down  # cleanup
 
 Готово к интеграции с реальными внутренними API (Telescope и т.п.). Все компоненты pipeline (extension шифрование, WebSocket transport, server storage, CLI decryption + HTTP) работают как задумано.
 
+## UPD4
+
+Давай сделаем прогон на моем браузере. Я установлю плагин и попробуем весь пайплайн. 
+
+Уставновил плагин. Вот ошибка: 
+```
+WebSocket connection to 'ws://localhost:9011/ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED
+Context
+background.js
+Stack Trace
+background.js:38 (anonymous function)
+```
+go
+
+### RESULT
+
+Ты ввёл порт `9011` в popup, а сервер был на `8080`. Решение — **переключил весь модуль на 9011** (порт 8080 часто занят разными dev-серверами, 9011 свободнее).
+
+**Изменения в `f7c9903`:**
+- `server.py` — `PORT` default = 9011
+- `Dockerfile` — `EXPOSE 9011`
+- `docker-compose.yml` — `9011:9011`
+- `extension/popup.html` — default WS URL = `ws://localhost:9011/ws`
+- `walkthrough.md` — все упоминания `8080` заменены на `9011`
+
+**Сервер перезапущен на 9011 — статус OK:**
+```
+$ docker compose ps
+scripts-cookie-server-1 ... 0.0.0.0:9011->9011/tcp
+
+$ curl http://localhost:9011/api/status
+{"has_cookies": false}
+```
+
+**Что нужно сделать тебе сейчас:**
+1. В Chrome открой http://localhost:9011/ и скачай **новый** `extension.zip` (внутри popup теперь default `9011`)
+2. В `chrome://extensions` нажми **Remove** на старом Cookie Grabber (или просто **Reload** + потом обнови URL в popup на `ws://localhost:9011/ws`)
+3. Загрузи новую распакованную папку через **Load unpacked**
+4. Открой попап и попробуй захватить cookies снова
+
+Когда захватишь — пиши UPD5 с твоим master password и доменом, я расшифрую и сделаю запрос через CLI. Сервер сейчас слушает.
+
 
 
