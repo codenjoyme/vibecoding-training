@@ -1,3 +1,9 @@
+## ⚠️ CRITICAL: Load This File Fully
+
+**This file MUST be read from first to last line — NEVER partially.** It contains the complete training methodology, progress tracking logic, auto-detection rules, and skill verification steps. Skipping any section breaks the training flow. Use `read_file` with a range covering the entire file, or multiple calls to cover all lines.
+
+---
+
 ## Motivation
 
 - Guide users through training modules in focused, step-by-step manner.

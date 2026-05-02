@@ -269,3 +269,36 @@ LMS = реляционная БД: жёсткая схема, валидация
 `lnd/` - оставляем, это временная работа, потом я удалю. 
 
 Посмотри еще модуль за модулем, какая структура файлов, что внутри. Соответствует ли инструкции по созданию модуля? go
+
+### RESULT
+
+**Выполнено:**
+
+1. **[training-plan.md](../../training-plan.md) исправлен** — убрана битая ссылка `120-rapid-poc-prototyping` (папки нет), добавлен пропущенный `107-mcp-image-viewer`.
+
+2. **[instructions/training-mode.agent.md](../../instructions/training-mode.agent.md)** — добавлен `⚠️ CRITICAL: Load This File Fully` блок в самое начало (аналогично `create-training-module.agent.md`).
+
+3. **`docs/training-plan.md`** — удалён (git rm).
+
+4. **`.github/java-upgrade/`** — уже отсутствовал на диске, был удалён в предыдущих сессиях.
+
+**Аудит структуры модулей vs [instructions/create-training-module.agent.md](../../instructions/create-training-module.agent.md):**
+
+68 модулей проверены по `walkthrough.md`. Структура **60/68 полностью соответствует** инструкции.
+
+| Модуль | Parts | Success | Understanding | Trouble | Next |
+|--------|-------|---------|---------------|---------|------|
+| 010-installing-vscode | ✅ | ✅ | ❌ | ✅ | ✅ |
+| 020-installing-cursor | ✅ | ✅ | ❌ | ✅ | ✅ |
+| 057-agent-memory-management | ❌ | ✅ | ✅ | ✅ | ✅ |
+| 060-version-control-git | ✅ | ❌ | ❌ | ✅ | ✅ |
+| 070-custom-instructions | ✅ | ❌ | ❌ | ❌ | ✅ |
+| 080-learning-from-hallucinations | ❌ | ✅ | ✅ | ✅ | ✅ |
+| 090-ai-skills-tools-creation | ❌ | ✅ | ❌ | ✅ | ✅ |
+| 160-bulk-file-processing | ✅ | ✅ | ❌ | ✅ | ✅ |
+
+Дополнительно: 2 модуля с проблемами prerequisites в `walkthrough.md`:
+- `070-custom-instructions` — нет ссылки `See module overview`
+- `230-creating-training-modules-from-articles` — дублирует prerequisites (есть `### Required Modules` прямо в walkthrough)
+
+**Вывод:** 88% модулей полностью соответствуют инструкции. Наиболее пропускаемая секция — `## Understanding Check` (6/8 нарушений). Это старые модули, написанные до финализации стандарта.
