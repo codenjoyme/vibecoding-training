@@ -302,3 +302,44 @@ LMS = реляционная БД: жёсткая схема, валидация
 - `230-creating-training-modules-from-articles` — дублирует prerequisites (есть `### Required Modules` прямо в walkthrough)
 
 **Вывод:** 88% модулей полностью соответствуют инструкции. Наиболее пропускаемая секция — `## Understanding Check` (6/8 нарушений). Это старые модули, написанные до финализации стандарта.
+
+## UPD10
+
+Если я напишу что хочу пройти тренинг в iterative prompt режиме, то какие действия будут у агента? go
+
+### RESULT
+
+Точная последовательность действий агента (по [instructions/training-mode-iterative-prompt.agent.md](../../instructions/training-mode-iterative-prompt.agent.md)):
+
+**1. Загрузить инструкции** — агент читает `main.agent.md` → видит запрос на тренинг → загружает `training-mode.agent.md` → видит там упоминание iterative prompt режима → загружает `training-mode-iterative-prompt.agent.md`.
+
+**2. Онбординг** — агент объясняет механику в чате: создам файл, общение через UPD блоки, `go` как триггер, агент спит между обновлениями.
+
+**3. Создать файл** `work/NNN-[module-name]/main.prompt.md` со структурой:
+```
+<follow>
+iterative-prompt.agent.md
+training-mode.agent.md
+training-mode-iterative-prompt.agent.md
+</follow>
+
+## Context
+Module: [id] — [Name]
+Training progress file: ../../training-progress.md
+Language: Russian
+
+## UPD1
+Start the training module: [id] — [Name].
+go
+```
+
+**4. Сказать пользователю** — "Открой файл `work/.../main.prompt.md`, видишь кнопку ▶ Run? Нажми её. Дальше пиши UPD блоки в файл, не в чат."
+
+**5. ⚠️ КРИТИЧНО: немедленно войти в polling loop** на этом же файле `main.prompt.md` в папке `work/`. Не ждать следующего сообщения в чате — пользователь будет общаться только через файл.
+
+**6. Цикл тренинга** внутри файла:
+- Агент читает `## UPD[N]` → обрабатывает → пишет `### RESULT` → коммит → sleep → перечитывает
+- Тренинг идёт Part-by-Part как в обычном режиме, только канал общения — файл, не чат
+- Прогресс пишется в `training-progress.md` как обычно
+
+**Ключевое отличие от обычного режима:** только канал. Все правила `training-mode.agent.md` остаются в силе — Part-by-Part, минимум 4-5 обменов на Part, проверка понимания, Fun Mode и т.д.
