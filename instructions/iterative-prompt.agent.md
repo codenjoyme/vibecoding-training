@@ -97,7 +97,7 @@ The net effect: you can open multiple IDE windows with different projects, each 
          Start-Sleep -Seconds 4
          $n = (Get-FileHash $f).Hash
          if ($n -ne $h) {
-           $tail = (Get-Content $f -Tail 3) -join "`n"
+           $tail = (Get-Content $f -Tail 10) -join "`n"
            if ($tail -match '\bgo\b') {
              Write-Host "NEW UPD ready: hash $($n.Substring(0,12))"
              break
@@ -118,7 +118,7 @@ The net effect: you can open multiple IDE windows with different projects, each 
          sleep 4
          n=$(sha256sum "$f" | awk '{print $1}')
          if [ "$n" != "$h" ]; then
-           if tail -n 3 "$f" | grep -Eq '\bgo\b'; then
+           if tail -n 10 "$f" | grep -Eq '\bgo\b'; then
              echo "NEW UPD ready: hash ${n:0:12}"
              break
            else
@@ -135,6 +135,8 @@ The net effect: you can open multiple IDE windows with different projects, each 
        3. After processing, restart the watcher (back to Step H). Also do the Step G anti-drift refresh on every restart.
 
      + **Step I — Watcher resilience (CRITICAL):** if the watcher subprocess exits unexpectedly — empty output (`Command produced no output`), `WinError`, race-on-shell-init, taskkill from VS Code restart, context-compaction interrupting the run, or any non-zero exit code — **immediately restart it on the next agent turn**. Do NOT pause, do NOT ask the user, do NOT respond only in chat. Empty exit is not a signal to stop; it is a signal to retry. The polling loop is the heartbeat of the session.
+
+       **⚠️ User-interrupted watcher = "check the file now" signal.** If the user manually stops the watcher (Ctrl+C, kills the terminal, or the exit code is 1 due to user interruption), treat it as a deliberate hint: **immediately read the last 20 lines of the prompt file before restarting the watcher**. The user stopped the watcher because something appeared in the file that they want the agent to see. Do NOT just blindly restart — check the file first, then restart. If a new `## UPD[N]` block ending with `go` is found, process it before restarting.
 
        **Why this matters:** while the watcher is blocked in `Start-Sleep` / `sleep`, the agent consumes **zero premium requests**. Earlier sessions used the raw "sleep 60 → re-read → sleep again" loop (Steps A–G), which costs one request per cycle. The watcher collapses many cycles into one request. The user can also write **multiple** `## UPD` blocks in parallel — once the watcher fires on any change, the agent processes every ready `## UPD` that has `go`, so previously-completed `go`-blocks waiting for their RESULT can be unblocked in a single wake.
 
