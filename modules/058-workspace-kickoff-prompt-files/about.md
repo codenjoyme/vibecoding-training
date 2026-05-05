@@ -14,7 +14,7 @@
 - Running a `.prompt.md` file directly from the IDE
 - Leaving breadcrumbs for your future self and teammates
 - Extending the prompt incrementally with `UPDN` update blocks
-- Using `iterative-prompt.agent.md` to formalize the pattern across projects
+- Using `iterative-prompt/SKILL.md` to formalize the pattern across projects
 
 ## Learning Outcome
 
@@ -45,5 +45,5 @@ Ability to kick off any AI-assisted research or exploration by dumping materials
 
 - **Iterative Prompt Agent** — the formalized instruction for the `UPDN` pattern. Install it in any workspace with:
   ```
-  Setup https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt.agent.md
+  Setup https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/SKILL.md
   ```

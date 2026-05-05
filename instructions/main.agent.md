@@ -62,3 +62,5 @@ This file serves as a catalog of all project instructions. Each instruction cove
 - `lnd/build-md-to-docx/SKILL.md` - **[LND MD → DOCX BUILD]** Convert a list of markdown files (with images, code blocks, quizzes) into a single landscape DOCX with TOC, page breaks, shaded inline-code, and uniform image scaling. CLI takes `--output` and a list of input `.md` files.
   + Keywords: docx, build docx, export docx, markdown to docx, md to docx, combine modules, all-modules.docx
   + Keywords: images, screenshots, картинки, скриншоты, organize images, rename images, img, module images
+- `iterative-prompt/SKILL.md` - **[ITERATIVE PROMPT WORKFLOW v2.0]** Autonomous AI agent workflow — file-based UPD/RESULT polling cycle with async terminal watcher (Python, with retry & smart UPD detection). Supersedes `iterative-prompt.agent.md`. Use `<follow>iterative-prompt/SKILL.md</follow>` in any `*.prompt.md` that uses the UPD pattern.
+  + Keywords: iterative prompt, UPD, polling loop, watcher, async terminal, main.prompt.md, итеративный промпт

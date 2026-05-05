@@ -216,14 +216,14 @@ Editing the original text loses history. An `UPDN` block:
 When you re-run a prompt file that has grown UPD blocks, the AI needs to know which parts are "already done" and which are new. The pattern described in this part has been formalized as **Iterative Prompt** — a reusable agent instruction you can install in any workspace:
 
 ```
-Setup https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt.agent.md
+Setup https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/SKILL.md
 ```
 
 Once installed, add a `<follow>` block at the very top of any prompt file that uses the UPD pattern:
 
 ```markdown
 <follow>
-iterative-prompt.agent.md
+iterative-prompt/SKILL.md
 </follow>
 
 ## UPD1

@@ -485,6 +485,33 @@ go
 
 **Вывод:** Итеративный промпт (image1) эффективнее по токенам — каждый UPD запускает чистую сессию с минимальным контекстом. В agent mode (image2) контекст накапливается и растёт с каждым вызовом инструмента — видно как 91k → 97k за несколько шагов.
 
+## UPD18
+
+Добавил вместо инструкции `iterative prompt` целый `skill.md` замени старый новым. Оцени в чем разница и что нового пришло. И сделай замену. Модуль его тоже обнови. `work` папку не трогай. go
+
+### RESULT
+
+**Разница между старым `iterative-prompt.agent.md` и новым [instructions/iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md):**
+
+| | Старый `.agent.md` | Новый `SKILL.md` v2.0 |
+|---|---|---|
+| Формат | Flat file, без метаданных | YAML frontmatter (`name`, `description`, `version: 2.0.0`) |
+| Расположение | `instructions/iterative-prompt.agent.md` | `instructions/iterative-prompt/SKILL.md` (папка + `scripts/`) |
+| Watcher | PowerShell one-liner | Python `scripts/watch_prompt.py` с retry и smart UPD detection |
+| `run_in_terminal` mode | `mode=sync` с длинным timeout | **`mode=async` (CRITICAL)** — notification mechanism |
+| Resilience | Нет retry при file lock | 5× retry с 200мс delay (Windows VS Code save locks) |
+| Обнаружение go | `tail -n 10 + grep` | Парсит UPD-блоки, находит последний без RESULT |
+| Troubleshooting | Нет | Таблица типичных проблем |
+| Step G anti-drift | Re-read `iterative-prompt.agent.md` | Re-read `SKILL.md` (обновлён путь) |
+| Starter template | `<follow>iterative-prompt.agent.md</follow>` | `<follow>iterative-prompt/SKILL.md</follow>` |
+
+**Ключевое новшество:** Python watcher и переход с `mode=sync` на `mode=async`. Это решает проблему exit code 1 и прерывания — именно та проблема, которую мы фиксили в UPD14.
+
+**Файлы изменены:**
+- [instructions/main.agent.md](../../instructions/main.agent.md) — добавлена запись `iterative-prompt/SKILL.md` в каталог
+- [modules/058-workspace-kickoff-prompt-files/about.md](../../modules/058-workspace-kickoff-prompt-files/about.md) — обновлены ссылки
+- [modules/058-workspace-kickoff-prompt-files/walkthrough.md](../../modules/058-workspace-kickoff-prompt-files/walkthrough.md) — обновлены Setup URL и `<follow>` блок
+- [readme.md](../../readme.md) — обновлена ссылка на инструкцию
 
 
 

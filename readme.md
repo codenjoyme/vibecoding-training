@@ -45,7 +45,7 @@ Full author workflow is documented in [for-authors.md](for-authors.md).
 
 ## 🛠 How Improvements Are Made
 
-Course-wide changes and new module proposals are tracked as **iterative prompts** in [requests/](requests/), following the [iterative-prompt.agent.md](instructions/iterative-prompt.agent.md) approach. Browse that folder to see exactly how previous modules and edits were created — it's the best way to learn the contribution style by example.
+Course-wide changes and new module proposals are tracked as **iterative prompts** in [requests/](requests/), following the [iterative-prompt/SKILL.md](instructions/iterative-prompt/SKILL.md) approach. Browse that folder to see exactly how previous modules and edits were created — it's the best way to learn the contribution style by example.
 
 ## 🤝 Contributing
 
