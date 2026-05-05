@@ -1,6 +1,6 @@
 # Workspace Kickoff with Iterative Prompt - Hands-on Walkthrough
 
-You're about to learn a technique for starting any AI-assisted investigation: dump all your materials into a folder, then write a single `main.prompt.md` file that tells the AI what's there and what you want. This file lives alongside the materials and becomes a permanent artifact — your breadcrumb trail for future reference. As the work evolves, you add `## UPD[N]` blocks instead of starting new chats.
+You're about to learn a technique for starting any AI-assisted investigation: dump all your materials into a folder, then write a single `main.prompt.md` file — your `development log` — that tells the AI what's there and what you want. This file lives alongside the materials and becomes a permanent artifact — your breadcrumb trail for future reference. As the work evolves, you add `## UPD[N]` blocks instead of starting new chats.
 
 ## Prerequisites
 
@@ -8,14 +8,14 @@ See [module overview](about.md) for full prerequisites list.
 
 ## What We'll Build
 
-You'll create a small research workspace with sample materials and a kickoff prompt file named `main.prompt.md`. You'll then run it directly from the IDE and see how the AI picks up context from both the prompt and the surrounding files. Finally, you'll extend it with `## UPD` blocks to evolve the investigation without losing context.
+You'll create a small research workspace with sample materials and a `development log` named `main.prompt.md`. You'll then run it directly from the IDE and see how the AI picks up context from both the prompt and the surrounding files. Finally, you'll extend it with `## UPD` blocks to evolve the investigation without losing context.
 
 | Component | Purpose |
 |---|---|
 | Research folder | Holds all the raw materials (code, transcripts, notes) |
-| `main.prompt.md` | Kickoff prompt — describes the materials and what you want done |
+| `main.prompt.md` | The `development log` — describes the materials and what you want done |
 | `<follow>` block | Links to the iterative prompt skill so the agent knows the UPD workflow |
-| `## UPD[N]` blocks | Incremental updates that grow the prompt over time |
+| `## UPD[N]` blocks | Incremental updates that grow the `development log` over time |
 
 ---
 
@@ -31,7 +31,6 @@ A `.prompt.md` file saved in the folder:
 - Shows future readers exactly what question kicked off the work
 - Can be shared, reviewed, or improved like any other file
 - Grows with `## UPD[N]` blocks without losing the original context
-- Can be shared, reviewed, or improved like any other file
 
 ### When does this technique apply?
 
@@ -77,7 +76,7 @@ You simulated the "landing zone" — a folder where all the raw inputs live. The
 
 ### What we'll do
 
-Create `main.prompt.md` at the root of the research folder. This file does three things:
+Create `main.prompt.md` — your `development log` — at the root of the research folder. This file does three things:
 1. Links to the iterative prompt skill via a `<follow>` block
 2. Tells the AI what materials are in the folder and what you want done
 3. Provides a starting point that can grow with `## UPD` blocks
@@ -123,7 +122,7 @@ go
 
 ### What just happened
 
-The prompt file is now part of the research workspace. It captures your intent in your own words, links to the materials via folder co-location, and uses the `<follow>` block to tell the agent about the iterative prompt workflow. The `go` keyword at the end signals the agent to start processing.
+The `development log` is now part of the research workspace. It captures your intent in your own words, links to the materials via folder co-location, and uses the `<follow>` block to tell the agent about the iterative prompt workflow. The `go` keyword at the end signals the agent to start processing.
 
 ---
 
@@ -153,7 +152,7 @@ Open the prompt file and run it directly in the IDE. In VS Code with GitHub Copi
 
 ### What just happened
 
-The AI read everything in the folder, understood the context, and completed your action items. The kickoff prompt file remains in place with a `### RESULT` documenting what was produced. The chat will end, but the prompt and its results stay.
+The AI read everything in the folder, understood the context, and completed your action items. The `development log` remains in place with a `### RESULT` documenting what was produced. The chat will end, but the log and its results stay.
 
 ---
 
@@ -161,7 +160,7 @@ The AI read everything in the folder, understood the context, and completed your
 
 ### Why this matters
 
-Chat sessions can be closed, lost, or buried. But the `main.prompt.md` file:
+Chat sessions can be closed, lost, or buried. But the `development log` (`main.prompt.md`):
 - Stays in the folder alongside the outputs
 - Gets committed to version control with the rest of the project
 - Shows anyone who opens the folder later where the analysis started
@@ -170,10 +169,11 @@ Chat sessions can be closed, lost, or buried. But the `main.prompt.md` file:
 
 ### Good practices
 
-- Keep the filename `main.prompt.md` for the primary prompt in each folder
-- Don't over-clean the raw language inside — the imperfect wording is part of the artifact
-- If you export a chat session, it may include code snippets and sensitive fragments; the prompt file is a safer, leaner artifact to preserve
-- Commit the prompt file alongside the generated outputs so git history shows the full story
+- The default name is `main.prompt.md`, but you can use any name that fits: `phase1.prompt.md`, `aggregate.prompt.md`, `research-kickoff.prompt.md` — whatever describes the purpose
+- **Check for secrets before committing.** The `development log` is a text file that goes into version control. Before `git add`, scan it for accidentally pasted API keys, tokens, or credentials. Use `instructions/handle-secrets-in-ai-workflows.agent.md` to run a safety check
+- You can reference files and images located next to the `development log` — in most IDEs, copy-pasting a file into a markdown document creates a relative link automatically
+- **Commit the `development log` together with the changes it produced.** This gives readers a historical connection: what was asked, in what context, what changes it led to, and how the agent reported back
+- You can share a `development log` from one workspace with an agent running in another workspace — just give it the file path or paste a link. This way, two agents in different projects can coordinate through shared logs
 
 ---
 
@@ -212,7 +212,7 @@ go
 
 ### What just happened
 
-The prompt file is now a living document. It holds your original intent, the AI's results, and your refinements — all in version control, all in one place. Future readers (including your future self) can reconstruct the full story of the investigation by reading one file.
+The `development log` is now a living document. It holds your original intent, the AI's results, and your refinements — all in version control, all in one place. Future readers (including your future self) can reconstruct the full story of the investigation by reading one file.
 
 ### Installing the Iterative Prompt skill
 

@@ -365,3 +365,22 @@ iterative-prompt.agent
   - `modules/600-teams-ai-chat-summarizer/about.md` line 29 — new folder name and title
   - `requests/basic-information/base-course.md` line 8 — new folder name and description
 - **Historical RESULTs updated:** all `058-workspace-kickoff-prompt-files` references in earlier RESULT blocks of this file updated to `058-workspace-kickoff-iterative-prompt`
+
+## UPD22
+
+Перегрузи наконец-то инструкцию, чтобы запускал watcher, а то тЫ забываешь это делать. 
+
+Так же в модуле тренинга скажи в бест практис, что:
+- можно называть файлы `main.prompt.md` как во всем модуле, но можно и `phase1.prompt.md`, `aggregate.prompt.md` или как-то еще. 
+- что важно перед коммитом, чтобы какие-то секреты не утекали в этот файл, потому лучше прогнать [instructions/handle-secrets-in-ai-workflows.agent.md](../../instructions/handle-secrets-in-ai-workflows.agent.md) и удалить все секреты оттуда
+- так же можно ссылаться на файлы и картинки, расположенные рядом с `main.prompt.md` - обычно copy/past в markdown файл делает ссылку в ide. 
+- коммитить файл важно вместе с исправлениям, тогда у читателей будлет историческая связь - что спросил иу агента, в каком контексте, к чему это привело и как агент за это отчитался.
+- можно давать одному агенту (из одного workspace) ссылку на файл `лога разработки` другому агенту. 
+
+Да кстати этот `main.prompt.md` давай называть `development log` напротяжении всего модуля. Подумай где хорошо вставить єтот термин, и бери его в '`'. 
+
+go
+
+### RESULT
+- [modules/058-workspace-kickoff-iterative-prompt/walkthrough.md](../../modules/058-workspace-kickoff-iterative-prompt/walkthrough.md) — introduced `development log` term throughout (intro, What We'll Build table, Parts 3-6, What just happened sections); added 5 new best practices to Part 5 (naming flexibility, secrets check via `handle-secrets-in-ai-workflows.agent.md`, referencing nearby files/images, committing log with changes, sharing across agents); fixed duplicate "Can be shared" line in Part 1
+- [modules/058-workspace-kickoff-iterative-prompt/about.md](../../modules/058-workspace-kickoff-iterative-prompt/about.md) — added `development log` term to Skill description and Learning Outcome

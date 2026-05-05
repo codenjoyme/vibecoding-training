@@ -1,7 +1,7 @@
 # Workspace Kickoff with Iterative Prompt
 
 **Duration:** 5-7 minutes  
-**Skill:** Start any AI-assisted investigation by creating a `main.prompt.md` file that evolves with `## UPD[N]` blocks — a living document that stays in version control alongside your work
+**Skill:** Start any AI-assisted investigation by creating a `development log` (`main.prompt.md`) that evolves with `## UPD[N]` blocks — a living document that stays in version control alongside your work
 
 **👉 [Start hands-on walkthrough](walkthrough.md)**
 
@@ -18,7 +18,7 @@
 
 ## Learning Outcome
 
-Ability to kick off any AI-assisted research or exploration by creating a `main.prompt.md` that describes materials and goals — and then grow it with `## UPD[N]` blocks as the investigation evolves, without losing context or starting new chat sessions. The prompt file stays in the repository as a permanent artifact showing how and why the work was done.
+Ability to kick off any AI-assisted research or exploration by creating a `development log` (`main.prompt.md`) that describes materials and goals — and then grow it with `## UPD[N]` blocks as the investigation evolves, without losing context or starting new chat sessions. The `development log` stays in the repository as a permanent artifact showing how and why the work was done.
 
 ## Prerequisites
 
