@@ -271,3 +271,14 @@ iterative-prompt.agent
 - [requests/650-winapi/main.prompt.md](../650-winapi/main.prompt.md) — UPD7 RESULT
 
 **Не тронуто (корректный контекст):** 5 оставшихся упоминаний — все в таблицах сравнения «старый vs новый» или в строке «Supersedes» в [instructions/main.agent.md](../../instructions/main.agent.md), что семантически правильно.
+
+## UPD14
+
+Давай оставим старую инструкцию в виде файла рефееренса в котормо будет сказано, что все переехало в новое место и ищите теперь тут. Его регистрировать нигде не надо. Просто пусть будет для тех, кому я отдавал старый линк. 
+
+Дальше, если окажется, что я в чат сесии указываю явно что надо следовать промпту `main.prompt.md` это всегда будет значит, что pooling слетел и надо после реализации последнего UPD блока который имеет закрытый `гоу` запустить `watcher` снова. А то сейчас если я так делаю, то инструкция не срабатывает. Вообще хорошо в таком случае перезагрузить инструкцию полностью - быть может там обновление какое. Исправь skill чтобы это новое знание там было. go
+
+### RESULT
+
+- [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) — заменён весь контент на redirect-заглушку: «This instruction has moved → `instructions/iterative-prompt/SKILL.md`». Файл оставлен для тех, кому раньше давалась старая ссылка.
+- [instructions/iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md) — добавлено правило **🔄 Chat re-attach** после блока `⛔ Chat messages do NOT break the loop`: если пользователь упоминает `main.prompt.md` в чате — это сигнал что polling слетел. Агент обязан: (1) перечитать SKILL.md полностью, (2) перечитать prompt-файл, (3) найти последний UPD с `go` без RESULT и выполнить его, (4) перезапустить watcher.

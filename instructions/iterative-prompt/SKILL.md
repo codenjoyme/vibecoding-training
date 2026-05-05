@@ -124,6 +124,12 @@ The net effect: you can open multiple IDE windows with different projects, each 
        3. Commit the changes
        4. Immediately restart the watcher (Step H)
        The only valid reason to permanently stop the loop is the user explicitly saying "stop", "exit loop", or closing the session.
+     + **🔄 Chat re-attach: user mentions `main.prompt.md` in chat.** If the user explicitly references a `main.prompt.md` (or any `*.prompt.md`) file in a chat message, this is a **signal that the polling loop has crashed** and needs to be re-established. On such a message:
+       1. **Re-read this skill file fully** (`instructions/iterative-prompt/SKILL.md`) — there may be updates since it was last loaded.
+       2. **Re-read the referenced prompt file** from start to finish.
+       3. **Find the last `## UPD[N]` that has `go` but no `### RESULT`** — process it immediately.
+       4. **Restart the watcher** (Step H) after processing.
+       This rule exists because context compaction, session restarts, or VS Code reloads can silently kill the watcher without the agent noticing. The user's only way to re-attach is to mention the prompt file in chat. Treat it as "re-read everything and resume where you left off", not as a casual mention.
 - When asked to create a new prompt file inside folder, immediately produce a ready-to-use file:
   + Use the following starter template:
     ```markdown
