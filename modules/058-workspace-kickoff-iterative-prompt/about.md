@@ -1,7 +1,7 @@
-# Workspace Kickoff Prompt Files
+# Workspace Kickoff with Iterative Prompt
 
 **Duration:** 5-7 minutes  
-**Skill:** Create a structured kickoff prompt file alongside gathered materials to give AI full context when starting exploration of an unfamiliar codebase or project
+**Skill:** Start any AI-assisted investigation by creating a `main.prompt.md` file that evolves with `## UPD[N]` blocks — a living document that stays in version control alongside your work
 
 **👉 [Start hands-on walkthrough](walkthrough.md)**
 
@@ -10,15 +10,15 @@
 - Why a saved prompt file beats chat history as a starting point
 - Setting up a research folder with gathered materials (source code, transcripts, notes, chat excerpts)
 - Writing a kickoff prompt that converts raw thoughts into structured AI action items
-- Using 🎯N markers to prioritize and sequence tasks for the AI
 - Running a `.prompt.md` file directly from the IDE
 - Leaving breadcrumbs for your future self and teammates
-- Extending the prompt incrementally with `UPDN` update blocks
+- Growing the prompt incrementally with `## UPD[N]` / `### RESULT` blocks
 - Using `iterative-prompt/SKILL.md` to formalize the pattern across projects
+- Saving premium requests by keeping the agent in a polling loop
 
 ## Learning Outcome
 
-Ability to kick off any AI-assisted research or exploration by dumping materials into a folder and writing a structured kickoff prompt file that guides the AI through the investigation — and that stays in the repository as a permanent navigational artifact; plus ability to extend that prompt file incrementally with `UPDN` update blocks as the investigation evolves, without losing the original context
+Ability to kick off any AI-assisted research or exploration by creating a `main.prompt.md` that describes materials and goals — and then grow it with `## UPD[N]` blocks as the investigation evolves, without losing context or starting new chat sessions. The prompt file stays in the repository as a permanent artifact showing how and why the work was done.
 
 ## Prerequisites
 
@@ -40,10 +40,11 @@ Ability to kick off any AI-assisted research or exploration by dumping materials
 - Any time you dump a pile of materials into a folder and want AI to make sense of them
 - When you want to preserve the starting point of an investigation in version control
 - When you have an ongoing task that evolves over multiple sessions and you want a single file to track all updates
+- When you want to save premium requests by keeping the agent working autonomously
 
 ## Resources
 
-- **Iterative Prompt Agent** — the formalized instruction for the `UPDN` pattern. Install it in any workspace with:
+- **Iterative Prompt Skill** — the formalized instruction for the `UPD[N]` pattern. Install it in any workspace with:
   ```
   Setup https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/SKILL.md
   ```

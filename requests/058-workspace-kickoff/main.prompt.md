@@ -20,8 +20,8 @@ iterative-prompt/SKILL.md
 
 ### RESULT
 
-- `modules/058-workspace-kickoff-prompt-files/about.md` — created with topics, learning outcome, prerequisites
-- `modules/058-workspace-kickoff-prompt-files/walkthrough.md` — created with Parts 1–5, success criteria, understanding check, troubleshooting, next steps
+- `modules/058-workspace-kickoff-iterative-prompt/about.md` — created with topics, learning outcome, prerequisites
+- `modules/058-workspace-kickoff-iterative-prompt/walkthrough.md` — created with Parts 1–5, success criteria, understanding check, troubleshooting, next steps
 
 ## UPD2
 
@@ -29,8 +29,8 @@ iterative-prompt/SKILL.md
 
 ### RESULT
 
-- `modules/058-workspace-kickoff-prompt-files/walkthrough.md` — added Part 6 (UPD marker pattern), new success criteria item, understanding check question 8
-- `modules/058-workspace-kickoff-prompt-files/about.md` — added UPD pattern to Topics and Learning Outcome
+- `modules/058-workspace-kickoff-iterative-prompt/walkthrough.md` — added Part 6 (UPD marker pattern), new success criteria item, understanding check question 8
+- `modules/058-workspace-kickoff-iterative-prompt/about.md` — added UPD pattern to Topics and Learning Outcome
 
 ## UPD3
 
@@ -43,7 +43,7 @@ iterative-prompt/SKILL.md
 
 ### RESULT
 
-- `modules/058-workspace-kickoff-prompt-files/walkthrough.md` — added instruction snippet to Part 6 with `<instructions>` block and updated steps to include placing it at the top of the prompt file
+- `modules/058-workspace-kickoff-iterative-prompt/walkthrough.md` — added instruction snippet to Part 6 with `<instructions>` block and updated steps to include placing it at the top of the prompt file
 
 ## UPD4
 
@@ -61,8 +61,8 @@ Setup https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/i
 - `instructions/iterative-prompt/SKILL.md` — added "Who I Am" motivation section, fixed template reference from `prompt-update.agent.md` to `iterative-prompt/SKILL.md`
 - `requests/058-create.prompt.md` — restructured to new iterative prompt semantics with `<follow>` block and `### RESULT` sections
 - `requests/module-02b-claude-codemie.prompt.md` — restructured to new iterative prompt semantics
-- `modules/058-workspace-kickoff-prompt-files/about.md` — added iterative prompt install command and reference
-- `modules/058-workspace-kickoff-prompt-files/walkthrough.md` — updated Part 6 to reference `iterative-prompt/SKILL.md` install command
+- `modules/058-workspace-kickoff-iterative-prompt/about.md` — added iterative prompt install command and reference
+- `modules/058-workspace-kickoff-iterative-prompt/walkthrough.md` — updated Part 6 to reference `iterative-prompt/SKILL.md` install command
 
 ## UPD5
 
@@ -259,8 +259,8 @@ iterative-prompt.agent
 
 **Файлы изменены:**
 - [instructions/main.agent.md](../../instructions/main.agent.md) — добавлена запись `iterative-prompt/SKILL.md` в каталог
-- [modules/058-workspace-kickoff-prompt-files/about.md](../../modules/058-workspace-kickoff-prompt-files/about.md) — обновлены ссылки
-- [modules/058-workspace-kickoff-prompt-files/walkthrough.md](../../modules/058-workspace-kickoff-prompt-files/walkthrough.md) — обновлены Setup URL и `<follow>` блок
+- [modules/058-workspace-kickoff-iterative-prompt/about.md](../../modules/058-workspace-kickoff-iterative-prompt/about.md) — обновлены ссылки
+- [modules/058-workspace-kickoff-iterative-prompt/walkthrough.md](../../modules/058-workspace-kickoff-iterative-prompt/walkthrough.md) — обновлены Setup URL и `<follow>` блок
 - [readme.md](../../readme.md) — обновлена ссылка на инструкцию
 
 ## UPD18
@@ -352,3 +352,16 @@ iterative-prompt.agent
 Дальше надо сделать следующее, модуль `058-workspace-kickoff-prompt-files` полность пересмотреть под искользование этого iterative prompt подхода. Потому что там есть упоминание 🎯N вещей, которые не прижились вообще-то. Это было у истоков, и больше не актуально. 
 
 Модуль давай назовем `058-workspace-kickoff-iterative-prompt`. И во всех каталогах его тоже переназвоем, и саммари перепишем. go 
+
+### RESULT
+- **Stale ref fixed:** `requests/module-10-fine-tuning/main.prompt.md` — `requests/iterative-prompt/main.prompt.md` → `requests/058-workspace-kickoff/main.prompt.md`
+- **Folder renamed:** `modules/058-workspace-kickoff-prompt-files/` → `modules/058-workspace-kickoff-iterative-prompt/` (via `git mv`)
+- **`about.md` rewritten:** removed 🎯N markers, title → "Workspace Kickoff with Iterative Prompt", topics/learning outcome/when-to-use updated for UPD/RESULT/`go`/polling loop workflow
+- **`walkthrough.md` rewritten:** removed Parts 3-4 🎯N marker content, replaced with `<follow>` + `## UPD1` + `go` pattern; Part 4 updated for `### RESULT`; Part 5 updated for `main.prompt.md` naming; Part 6 rewritten for UPD blocks + iterative prompt skill install; success criteria, understanding check, troubleshooting fully updated
+- **Catalogs updated:**
+  - `training-plan.md` line 51 — new title and description
+  - `base-course.md` line 15 — new folder name and description
+  - `modules/module-catalog.md` line 13 — new title and description
+  - `modules/600-teams-ai-chat-summarizer/about.md` line 29 — new folder name and title
+  - `requests/basic-information/base-course.md` line 8 — new folder name and description
+- **Historical RESULTs updated:** all `058-workspace-kickoff-prompt-files` references in earlier RESULT blocks of this file updated to `058-workspace-kickoff-iterative-prompt`

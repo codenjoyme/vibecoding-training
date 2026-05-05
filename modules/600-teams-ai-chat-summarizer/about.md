@@ -26,7 +26,7 @@ You can wire any custom Python application to Microsoft Teams using Microsoft Gr
 
 - [108 — Token & API Key Management](../108-token-api-key-management/about.md)
 - [110 — Development Environment Setup](../110-development-environment-setup/about.md)
-- [058 — Workspace Kickoff Prompt Files](../058-workspace-kickoff-prompt-files/about.md) *(optional, recommended)*
+- [058 — Workspace Kickoff with Iterative Prompt](../058-workspace-kickoff-iterative-prompt/about.md) *(optional, recommended)*
 
 ### Required Skills & Tools
 

@@ -47,7 +47,7 @@ iterative-prompt/SKILL.md
 
 ### RESULT
 - `instructions/iterative-prompt/SKILL.md` — updated "Non-stop loop" to explicitly state each UPD = one separate commit, UPDs without `go` are skipped, parallel writing is supported.
-- `requests/iterative-prompt/main.prompt.md` — added UPD6 with RESULT documenting this change.
+- `requests/058-workspace-kickoff/main.prompt.md` — added UPD6 with RESULT documenting this change.
 - Going forward: each UPD in this session gets its own commit and reports separately.
 
 ## UPD7
