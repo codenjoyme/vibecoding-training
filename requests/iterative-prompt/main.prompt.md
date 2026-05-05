@@ -172,3 +172,39 @@ iterative-prompt.agent
 
 - Modified [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) — добавлен **Step H — Wake-on-change watcher** после Step G. Это длительная команда (PowerShell для Windows + bash для Linux/macOS), которая внутри себя делает sleep+hash в цикле до 120 минут и возвращает управление агенту только когда файл реально изменился (печатает `CHANGED after N min`) или когда исчерпан бюджет. Описано: запуск через `run_in_terminal` в sync-режиме с большим timeout, обработка возврата (несколько UPD с `go` обрабатываются за одно пробуждение), fallback на старый Steps A–F цикл если watcher не сработает на хосте.
 - Запрос пришёл из [requests/650-winapi/main.prompt.md UPD9](../650-winapi/main.prompt.md) — продублирован сюда полностью по инструкции пользователя.
+
+## UPD11
+
+Добавил вместо инструкции `iterative prompt` целый `skill.md` замени старый новым. Оцени в чем разница и что нового пришло. И сделай замену. Модуль его тоже обнови. `work` папку не трогай. go
+
+### RESULT
+
+**Разница между старым `iterative-prompt.agent.md` и новым [instructions/iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md):**
+
+| | Старый `.agent.md` | Новый `SKILL.md` v2.0 |
+|---|---|---|
+| Формат | Flat file, без метаданных | YAML frontmatter (`name`, `description`, `version: 2.0.0`) |
+| Расположение | `instructions/iterative-prompt.agent.md` | `instructions/iterative-prompt/SKILL.md` (папка + `scripts/`) |
+| Watcher | PowerShell one-liner | Python `scripts/watch_prompt.py` с retry и smart UPD detection |
+| `run_in_terminal` mode | `mode=sync` с длинным timeout | **`mode=async` (CRITICAL)** — notification mechanism |
+| Resilience | Нет retry при file lock | 5× retry с 200мс delay (Windows VS Code save locks) |
+| Обнаружение go | `tail -n 10 + grep` | Парсит UPD-блоки, находит последний без RESULT |
+| Troubleshooting | Нет | Таблица типичных проблем |
+| Step G anti-drift | Re-read `iterative-prompt.agent.md` | Re-read `SKILL.md` (обновлён путь) |
+| Starter template | `<follow>iterative-prompt.agent.md</follow>` | `<follow>iterative-prompt/SKILL.md</follow>` |
+
+**Ключевое новшество:** Python watcher и переход с `mode=sync` на `mode=async`. Это решает проблему exit code 1 и прерывания — именно та проблема, которую мы фиксили в UPD14.
+
+**Файлы изменены:**
+- [instructions/main.agent.md](../../instructions/main.agent.md) — добавлена запись `iterative-prompt/SKILL.md` в каталог
+- [modules/058-workspace-kickoff-prompt-files/about.md](../../modules/058-workspace-kickoff-prompt-files/about.md) — обновлены ссылки
+- [modules/058-workspace-kickoff-prompt-files/walkthrough.md](../../modules/058-workspace-kickoff-prompt-files/walkthrough.md) — обновлены Setup URL и `<follow>` блок
+- [readme.md](../../readme.md) — обновлена ссылка на инструкцию
+
+## UPD12
+
+Так же все `main.prompt.md` надо обновить чтобы там было `<follow>iterative-prompt/SKILL.md</follow>` вместо `<follow>iterative-prompt.agent.md</follow>`. 
+
+Еще посмотри инструкцию `instructions/training-mode-iterative-prompt.agent.md` ее скорее всего тоже надо обновить. 
+
+И посмотри по модулям, может быть где-то еще требуется замена. go
