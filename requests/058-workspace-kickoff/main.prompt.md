@@ -344,3 +344,11 @@ iterative-prompt.agent
 
 - [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) — заменён весь контент на redirect-заглушку: «This instruction has moved → `instructions/iterative-prompt/SKILL.md`». Файл оставлен для тех, кому раньше давалась старая ссылка.
 - [instructions/iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md) — добавлено правило **🔄 Chat re-attach** после блока `⛔ Chat messages do NOT break the loop`: если пользователь упоминает `main.prompt.md` в чате — это сигнал что polling слетел. Агент обязан: (1) перечитать SKILL.md полностью, (2) перечитать prompt-файл, (3) найти последний UPD с `go` без RESULT и выполнить его, (4) перезапустить watcher.
+
+## UPD21
+
+Я только что помержил два риквеста в один (настоящий). Теперь надо понять есть ли ссылки `iterative-prompt/main.prompt.md` где-то еще, и заменить их на этот файл. 
+
+Дальше надо сделать следующее, модуль `058-workspace-kickoff-prompt-files` полность пересмотреть под искользование этого iterative prompt подхода. Потому что там есть упоминание 🎯N вещей, которые не прижились вообще-то. Это было у истоков, и больше не актуально. 
+
+Модуль давай назовем `058-workspace-kickoff-iterative-prompt`. И во всех каталогах его тоже переназвоем, и саммари перепишем. go 
