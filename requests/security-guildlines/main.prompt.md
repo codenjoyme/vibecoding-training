@@ -26,7 +26,7 @@ Go
 - [module-134-improvement-plan.md](module-134-improvement-plan.md) — gap analysis of [module 134](../../modules/134-ai-code-security-review/about.md) vs. the new threat surface; concrete Option A (extend) / Option B (split into new module) edits, including new Part 7 "Agent Safety Boundaries", new Understanding-Check question, and cross-references to modules 060, 105, 106, 108, 500
 - [future-security-gaps.md](future-security-gaps.md) — broader threat-model table (20 risks of mass AI-coding adoption), proposes new modules 135 (Agent Safety & Blast Radius), 136 (Prompt Injection), 137 (Secure MCP Adoption), 138 (AI Incident Response), 139 (Compliance & Data Residency); proposes new global instruction `instructions/agent-safety.agent.md` and a top-level `SECURITY.md`
 - [leak-scan-plan.md](leak-scan-plan.md) — repo-wide PII / secret / hygiene scan with severity, file + line + reason + action for each finding.
-- After commit: enter watcher-based polling loop on this file per [iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md). New `## UPD` blocks ending in `go` will be processed; new leak findings will be appended to section 5 of `leak-scan-plan.md`.
+- After commit: enter watcher-based polling loop on this file per [iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md). New `## UPD` blocks ending in `go` will be processed; new leak findings will be appended to section 5 of `leak-scan-plan.md`.
 
 ## UPD2
 

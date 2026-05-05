@@ -53,7 +53,7 @@ iterative-prompt/SKILL.md
 
 Так же я хочу еще один мануал в корне `for-authors.md` суть которой будет такая же как в `quickstart.md`, но с фокусом на авторов инструкций. Для этого файла надо так же в трех вариациях: claude, cursor и copilot сделать ярлыки с переключением модели и агентного режима. Но в самой инструкции надо пеерчислить вот такие важные моменты:
 - Смотрите папку [requests](..) там много примеров того как я создаю модули и другие правки через iterative prompt подход.
-- Смотрите инструкцию [text](../../instructions/iterative-prompt.agent.md) она расскажет как работает iterative prompt подход.
+- Смотрите инструкцию [text](../../instructions/iterative-prompt/SKILL.md) она расскажет как работает iterative prompt подход.
 - Когда вы просите создать модуль, то используется инструкция [text](../../instructions/create-training-module.agent.md).
 - Когда вы просите пройти модуль, то инструкция [text](../../instructions/training-mode.agent.md).
   + Опционально, если хочется секономить токены то инструкция [text](../../instructions/training-mode-iterative-prompt.agent.md) добавляет вомзможность пройти тренинг в iterative prompt режиме.
@@ -110,7 +110,7 @@ Getting Started with Contributing
 - Напиши, что если проект открыт в VSCode/Cursor/Claude Code то можно просто попросить `давай пройдем модуль NNN` или `я хочу решить такой-то вопрос, скажи какие модуля мне помогут?`.
 - Вся автоматизация работает на инстркукциях расположенных тут [text](../../instructions) они tools agnostic и заведует там процессом [text](../../instructions/creating-instructions.agent.md). 
 - Весь остальной процесс создания модулей и прохождения их в коучинговом режиме базируется на других двух инструкциях [text](../../instructions/create-training-module.agent.md) и [text](../../instructions/training-mode.agent.md). Только кратко, ведь все это расписано в [text](../../for-authors.md) подробно. 
-- Так же все риквесты по улучшению тренинга я веду в папке [requests](..) и там используеся [text](../../instructions/iterative-prompt.agent.md) подход. Там можно посмотреть как создавались прошлые модуля и делались правки.
+- Так же все риквесты по улучшению тренинга я веду в папке [requests](..) и там используеся [text](../../instructions/iterative-prompt/SKILL.md) подход. Там можно посмотреть как создавались прошлые модуля и делались правки.
 - Каталог модулей тут [text](../../modules/module-catalog.md). Кстати посмотри на этот файл, его скорее всего надо обновить добавив новые модуля, которых там нет.
 - Так же скажи очень кратко что каждый модуль это папка с `about.md` и `walkthrough.md` и `tools` где могут быть или `skils.md` или референс, или что угодно что поможет модулю случиться в практическом аспекте. 
 Перерабатывай весь `readme` не только тот блок который я показал как отправную точку. Сделай его максимаьно полезным для человека, но не перегружай его водой и деталями. 
@@ -118,5 +118,5 @@ Go
 
 ### RESULT
 
-- [readme.md](../../readme.md) — fully rewritten: concise intro, "Get Started" section linking to `quickstart.md` / `for-authors.md` / `base-course.md`, "Just Talk to Your IDE" examples for VS Code / Cursor / Claude Code, link to `modules/module-catalog.md`, brief module structure (`about.md` + `walkthrough.md` + optional `tools/`), automation architecture pointing to `instructions/creating-instructions.agent.md` + `main.agent.md` with `create-training-module.agent.md` and `training-mode.agent.md` highlighted, iterative-prompt workflow pointing to `requests/` + `iterative-prompt.agent.md`, and a short Contributing section
+- [readme.md](../../readme.md) — fully rewritten: concise intro, "Get Started" section linking to `quickstart.md` / `for-authors.md` / `base-course.md`, "Just Talk to Your IDE" examples for VS Code / Cursor / Claude Code, link to `modules/module-catalog.md`, brief module structure (`about.md` + `walkthrough.md` + optional `tools/`), automation architecture pointing to `instructions/creating-instructions.agent.md` + `main.agent.md` with `create-training-module.agent.md` and `training-mode.agent.md` highlighted, iterative-prompt workflow pointing to `requests/` + `iterative-prompt/SKILL.md`, and a short Contributing section
 - [modules/module-catalog.md](../../modules/module-catalog.md) — added missing modules: 076, 088, 091, 106, 107, 240, 350, 400, 500, 650, 900 

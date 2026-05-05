@@ -4,7 +4,7 @@ iterative-prompt/SKILL.md
 
 ## UPD1
 
-Дальше идет мой пост про `iterative prompt` - пожалуйста дополни [инструкцию](../../instructions/iterative-prompt.agent.md) в блоке `## Who I Am` этой мотивацией чтобы у всех, кто загрузил эту инструкцию было четкое понимание зачем вообще нужен `iterative prompt` и как он помогает экономить риквесты в условиях текущей модели оплаты за премиум риквесты в Github Copilot.
+Дальше идет мой пост про `iterative prompt` - пожалуйста дополни [инструкцию](../../instructions/iterative-prompt/SKILL.md) в блоке `## Who I Am` этой мотивацией чтобы у всех, кто загрузил эту инструкцию было четкое понимание зачем вообще нужен `iterative prompt` и как он помогает экономить риквесты в условиях текущей модели оплаты за премиум риквесты в Github Copilot.
 
 ### Коллеги приветствую #СашаНашкодил
 
@@ -92,7 +92,7 @@ iterative-prompt.agent
 
 ### RESULT
 
-- Modified [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) — added a new `### Why This Matters — Saving Premium Requests` subsection inside `## Who I Am`. It explains the Copilot premium-request billing model (1 request = 1% regardless of token count), and lists 6 concrete reasons why the iterative-prompt pattern helps economize: maximizing autonomous work, writing in a file instead of chat, structured UPD/RESULT cycles, zero-cost polling loop, context survival across compaction, and git-based shared knowledge.
+- Modified [instructions/iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md) — added a new `### Why This Matters — Saving Premium Requests` subsection inside `## Who I Am`. It explains the Copilot premium-request billing model (1 request = 1% regardless of token count), and lists 6 concrete reasons why the iterative-prompt pattern helps economize: maximizing autonomous work, writing in a file instead of chat, structured UPD/RESULT cycles, zero-cost polling loop, context survival across compaction, and git-based shared knowledge.
 
 ## UPD2
 
@@ -130,7 +130,7 @@ iterative-prompt.agent
 
 ### RESULT
 
-- Fixed `iterative-prompt.agent.md` — added `⛔ CRITICAL: Chat messages do NOT break the loop` rule: when user sends a chat message while loop is active, agent must apply the fix, write `### RESULT` in the **active prompt file**, commit, then return to `Start-Sleep` immediately
+- Fixed `iterative-prompt/SKILL.md` — added `⛔ CRITICAL: Chat messages do NOT break the loop` rule: when user sends a chat message while loop is active, agent must apply the fix, write `### RESULT` in the **active prompt file**, commit, then return to `Start-Sleep` immediately
 - Fixed `training-mode-iterative-prompt.agent.md` — same rule added to the polling loop section (item 4)
 - Both files now explicitly state: the only valid reason to stop the loop is the user typing "stop" or "exit loop"
 
@@ -139,7 +139,7 @@ iterative-prompt.agent
 Хочу чтобы была поддержка атомарной работы с несколькими UPD: каждый UPD ждет своего `go` прежде чем агент начнет его выполнение. Пока агент работает над текущим UPD, пользователь может дописывать следующий. Каждый UPD — отдельный коммит. Доработай инструкцию. go
 
 ### RESULT
-- `instructions/iterative-prompt.agent.md` — updated the "Non-stop loop" section: clarified that each `## UPD` = one separate commit; added rule that UPDs without `go` are skipped (user still writing); added explanation of parallel writing — user can write UPD N+1 while agent works on UPD N, and agent processes sequentially with a commit per UPD.
+- `instructions/iterative-prompt/SKILL.md` — updated the "Non-stop loop" section: clarified that each `## UPD` = one separate commit; added rule that UPDs without `go` are skipped (user still writing); added explanation of parallel writing — user can write UPD N+1 while agent works on UPD N, and agent processes sequentially with a commit per UPD.
 
 ## UPD7
 
@@ -147,7 +147,7 @@ iterative-prompt.agent
 
 ### RESULT
 
-- `instructions/iterative-prompt.agent.md` — updated commit workflow: `### RESULT` must be written to `main.prompt.md` **before** committing; all changed files + `main.prompt.md` go into one atomic commit; separate "RESULT-only" commits are now explicitly forbidden.
+- `instructions/iterative-prompt/SKILL.md` — updated commit workflow: `### RESULT` must be written to `main.prompt.md` **before** committing; all changed files + `main.prompt.md` go into one atomic commit; separate "RESULT-only" commits are now explicitly forbidden.
 
 ## UPD8
 
@@ -155,14 +155,14 @@ iterative-prompt.agent
 
 ### RESULT
 
-- Modified [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) — в блоке `### RESULT` в секции "After implementing each update" добавлено требование: все пути к файлам оформлять как кликабельные markdown-ссылки (с примерами ✅/❌ и примечанием про относительный путь от `main.prompt.md`).
+- Modified [instructions/iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md) — в блоке `### RESULT` в секции "After implementing each update" добавлено требование: все пути к файлам оформлять как кликабельные markdown-ссылки (с примерами ✅/❌ и примечанием про относительный путь от `main.prompt.md`).
 
 ## UPD9
 
 И так же давай сделаем, чтобы во время рипортинга так же менялся ссылки подобным образом в моем промпте, если я там ссылаюсь на какие-то файлы. Но только ссылки, остальной текст пусть остается. go
 ### RESULT
 
-- Modified [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) — добавлен шаг 2 в секцию "After implementing each update": перед написанием `### RESULT` агент обязан найти в тексте `## UPD[N]` все пути к файлам (plain text и backtick) и конвертировать их в кликабельные markdown-ссылки in-place, не трогая остальной текст.
+- Modified [instructions/iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md) — добавлен шаг 2 в секцию "After implementing each update": перед написанием `### RESULT` агент обязан найти в тексте `## UPD[N]` все пути к файлам (plain text и backtick) и конвертировать их в кликабельные markdown-ссылки in-place, не трогая остальной текст.
 
 ## UPD10
 
@@ -170,7 +170,7 @@ iterative-prompt.agent
 
 ### RESULT
 
-- Modified [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) — добавлен **Step H — Wake-on-change watcher** после Step G. Это длительная команда (PowerShell для Windows + bash для Linux/macOS), которая внутри себя делает sleep+hash в цикле до 120 минут и возвращает управление агенту только когда файл реально изменился (печатает `CHANGED after N min`) или когда исчерпан бюджет. Описано: запуск через `run_in_terminal` в sync-режиме с большим timeout, обработка возврата (несколько UPD с `go` обрабатываются за одно пробуждение), fallback на старый Steps A–F цикл если watcher не сработает на хосте.
+- Modified [instructions/iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md) — добавлен **Step H — Wake-on-change watcher** после Step G. Это длительная команда (PowerShell для Windows + bash для Linux/macOS), которая внутри себя делает sleep+hash в цикле до 120 минут и возвращает управление агенту только когда файл реально изменился (печатает `CHANGED after N min`) или когда исчерпан бюджет. Описано: запуск через `run_in_terminal` в sync-режиме с большим timeout, обработка возврата (несколько UPD с `go` обрабатываются за одно пробуждение), fallback на старый Steps A–F цикл если watcher не сработает на хосте.
 - Запрос пришёл из [requests/650-winapi/main.prompt.md UPD9](../650-winapi/main.prompt.md) — продублирован сюда полностью по инструкции пользователя.
 
 ## UPD11
@@ -190,8 +190,8 @@ iterative-prompt.agent
 | Resilience | Нет retry при file lock | 5× retry с 200мс delay (Windows VS Code save locks) |
 | Обнаружение go | `tail -n 10 + grep` | Парсит UPD-блоки, находит последний без RESULT |
 | Troubleshooting | Нет | Таблица типичных проблем |
-| Step G anti-drift | Re-read `iterative-prompt.agent.md` | Re-read `SKILL.md` (обновлён путь) |
-| Starter template | `<follow>iterative-prompt.agent.md</follow>` | `<follow>iterative-prompt/SKILL.md</follow>` |
+| Step G anti-drift | Re-read `iterative-prompt/SKILL.md` | Re-read `SKILL.md` (обновлён путь) |
+| Starter template | `<follow>iterative-prompt/SKILL.md</follow>` | `<follow>iterative-prompt/SKILL.md</follow>` |
 
 **Ключевое новшество:** Python watcher и переход с `mode=sync` на `mode=async`. Это решает проблему exit code 1 и прерывания — именно та проблема, которую мы фиксили в UPD14.
 
@@ -240,7 +240,34 @@ iterative-prompt.agent
 
 **Инструкции:**
 - [instructions/training-mode-iterative-prompt.agent.md](../../instructions/training-mode-iterative-prompt.agent.md) — шаблон follow-блока в Step 2 обновлён
-- [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) — self-reference в Step G и starter template обновлены
+- [instructions/iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md) — self-reference в Step G и starter template обновлены
 - [for-authors.md](../../for-authors.md) — ссылка на инструкцию обновлена на `iterative-prompt/SKILL.md`
 
 **Не тронуто:** Исторические упоминания в RESULT-блоках (описание прошлых изменений), папка `work/`, модули (в `modules/` упоминаний `iterative-prompt.agent` не найдено — уже обновлены в UPD11).
+
+## UPD13
+
+Исторические упоминания тоже меняй. go
+
+### RESULT
+
+Обновлены **все** исторические упоминания `iterative-prompt.agent.md` → `iterative-prompt/SKILL.md` (кроме случаев где старое имя используется как сравнение «старый vs новый»).
+
+**Файлы с обновлёнными follow-тегами:**
+- [requests/058-workspace-kickoff/058-create.prompt.md](../058-workspace-kickoff/058-create.prompt.md)
+- [requests/091-cli-testing/module-training.prompt.md](../091-cli-testing/module-training.prompt.md)
+- [requests/module-02b-claude-code-codemie/module-02b-claude-codemie.prompt.md](../module-02b-claude-code-codemie/module-02b-claude-codemie.prompt.md)
+
+**Файлы с обновлёнными историческими ссылками в RESULT-блоках:**
+- [requests/iterative-prompt/main.prompt.md](main.prompt.md) — UPD1, UPD5–UPD10, UPD12 RESULT-блоки
+- [requests/project-analysis/main.prompt.md](../project-analysis/main.prompt.md) — UPD3, UPD8, UPD14 RESULT-блоки + template
+- [requests/600-ms-teams-access/main.prompt.md](../600-ms-teams-access/main.prompt.md) — NOTE, UPD30 RESULT
+- [requests/091-cli-testing/main.prompt.md](../091-cli-testing/main.prompt.md) — UPD1–UPD3 RESULT-блоки
+- [requests/058-workspace-kickoff/058-create.prompt.md](../058-workspace-kickoff/058-create.prompt.md) — UPD4 + RESULT
+- [requests/035-update-screenshot/main.prompt.md](../035-update-screenshot/main.prompt.md) — UPD2
+- [requests/security-guildlines/main.prompt.md](../security-guildlines/main.prompt.md) — UPD1 RESULT
+- [requests/basic-information/main.prompt.md](../basic-information/main.prompt.md) — UPD5, UPD7 + RESULT
+- [requests/module-10-fine-tuning/main.prompt.md](../module-10-fine-tuning/main.prompt.md) — UPD6 RESULT
+- [requests/650-winapi/main.prompt.md](../650-winapi/main.prompt.md) — UPD7 RESULT
+
+**Не тронуто (корректный контекст):** 5 оставшихся упоминаний — все в таблицах сравнения «старый vs новый» или в строке «Supersedes» в [instructions/main.agent.md](../../instructions/main.agent.md), что семантически правильно.

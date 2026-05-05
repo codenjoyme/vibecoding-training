@@ -61,7 +61,7 @@ iterative-prompt/SKILL.md
 
 Остаются без митигации: тяжёлое сопровождение, зависимость от модели, отсутствие границы код/данные.
 
-**Фикс инструкции:** добавлен `⚠️ CRITICAL` блок в самое начало [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) с правилом "всегда запускать watcher после каждого UPD". Причина размещения вверху: при компакции контекста агент перечитывает файл с начала — блок будет виден первым.
+**Фикс инструкции:** добавлен `⚠️ CRITICAL` блок в самое начало [instructions/iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md) с правилом "всегда запускать watcher после каждого UPD". Причина размещения вверху: при компакции контекста агент перечитывает файл с начала — блок будет виден первым.
 
 ## UPD4
 
@@ -318,7 +318,7 @@ LMS = реляционная БД: жёсткая схема, валидация
 **3. Создать файл** `work/NNN-[module-name]/main.prompt.md` со структурой:
 ```
 <follow>
-iterative-prompt.agent.md
+iterative-prompt/SKILL.md
 training-mode.agent.md
 training-mode-iterative-prompt.agent.md
 </follow>
@@ -400,7 +400,7 @@ go
 
 ### RESULT
 
-**Инструкция исправлена** ([instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md)):
+**Инструкция исправлена** ([instructions/iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md)):
 - `-Tail 3` → `-Tail 10` (и в PowerShell, и в bash) — пустые строки после `go` больше не скрывают его
 - Добавлено правило: остановка воркера пользователем (Ctrl+C, exit code 1) = сигнал "прочитай конец файла немедленно, там что-то появилось"
 

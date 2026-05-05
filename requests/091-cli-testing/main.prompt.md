@@ -32,7 +32,7 @@ iterative-prompt/SKILL.md
 
 После того как сделаешь это, загрузи инструкцию [text](../../instructions/training-mode.agent.md) и попробуй пройди модуль сам. Потести все ли там окей. Сам отвечай на вопросы свои как это делал бы юзер. И пройди модуль до конца. Важно, что эксперименты стоит проводить в папке `work` как положено в инструкции. 
 
-Если все работает, то замри в таймауте и жди в этом файле дальнейших инструкций. Поправь [text](../../instructions/iterative-prompt.agent.md) чтобы всегда было ожидание новых инструкций после выполнения всех `## UPD` блоков в бесконечнои цикле пока я не допишу новое или не остановлю сам агента. 
+Если все работает, то замри в таймауте и жди в этом файле дальнейших инструкций. Поправь [text](../../instructions/iterative-prompt/SKILL.md) чтобы всегда было ожидание новых инструкций после выполнения всех `## UPD` блоков в бесконечнои цикле пока я не допишу новое или не остановлю сам агента. 
 
 ### RESULT
 
@@ -45,7 +45,7 @@ Created/modified files:
 - `modules/091-cli-testing/tools/cli-test-runner/demo/node-cli/` — cowsay demo (Dockerfile, setup.sh, scenario, run-demo.ps1)
 - `modules/091-cli-testing/tools/cli-test-runner/demo/python-cli/` — httpie demo (Dockerfile, setup.sh, scenario, run-demo.ps1)
 - `training-plan.md` — added module 091 entry after module 090
-- `instructions/iterative-prompt.agent.md` — added infinite wait loop after all UPDs processed
+- `instructions/iterative-prompt/SKILL.md` — added infinite wait loop after all UPDs processed
 
 Tested: Node.js demo ✓, Python demo ✓, custom bash builtins test ✓, regression workflow ✓. Self-tested walkthrough Parts 2-6 in `work/091-task/`. Committed as `2eb8bbe`.
 
@@ -56,7 +56,7 @@ Tested: Node.js demo ✓, Python demo ✓, custom bash builtins test ✓, regres
 
 ### RESULT
 
-Modified `instructions/iterative-prompt.agent.md` — replaced passive "remain idle and wait" with explicit terminal-based polling loop using `Start-Sleep -Seconds 30` (Windows) / `sleep 30` (Linux/macOS) via `run_in_terminal` in sync mode. After each sleep, agent re-reads the prompt file and checks `git diff` for new `## UPD` blocks. Loop continues indefinitely until user stops the agent.
+Modified `instructions/iterative-prompt/SKILL.md` — replaced passive "remain idle and wait" with explicit terminal-based polling loop using `Start-Sleep -Seconds 30` (Windows) / `sleep 30` (Linux/macOS) via `run_in_terminal` in sync mode. After each sleep, agent re-reads the prompt file and checks `git diff` for new `## UPD` blocks. Loop continues indefinitely until user stops the agent.
 
 ## UPD3
 
@@ -78,7 +78,7 @@ Consolidated CLI test runner into a single-script architecture:
 - `run-scenarios.sh` — added `--base-image` flag (default: `ubuntu:22.04`); Docker mode now generates Dockerfile on the fly in a temp build context; added `MSYS_NO_PATHCONV` for Git Bash on Windows
 - `SKILL.md` — updated file structure, usage docs, runner flags table
 - `walkthrough.md` — removed all PowerShell/Dockerfile references, updated all commands to use `bash run-scenarios.sh --base-image ...`
-- `iterative-prompt.agent.md` — 60s polling, content-based UPD check (not just N+1), wait for `go` keyword before executing
+- `iterative-prompt/SKILL.md` — 60s polling, content-based UPD check (not just N+1), wait for `go` keyword before executing
 
 Demos now only need `setup.sh` + `scenarios/`. One command to run:
 ```bash

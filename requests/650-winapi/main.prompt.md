@@ -275,7 +275,7 @@ Go
 
 Translated [`modules/650-winapi/tools/readme.md`](../../modules/650-winapi/tools/readme.md) to English (full rewrite — every section: intro, what-you-get, install, register, enable, demo 4.1–4.5, lessons, security, where-to-go-next). Image links and JS payload preserved verbatim. Aligns with `main.agent.md` rule: project content is English, chat language stays as-is.
 
-Resuming polling loop per `iterative-prompt.agent.md`.
+Resuming polling loop per `iterative-prompt/SKILL.md`.
 ## UPD8
 
 Проанализируй сессию, в ней ты делал некоторые не очень оптимальные действия. Например у тебя не получался скролинг. Наверное надо добавить такую возможность в наше решение. Проанализируй другие вещи, которые ты делал не совсем оптимально. И опиши это все в итеративном промпте в конце вместе с моим этим запросом. Сделай так же gap анализ инструментов, которые юзеру может не хватить в будущем от winapi. реализуй их всех. А так же добавь описание в walkstough.md и skills.md по новым возможностям. После попроси меня перезапустить MCP, я это сделаю пока ты спишь в polling процессе. И как сделаю - ты повторишь весь путь от начала до конца и мы потестим как все поменялось. Погнали!

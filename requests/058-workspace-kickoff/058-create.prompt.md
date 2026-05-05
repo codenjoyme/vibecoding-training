@@ -1,5 +1,5 @@
 <follow>
-iterative-prompt.agent.md
+iterative-prompt/SKILL.md
 </follow>
 
 ## UPD1
@@ -47,19 +47,19 @@ iterative-prompt.agent.md
 
 ## UPD4
 
-Я добавил новую инструкцию `instrunctions/iterative-prompt.agent.md`, которая описывает как работать с этими UPD[N] блоками. Я хочу чтобы ты сделал следующее: 
+Я добавил новую инструкцию `instrunctions/iterative-prompt/SKILL.md`, которая описывает как работать с этими UPD[N] блоками. Я хочу чтобы ты сделал следующее: 
 - Перепиши все файлы `*.prompt.md` в этом этой папке, чтобы они соответствовали новой семантике.
 - Переделай модуль 058 так, чтобы он ссылался на эту инструкцию. Она самодостаточна и ее можно будет установить по промпту: 
 ```
-Setup https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt.agent.md
+Setup https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/SKILL.md
 ```
 Это новый подход, который я придумал и ему пока нет аналогов в GenAI сообществе. Название ему `iterative prompt`. Суть в том, что вместо того, чтобы чатиться в чате и писать все сообщения туда, а потом пытаться найти нужные куски в истории, мы создаем файл `main.prompt.md` и пишем туда все свои мысли и идеи. А когда нам приходит новая мысль или идея, мы не ломаем старый промпт, а добавляем новый блок `## UPD[N]` с описанием новой мысли. После выполняем его либо в новой сессии, либо в существующей (если нам важно переиспользовать контекст). Агент видит, что изменилось в промпте (поэтому после отработки промпта важно сделать коммит, или хотя бы git add), а потом сделает нужную правку, и затем добавит краткий отчет в ### RESULT после текущего блока.
 - Обнови так же мотивацией саму инструкцию, чтобы если юзер спросит "кто ты" у инструкции, она передала эту мотивацию.
 
 ### RESULT
 
-- `instructions/iterative-prompt.agent.md` — added "Who I Am" motivation section, fixed template reference from `prompt-update.agent.md` to `iterative-prompt.agent.md`
+- `instructions/iterative-prompt/SKILL.md` — added "Who I Am" motivation section, fixed template reference from `prompt-update.agent.md` to `iterative-prompt/SKILL.md`
 - `requests/058-create.prompt.md` — restructured to new iterative prompt semantics with `<follow>` block and `### RESULT` sections
 - `requests/module-02b-claude-codemie.prompt.md` — restructured to new iterative prompt semantics
 - `modules/058-workspace-kickoff-prompt-files/about.md` — added iterative prompt install command and reference
-- `modules/058-workspace-kickoff-prompt-files/walkthrough.md` — updated Part 6 to reference `iterative-prompt.agent.md` install command
+- `modules/058-workspace-kickoff-prompt-files/walkthrough.md` — updated Part 6 to reference `iterative-prompt/SKILL.md` install command

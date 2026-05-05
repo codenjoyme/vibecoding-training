@@ -460,7 +460,7 @@ go
 
 ### RESULT
 
-Инструкцию [iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) перечитал — буду строго polling-ить.
+Инструкцию [iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md) перечитал — буду строго polling-ить.
 
 По smoke-тесту: я перезапустил с новым кодом — **та же ошибка** `AADSTS7000218`. Значит проблема не только в тумблере.
 
@@ -1007,7 +1007,7 @@ Go
 
 Из чата получены две правки:
 1. **Polling был неправильный:** я использовал async терминал с одноразовым shell-loop (`while ($true) {...; if ($cur -gt $prev) break }`), который выходит после первого изменения. По спеке должен быть sync-терминал с `Start-Sleep -Seconds 60`, после которого агент сам перечитывает файл, проверяет UPD-блоки и снова уходит в sleep. Исправляю поведение: следующий polling-цикл будет sync, шаги A→B→C→D→E→F→(каждые 30 циклов)G по новой версии инструкции.
-2. **Anti-drift refresh:** в [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) добавлен **Step G** — каждые 30 sleep-циклов агент обязан перечитать `iterative-prompt.agent.md`, файлы из `<follow>` и стоящие правила пользователя ("no commits", язык). Это компенсирует контекстный дрейф в долгих сессиях.
+2. **Anti-drift refresh:** в [instructions/iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md) добавлен **Step G** — каждые 30 sleep-циклов агент обязан перечитать `iterative-prompt/SKILL.md`, файлы из `<follow>` и стоящие правила пользователя ("no commits", язык). Это компенсирует контекстный дрейф в долгих сессиях.
 
 Правило "никаких коммитов" остаётся в силе — изменения не закоммичены, ждут вашего ревью.
 
@@ -1111,7 +1111,7 @@ Go
 
 Создан новый prompt-файл [requests/620-meeting-transcription/main.prompt.md](../../requests/620-meeting-transcription/main.prompt.md) с переносом содержания UPD30 как `## UPD1` (с полным контекстом — что и зачем, какие скрипты, что такое анонимный режим, какие индексы обновить).
 
-В новом файле выставлен `<follow>iterative-prompt.agent.md</follow>` и `Language: Russian`. UPD1 заканчивается `go` — готово к обработке в полинге.
+В новом файле выставлен `<follow>iterative-prompt/SKILL.md</follow>` и `Language: Russian`. UPD1 заканчивается `go` — готово к обработке в полинге.
 
 **Переключаюсь в polling нового файла** [requests/620-meeting-transcription/main.prompt.md](../../requests/620-meeting-transcription/main.prompt.md). Этот файл (600-ms-teams-access/main.prompt.md) больше не мониторю. Если потребуется добавить UPD31 здесь — переключусь обратно.
 

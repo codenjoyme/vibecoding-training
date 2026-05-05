@@ -15,7 +15,7 @@
 ## UPD2
 
 **Что было сделано:**
-1. Агент прочитал инструкции из `instructions/main.agent.md` и `instructions/iterative-prompt.agent.md`.
+1. Агент прочитал инструкции из `instructions/main.agent.md` и `instructions/iterative-prompt/SKILL.md`.
 2. По запросу из UPD1 открыл картинку `image-2024-9-14_0-25-37.png` через браузер (`open_browser_page` + `screenshot_page`) и описал содержимое.
 3. На вопрос «как ещё можно увидеть картинку» пояснил 4 способа: браузер, прямое вложение в чат, анализ HTML-контекста, имя файла / метаданные.
 
