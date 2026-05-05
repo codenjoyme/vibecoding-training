@@ -77,7 +77,7 @@ The net effect: you can open multiple IDE windows with different projects, each 
      + **Step E:** If an unprocessed `## UPD` is found and it ends with `go` — implement it immediately, write `### RESULT`, commit, and return to Step A.
      + **Step F:** If no changes detected — go back to Step A (sleep again).
      + **Step G — Anti-drift refresh (every 30 sleep cycles):** Maintain an internal counter of consecutive sleep cycles since session start (or since last refresh). After every 30 sleeps, before going back to Step A:
-       1. Re-read the **full content** of `instructions/iterative-prompt.agent.md` (this file).
+       1. Re-read the **full content** of `instructions/iterative-prompt/SKILL.md` (the v2.0 skill file).
        2. Re-read any other instruction files referenced via `<follow>` in the active prompt file's header (e.g. `training-mode-iterative-prompt.agent.md`).
        3. Re-read any standing user rules previously stated in the conversation (e.g. "no commits", "respond in Russian").
        4. Reset the counter to 0.
@@ -151,7 +151,7 @@ The net effect: you can open multiple IDE windows with different projects, each 
   + Use the following starter template:
     ```markdown
     <follow>
-    iterative-prompt.agent.md
+    iterative-prompt/SKILL.md
     </follow>
 
     ## UPD1

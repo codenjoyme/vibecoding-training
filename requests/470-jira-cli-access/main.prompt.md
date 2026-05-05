@@ -1,5 +1,5 @@
 <follow>
-iterative-prompt.agent.md
+iterative-prompt/SKILL.md
 </follow>
 
 ## UPD1

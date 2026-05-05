@@ -1,5 +1,5 @@
 <follow>
-iterative-prompt.agent
+iterative-prompt/SKILL.md
 </follow>
 
 ## UPD1
@@ -208,3 +208,39 @@ iterative-prompt.agent
 Еще посмотри инструкцию `instructions/training-mode-iterative-prompt.agent.md` ее скорее всего тоже надо обновить. 
 
 И посмотри по модулям, может быть где-то еще требуется замена. go
+
+### RESULT
+
+Обновлено **23 файла** — все `<follow>iterative-prompt.agent.md</follow>` и `<follow>iterative-prompt.agent</follow>` заменены на `<follow>iterative-prompt/SKILL.md</follow>`:
+
+**`main.prompt.md` файлы в `requests/` (22 файла):**
+- [requests/iterative-prompt/main.prompt.md](main.prompt.md) — этот файл
+- [requests/security-guildlines/main.prompt.md](../security-guildlines/main.prompt.md)
+- [requests/project-analysis/main.prompt.md](../project-analysis/main.prompt.md)
+- [requests/module-11-fine-tuning/main.prompt.md](../module-11-fine-tuning/main.prompt.md)
+- [requests/module-10-fine-tuning/main.prompt.md](../module-10-fine-tuning/main.prompt.md)
+- [requests/module-09-fine-tuning/main.prompt.md](../module-09-fine-tuning/main.prompt.md)
+- [requests/module-08-fine-tuning/main.prompt.md](../module-08-fine-tuning/main.prompt.md)
+- [requests/module-02c-ide-intro/main.prompt.md](../module-02c-ide-intro/main.prompt.md)
+- [requests/lnd-module/main.prompt.md](../lnd-module/main.prompt.md)
+- [requests/coaching-summary/main.prompt.md](../coaching-summary/main.prompt.md)
+- [requests/basic-information/main.prompt.md](../basic-information/main.prompt.md)
+- [requests/999-demo/main.prompt.md](../999-demo/main.prompt.md)
+- [requests/650-winapi/main.prompt.md](../650-winapi/main.prompt.md)
+- [requests/620-meeting-transcription/main.prompt.md](../620-meeting-transcription/main.prompt.md)
+- [requests/600-ms-teams-access/main.prompt.md](../600-ms-teams-access/main.prompt.md)
+- [requests/500-new-module/main.prompt.md](../500-new-module/main.prompt.md)
+- [requests/470-jira-cli-access/main.prompt.md](../470-jira-cli-access/main.prompt.md)
+- [requests/465-cookie-grabber-secure-api-calls/main.prompt.md](../465-cookie-grabber-secure-api-calls/main.prompt.md)
+- [requests/106-fastmcp/main.prompt.md](../106-fastmcp/main.prompt.md)
+- [requests/091-cli-testing/main.prompt.md](../091-cli-testing/main.prompt.md)
+- [requests/076-shared-instructions/main.prompt.md](../076-shared-instructions/main.prompt.md)
+- [requests/040-anchor-technique/main.prompt.md](../040-anchor-technique/main.prompt.md)
+- [requests/035-update-screenshot/main.prompt.md](../035-update-screenshot/main.prompt.md)
+
+**Инструкции:**
+- [instructions/training-mode-iterative-prompt.agent.md](../../instructions/training-mode-iterative-prompt.agent.md) — шаблон follow-блока в Step 2 обновлён
+- [instructions/iterative-prompt.agent.md](../../instructions/iterative-prompt.agent.md) — self-reference в Step G и starter template обновлены
+- [for-authors.md](../../for-authors.md) — ссылка на инструкцию обновлена на `iterative-prompt/SKILL.md`
+
+**Не тронуто:** Исторические упоминания в RESULT-блоках (описание прошлых изменений), папка `work/`, модули (в `modules/` упоминаний `iterative-prompt.agent` не найдено — уже обновлены в UPD11).

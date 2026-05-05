@@ -15,7 +15,7 @@ This guide is for authors and contributors who want to create or modify training
 Browse the [`requests/`](./requests) folder — it contains real examples of how modules and other content are created using the iterative prompt approach. This is your best learning resource for understanding the practical workflow.
 
 ### 2. **Iterative Prompt Approach**
-The [`instructions/iterative-prompt.agent.md`](./instructions/iterative-prompt.agent.md) instruction explains how the iterative prompt workflow works. This is the recommended approach for creating content in this repository.
+The [`instructions/iterative-prompt/SKILL.md`](./instructions/iterative-prompt/SKILL.md) instruction explains how the iterative prompt workflow works. This is the recommended approach for creating content in this repository.
 
 ### 3. **Creating Training Modules**
 When you ask the AI to create a new training module, it uses the [`instructions/create-training-module.agent.md`](./instructions/create-training-module.agent.md) instruction. Review this file to understand the module structure, naming conventions, and content requirements.

@@ -49,7 +49,7 @@ Create the file `work/NNN-[module-name]/main.prompt.md` (where NNN matches the m
 
 ```markdown
 <follow>
-iterative-prompt.agent.md
+iterative-prompt/SKILL.md
 training-mode.agent.md
 training-mode-iterative-prompt.agent.md
 </follow>
