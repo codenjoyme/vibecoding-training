@@ -392,3 +392,496 @@ go
 ### RESULT
 
 - [`iterative-prompt/SKILL.md`](CodingDojo/instructions/iterative-prompt/SKILL.md) — Step G переписан: теперь refresh инструкций обязателен **после каждого commit / UPD**, а не только каждые 30 sleep-cycles. Re-read нужно делать даже если файлы "уже видны в контексте", потому что пользователь мог их править между ходами.
+
+## UPD24
+
+Есть файл `requests/058-workspace-kickoff/reference.md` но его мы коммитить не будем, там секретные секреты. Но что мы сделаем, так это перенесем сюда все UPD->RESULT блоки но сделаем это хитро, мы будем переносить суть, как если бы мы делали эти измерения тут без участия фактов про DarkFactory. Я хочу тут сохранить историю изменений, приведших к той версии iterative prompt который есть сейчас. Просто продолжай тут дальше создавать блоки, копируя смысл относящийся только к рисерчу возможностей делать iterative prormpt в cli. Не комить, я сделаю ревью. go
+
+### RESULT
+
+Перенёс суть исследования «iterative prompt в Copilot CLI» из reference.md как UPD25–UPD33 ниже. Все упоминания доменной фабрики, agent-discovery папок, request-lifecycle и админ-слоёв вычищены — оставлено только то, что относится к [`instructions/iterative-prompt/SKILL.md`](../../instructions/iterative-prompt/SKILL.md), watcher-механике и переносу подхода в CLI-транспорт. Девять блоков ниже — это хронология того, как `iterative prompt` научился работать без VS Code Chat поверх голого `copilot CLI`, со всеми граблями (отсутствие synthetic terminal-notification, описательный vs императивный тон prompt-файла, exit-коды watcher'а и т.п.).
+
+## UPD25
+
+Давай подумаем вот о чём. Сейчас `iterative prompt` работает только в IDE: VS Code Chat запускает watcher через `run_in_terminal mode=async`, на exit watcher'а приходит synthetic `[Terminal notification: command completed]`, и агент просыпается на следующий UPD. А что если мы попробуем тот же подход поднять на чистом `copilot CLI` — то есть запустить долгоживущий CLI-процесс, отдать ему `main.prompt.md` как канал, и он будет крутить тот же UPD/RESULT/`go` цикл из терминала, без IDE? Файл `main.prompt.md` остаётся прежним, [`SKILL.md`](../../instructions/iterative-prompt/SKILL.md) тоже — вопрос только в транспорте. Модель для начала `Claude Opus 4.6` чтобы экономнее. Сработает? go
+
+### RESULT
+
+Должно сработать — большая часть инфраструктуры уже есть, потому что `copilot CLI` умеет принимать prompt-файл (`-p @file.md`) и работать в `--allow-all --no-ask-user -s` режиме, а наш Python watcher [`scripts/watch_prompt.py`](../../instructions/iterative-prompt/scripts/watch_prompt.py) — transport-agnostic. По сути CLI-режим = новый prompt-файл с identity «я оркестратор» + лаунчер-скрипт, который запускает `copilot` с этим prompt и привязывает его к конкретному `main.prompt.md`. IDE-режим продолжает работать без изменений.
+
+**Открытый caveat #1 — поведение CLI на exit watcher-subprocess'а.** В IDE Chat есть магия: VS Code присылает synthetic user-message когда subprocess в терминале exit'нулся → автоматически стартует новый agent turn. **В Copilot CLI этого механизма скорее всего нет.** Если CLI-агент после exit subprocess'а **завершает run целиком** (а не возвращает control в следующий шаг плана) — нужен будет outer-loop в bash/PowerShell, который перезапускает `copilot -p @file.md` после каждого exit. Тогда prompt-файл становится **stateless re-entry point** (читает свежий UPD, обрабатывает один блок, exit), а внешний loop — драйвер. Проверяется только опытно на первом запуске.
+
+**Архитектурно ничего переписывать не надо.** `iterative-prompt/SKILL.md` общий для обоих режимов; всё что добавляется — это пара файлов в новой папке `cli/`, не пересекающихся с IDE-частью.
+
+## UPD26
+
+Окей, но давай обойдёмся одним файлом-агентом, а не двумя (identity отдельно, prompt отдельно). Подселим как prompt напрямую — `copilot -p @agent.md`. И положим этот файл в свою папку рядом со скриптами запуска, чтобы он жил отдельно от любого agent-discovery механизма. И ещё — пример promp'а, который ты выше расписал в RESULT, давай вынесем в отдельный request-файл рядом, а в RESULT поставим ссылку. go
+
+### RESULT
+
+Учёл оба уточнения:
+
+1. **Один файл вместо двух.** Identity и prompt объединены в один `cli/orchestrator.agent.md` — этот же файл передаётся в `copilot -p @…`. Никакой развилки «agent-файл отдельно, prompt отдельно».
+2. **Отдельная папка `cli/`** вне любого agent-discovery surface. В этой же папке (после apply) лежат `start.ps1` и `start.sh`.
+
+Пример prompt'а из UPD25 RESULT'а вынесен в отдельный request-файл и здесь больше не дублируется — `### RESULT` ссылается, а не повторяет. Один открытый caveat (поведение CLI на exit subprocess'а) зафиксирован прямо в агенте и в Open questions риквеста. Если окажется что CLI завершает run целиком — фикс делается в `start.ps1`/`start.sh` outer-loop'ом, без правок агента.
+
+## UPD27
+
+Я просил тебя из UPD25 большой кусок текста про архитектуру вынести, ты вынес или пересоздал — сравни. И заодно: агент слишком многословен. Вместо того чтобы ссылаться на [`iterative-prompt/SKILL.md`](../../instructions/iterative-prompt/SKILL.md) и другие файлы где всё описано, он повторяет их частично. Подсократи. go
+
+### RESULT
+
+**Честный ответ:** пересоздал, не вынес. В UPD25 RESULT была русскоязычная ASCII-диаграмма + черновик prompt + caveat'ы + 4-фазный план. В риквесте я написал **новый** текст по-английски с другой структурой (decision-rationale таблицей, lifecycle прозой, apply-планом). Идеи те же, текст другой. Так что просто «оставить ссылку» — правильное решение.
+
+**Сделано:**
+
+1. **UPD25 RESULT подрезан** до короткого ответа на исходный вопрос «сработает ли?» (4 параграфа: да, что создать минимально, один caveat, ссылка на полный разбор). Удалены секции «Архитектура / Что нужно создать / План / Резюме». Помечено note'ом «отредактировано в UPD27» для аудита.
+
+2. **Агент-файл подсокращён.** Было ~140 строк с повторами того, что уже есть в `iterative-prompt/SKILL.md` (workflow-per-UPD пошагово, commit-формат, когда писать `### RESULT`). Стало ~85 строк, из них:
+   - **«Mandatory reading»** — список ссылок без дублирования содержимого. По правилу no-duplication.
+   - **«CLI-mode specifics»** — единственная секция с новым контентом: helm-channel watcher-команда, открытый caveat про CLI transport, operator-question handling через `### QUESTION` (нет аналога в IDE), concurrency lock, bootstrap, anti-patterns.
+   - Всё остальное — «follow the linked files».
+
+## UPD28
+
+Ну что, давай тогда накатим этот апдейт и сразу же после коммита проверим как подход работает. Если работает не очень — то надо и риквест фиксить, и установленную версию. Попробуем пока **без outer-loop'а**, чтобы watcher внутри CLI его тормозил. Модель `Claude Opus 4.6`. go
+
+### RESULT
+
+Накатил. Что произошло:
+
+1. **Файлы переехали** из request-черновика в каноническое место `cli/` (3 файла, без изменений в содержимом). `start.sh` получил executable bit (mode `100755`).
+2. **Указатель в общей документации** — добавил подсекцию «Orchestrator runtime modes», только ссылки на агента и лаунчеры + явное «оба runtime разом не поддерживаются», без дублирования механики.
+
+**Тест-запуск (без outer-loop, как просили):**
+
+```powershell
+$env:DARK_FACTORY_MODEL = "claude-opus-4.6"   # placeholder env-переменная для модели
+python <repo>/scripts/spawn.py --name orchestrator \
+  --prompt cli/orchestrator.agent.md \
+  --workspace .
+```
+
+Результат: `{"status": "spawned", "pid": 159328}` → через 8с `{"status": "running", "blocked": false}` → лог показал что Copilot CLI поднялся с `--model claude-opus-4.6 --allow-all --no-ask-user -s` и прочитал prompt. Дальше я его **kill'нул** (не дожидаясь полной сессии), чтобы он не начал писать `### RESULT` параллельно со мной (IDE+CLI race). **Open question #1 (поведение CLI на exit watcher-subprocess'а) остаётся открытым** — для проверки нужен полноценный сеанс без активного IDE-агента.
+
+## UPD29
+
+А давай вот что сделаем. Везде упоминается файл `main.prompt.md`, а что если в лаунчере добавим параметр, который по умолчанию будет такой, но мы сможем переопределить скажем на `cli.prompt.md`, и если такой файл не создан — создастся базовая его структура (`<follow>iterative-prompt/SKILL.md</follow>` + `## UPD1`)? Тогда я смогу запускать сколько воркеров захочу параллельно. И скажи какой командой запускать — у нас же есть `start.ps1` и `start.sh`. Параметр модели тоже добавь. go
+
+### RESULT
+
+Параметризовал лаунчеры, починил заодно багу с lock-путём, обновил агента. Теперь можно держать N оркестраторов параллельно, каждый со своим helm-log'ом.
+
+**Что изменилось в `start.ps1` / `start.sh`:**
+
+| Параметр | PS1 | Bash | Default | Назначение |
+|---|---|---|---|---|
+| Helm-log | `-Prompt` | `--prompt` | `main.prompt.md` | Какой файл слушать. Если не существует — создаётся из шаблона `<follow>iterative-prompt/SKILL.md</follow>` + `## UPD1`. |
+| Модель | `-Model` | `--model` | `claude-opus-4.6` (env override) | Уже было, оставил. |
+| Имя воркера | `-Name` | `--name` | `orchestrator-<basename без .prompt.md>` | Чтобы lock'и не сталкивались. |
+| Team dir | `-TeamDir` | `--team-dir` | `.cli-session/<name>` | Изоляция логов/локов на воркера. |
+| Без хвоста лога | `-NoFollow` | `--no-follow` | follow on | Запустить и сразу вернуть управление. |
+
+**Багфикс по ходу:** в старой версии lock-check смотрел не туда — fallback-путь использовал старую конвенцию. Поправил так чтобы lock жил в `<team-dir>/workers/<name>.lock`.
+
+**Агент-файл** больше не хардкодит `main.prompt.md` — читает из env-переменной, которую ему передаёт лаунчер. Watcher запускается с этим путём. Концепция «один оркестратор — один helm-log» зафиксирована явно.
+
+**Команды для тебя:**
+
+Стандартный запуск:
+```powershell
+pwsh cli/start.ps1
+```
+
+Запуск на отдельном helm-log'е (рекомендуется для теста — IDE и CLI не пересекаются):
+```powershell
+pwsh cli/start.ps1 -Prompt path/to/cli.prompt.md
+```
+
+С другой моделью:
+```powershell
+pwsh cli/start.ps1 -Prompt path/to/cli.prompt.md -Model claude-sonnet-4.6
+```
+
+Bash-версия (Linux/macOS/WSL):
+```bash
+./cli/start.sh --prompt path/to/cli.prompt.md
+```
+
+## UPD30
+
+Запустил в терминале и вот что:
+```
+PS> pwsh cli/start.ps1 -Prompt cli.prompt.md -Model claude-sonnet-4.6
+Created helm-log file from template: cli.prompt.md
+Starting orchestrator (CLI mode)
+{"status": "spawned", "name": "orchestrator-cli", "pid": 110816, ...}
+usage: spawn.py [-h] {preflight,spawn,status,logs,kill,list,wait} ...
+spawn.py: error: unrecognized arguments: --follow
+```
+Разберись. go
+
+### RESULT
+
+Багу нашёл и починил. Spawn прошёл нормально (PID 110816, model `claude-sonnet-4.6`, lock в правильном месте) — упал follow-режим:
+
+**Корень бага:** в лаунчерах я звал `python spawn.py logs --name … --follow`. Но у `logs` нет флага `--follow` — есть только `--tail N`. Я выдал желаемое за действительное.
+
+**Фикс:** заменил вызов на нативный `Get-Content -Path $LogFile -Wait -Tail 200` (PS1) и `tail -n 200 -f "$LOG_FILE"` (bash). Лог-путь известен: `<team-dir>/workers/<name>.log`. Заодно лаунчер ждёт 5 секунд появления лог-файла перед attach'ем.
+
+**Бонус-наблюдение:** твой CLI-оркестратор **выжил** после сбоя `start.ps1` — `kill` показал его всё ещё `running`. То есть `spawn` отвязывает CLI-процесс от родительского shell'а корректно, и провал follow-команды его не тронул. **Это частично отвечает на open question #1**: процесс CLI Copilot выживает падение тейлера. Сам он успел даже надиагностировать ту же ошибку в свой лог:
+
+> *The issue: start.ps1 calls 'logs --follow' but the script doesn't have that argument. I need to add '--follow' support.*
+
+Но «можно ли держать его живым через несколько UPD'ов» — **всё ещё открыто**, проверится только на следующем запуске.
+
+## UPD31
+
+Вот что сделаем. Запусти в отдельном неблокирующем терминале процесс. Создастся `cli.prompt.md` и появится лог. Посмотри что оркестратор готов работать и напиши что-то внутри `cli.prompt.md` под `## UPD1` — посмотри что оркестратор из CLI режима **не увидит ничего**. Почему? Твоя основная задача — добить это решение чтобы оно работало как в IDE-версии: watcher делает polling файла пока не появится `go`, и оркестратор просыпается. То же я хочу в CLI. Придумай как.
+
+И ещё: добавь в `start.ps1` killer и функцию списка всех запущенных процессов. go
+
+### RESULT
+
+Сделал три вещи: понял почему «не видит UPD», переписал агента под правильный CLI-loop, добавил `-Action` управление в лаунчер.
+
+#### Почему CLI-оркестратор не реагировал на UPD1
+
+Корень — **архитектурный**. В IDE Copilot Chat есть магия: watcher запускается `mode=async`, агент завершает turn короткой фразой, а на exit watcher'а VS Code присылает synthetic `[Terminal notification: command completed]` user-message → автоматически стартует новый agent turn. **В Copilot CLI этого механизма НЕТ.** Процесс `copilot -p @prompt` после старта не имеет inbound-канала — снаружи его разбудить нельзя.
+
+Старый текст агента писал «start the watcher (async). End your turn. Wait for the first UPD.» — это копипаст IDE-инструкций из [`SKILL.md`](../../instructions/iterative-prompt/SKILL.md), который в CLI приводит ровно к тому что ты увидел: агент завершил turn, watcher запустился отдельно, watcher exit'нулся когда увидел `go`, **но никто не вернул control в агента**, потому что agent run уже завершён. Тишина.
+
+#### Правильный CLI helm-loop — BLOCKING SYNCHRONOUS
+
+Переписал секции «Helm channel» / «Watcher transport» / «Bootstrap» в агенте. Ключевая идея:
+
+```
+agent turn (один длинный turn на всю сессию) {
+    bootstrap (preflight, очистка stale-локов)
+    loop forever {
+        run watcher BLOCKING ──► watcher exits (NEW UPD ready)
+        re-read helm-log
+        process the new UPD
+        append "### RESULT (UPD<N>)" в helm-log + commit
+        # НЕ завершать turn — следующая итерация loop
+    }
+}
+```
+
+Явно прописал три **CLI-override** правил из `iterative-prompt/SKILL.md`:
+- watcher = **foreground blocking** (не async).
+- агент **никогда не завершает turn** между UPD'ами (никаких "End your turn — wait").
+- exit-коды watcher'а обрабатываются inline (0 → process, 2 → recreate from template, 130 → check-and-resume, иначе → retry).
+
+Каноническое расположение `iterative-prompt/SKILL.md` остаётся неизменным — IDE-режим продолжает работать как был. Override'ы локализованы в CLI-агенте.
+
+#### `-Action` контроллер в лаунчере
+
+Добавил субкоманды:
+
+| Action | PS1 | Bash | Что делает |
+|---|---|---|---|
+| `spawn` (default) | `start.ps1` | `start.sh` | как раньше — заспавнить оркестратор |
+| `list` | `start.ps1 -Action list` | `start.sh --action list` | таблица всех живых оркестраторов |
+| `kill` | `start.ps1 -Action kill -Prompt …` | `start.sh --action kill --prompt …` | прибить конкретный |
+| `kill-all` | `start.ps1 -Action kill-all` | `start.sh --action kill-all` | прибить всех |
+| `status` | `start.ps1 -Action status -Prompt …` | `start.sh --action status --prompt …` | JSON статус (running/blocked/log_tail) |
+
+Smoke-тест прогнан end-to-end: `list` (пустой) → `spawn` → `list` (одна строка с PID) → `kill` → cleanup. Работает.
+
+#### Почему я не могу запустить «у тебя в неблокирующем терминале»
+
+Если **я** в IDE заспавню CLI-оркестратор на твой `cli.prompt.md` — то я не смогу проверить что он работает (ему нужно живое внимание модели чтобы крутить loop'ы, а если IDE-watcher тоже бежит — будет race за helm-log/git-индекс). И ещё **`mode=async` через `run_in_terminal` это IDE-сторонний механизм**, который не подходит для запуска долгоживущего CLI-процесса с tail'ом — он отвалится как только мой turn закончится.
+
+**Правильный путь — ты запускаешь сам, в отдельном терминальном окне:**
+```powershell
+pwsh cli/start.ps1 -Prompt cli.prompt.md -Model claude-sonnet-4.6
+```
+
+Если что-то пойдёт не так — `pwsh cli/start.ps1 -Action kill-all` всё прибьёт.
+
+## UPD32
+
+Ладно, я запустил. Вот что он мне вывел:
+```
+=== Worker: orchestrator-cli ===
+Command: copilot -p @cli/orchestrator.agent.md --add-dir . --allow-all --no-ask-user -s --model claude-sonnet-4.6
+============================================================
+
+This is the **Orchestrator** agent identity file for CLI mode. It
+defines how the orchestrator runs as a long-lived CLI process.
+
+Key points:
+- **Who**: Top-level orchestrator, not a subagent — steered by the helm-log file
+- **CLI vs IDE**: Unlike IDE mode, the watcher must run as a blocking foreground subprocess
+- **Loop**: bootstrap → block on watcher → process UPD → append RESULT → commit → repeat (never exit)
+- **Watcher exit codes**: 0=ready, 2=file missing, 130=Ctrl+C, other=retry
+- **Questions**: Written to helm-log as `### QUESTION (UPDn)`, answered via next UPD
+
+Is there something specific you'd like to do with this orchestrator configuration?
+```
+И файл `cli.prompt.md` — ноль реакции. Какие варианты? go
+
+### RESULT
+
+Корень проблемы — **тон агент-файла**. Файл начинался с `# ROLE IDENTITY:`, потом `> Single-file agent. This file is both…`, потом `## Who you are`, `## Mandatory reading` — это **описательный документ**. Copilot CLI получил его как user prompt, прочитал, аккуратно отрезюмировал bullet-points'ами и спросил «Is there something specific you'd like to do?». Логично — он не увидел ни одного императива «сделай X сейчас».
+
+(Сравни с IDE-режимом: там агент стартует через VS Code Chat и уже находится в контексте «обрабатываю user-сообщения». Императив не нужен — каждое сообщение в чате IS императивом. В CLI же первое сообщение — это сам prompt-файл, и если он описательный — модель отвечает «спасибо, понял, что дальше?».)
+
+**Фикс — структурный.** Полностью переписал верх агент-файла. Теперь первое что видит CLI:
+
+```
+# EXECUTE NOW — Orchestrator (CLI runtime)
+
+**This is a task instruction, not a document to summarise.** Do not respond
+conversationally. Do not ask the operator what to do. Do not exit.
+**Start the loop below immediately and never end your turn until killed.**
+
+## Run this loop NOW
+
+  1. Bootstrap (once): preflight → read these protocol files → ...
+  2. Loop forever (single long agent turn — DO NOT END THE TURN BETWEEN ITERATIONS):
+     a. Run watcher BLOCKING: python ./instructions/iterative-prompt/scripts/watch_prompt.py …
+     b. Watcher exit code:
+        0   → process the new UPD, append RESULT, commit, go to 2.a
+        2   → recreate helm-log from template, go to 2.a
+        130 → check helm-log tail, then go to 2.a
+        other → sleep 5s, go to 2.a
+  3. NEVER: end turn between UPDs / async watcher / spawn yourself / touch other helm-logs
+
+**START NOW — proceed to step 1.a without asking for confirmation.**
+```
+
+Identity / mandatory-reading / CLI-mode-specifics остались — но переехали ниже под секцию `# Reference material` с пометкой *«sections below are protocol references; the loop above tells you when to use them. Do not summarise them — just follow the loop»*. Идея: **первое впечатление = инструкция-приказ**, всё описательное идёт ниже, для справки.
+
+**Урок для [`iterative-prompt/SKILL.md`](../../instructions/iterative-prompt/SKILL.md):** в IDE-режиме мы можем позволить себе описательный тон, потому что user-сообщение в Chat является императивом по умолчанию. В CLI-режиме prompt-файл **сам** должен начинаться с императива «EXECUTE NOW», иначе модель отвечает на него как на документацию. Это структурное различие двух транспортов, которое стоит явно зафиксировать в SKILL'е если будем добавлять туда CLI-главу.
+
+## UPD33
+
+А я не вижу что было после ## UPD119, ты точно все перенс? go
+
+### RESULT
+
+Прав — пропустил хвост. `Get-Content | Measure-Object -Lines` соврал (572 вместо реальных 820), и я остановился раньше времени. В reference.md было ещё 7 блоков (UPD118–UPD124), и именно в них живёт самая важная часть саги: **открытие `--autopilot --max-autopilot-continues`**, разделение SKILL на pattern + два runtime-файла, появление чистого `run_cli.py` и `cli-agent.md`. Перенёс всё ниже как UPD34–UPD40, по тем же правилам санитизации.
+
+## UPD34
+
+Посмотри за артефактами: helm-log файл и worker-лог. Первый UPD сработал и даже коммит сделал, а второго не услышал... go
+
+### RESULT
+
+**Диагноз** (без применения изменений — нужно решение).
+
+Факты из артефактов:
+- helm-log содержит `## UPD1` (обработан, есть RESULT с коммитом) и `## UPD2 ... go` (не подхвачен).
+- worker-лог заканчивается строкой `✅ UPD1 processed & committed. Watcher restarted — awaiting UPD2.` — после чего CLI вышел.
+- `status` → `"completed"` (PID завершён).
+
+**Корень бага.** Copilot CLI **не способен держать turn** после явной точки завершения (commit). Модель пишет «Watcher restarted» и завершает процесс — это противоречит её модели исполнения (один turn = один ответ). Никакая инструкция в агент-файле («DO NOT END THE TURN», «loop forever», `EXECUTE NOW`) этого не меняет — попытки в UPD31 и UPD32 не помогли по той же причине.
+
+**Архитектурный вывод.** Loop должен жить **снаружи CLI**, не внутри. CLI = одноразовый обработчик одного UPD-блока.
+
+**Варианты:**
+
+| # | Решение | Плюсы | Минусы |
+|---|---------|-------|--------|
+| **A** | Внешний loop в `start.ps1`/`start.sh`: `while($true) { python watch_prompt.py $log; if ($LASTEXITCODE -eq 0) { copilot -p @agent.md ... } }`. CLI спавнится per-UPD, обрабатывает ОДИН блок, выходит. | Архитектурно правильно. Не зависит от поведения модели. Watcher переживает любой crash CLI. | Каждый UPD = свежий context CLI (но всё state в файлах — OK). Нужна переработка лаунчеров и упрощение агент-файла. |
+| B | Persistent watcher отдельно, оператор дёргает CLI вручную per-UPD. | Минимум изменений. | Теряем helm-loop UX. |
+| C | Ещё одна попытка переписать агент-файл. | Меньше изменений в shell. | Уже два провала; зависит от модели. |
+
+**Рекомендую A.**
+
+## UPD35
+
+Нет, я уверен что гипотеза «Copilot CLI не способен держать turn» неправдива. Ты много раз меня убеждал в том, что что-то невозможное возможно. Сделай магию и в этот раз. Давай подумаем хитро. Как можно обойти это? Может какой-то другой подход применить? Предложи минимум 10 вариантов. go
+
+### RESULT
+
+Признаю — диагноз был ленивым. После просмотра `copilot --help` обнаружились флаги, о которых я раньше не знал. Расклад меняется радикально.
+
+**Ключевые находки в `copilot` CLI (которые я раньше игнорировал):**
+- `--autopilot` + `--max-autopilot-continues <count>` — встроенные continuation-сообщения; модель сама себе пишет «продолжай» N раз.
+- `--continue` / `--resume[=value]` — возобновление прошлой сессии (по id, task-id или **имени**).
+- `-n, --name <name>` — даём сессии имя → можем потом дёргать `--resume=<name>`.
+- `--acp` — **Agent Client Protocol server**: запускает долгоживущий демон с RPC-интерфейсом.
+- `--connect[=sessionId]` — присоединиться к remote-сессии.
+- `-i, --interactive <prompt>` — интерактивный режим со стартовым промптом (stdin живой).
+- `--output-format json` — JSONL stream-output для оркестрации.
+- `--mode interactive|plan|autopilot` — задаёт начальный режим агента.
+
+#### 12 вариантов обхода
+
+| # | Подход | Идея | Сложность | Шанс работы |
+|---|--------|------|-----------|-------------|
+| **1** | **`--autopilot --max-autopilot-continues 999`** | Модель сама себя continues. Внутри continuation она реально может крутить `watch_prompt.py` блокирующе. | XS | ⭐⭐⭐⭐ — **самое вероятное**. Это и есть встроенный механизм против ранних turn-end. |
+| **2** | **`--resume=<name>` per-UPD** | Внешний loop в shell. Каждый UPD = новый запуск, но `--resume` подтягивает прежний context (память, файлы, инструкции уже «прочитаны»). | S | ⭐⭐⭐⭐ — близкое к идеалу. Чисто. Дёшево. |
+| **3** | **`--acp` daemon + RPC** | Запускаем `copilot --acp` как фоновый сервер; watcher шлёт ему JSON-RPC «process this UPD». Сервер живёт всё время. | M | ⭐⭐⭐ — наверняка работает, но ACP-протокол надо изучить. |
+| **4** | **Interactive REPL + stdin pipe** | `copilot --interactive "..."` без `-p`. Watcher писать новые UPD'ы в stdin процесса (через named pipe / `Out-Host`). | M | ⭐⭐⭐ — должен работать, но pipe-routing на Windows нетривиален. |
+| **5** | **External shell loop** (вариант A из UPD34) | `while($true){ python watch...; copilot -p @agent.md ... }` | S | ⭐⭐⭐⭐ — гарантированно работает, но теряем CLI-context между UPDами. Усиливается комбо с #2 (`--resume`). |
+| **6** | **Self-respawn (daisy-chain)** | Последний tool-call агента: `Start-Process copilot ... -p @agent.md`. Старый turn честно завершается, новый CLI стартует автономно. | S | ⭐⭐⭐ — должно работать; PID наследования нет, lock придётся переписывать. |
+| **7** | **Watcher как последняя tool-команда** | Переупорядочить шаги: после commit агент **обязан** вызвать `python watch_prompt.py` синхронно. Tool-call блокируется → turn физически не может завершиться. (Это формально и было задумано — но модель пропускала шаг. С `--autopilot` или жёстким step-machine может пройти.) | XS | ⭐⭐ — уже пробовали; сам по себе не помог, но в связке с #1 шанс высокий. |
+| **8** | **Watcher-driven respawn** | Питон-скрипт-нянька сам перезапускает CLI: после `status: completed` если есть unresolved UPD в helm-log → spawn заново. | M | ⭐⭐⭐⭐ — robustly. Loop живёт в Python, не в shell, не в модели. |
+| **9** | **Windows Scheduled Task / cron-style** | Каждые 30 сек: если в helm-log есть unprocessed `go` → запустить CLI. | S | ⭐⭐⭐ — работает, но latency 30 сек. |
+| **10** | **JSONL output stream + orchestrator-watcher** | Запускаем CLI с `--output-format json`. Watcher парсит JSONL, на событии «turn ended with UPD processed» сразу спавнит новый CLI с `--resume`. | M | ⭐⭐⭐ — комбо #2 + #8 на стероидах. |
+| **11** | **`--connect` к persistent remote-session** | Создаём одну remote-session, все per-UPD invocations присоединяются к ней. Stateful continuity без нового context'a. | M | ⭐⭐⭐ — нужен GitHub remote-session backend. |
+| **12** | **Hybrid: #1 + #5 + #2** | External shell loop (надёжность) + `--autopilot` (минимум перезапусков) + `--resume` (continuity). | S | ⭐⭐⭐⭐⭐ — **рекомендую как финальный дизайн**. |
+
+#### Рекомендация
+
+**Двухфазный план:**
+
+1. **Фаза 1 — быстрая проверка гипотезы:** просто добавить `--autopilot --max-autopilot-continues 50` в команду запуска и перезапустить CLI. Один-двухстрочный фикс. Если работает — победа без переписки.
+2. **Фаза 2 — если #1 недостаточно:** комбо #12 — переписать лаунчеры под external loop с `--resume=<name>` и опционально `--autopilot 5`. Агент-файл упрощается до «обработай ОДИН UPD и выйди» (что естественно для CLI).
+
+## UPD36
+
+Давай попробуем `--autopilot --max-autopilot-continues 999` быстро. go
+
+### RESULT
+
+Phase 1 применён.
+
+**Изменения:**
+- Spawn-логика читает env-переменную `AUTOPILOT_CONTINUES`; если `>0`, добавляет `--autopilot --max-autopilot-continues N` к команде `copilot`.
+- `start.ps1` — параметр `-AutopilotContinues <int>` (default `50`), пробрасывает в env.
+- `start.sh` — параметр `--autopilot-continues <int>` (default `50`), пробрасывает в env.
+- Агент-файл **не трогал** — фикс на уровне launcher'а.
+
+**Defaults: `50` continues.** Чтобы выключить — `-AutopilotContinues 0`. Чтобы все 999 — `-AutopilotContinues 999`.
+
+**Что ожидаем:** после обработки UPD1 + commit Copilot CLI вместо turn-end должен сам себе сказать «продолжай», вернуться в watcher loop и подхватить UPD2. Если работает — фикс одной env-переменной. Если нет — phase 2 (external loop + `--resume=<name>`).
+
+## UPD37
+
+Отлично все работает! Спасибо. go
+
+### RESULT
+
+🎉 Phase 1 (`--autopilot --max-autopilot-continues N`) подтверждён в проде. CLI orchestrator теперь переживает commit и подхватывает следующие UPD'ы автоматически.
+
+**Итоговый статус CLI-саги (UPD28–UPD36):**
+
+| UPD | Что |
+|-----|-----|
+| 28 | apply (canonical files) |
+| 29 | parameterised launchers (`-Prompt`, `-Name`, env-driven helm-log) |
+| 30 | native shell tail (mediator `--follow` не существует) |
+| 31 | blocking-sync CLI loop + `-Action {spawn,list,kill,kill-all,status}` |
+| 32 | imperative `EXECUTE NOW` header в агент-файле |
+| 34 | диагноз turn-end after commit (без правок) |
+| 35 | 12 escape-hatch вариантов |
+| 36 | **phase 1: autopilot continues (env-driven)** ✅ |
+
+**Урок для меня:** не торопись объявлять «модель не способна» — `copilot --help` всегда стоит перечитать.
+
+## UPD38
+
+Давай теперь сделаем апдейт [`iterative-prompt`](../../instructions/iterative-prompt/SKILL.md) скила в чисто cli режиме. То есть нам надо как-то разделить ту часть что описывает UPD-RESULT и идею от той части, которая про запуск вотчера для IDE и другого скрипта для cli (тоже давай питон бахнем). Для скила этого не надо лишних оркестраторов использовать, только чистые cli команды для управления copilot. go
+
+### RESULT
+
+Скил [`iterative-prompt`](../../instructions/iterative-prompt/SKILL.md) разделён на **pattern + два runtime'а**, добавлен чистый CLI-runner без сторонних зависимостей.
+
+**Изменения:**
+
+- [`instructions/iterative-prompt/SKILL.md`](../../instructions/iterative-prompt/SKILL.md) — переписан как **runtime-agnostic pattern** (v3.0.0): только UPD/RESULT cycle, file format, conventions, atomic commits, processing order. Все runtime-specifics (как запускать watcher, async vs blocking) вырезаны и заменены ссылками на runtime-файлы. Скрипты описаны таблицей.
+- [`instructions/iterative-prompt/runtime-ide.md`](../../instructions/iterative-prompt/runtime-ide.md) — **новый.** Вся IDE-механика: `mode=async` watcher, terminal-notification mechanism, anti-drift re-read правила, resilience, chat-message handling, troubleshooting.
+- [`instructions/iterative-prompt/runtime-cli.md`](../../instructions/iterative-prompt/runtime-cli.md) — **новый.** Runtime для Copilot CLI: blocking watcher inside one long turn, `--autopilot --max-autopilot-continues N` (фикс из UPD36), таблица отличий от IDE, ручной запуск без скриптов, run loop pseudocode, troubleshooting, concurrency. Прямо говорит «правила `mode=async` из IDE-runtime НЕ применяются».
+- [`instructions/iterative-prompt/scripts/run_cli.py`](../../instructions/iterative-prompt/scripts/run_cli.py) — **новый.** Pure-CLI runner, **никаких сторонних зависимостей**. Просто строит правильную `copilot` команду (`-p @<prompt> --add-dir <ws> --allow-all --no-ask-user -s --autopilot --max-autopilot-continues N --model <m>`) и запускает в foreground. Поддержка env-переменных (`COPILOT_MODEL`, `COPILOT_AUTOPILOT_CONTINUES`, `COPILOT_CLI`), auto-create helm-log из template, `--print-cmd` для smoke-test.
+
+**Запуск из терминала (без IDE):**
+
+```powershell
+python ./instructions/iterative-prompt/scripts/run_cli.py path/to/cli.prompt.md
+```
+
+**Что осталось как было:**
+
+- [`scripts/watch_prompt.py`](../../instructions/iterative-prompt/scripts/watch_prompt.py) — без изменений, используется обоими runtime'ами.
+
+## UPD39
+
+Не сработало с первого раза:
+```
+[run_cli] launching copilot (foreground, streaming stdout/stderr)...
+Привет!
+```
+go
+
+### RESULT
+
+Спасибо, нашёл архитектурный баг — пофиксил. Дело **не** в `--autopilot`, а в том что Copilot CLI **не понимает `<follow>` тег** (это IDE-only механизм VS Code prompt-files). Когда `run_cli.py` передавал `cli.prompt.md` через `-p`, CLI получал голый user-prompt `## UPD1\n...go` без инструкций «запусти watcher loop» — просто отвечал «Привет!» и завершался.
+
+**Фикс — split: agent-file vs helm-log:**
+
+- [`instructions/iterative-prompt/cli-agent.md`](../../instructions/iterative-prompt/cli-agent.md) — **новый.** Executable agent-identity файл с `# EXECUTE NOW` императивным заголовком. Сам читает [`SKILL.md`](../../instructions/iterative-prompt/SKILL.md) + [`runtime-cli.md`](../../instructions/iterative-prompt/runtime-cli.md), идентифицирует helm-log из env `ITERATIVE_PROMPT_HELM_LOG` и крутит watcher loop.
+- [`scripts/run_cli.py`](../../instructions/iterative-prompt/scripts/run_cli.py) — рефакторинг. Теперь `-p @cli-agent.md` (агент), а helm-log пробрасывается через env `ITERATIVE_PROMPT_HELM_LOG`. Auto-create helm-log сохранён.
+- [`runtime-cli.md`](../../instructions/iterative-prompt/runtime-cli.md) — обновлён: ручной запуск показывает оба пути (env var + agent file `-p`), troubleshooting расширен (новая строка про «CLI just answers and exits → wrong `-p`»).
+- [`SKILL.md`](../../instructions/iterative-prompt/SKILL.md) — таблица скриптов дополнена записью про `cli-agent.md`.
+
+Теперь CLI сначала прочитает агент-файл, поймёт что нужно крутить watcher, дождётся первого `## UPD ... go` в helm-log файле и обработает.
+
+## UPD40
+
+Все отлично работает. Надо еще задать возможность указывать лог файл где будет строиться. Пусть по умолчанию он будет рядом с агент-файлом, но если в аргументах указать другой путь — использовать его. go
+
+### RESULT
+
+Сделано. Helm-log теперь резолвится с приоритетом, default — рядом с агент-файлом.
+
+**Resolution order в [`run_cli.py`](../../instructions/iterative-prompt/scripts/run_cli.py):**
+
+1. `--helm-log <path>` (highest)
+2. positional argument
+3. `ITERATIVE_PROMPT_HELM_LOG` env var
+4. **default:** `<agent-file-dir>/cli.prompt.md` → т.е. `instructions/iterative-prompt/cli.prompt.md`
+
+**Изменения:**
+
+- [`run_cli.py`](../../instructions/iterative-prompt/scripts/run_cli.py) — `prompt` positional стал optional, добавлен `--helm-log`, helm-log резолвится после агент-файла как `<agent-dir>/cli.prompt.md`.
+- [`cli-agent.md`](../../instructions/iterative-prompt/cli-agent.md) — bootstrap step обновлён: новый default helm-log path.
+- [`runtime-cli.md`](../../instructions/iterative-prompt/runtime-cli.md) — секция «How to run» переписана с таблицей приоритетов.
+- [`.gitignore`](../../.gitignore) — добавил `instructions/iterative-prompt/cli.prompt.md` (это пользовательский лог, не часть скила).
+
+**Запуск без аргументов:**
+```powershell
+python ./instructions/iterative-prompt/scripts/run_cli.py
+```
+Создаст/использует `instructions/iterative-prompt/cli.prompt.md` рядом с агентом.
+
+**С кастомным путём:**
+```powershell
+python ./instructions/iterative-prompt/scripts/run_cli.py path/to/cli.prompt.md
+# или
+python ./instructions/iterative-prompt/scripts/run_cli.py --helm-log path/to/cli.prompt.md
+```
+
+## UPD41
+
+Теперь давай этим новым знанием следуя инструкции по созданию модулей обновим наш модуль тренинга. Я хочу чтобы было две опции - первая как есть сейчас, чтобы и дальше рассказыывалось как работать через IDE (там может команды поменяются, и раньше была инструкция теперь скилл - надо посмотреть что обновить); а второй, это CLI режим. Его надо добавить. go
+
+### RESULT
+
+Модуль 058 обновлён по правилам [`create-training-module.agent.md`](../../instructions/create-training-module.agent.md). Теперь явно представлены **два runtime'а** — IDE и CLI — с общим `development log`.
+
+**Изменения в [`modules/058-workspace-kickoff-iterative-prompt/about.md`](../../modules/058-workspace-kickoff-iterative-prompt/about.md):**
+- В Topics добавлены два пункта про IDE и CLI runtime + про запуск из терминала без IDE.
+- Раздел Resources расширен ссылками на оба runtime-файла:
+  - [`runtime-ide.md`](../../instructions/iterative-prompt/runtime-ide.md)
+  - [`runtime-cli.md`](../../instructions/iterative-prompt/runtime-cli.md)
+
+**Изменения в [`modules/058-workspace-kickoff-iterative-prompt/walkthrough.md`](../../modules/058-workspace-kickoff-iterative-prompt/walkthrough.md):**
+- **What We'll Build** — обновлено вступление и таблица: добавлены строки «IDE runtime» и «CLI runtime», явно сказано что один и тот же `development log` гоняется обоими способами.
+- **Part 4** — переименован в `Part 4: Run the Kickoff Prompt from the IDE (IDE runtime)` со ссылкой на [`runtime-ide.md`](../../instructions/iterative-prompt/runtime-ide.md) и упоминанием `mode=async` watcher + terminal-notification механики.
+- **Part 6 → Installing the Iterative Prompt skill** — обновлено: вместо одного файла теперь таблица из трёх ([`SKILL.md`](../../instructions/iterative-prompt/SKILL.md), [`runtime-ide.md`](../../instructions/iterative-prompt/runtime-ide.md), [`runtime-cli.md`](../../instructions/iterative-prompt/runtime-cli.md)) с описанием что в каком файле.
+- **Part 7 (NEW) — Run the Same Development Log from the Copilot CLI (CLI runtime)** — полностью новая глава: зачем, как установить `copilot`, авторизация через `GH_TOKEN`, запуск через [`run_cli.py`](../../instructions/iterative-prompt/scripts/run_cli.py), что делает скрипт (resolution order для helm-log, default model, `--autopilot --max-autopilot-continues 50`), реальный сценарий «допиши `## UPD3` → CLI подхватит → commit → loop», полезные tweaks (`--model`, `--continues`, `--print-cmd`, `--no-auto-create`), summary про различие в wakeup-механизмах.
+- **Success Criteria** — добавлены два пункта про CLI runtime (установка и запуск, обработка нового UPD после commit благодаря `--autopilot`).
+- **Understanding Check** — добавлены вопросы 9 и 10: про различие IDE vs CLI runtime и про роль `--autopilot`.
+- **Troubleshooting** — добавлены 4 новые строки специфичные для CLI runtime: `command not found`, `402 quota`, exit после первого UPD (нет `--autopilot`), summarise-and-ask поведение (неверный `-p`).
+
+Структура модуля проверена: 7 Parts → Success Criteria → Understanding Check → Troubleshooting → Next Steps. Заголовки используют `## Part N:` (правило `create-training-module.agent.md`). Cross-platform пути сохранены. Не упомянуты hotkeys.
+
+## UPD42
+
+Тут пиши следующий запрос.

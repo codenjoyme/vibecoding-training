@@ -8,7 +8,7 @@ See [module overview](about.md) for full prerequisites list.
 
 ## What We'll Build
 
-You'll create a small research workspace with sample materials and a `development log` named `main.prompt.md`. You'll then run it directly from the IDE and see how the AI picks up context from both the prompt and the surrounding files. Finally, you'll extend it with `## UPD` blocks to evolve the investigation without losing context.
+You'll create a small research workspace with sample materials and a `development log` named `main.prompt.md`. You'll then run it from **two different runtimes** — first from the IDE (VS Code Copilot Chat), then from the **Copilot CLI** in a plain terminal — and see how the same `development log` drives both. Finally, you'll extend it with `## UPD` blocks to evolve the investigation without losing context.
 
 | Component | Purpose |
 |---|---|
@@ -16,6 +16,8 @@ You'll create a small research workspace with sample materials and a `developmen
 | `main.prompt.md` | The `development log` — describes the materials and what you want done |
 | `<follow>` block | Links to the iterative prompt skill so the agent knows the UPD workflow |
 | `## UPD[N]` blocks | Incremental updates that grow the `development log` over time |
+| **IDE runtime** | VS Code Copilot Chat + async watcher with terminal-notification wakeups |
+| **CLI runtime** | `copilot` CLI process with `--autopilot` driven by the same watcher |
 
 ---
 
@@ -126,11 +128,11 @@ The `development log` is now part of the research workspace. It captures your in
 
 ---
 
-## Part 4: Run the Kickoff Prompt from the IDE
+## Part 4: Run the Kickoff Prompt from the IDE (IDE runtime)
 
 ### What we'll do
 
-Open the prompt file and run it directly in the IDE. In VS Code with GitHub Copilot, you can run `.prompt.md` files without copying the content into the chat.
+Open the prompt file and run it directly in the IDE — this is the **IDE runtime** of the iterative prompt pattern. In VS Code with GitHub Copilot, you can run `.prompt.md` files without copying the content into the chat. The IDE runtime uses an `mode=async` Python watcher and wakes the agent through VS Code terminal notifications — see [`runtime-ide.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/runtime-ide.md) for the full mechanics.
 
 ### Steps
 
@@ -222,7 +224,77 @@ The UPD/RESULT pattern is formalized as **Iterative Prompt** — a reusable skil
 Setup https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/SKILL.md
 ```
 
-Once installed, any `main.prompt.md` with the `<follow>iterative-prompt/SKILL.md</follow>` header will use the full workflow: `go` keyword triggering, `### RESULT` changelogs, atomic commits per UPD, and an autonomous polling loop that saves premium requests.
+The skill is split into three files:
+
+| File | What it covers |
+|------|----------------|
+| [`SKILL.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/SKILL.md) | The runtime-agnostic pattern: file format, `<follow>` header, UPD/RESULT cycle, `go` keyword, atomic commits |
+| [`runtime-ide.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/runtime-ide.md) | IDE runtime mechanics: `mode=async` watcher, terminal-notification wakeups, anti-drift rules |
+| [`runtime-cli.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/runtime-cli.md) | CLI runtime mechanics: blocking watcher inside one long turn, `--autopilot --max-autopilot-continues N` |
+
+Once installed, any `main.prompt.md` with the `<follow>iterative-prompt/SKILL.md</follow>` header will use the full workflow: `go` keyword triggering, `### RESULT` changelogs, atomic commits per UPD, and an autonomous polling loop that saves premium requests — in whichever runtime you launch it from.
+
+---
+
+## Part 7: Run the Same Development Log from the Copilot CLI (CLI runtime)
+
+### Why this matters
+
+The same `development log` you just used in the IDE can be driven from a plain terminal — no VS Code, no Copilot Chat. This is the **CLI runtime**. It's useful when:
+
+- You want to run the agent on a server, in WSL, in Docker, or over SSH where no IDE is available
+- You want to run multiple agents in parallel — one CLI process per `development log` in different terminal windows
+- You want a transparent, scriptable workflow you can wrap in CI/CD or shell automation
+- You want to see exactly what the agent is doing live in the terminal stream
+
+The key trick that makes CLI runtime work is `--autopilot --max-autopilot-continues N`: without it, the `copilot` CLI process exits after the first `git commit` and never picks up the next `## UPD`. With it, the model self-continues past the natural turn-end points and keeps the watcher loop alive.
+
+### What we'll do
+
+Install the Copilot CLI, then launch the same `development log` from a terminal using the wrapper script that ships with the iterative prompt skill.
+
+### Steps
+
+1. **Install the Copilot CLI** (one-time):
+
+   ```
+   npm install -g @anthropic-ai/copilot
+   ```
+
+   Verify with `copilot --version`. If `copilot: command not found`, ensure your `npm` global bin folder is on `PATH`.
+
+2. **Authenticate.** Set a GitHub fine-grained PAT with `Copilot Requests` permission as `GH_TOKEN` in your environment. Without it, you'll see a `402 quota` error on first run.
+
+3. **Open a terminal** at the workspace root (where `instructions/iterative-prompt/` lives). Make sure no IDE Copilot Chat agent is already running on the same `development log` — the two runtimes are mutually exclusive on a single file.
+
+4. **Launch the CLI runner**, pointing it at the same `main.prompt.md` you wrote in Part 3:
+
+   ```
+   python ./instructions/iterative-prompt/scripts/run_cli.py work/058-task/main.prompt.md
+   ```
+
+   The script:
+   + Resolves the helm-log path (positional argument here, but you can also use `--helm-log`, the `ITERATIVE_PROMPT_HELM_LOG` env var, or rely on the default `instructions/iterative-prompt/cli.prompt.md`)
+   + Auto-creates the file from a starter template if it doesn't exist
+   + Builds the right `copilot` command: `-p @cli-agent.md --add-dir <ws> --allow-all --no-ask-user -s --autopilot --max-autopilot-continues 50 --model claude-opus-4.6`
+   + Streams the CLI's stdout/stderr live to your terminal
+
+5. **Watch what happens.** The CLI process reads [`cli-agent.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/cli-agent.md) (an executable agent-identity file with an imperative `EXECUTE NOW` header), reads the protocol files, then enters a blocking watcher loop on your `development log`.
+
+6. **Add a new `## UPD3` block** to `main.prompt.md` ending with `go`. Watch the terminal: the watcher should detect the change, the CLI agent should process the UPD, append `### RESULT`, commit, and loop back to wait for the next `## UPD`.
+
+7. **Stop the CLI runtime** with `Ctrl+C` in the terminal when done.
+
+### Useful tweaks
+
+- **Different model:** `python ./instructions/iterative-prompt/scripts/run_cli.py path/to/log.prompt.md --model claude-sonnet-4.6` (or set `COPILOT_MODEL` env var)
+- **More continues:** `--continues 999` (or env `COPILOT_AUTOPILOT_CONTINUES`) for very long sessions
+- **Print the command without running:** `--print-cmd` for smoke-testing
+- **Skip auto-create:** `--no-auto-create` if you don't want a stub created when the file is missing
+
+### What just happened
+
+The same `development log` was driven by two completely different runtimes. The pattern (UPD/RESULT, `<follow>`, `go`, atomic commits) is identical — only the wakeup mechanism differs. In the IDE runtime, VS Code's terminal-notification mechanism wakes the agent. In the CLI runtime, `--autopilot` keeps a single long process alive across many UPDs. Pick whichever runtime fits the situation.
 
 ---
 
@@ -230,10 +302,12 @@ Once installed, any `main.prompt.md` with the `<follow>iterative-prompt/SKILL.md
 
 - ✅ Created `work/058-task/` with at least 2 sample materials
 - ✅ Wrote a `main.prompt.md` with a `<follow>` block and a `## UPD1` containing your goal
-- ✅ Ran the prompt from the IDE in Agent Mode
+- ✅ Ran the prompt from the IDE in Agent Mode (IDE runtime)
 - ✅ Verified the AI completed the action items and wrote a `### RESULT`
 - ✅ Confirmed the output file was saved in the same folder as the prompt
 - ✅ Added a `## UPD2` block and saw the agent pick it up incrementally
+- ✅ Installed the Copilot CLI and launched the same `development log` via `run_cli.py` (CLI runtime)
+- ✅ Saw the CLI runtime process a new `## UPD3` and survive past the commit thanks to `--autopilot`
 
 ---
 
@@ -263,6 +337,12 @@ Once installed, any `main.prompt.md` with the `<follow>iterative-prompt/SKILL.md
 8. **How does the iterative prompt approach save premium requests?**  
    Key points: the agent enters a polling loop after completing each UPD, consuming zero requests while waiting; you add the next UPD at your own pace and the agent picks it up automatically.
 
+9. **What's the difference between the IDE runtime and the CLI runtime?**  
+   Key points: same pattern (`<follow>`, UPD/RESULT, `go`, atomic commits), different wakeup mechanism. IDE runtime uses `mode=async` watcher + VS Code terminal notifications and runs many short turns. CLI runtime uses a single long `copilot` process kept alive by `--autopilot --max-autopilot-continues N` and a blocking watcher inside that one turn.
+
+10. **Why does the CLI runtime require `--autopilot`?**  
+    Key points: the `copilot` CLI normally ends the turn after a clear completion point (e.g. successful `git commit`); without `--autopilot` it would exit after the first UPD. `--autopilot` lets the model self-continue past those natural turn-end points so the watcher loop can iterate.
+
 ---
 
 ## Troubleshooting
@@ -281,6 +361,18 @@ Check that you have a recent version of the GitHub Copilot extension. The `.prom
 
 **The agent stopped after UPD1 and didn't pick up UPD2**  
 Make sure UPD2 ends with `go`. The agent only processes blocks that have the `go` trigger at the end.
+
+**(CLI runtime) `copilot: command not found`**  
+Install the Copilot CLI: `npm install -g @anthropic-ai/copilot`. Make sure your npm global bin folder is on `PATH`.
+
+**(CLI runtime) `402 quota` error on launch**  
+No or invalid token. Set `GH_TOKEN` to a GitHub fine-grained PAT with `Copilot Requests` permission.
+
+**(CLI runtime) CLI process exits after the first UPD**  
+The `--autopilot` flag is missing. The `run_cli.py` wrapper enables it by default — if you're invoking `copilot` manually, add `--autopilot --max-autopilot-continues 50`.
+
+**(CLI runtime) CLI summarises the agent file and asks "what would you like to do?"**  
+You passed the helm-log directly as `-p` instead of the agent-identity file. Use `run_cli.py`, or pass `-p @instructions/iterative-prompt/cli-agent.md` and set `ITERATIVE_PROMPT_HELM_LOG` to the helm-log path.
 
 ---
 

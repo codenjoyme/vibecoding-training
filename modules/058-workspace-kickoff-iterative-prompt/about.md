@@ -10,7 +10,9 @@
 - Why a saved prompt file beats chat history as a starting point
 - Setting up a research folder with gathered materials (source code, transcripts, notes, chat excerpts)
 - Writing a kickoff prompt that converts raw thoughts into structured AI action items
+- Two runtimes: **IDE runtime** (VS Code Copilot Chat with async watcher) and **CLI runtime** (Copilot CLI with `--autopilot`)
 - Running a `.prompt.md` file directly from the IDE
+- Running the same `development log` from a terminal without an IDE
 - Leaving breadcrumbs for your future self and teammates
 - Growing the prompt incrementally with `## UPD[N]` / `### RESULT` blocks
 - Using `iterative-prompt/SKILL.md` to formalize the pattern across projects
@@ -48,3 +50,6 @@ Ability to kick off any AI-assisted research or exploration by creating a `devel
   ```
   Setup https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/SKILL.md
   ```
+- **Runtimes** (pick one — same `development log`, two ways to drive it):
+  + [`runtime-ide.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/runtime-ide.md) — VS Code Copilot Chat with `mode=async` watcher and terminal-notification wakeups
+  + [`runtime-cli.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/runtime-cli.md) — Copilot CLI in a terminal with `--autopilot --max-autopilot-continues N` (no IDE required)
