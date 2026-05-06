@@ -85,12 +85,15 @@ The net effect: you can open multiple IDE windows with different projects, each 
      + **Step D:** If there is a `## UPD` block at the end of the file that has no `### RESULT` and no `go` marker at the end, the user may still be typing. **Wait for the keyword `go` at the end of the block** before starting implementation. If `go` is not present, go back to Step A and sleep again.
      + **Step E:** If an unprocessed `## UPD` is found and it ends with `go` — implement it immediately, write `### RESULT`, commit, and return to Step A.
      + **Step F:** If no changes detected — go back to Step A (sleep again).
-     + **Step G — Anti-drift refresh (every 30 sleep cycles):** Maintain an internal counter of consecutive sleep cycles since session start (or since last refresh). After every 30 sleeps, before going back to Step A:
-       1. Re-read the **full content** of this skill file (`instructions/iterative-prompt/SKILL.md`).
-       2. Re-read any other instruction files referenced via `<follow>` in the active prompt file's header (e.g. `training-mode-iterative-prompt.agent.md`).
-       3. Re-read any standing user rules previously stated in the conversation (e.g. "no commits", "respond in Russian").
-       4. Reset the counter to 0.
-       This compensates for context drift during long-running sessions — the polling loop can run for hours, and earlier in the conversation the agent may have loaded these instructions only once. Without periodic refresh, the agent may forget polling rules, commit policy, or language preference. Do NOT skip this step even if "nothing has changed" — the point is to refresh the agent's working memory, not the file content.
+     + **Step G — Anti-drift refresh (after EVERY commit / UPD, plus every 30 sleep cycles):** there are now two triggers:
+       1. **After every commit / UPD processing** (mandatory, no exceptions): immediately before processing the next `## UPD[N]` (or before restarting the watcher), **re-read in full**:
+          - this skill file (`instructions/iterative-prompt/SKILL.md`),
+          - the active prompt file's `<follow>` chain in its header,
+          - `./instructions/main.agent.md` and any files it links to,
+          - any standing user rules previously stated in the conversation.
+          Even if the file content "is already in context" — re-read it. Files may have been edited by the user between turns, and the workspace is dynamic. Skipping this step causes context drift and stale-instruction bugs.
+       2. **Every 30 sleep cycles** during long polling: same re-read pass; reset the cycle counter to 0.
+       Do NOT skip step 1 even when "nothing has changed" — the point is to refresh working memory and pick up edits the user made silently.
      + This loop continues **indefinitely** until the user explicitly stops the agent.
      + Do NOT print "waiting for instructions" to the chat and stop. The agent must keep itself alive via the terminal sleep loop.
      + **Step H — Wake-on-change-and-go watcher (PREFERRED, supersedes Step A1):** Instead of sleeping for a fixed 60 s and re-reading the file every cycle, run the Python watcher that polls internally and **only exits when the file changed AND the last unprocessed ## UPD block ends with `go`**. This frees the agent from one premium request per idle period — the watcher runs, and when it exits, VS Code delivers a terminal notification that triggers a new agent turn.
@@ -124,12 +127,6 @@ The net effect: you can open multiple IDE windows with different projects, each 
        3. Commit the changes
        4. Immediately restart the watcher (Step H)
        The only valid reason to permanently stop the loop is the user explicitly saying "stop", "exit loop", or closing the session.
-     + **🔄 Chat re-attach: user mentions `main.prompt.md` in chat.** If the user explicitly references a `main.prompt.md` (or any `*.prompt.md`) file in a chat message, this is a **signal that the polling loop has crashed** and needs to be re-established. On such a message:
-       1. **Re-read this skill file fully** (`instructions/iterative-prompt/SKILL.md`) — there may be updates since it was last loaded.
-       2. **Re-read the referenced prompt file** from start to finish.
-       3. **Find the last `## UPD[N]` that has `go` but no `### RESULT`** — process it immediately.
-       4. **Restart the watcher** (Step H) after processing.
-       This rule exists because context compaction, session restarts, or VS Code reloads can silently kill the watcher without the agent noticing. The user's only way to re-attach is to mention the prompt file in chat. Treat it as "re-read everything and resume where you left off", not as a casual mention.
 - When asked to create a new prompt file inside folder, immediately produce a ready-to-use file:
   + Use the following starter template:
     ```markdown

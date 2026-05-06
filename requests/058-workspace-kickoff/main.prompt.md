@@ -384,3 +384,11 @@ go
 ### RESULT
 - [modules/058-workspace-kickoff-iterative-prompt/walkthrough.md](../../modules/058-workspace-kickoff-iterative-prompt/walkthrough.md) — introduced `development log` term throughout (intro, What We'll Build table, Parts 3-6, What just happened sections); added 5 new best practices to Part 5 (naming flexibility, secrets check via `handle-secrets-in-ai-workflows.agent.md`, referencing nearby files/images, committing log with changes, sharing across agents); fixed duplicate "Can be shared" line in Part 1
 - [modules/058-workspace-kickoff-iterative-prompt/about.md](../../modules/058-workspace-kickoff-iterative-prompt/about.md) — added `development log` term to Skill description and Learning Outcome
+
+## UPD23
+
+Ты забыл запустить вотчер в одном из запуском. Прочти инструкции по iterative prompt. Там добавь такую задачу, что каждый раз, когда делаешь коммит или выполняешь новый апдейт - надо перезагрузить инструкцию полностью снова, даже если она уже видна в контексте. Так мы препятстуем дрейфу контекста. 
+
+### RESULT
+
+- [`iterative-prompt/SKILL.md`](CodingDojo/instructions/iterative-prompt/SKILL.md) — Step G переписан: теперь refresh инструкций обязателен **после каждого commit / UPD**, а не только каждые 30 sleep-cycles. Re-read нужно делать даже если файлы "уже видны в контексте", потому что пользователь мог их править между ходами.
