@@ -42,6 +42,7 @@ After completing all modules, participants will build a complete application tha
 1. [Installing Cursor](modules/020-installing-cursor/about.md) - Set up alternative AI-native IDE
 1. [Downloading Course Materials](modules/025-downloading-course-materials/about.md) - Download and set up the course repository locally
 1. [Model Selection](modules/030-model-selection/about.md) - Choose the right AI model for your task
+1. [Choosing Prompt Language & Freewriting](modules/032-what-language-to-choose-freewriting/about.md) - Pick your prompt language consciously and use freewriting to produce long prompts at max speed
 1. [Visual Context with Screenshots](modules/035-visual-context-screenshots/about.md) - Share screenshots with AI for accurate visual guidance
 1. [Agent Mode & AI Mechanics](modules/040-agent-mode-under-the-hood/about.md) - Understand how AI coding assistants work
 1. [Effective Prompting](modules/050-effective-prompting-without-arguing/about.md) - Iterate prompts instead of arguing with AI

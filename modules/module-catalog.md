@@ -4,6 +4,7 @@
 | 020 | Installing Cursor | Set up alternative AI-native IDE |
 | 025 | Downloading Course Materials | Download and set up the course repository locally to access all training modules and examples in your IDE |
 | 030 | Model Selection | Choose the right AI model for your task |
+| 032 | Choosing Prompt Language & Freewriting | Pick the prompt language that maximizes your throughput (usually your native one) and use freewriting to produce long, raw prompts faster than your inner critic can stop you |
 | 035 | Visual Context with Screenshots | Share visual context with AI using screenshots to get accurate help when interface differs from expectations |
 | 040 | Agent Mode & AI Mechanics | Understand how AI coding assistants work |
 | 050 | Effective Prompting | Iterate prompts instead of arguing with AI |
