@@ -15,3 +15,6 @@ lnd/stuff
 *.exe
 
 lnd/output/*.docx
+
+# iterative-prompt CLI runtime artifact (default helm-log when no path given)
+instructions/iterative-prompt/cli.prompt.md

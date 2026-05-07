@@ -41,27 +41,37 @@ Defaults:
 
 ### Manual invocation (no script)
 
-The `-p @<file>` argument is the **agent instruction file** (executable identity), not the helm-log. The helm-log is passed via the `ITERATIVE_PROMPT_HELM_LOG` env var. This is what makes the CLI agent actually *run* the loop instead of treating the helm-log as a one-shot prompt.
+The `-p @<file>` argument is the **agent instruction file** (executable identity), not the helm-log. Because Copilot CLI cannot reliably read environment variables from inside the model, the helm-log path must be **substituted directly into the agent prompt text** before launch. The wrapper script [`run_cli.py`](./scripts/run_cli.py) does this automatically: it reads [`cli-agent.md`](./cli-agent.md), replaces the `{{HELM_LOG}}` placeholder with the resolved absolute path, writes the result to a **temp file** (`$env:TEMP/iterative-prompt-cli-agent-XXXXXX.md`, auto-cleaned on exit — nothing in your repo), and passes that to `copilot`. It also tees copilot's stdout/stderr to `<helm-log-dir>/session.log` for a persistent record.
+
+If you must run `copilot` by hand, do the same substitution yourself first:
 
 ```powershell
-$env:ITERATIVE_PROMPT_HELM_LOG = ".github/work/cli.prompt.md"
+# 1. Substitute the placeholder into a temp file
+$helm = (Resolve-Path .github/work/cli.prompt.md).Path
+$agent = New-TemporaryFile | Rename-Item -NewName { $_.Name + '.md' } -PassThru
+(Get-Content instructions/iterative-prompt/cli-agent.md -Raw).Replace('{{HELM_LOG}}', $helm) `
+  | Set-Content $agent.FullName -Encoding UTF8
+
+# 2. Launch copilot with the substituted file
 copilot `
-    -p "@instructions/iterative-prompt/cli-agent.md" `
+    -p "@$($agent.FullName)" `
     --add-dir "$PWD" `
     --allow-all --no-ask-user -s `
     --autopilot --max-autopilot-continues 50 `
     --model claude-opus-4.6
+
+# 3. Cleanup
+Remove-Item $agent.FullName
 ```
 
-The agent file [`cli-agent.md`](./cli-agent.md) starts with an imperative `EXECUTE NOW` block that tells the model to read [`SKILL.md`](./SKILL.md) + this runtime, then run the watcher loop. Without an explicit agent file, Copilot CLI does not understand the `<follow>` tag (that's IDE-only) and treats the helm-log as a plain prompt.
+The agent file [`cli-agent.md`](./cli-agent.md) starts with an imperative `EXECUTE NOW` block that tells the model to read [`SKILL.md`](./SKILL.md) + this runtime, then run the watcher loop on the substituted helm-log path. Without an explicit agent file, Copilot CLI does not understand the `<follow>` tag (that's IDE-only) and treats the helm-log as a plain prompt.
 
 ## The CLI run loop (what the agent does inside the long turn)
 
 1. **Bootstrap (once):**
    - Read [`SKILL.md`](./SKILL.md) for the pattern (UPD/RESULT, file format, atomic commits).
    - Read this file for the runtime rules.
-   - Identify the helm-log path (e.g. from `$env:DARK_FACTORY_HELM_LOG`, the `-p` argument, or a default).
-2. **Loop forever (single long turn — DO NOT END THE TURN BETWEEN ITERATIONS):**
+   - The helm-log path is **already in the agent prompt** (substituted from `{{HELM_LOG}}` by the runner before launch). No env-var lookup needed.2. **Loop forever (single long turn — DO NOT END THE TURN BETWEEN ITERATIONS):**
    1. Run watcher BLOCKING:
       ```
       python ./instructions/iterative-prompt/scripts/watch_prompt.py <helm-log>
@@ -85,7 +95,9 @@ A single value of `N=50` is enough for one work session. For long-running orches
 |---------|-------|-----|
 | CLI process exits after first UPD | `--autopilot` flag missing | Add `--autopilot --max-autopilot-continues N` |
 | CLI summarises the agent file and asks "what would you like to do?" | Agent file reads as documentation, not as a task | Put an imperative `EXECUTE NOW` block at the very top (see [`cli-agent.md`](./cli-agent.md)) |
-| CLI just answers the first UPD message and exits | Passed the helm-log as `-p` instead of an agent file | Pass [`cli-agent.md`](./cli-agent.md) as `-p`, helm-log via `ITERATIVE_PROMPT_HELM_LOG` env var (the runner does this automatically) |
+| CLI just answers the first UPD message and exits | Passed the helm-log as `-p` instead of an agent file | Pass [`cli-agent.md`](./cli-agent.md) as `-p` (or use [`run_cli.py`](./scripts/run_cli.py) which handles substitution automatically) |
+| CLI exits after 1–2 UPDs even with `--max-autopilot-continues 999` | Agent ran the watcher in a **background/named shell** (e.g. `shellId: watcher-loop`); the watcher's exit didn't feed back into the agent turn, so autopilot ran out of work and the CLI shut down | The watcher MUST be invoked as a **synchronous foreground tool call** that blocks until it returns. The current [`cli-agent.md`](./cli-agent.md) step 2.1 forbids backgrounding explicitly. If you customise the agent file, keep that rule. |
+| CLI defaults to `cli.prompt.md` next to the agent file instead of the helm-log you wanted | The model cannot read env vars reliably; helm-log path must be **substituted into the prompt text** | Use [`run_cli.py`](./scripts/run_cli.py) (does substitution) or substitute `{{HELM_LOG}}` manually in [`cli-agent.md`](./cli-agent.md) before launch |
 | Watcher returns immediately | `## UPD` already ends with `go` | Process it then loop |
 | `copilot: command not found` | CLI not installed | `npm install -g @anthropic-ai/copilot` |
 | 402 quota error | No or invalid token | Set `GH_TOKEN` to a fine-grained PAT with `Copilot Requests` permission |

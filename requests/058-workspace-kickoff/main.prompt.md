@@ -884,4 +884,236 @@ python ./instructions/iterative-prompt/scripts/run_cli.py --helm-log path/to/cli
 
 ## UPD42
 
+Какую команду надо запустить чтобы сделать cli демку в папке `work\058-task`? go
+
+### RESULT
+
+Из корня воркспейса (`.\vibecoding-for-managers`):
+
+```powershell
+python ./instructions/iterative-prompt/scripts/run_cli.py work/058-task/main.prompt.md
+```
+
+Что произойдёт по шагам:
+
+1. Скрипт [`run_cli.py`](../../instructions/iterative-prompt/scripts/run_cli.py) увидит positional argument `work/058-task/main.prompt.md` и зарезолвит его как helm-log.
+2. Если файла нет — создаст его из шаблона:
+   ```markdown
+   <follow>
+   iterative-prompt/SKILL.md
+   </follow>
+
+   ## UPD1
+   ```
+3. Соберёт команду:
+   ```
+   copilot -p @instructions/iterative-prompt/cli-agent.md \
+     --add-dir <workspace> \
+     --allow-all --no-ask-user -s \
+     --autopilot --max-autopilot-continues 50 \
+     --model claude-opus-4.6
+   ```
+   и пробросит `ITERATIVE_PROMPT_HELM_LOG=work/058-task/main.prompt.md` в env.
+4. Запустит `copilot` в foreground, стримя stdout/stderr в твой терминал.
+5. CLI прочитает [`cli-agent.md`](../../instructions/iterative-prompt/cli-agent.md), затем [`SKILL.md`](../../instructions/iterative-prompt/SKILL.md) + [`runtime-cli.md`](../../instructions/iterative-prompt/runtime-cli.md), и встанет в blocking watcher loop на `work/058-task/main.prompt.md`.
+6. Допиши `## UPD1` (или сразу `## UPD2`) с реальной задачей и `go` в конце — CLI подхватит, обработает, запишет `### RESULT`, закоммитит, и снова уйдёт ждать.
+
+**Полезные варианты:**
+
+```powershell
+# Другая модель:
+python ./instructions/iterative-prompt/scripts/run_cli.py work/058-task/main.prompt.md --model claude-sonnet-4.6
+
+# Больше autopilot continues для долгой сессии:
+python ./instructions/iterative-prompt/scripts/run_cli.py work/058-task/main.prompt.md --model claude-sonnet-4.6 --continues 999
+
+# Просто посмотреть какая команда соберётся (без запуска):
+python ./instructions/iterative-prompt/scripts/run_cli.py work/058-task/main.prompt.md --print-cmd
+```
+
+⚠️ **Важно:** перед запуском убедись что **в IDE Copilot Chat не крутится watcher на тот же `work/058-task/main.prompt.md`** — два runtime'а на одном helm-log будут гоняться за git-индекс. Если есть активный IDE-watcher — скажи в чате `stop`, и только потом запускай CLI.
+
+Также убедись что:
+- `copilot --version` отрабатывает (если нет: `npm install -g @anthropic-ai/copilot`)
+- `GH_TOKEN` выставлен в env (fine-grained PAT с `Copilot Requests` permission), иначе будет `402 quota` на старте.
+
+## UPD43
+
+Что-то пошло не так. Файл создался `main.prompt.md` но потом скрипт написал что ишет `cli.prompt.md` но я его так и не нашел. Причем не видел что загружается идентичность. Может все дело в том, откуда я запускал скрипт? 
+```
+PS .\vibecoding-for-managers> python ./instructions/iterative-prompt/scripts/run_cli.py work/058-task/main.prompt.md --model claude-sonnet-4.6 --continues 999
+[run_cli] created helm-log from template: work\058-task\main.prompt.md
+[run_cli] copilot:    .\copilot.CMD
+[run_cli] agent:      instructions\iterative-prompt\cli-agent.md
+[run_cli] helm-log:   work\058-task\main.prompt.md  (via ITERATIVE_PROMPT_HELM_LOG)
+[run_cli] model:      claude-sonnet-4.6
+[run_cli] autopilot:  999 continues
+[run_cli] workspace:  .\vibecoding-for-managers
+[run_cli] launching copilot (foreground, streaming stdout/stderr)...
+`cli.prompt.md` not found. Creating it from template, then starting the watcher loop.
+```
+go
+
+### RESULT
+
+Не из-за `cwd` — баг архитектурный. Дело в том, что **Copilot CLI не передаёт env-переменные внутрь модели**: модель видит только содержимое prompt-файла, и ей пришлось бы явно вызывать shell-команду `echo $env:ITERATIVE_PROMPT_HELM_LOG`, чтобы прочитать переменную. Она этот шаг скорее всего пропустила и пошла по дефолту из инструкции — `cli.prompt.md` рядом с агент-файлом.
+
+Скрипт на самом деле **успешно** проставил env (`subprocess.call(cmd, env=env)` выставлял `ITERATIVE_PROMPT_HELM_LOG` в абсолютный путь к твоему `work\058-task\main.prompt.md`), но модель эту переменную не прочитала.
+
+**Фикс — substitution-based architecture.** Вместо того чтобы говорить модели «прочитай env var», теперь helm-log путь **впечатывается прямо в текст промпта** через placeholder `{{HELM_LOG}}` перед запуском. Модель физически не может промахнуться — путь стоит у неё на странице.
+
+**Изменения:**
+
+- [`instructions/iterative-prompt/cli-agent.md`](../../instructions/iterative-prompt/cli-agent.md) — Step 1.1 переписан: вместо «check env var, fallback to default» теперь жёстко: *«Your helm-log file is: `{{HELM_LOG}}`. Use this exact path. Do not look elsewhere. Do not check env vars.»* В шаге запуска watcher'а тоже `{{HELM_LOG}}` вместо `<helm-log>` плейсхолдера.
+- [`instructions/iterative-prompt/scripts/run_cli.py`](../../instructions/iterative-prompt/scripts/run_cli.py) — добавлена функция `materialize_agent()`: читает `cli-agent.md`, заменяет `{{HELM_LOG}}` на абсолютный путь, пишет результат в `instructions/iterative-prompt/.cli-agent.generated.md` (sibling-файл, gitignored), и передаёт **этот** файл в `copilot -p @…`. Env-переменная всё ещё проставляется (для любых сабскриптов которые могут её искать), но больше не критична. Лог обновлён: `agent: cli-agent.md → .cli-agent.generated.md (helm-log baked in)`.
+- [`.gitignore`](../../.gitignore) — добавлены `instructions/iterative-prompt/cli.prompt.md` и `instructions/iterative-prompt/.cli-agent.generated.md` (runtime artifacts, не часть скила).
+- [`instructions/iterative-prompt/runtime-cli.md`](../../instructions/iterative-prompt/runtime-cli.md) — обновлены: секция `### Manual invocation` (теперь показывает substitution через PowerShell `Get-Content | Replace | Set-Content` для тех кто без `run_cli.py`), bootstrap-описание (нет env-lookup, путь уже в промпте), troubleshooting (новая строка про симптом «CLI defaults to `cli.prompt.md` instead of the helm-log you wanted»).
+
+**Smoke-test пройден** (`--print-cmd`):
+- Команда теперь: `copilot -p @<abs>/instructions/iterative-prompt/.cli-agent.generated.md ...`
+- В сгенерированном файле watcher-команда содержит абсолютный путь к твоему helm-log:
+  ```
+  python ./instructions/iterative-prompt/scripts/watch_prompt.py .\vibecoding-for-managers\work\058-task\main.prompt.md
+  ```
+
+**Запускай ту же команду, что и в прошлый раз:**
+
+```powershell
+python ./instructions/iterative-prompt/scripts/run_cli.py work/058-task/main.prompt.md --model claude-sonnet-4.6 --continues 999
+```
+
+Должен увидеть в выводе:
+```
+[run_cli] agent:      instructions\iterative-prompt\cli-agent.md  →  instructions\iterative-prompt\.cli-agent.generated.md (helm-log baked in)
+[run_cli] helm-log:   .\vibecoding-for-managers\work\058-task\main.prompt.md
+```
+И затем от модели — статус-строку `Iterative-prompt CLI agent ready. Helm-log: C:\...\work\058-task\main.prompt.md. Watching.` (это шаг 1.4 из `cli-agent.md`).
+
+## UPD44
+
+Какую команду мне запусьтитт дял демки CLi? go
+### RESULT
+
+Из корня воркспейса (`.\vibecoding-for-managers`):
+
+```powershell
+python ./instructions/iterative-prompt/scripts/run_cli.py work/058-task/main.prompt.md --model claude-sonnet-4.6 --continues 999
+```
+
+Что произойдёт:
+
+1. Скрипт создаст `work/058-task/main.prompt.md` из шаблона (если файла ещё нет) — там будет `## UPD1` блок-заглушка.
+2. Прочитает [`instructions/iterative-prompt/cli-agent.md`](../../instructions/iterative-prompt/cli-agent.md), подставит абсолютный путь к твоему helm-log в `{{HELM_LOG}}` плейсхолдер, запишет результат в `instructions/iterative-prompt/.cli-agent.generated.md` (gitignored).
+3. Запустит `copilot -p @<абс-путь>/.cli-agent.generated.md --autopilot --max-autopilot-continues 999 --model claude-sonnet-4.6 ...`.
+4. Агент прочитает [`SKILL.md`](../../instructions/iterative-prompt/SKILL.md) + [`runtime-cli.md`](../../instructions/iterative-prompt/runtime-cli.md), напечатает status-line `Iterative-prompt CLI agent ready. Helm-log: C:\...\work\058-task\main.prompt.md. Watching.` и встанет в watcher-loop.
+5. Открой `work/058-task/main.prompt.md` в редакторе, замени `## UPD1` на реальный запрос, дописжи `go` в конце, сохрани — агент подхватит, выполнит, запишет `### RESULT`, закоммитит и снова встанет на watcher.
+
+Полезные флаги:
+
+- `--model claude-opus-4.6` (default) — мощнее, но дороже. Sonnet быстрее для демки.
+- `--continues 50` (default) — сколько раз CLI продолжит автопилотом после `git commit` (каждый коммит закрывает «turn»). Для демки 999 безопасно.
+- `--print-cmd` — напечатать собранную команду и выйти, без запуска. Полезно для отладки.
+- `--helm-log <path>` — явно задать путь, если первый позиционный аргумент уже занят чем-то другим.
+
+Чтобы остановить — Ctrl+C в терминале где крутится `copilot`.
+
+## UPD45
+
+Слушай, два раза отработал и все, полетело 
+```
+PS .\vibecoding-for-managers> python ./instructions/iterative-prompt/scripts/run_cli.py work/058-task/main.prompt.md --model claude-sonnet-4.6 --continues 999
+[run_cli] copilot:    .\copilot.CMD
+[run_cli] agent:      instructions\iterative-prompt\cli-agent.md  →  instructions\iterative-prompt\.cli-agent.generated.md (helm-log baked in)
+[run_cli] helm-log:   .\vibecoding-for-managers\work\058-task\main.prompt.md
+[run_cli] model:      claude-sonnet-4.6
+[run_cli] autopilot:  999 continues
+[run_cli] workspace:  .\vibecoding-for-managers
+[run_cli] launching copilot (foreground, streaming stdout/stderr)...
+Now starting the blocking watcher loop.
+
+Iterative-prompt CLI agent ready. Helm-log: `.\vibecoding-for-managers\work\058-task\main.prompt.md`. Watching.
+
+UPD1 processed (да, вижу — user greeted, agent confirmed). Watcher is now polling for the next `## UPD2` block ending with `go`.
+
+Watcher is live. I'll be notified when a new `## UPD` block with `go` is added.
+
+The watcher is running and polling. The agent is fully bootstrapped:
+
+- ✅ Read `SKILL.md` + `runtime-cli.md`
+- ✅ Processed `UPD1` (greeted user)
+- ✅ Atomic commit made (forced through gitignore)
+- ✅ Watcher active (`shellId: watcher-loop`) — will notify me on next `## UPD` with `go`
+
+I'll be notified automatically when the user appends a new UPD block. I'll then process it, commit, and restart the watcher — continuing the loop.
+
+New UPD2 detected. Processing now.
+
+UPD2 processed and committed. Watcher restarted — waiting for next UPD.
+
+PS .\vibecoding-for-managers>
+```
+
+Так же мне не нравится, что появляется файл `.cli-agent.generated.md` давай решим єто все же по другму как-то, красиво. 
+
+И еще не создался файл лога в папке `work/058-task` где появился `main.prompt.md`. go
+
+### RESULT
+
+Три отдельных бага, разобрал по очереди.
+
+**1. CLI вылетал после 2-х UPD'ов.**
+
+Корень — модель запустила watcher в **фоновом именованном shell'е** (видно в твоём логе: `shellId: watcher-loop`). Из-за этого watcher не блокировал её turn: модель сразу сказала «waiting for next UPD», turn закончился, autopilot не имел триггера для следующего step'а — и через пару idle-проходов CLI закрылся. `--max-autopilot-continues 999` тут ни при чём, проблема в том что watcher-процесс должен жить **внутри** turn'а, как обычный синхронный shell tool call.
+
+Фикс — в [`instructions/iterative-prompt/cli-agent.md`](../../instructions/iterative-prompt/cli-agent.md) шаг 2.1 теперь явно жёстко запрещает фон:
+
+> Run the watcher **as a synchronous, foreground shell command. Block until it exits. Do NOT background it. Do NOT assign a named/persistent shell id. Do NOT start it and then say "waiting" — the watcher process IS your wait.**
+
+Плюс в шаге 2.3 убрал намёк «waiting for next UPD» который сбивал модель с толку.
+
+**2. `.cli-agent.generated.md` мозолил глаза в репо.**
+
+Перенёс генерируемый агент-файл в системный TEMP. В [`instructions/iterative-prompt/scripts/run_cli.py`](../../instructions/iterative-prompt/scripts/run_cli.py) `materialize_agent()` теперь использует `tempfile.mkstemp(prefix="iterative-prompt-cli-agent-", suffix=".md")` и регистрирует `atexit`-cleanup — файл живёт только пока крутится `copilot`, удаляется автоматически при выходе скрипта (нормальном или Ctrl+C). В репозитории больше ничего не появляется. Из [`.gitignore`](../../.gitignore) убрал строку `instructions/iterative-prompt/.cli-agent.generated.md` (оставил только `cli.prompt.md` для дефолтного helm-log'а).
+
+В логе теперь видно:
+```
+[run_cli] agent: instructions\iterative-prompt\cli-agent.md → iterative-prompt-cli-agent-aii38fs7.md (in TEMP, helm-log baked in, auto-cleanup)
+```
+
+**3. «Не создался файл лога в `work/058-task`».**
+
+Действительно — мы туда писали только `main.prompt.md` (это и есть helm-log), а никакого session-лога не было. Добавил teeing: `run_with_tee()` в [`run_cli.py`](../../instructions/iterative-prompt/scripts/run_cli.py) запускает `copilot` через `subprocess.Popen(..., stdout=PIPE, stderr=STDOUT)`, читает по строчке, пишет одновременно в `sys.stdout` (видишь в терминале как раньше) и в `<helm-log-dir>/session.log` с timestamp-заголовком/футером для каждого запуска.
+
+По умолчанию лог рядом с helm-log'ом — то есть для твоей демки это будет `work/058-task/session.log`. Управляется флагами:
+
+- `--log <path>` — кастомный путь.
+- `--no-log` — выключить совсем.
+
+В консоль теперь печатается:
+```
+[run_cli] log: C:\Java\...\work\058-task\session.log
+```
+
+Папка `work/` уже в `.gitignore`, так что лог никуда не утечёт.
+
+**Smoke-test (без запуска copilot):**
+- `--print-cmd` показал что `-p @C:\Users\OLEKSA~1\AppData\Local\Temp\iterative-prompt-cli-agent-aii38fs7.md`.
+- Прямой вызов `materialize_agent()` подтвердил: placeholder ушёл (False), абсолютный путь к helm-log на месте (True), длина файла 3611 символов.
+
+**Запускай ту же команду заново:**
+
+```powershell
+python ./instructions/iterative-prompt/scripts/run_cli.py work/058-task/main.prompt.md --model claude-sonnet-4.6 --continues 999
+```
+
+Должен увидеть:
+- `[run_cli] agent: ... → iterative-prompt-cli-agent-XXXXXX.md (in TEMP, helm-log baked in, auto-cleanup)`
+- `[run_cli] log: C:\...\work\058-task\session.log`
+- Модель печатает status-line, **затем сразу** запускает watcher в foreground (без `shellId`), и turn зависает на `[watcher] still no go; waiting...` пока ты не допишешь следующий UPD.
+- После каждого UPD: процесс → коммит → СНОВА foreground watcher (без выхода и без болтовни).
+
+Если опять увидишь в выводе `shellId:` — значит модель проигнорила запрет и нужно ещё жёстче формулировать; пиши, разберёмся.
+
+## UPD46
+
 Тут пиши следующий запрос.
