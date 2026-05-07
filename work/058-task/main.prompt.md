@@ -20,4 +20,20 @@ iterative-prompt/SKILL.md
 
 - [work/058-task/bubble_sort.py](./bubble_sort.py)
 
+## UPD3
+
+А теперь на хаскеле go
+
+### RESULT (UPD3)
+
+Реализована сортировка пузырьком на Haskell:
+
+- [work/058-task/BubbleSort.hs](./BubbleSort.hs)
+
+
+
+
+
+
+
 
