@@ -955,3 +955,14 @@ Module 10 — Custom Instructions:
 ## UPD35
 
 Next module: Module 11. go
+
+### RESULT (UPD35)
+
+Module 11 — Learning from Hallucinations:
+- [lnd/output/task/module-11-prompt.md](../../lnd/output/task/module-11-prompt.md) — reframing, 4-step cycle, instruction before/after
+- [lnd/output/task/module-11-report.md](../../lnd/output/task/module-11-report.md) — эталон: Jira report hallucination (description column), fix
+- [lnd/output/task/module-11-autocheck.md](../../lnd/output/task/module-11-autocheck.md) — 4 required criteria
+
+## UPD36
+
+Next module: Module 12. go
