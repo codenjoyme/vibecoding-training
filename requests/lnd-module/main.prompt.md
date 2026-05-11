@@ -911,3 +911,14 @@ Module 06 — Agent Mode Under the Hood:
 ## UPD31
 
 Next module: Module 07. go
+
+### RESULT (UPD31)
+
+Module 07 — Effective Prompting Without Arguing:
+- [lnd/output/task/module-07-prompt.md](../../lnd/output/task/module-07-prompt.md) — artist metaphor, statements approach, arguing drawback, edit-and-regenerate, practical test
+- [lnd/output/task/module-07-report.md](../../lnd/output/task/module-07-report.md) — эталон: email validation example, 5 statements, validate_email function
+- [lnd/output/task/module-07-autocheck.md](../../lnd/output/task/module-07-autocheck.md) — 5 required criteria
+
+## UPD32
+
+Next module: Module 08. go
