@@ -830,3 +830,18 @@ If `verdict` is `SUSPICIOUS`, populate the `flags` array with the specific fraud
    - Inputs: загружать LND module file (`lnd/output/module-NN-*.md`)
    - «paste into text field» вместо upload
    - Из UPD17-22: критерии скрыты от студента, plain text verdict (не JSON), nested fences `~~~`
+
+## UPD24
+
+Давай теперь сделаем для всех оставшихся модулей такой же контент. После каждого опроцессеного модуля, делай отчет тут в промпте, потом открывай сам новый UPD блок с запросом на следующий модуль, потом коммит, потом загружай снова всю инструкцию `instructions/lnd/create-module-task-artifacts.agent.md` и следуй ей (чтобы небыло дрейфа). Не останавливайся с вопросами пока не закончишь все модули. go
+
+### RESULT (UPD24)
+
+Module 01 — Installing VS Code + GitHub Copilot:
+- [lnd/output/task/module-01-prompt.md](../../lnd/output/task/module-01-prompt.md) — промпт: VS Code version, Copilot extensions, workspace folder, chat test
+- [lnd/output/task/module-01-report.md](../../lnd/output/task/module-01-report.md) — эталон: v1.96.4, GitHub.copilot + copilot-chat, hello-genai, ответ про variables
+- [lnd/output/task/module-01-autocheck.md](../../lnd/output/task/module-01-autocheck.md) — 5 required criteria, fraud detection (copy-paste reference, fabricated version)
+
+## UPD25
+
+Next module: Module 02. go
