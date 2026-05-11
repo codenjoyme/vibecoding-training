@@ -2,7 +2,7 @@
 
 Congratulations on completing Module 03: Version Control with Git!
 
-To verify your work, copy the prompt below and paste it into the same AI assistant session where you completed the module. The agent will collect the data and produce a report file. Once the report is generated, upload the resulting `work/module-03-report.md` file back to the learning platform.
+To verify your work, copy the prompt below and paste it into the same AI assistant session where you completed the module. The agent will collect the data and produce a report file. Once the report is generated, copy the contents of `work/module-03-report.md` and paste them into the answer text field on the learning platform.
 
 ```
 # Module 03 — Version Control with Git: Completion Report

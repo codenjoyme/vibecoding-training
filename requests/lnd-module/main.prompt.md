@@ -811,3 +811,22 @@ If `verdict` is `SUSPICIOUS`, populate the `flags` array with the specific fraud
 2. Убрал JSON из [lnd/output/task/module-03-autocheck.md](../../lnd/output/task/module-03-autocheck.md) — теперь plain text verdict + summary
 3. Создал инструкцию [instructions/lnd/create-module-task-artifacts.agent.md](../../instructions/lnd/create-module-task-artifacts.agent.md) — описывает процесс создания трёх артефактов (prompt, report, autocheck) для любого модуля
 4. Добавил ссылку в [instructions/main.agent.md](../../instructions/main.agent.md)
+
+## UPD23
+
+В файле `lnd/output/task/module-03-prompt.md` сказано `Once the report is generated, upload the resulting work/module-03-report.md file back to the learning platform.` а надо чтобы он не атачем файл загрузил (эта фича не получилась у меня), а содержимое файла вставил прямо в текстовое поле ответа. 
+
+И в инструкции укажи, чтобы при создании других модулей смотрел на референсный `module-03` (как пример).
+
+А так же грузил так же весь модуль в `lnd/output/module-NN-*.md` соответствующий модулю для которого генерится контент, чтобы было видно с чем работа в сессии предстоит у учащегося. 
+
+Посмотри тут мои риквесты с `## UPD17` до конца, чтобы может найти что-то еще что должно быть добавлено в инструкцию. go 
+
+### RESULT (UPD23)
+
+1. В [lnd/output/task/module-03-prompt.md](../../lnd/output/task/module-03-prompt.md): «copy the contents of `work/module-03-report.md` and paste them into the answer text field» вместо upload
+2. В [instructions/lnd/create-module-task-artifacts.agent.md](../../instructions/lnd/create-module-task-artifacts.agent.md):
+   - Добавлена ссылка на `module-03-*` как reference example
+   - Inputs: загружать LND module file (`lnd/output/module-NN-*.md`)
+   - «paste into text field» вместо upload
+   - Из UPD17-22: критерии скрыты от студента, plain text verdict (не JSON), nested fences `~~~`

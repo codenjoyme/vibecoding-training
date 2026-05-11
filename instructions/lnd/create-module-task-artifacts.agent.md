@@ -3,12 +3,14 @@
 - Generate three verification artifacts for a training module: **student prompt**, **reference report**, and **autocheck prompt**.
 - All artifacts are placed in `lnd/output/task/` with naming convention `module-NN-{prompt,report,autocheck}.md`.
 - Replace `NN` with the zero-padded module number (e.g. `03`, `10`).
+- Use `lnd/output/task/module-03-*` files as the reference example — follow their structure, tone, and formatting.
 
 ## Inputs
 
 - Module number and title (e.g. "Module 03 — Version Control with Git").
 - Module walkthrough (`modules/NNN-*/walkthrough.md`) — to understand what the student actually does.
 - Module about (`modules/NNN-*/about.md`) — to get learning objectives.
+- Corresponding LND module file (`lnd/output/module-NN-*.md`) — load to understand what the student sees and works with during the session.
 
 ## Artifact 1: Student Prompt (`module-NN-prompt.md`)
 
@@ -25,7 +27,7 @@
   + Explicit save path: `Save this report as work/module-NN-report.md`.
 - Reference the session context, not a specific directory:
   + Use "Run the following commands in the project directory where you completed the module" — NOT a hardcoded path.
-- The outer wrapper tells student to upload `work/module-NN-report.md` back to the learning platform.
+- The outer wrapper tells student to copy the contents of `work/module-NN-report.md` and paste them into the answer text field on the learning platform (NOT upload as attachment).
 
 ## Artifact 2: Reference Report (`module-NN-report.md`)
 
@@ -54,3 +56,6 @@
 - No hardcoded directory paths — use session-relative references.
 - Nested code fences inside the student prompt use `~~~` (not ` ``` `).
 - Module number is consistent across all three filenames and content.
+- Verification criteria are NOT visible to the student — they live only in the autocheck file.
+- Student prompt says "paste contents into the answer text field" — NOT "upload the file".
+- Autocheck output format is plain text (verdict + summary) — NOT JSON.
