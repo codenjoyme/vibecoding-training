@@ -59,6 +59,8 @@ This file serves as a catalog of all project instructions. Each instruction cove
 - `coaching/generate-coaching-offer.agent.md` - **[COACHING OFFER GENERATION]** Generate a one-pager coaching proposal for a decision-maker based on interview results and selected training modules. Maps pain points to modules, frames outcomes in business language. Output saved to `work/coaching-offer-*.md`.
   + Keywords: offer, proposal, one-pager, coaching offer, оффер, предложение, коучинг, стейкхолдер, decision-maker, engagement
 - `lnd/organize-module-images.agent.md` - **[LND IMAGE ORGANIZATION]** Move and rename screenshots in LND module files to structured folders (`lnd/output/img/module-NN/MM-short-description.png`), update markdown references. Run per module on request after manual review with screenshots.
+- `lnd/create-module-task-artifacts.agent.md` - **[LND TASK ARTIFACTS]** Generate three verification artifacts for a training module: student prompt, reference report, and autocheck prompt. All placed in `lnd/output/task/` with consistent naming and cross-referenced structure.
+  + Keywords: task artifacts, autocheck, student prompt, reference report, module verification, lnd task, completion task, grading
 - `lnd/build-md-to-docx/SKILL.md` - **[LND MD → DOCX BUILD]** Convert a list of markdown files (with images, code blocks, quizzes) into a single landscape DOCX with TOC, page breaks, shaded inline-code, and uniform image scaling. CLI takes `--output` and a list of input `.md` files.
   + Keywords: docx, build docx, export docx, markdown to docx, md to docx, combine modules, all-modules.docx
   + Keywords: images, screenshots, картинки, скриншоты, organize images, rename images, img, module images

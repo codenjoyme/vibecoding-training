@@ -790,3 +790,24 @@ To verify your work, copy the prompt below and paste it into your AI assistant (
 - Выходной файл: `work/module-03-report.txt` (было `module-03-report.md`)
 - Внутри промпта: «Run the following commands in the project directory where you completed the module» (было `work/module03-task`)
 - В обёртке: upload `work/module-03-report.txt`
+
+## UPD22
+
+Вернем все же файл в md формате, а не txt. 
+
+Так же в конце не надо json ответа:
+```
+## Output format
+
+Return a verdict: `failed`/`partial`/`suspicious`/`pass`/`partial` and Brief human-readable summary. 
+
+If `verdict` is `SUSPICIOUS`, populate the `flags` array with the specific fraud indicators detected (e.g. `["copy_pasted_reference", "identical_timestamps"]`).
+```
+И давай сделаем инструкцию в `instructions/lnd` для создания такого рода контента для модуля. Следуя инструкции по созданию инструкций. go
+
+### RESULT (UPD22)
+
+1. Вернул `.md` вместо `.txt` в [lnd/output/task/module-03-prompt.md](../../lnd/output/task/module-03-prompt.md)
+2. Убрал JSON из [lnd/output/task/module-03-autocheck.md](../../lnd/output/task/module-03-autocheck.md) — теперь plain text verdict + summary
+3. Создал инструкцию [instructions/lnd/create-module-task-artifacts.agent.md](../../instructions/lnd/create-module-task-artifacts.agent.md) — описывает процесс создания трёх артефактов (prompt, report, autocheck) для любого модуля
+4. Добавил ссылку в [instructions/main.agent.md](../../instructions/main.agent.md)

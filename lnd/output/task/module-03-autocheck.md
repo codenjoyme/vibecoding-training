@@ -62,22 +62,6 @@ Flag the report as `SUSPICIOUS` if any of the following are detected:
 
 ## Output format
 
-Return a JSON object:
+Return a verdict: `PASS`, `PARTIAL`, `NEEDS_REVIEW`, or `SUSPICIOUS` followed by a brief human-readable summary.
 
-```json
-{
-  "verdict": "PASS | PARTIAL | NEEDS_REVIEW | SUSPICIOUS",
-  "criteria": {
-    "identity": true,
-    "commits_count": true,
-    "meaningful_messages": true,
-    "gitignore_env": true,
-    "calculator_tracked": true,
-    "clean_working_tree": true
-  },
-  "flags": [],
-  "comment": "Brief human-readable summary"
-}
-```
-
-If `verdict` is `SUSPICIOUS`, populate the `flags` array with the specific fraud indicators detected (e.g. `["copy_pasted_reference", "identical_timestamps"]`).
+If the verdict is `SUSPICIOUS`, list the specific fraud indicators detected (e.g. `copy_pasted_reference`, `identical_timestamps`).
