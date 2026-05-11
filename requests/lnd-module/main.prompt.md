@@ -856,3 +856,14 @@ Module 02 — Installing Cursor:
 ## UPD26
 
 Next module: Module 02b. go
+
+### RESULT (UPD26)
+
+Module 02b — Installing Claude Code via Codemie:
+- [lnd/output/task/module-02b-prompt.md](../../lnd/output/task/module-02b-prompt.md) — Node.js, npm, Codemie versions, Claude Code extension, AI chat test
+- [lnd/output/task/module-02b-report.md](../../lnd/output/task/module-02b-report.md) — эталон: v22.11.0, 10.9.0, 1.2.5, anthropic.claude-code
+- [lnd/output/task/module-02b-autocheck.md](../../lnd/output/task/module-02b-autocheck.md) — 5 required criteria
+
+## UPD27
+
+Next module: Module 02c. go
