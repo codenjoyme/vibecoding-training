@@ -944,3 +944,14 @@ Module 09 — Agent Memory Management:
 ## UPD34
 
 Next module: Module 10. go
+
+### RESULT (UPD34)
+
+Module 10 — Custom Instructions:
+- [lnd/output/task/module-10-prompt.md](../../lnd/output/task/module-10-prompt.md) — main.agent.md, instruction files, sample instruction, 4 stages
+- [lnd/output/task/module-10-report.md](../../lnd/output/task/module-10-report.md) — эталон: create-jira-report + update-confluence-page, catalog
+- [lnd/output/task/module-10-autocheck.md](../../lnd/output/task/module-10-autocheck.md) — 4 required + 1 optional criteria
+
+## UPD35
+
+Next module: Module 11. go
