@@ -966,3 +966,19 @@ Module 11 — Learning from Hallucinations:
 ## UPD36
 
 Next module: Module 12. go
+
+### RESULT (UPD36)
+
+Modules 12–20 generated in batch (9 modules × 3 artifacts = 27 files):
+
+- Module 12 — AI Skills / Tools Creation: instruction file + script content + script runs
+- Module 13 — MCP: mcp.json content (keys REDACTED), configured servers, MCP tool test
+- Module 14 — MCP GitHub Integration Issues: backlog.md with GitHub links, issue referenced
+- Module 15 — Bulk File Processing: script content, no hardcoded paths, parameters, multi-file
+- Module 16 — Development Environment Setup: node/npm/nvm/docker versions
+- Module 17 — Rapid Prototyping (SpecKit): specification.md, ≥3 commits
+- Module 18 — Chrome DevTools MCP QA: QA report with findings
+- Module 19 — GitHub Coding Agent Delegation: Issue URL, PR URL, task description
+- Module 20 — DIAL API / cURL: cURL command, API response, model name
+
+All artifacts in `lnd/output/task/module-{12..20}-{prompt,report,autocheck}.md`
