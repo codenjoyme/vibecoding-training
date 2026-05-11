@@ -1126,4 +1126,108 @@ python ./instructions/iterative-prompt/scripts/run_cli.py work/058-task/main.pro
 
 ## UPD47
 
-Тут пиши следующий запрос (если решишь вернуться к этому файлу).
+Смотри я несколько доработал инструкцию в новом воркспейсе. Я не хочу тут светить деьтали про него, потому я скопирую ссылку, а ты посмотри какие там git изменения были вокруг папки, и перед тем как применишь их тут, удали все все поминания того проекта, заменив их на `****`. 
+
+Важно понимать, что эти изменения ложатся на VSCode хорошо, потому что у нее есть возможность задавать вопросы через тул специальный. Мне думается что у курсора есть такой же инструмент, но я не уверен - надо сказать чтобы искал подобный. Так же и в других IDE. Если найдется - это предпочтительный способ использовать подход. Если нет, тогда берем то что есть сейчас. 
+
+Так же мне надо посмотреть все изменения main.prompt.md которые я делал по части изменения итеративного промпта в том воркспейсе и затащить сюда, коммит за коммитом. Опять же без деталей того проекта, что там. Только ту специфику что касается самого подхода. Я хоу это для историчности. И сохраняй мой вординг, что я там использовал. 
+
+Перед коммитом спроси меня в этом стиле, ок ли я с ним и потом уже коммить. 
+
+Так же сделай после всего секцию в этом skills.md чтобы можно было создавать агента (copilot + VSCode) на базе этого скила, в котором будет сказано - следуй этому скилу постоянно. ЧТобы я мог выбрать его как агент и дрейфа контекстов не происходило. go
+
+Вот папка `************` go
+
+### RESULT (UPD47) — vscode_askQuestions as primary IDE mode + IDE agent + development log
+
+Изучил 6 коммитов из `****` воркспейса (`b26d65b` → `d4f482c`), извлёк только то, что касается подхода iterative-prompt.
+
+**Файлы изменены/созданы:**
+
+- M [instructions/iterative-prompt/runtime-ide.md](../../instructions/iterative-prompt/runtime-ide.md) — **полная переработка:**
+  - `vscode_askQuestions` теперь PRIMARY механизм (plugin-version-independent)
+  - Watcher стал FALLBACK (requires plugin < 0.44)
+  - Auto-continue: если `go` нажат без нового UPD → auto-generate `## UPD[N+1]\ncontinue. go\n`
+  - Auto-append: выбор option в `vscode_askQuestions` → авто-запись как UPD в prompt file
+  - Recording user answers: verbatim, без перефразирования
+  - Language rules: RESULT/вопросы на языке пользователя, код/артефакты на английском
+  - Progress report: отчёт перед каждым `vscode_askQuestions`
+  - Cross-IDE note: Cursor и другие IDE — искать аналог `vscode_askQuestions`
+  - Anti-drift: по UPD-циклам (не по sleep-циклам)
+  - Known limitation: plugin `0.44` не доставляет terminal notification
+- M [instructions/iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md) — `watch_prompt.py` помечен как CLI primary / IDE legacy fallback; добавлена секция «Using as a VS Code agent» + `ide-agent.md` в таблицу скриптов
+- A [instructions/iterative-prompt/ide-agent.md](../../instructions/iterative-prompt/ide-agent.md) — **новый.** VS Code custom agent — при выборе из agent picker постоянно следует SKILL.md + runtime-ide.md, без дрейфа контекста. Правила: never end turn without re-arming, atomic commits, anti-drift каждые 30 UPD, язык по пользователю.
+
+**Санитизация:** все упоминания `****` проекта заменены на `****`. Оставлена только специфика подхода.
+
+---
+
+#### Development log (из `****` воркспейса, коммит за коммитом)
+
+**Commit `b26d65b` — feat(iterative-prompt): add vscode_askQuestions as primary IDE mode**
+
+> UPD185 (оригинальный текст пользователя):
+>
+> Тогда давай сделаем следующее. Старую реализацию оставляем - она нужна в CLI режиме. А вот что касается IDE версии, добавь (не меняя старого подхода) возможность работать через инструмент `vscode_askQuestions`. И пометь что это основной режим работы.
+>
+> Так же мне надо удалить `****/scripts/watch_prompt.py` и все референсы заменить на `instructions/iterative-prompt/scripts/watch_prompt.py` который возьмем за основу.
+
+RESULT: Добавлен раздел `✅ PRIMARY: vscode_askQuestions polling` в `runtime-ide.md`. Watcher переименован в `⚙️ FALLBACK: async watcher (requires plugin < 0.44)`. Удалён дубликат `watch_prompt.py` из `****`.
+
+---
+
+**Commit `4c28634` — docs(iterative-prompt): mark watcher as legacy in IDE; vscode_askQuestions primary**
+
+> UPD186 (оригинальный текст пользователя):
+>
+> Слушай ты загрузил `python instructions/iterative-prompt/scripts/watch_prompt.py ****` а я просил в IDE работать через `vscode_askQuestions` - сделай так, чтобы это работало нормально
+>
+> Поменяй скилл или может агента, где еще есть упоминание про `watch_prompt` скажи, что это легаси вариант, и не основной. Но не переписывай все. Просто дополни. И мне покажи где оно есть.
+
+RESULT: Убил активный async watcher. В `SKILL.md` колонка "Used by" для `watch_prompt.py`: CLI primary; IDE legacy fallback (primary = `vscode_askQuestions`). Агент-файл (`****`) обновлён: primary = `vscode_askQuestions`, fallback = async watcher.
+
+---
+
+**Commit `5caef96` — feat(iterative-prompt): auto-continue when user presses go without new UPD**
+
+> UPD190 (оригинальный текст пользователя):
+>
+> Давай так сделаем, если вдруг окажется что ничего нет, а я нажал go на вопрос, и есть куда продолжать, то ты добавляешь автоматически новый блок `UPD[N+1]` и пишешь туда запрос, так как будь-то бы я попросил тебя продолжить. Можно коротенько на языке автора "продолжи. go". Поменяй итеративный промпт чтобы там это отразить (но только для question режима).
+>
+> Поменяй так же `****` недавний, где эту фичу добавляли.
+>
+> Ну и перегрузи инструкцию и следуй ей.
+
+RESULT: Шаг 3 в `vscode_askQuestions` секции `runtime-ide.md`: если `go` нажат но нового UPD нет → автоматически дописать `## UPD[N+1]\ncontinue. go\n` и обработать.
+
+---
+
+**Commit `c81ac75` — feat(iterative-prompt): auto-append user option selection as UPD block**
+
+> UPD194 (оригинальный текст пользователя):
+>
+> Обновить инструкцию runtime-ide.md: при выборе option в vscode_askQuestions — auto-append ответ как UPD[N+1] в prompt file. Записать предыдущие ответы с RESULT.
+
+RESULT: Добавлена секция "When the answer is a question with options" в `runtime-ide.md`: auto-append user selection как `## UPD[N+1]` в prompt file для traceability.
+
+---
+
+**Commit `a984542` — feat(iterative-prompt): language rules + recording user answers**
+
+> UPD198 (оригинальный текст пользователя, iterative-prompt-специфичная часть):
+>
+> [Языковые правила для `vscode_askQuestions` и `### RESULT` блоков]
+
+RESULT: Добавлены подразделы в `runtime-ide.md`:
+- `Recording user answers` — ответы из `vscode_askQuestions` записываются в prompt-файл дословно
+- `Language rules` — RESULT/question/чат на языке пользователя; код/артефакты/инструкции на английском
+
+---
+
+**Commit `d4f482c` — feat(iterative-prompt): progress report before re-arming**
+
+> UPD205 (оригинальный текст пользователя, iterative-prompt-специфичная часть):
+>
+> Обнови iterative prompt в области ide + question чтобы перед каждым новым вопросом ты отчитывался о проделанной работе до сих пор.
+
+RESULT: Добавлен подраздел `Progress report before re-arming` в `runtime-ide.md` — перед каждым `vscode_askQuestions` агент коротко отчитывается: что сделано, текущее состояние, pending items.

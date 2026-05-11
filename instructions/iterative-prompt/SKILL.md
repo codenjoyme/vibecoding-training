@@ -100,9 +100,10 @@ Name the file `main.prompt.md` (or `cli.prompt.md` for CLI runtime) and place it
 
 | File | Purpose | Used by |
 |------|---------|---------|
-| [`scripts/watch_prompt.py`](./scripts/watch_prompt.py) | Polls a prompt file; exits 0 when last UPD ends with `go`. | Both runtimes. |
+| [`scripts/watch_prompt.py`](./scripts/watch_prompt.py) | Polls a prompt file; exits 0 when last UPD ends with `go`. | CLI runtime (primary); IDE runtime (legacy fallback — primary IDE mechanism is `vscode_askQuestions`, see [`runtime-ide.md`](./runtime-ide.md)). |
 | [`scripts/run_cli.py`](./scripts/run_cli.py) | Thin `copilot` CLI wrapper with `--autopilot` and the right flags for iterative-prompt mode. | CLI runtime only. Pure `copilot` commands, no orchestration framework dependency. |
 | [`cli-agent.md`](./cli-agent.md) | Executable agent-identity file passed to `copilot -p`. Tells the CLI agent to run the watcher loop. | CLI runtime only. |
+| [`ide-agent.md`](./ide-agent.md) | VS Code custom agent that permanently follows this skill. Select it from the agent picker — no context drift. | IDE runtime only. |
 
 How each script is invoked differs per runtime — see the runtime files.
 
@@ -113,3 +114,23 @@ How each script is invoked differs per runtime — see the runtime files.
 | 0 | `go` detected — agent should process |
 | 2 | File not found |
 | 130 | User Ctrl+C (clean exit) |
+
+## Using as a VS Code agent (no context drift)
+
+You can create a dedicated VS Code agent mode that permanently follows this skill. This eliminates context drift — the agent always knows it's running the iterative-prompt loop and never forgets the rules.
+
+### How to create the agent
+
+Create a file `instructions/iterative-prompt/ide-agent.md` (already provided below) and reference it as a VS Code custom agent. In VS Code, you can select it from the agent picker in Copilot Chat.
+
+The agent file [`ide-agent.md`](./ide-agent.md) is a thin wrapper that:
+1. Reads [`SKILL.md`](./SKILL.md) + [`runtime-ide.md`](./runtime-ide.md) on every activation.
+2. Identifies the active prompt file (from user message, open editor, or `<follow>` header).
+3. Runs the `vscode_askQuestions` loop permanently.
+4. Never deviates from the iterative-prompt pattern.
+
+### When to use
+
+- **Long sessions** where you want zero drift — the agent re-reads instructions every 30 UPD cycles.
+- **Multiple prompt files** — switch between them by pointing the agent at a different file.
+- **Team onboarding** — new team members select the agent and immediately get the correct workflow.
