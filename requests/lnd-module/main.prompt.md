@@ -845,3 +845,14 @@ Module 01 — Installing VS Code + GitHub Copilot:
 ## UPD25
 
 Next module: Module 02. go
+
+### RESULT (UPD25)
+
+Module 02 — Installing Cursor:
+- [lnd/output/task/module-02-prompt.md](../../lnd/output/task/module-02-prompt.md) — промпт: Cursor version, settings import, workspace, code generation test, conceptual question
+- [lnd/output/task/module-02-report.md](../../lnd/output/task/module-02-report.md) — эталон: v0.48.7, imported settings, hello_world code, Python vs JS ответ
+- [lnd/output/task/module-02-autocheck.md](../../lnd/output/task/module-02-autocheck.md) — 4 required + 1 optional criteria
+
+## UPD26
+
+Next module: Module 02b. go
