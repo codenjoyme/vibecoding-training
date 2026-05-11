@@ -2,7 +2,7 @@
 
 Congratulations on completing Module 03: Version Control with Git!
 
-To verify your work, copy the prompt below and paste it into your AI assistant (Copilot Chat, Cursor Chat, etc.) in your `work/module03-task` directory. The agent will collect the data and produce a report file.
+To verify your work, copy the prompt below and paste it into the same AI assistant session where you completed the module. The agent will collect the data and produce a report file. Once the report is generated, upload the resulting `module-03-report.md` file back to the learning platform.
 
 ```
 # Module 03 — Version Control with Git: Completion Report

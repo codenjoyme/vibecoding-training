@@ -763,3 +763,17 @@ AI tasks contain details and the verification prompt. Students receive AI feedba
 - Внешний уровень — markdown с обращением к юзеру: «Congratulations… copy the prompt below and paste it into your AI assistant»
 - Внутри — один большой ` ``` ` блок с полным промптом для копирования
 - Все внутренние ` ``` ` заменены на ` ~~~ ` чтобы не ломать вложенность
+
+## UPD20
+
+В блоке 
+```
+To verify your work, copy the prompt below and paste it into your AI assistant (Copilot Chat, Cursor Chat, etc.) in your `work/module03-task` directory. The agent will collect the data and produce a report file.
+```
+надо указывать не про папку в которой ранать собираемся, а про сессию в которой мы делали что-то. И так же надо указать, что файл который получится надо загрузить сюда обратно. go
+
+### RESULT (UPD20)
+
+Обновил [lnd/output/task/module-03-prompt.md](../../lnd/output/task/module-03-prompt.md):
+- Вместо «in your `work/module03-task` directory» → «in the same AI assistant session where you completed the module»
+- Добавлено: «Once the report is generated, upload the resulting `module-03-report.md` file back to the learning platform»
