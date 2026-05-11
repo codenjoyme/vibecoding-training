@@ -120,3 +120,32 @@ Go
 
 - [readme.md](../../readme.md) — fully rewritten: concise intro, "Get Started" section linking to `quickstart.md` / `for-authors.md` / `base-course.md`, "Just Talk to Your IDE" examples for VS Code / Cursor / Claude Code, link to `modules/module-catalog.md`, brief module structure (`about.md` + `walkthrough.md` + optional `tools/`), automation architecture pointing to `instructions/creating-instructions.agent.md` + `main.agent.md` with `create-training-module.agent.md` and `training-mode.agent.md` highlighted, iterative-prompt workflow pointing to `requests/` + `iterative-prompt/SKILL.md`, and a short Contributing section
 - [modules/module-catalog.md](../../modules/module-catalog.md) — added missing modules: 076, 088, 091, 106, 107, 240, 350, 400, 500, 650, 900 
+
+## UPD9
+
+Я написал такой текст ребятам 
+```
+Hello, Everyone. 
+
+We’ll be starting our coaching sessions soon, but until then, I recommend you try my self-study training course on this program.
+https://github.com/codenjoyme/vibecoding-training/blob/main/base-course.md
+Here is how to start 
+https://github.com/codenjoyme/vibecoding-training/blob/main/quickstart.md
+This is a completely autonomous training course on agents. It’s best to complete it in your IDE using the Claude Sonnet 4.6 model.
+Feel free to ask any questions you want here or in a person.
+ 
+To save your tokens (and save all training conversation in log file) you can use workaround I implemented. 
+To enable this opportunity just write:
+Let's start training: 
+- in **iteratieve prompt** mode 
+- based on this `base-course.md`  
+ ```
+
+ Давай дополним этот `quickstart.md` данными из этого текста, чтобы можно было проходить тренинг в двух режимах: обычном и iterative prompt. И про `base-course.md` скажи, что это база с которой рекоменлдую начать. Но очень лакончино прям. Это файл не должен пугать юзера. go
+
+### RESULT (UPD9)
+
+Обновил [quickstart.md](../../quickstart.md):
+- Добавил ссылку на [base-course.md](../../base-course.md) как рекомендуемую отправную точку — одна строка вверху, без перегруза
+- Добавил секцию **Two training modes** внизу: Regular mode (default) и Iterative prompt mode — каждый в 3-5 строк с точной командой для AI Chat
+- Iterative prompt mode: кратко зачем (saves tokens, keeps full log, work at your own pace) 

@@ -1,5 +1,7 @@
 # 🚀 Quick Start
 
+> **Recommended starting point:** [base-course.md](base-course.md) — a curated list of modules for onboarding with AI-assisted development.
+
 ## Prerequisites
 
 - **Model:** Use **Claude Sonnet 4.6** (or newer) as your AI model. Select it in the model picker of your AI Chat panel.
@@ -42,3 +44,32 @@ If you have Git installed and are comfortable with the command line, this is the
    Let's start training
    ```
 4. The agent will detect the course materials and start guiding you through the modules 🤖
+
+---
+
+## Two training modes
+
+### Regular mode (default)
+
+Just type in the AI Chat:
+
+```
+Let's start training based on base-course.md
+```
+
+The agent talks to you directly in the chat window — one question, one answer, one module at a time.
+
+### Iterative prompt mode (saves tokens, keeps full log)
+
+Type in the AI Chat:
+
+```
+Let's start training in iterative prompt mode based on base-course.md
+```
+
+In this mode the agent creates a `main.prompt.md` file and all training happens inside that file — not in the chat. You write `## UPD` blocks, the agent writes `### RESULT` blocks. The file stays in git — your full training history.
+
+**Why use this mode:**
+- Saves premium requests (the agent sleeps between your updates at zero cost)
+- Full conversation history preserved in version control
+- You work at your own pace — write an update, append `go`, the agent picks it up
