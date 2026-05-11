@@ -900,3 +900,14 @@ Module 05 — Visual Context with Screenshots:
 ## UPD30
 
 Next module: Module 06. go
+
+### RESULT (UPD30)
+
+Module 06 — Agent Mode Under the Hood:
+- [lnd/output/task/module-06-prompt.md](../../lnd/output/task/module-06-prompt.md) — token generation, temperature, 4 players, context window, tool example
+- [lnd/output/task/module-06-report.md](../../lnd/output/task/module-06-report.md) — эталон: conceptual answers, read_file tool example
+- [lnd/output/task/module-06-autocheck.md](../../lnd/output/task/module-06-autocheck.md) — 5 required criteria
+
+## UPD31
+
+Next module: Module 07. go
