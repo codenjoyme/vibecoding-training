@@ -22,7 +22,7 @@ If you already have VS Code + Copilot, Cursor, or another AI-enabled IDE install
 Paste this link directly into your AI Chat (Copilot Chat, Cursor Chat, etc.):
 
 ```
-https://github.com/codenjoyme/vibecoding-training/blob/main/modules/025-downloading-course-materials/walkthrough.md
+Please follow instruction `https://github.com/codenjoyme/vibecoding-training/blob/main/quickstart.md`
 ```
 
 The agent will download the course repository, set everything up, and start guiding you through the modules — fully automatically.
@@ -41,30 +41,16 @@ If you have Git installed and are comfortable with the command line, this is the
 2. Open a **new empty workspace** in your IDE: **File → Open Folder** → select `c:/workspace/hello-genai`
 3. Open AI Chat (Copilot Chat, Cursor Chat, etc.) and type:
    ```
-   Let's start training
+   Let's start training on `base-course.md`
    ```
-4. The agent will detect the course materials and start guiding you through the modules 🤖
-
----
-
-## Two training modes
-
-### Regular mode (default)
-
-Just type in the AI Chat:
-
-```
-Let's start training based on base-course.md
-```
-
-The agent talks to you directly in the chat window — one question, one answer, one module at a time.
+4. The agent will detect the course materials and start guiding you through the modules 🤖 The agent talks to you directly in the chat window — one question, one answer, one module at a time.
 
 ### Iterative prompt mode (saves tokens, keeps full log)
 
 Type in the AI Chat:
 
 ```
-Let's start training in iterative prompt mode based on base-course.md
+Let's start training in `iterative prompt` mode based on `base-course.md`
 ```
 
 In this mode the agent creates a `main.prompt.md` file and all training happens inside that file — not in the chat. You write `## UPD` blocks, the agent writes `### RESULT` blocks. The file stays in git — your full training history.
