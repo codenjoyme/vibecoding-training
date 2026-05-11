@@ -867,3 +867,14 @@ Module 02b — Installing Claude Code via Codemie:
 ## UPD27
 
 Next module: Module 02c. go
+
+### RESULT (UPD27)
+
+Module 02c — Getting to Know Your IDE:
+- [lnd/output/task/module-02c-prompt.md](../../lnd/output/task/module-02c-prompt.md) — workspace path, files, notes.md content, terminal test, AI chat test
+- [lnd/output/task/module-02c-report.md](../../lnd/output/task/module-02c-report.md) — эталон: hello-genai, notes.md с welcome message, echo hello, 5 areas of VS Code
+- [lnd/output/task/module-02c-autocheck.md](../../lnd/output/task/module-02c-autocheck.md) — 4 required + 1 optional criteria
+
+## UPD28
+
+Next module: Module 04. go
