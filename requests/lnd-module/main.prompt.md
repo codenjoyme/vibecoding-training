@@ -777,3 +777,16 @@ To verify your work, copy the prompt below and paste it into your AI assistant (
 Обновил [lnd/output/task/module-03-prompt.md](../../lnd/output/task/module-03-prompt.md):
 - Вместо «in your `work/module03-task` directory» → «in the same AI assistant session where you completed the module»
 - Добавлено: «Once the report is generated, upload the resulting `module-03-report.md` file back to the learning platform»
+
+## UPD21
+
+Так же сделай внутри копируемого промпта в `lnd/output/task/module-03-prompt.md` чтобы результат сохранялся в файле `work/module-03-report.txt` чтобы прям явно в промпте который юзер скопирует было это указано. 
+
+И еще там указано `Run the following commands in the work/module03-task directory and collect the output` но на самом деле мы договорились про сессию. Давай это тоже поправим. go
+
+### RESULT (UPD21)
+
+Обновил [lnd/output/task/module-03-prompt.md](../../lnd/output/task/module-03-prompt.md):
+- Выходной файл: `work/module-03-report.txt` (было `module-03-report.md`)
+- Внутри промпта: «Run the following commands in the project directory where you completed the module» (было `work/module03-task`)
+- В обёртке: upload `work/module-03-report.txt`

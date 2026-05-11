@@ -2,7 +2,7 @@
 
 Congratulations on completing Module 03: Version Control with Git!
 
-To verify your work, copy the prompt below and paste it into the same AI assistant session where you completed the module. The agent will collect the data and produce a report file. Once the report is generated, upload the resulting `module-03-report.md` file back to the learning platform.
+To verify your work, copy the prompt below and paste it into the same AI assistant session where you completed the module. The agent will collect the data and produce a report file. Once the report is generated, upload the resulting `work/module-03-report.txt` file back to the learning platform.
 
 ```
 # Module 03 — Version Control with Git: Completion Report
@@ -11,7 +11,7 @@ You just completed Module 03 of the AI-assisted development training. Now genera
 
 ## Instructions
 
-Run the following commands in the `work/module03-task` directory and collect the output. Then produce a markdown report with the sections below.
+Run the following commands in the project directory where you completed the module and collect the output. Then produce a report with the sections below.
 
 ### Data to collect
 
@@ -48,7 +48,7 @@ Run the following commands in the `work/module03-task` directory and collect the
 
 ## Report format
 
-Produce a file called `module-03-report.md` with this structure:
+Produce a file called `work/module-03-report.txt` with this structure:
 
 ~~~markdown
 # Module 03 Completion Report
@@ -73,5 +73,5 @@ Produce a file called `module-03-report.md` with this structure:
 <paste git status --short output, or "clean" if nothing to report>
 ~~~
 
-Save this report as `work/module03-task/module-03-report.md`.
+Save this report as `work/module-03-report.txt`.
 ```
