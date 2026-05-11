@@ -922,3 +922,14 @@ Module 07 — Effective Prompting Without Arguing:
 ## UPD32
 
 Next module: Module 08. go
+
+### RESULT (UPD32)
+
+Module 08 — Clarifying Requirements Before Start:
+- [lnd/output/task/module-08-prompt.md](../../lnd/output/task/module-08-prompt.md) — interview technique, questions count, project_spec.md content
+- [lnd/output/task/module-08-report.md](../../lnd/output/task/module-08-report.md) — эталон: Weekly Status Report Automation, 8 questions, full spec
+- [lnd/output/task/module-08-autocheck.md](../../lnd/output/task/module-08-autocheck.md) — 4 required + 1 optional criteria
+
+## UPD33
+
+Next module: Module 09. go
