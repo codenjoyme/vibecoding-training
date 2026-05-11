@@ -752,3 +752,14 @@ AI tasks contain details and the verification prompt. Students receive AI feedba
    - Scoring: PASS / PARTIAL / NEEDS_REVIEW
    - **Fraud detection** (5 сигналов): fabricated git log (невалидные хэши), copy-paste эталона (Jane Developer), impossible timeline (одинаковые timestamps), missing raw data (проза вместо вывода команд), structure mismatch
    - Выходной формат: JSON с verdict, criteria map, flags array, comment
+
+## UPD19
+
+Давай переработаем [lnd/output/task/module-03-prompt.md](../../lnd/output/task/module-03-prompt.md) чтобы он был в маркдауне, но с обращением к юзеру. А внутри был один единственный ` ``` ` блок внутри которого будет уже сам контент для копирования. Тот оригинальный маркдаун что тут есть. Только ` ``` ` заменяем на ` ~~~ `. go
+
+### RESULT (UPD19)
+
+Переработал [lnd/output/task/module-03-prompt.md](../../lnd/output/task/module-03-prompt.md):
+- Внешний уровень — markdown с обращением к юзеру: «Congratulations… copy the prompt below and paste it into your AI assistant»
+- Внутри — один большой ` ``` ` блок с полным промптом для копирования
+- Все внутренние ` ``` ` заменены на ` ~~~ ` чтобы не ломать вложенность
