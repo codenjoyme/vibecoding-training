@@ -889,3 +889,14 @@ Module 04 — Model Selection:
 ## UPD29
 
 Next module: Module 05. go
+
+### RESULT (UPD29)
+
+Module 05 — Visual Context with Screenshots:
+- [lnd/output/task/module-05-prompt.md](../../lnd/output/task/module-05-prompt.md) — screenshot method, test, 3 scenarios, API token creation
+- [lnd/output/task/module-05-report.md](../../lnd/output/task/module-05-report.md) — эталон: Win+Shift+S, Jira page screenshot, 3 scenarios, tokens created
+- [lnd/output/task/module-05-autocheck.md](../../lnd/output/task/module-05-autocheck.md) — 4 required + 1 optional criteria
+
+## UPD30
+
+Next module: Module 06. go
