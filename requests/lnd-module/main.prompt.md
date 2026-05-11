@@ -878,3 +878,14 @@ Module 02c — Getting to Know Your IDE:
 ## UPD28
 
 Next module: Module 04. go
+
+### RESULT (UPD28)
+
+Module 04 — Model Selection:
+- [lnd/output/task/module-04-prompt.md](../../lnd/output/task/module-04-prompt.md) — model name, agent mode, technical question, code generation, file system access
+- [lnd/output/task/module-04-report.md](../../lnd/output/task/module-04-report.md) — эталон: Claude Sonnet 4.6, 1x, compiled vs interpreted, calculate_average
+- [lnd/output/task/module-04-autocheck.md](../../lnd/output/task/module-04-autocheck.md) — 5 required criteria
+
+## UPD29
+
+Next module: Module 05. go
