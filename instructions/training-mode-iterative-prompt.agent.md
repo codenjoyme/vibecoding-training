@@ -24,9 +24,24 @@ Additional benefits (regardless of billing):
 
 When a user requests training with the iterative prompt approach, **before loading the module**, do the following:
 
-### Step 1 — Brief User Onboarding
+### Step 1 — Select the Module via `vscode_askQuestions`
 
-Explain the mechanics in a few short points (localize to user's language):
+Read `training-progress.md` to find unfinished modules, then **ask the user to pick one** using `vscode_askQuestions`:
+
+```
+vscode_askQuestions:
+  question: "Which module to train in iterative prompt mode?"
+  options:
+    - "050 — Effective Prompting Without Arguing"
+    - "055 — Clarifying Requirements Before Start"
+    - "[next unfinished module]"
+```
+
+When the user selects a module (or types a freeText answer), proceed to Step 2.
+
+### Step 1b — Brief User Onboarding
+
+After the module is selected, explain the mechanics in a few short points (localize to user's language):
 
 ```
 🗂️ We'll run this training session in **iterative prompt mode**.
@@ -36,10 +51,9 @@ Here's how it works:
 2. All module content and your responses go into that file — not in this chat
 3. You communicate with me by appending `## UPD[N]` blocks to that file
 4. When you're ready for me to act, write `go` at the end of your UPD block
-5. I'll process it, write a `### RESULT` block, then sleep 60 seconds waiting for your next update
-6. You can write your next UPD at any pace — I'll pick it up automatically
+5. I'll process it, write a `### RESULT` block, then ask you via a question to continue
+6. You can also write your next UPD at any pace in the file — I'll pick it up
 
-This saves premium requests: while I'm sleeping I consume no quota.
 The file stays in git alongside the generated content — your full session history.
 ```
 
@@ -73,20 +87,20 @@ go
 
 Replace `[module-id]`, `[Module Name]`, and `[user's language]` with the actual values. **The language is determined by the language the user used when requesting training** — if they asked in Russian, set `Language: Russian`; if in English, set `Language: English`; etc.
 
-### Step 3 — Hand Off to the File AND Enter Polling Loop
+### Step 3 — Hand Off to the File AND Enter the Loop
 
 Tell the user:
 
 ```
 ✅ Created: work/NNN-[module-name]/main.prompt.md
 
-Open that file in VS Code. You'll see a ▶ Run button at the top — click it to start the agent loop.
+Open that file in VS Code to see the training content.
 From now on, write your replies and requests as new `## UPD[N]` blocks at the bottom of the file.
 Append `go` when you're done writing an update and want me to act on it.
-This chat window stays open in the background — that's fine, it's just the engine.
+I'll ask you questions via the UI to keep the loop alive — just press `go` when ready.
 ```
 
-**⚠️ CRITICAL: Immediately after sending this message and writing `### RESULT` in the current (parent) prompt file, enter the polling loop on that same parent file.** Do NOT stop and wait for the next chat message from the user. The user will communicate via the training prompt file from now on — not via chat. If you stop and respond to chat messages instead of polling the file, you break the iterative prompt pattern and defeat the purpose of the mode.
+**⚠️ CRITICAL: Immediately after sending this message and writing `### RESULT` in the prompt file, re-arm the loop using `vscode_askQuestions` (see [`runtime-ide.md`](./iterative-prompt/runtime-ide.md) for the primary mechanism).** Do NOT stop and wait for a chat message. The user communicates via the training prompt file — the `vscode_askQuestions` tool keeps your turn alive between UPDs.
 
 ---
 
@@ -152,19 +166,18 @@ These rules apply when conducting training inside a `main.prompt.md` file:
 
 3. **Wait for `go` before acting** — If an `## UPD[N]` block exists but does not end with `go`, the user is still typing. Sleep and check again.
 
-4. **Polling loop** — After writing `### RESULT` for the last UPD:
-   - Run `Start-Sleep -Seconds 60` (Windows) or `sleep 60` (Linux/macOS) in **sync** mode
-   - Re-read the full `main.prompt.md`
-   - Check for new `## UPD` blocks ending with `go`
-   - If found → process immediately, write `### RESULT`, commit, then return to sleep
-   - If not found → sleep again
-   - **Never stop the loop** — keep it alive until user explicitly closes the agent
-   - **⛔ CRITICAL: Chat messages do NOT break the loop.** If the user sends a message in the VS Code chat window while the polling loop is active, do NOT exit the loop and respond only in chat. Instead:
+4. **Loop re-arming** — After writing `### RESULT` for the last UPD, re-arm using `vscode_askQuestions` as described in [`runtime-ide.md`](./iterative-prompt/runtime-ide.md):
+   - Ask the user: `"UPD[N] done. Continue?"` with options `["go", "stop"]`
+   - When `go` → read the prompt file for new UPD blocks ending with `go`
+   - If found → process, write `### RESULT`, commit, ask again
+   - If **no new block** → auto-generate `## UPD[N+1]\ncontinue. go\n` and process it (this keeps the training flowing)
+   - **Never stop the loop** — keep it alive until user explicitly says `stop`
+   - **⛔ CRITICAL: Chat messages do NOT break the loop.** If the user sends a message in the VS Code chat window while the loop is active:
      1. Apply any fix or change requested by the chat message
      2. Write the result as a `### RESULT` block inside the **active training prompt file** (not only in chat)
      3. Commit the changes
-     4. Return to Step A immediately (sleep again)
-     The only valid reason to stop the loop is the user explicitly typing "stop" or "exit loop" in the chat.
+     4. Re-arm via `vscode_askQuestions` again
+     The only valid reason to stop the loop is the user explicitly typing `stop` or `exit loop`.
 
 5. **Commit after each RESULT** — Follow the project git workflow. Each UPD cycle = one commit. This builds a clean history of the training session.
 

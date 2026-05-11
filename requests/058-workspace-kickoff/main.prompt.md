@@ -1231,3 +1231,44 @@ RESULT: Добавлены подразделы в `runtime-ide.md`:
 > Обнови iterative prompt в области ide + question чтобы перед каждым новым вопросом ты отчитывался о проделанной работе до сих пор.
 
 RESULT: Добавлен подраздел `Progress report before re-arming` в `runtime-ide.md` — перед каждым `vscode_askQuestions` агент коротко отчитывается: что сделано, текущее состояние, pending items.
+
+## UPD48
+
+Смотри что я попробовал. 
+Я написал `Давай пройдем курс в итеративном промпт подходе любой модуль` на что ты загрузил инструкцию `instructions/training-mode-iterative-prompt.agent.md` и написал: 
+
+```
+Отлично! Давай в итеративном промпт-режиме. Сначала выберем модуль — у тебя несколько незавершённых. Вот ближайшие кандидаты:
+
+035 — Visual Context Screenshots (начат, но не завершён)
+050 — Effective Prompting Without Arguing
+055 — Clarifying Requirements Before Start
+057 — Agent Memory Management
+064 — Debugging AI-Generated Code
+Какой хочешь пройти? Или я выберу следующий по порядку (050)?
+
+А пока — напоминаю как работает итеративный промпт:
+
+🗂️ Мы проведём тренинг в iterative prompt mode.
+
+Я создам файл main.prompt.md в work/NNN-[module-name]/
+Весь контент модуля и твои ответы идут в этот файл — не в чат
+Ты общаешься со мной через блоки ## UPD[N] в конце файла
+Когда готов — пишешь go в конце блока UPD
+Я обработаю, напишу ### RESULT, потом засыпаю на 60 сек в ожидании следующего обновления
+Ты пишешь в своём темпе — я подхвачу автоматически
+Файл остаётся в git — полная история сессии.
+```
+И дальше ты остановился. А я бы хотел чтобы ты задал вопрос question. Потому поправь `instructions/training-mode-iterative-prompt.agent.md` под новую возможность. go
+
+### RESULT (UPD48) — training-mode-iterative-prompt.agent.md updated for vscode_askQuestions
+
+Обновил [instructions/training-mode-iterative-prompt.agent.md](../../instructions/training-mode-iterative-prompt.agent.md):
+
+1. **Step 1** → `vscode_askQuestions` для выбора модуля — вместо простого списка в чате агент предлагает structured question с options из незавершённых модулей.
+2. **Step 1b** — onboarding текст обновлён: вместо «sleep 60 seconds» → «ask you via a question to continue».
+3. **Step 3** — hand-off переписан: вместо «click Run button + polling loop» → «re-arm via vscode_askQuestions per runtime-ide.md».
+4. **Rule 4 (Polling loop)** → **Loop re-arming** — `vscode_askQuestions` как primary, `Start-Sleep` убран. Auto-generate `continue. go` если пользователь нажал go без нового UPD. Re-arm после каждого chat-сообщения.
+
+Файлы:
+- M [instructions/training-mode-iterative-prompt.agent.md](../../instructions/training-mode-iterative-prompt.agent.md)
