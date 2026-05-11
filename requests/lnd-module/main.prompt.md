@@ -1006,3 +1006,71 @@ All artifacts in `lnd/output/task/module-{12..20}-{prompt,report,autocheck}.md`
 ### RESULT (UPD38)
 
 Откатил изменения module-04 файлов. "Technical Question Test" — это не квиз, а проверка того, что студент реально задал AI технический вопрос в IDE и получил ответ. Оставляем как есть.
+
+## UPD39
+
+Так смотри, я хочу чтобы ты загрузил все на портал, создав новые задания. Я тебе буду показывать скрины, а ты научившись на одном зальешь остальное. Не коммить без меня, мне важно чтобы ты подтер потом все упоминания сайтов и деталей проекта. Вот линк (его тоже потом замени на `*****`).  
+Открой `*****` через chrome mcp - я залогинюсь на сайт. go
+
+### RESULT (UPD39)
+
+Открыл страницу `*****` через Chrome MCP. Браузер готов — страница загружена. Жду скрин/инструкцию как создавать задания на портале, чтобы потом залить остальные модули.
+
+## UPD40
+
+Теперь смотри там открыто для модуля 03 все. Изучи табчики. В Settings:
+-  надо указать название модуля как у нас называется. 
+- Только галочка `Allow overdue submissions` включена.
+
+В Content: 
+- А textarea вставляется `lnd/output/task/module-03-prompt.md` содержимое as is.
+
+В AI Settings: 
+- Textarea Prompt вставляется `lnd/output/task/module-03-autocheck.md` содержимое as is.
+- Model: `Claude Sonnet 4.5`
+- Галочка стоит для `Anti-cheating check` 
+- Галочка стоит для `Allow students copy/paste`
+
+Ну и все. Покликай по страничкам. Придумай какую-то инъекцию джаваскриптовую, чтобы сразу все устанавливать. Потом жмешь сейв и создаешь нвоый модуль:
+- Клик на `+ Add task`
+- Открывается окошко, там выбираем `AI`
+- `Task creating method` - `Manually`.
+- `Task name` - имя мрдуля как я писал выше. 
+
+Вот и когда узнаешь все эти детали, то создай мне инструкцию в `instructions/lnd` для того чтобы инджектить это все. Все чему научишься запиши туда. Но только чтобы не сильно сливать инфу что за сайт и так далее. Просто общая инструкция по созданию AI задания на платформе, чтобы потом когда надо будет что-то обновить - опираться на нее. 
+
+Так сделай мне для всех модулей от `04` и до конца. Задания для `01` и `02` не надо. go
+
+### RESULT (UPD40)
+
+Создано 17 AI-заданий на платформе (modules 04–20) через Chrome MCP + browser API injection.
+
+**Подход:** Исследовал REST API платформы через network inspector, создал JS-функцию `createTaskB64` для browser scope, которая за 3 API-вызова создаёт задание.
+
+**Критичные детали формата API** (обнаружены через отладку) так же реализованы в инструкции.
+
+**Созданные задания:**
+
+| Module | Task ID | Name |
+|--------|---------|------|
+| 04 | `******` | module-04-model-selection |
+| 05 | `******` | module-05-visual-context-screenshots |
+| 06 | `******` | module-06-agent-mode-under-the-hood |
+| 07 | `******` | module-07-effective-prompting-without-arguing |
+| 08 | `******` | module-08-clarifying-requirements-before-start |
+| 09 | `******` | module-09-agent-memory-management |
+| 10 | `******` | module-10-custom-instructions |
+| 11 | `******` | module-11-learning-from-hallucinations |
+| 12 | `******` | module-12-ai-skills-tools-creation |
+| 13 | `******` | module-13-mcp-model-context-protocol |
+| 14 | `******` | module-14-mcp-github-integration-issues |
+| 15 | `******` | module-15-bulk-file-processing |
+| 16 | `******` | module-16-development-environment-setup |
+| 17 | `******` | module-17-rapid-prototyping-speckit |
+| 18 | `******` | module-18-chrome-devtools-mcp-qa |
+| 19 | `******` | module-19-github-coding-agent-delegation |
+| 20 | `******` | module-20-dial-api-curl |
+
+**Файлы:**
+- [instructions/lnd/upload-tasks-to-platform.agent.md](../../instructions/lnd/upload-tasks-to-platform.agent.md) — инструкция по загрузке заданий на платформу через API (добавлена в `.gitignore`, не коммитим)
+- `work/task-{05..20}-{pb,ab}.txt` — base64 артефакты (промежуточные, не коммитим)
