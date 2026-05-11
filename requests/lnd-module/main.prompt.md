@@ -738,3 +738,17 @@ AI tasks contain details and the verification prompt. Students receive AI feedba
 
 - A [lnd/output/task/module-03-prompt.md](../../lnd/output/task/module-03-prompt.md) — промпт для студента: инструкция какие git-команды запустить (`git log --oneline --stat`, `git config user.name`, `cat .gitignore`, `git ls-files`, `git status`), формат отчёта, и **verification criteria для авточекера** (6 критериев: identity configured, ≥2 commits, meaningful messages, .gitignore contains .env, calculator files tracked, clean working tree; scoring PASS/PARTIAL/NEEDS REVIEW)
 - A [lnd/output/task/module-03-report.md](../../lnd/output/task/module-03-report.md) — эталонный отчёт: 3 коммита (initial → .gitignore → multiply), identity Jane Developer, .gitignore с .env + Python + IDE patterns, 4 tracked files, working tree с только report файлом
+
+## UPD18
+
+Ах да, я забыл еще один файл мне нужен. Что вставлять собственно вовнутрь самого авточекера. Ты написал там `## Verification criteria (for autocheck model)` вот его выдели, чтобы юзеру критерии были не известны. И создай на базе него отдельный файл. Там так же расскажи про структуру того что стоит ждать на входе и как его проверять. Если структура не совпадает сильно или есть какие-то попытки считерить, то пусть этот промпт сигнализирует об этом. go 
+
+### RESULT (UPD18)
+
+1. Из [lnd/output/task/module-03-prompt.md](../../lnd/output/task/module-03-prompt.md) убрана секция `## Verification criteria` — студент больше не видит критерии проверки.
+2. Создан [lnd/output/task/module-03-autocheck.md](../../lnd/output/task/module-03-autocheck.md) — промпт для авточекера:
+   - Описана ожидаемая структура входного отчёта (все секции с примерами)
+   - 6 критериев проверки (5 required + 1 optional) с описанием как верифицировать каждый
+   - Scoring: PASS / PARTIAL / NEEDS_REVIEW
+   - **Fraud detection** (5 сигналов): fabricated git log (невалидные хэши), copy-paste эталона (Jane Developer), impossible timeline (одинаковые timestamps), missing raw data (проза вместо вывода команд), structure mismatch
+   - Выходной формат: JSON с verdict, criteria map, flags array, comment

@@ -67,21 +67,3 @@ Produce a file called `module-03-report.md` with this structure:
 ```
 
 Save this report as `work/module03-task/module-03-report.md`.
-
----
-
-## Verification criteria (for autocheck model)
-
-The autocheck model should verify the following:
-
-1. **Git identity is configured** — `user.name` and `user.email` are non-empty.
-2. **At least 2 commits exist** — the student practiced baby steps (initial commit + at least one feature commit).
-3. **Commit messages are meaningful** — not empty, not default, describe what was changed.
-4. **.gitignore exists and contains `.env`** — the student followed the security practice.
-5. **Calculator files are tracked** — `calculator.py` and `main.py` appear in `git ls-files`.
-6. **Working tree is clean or has only the report file** — the student committed their work.
-
-Scoring:
-- All 6 criteria met = PASS
-- 4–5 criteria met = PARTIAL (note which are missing)
-- < 4 criteria met = NEEDS REVIEW
