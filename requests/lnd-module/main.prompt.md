@@ -990,3 +990,19 @@ All artifacts in `lnd/output/task/module-{12..20}-{prompt,report,autocheck}.md`
 ## RESULT (UPD37)
 
 Проверил все 60 файлов в `lnd/output/task/` и инструкцию `instructions/lnd/create-module-task-artifacts.agent.md` — упоминаний "quiz" нет ни в одном из них. Артефакты изначально были созданы без квизов (проверяется только практическая работа в IDE). Изменений не потребовалось.
+
+## UPD38
+
+НУ как же, а вот файл `lnd/output/task/module-04-autocheck.md` c 19 по 21 строчку:
+```
+## Technical Question Test
+- Question: <question>
+- Response (first 2–3 sentences): <response>
+```
+Это что? go
+
+Не, ладно, давай откатим. Ты меня убедил, что там все ок. go
+
+### RESULT (UPD38)
+
+Откатил изменения module-04 файлов. "Technical Question Test" — это не квиз, а проверка того, что студент реально задал AI технический вопрос в IDE и получил ответ. Оставляем как есть.
