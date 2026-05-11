@@ -933,3 +933,14 @@ Module 08 — Clarifying Requirements Before Start:
 ## UPD33
 
 Next module: Module 09. go
+
+### RESULT (UPD33)
+
+Module 09 — Agent Memory Management:
+- [lnd/output/task/module-09-prompt.md](../../lnd/output/task/module-09-prompt.md) — backlog.md content, 3 memory approaches, why agents forget
+- [lnd/output/task/module-09-report.md](../../lnd/output/task/module-09-report.md) — эталон: backlog с Completed/InProgress/ToDo, 3 approaches
+- [lnd/output/task/module-09-autocheck.md](../../lnd/output/task/module-09-autocheck.md) — 4 required + 1 optional criteria
+
+## UPD34
+
+Next module: Module 10. go
