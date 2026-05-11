@@ -1,0 +1,87 @@
+# Module 03 — Version Control with Git: Completion Report
+
+You just completed Module 03 of the AI-assisted development training. Now generate a completion report so the autocheck system can verify your work.
+
+## Instructions
+
+Run the following commands in the `work/module03-task` directory and collect the output. Then produce a markdown report with the sections below.
+
+### Data to collect
+
+1. **Git identity:**
+   ```
+   git config user.name
+   git config user.email
+   ```
+
+2. **Commit history (full log with stats):**
+   ```
+   git log --oneline --stat
+   ```
+
+3. **Number of commits:**
+   ```
+   git rev-list --count HEAD
+   ```
+
+4. **.gitignore contents:**
+   ```
+   cat .gitignore
+   ```
+
+5. **Current tracked files:**
+   ```
+   git ls-files
+   ```
+
+6. **Working tree status:**
+   ```
+   git status --short
+   ```
+
+## Report format
+
+Produce a file called `module-03-report.md` with this structure:
+
+```markdown
+# Module 03 Completion Report
+
+## Git Identity
+- Name: <user.name>
+- Email: <user.email>
+
+## Commit History
+<paste full git log --oneline --stat output>
+
+## Commit Count
+<number>
+
+## .gitignore Contents
+<paste .gitignore content>
+
+## Tracked Files
+<paste git ls-files output>
+
+## Working Tree Status
+<paste git status --short output, or "clean" if nothing to report>
+```
+
+Save this report as `work/module03-task/module-03-report.md`.
+
+---
+
+## Verification criteria (for autocheck model)
+
+The autocheck model should verify the following:
+
+1. **Git identity is configured** — `user.name` and `user.email` are non-empty.
+2. **At least 2 commits exist** — the student practiced baby steps (initial commit + at least one feature commit).
+3. **Commit messages are meaningful** — not empty, not default, describe what was changed.
+4. **.gitignore exists and contains `.env`** — the student followed the security practice.
+5. **Calculator files are tracked** — `calculator.py` and `main.py` appear in `git ls-files`.
+6. **Working tree is clean or has only the report file** — the student committed their work.
+
+Scoring:
+- All 6 criteria met = PASS
+- 4–5 criteria met = PARTIAL (note which are missing)
+- < 4 criteria met = NEEDS REVIEW
