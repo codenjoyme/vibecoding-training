@@ -64,3 +64,5 @@ iterative-prompt/SKILL.md
 ## UPD5
 
 Давай выпилим полностью все, что касается гугл транслейта. Весь перевод делает модель.  
+
+И еще отдельно сделай импрувмент iterative prompt потому что сейчас есть четыре опции, а по сути три. 3я и 4я ![alt text](requests/058-workspace-kickoff/image7.png) это по сути одно и то же. Давай объедингим. И отчитайся в промпте `requests/058-workspace-kickoff/main.prompt.md` про это. go
