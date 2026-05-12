@@ -122,9 +122,10 @@ iterative-prompt/SKILL.md
 
 И то же для `https://openai.com/index/harness-engineering/` go
 
-### RESULT (UPD9) — в процессе
+### RESULT (UPD9)
 
 1. **Саммари HackerNoon (Dark Factory)** → [summary-dark-factory.md](summary-dark-factory.md) — 4 фазы, ключевые советы, математика, риски
-2. **Перевод simonwillison.net** → открыта в Chrome, переведено 118 из 176 текстовых нод → скриншот [translated-simonwillison.png](translated-simonwillison.png)
+2. **Перевод simonwillison.net** → открыта в Chrome, переведено 118/176 нод → скриншот [translated-simonwillison.png](translated-simonwillison.png)
 3. **Саммари Simon Willison** → [summary-software-factory.md](summary-software-factory.md) — мантра команды, holdout-сценарии, DTU, выпущенное ПО, скептицизм по стоимости
-4. **openai.com/index/harness-engineering/** — следующий шаг...
+4. **Перевод openai.com** → переведено 159/315 нод (основной контент) → скриншот [translated-openai-harness.png](translated-openai-harness.png)
+5. **Саммари OpenAI Harness Engineering** → [summary-harness-engineering.md](summary-harness-engineering.md) — 0 строк ручного кода, AGENTS.md как оглавление, agent legibility, архитектурные инварианты, сборка мусора
