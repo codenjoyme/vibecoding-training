@@ -8,9 +8,9 @@
 ## Topics
 
 - Using Chrome DevTools MCP for website translation
-- Google Translate redirect URL pattern
+- AI model-powered text extraction, translation, and DOM injection
 - Automating browser navigation with AI agent
-- Handling translation edge cases (X-Frame-Options, special characters)
+- Handling translation edge cases (dynamic content, code snippets, long pages)
 - Taking screenshots to verify translation results
 
 ## Learning Outcome

@@ -71,3 +71,15 @@ iterative-prompt/SKILL.md
 
 - Модифицирован [instructions/iterative-prompt/runtime-ide.md](../../instructions/iterative-prompt/runtime-ide.md) — убрана опция `"Other"` из options, она дублировала встроенное freeform input поле (4я строка на скриншоте). Теперь: `["go", "stop"]` + freeform field = 3 способа ответить
 - Отчёт добавлен в [requests/058-workspace-kickoff/main.prompt.md](../058-workspace-kickoff/main.prompt.md) как UPD49 + RESULT
+
+## UPD6
+ 
+Я просил так же `Давай выпилим полностью все, что касается гугл транслейта. Весь перевод делает модель.` это по текущему `260` модулю и его скилу. Гугл транслейта мне там не надо. go  
+
+### RESULT (UPD6)
+
+Полностью убраны все упоминания Google Translate из модуля 260:
+
+- [modules/260-translate-site/walkthrough.md](../../modules/260-translate-site/walkthrough.md) — полная переписка: Part 1 теперь описывает extract→translate→inject pipeline; Part 3 — edge cases для DOM-based translation (вместо X-Frame-Options/Google Translate redirect); Success Criteria и Understanding Check обновлены под новый подход
+- [modules/260-translate-site/about.md](../../modules/260-translate-site/about.md) — Topics: убран "Google Translate redirect URL pattern", добавлен "AI model-powered text extraction, translation, and DOM injection"
+- [modules/260-translate-site/tools/translate-site/SKILL.md](../../modules/260-translate-site/tools/translate-site/SKILL.md) — уже чист (v2.0 из UPD4)

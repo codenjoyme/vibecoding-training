@@ -6,35 +6,32 @@
 
 | Part | What | Outcome |
 |------|------|---------|
-| 1 | Understand the translate-site skill | Know how Google Translate redirect works |
-| 2 | Translate your first site | Successfully translate a real website |
-| 3 | Handle edge cases | Deal with blocked sites, special characters |
+| 1 | Understand the translate-site skill | Know how the AI model extracts, translates, and injects text |
+| 2 | Translate your first site | Successfully translate a real website using the AI model |
+| 3 | Handle edge cases | Deal with dynamic content, long pages, code snippets |
 | 4 | Build your own translation workflow | Customize and extend the skill |
 
 ---
 
 ## Part 1 — How the Translate-Site Skill Works
 
-The [translate-site skill](tools/translate-site/SKILL.md) uses a simple but powerful pattern: it builds a Google Translate redirect URL and opens it in Chrome via the DevTools MCP server.
+The [translate-site skill](tools/translate-site/SKILL.md) uses a three-step pipeline — entirely powered by the AI model, no external translation service required:
 
-The URL pattern:
-```
-https://translate.google.com/translate?sl=auto&tl={lang_code}&u={site_url}
-```
+1. **Extract** — a JavaScript TreeWalker collects all visible text nodes from the page DOM (up to 200 fragments)
+2. **Translate** — the AI model translates each text fragment to the target language
+3. **Inject** — another script replaces the original text nodes with translated versions in-place
 
-- `sl=auto` — auto-detect source language
-- `tl={lang_code}` — target language (e.g. `fr`, `uk`, `ja`)
-- `u={site_url}` — the website to translate
+The translations are embedded directly in the injection script (Chrome DevTools MCP `args` expect element UIDs, not arbitrary strings).
 
 ### Try it
 
 1. Make sure Chrome DevTools MCP is running (see [module 130](../130-chrome-devtools-mcp-qa-emulation/about.md))
 2. Ask the agent: **"Translate https://example.com to French"**
-3. The agent will build the URL, navigate Chrome, and take a screenshot
+3. The agent will navigate to the site, extract text, translate it, inject back, and take a screenshot
 
 ### What just happened?
 
-The agent followed the skill's 5 steps: resolve language code → build URL → navigate → wait for load → screenshot. All automated, no manual work.
+The agent followed the skill's 5 steps: navigate → extract text nodes → translate with AI → inject back into DOM → screenshot. The AI model itself did the translation — no API keys, no third-party services.
 
 ---
 
@@ -44,7 +41,7 @@ Now try with a real site you use:
 
 1. Pick any website (documentation, news, blog)
 2. Ask: **"Translate [your URL] to [language]"**
-3. Verify the result in the screenshot
+3. Verify the result in the screenshot — the page should look the same but with translated text
 
 ### Experiment
 
@@ -56,18 +53,15 @@ Now try with a real site you use:
 
 ## Part 3 — Edge Cases and Troubleshooting
 
-Some sites resist translation. Here's what to do:
+Some sites present challenges for DOM-based translation:
 
 | Problem | Cause | Solution |
 |---------|-------|----------|
-| Page shows "refused to connect" | `X-Frame-Options` header blocks embedding | Use Chrome's built-in translate or the script injection fallback |
-| Translation is partial | Dynamic content loaded after translate | Wait longer, or scroll to trigger lazy-load |
-| Special characters in URL | URL not properly encoded | Agent handles percent-encoding automatically |
-| Wrong source language detected | Short text or mixed languages | Specify source language manually: `sl=en` instead of `sl=auto` |
-
-### Try the fallback
-
-If Google Translate redirect doesn't work for a site, the skill includes a fallback approach using `evaluate_script` to inject translation directly into the page. This requires a Google Cloud Translation API key.
+| Translation is partial | Dynamic content loaded after extraction | Scroll down first to trigger lazy-load, then re-extract |
+| Code snippets get translated | Code inside `<pre>`/`<code>` tags picked up by TreeWalker | The AI model should recognize code and skip it — if not, add tag filters |
+| Layout breaks | Translated text is longer/shorter than original | Cosmetic only — the translation itself is correct |
+| Too many text nodes | Page has >200 visible text fragments | Increase the cap in the extraction script or process in batches |
+| Cookie/popup overlay covers text | Overlay is in a separate DOM layer | Dismiss the overlay first, then extract |
 
 ---
 
@@ -94,12 +88,12 @@ Create a `work/260-task/` folder and write a prompt that:
 
 - [ ] Translated at least one website using the agent command
 - [ ] Tried at least 2 different target languages
-- [ ] Understood the Google Translate redirect URL pattern
-- [ ] Know how to handle sites that block translation
+- [ ] Understood the extract → translate → inject pipeline
+- [ ] Know how to handle edge cases (dynamic content, code snippets, long pages)
 
 ## Understanding Check
 
-1. What URL pattern does the skill use for translation?
-2. What does `sl=auto` mean in the redirect URL?
-3. What happens when a site has `X-Frame-Options` that blocks Google Translate?
-4. How would you translate a site to a language not in the default table?
+1. What are the three steps the skill uses to translate a page?
+2. Why are translations embedded directly in the injection script instead of passed as arguments?
+3. What happens with code snippets inside `<pre>` or `<code>` tags?
+4. How would you translate a site to a language the AI model hasn't seen before?
