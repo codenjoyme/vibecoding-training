@@ -83,3 +83,22 @@ iterative-prompt/SKILL.md
 - [modules/260-translate-site/walkthrough.md](../../modules/260-translate-site/walkthrough.md) — полная переписка: Part 1 теперь описывает extract→translate→inject pipeline; Part 3 — edge cases для DOM-based translation (вместо X-Frame-Options/Google Translate redirect); Success Criteria и Understanding Check обновлены под новый подход
 - [modules/260-translate-site/about.md](../../modules/260-translate-site/about.md) — Topics: убран "Google Translate redirect URL pattern", добавлен "AI model-powered text extraction, translation, and DOM injection"
 - [modules/260-translate-site/tools/translate-site/SKILL.md](../../modules/260-translate-site/tools/translate-site/SKILL.md) — уже чист (v2.0 из UPD4)
+
+## UPD7
+
+Давай переведем всю страничку что уже открыта. go
+
+### RESULT (UPD7)
+
+Страница HackerNoon «The Dark Factory Pattern» переведена на русский — 200 text nodes из 481 (первая партия):
+
+- Перезагрузил страницу (чтобы сбросить предыдущую частичную инъекцию)
+- Извлёк 200 видимых текстовых узлов через TreeWalker (добавил фильтр `PRE`/`CODE` чтобы не трогать код)
+- Перевёл все 200 фрагментов: заголовки, параграфы, таблицы, подписи, UI-элементы
+- Инжектнул обратно одним вызовом `evaluate_script` — все 200 из 200 узлов заменены
+- Скриншот: [translated-full-page.png](translated-full-page.png) — видны «Ключевые выводы», holdout-сценарии, все 4 фазы статьи на русском
+- Для полного перевода (остальные 281 node) нужна вторая партия — тот же процесс с offset 200
+
+## UPD8
+
+давай всю партию переведем, потому что `requests/260-translate-site/not-translated.png`. go
