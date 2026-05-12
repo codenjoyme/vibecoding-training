@@ -22,12 +22,10 @@ Ask the user at the end of every turn:
 ```
 vscode_askQuestions:
   question: "UPD[N] closed. Continue?"
-  options: ["go", "stop", "Other"]
+  options: ["go", "stop"]
 ```
 
-### ⚠️ CRITICAL: Always include "Other" option
-
-Every `vscode_askQuestions` call that provides predefined options **MUST** include an `"Other"` option (or equivalent like `"Other (type your own)"`) as the last choice. This ensures the user always sees they can type a freeform answer — redirect, clarify, ask a question, or give a completely different instruction. Never present a closed list of options without an escape hatch.
+The freeform text input field is always visible by default (`allowFreeformInput: true`). Do **NOT** add an "Other" option — it duplicates the built-in freeform input and clutters the UI. Several options (depend on context) + freeform field = these ways to respond, which is exactly right.
 
 When the answer is `go`:
 1. Read the last 30 lines of the prompt file to find the new `## UPD[N+1]` block.
