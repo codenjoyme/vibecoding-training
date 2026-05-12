@@ -111,3 +111,20 @@ iterative-prompt/SKILL.md
 - Итого: ~302 из 481 узлов переведены моделью (179 — untranslatable: имена авторов, URL, теги, коды)
 - Скриншоты: [translated-full-page.png](translated-full-page.png) (верх), [translated-bottom.png](translated-bottom.png) (статья)
 - Добавлен фильтр `PRE`/`CODE` в TreeWalker для пропуска code snippets
+
+## UPD9
+
+Сделай мне саммари статьи, до основных советов, которые она рекомендует. Сложи тут рядом с риквестом. 
+
+Давай в новой вкладке откроем и переведем так же полностью статью `https://simonwillison.net/2026/Feb/7/software-factory/?ref=hackernoon.com` 
+
+И по ней тоже напишем саммари на русском рядом с риквестом. 
+
+И то же для `https://openai.com/index/harness-engineering/` go
+
+### RESULT (UPD9) — в процессе
+
+1. **Саммари HackerNoon (Dark Factory)** → [summary-dark-factory.md](summary-dark-factory.md) — 4 фазы, ключевые советы, математика, риски
+2. **Перевод simonwillison.net** → открыта в Chrome, переведено 118 из 176 текстовых нод → скриншот [translated-simonwillison.png](translated-simonwillison.png)
+3. **Саммари Simon Willison** → [summary-software-factory.md](summary-software-factory.md) — мантра команды, holdout-сценарии, DTU, выпущенное ПО, скептицизм по стоимости
+4. **openai.com/index/harness-engineering/** — следующий шаг...
