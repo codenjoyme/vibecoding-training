@@ -101,4 +101,13 @@ iterative-prompt/SKILL.md
 
 ## UPD8
 
-давай всю партию переведем, потому что `requests/260-translate-site/not-translated.png`. go
+давай всю партию переведем, потому что [requests/260-translate-site/not-translated.png](not-translated.png). go
+
+### RESULT (UPD8)
+
+Переведена вся статья в два батча:
+- **Batch 1** (nodes 0-199): 200 узлов — заголовок, ключевые выводы, фазы 1-4
+- **Batch 2** (nodes 200-399): 102 узла — архитектура, риски, советы, комментарии, навигация (остальные 98 — имена, ссылки, теги, не требующие перевода)
+- Итого: ~302 из 481 узлов переведены моделью (179 — untranslatable: имена авторов, URL, теги, коды)
+- Скриншоты: [translated-full-page.png](translated-full-page.png) (верх), [translated-bottom.png](translated-bottom.png) (статья)
+- Добавлен фильтр `PRE`/`CODE` в TreeWalker для пропуска code snippets
