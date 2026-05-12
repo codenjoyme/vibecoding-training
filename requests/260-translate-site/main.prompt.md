@@ -24,3 +24,43 @@ iterative-prompt/SKILL.md
 - Создан [modules/260-translate-site/about.md](../../modules/260-translate-site/about.md) — описание модуля, prerequisites (зависимость от модуля 130), topics, learning outcome, when to use
 - Создан [modules/260-translate-site/walkthrough.md](../../modules/260-translate-site/walkthrough.md) — 4 Parts: как работает скилл, перевод реального сайта, edge cases и troubleshooting, расширение workflow
 - SKILL.md обновлён: версия 1.1.0, ссылка на модуль 130 как кликабельный markdown link
+
+## UPD3
+
+Давай переведем страничку `https://hackernoon.com/the-dark-factory-pattern-moving-from-ai-assisted-to-fully-autonomous-coding` следуюя скилу. Я хочу видеть это. go 
+
+### RESULT (UPD3)
+
+- Страница переведена на русский (язык определён из контекста диалога) через Google Translate redirect
+- URL: `https://translate.google.com/translate?sl=auto&tl=ru&u=https://hackernoon.com/...`
+- Google Translate определил English автоматически → Russian
+- Результат: **«Паттерн "Тёмной фабрики": переход от программирования с...»**
+- Скриншот: [requests/260-translate-site/translated-hackernoon.png](translated-hackernoon.png)
+- Скилл отработал по шагам: resolve lang → build URL → navigate → wait → screenshot ✅
+
+## UPD4
+
+Не не, я совсем другую штуку хотел. Мне не нужен гугл транслейт. Я хочу чтобы это упражнение по переводу сделала сама моделька. Скилл должен через chrome devtool mcp достать все предложения на сайте. А моделька переводит, и инджектит назад. Так можно? go
+
+### RESULT (UPD4)
+
+Да, можно! Полностью переписал скилл v2.0 — теперь **AI-модель сама переводит**, без Google Translate:
+
+**Новый flow:**
+1. Navigate → открываем оригинальный сайт
+2. Extract → `evaluate_script` собирает до 200 видимых text nodes через TreeWalker
+3. Translate → модель сама переводит каждый фрагмент
+4. Inject → `evaluate_script` с переводами inline в функции (баг-фикс: `args` в Chrome DevTools MCP ожидает UIDs, не строки)
+5. Screenshot → подтверждение
+
+**Протестировано на HackerNoon** — 50 text nodes переведены на русский:
+- Скриншот: [translated-by-ai.png](translated-by-ai.png)
+- Заголовок: «Паттерн «Тёмная фабрика»: от кодинга с помощью ИИ к полностью автономной разработке»
+- Меню, кнопки, метаданные — всё переведено моделью
+
+**Файлы изменены:**
+- [modules/260-translate-site/tools/translate-site/SKILL.md](../../modules/260-translate-site/tools/translate-site/SKILL.md) — v2.0, полная переписка: убран Google Translate, добавлен extract→translate→inject pipeline
+
+## UPD5
+
+Давай выпилим полностью все, что касается гугл транслейта. Весь перевод делает модель.  
