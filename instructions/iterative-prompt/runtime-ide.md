@@ -22,8 +22,12 @@ Ask the user at the end of every turn:
 ```
 vscode_askQuestions:
   question: "UPD[N] closed. Continue?"
-  options: ["go", "stop"]
+  options: ["go", "stop", "Other"]
 ```
+
+### ⚠️ CRITICAL: Always include "Other" option
+
+Every `vscode_askQuestions` call that provides predefined options **MUST** include an `"Other"` option (or equivalent like `"Other (type your own)"`) as the last choice. This ensures the user always sees they can type a freeform answer — redirect, clarify, ask a question, or give a completely different instruction. Never present a closed list of options without an escape hatch.
 
 When the answer is `go`:
 1. Read the last 30 lines of the prompt file to find the new `## UPD[N+1]` block.

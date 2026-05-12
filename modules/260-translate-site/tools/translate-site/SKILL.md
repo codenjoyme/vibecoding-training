@@ -1,14 +1,14 @@
 ---
 name: translate-site
 description: Translate any website to any language using Chrome DevTools MCP — navigates to the site and applies translation via Google Translate redirect or in-page script injection.
-version: 1.0.0
+version: 1.1.0
 ---
 
 ## translate-site skill
 
 Opens any website in Chrome via Chrome DevTools MCP and translates it into the requested language.
 
-**Requires:** Chrome DevTools MCP configured and running (see `modules/130-chrome-devtools-mcp-qa-emulation`).
+**Requires:** Chrome DevTools MCP configured and running (see [modules/130-chrome-devtools-mcp-qa-emulation](../../../130-chrome-devtools-mcp-qa-emulation/about.md)).
 
 ---
 
