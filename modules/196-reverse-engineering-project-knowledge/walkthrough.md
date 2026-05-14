@@ -317,6 +317,180 @@ After processing all pairs, ask the AI to deduplicate and organize the accumulat
 
 ---
 
+## Part 8: Manifest-driven workflow — tracking what you've processed
+
+**What we're about to learn:** When you're analyzing a real project with hundreds of commits, you need a way to track which commits have been processed, which are queued, and which should be skipped. The manifest pattern solves this.
+
+### The problem with bulk processing
+
+In Part 7, the simple script just iterates through all commits. But in practice you need:
+
+- **Resume capability** — stop and continue later without re-processing
+- **Selective processing** — skip merge commits, docs-only changes, CI config
+- **Progress visibility** — see at a glance how much of the history is covered
+- **Team coordination** — multiple people can review and select commits to analyze
+
+### The manifest file
+
+The advanced tool in [tools/task4/analyze-commit-history](tools/task4/analyze-commit-history/SKILL.md) introduces a **commit manifest** — a markdown file with checkboxes for every commit in the repo:
+
+```markdown
+# Commit Manifest
+
+- [x] a1b2c3d4 — PROJ-101: Add user entity and repository
+- [x] e5f6g7h8 — PROJ-102: Add user service and controller
+- [ ] i9j0k1l2 — PROJ-103: Add pagination to user list
+- [>] m3n4o5p6 — PROJ-104: Add user profile endpoint
+- [-] q7r8s9t0 — Merge branch 'develop' into feature/users
+```
+
+**Checkbox legend:**
+| Marker | Meaning |
+|--------|---------|
+| `[x]` | Already processed — instructions extracted |
+| `[ ]` | Available — not yet selected |
+| `[>]` | Selected — queued for next processing run |
+| `[-]` | Skipped — not relevant (merge commits, CI, docs-only) |
+
+### Try it yourself
+
+1. Open the skill documentation: [tools/task4/analyze-commit-history/SKILL.md](tools/task4/analyze-commit-history/SKILL.md)
+2. Read the "Option A — Manifest-Driven Workflow" section
+3. In a real project, you would run:
+   ```
+   python scripts/analyze-commits.py --generate-manifest
+   ```
+   This scans `git log --reverse` and creates the manifest with `[ ]` for every commit.
+4. You then manually review the manifest, mark commits as `[>]` (to process) or `[-]` (to skip), and run:
+   ```
+   python scripts/analyze-commits.py --from-manifest
+   ```
+5. After each commit is processed, its marker changes from `[>]` to `[x]` automatically.
+
+**Key insight:** The manifest is a human-in-the-loop control mechanism. The AI processes commits, but YOU decide which ones are worth analyzing. This prevents wasting credits on merge commits, typo fixes, or config changes.
+
+### Branch classification
+
+For projects with multiple branches (e.g., a feature branch for the analysis + a production `develop` branch), the tool offers `--classify-branch develop` which automatically marks non-production commits as `[-]`:
+
+```
+python scripts/analyze-commits.py --classify-branch develop
+```
+
+This is especially useful when you're working on a separate branch and want to analyze only production code changes.
+
+---
+
+## Part 9: Research phase — let AI classify what's worth analyzing
+
+**What we're about to learn:** Before processing commits one by one, you can ask the AI to classify entire groups of commits by their ticket prefixes — automatically filtering signal from noise.
+
+### The research phase
+
+Most enterprise projects use ticket IDs in commit messages: `PROJ-101`, `ACT-45`, `FEAT-12`. The advanced tool's **research phase** exploits this:
+
+1. **Scan** all commit messages for patterns like `[A-Z]+-\d+`
+2. **Count** how many commits each prefix has → `analysis/commit-stats.txt`
+3. **Classify** each prefix using an AI model call — is `PROJ` a feature prefix? Is `CI` an infrastructure prefix?
+4. **Filter** — only commits with "relevant" prefixes proceed to analysis
+
+```
+$ python scripts/analyze-commits.py
+
+🔍 Research phase — scanning commit prefixes...
+   PROJ: 47 commits — classified as: feature development ✅
+   ACT:  12 commits — classified as: infrastructure/CI ❌
+   DOC:   8 commits — classified as: documentation ❌
+   FEAT: 23 commits — classified as: feature development ✅
+
+→ Processing 70 commits from prefixes: PROJ, FEAT
+```
+
+### When to skip research
+
+- `--skip-research` — process all ticket-like commits without classification
+- `--prefix PROJ --prefix FEAT` — manually specify which prefixes to include
+- `--all-commits` — process everything, even commits without ticket IDs
+- `--from-manifest` — manifest mode doesn't need research (you selected commits manually)
+
+### The classification instruction
+
+The AI classification is powered by [tools/task4/analyze-commit-history/references/discover-prefixes.instruction.md](tools/task4/analyze-commit-history/references/discover-prefixes.instruction.md). It tells the model to look at commit statistics and decide which prefixes represent actual feature work vs. infrastructure/meta changes.
+
+**Why this matters for cost control:** If your project has 500 commits but only 200 are feature work, the research phase saves you from spending AI credits on 300 irrelevant diffs.
+
+---
+
+## Part 10: From conventions to SDLC instructions
+
+**What we're about to learn:** The leap from extracting passive conventions ("we use camelCase") to generating actionable SDLC workflow instructions ("how to add a new REST endpoint, step by step").
+
+### Conventions vs. instructions — what's the difference?
+
+| Aspect | Conventions (Parts 2-7) | SDLC Instructions (Part 10) |
+|--------|------------------------|----------------------------|
+| **Format** | Descriptive rules | Step-by-step workflows |
+| **Example** | "Services use `*Service.ts` suffix" | "1. Create entity → 2. Create DTO → 3. Create mapper → 4. Add service → 5. Add controller → 6. Add migration → 7. Write tests" |
+| **Audience** | Human developers (onboarding docs) | AI agents (autonomous execution) |
+| **Reuse** | Reference while coding | Feed to an agent that generates code |
+| **File format** | `conventions.md` | `add-endpoint.agent.md`, `create-migration.agent.md` |
+
+### How the advanced tool generates instructions
+
+The [analyze-commit-diff.instruction.md](tools/task4/analyze-commit-history/references/analyze-commit-diff.instruction.md) tells the model to:
+
+1. Read the diff for a commit
+2. Identify which **layers** are affected (entity, DTO, mapper, service, controller, migration, test)
+3. Determine the **sequence** of changes across files
+4. Look for **repeating patterns** across commits
+5. Write (or update) `.agent.md` instruction files in `./instructions/`
+
+Each instruction file covers **one workflow** (Single Responsibility Principle):
+- `add-endpoint.agent.md` — steps for adding a new REST endpoint
+- `create-migration.agent.md` — steps for creating a database migration
+- `add-entity-field.agent.md` — steps for adding a field to an existing entity
+
+### The key difference from Part 7
+
+In Part 7, you ran a simple script that accumulated everything into one `accumulated-conventions.md`. The advanced tool:
+
+- Writes **multiple instruction files** (one per workflow pattern)
+- **Updates existing files** when new commits reveal the same pattern
+- **Auto-commits** each instruction alongside the analysis (`git commit -m "analyze(instructions): <sha>"`)
+- Includes a **review phase** (`--review`) where AI checks if generated instructions are still relevant
+
+### Try it conceptually
+
+You don't need to run the full pipeline right now. Instead, take the conventions you extracted in Part 7 and transform them manually:
+
+1. Open your `work/196-task/accumulated-conventions.md`
+2. Group the conventions by **workflow** — which ones relate to "adding an endpoint"? Which to "writing tests"?
+3. For each group, write a step-by-step instruction:
+   ```markdown
+   # Add a New REST Endpoint
+
+   1. Create the entity class in `domain/entities/`
+   2. Create a DTO in `domain/dtos/` — mirror entity fields, add validation annotations
+   3. Create a mapper in `domain/mappers/` using MapStruct
+   4. Add service methods in `domain/services/`
+   5. Add controller in `api/controllers/` — follow RESTful naming
+   6. Add Flyway migration in `db/migrations/`
+   7. Write unit tests co-located with source files
+   8. Write integration test in `tests/integration/`
+   ```
+4. This is exactly what the advanced tool automates.
+
+### Deploying the skill to your project
+
+When you're ready to use the full advanced tool on your own project, follow the deployment process from [Module 104 — Port to Skills](../104-port-to-skills/about.md):
+
+1. Copy [tools/task4/analyze-commit-history/](tools/task4/analyze-commit-history/) to your project's skill/instruction directory
+2. Adjust paths in `SKILL.md` and `scripts/analyze-commits.py` to match your project structure
+3. Run `--generate-manifest` to create your commit manifest
+4. Start processing commits in batches: `--from-manifest --batch 10`
+
+---
+
 ## Success Criteria
 
 After completing this walkthrough, verify:
@@ -327,6 +501,9 @@ After completing this walkthrough, verify:
 - ✅ You created a reusable instruction file for convention extraction
 - ✅ You understand how to scale the technique across multiple commits using bulk processing
 - ✅ You produced an instruction file from reverse-engineered knowledge
+- ✅ You understand the manifest-driven workflow for tracking progress across large commit histories
+- ✅ You understand how the research phase classifies commits by prefix to save AI credits
+- ✅ You can explain the difference between extracted conventions and actionable SDLC instructions
 
 ---
 
@@ -353,6 +530,15 @@ After completing this walkthrough, verify:
 7. **Can this technique produce wrong conventions?**
    > Yes. A single issue-diff pair might reflect a one-time exception, not a rule. That's why you process multiple pairs and look for patterns that repeat. Validation with the team is essential.
 
+8. **Why use a commit manifest instead of just processing all commits?**
+   > Not all commits are worth analyzing — merge commits, CI config changes, typo fixes add noise and waste AI credits. The manifest gives you human-in-the-loop control: you see the full history and decide what's worth the investment.
+
+9. **How does the research phase save costs?**
+   > It classifies commit prefixes (PROJ, CI, DOC) in one cheap AI call, then filters out entire groups of irrelevant commits. This can cut processing by 50-70% on a typical project.
+
+10. **What makes SDLC instructions more valuable than conventions for AI agents?**
+    > Conventions describe rules ("use camelCase"), but instructions describe workflows ("create entity → DTO → mapper → service → controller → test"). An AI agent can follow instructions to generate complete implementations autonomously, while conventions only inform individual decisions.
+
 ---
 
 ## Troubleshooting
@@ -364,6 +550,10 @@ After completing this walkthrough, verify:
 | Diff is too large for the context window | Split into logical chunks (e.g., by file or feature area). Process each chunk separately and merge the results |
 | Can't find issues with clean commits | Look for squash-merged PRs — they often have one clean diff per issue. Or use `git log --grep="ISSUE-123"` to find related commits |
 | Model hallucinates conventions not in the diff | Be explicit in the prompt: "Only extract conventions that are directly evidenced in the diff. Quote the specific lines that support each convention." |
+| Manifest has hundreds of `[ ]` entries | Use `--classify-branch` to auto-skip non-production commits, then process in batches with `--batch 10` |
+| Research phase classifies a relevant prefix as noise | Override with `--prefix PROJ --prefix FEAT` to manually specify which prefixes to include |
+| Generated SDLC instructions are too generic | Include more diffs from the same workflow pattern — the model needs multiple examples of the same type of change to extract specific steps |
+| `copilot.bat` not found | Ensure GitHub Copilot CLI is installed. Run `where.exe copilot` to verify. The script auto-detects the path from VS Code extensions |
 
 ---
 

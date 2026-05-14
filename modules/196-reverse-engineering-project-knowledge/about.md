@@ -1,6 +1,6 @@
 # Reverse Engineering Project Knowledge from Text
 
-**Duration:** 15 minutes
+**Duration:** 25 minutes
 
 **Skill:** Extract project conventions, architecture rules, and working instructions from pairs of existing artifacts (issues + diffs, specs + code, PRs + reviews) using the AI text-triangle principle — where any two related texts can generate the third.
 
@@ -13,6 +13,9 @@
 - Building project instructions incrementally, commit by commit
 - Reverse engineering coding conventions, architecture decisions, and team workflow
 - Creating reusable instruction files from reverse-engineered knowledge
+- Manifest-driven workflow for tracking progress across large commit histories
+- Research phase: AI-powered classification of commit prefixes to filter signal from noise
+- From conventions to SDLC instructions: generating actionable workflow files for AI agents
 
 ## Learning Outcome
 
