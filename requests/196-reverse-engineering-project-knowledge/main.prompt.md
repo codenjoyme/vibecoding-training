@@ -4,7 +4,7 @@ iterative-prompt/SKILL.md
 
 ## UPD1
 
-Смотри есть модуль `196-reverse-engineering-project-knowledge` мне важно понять, в нем есть все, что необзодимо для того чтобы реверсинжинирить коммиты как это сделано в скиле `requests/196-reverse-engineering-project-knowledge/reference/analyze-commit-history`. Я бы хотел иметь более продвинутую версию этого скила как в референсе в учебкой программе. Но там уже в модуле что-то есть, и я хочу понять как оно сочетается. Расскажи как устроен модуль, и как мы можем расширить программу с этим скилом. go
+Смотри есть модуль [196-reverse-engineering-project-knowledge](../../modules/196-reverse-engineering-project-knowledge/about.md) мне важно понять, в нем есть все, что необзодимо для того чтобы реверсинжинирить коммиты как это сделано в скиле [analyze-commit-history](../../modules/196-reverse-engineering-project-knowledge/tools/task4/analyze-commit-history/SKILL.md). Я бы хотел иметь более продвинутую версию этого скила как в референсе в учебкой программе. Но там уже в модуле что-то есть, и я хочу понять как оно сочетается. Расскажи как устроен модуль, и как мы можем расширить программу с этим скилом. go
 
 ### RESULT
 
