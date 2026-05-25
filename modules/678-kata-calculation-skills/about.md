@@ -25,9 +25,7 @@ You can complete at least two full kata rounds in one session, each producing a 
 
 - [090 — AI Skills - Context, Tools & Memory](../090-ai-skills-tools-creation/about.md)
 - [104 — Port Existing Code into Skills](../104-port-to-skills/about.md)
-- [091 — CLI Snapshot Testing with Docker](../091-cli-testing/about.md) *(optional, recommended)*
-
-`091` is optional support for adding automated CLI regression checks after your kata rounds are already working.
+- [091 — CLI Snapshot Testing with Docker](../091-cli-testing/about.md) *(optional — not required to start; recommended after completing at least one round)*
 
 ### Required Skills & Tools
 
