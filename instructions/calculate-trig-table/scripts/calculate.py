@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""Deterministic trig-table CLI example (requires Python 3.9+)."""
+
 import argparse
 import json
 import math
