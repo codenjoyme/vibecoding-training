@@ -1,6 +1,6 @@
 # AI Delegation Mindset for Team Leads
 
-**Duration:** 5-7 minutes  
+**Duration:** 20-25 minutes  
 **Skill:** Delegate one real engineering task per day to an AI agent, then verify outcomes with lightweight oversight that avoids both micromanagement and blind trust
 
 **👉 [Start hands-on walkthrough](walkthrough.md)**
