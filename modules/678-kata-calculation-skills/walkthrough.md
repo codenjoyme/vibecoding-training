@@ -163,6 +163,7 @@ Debrief prompts:
 Optional commit:
 
 ```bash
+git status
 git add work/678-kata/
 git commit -m "feat(kata): add deterministic calculation skills rounds 1-3"
 ```
