@@ -44,7 +44,7 @@ You transformed delegation from an abstract idea into one concrete candidate tas
 You will prepare a brief with context, constraints, and acceptance criteria so the agent can run autonomously.
 
 1. Open your AI assistant in **Agent Mode** and choose **Claude Sonnet 4.5** (recommended).
-2. Paste this template into your AI assistant chat interface, fill it with your real task details, then send the complete filled template as one message in that same chat:
+2. Fill this template with your real task details (you can prepare it in a text editor first), then paste and send the complete filled template as one message in your AI assistant chat:
 
 ```markdown
 Task: [one clear deliverable]
