@@ -209,5 +209,5 @@ You now have a repeatable kata loop that can produce new calculation skills quic
 ## Next Steps
 
 - Apply this kata loop to a real team utility in your current project.
-- Pair with [104 — Port Existing Code into Skills](../104-port-to-skills/about.md) to package an existing script as a reusable skill.
+- Reuse patterns from [104 — Port Existing Code into Skills](../104-port-to-skills/about.md) to package an existing script as a reusable skill.
 - Add CLI snapshot tests from [091 — CLI Snapshot Testing with Docker](../091-cli-testing/about.md) when your new skill becomes shared team tooling.
