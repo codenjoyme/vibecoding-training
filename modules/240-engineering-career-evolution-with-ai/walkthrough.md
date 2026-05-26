@@ -479,6 +479,11 @@ Save the roadmap to `./workspace/hello-genai/career-evolution-roadmap.md` (`c:/w
 - ✅ You have a sustainable 15/1/1 learning rhythm scheduled
 - ✅ You automated one real repetitive task with an instruction file
 - ✅ You have a saved career evolution roadmap with specific monthly goals
+- ✅ You wrote and executed at least one delegation brief
+- ✅ You completed a verification checklist for that delegated task
+- ✅ You created and started a 30-day delegation log with Day 1 filled
+- ✅ You can clearly explain micromanagement vs. systematic oversight
+- ✅ You identified at least 3 real tasks to delegate next week
 
 ---
 
@@ -497,6 +502,163 @@ Save the roadmap to `./workspace/hello-genai/career-evolution-roadmap.md` (`c:/w
 6. **Your daily work is "receive Jira ticket → write code → push PR." Which parts of this workflow are most automatable, and what should you focus on instead?** *(Answer: The "write code → push PR" part is increasingly automatable with coding agents. What you should focus on: understanding WHY the ticket exists, validating requirements before coding, reviewing AI-generated PRs for quality/security, and expanding into testing strategy or deployment automation. The "judgment before and after code" becomes your value.)*
 
 7. **A colleague says "I feel like an imposter — everyone around me is adapting to AI faster than me." What do you tell them?** *(Answer: Everyone curates their public image. The person posting AI demos on LinkedIn struggled with the same tool for hours before getting it right. Focus on your own 15/1/1 rhythm, not on comparing your behind-the-scenes with others' highlight reel. Also — your years of experience mean you can evaluate quality that newcomers blindly accept. That's not being slow, that's being thorough.)*
+
+---
+
+## Part 13: Reframe Your Role from Doer to System Designer
+
+### What we'll do
+
+You've built the mindset and the roadmap. Now it's time to practice the daily execution habit that makes everything stick: delegating one real task per day to an AI agent.
+
+1. Open your active project workspace (`c:/workspace/hello-genai/` on Windows or `~/workspace/hello-genai/` on macOS/Linux).
+2. In your notes, list 5 common tasks from this week (for example: bug triage, small refactor, test gap fix, release note draft, onboarding checklist update).
+3. For each task, write two lines:
+   - **Old way:** how you usually do it manually
+   - **AI delegation way:** what part the agent can execute while you keep oversight
+4. Choose one task that is:
+   - clear and bounded (can finish in one PR or one deliverable)
+   - low-to-medium risk
+   - easy to verify with tests, diffs, or checklist review
+
+### What happened
+
+You transformed delegation from an abstract idea into one concrete candidate task for today.
+
+---
+
+## Part 14: Write a Delegation Brief the Agent Can Execute
+
+### What we'll do
+
+You will prepare a brief with context, constraints, and acceptance criteria so the agent can run autonomously.
+
+1. Open your AI assistant in **Agent Mode** and choose **Claude Sonnet 4.5** (recommended).
+2. Fill this template with your real task details (you can prepare it in a text editor first), then paste and send the whole filled template as one message in your AI assistant chat:
+
+```markdown
+Task: [one clear deliverable]
+
+Context:
+- Repository/project:
+- Why this task matters now:
+- Relevant files/modules:
+
+Constraints:
+- Do not change unrelated files
+- Follow existing project conventions
+- Keep changes minimal and testable
+
+Acceptance criteria:
+- [ ] Functional outcome is complete
+- [ ] Existing tests pass (or justified if no tests exist)
+- [ ] New/updated checks for changed behavior are included when needed
+- [ ] PR description explains what changed and why
+
+Verification evidence to return:
+- Summary of files changed
+- Test/lint/build commands executed and results
+- Risks/edge cases considered
+```
+
+3. Add one explicit anti-micromanagement rule: "Make decisions autonomously within constraints; ask only for blockers."
+4. Add one explicit anti-blind-trust rule: "Return verifiable evidence for each acceptance criterion."
+
+### What happened
+
+You converted leadership intent into an executable delegation contract. This is the core skill that determines agent quality.
+
+---
+
+## Part 15: Execute the Delegation and Monitor at the Right Level
+
+### What we'll do
+
+You will run the brief and supervise progress through checkpoints, not constant intervention.
+
+1. Submit the brief to your agent.
+2. Let the agent work without interrupting every step.
+3. Check only at predefined points:
+   - after plan creation
+   - after first meaningful code/content change
+   - before final validation and handoff
+4. If the agent gets stuck, respond with constraint-level guidance (goals, boundaries, acceptance criteria), not line-by-line commands.
+
+### What happened
+
+You practiced oversight without micromanagement. You kept control through checkpoints and criteria, not through continuous manual steering.
+
+---
+
+## Part 16: Verify Results with a Lightweight Checklist
+
+### What we'll do
+
+You will verify outcomes fast and systematically, focusing on trust signals rather than full manual rework.
+
+1. Use this checklist for today's delegated task:
+
+```markdown
+Verification Checklist
+- [ ] Scope is correct (no unrelated changes)
+- [ ] Acceptance criteria are fully addressed
+- [ ] Evidence is provided (tests, logs, diffs, screenshots when relevant)
+- [ ] Risky areas reviewed (security, data integrity, production impact)
+- [ ] Follow-up actions are captured (if anything is deferred)
+```
+
+2. Mark each item as pass/fail.
+3. If any item fails, decide:
+   - **Take back control now** when production risk is high or requirements were misunderstood critically.
+   - **Improve the system** when failure is process-related (missing context, weak acceptance criteria, unclear instruction).
+
+### What happened
+
+You used a repeatable quality gate. This prevents both extremes: blind approval and time-consuming micromanagement.
+
+---
+
+## Part 17: Start the 30-Day 1-Task-Per-Day Habit Tracker
+
+### What we'll do
+
+You will create a simple log so delegation becomes a durable leadership behavior.
+
+1. Create a file in your project notes area:
+   - `c:/workspace/hello-genai/delegation-log.md` (Windows)
+   - `~/workspace/hello-genai/delegation-log.md` (macOS/Linux)
+2. Paste this template:
+
+```markdown
+# 30-Day AI Delegation Log
+
+| Day | Task | Brief Quality (1-5) | Verification Quality (1-5) | Time Saved | Main Lesson | Next Improvement |
+|-----|------|----------------------|----------------------------|------------|-------------|------------------|
+| 1   |      |                      |                            |            |             |                  |
+```
+
+3. Fill Day 1 immediately after this module.
+4. Pre-select 3 additional tasks you can delegate next week.
+5. Document your delegation loop in team notes:
+   - Task selection → Delegation brief → Agent execution → Verification checklist → Feedback capture → Instruction/process improvement
+6. Add one weekly review slot (15-30 minutes) to improve prompts, checklists, and guardrails based on failures.
+7. Share one "delegation win" and one "delegation fix" with your team each week to normalize systematic learning.
+
+**Verify:** You have a started delegation log, Day 1 is filled, and 3 future tasks are pre-selected.
+
+### What happened
+
+You moved from one-off experimentation to a repeatable operating rhythm. This is what builds long-term delegation leverage.
+
+---
+
+## Delegation Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| Agent produces broad changes outside the task scope | Tighten constraints in the brief and require explicit file-scope boundaries |
+| Verification takes too long and feels like manual rework | Use a fixed checklist and evidence format so review focuses on pass/fail signals |
+| You keep intervening too often during execution | Define checkpoint timing before execution and only step in at those points |
 
 ---
 
