@@ -12,10 +12,10 @@ See [module overview](about.md) for full prerequisites list.
 
 | Component | Description |
 |---|---|
-| `work/678-kata/round-1-fibonacci/scripts/calculate.py` | Deterministic Fibonacci CLI with `--count`, `--output`, `--format` |
-| `work/678-kata/round-1-fibonacci/SKILL.md` | Skill metadata and runnable examples |
-| `work/678-kata/round-2-*/` | Second skill built from a new theme menu |
-| `work/678-kata/round-3-*/` | Stretch round with your own calculation theme |
+| `work/092-kata/round-1-fibonacci/scripts/calculate.py` | Deterministic Fibonacci CLI with `--count`, `--output`, `--format` |
+| `work/092-kata/round-1-fibonacci/SKILL.md` | Skill metadata and runnable examples |
+| `work/092-kata/round-2-*/` | Second skill built from a new theme menu |
+| `work/092-kata/round-3-*/` | Stretch round with your own calculation theme |
 
 ---
 
@@ -51,20 +51,20 @@ Before you start, switch your IDE chat to **Agent Mode** and pick **Claude Sonne
 ### Step 0: Prepare Workspace
 
 Use one of these paths:
-- Windows: `c:/workspace/hello-genai/work/678-kata/round-1-fibonacci/`
-- macOS/Linux: `~/workspace/hello-genai/work/678-kata/round-1-fibonacci/`
+- Windows: `c:/workspace/hello-genai/work/092-kata/round-1-fibonacci/`
+- macOS/Linux: `~/workspace/hello-genai/work/092-kata/round-1-fibonacci/`
 
 ```powershell
 # Windows (PowerShell)
-mkdir c:/workspace/hello-genai/work/678-kata/round-1-fibonacci/scripts -Force
-mkdir c:/workspace/hello-genai/work/678-kata/round-1-fibonacci/output -Force
+mkdir c:/workspace/hello-genai/work/092-kata/round-1-fibonacci/scripts -Force
+mkdir c:/workspace/hello-genai/work/092-kata/round-1-fibonacci/output -Force
 cd c:/workspace/hello-genai
 ```
 
 ```bash
 # macOS/Linux
-mkdir -p ~/workspace/hello-genai/work/678-kata/round-1-fibonacci/scripts
-mkdir -p ~/workspace/hello-genai/work/678-kata/round-1-fibonacci/output
+mkdir -p ~/workspace/hello-genai/work/092-kata/round-1-fibonacci/scripts
+mkdir -p ~/workspace/hello-genai/work/092-kata/round-1-fibonacci/output
 cd ~/workspace/hello-genai
 ```
 
@@ -72,7 +72,7 @@ cd ~/workspace/hello-genai
 
 1. **Describe**
    Ask the agent:
-   > Create a deterministic Python CLI in `work/678-kata/round-1-fibonacci/scripts/calculate.py` that generates a Fibonacci sequence table. Use `argparse` with `--count`, `--output`, and `--format` (`md|json|csv`). Use only Python stdlib.
+   > Create a deterministic Python CLI in `work/092-kata/round-1-fibonacci/scripts/calculate.py` that generates a Fibonacci sequence table. Use `argparse` with `--count`, `--output`, and `--format` (`md|json|csv`). Use only Python stdlib.
 
 2. **Generate script**
    Ask the agent to include:
@@ -83,23 +83,23 @@ cd ~/workspace/hello-genai
 
 3. **Write `SKILL.md`**
    Ask the agent:
-   > Draft `work/678-kata/round-1-fibonacci/SKILL.md` with sections: name, description, version, usage, example commands, notes.
+   > Draft `work/092-kata/round-1-fibonacci/SKILL.md` with sections: name, description, version, usage, example commands, notes.
 
 4. **Run**
    Execute commands exactly:
 
    ```bash
-   python work/678-kata/round-1-fibonacci/scripts/calculate.py --count 10 --format md
-   python work/678-kata/round-1-fibonacci/scripts/calculate.py --count 10 --format json --output work/678-kata/round-1-fibonacci/output/fibonacci.json
-   python work/678-kata/round-1-fibonacci/scripts/calculate.py --count 10 --format csv --output work/678-kata/round-1-fibonacci/output/fibonacci.csv
+   python work/092-kata/round-1-fibonacci/scripts/calculate.py --count 10 --format md
+   python work/092-kata/round-1-fibonacci/scripts/calculate.py --count 10 --format json --output work/092-kata/round-1-fibonacci/output/fibonacci.json
+   python work/092-kata/round-1-fibonacci/scripts/calculate.py --count 10 --format csv --output work/092-kata/round-1-fibonacci/output/fibonacci.csv
    ```
 
 5. **Verify**
    Confirm file outputs:
 
    ```bash
-   cat work/678-kata/round-1-fibonacci/output/fibonacci.json
-   cat work/678-kata/round-1-fibonacci/output/fibonacci.csv
+   cat work/092-kata/round-1-fibonacci/output/fibonacci.json
+   cat work/092-kata/round-1-fibonacci/output/fibonacci.csv
    ```
 
    Check that:
@@ -164,7 +164,7 @@ Optional commit:
 
 ```bash
 git status
-git add work/678-kata/
+git add work/092-kata/
 git commit -m "feat(kata): add deterministic calculation skills rounds 1-3"
 ```
 

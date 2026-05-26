@@ -20,3 +20,16 @@ The walkthrough must:
 - End with a debrief section and an optional Git commit step
 
 ### RESULT
+
+Сделано Coding Agent и замержено.
+
+## UPD2
+
+Думаю что индекс этого модуля не совсем верный. Давай найдем ему более разумное место, где-то после того как скилы рассматриваются вообще. И переименуй риквест так же. go
+
+### RESULT
+
+- Renamed `modules/678-kata-calculation-skills/` → [modules/092-kata-calculation-skills/](../../modules/092-kata-calculation-skills/about.md)
+- Renamed `requests/678-kata-calculation-skills/` → [requests/092-kata-calculation-skills/](.)
+- Updated [training-plan.md](../../training-plan.md) — moved entry from after 650 to after 091 (CLI Snapshot Testing)
+- Updated [walkthrough.md](../../modules/092-kata-calculation-skills/walkthrough.md) — replaced all `work/678-kata/` paths with `work/092-kata/`
