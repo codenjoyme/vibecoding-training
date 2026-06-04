@@ -103,3 +103,74 @@ codemie analytics --last 30d --export csv
 ```
 
 Данные появятся после первых реальных запросов к агенту. Агрегированная история и более детальная аналитика — в веб-интерфейсе CodeMie платформы (URL тот же что использовался при `codemie setup`).
+
+## UPD5
+
+Слушай, преезапустил. Теперь без залогинивания пускает, но тестовое сообщение привело к ошибке. 
+```
+2026-06-05 00:26:52.577 [info] AuthManager initialized
+2026-06-05 00:26:52.577 [info] Claude code extension is now active?
+2026-06-05 00:26:52.577 [info] MCP Server running on port XXXXX (localhost only)
+2026-06-05 00:26:52.577 [info] Getting authentication status
+2026-06-05 00:26:52.577 [info] AuthManager initialized
+2026-06-05 00:26:52.577 [info] Received message from webview: {"type":"request","requestId":"...","request":{"type":"init"}}
+2026-06-05 00:26:52.577 [info] Getting authentication status
+2026-06-05 00:26:52.577 [info] Received message from webview: {"type":"launch_claude","channelId":"...","cwd":"...\\vibecoding-for-managers","permissionMode":"default","thinkingLevel":"default_on"}
+2026-06-05 00:26:52.577 [info] Launching Claude on channel: ...
+2026-06-05 00:27:11.632 [info] Received message from webview: {"type":"io_message","channelId":"...","message":{"type":"user","uuid":"<uuid>","session_id":"","message":{"role":"user","content":[{"type":"text","text":"test"}]}},"done":false}
+2026-06-05 00:28:14.778 [info] Python env: PATH=[REDACTED]
+2026-06-05 00:28:14.778 [info] Python env: VIRTUAL_ENV=[REDACTED]
+2026-06-05 00:28:14.778 [info] Spawning Claude with SDK query function - cwd: ...\\vibecoding-for-managers, permission mode: default, version: 2.1.161, ...\\nodejs\  \codemie-claude.cmd, resume: undefined
+2026-06-05 00:28:14.792 [info] Closing Claude on channel: ...
+2026-06-05 00:28:14.792 [error] Error spawning Claude (on channel ...): Error: spawn EINVAL
+2026-06-05 00:28:14.792 [error] Failed to load config cache: Error: spawn EINVAL
+2026-06-05 00:28:14.792 [info] generateSessionTitle failed: Error: Error: spawn EINVAL
+2026-06-05 00:28:14.792 [error] Error processing client request: Error: spawn EINVAL
+```
+Что не так? 
+Так же затри все `*****` в этом логе, чтобы не утекали данные в паблик репо. Все что может раскрыть устройство моего компа или сети. go
+
+### RESULT (UPD5)
+
+**Причина ошибки `spawn EINVAL`:** расширение пытается spawn'нуть `codemie-claude.cmd` напрямую — но на Windows `.cmd`-файлы нельзя spawn'нуть без флага `shell: true`. Это известный баг (описан в SKILL.md, секция `spawn EINVAL in Cursor`). Решение — собрать нативный `.exe`-прокси через Node.js SEA (Single Executable Application).
+
+**Сделано:**
+
+1. Создан `proxy.js` → `~/.local/bin/proxy.js` — обёртка, которая запускает `codemie-claude.js` через `node.exe`
+2. Собран `claude-codemie-proxy.exe` через Node.js SEA + `postject` → `~/.local/bin/claude-codemie-proxy.exe`
+3. Обновлён `%APPDATA%\Code\User\settings.json`:
+   ```json
+   "claudeCode.claudeProcessWrapper": "~\\.local\\bin\\claude-codemie-proxy.exe",
+   "claudeCode.disableLoginPrompt": true
+   ```
+
+**Как проверить:**
+1. Перезапусти VS Code Insiders полностью (закрыть и открыть, не Reload Window)
+2. Открой вкладку **CLAUDE CODE**, отправь тестовое сообщение
+3. Ошибки `spawn EINVAL` быть не должно — агент должен ответить
+
+**Лог sanitized:** убраны полный PATH, VIRTUAL_ENV, UUID сессий, номер порта — всё что раскрывает структуру машины.
+
+## UPD6
+
+Завелось, спасибо. ![alt text](image-1.png)
+Вопрос остается такой. Как мне использовать GHCP на codemie cli моделях? 
+И второй вопрос - где брать информацию по израсходованным токенам в codemie cli?
+Третье что надо сделать, все что мы тут делали в сесии если в вчем-то есть смысл, то добавь в [text](../../modules/175-codemie-cli/tools/SKILL.md), но очень лаконично и точечно. Если в оригинальном скиле все есть уже, то добавлять ничего не надо - сохраним его идентичность. go
+
+### RESULT (UPD6)
+
+**GHCP (GitHub Copilot) на моделях CodeMie — невозможно.**  
+GitHub Copilot жёстко привязан к инфраструктуре GitHub/Microsoft, endpoint нельзя переключить на сторонний прокси. То, что ты сейчас настроил — Claude Code extension + CodeMie proxy — это и есть аналог GHCP, только через корпоративный LLM. Функции: чат, инлайн-редактирование, агент в workspace.
+
+**Трекинг токенов:**
+```bash
+codemie analytics --last 7d          # summary
+codemie analytics --last 7d -v       # с детализацией по сессиям
+codemie analytics --last 30d --export csv
+```
+Данные появляются после первой реальной сессии. Полная аналитика (с разбивкой по стоимости) — в веб-интерфейсе платформы CodeMie.
+
+**Обновлён [modules/175-codemie-cli/tools/SKILL.md](../../modules/175-codemie-cli/tools/SKILL.md) — 2 точечных дополнения:**
+1. **VS Code → Windows** — добавлена заметка что на Windows нужен тот же proxy.exe + настройка `claudeCode.claudeProcessWrapper` (оригинальный SKILL упоминал это только для Cursor, VS Code-секция была неполной)
+2. **Usage Analytics** — добавлен новый раздел с командами `codemie analytics` и ссылкой на веб-платформу (в оригинале отсутствовал)
