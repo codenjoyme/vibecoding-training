@@ -3,6 +3,14 @@
  * codemie-relay.js
  * Thin HTTP relay: accepts any Bearer key on port 4002,
  * forwards to codemie proxy on port 4001 with the correct gateway key.
+ *
+ * Patches applied:
+ *  1. Authorization header → Bearer codemie-proxy (any incoming key accepted)
+ *  2. temperature + top_p → remove top_p (litellm/Bedrock Claude rejects both)
+ *  3. model "gpt-4" in request → "claude-sonnet-4-6" (Copilot sends id from config)
+ *  4. model in responses (streaming + non-streaming) → "gpt-4"
+ *     (Copilot needs a recognized model name in responses to resolve tokenizer)
+ *
  * Start: node codemie-relay.js
  */
 'use strict';
@@ -12,23 +20,30 @@ const TARGET_HOST = '127.0.0.1';
 const TARGET_PORT = 4001;
 const GATEWAY_KEY = 'codemie-proxy';
 const RELAY_PORT = 4002;
+const FAKE_MODEL = 'gpt-4';          // what Copilot sees (known tokenizer)
+const REAL_MODEL = 'claude-sonnet-4-6'; // what codemie proxy receives
 
 const server = http.createServer((req, res) => {
-  // Collect body so we can patch it before forwarding
   const chunks = [];
   req.on('data', (chunk) => chunks.push(chunk));
   req.on('end', () => {
     let body = Buffer.concat(chunks);
 
-    // Patch: if both temperature and top_p are present, remove top_p.
-    // litellm/Bedrock Claude rejects requests that have both.
     if (req.method !== 'GET' && body.length > 0) {
       try {
         const parsed = JSON.parse(body.toString('utf8'));
+
+        // Patch 1: remove top_p when temperature is also present
         if (parsed.temperature !== undefined && parsed.top_p !== undefined) {
           delete parsed.top_p;
-          body = Buffer.from(JSON.stringify(parsed), 'utf8');
         }
+
+        // Patch 2: rewrite model name from Copilot's fake id to real model
+        if (parsed.model === FAKE_MODEL) {
+          parsed.model = REAL_MODEL;
+        }
+
+        body = Buffer.from(JSON.stringify(parsed), 'utf8');
       } catch (e) { /* not JSON, forward as-is */ }
     }
 
@@ -46,22 +61,52 @@ const server = http.createServer((req, res) => {
       headers: headers,
     };
 
-    const proxy = http.request(options, (proxyRes) => {
-      res.writeHead(proxyRes.statusCode, proxyRes.headers);
-      proxyRes.pipe(res, { end: true });
+    const proxyReq = http.request(options, (proxyRes) => {
+      const isStream = (proxyRes.headers['content-type'] || '').includes('text/event-stream');
+
+      if (isStream) {
+        // Streaming: forward headers as-is (Content-Length not applicable for SSE)
+        res.writeHead(proxyRes.statusCode, proxyRes.headers);
+        // Patch model field in each SSE data line
+        proxyRes.on('data', (chunk) => {
+          const patched = chunk.toString('utf8')
+            .replace(/"model":"[^"]*"/g, () => '"model":"' + FAKE_MODEL + '"');
+          res.write(patched);
+        });
+        proxyRes.on('end', () => res.end());
+      } else {
+        // Non-streaming: buffer full body first, patch model, then send with correct Content-Length
+        const respChunks = [];
+        proxyRes.on('data', (c) => respChunks.push(c));
+        proxyRes.on('end', () => {
+          let respBody = Buffer.concat(respChunks).toString('utf8');
+          try {
+            const parsed = JSON.parse(respBody);
+            if (parsed.model) parsed.model = FAKE_MODEL;
+            respBody = JSON.stringify(parsed);
+          } catch (e) { /* not JSON, leave as-is */ }
+          const outBuf = Buffer.from(respBody, 'utf8');
+          const respHeaders = Object.assign({}, proxyRes.headers, {
+            'content-length': outBuf.length,
+          });
+          res.writeHead(proxyRes.statusCode, respHeaders);
+          res.end(outBuf);
+        });
+      }
     });
 
-    proxy.on('error', (err) => {
+    proxyReq.on('error', (err) => {
       res.writeHead(502);
       res.end(JSON.stringify({ error: 'relay error: ' + err.message }));
     });
 
-    proxy.write(body);
-    proxy.end();
+    proxyReq.write(body);
+    proxyReq.end();
   });
 });
 
 server.listen(RELAY_PORT, '127.0.0.1', () => {
   console.log('codemie-relay listening on http://127.0.0.1:' + RELAY_PORT + '/v1');
   console.log('forwarding to http://127.0.0.1:' + TARGET_PORT + ' with key ' + GATEWAY_KEY);
+  console.log('model spoof: ' + FAKE_MODEL + ' → ' + REAL_MODEL + ' (request) / ' + REAL_MODEL + ' → ' + FAKE_MODEL + ' (response)');
 });
