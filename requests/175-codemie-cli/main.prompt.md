@@ -362,3 +362,28 @@ node ~/.local/bin/codemie-relay.js   # relay на 4002
 **При первом использовании** VS Code спросит "Enter API key for CodeMie Proxy" — введи `sk-codemie` (или любую строку). Relay игнорирует ключ и всегда форвардит с правильным `codemie-proxy`.
 
 Relay остаётся запущенным пока открыт терминал. Для автозапуска с VS Code — добавь в `.vscode/tasks.json` или запускай в фоне.
+
+## UPD11
+
+Теперь такая ощибка
+```
+Sorry, your request failed. Please try again.
+
+Reason: Request Failed: 400 - litellm.BadRequestError: BedrockException -
+temperature and top_p cannot both be specified for this model.
+Please use only one. Received Model Group=claude-sonnet-4-6
+```
+go
+
+### RESULT (UPD11)
+
+**Это прогресс** — ошибка auth прошла, запрос доходит до модели. Проблема в том, что GitHub Copilot шлёт оба параметра `temperature` и `top_p` одновременно, а litellm/Bedrock для Claude принимает только один.
+
+**Исправлено в `~/.local/bin/codemie-relay.js`:**  
+Relay теперь парсит тело запроса и удаляет `top_p` если в теле присутствует и `temperature` и `top_p` одновременно.
+
+**Проверено:** запрос с `temperature: 0.7, top_p: 0.9` → relay удаляет `top_p` → модель отвечает `"Hello there, friend!"` ✅
+
+**Relay перезапущен.** Reload VS Code Insiders (или просто переключись на модель в Copilot Chat) — запрос должен пройти.
+
+Дополнительно ничего менять не нужно — `chatLanguageModels.json` и порт 4002 остаются как есть.
