@@ -60,3 +60,46 @@ iterative-prompt/SKILL.md
 **`codemie doctor` — итог:** все обязательные проверки зелёные. AWS CLI и frameworks (SpecKit, BMAD) — опциональные, для базовой работы не нужны.
 
 **Следующий шаг:** IDE-интеграция — VS Code (уже должно работать через установленный Claude Code extension) или Cursor (требует proxy-скрипт, см. [tools/SKILL.md](tools/SKILL.md) секцию Cursor).
+
+## UPD4
+
+Смотри у меня стоит плагин Claude Code for VSCode. И я не могу понять что дальше делать. Там такой скрин ![alt text](image.png).
+Расскажи подробно как мне пользоваться. И еще вопрос, где мне тречить результаты того как я расходую деньги? go
+
+### RESULT (UPD4)
+
+**Проблема на скрине:** расширение "Claude Code for VS Code" предлагает логиниться напрямую в Anthropic — этого делать не нужно. Логин через CodeMie SSO уже выполнен. Решение — добавить `claudeCode.claudeProcessWrapper` в VS Code settings.json.
+
+**Сделано:**
+
+Добавлено в `%APPDATA%\Code\User\settings.json`:
+```json
+"claudeCode.claudeProcessWrapper": "...\\nodejs\\codemie-claude.cmd",
+"claudeCode.disableLoginPrompt": true
+```
+
+**Как проверить:**
+1. Перезапусти VS Code полностью (не Reload Window — именно закрыть и открыть заново)
+2. Вкладка **CLAUDE CODE** должна открыться без экрана логина Anthropic
+3. Напечатай любое сообщение — Claude должен ответить через CodeMie proxy
+
+**Как пользоваться расширением (в двух словах):**
+- Вкладка **CLAUDE CODE** в левой панели / снизу — основной чат с агентом
+- Агент видит твой текущий проект, файлы, терминал — он работает в контексте workspace
+- Можно давать задачи: `"fix the bug in server.ts"`, `"write tests for this function"`, `"explain this code"`
+- Агент сам предлагает изменения файлов, ты их принимаешь или отклоняешь
+
+**Как отслеживать расход:**
+
+```bash
+# Текущая статистика сессий
+codemie analytics --last 7d
+
+# С детализацией по сессиям
+codemie analytics --last 7d --verbose
+
+# Экспорт в CSV
+codemie analytics --last 30d --export csv
+```
+
+Данные появятся после первых реальных запросов к агенту. Агрегированная история и более детальная аналитика — в веб-интерфейсе CodeMie платформы (URL тот же что использовался при `codemie setup`).
