@@ -311,3 +311,54 @@ go
 code --command "workbench.action.openSettings" "chat.languageModels"
 ```
 Затем сделай любой запрос в Copilot Chat с выбранной моделью — диалог появится при первом реальном обращении.
+
+## UPD10
+
+Все так же 
+```
+Sorry, your request failed. Please try again.
+
+Copilot Request id: ...
+
+Reason: Invalid API key: Error: Invalid API key at $j._provideLanguageModelResponse
+(\VSCode\[REDACTED]\resources\app\extensions\copilot\dist\extension.js:...)
+at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+```
+go
+
+### RESULT (UPD10)
+
+**Диагностика:** Ошибка бросается внутри Copilot extension до HTTP-запроса — это не 401 от прокси. Причина: либо секрет `chat.lm.secret.codemie` пустой/никогда не был введён, либо Copilot extension валидирует формат ключа и отклоняет plain-string.
+
+**Решение: тонкий relay-прокси `codemie-relay.js`**
+
+Создан `~/.local/bin/codemie-relay.js` — HTTP-сервер на порту 4002:
+- принимает **любой** `Authorization` заголовок
+- переписывает его на `Bearer codemie-proxy` и форвардит на `127.0.0.1:4001`
+
+Проверено: `sk-codemie`, `anything`, любой ключ → 200, 37 моделей.
+
+Обновлён `chatLanguageModels.json` — URL изменён на порт 4002:
+```json
+{
+  "name": "CodeMie Proxy",
+  "vendor": "customoai",
+  "apiKey": "${input:chat.lm.secret.codemie}",
+  "models": [{
+    "id": "claude-sonnet-4-6",
+    "name": "Claude Sonnet 4.6 (CodeMie)",
+    "url": "http://127.0.0.1:4002/v1/chat/completions",
+    ...
+  }]
+}
+```
+
+**Порядок запуска:**
+```powershell
+codemie proxy start          # основной прокси на 4001
+node ~/.local/bin/codemie-relay.js   # relay на 4002
+```
+
+**При первом использовании** VS Code спросит "Enter API key for CodeMie Proxy" — введи `sk-codemie` (или любую строку). Relay игнорирует ключ и всегда форвардит с правильным `codemie-proxy`.
+
+Relay остаётся запущенным пока открыт терминал. Для автозапуска с VS Code — добавь в `.vscode/tasks.json` или запускай в фоне.
