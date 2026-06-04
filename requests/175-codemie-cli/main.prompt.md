@@ -200,3 +200,65 @@ codemie analytics --last 30d --export csv
 
 **Обновлён [modules/175-codemie-cli/tools/SKILL.md](../../modules/175-codemie-cli/tools/SKILL.md):**
 - Добавлен новый раздел **GitHub Copilot Integration (OpenAI Compatible)** с полными инструкциями: как запустить proxy, где взять ключ, как добавить модель в GHCP, список доступных моделей, примечания про SSO-сессию и порт
+
+## UPD8
+
+Ну вот я запустил прокси `http://127.0.0.1:4001/v1` выдает `{"type":"error","error":{"type":"authentication_error","message":"Invalid API key"}}` что не так сделал? 
+Потом ты пишешь `VS Code → Copilot: Manage Models → + Add Models… → OpenAI Compatible` а что именно вставлять? У меня есть файл конфига, и там я могу делать что-то такое (это я делал для другого проксика).
+```json
+[
+	{
+		"name": "OpenAI Compatible",
+		"vendor": "customoai",
+		"apiKey": "${input:chat.lm.secret.123456}",
+		"models": [
+			{
+				"id": "gpt-4o-2024-11-20",
+				"name": "Claude Sonnet 4.6",
+				"url": "http://localhost:4000/openai/deployments/claude-sonnet-4-6@default/chat/completions",
+				"toolCalling": true,
+				"vision": true,
+				"maxInputTokens": 80000,
+				"maxOutputTokens": 16000
+			}
+		]
+	}
+]
+```
+Предложи свой вариант этого конфига для того же Claude Sonnet 4.6 go
+
+### RESULT (UPD8)
+
+**Причина `Invalid API key`:** обращение к `/v1` без заголовка `Authorization: Bearer codemie-proxy`. Прокси требует этот заголовок — браузер / прямой GET его не передаёт. Ключ `codemie-proxy` — это значение `gatewayKey` из `~/.codemie/proxy-daemon.json`, он же используется в конфиге.
+
+**Конфиг `chat.languageModels` для Claude Sonnet 4.6:**
+
+```json
+"chat.languageModels": [
+  {
+    "name": "CodeMie Proxy",
+    "vendor": "customoai",
+    "apiKey": "codemie-proxy",
+    "models": [
+      {
+        "id": "claude-sonnet-4-6",
+        "name": "Claude Sonnet 4.6 (CodeMie)",
+        "url": "http://127.0.0.1:4001/v1/chat/completions",
+        "toolCalling": true,
+        "vision": true,
+        "maxInputTokens": 200000,
+        "maxOutputTokens": 16000
+      }
+    ]
+  }
+]
+```
+
+Отличия от оригинального примера:
+- `apiKey` — прямо `"codemie-proxy"` (не секрет, локальный pass-through)
+- `url` — стандартный OpenAI path `/v1/chat/completions`, не Azure deployment path
+- `maxInputTokens` — 200000 (у Claude; в примере был Azure-лимит 80000)
+
+Добавить в `%APPDATA%\Code\User\settings.json` или в воркспейс-файл `.vscode/settings.json`.
+
+**Перед использованием:** `codemie proxy start` должен быть запущен. Добавить в startup shell или запускать вручную.
