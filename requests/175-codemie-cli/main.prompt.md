@@ -262,3 +262,52 @@ codemie analytics --last 30d --export csv
 Добавить в `%APPDATA%\Code\User\settings.json` или в воркспейс-файл `.vscode/settings.json`.
 
 **Перед использованием:** `codemie proxy start` должен быть запущен. Добавить в startup shell или запускать вручную.
+
+## UPD9
+
+Все сделал как ты сказал. Ошибка вот 
+```
+Sorry, your request failed. Please try again.
+
+Copilot Request id: ...
+
+Reason: Invalid API key: Error: Invalid API key at $j._provideLanguageModelResponse
+(\VSCode\[REDACTED]\resources\app\extensions\copilot\dist\extension.js:...)
+at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+``` 
+go
+
+### RESULT (UPD9)
+
+**Причина:** GitHub Copilot не принимает `apiKey` как plain string — ожидает secret reference `${input:chat.lm.secret.NAME}`. Перед запросом расширение резолвит секрет из VS Code Secure Storage и, если видит сырую строку, выбрасывает `Invalid API key` локально, даже не обращаясь к прокси.
+
+**Исправленный конфиг:**
+
+```json
+"chat.languageModels": [
+  {
+    "name": "CodeMie Proxy",
+    "vendor": "customoai",
+    "apiKey": "${input:chat.lm.secret.codemie}",
+    "models": [
+      {
+        "id": "claude-sonnet-4-6",
+        "name": "Claude Sonnet 4.6 (CodeMie)",
+        "url": "http://127.0.0.1:4001/v1/chat/completions",
+        "toolCalling": true,
+        "vision": true,
+        "maxInputTokens": 200000,
+        "maxOutputTokens": 16000
+      }
+    ]
+  }
+]
+```
+
+**Что произойдёт при первом использовании:** VS Code покажет диалог "Enter secret for `codemie`" — введи `codemie-proxy`. Секрет сохранится в VS Code Secure Storage, повторно вводить не нужно.
+
+**Если диалог не появляется:** открой Command Palette → **Manage Unsafe Repositories** или выполни в терминале:
+```bash
+code --command "workbench.action.openSettings" "chat.languageModels"
+```
+Затем сделай любой запрос в Copilot Chat с выбранной моделью — диалог появится при первом реальном обращении.
