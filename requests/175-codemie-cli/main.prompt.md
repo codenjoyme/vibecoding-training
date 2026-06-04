@@ -17,3 +17,20 @@ iterative-prompt/SKILL.md
   - Все блоки кода (bash, powershell, js, json, elisp) — в fenced code blocks с указанием языка
   - `[!CAUTION]` блок сохранён
   - Секция FAQ разбита по macOS / Windows с anchor-якорями на каждый вопрос
+
+  ## UPD2
+
+  Дальше давай сделаем полноценный тренинговый модуль для работы с этим `SKILL.md` он пусть *без изменения* мигрирует в папку `175-codemie-cli\tools` и дальше мы его поможем настроить учащемуся и покажем зачем нужны основные действия вокруг него. Следуй инструкции [text](../../instructions/create-training-module.agent.md). go
+
+### RESULT (UPD2)
+
+- [modules/175-codemie-cli/tools/SKILL.md](../../modules/175-codemie-cli/tools/SKILL.md) — SKILL.md скопирован без изменений из `requests/175-codemie-cli/SKILL.md`
+- [modules/175-codemie-cli/about.md](../../modules/175-codemie-cli/about.md) — описание модуля: топики, outcome, prerequisites (103-cli required, 040-agent-mode optional)
+- [modules/175-codemie-cli/walkthrough.md](../../modules/175-codemie-cli/walkthrough.md) — пошаговый воркшоп (6 частей):
+  - Part 1: Install Node.js (macOS + Windows)
+  - Part 2: Install CodeMie CLI via npm
+  - Part 3: Authenticate with `codemie setup`
+  - Part 4: Install an AI agent (`claude --supported`, gemini, opencode)
+  - Part 5: Connect to IDE (VS Code = direct; Cursor = proxy; Other IDEs = ACP)
+  - Part 6: Verify with `codemie doctor`
+  - Success Criteria, Understanding Check (5 вопросов), Troubleshooting table, Next Steps
