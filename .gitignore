@@ -5,7 +5,6 @@ __pycache__/
 work/
 training-progress.md
 .env
-.vscode/mcp.json
 feedback/
 lnd/feedback
 lnd/reference

@@ -1,0 +1,29 @@
+  {
+    "servers": {
+      "echo-windows": {
+        "command": "powershell",
+        "args": ["-ExecutionPolicy", "Bypass", "-File", "./modules/100-mcp-model-context-protocol/tools/mcp-echo.ps1"]
+      },
+      "image-viewer-windows": {
+        "command": "powershell",
+        "args": ["-ExecutionPolicy", "Bypass", "-File", "./modules/107-mcp-image-viewer/tools/mcp-image-viewer.ps1"]
+      },
+      "winapi-mcp": {
+        "type": "stdio",
+        "command": "powershell",
+        "args": ["-ExecutionPolicy", "Bypass", "-File", "./modules/650-winapi/tools/scripts/run.ps1"]
+      },
+      "filesystem": {
+        "command": "powershell",
+        "args": ["-ExecutionPolicy", "Bypass", "-File", "./work/100-task/mcp-filesystem.ps1"]
+      },
+      "github": {
+        "type": "http",
+        "url": "https://api.githubcopilot.com/mcp/"
+      },
+      "chrome-devtools": {
+        "command": "npx",
+        "args": ["-y", "chrome-devtools-mcp@latest"]
+      }
+    }
+  }
