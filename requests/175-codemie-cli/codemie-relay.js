@@ -67,13 +67,38 @@ const server = http.createServer((req, res) => {
       if (isStream) {
         // Streaming: forward headers as-is (Content-Length not applicable for SSE)
         res.writeHead(proxyRes.statusCode, proxyRes.headers);
-        // Patch model field in each SSE data line
+        // Parse each SSE line and force-set model to FAKE_MODEL.
+        // Regex approach misses "model":null — use per-line JSON parse instead.
+        let lineBuffer = '';
         proxyRes.on('data', (chunk) => {
-          const patched = chunk.toString('utf8')
-            .replace(/"model":"[^"]*"/g, () => '"model":"' + FAKE_MODEL + '"');
-          res.write(patched);
+          lineBuffer += chunk.toString('utf8');
+          const lines = lineBuffer.split('\n');
+          lineBuffer = lines.pop(); // hold incomplete last line
+          const out = lines.map(line => {
+            if (!line.startsWith('data: ') || line.trimEnd() === 'data: [DONE]') return line;
+            try {
+              const parsed = JSON.parse(line.slice(6));
+              parsed.model = FAKE_MODEL;
+              return 'data: ' + JSON.stringify(parsed);
+            } catch (e) { return line; }
+          }).join('\n') + '\n';
+          res.write(out);
         });
-        proxyRes.on('end', () => res.end());
+        proxyRes.on('end', () => {
+          if (lineBuffer) {
+            if (lineBuffer.startsWith('data: ') && lineBuffer.trimEnd() !== 'data: [DONE]') {
+              try {
+                const parsed = JSON.parse(lineBuffer.slice(6));
+                parsed.model = FAKE_MODEL;
+                res.write('data: ' + JSON.stringify(parsed) + '\n');
+                res.end();
+                return;
+              } catch (e) {}
+            }
+            res.write(lineBuffer);
+          }
+          res.end();
+        });
       } else {
         // Non-streaming: buffer full body first, patch model, then send with correct Content-Length
         const respChunks = [];
