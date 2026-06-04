@@ -346,6 +346,15 @@ Close Cursor completely (`Cmd+Q` / `Alt+F4`) and reopen it — “Developer: Rel
 2. Search for **Claude Code for VS Code** (publisher: Anthropic) and install it
 3. Open the command palette and run **Claude Code: Open**
 
+**Windows only:** VS Code also requires `claudeCode.claudeProcessWrapper` pointing to the `.exe` proxy (same setup as [Cursor › Set Up the Proxy](#2-set-up-the-proxy)). Without it you will get `spawn EINVAL`. Add to `%APPDATA%\Code\User\settings.json` (or `%APPDATA%\Code - Insiders\User\settings.json` for VS Code Insiders):
+
+```json
+"claudeCode.claudeProcessWrapper": "C:\\Users\\<you>\\.local\\bin\\claude-codemie-proxy.exe",
+"claudeCode.disableLoginPrompt": true
+```
+
+Restart VS Code completely (not Reload Window) after saving.
+
 ---
 
 ### Other IDEs via ACP Protocol <a id="other-ides-via-acp-protocol"></a>
@@ -693,6 +702,22 @@ This is the correct option to use when working through the CodeMie Proxy.
    codemie install claude
    ```
    `codemie` will detect it’s already installed and skip the download.
+
+---
+
+## Usage Analytics <a id="usage-analytics"></a>
+
+Track token and session usage after running agents:
+
+```bash
+codemie analytics --last 7d          # summary for last 7 days
+codemie analytics --last 7d -v       # per-session breakdown
+codemie analytics --last 30d --export csv   # export to file
+```
+
+Filters: `--agent claude`, `--project myrepo`, `--from 2026-01-01 --to 2026-01-31`.
+
+Data appears only after the first agent session completes. More detailed analytics (with token cost breakdown) are available in the CodeMie web platform under the same URL used during `codemie setup`.
 
 ---
 
