@@ -40,6 +40,7 @@
     - [E404 - Not Found for the codemie package](#win-e404)
     - [CodeMie Proxy Gateway Does Not Appear in Claude App](#codemie-proxy-gateway)
     - [Commands not found after npm install -g @codemieai/code](#win-commands-not-found)
+- [GitHub Copilot Integration (OpenAI Compatible)](#ghcp-openai-compatible)
 - [Sources](#sources)
 
 ---
@@ -702,6 +703,60 @@ This is the correct option to use when working through the CodeMie Proxy.
    codemie install claude
    ```
    `codemie` will detect it’s already installed and skip the download.
+
+---
+
+## GitHub Copilot Integration (OpenAI Compatible) <a id="ghcp-openai-compatible"></a>
+
+CodeMie's local proxy daemon exposes a fully **OpenAI-compatible REST API** at `http://127.0.0.1:4001/v1`. This means GitHub Copilot (VS Code) can use it as an "OpenAI Compatible" custom model provider — routing Copilot model requests through your corporate CodeMie authentication.
+
+### Step 1 — Start the proxy daemon
+
+```bash
+codemie proxy start
+```
+
+Verify: `codemie proxy status` should show `running` at `http://127.0.0.1:4001`.
+
+### Step 2 — Find the gateway key
+
+The local key is stored in `~/.codemie/proxy-daemon.json` under `gatewayKey`. Default value: `codemie-proxy`.
+
+```bash
+# macOS/Linux
+cat ~/.codemie/proxy-daemon.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['gatewayKey'])"
+
+# Windows PowerShell
+python -c "import json,os; d=json.load(open(os.path.join(os.environ['USERPROFILE'],'.codemie','proxy-daemon.json'))); print(d['gatewayKey'])"
+```
+
+### Step 3 — Add a custom model in GitHub Copilot
+
+1. Open VS Code command palette → **GitHub Copilot: Manage Models** (or open the Language Models panel)
+2. Click **+ Add Models…** → select **OpenAI Compatible**
+3. Fill in:
+   - **URL:** `http://127.0.0.1:4001/v1`
+   - **API Key:** `codemie-proxy` (the `gatewayKey` from Step 2)
+   - **Model:** any model ID from the list below
+4. Save and select the model in Copilot Chat
+
+### Available models (example)
+
+The full list is returned by `GET http://127.0.0.1:4001/v1/models` with `Authorization: Bearer codemie-proxy`. Common entries:
+
+```
+claude-sonnet-4-6        claude-opus-4-6-...      claude-haiku-4-5-...
+gpt-4.1                  gpt-4.1-mini             gpt-5-2025-08-07
+o3-mini                  o3-2025-04-16            deepseek-r1
+gemini-3.5-flash         gemini-3.1-pro           qwen.qwen3-coder-480b-...
+```
+
+### Notes
+
+- The proxy daemon **must be running** when Copilot makes requests. Add `codemie proxy start` to your shell startup or run it manually before using Copilot.
+- The proxy key (`codemie-proxy`) is a **local-only** pass-through key — it is not your SSO credential. Authentication with the corporate endpoint happens inside the daemon using your stored SSO session.
+- If the SSO session expires (`codemie doctor` shows SSO expired), re-run `codemie setup` or `codemie profile login` and then restart the proxy.
+- The daemon auto-selects port 4001. If that port is busy, start with `codemie proxy start --port <other-port>` and update the URL in Copilot settings.
 
 ---
 

@@ -174,3 +174,29 @@ codemie analytics --last 30d --export csv
 **Обновлён [modules/175-codemie-cli/tools/SKILL.md](../../modules/175-codemie-cli/tools/SKILL.md) — 2 точечных дополнения:**
 1. **VS Code → Windows** — добавлена заметка что на Windows нужен тот же proxy.exe + настройка `claudeCode.claudeProcessWrapper` (оригинальный SKILL упоминал это только для Cursor, VS Code-секция была неполной)
 2. **Usage Analytics** — добавлен новый раздел с командами `codemie analytics` и ссылкой на веб-платформу (в оригинале отсутствовал)
+
+## UPD7
+
+Хорошо, а как же возможность добавлять кастомные модели в GHCP вот так?
+![alt text](image-2.png)
+Насколько я посмотрел что такое codemie cli это адаптер, и через него можно модели получать `https://raw.githubusercontent.com/codemie-ai/codemie-code/refs/heads/main/README.md`. Изучи плиз вопрос и давай сделаем чудо. go
+
+### RESULT (UPD7)
+
+**Чудо сделано. Работает.**
+
+`codemie proxy start` поднимает локальный демон с полноценным **OpenAI-compatible API** на `http://127.0.0.1:4001/v1`. Проверено:
+- `GET /v1/models` — возвращает 35+ моделей (claude, gpt-5, gemini, deepseek, qwen, o3 и т.д.)
+- `POST /v1/chat/completions` — отвечает корректно через корпоративный endpoint
+
+**Как подключить GitHub Copilot:**
+
+1. `codemie proxy start` (запустить демон)
+2. VS Code → **GitHub Copilot: Manage Models** → **+ Add Models…** → **OpenAI Compatible**
+3. URL: `http://127.0.0.1:4001/v1`  
+   API Key: `codemie-proxy` (локальный pass-through ключ — НЕ SSO credential)  
+   Model: любой из списка, например `claude-sonnet-4-6` или `gpt-5-2025-08-07`
+4. Сохранить и выбрать модель в Copilot Chat
+
+**Обновлён [modules/175-codemie-cli/tools/SKILL.md](../../modules/175-codemie-cli/tools/SKILL.md):**
+- Добавлен новый раздел **GitHub Copilot Integration (OpenAI Compatible)** с полными инструкциями: как запустить proxy, где взять ключ, как добавить модель в GHCP, список доступных моделей, примечания про SSO-сессию и порт
