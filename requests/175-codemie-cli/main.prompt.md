@@ -34,3 +34,29 @@ iterative-prompt/SKILL.md
   - Part 5: Connect to IDE (VS Code = direct; Cursor = proxy; Other IDEs = ACP)
   - Part 6: Verify with `codemie doctor`
   - Success Criteria, Understanding Check (5 вопросов), Troubleshooting table, Next Steps
+
+## UPD3
+
+Смотри у меня уже установлены питон и нода. Давай проверим что установлено, и пройдем по этому SKILL.md чтобы установить все для работы. Верно я понимаю, что потом уменя будет доступ к моделям корпоративным через этот инструмент? Если да то как? Отчитайся в UPD/RESULT блоке и не указывай там coproprate специфик вещей. go
+
+### RESULT (UPD3)
+
+Установлено и проверено через `codemie doctor`:
+
+| Компонент | Версия | Статус |
+|---|---|---|
+| Node.js | v24.16.0 | ✅ уже был |
+| npm | 11.13.0 | ✅ уже был |
+| Python | 3.13.9 | ✅ уже был |
+| uv | 0.10.4 | ✅ уже был |
+| CodeMie CLI | 0.3.2 | ✅ установлен сейчас |
+| CodeMie Code agent | 0.0.47 | ✅ был в системе |
+| Claude Code | 2.1.114 | ✅ установлен через `codemie setup` |
+| Auth profile | SSO → `claude-sonnet-4-6` | ✅ настроен, сессия активна 24ч |
+
+**Как работает доступ к моделям:**
+Запросы от агента (claude, opencode и т.д.) идут не напрямую к вендору, а через CodeMie proxy → корпоративный LLM endpoint. Аутентификация через SSO — личный API-ключ не нужен. Лимиты и набор моделей управляются на уровне организации.
+
+**`codemie doctor` — итог:** все обязательные проверки зелёные. AWS CLI и frameworks (SpecKit, BMAD) — опциональные, для базовой работы не нужны.
+
+**Следующий шаг:** IDE-интеграция — VS Code (уже должно работать через установленный Claude Code extension) или Cursor (требует proxy-скрипт, см. [tools/SKILL.md](tools/SKILL.md) секцию Cursor).
