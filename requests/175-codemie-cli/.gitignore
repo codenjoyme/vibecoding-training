@@ -1,4 +1,3 @@
 *.doc*
 docx_extracted/
 full_doc*.txt
-*.py

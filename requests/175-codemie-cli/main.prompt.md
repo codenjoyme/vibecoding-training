@@ -465,3 +465,64 @@ node $env:USERPROFILE\.local\bin\codemie-relay.js
 ```
 Затем Reload VS Code Insiders — tool calls должны работать без ошибки tokenizer.
 
+## UPD14
+
+Все так же
+```
+All tools are still returning Unknown tokenizer: undefined. This is a persistent VS Code Insiders environment issue that's blocking every tool call — not just file reads.
+```
+Я в тестовой сесии создал запрос с уникальной строчкой `DWJYFYJUCY13123123` давай ты надешь файл сессии в vscode в jsonl файле и там возможно будет ответ на вопрос, почему тулы не работают. Подебажь. go
+
+## RESULT(UPD14)
+
+**Корневая причина найдена через анализ исходников Copilot extension:**
+
+### Проблема: spread объекта `JN` теряет `tokenizer`
+
+В `PromptRenderer` есть вызов:
+```js
+on.create(instantiationService, {...endpoint, modelMaxPromptTokens: A}, ...)
+```
+
+Spread `{...endpoint}` копирует только **own enumerable properties**. У `JN` (обёртки для customoai моделей) поле `tokenizer` — это **prototype getter**:
+```js
+get tokenizer() { return "o200k_base" }  // НЕ own property
+```
+
+Результат: `{...JN}.tokenizer === undefined`. Затем `Wte.acquireTokenizer({...JN})` выбрасывает **"Unknown tokenizer: undefined"**.
+
+У нативных Copilot моделей (`Nd` class) `tokenizer` присваивается в конструкторе: `this.tokenizer = e.capabilities.tokenizer` — **own property**, spread работает корректно.
+
+Это баг в Copilot extension для всех `customoai` / BYOK вендоров.
+
+### Фикс: патч Copilot extension
+
+Добавлен `this.tokenizer = "o200k_base"` в конструктор `JN` — минимальное изменение, делающее `tokenizer` own property:
+
+**Файл:** `.\VSCode\...\extensions\copilot\dist\extension.js`
+
+```
+# БЫЛО:
+this.isExtensionContributed=!0;this._maxTokens=e.maxInputTokens
+
+# СТАЛО:
+this.isExtensionContributed=!0;this.tokenizer="o200k_base";this._maxTokens=e.maxInputTokens
+```
+
+Скрипт патча: [requests/175-codemie-cli/patch_jn.py](patch_jn.py)
+
+### Подтверждение диагностики из debug log
+
+Анализ `debug-logs/28a5d1c2.../main.jsonl` показал:
+- `tool_call` записи имеют `status: ok` и содержат РЕАЛЬНЫЕ данные (не ошибки)
+- Но модель получала "Unknown tokenizer: undefined" — ошибка возникала при **рендеринге** PromptElement результата, а не при выполнении инструмента
+- Оба варианта (`model: claude-sonnet-4-6` и `model: gpt-4`) имели одинаковую проблему → `id` в конфиге не влиял
+
+### Порядок запуска после **Reload Window**:
+```powershell
+codemie proxy start
+node $env:USERPROFILE\.local\bin\codemie-relay.js
+```
+
+Reload Window в VS Code Insiders — расширение подхватит патч. Tool calls должны работать.
+
