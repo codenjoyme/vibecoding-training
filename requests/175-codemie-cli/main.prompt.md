@@ -649,3 +649,52 @@ if hasattr(sys.stderr, 'buffer'):
 ```
 
 **Проверено:** `uv run --no-project dial-proxy.py` — сервер запустился, терминал завис в режиме ожидания подключений (нет ошибок).
+
+## UPD18
+
+Во первых когда выполняю команду: 
+`$env:DIAL_API_KEY = "****************"; uv run --no-project .\dial-proxy.py`
+То не вижу вывода в терминале атпута скрипта. Только если тушу по Ctrl-C вижду что напечатано. 
+
+Во вторых когда запустил тест то получил 
+```
+Sorry, your request failed. Please try again.
+
+Copilot Request id: ********
+
+Reason: Please check your firewall rules and network connection then try again. Error Code: Cannot convert argument to a ByteString because the character at index 7 has a value of 1074 which is greater than 255..: Error: Please check your firewall rules and network connection then try again. Error Code: Cannot convert argument to a ByteString because the character at index 7 has a value of 1074 which is greater than 255.. at $j._provideLanguageModelResponse (\VSCode\**********\resources\app\extensions\copilot\dist\extension.js:1709:13738)
+```
+go
+
+### RESULT (UPD18)
+
+**Проблема 1: нет вывода до Ctrl-C**
+
+`io.TextIOWrapper` по умолчанию block-buffered — печатает только когда буфер заполнится или поток закроется. Добавлен `line_buffering=True` → сброс буфера после каждой строки:
+
+```python
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace', line_buffering=True)
+```
+
+Исправлено в [modules/170-dial-api-key-curl-access/tools/dial-proxy.py](../../modules/170-dial-api-key-curl-access/tools/dial-proxy.py). Проверено: сервер теперь выводит все 6 строк запуска немедленно.
+
+**Проблема 2: `Cannot convert argument to a ByteString… character at index 7 has a value of 1074`**
+
+1074 = U+0432 = кириллица `в`. Индекс 7 = позиция после `"Bearer "` (7 символов) → первый символ секрета. Значит в VS Code Secure Storage хранился ключ начинающийся с кириллицы.
+
+**Причина:** VS Code запрашивал "Enter API key" и туда случайно ввели кириллицу. Заголовок HTTP `Authorization: Bearer <кириллица>` не может быть сконвертирован в ByteString (HTTP headers = Latin-1 only). Ошибка кидается прямо в Copilot extension до HTTP-запроса.
+
+**Важно:** `dial-proxy.py` вообще не использует этот ключ — он берёт DIAL key из `$env:DIAL_API_KEY`. Ключ VS Code Secure Storage нужен только чтобы пройти валидацию Copilot extension.
+
+**Фикс:** сброс сохранённого секрета через переименование в `chatLanguageModels.json`:
+- было: `${input:chat.lm.secret.233b9544}`
+- стало: `${input:chat.lm.secret.dial}`
+
+VS Code не найдёт сохранённого значения под новым именем → при следующем запросе покажет диалог "Enter API key for OpenAI Compatible". Ввести любой ASCII-символ (например `dial-proxy`).
+
+Исправлено в `%APPDATA%\Code - Insiders\User\chatLanguageModels.json`.
+
+**Порядок действий после Reload Window:**
+1. Выбрать модель **Claude Sonnet 4.6 (DIAL)** в Copilot Chat
+2. VS Code спросит "Enter API key" — ввести `dial-proxy` (или любую ASCII строку)
+3. Запрос пройдёт

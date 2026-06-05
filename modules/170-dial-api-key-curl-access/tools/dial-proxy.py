@@ -18,10 +18,11 @@ import uuid
 import io
 
 # Ensure UTF-8 output on Windows (cp1252 can't encode emoji)
+# line_buffering=True: flush after every newline so output appears immediately (not block-buffered)
 if hasattr(sys.stdout, 'buffer'):
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace', line_buffering=True)
 if hasattr(sys.stderr, 'buffer'):
-    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace', line_buffering=True)
 
 urllib3.disable_warnings()
 
