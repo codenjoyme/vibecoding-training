@@ -563,3 +563,11 @@ codemie proxy start
 node $env:USERPROFILE\.local\bin\codemie-relay.js
 ```
 Затем **Reload Window** в VS Code Insiders — tool calls должны заработать.
+
+## UPD16
+
+Все заработало! Спасибо.
+
+И по нашему Codemie файл [text](codemie-relay.js) и [text](patch_jn.py). Давай перпеместим его рядом с SKILL.md в папку `175-codemie-cli/tools`. Так же давай дополним SKILL.md информацией про эту возможность запускать для GHCP на моделях CodeMie через relay-прокси. И так же надо следуя инструкции [text](../../instructions/create-training-module.agent.md) обновить соответствующий тренинговый модуль, добавив в него все что мы тут делали с тобой - отдельно для плагина Claude в VSCode и отдельно для GHCP. 
+
+После давай сделаем чтобы коннект через DIAL тоже заработал. Там тоже самое, там тоже `Unknown tokenizer: undefined` и после патча оно джолжно работать. А вот [text](../../modules/170-dial-api-key-curl-access/tools/dial-proxy.py) скрипт почему-то перестал работать после каких-то фиксов. Давай посмотрим на него и на [text](../../modules/170-dial-api-key-curl-access/tools/epam_ai_dial_chat_conversation_6-5.json) что там.  go

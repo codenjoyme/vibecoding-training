@@ -1,6 +1,6 @@
 # CodeMie CLI Setup & IDE Integration
 
-**Duration:** 30–40 minutes
+**Duration:** 45–60 minutes
 
 **Skill:** Install, authenticate, and configure CodeMie CLI to run AI coding agents (Claude Code, Gemini, OpenCode) through your company's enterprise proxy, and connect them to VS Code or Cursor.
 
@@ -12,7 +12,9 @@
 - Installing Node.js and the `@codemieai/code` npm package
 - Authenticating with `codemie setup` — SSO, JWT, and other providers
 - Installing AI coding agents: Claude Code, Gemini CLI, OpenCode
-- IDE integration: VS Code (one-click) and Cursor (proxy configuration)
+- IDE integration: Claude Code extension for VS Code and Cursor (proxy configuration)
+- GitHub Copilot (GHCP) integration via relay proxy and `chatLanguageModels.json`
+- One-time Copilot extension patch (`patch_jn.py`) to fix tool call tokenizer bug
 - Running `codemie doctor` to health-check the installation
 - Cross-platform troubleshooting with `tools/SKILL.md` as the reference guide
 

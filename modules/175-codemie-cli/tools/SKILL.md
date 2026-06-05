@@ -41,6 +41,7 @@
     - [CodeMie Proxy Gateway Does Not Appear in Claude App](#codemie-proxy-gateway)
     - [Commands not found after npm install -g @codemieai/code](#win-commands-not-found)
 - [GitHub Copilot Integration (OpenAI Compatible)](#ghcp-openai-compatible)
+  - [Fixing Tool Calls — Unknown tokenizer fix](#ghcp-relay-fix)
 - [Sources](#sources)
 
 ---
@@ -757,6 +758,72 @@ gemini-3.5-flash         gemini-3.1-pro           qwen.qwen3-coder-480b-...
 - The proxy key (`codemie-proxy`) is a **local-only** pass-through key — it is not your SSO credential. Authentication with the corporate endpoint happens inside the daemon using your stored SSO session.
 - If the SSO session expires (`codemie doctor` shows SSO expired), re-run `codemie setup` or `codemie profile login` and then restart the proxy.
 - The daemon auto-selects port 4001. If that port is busy, start with `codemie proxy start --port <other-port>` and update the URL in Copilot settings.
+
+### Fixing Tool Calls — Unknown tokenizer fix <a id="ghcp-relay-fix"></a>
+
+GitHub Copilot's `customoai` (BYOK) endpoint has a known bug: tool calls fail with `Unknown tokenizer: undefined` because the `JN` class that wraps custom models stores `tokenizer` as a prototype getter, not an own property. When Copilot spreads the endpoint `{...endpoint, modelMaxPromptTokens: X}`, prototype getters are not copied → `tokenizer` becomes `undefined` → every tool call fails.
+
+This affects all `customoai` integrations (DIAL, CodeMie, any other BYOK entry).
+
+**Fix A — Patch extension.js (one-time, re-run after Copilot extension updates)**
+
+Run `patch_jn.py` from the module tools folder. It adds `Object.defineProperty` to the `JN` constructor so `tokenizer` becomes an own enumerable property that survives the spread.
+
+```powershell
+# Run from the directory that contains the VSCode installation
+# (e.g. C:\Java if VS Code Insiders is in C:\Java\VSCode-win32-x64-...)
+python modules/175-codemie-cli/tools/patch_jn.py
+```
+
+Expected output: `Found target: ... Patched successfully!`
+
+Then **Reload Window** in VS Code Insiders (Ctrl+Shift+P → Developer: Reload Window).
+
+**Fix B — Relay proxy for model name translation**
+
+Copilot sends the `id` from `chatLanguageModels.json` as the model name. The CodeMie proxy only recognises `claude-sonnet-4-6`, not `gpt-4`. The relay translates model names in both directions and also removes the `top_p` / `temperature` conflict that Bedrock Claude rejects.
+
+Copy `codemie-relay.js` to `~/.local/bin/` and start it:
+
+```powershell
+Copy-Item modules/175-codemie-cli/tools/codemie-relay.js "$env:USERPROFILE\.local\bin\codemie-relay.js"
+node "$env:USERPROFILE\.local\bin\codemie-relay.js"
+```
+
+Keep the relay terminal open. It listens on port 4002 and forwards to CodeMie proxy on port 4001.
+
+**`chatLanguageModels.json` entry for relay:**
+
+```json
+{
+  "name": "CodeMie Proxy",
+  "vendor": "customoai",
+  "apiKey": "${input:chat.lm.secret.codemie}",
+  "models": [
+    {
+      "id": "gpt-4",
+      "name": "Claude Sonnet 4.6 (CodeMie)",
+      "url": "http://127.0.0.1:4002/v1/chat/completions",
+      "toolCalling": true,
+      "vision": true,
+      "maxInputTokens": 200000,
+      "maxOutputTokens": 16000
+    }
+  ]
+}
+```
+
+`id: "gpt-4"` is a known tokenizer name → Copilot resolves `o200k_base`. The relay rewrites `gpt-4` → `claude-sonnet-4-6` in requests and back in responses.
+
+**Startup order each session:**
+
+```powershell
+codemie proxy start                                              # port 4001
+node "$env:USERPROFILE\.local\bin\codemie-relay.js"            # port 4002
+# Then Reload Window in VS Code
+```
+
+First time using the model in Copilot Chat, VS Code prompts "Enter API key for CodeMie Proxy" — enter any non-empty string (e.g. `sk-codemie`).
 
 ---
 

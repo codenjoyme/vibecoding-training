@@ -239,6 +239,95 @@ A response confirms the full chain: IDE → extension → agent → CodeMie prox
 
 ---
 
+## Part 7: GitHub Copilot Integration via Relay Proxy
+
+### What we'll do
+
+Connect GitHub Copilot Chat to a CodeMie model using Copilot's built-in "OpenAI Compatible" BYOK feature. This lets you select a CodeMie model in the Copilot Chat dropdown alongside regular GitHub models.
+
+### Why a relay proxy is needed
+
+GitHub Copilot's BYOK integration has a known bug: tool calls fail with `Unknown tokenizer: undefined` because the Copilot extension's `JN` class stores `tokenizer` as a prototype getter that is lost when the endpoint object is spread. Two fixes are required:
+
+1. **One-time extension patch** (`patch_jn.py`) — adds `tokenizer` as an own property to the JN constructor
+2. **Relay proxy** (`codemie-relay.js`) — bridges port 4001 (CodeMie) with model name translation
+
+### Step 1 — Patch the Copilot extension (one-time)
+
+```powershell
+# Run from the directory that contains your VS Code Insiders installation
+# (e.g. C:\Java if VS Code Insiders is at C:\Java\VSCode-win32-x64-...\)
+cd C:\Java
+python modules/175-codemie-cli/tools/patch_jn.py
+```
+
+Expected output:
+```
+Found target: this.isExtensionContributed=!0;...
+Patched successfully!
+```
+
+> After any VS Code / Copilot extension update, re-run this script.
+
+### Step 2 — Copy and start the relay proxy
+
+```powershell
+# Copy relay to user bin (once)
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.local\bin" | Out-Null
+Copy-Item modules/175-codemie-cli/tools/codemie-relay.js "$env:USERPROFILE\.local\bin\codemie-relay.js"
+
+# Start relay (keep this terminal open)
+node "$env:USERPROFILE\.local\bin\codemie-relay.js"
+```
+
+Expected output:
+```
+codemie-relay listening on http://127.0.0.1:4002/v1
+forwarding to http://127.0.0.1:4001 with key codemie-proxy
+```
+
+### Step 3 — Configure chatLanguageModels.json
+
+Open `%APPDATA%\Code - Insiders\User\chatLanguageModels.json` (stable VS Code: `%APPDATA%\Code\User\chatLanguageModels.json`) and add this entry to the JSON array:
+
+```json
+{
+  "name": "CodeMie Proxy",
+  "vendor": "customoai",
+  "apiKey": "${input:chat.lm.secret.codemie}",
+  "models": [
+    {
+      "id": "gpt-4",
+      "name": "Claude Sonnet 4.6 (CodeMie)",
+      "url": "http://127.0.0.1:4002/v1/chat/completions",
+      "toolCalling": true,
+      "vision": true,
+      "maxInputTokens": 200000,
+      "maxOutputTokens": 16000
+    }
+  ]
+}
+```
+
+> `id: "gpt-4"` is used so Copilot resolves a known tokenizer. The relay translates `gpt-4` → `claude-sonnet-4-6` in actual requests.
+
+### Step 4 — Reload and use
+
+1. Open VS Code command palette → **Developer: Reload Window**
+2. Open Copilot Chat → click the model selector
+3. Find **Claude Sonnet 4.6 (CodeMie)** and select it
+4. Send a test message — VS Code will ask for an API key once: enter any non-empty string (e.g. `sk-codemie`)
+
+### Startup order (every session)
+
+```powershell
+codemie proxy start                                          # port 4001 — CodeMie proxy
+node "$env:USERPROFILE\.local\bin\codemie-relay.js"         # port 4002 — relay
+# Then Reload Window in VS Code
+```
+
+---
+
 ## Success Criteria
 
 - ✅ `node --version` and `npm --version` both print version numbers
@@ -246,6 +335,7 @@ A response confirms the full chain: IDE → extension → agent → CodeMie prox
 - ✅ `codemie doctor` shows all five required checks as ✓
 - ✅ At least one agent (`claude`, `gemini`, or `opencode`) is installed and responds to `--version`
 - ✅ The agent is reachable from inside VS Code or Cursor
+- ✅ GitHub Copilot Chat shows **Claude Sonnet 4.6 (CodeMie)** in the model selector and responds to a test message
 
 ---
 
@@ -263,7 +353,10 @@ A response confirms the full chain: IDE → extension → agent → CodeMie prox
 4. **What is the `--supported` flag on `codemie install claude`?**  
    *(Installs the specific Claude Code version tested with your CodeMie CLI version, avoiding compatibility issues with the absolute latest release.)*
 
-5. **How do you use `tools/SKILL.md` for troubleshooting in an agentic workflow?**  
+5. **What is `codemie-relay.js` and why is it needed for GitHub Copilot?**  
+   *(A Node.js relay on port 4002 that translates model names between what Copilot sends (`gpt-4`) and what CodeMie expects (`claude-sonnet-4-6`), removes incompatible request parameters, and patches response model fields. Needed because the CodeMie proxy rejects unknown model names, and Copilot tool calls have a tokenizer bug when using BYOK custom models.)*
+
+6. **How do you use `tools/SKILL.md` for troubleshooting in an agentic workflow?**  
    *(Attach it to your AI agent chat session and describe the error — the agent reads the relevant FAQ section and provides adapted fix commands.)*
 
 ---
@@ -278,7 +371,8 @@ A response confirms the full chain: IDE → extension → agent → CodeMie prox
 | PowerShell blocks npm scripts | See [PowerShell blocks npm scripts](tools/SKILL.md) in SKILL.md (Windows) |
 | Cursor shows "Injection done!" but model not responding | Check `settings.json` path and restart Cursor completely (not Reload Window) |
 | `codemie doctor` shows SSO expired | See [SSO session expired](tools/SKILL.md) in SKILL.md |
-| `spawn EINVAL` in Cursor | Windows-specific — see [spawn EINVAL in Cursor](tools/SKILL.md) in SKILL.md |
+| `spawn EINVAL` in VS Code or Cursor | Windows-specific — see [spawn EINVAL in Cursor](tools/SKILL.md) in SKILL.md |
+| `Unknown tokenizer: undefined` on tool calls | Run `patch_jn.py` and restart the relay (see [Fixing Tool Calls](tools/SKILL.md) in SKILL.md) |
 
 For issues not listed here, attach `tools/SKILL.md` to your AI agent and describe what you see.
 
