@@ -2,7 +2,7 @@
 # Replace YOUR_API_KEY_HERE with your actual API key from support
 
 $apiKey = "YOUR_API_KEY_HERE"
-$endpoint = "https://ai-proxy.lab.epam.com/openai/deployments/gpt-4o-mini-2024-07-18/chat/completions"
+$endpoint = "https://ai-proxy.lab.epam.com/openai/deployments/anthropic.claude-opus-4-7/chat/completions"
 
 Write-Host "Testing DIAL connection..." -ForegroundColor Yellow
 Write-Host "Endpoint: $endpoint" -ForegroundColor Cyan
@@ -16,7 +16,7 @@ $body = @{
         }
     )
     max_tokens = 500
-    temperature = 0.7
+    # temperature = 0.7
 } | ConvertTo-Json -Depth 10
 
 $headers = @{
@@ -39,8 +39,11 @@ try {
 } catch {
     Write-Host "`nError occurred:" -ForegroundColor Red
     Write-Host $_.Exception.Message -ForegroundColor Red
-    Write-Host "`nTroubleshooting tips:" -ForegroundColor Yellow
-    Write-Host "1. Verify your API key is correct" -ForegroundColor White
-    Write-Host "2. Ensure you're connected to VPN" -ForegroundColor White
-    Write-Host "3. Check that the model deployment name is current" -ForegroundColor White
+    
+    # Получить детальное тело ошибки
+    $streamReader = [System.IO.StreamReader]::new($_.Exception.Response.GetResponseStream())
+    $errorBody = $streamReader.ReadToEnd()
+    $streamReader.Close()
+    Write-Host "`nError details:" -ForegroundColor Yellow
+    Write-Host $errorBody -ForegroundColor Red
 }

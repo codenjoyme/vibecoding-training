@@ -568,6 +568,84 @@ node $env:USERPROFILE\.local\bin\codemie-relay.js
 
 Все заработало! Спасибо.
 
-И по нашему Codemie файл [text](codemie-relay.js) и [text](patch_jn.py). Давай перпеместим его рядом с SKILL.md в папку `175-codemie-cli/tools`. Так же давай дополним SKILL.md информацией про эту возможность запускать для GHCP на моделях CodeMie через relay-прокси. И так же надо следуя инструкции [text](../../instructions/create-training-module.agent.md) обновить соответствующий тренинговый модуль, добавив в него все что мы тут делали с тобой - отдельно для плагина Claude в VSCode и отдельно для GHCP. 
+И по нашему Codemie файл [codemie-relay.js](codemie-relay.js) и [patch_jn.py](patch_jn.py). Давай перпеместим его рядом с SKILL.md в папку `175-codemie-cli/tools`. Так же давай дополним SKILL.md информацией про эту возможность запускать для GHCP на моделях CodeMie через relay-прокси. И так же надо следуя инструкции [create-training-module.agent.md](../../instructions/create-training-module.agent.md) обновить соответствующий тренинговый модуль, добавив в него все что мы тут делали с тобой - отдельно для плагина Claude в VSCode и отдельно для GHCP. 
 
-После давай сделаем чтобы коннект через DIAL тоже заработал. Там тоже самое, там тоже `Unknown tokenizer: undefined` и после патча оно джолжно работать. А вот [text](../../modules/170-dial-api-key-curl-access/tools/dial-proxy.py) скрипт почему-то перестал работать после каких-то фиксов. Давай посмотрим на него и на [text](../../modules/170-dial-api-key-curl-access/tools/epam_ai_dial_chat_conversation_6-5.json) что там.  go
+После давай сделаем чтобы коннект через DIAL тоже заработал. Там тоже самое, там тоже `Unknown tokenizer: undefined` и после патча оно должно работать. А вот [dial-proxy.py](../../modules/170-dial-api-key-curl-access/tools/dial-proxy.py) скрипт почему-то перестал работать после каких-то фиксов. Давай посмотрим на него и на [epam_ai_dial_chat_conversation_6-5.json](../../modules/170-dial-api-key-curl-access/tools/epam_ai_dial_chat_conversation_6-5.json) что там.  go
+
+### RESULT (UPD16)
+
+**Всё заработало — файлы перемещены, модуль обновлён, DIAL починен.**
+
+#### Файлы скопированы в `tools/`
+- [modules/175-codemie-cli/tools/codemie-relay.js](../../modules/175-codemie-cli/tools/codemie-relay.js) — relay-прокси (скопирован из `requests/175-codemie-cli/`)
+- [modules/175-codemie-cli/tools/patch_jn.py](../../modules/175-codemie-cli/tools/patch_jn.py) — скрипт патча extension.js (скопирован из `requests/175-codemie-cli/`)
+
+#### SKILL.md обновлён
+- [modules/175-codemie-cli/tools/SKILL.md](../../modules/175-codemie-cli/tools/SKILL.md) — добавлена новая подсекция **Fixing Tool Calls — Unknown tokenizer fix** внутри GHCP Integration раздела:
+  - Объяснение root cause: prototype getter `tokenizer` в классе `JN`, теряется при spread
+  - Fix A: `patch_jn.py` — одноразовый патч extension.js через `Object.defineProperty`
+  - Fix B: `codemie-relay.js` — relay для подмены имён моделей + инструкции по запуску
+
+#### Тренинговый модуль обновлён
+- [modules/175-codemie-cli/about.md](../../modules/175-codemie-cli/about.md) — Duration 45–60 мин, Topics дополнены: GHCP интеграция через relay proxy + одноразовый патч extension.js
+- [modules/175-codemie-cli/walkthrough.md](../../modules/175-codemie-cli/walkthrough.md) — добавлен **Part 7: GitHub Copilot Integration via Relay Proxy** (4 шага: патч extension.js, запуск relay, настройка chatLanguageModels.json, reload и выбор модели); обновлены Success Criteria, Understanding Check (вопрос про relay), Troubleshooting table
+
+#### DIAL починен
+- [modules/170-dial-api-key-curl-access/tools/dial-proxy.py](../../modules/170-dial-api-key-curl-access/tools/dial-proxy.py) — исправлен `SPOOF_MODEL`:  `"gpt-4o"` → `"gpt-4o-2024-11-20"` (теперь совпадает с `id` в chatLanguageModels.json)
+- **Root cause для DIAL `Unknown tokenizer`**: тот же баг JN prototype getter. Патч из UPD15 (`patch_jn.py` → `Object.defineProperty` в конструкторе JN) уже применён к extension.js и покрывает ВСЕ customoai модели, включая DIAL — повторный патч не нужен
+- DIAL сломался в UPD14 (первая версия патча бросала `Cannot set property tokenizer`), починен в UPD15
+
+**Для DIAL: Reload Window в VS Code Insiders достаточно.** `codemie proxy start` не нужен — DIAL прокси на порту 4000 независим от CodeMie.
+
+## UPD17
+
+Там ошибка в питон скрипте DIAL давай отладь его сам. 
+```
+python .\dial-proxy.py
+Traceback (most recent call last):
+  File ".\vibecoding-for-managers\modules\170-dial-api-key-curl-access\tools\dial-proxy.py", line 4, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
+```
+go
+
+### RESULT (UPD17)
+
+Две проблемы, оба исправлены в [modules/170-dial-api-key-curl-access/tools/dial-proxy.py](../../modules/170-dial-api-key-curl-access/tools/dial-proxy.py).
+
+**Проблема 1: `ModuleNotFoundError: No module named 'requests'`**
+
+Скрипт использует `requests` и `urllib3` — они не входят в stdlib. Добавлен PEP 723 inline script metadata в начало файла:
+
+```python
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#   "requests",
+#   "urllib3",
+# ]
+# ///
+```
+
+Теперь запускать через `uv run` (uv уже установлен — v0.10.4 из UPD3):
+
+```powershell
+$env:DIAL_API_KEY = "your-key"
+uv run --no-project .\dial-proxy.py
+```
+
+`uv` автоматически создаёт изолированный venv и устанавливает зависимости (первый запуск: `Installed 5 packages in 44ms`).
+
+**Проблема 2: `UnicodeEncodeError` на emoji в print-строках (Windows cp1252)**
+
+После установки зависимостей скрипт падал на строке `print(f"🚀 DIAL proxy on ...")` — консоль cp1252 не умеет рендерить emoji. Добавлена перезапись stdout/stderr в UTF-8 сразу после импортов:
+
+```python
+import io
+if hasattr(sys.stdout, 'buffer'):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+if hasattr(sys.stderr, 'buffer'):
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+```
+
+**Проверено:** `uv run --no-project dial-proxy.py` — сервер запустился, терминал завис в режиме ожидания подключений (нет ошибок).
