@@ -294,7 +294,7 @@ forwarding to http://127.0.0.1:4001 with key codemie-proxy
 
 ### Step 3 — Configure chatLanguageModels.json
 
-Open `%APPDATA%\Code - Insiders\User\chatLanguageModels.json` (stable VS Code: `%APPDATA%\Code\User\chatLanguageModels.json`) and add this entry to the JSON array:
+Open `%APPDATA%\Code\User\chatLanguageModels.json` (stable VS Code: `%APPDATA%\Code\User\chatLanguageModels.json`) and add this entry to the JSON array. A ready-to-use reference config is at [tools/chatLanguageModels.js](tools/chatLanguageModels.js).
 
 ```json
 {
