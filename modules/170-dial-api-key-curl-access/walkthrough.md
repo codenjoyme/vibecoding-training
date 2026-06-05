@@ -410,6 +410,126 @@ Now that you have a working connection, try modifying the prompt:
 
 5. Observe how responses vary based on your input
 
+## Part 8: GitHub Copilot Integration via DIAL Proxy
+
+### What we'll do
+
+Connect GitHub Copilot Chat (VS Code) to a DIAL model using Copilot's built-in "OpenAI Compatible" BYOK feature. This lets you select a DIAL model in the Copilot Chat model dropdown alongside regular GitHub models.
+
+### Why `uv run` instead of `python`
+
+`dial-proxy.py` depends on `requests` and `urllib3` — packages not included in Python's standard library. Instead of requiring a manual `pip install` into your global Python environment, the script uses **PEP 723 inline script metadata**: dependency declarations embedded directly in the file header. The `uv` tool reads these declarations and automatically creates an isolated virtual environment with the exact packages needed.
+
+Benefits:
+- No polluting your global Python installation
+- Works on any machine where `uv` is installed (no manual `pip install`)
+- Reproducible — same packages every time
+
+### Prerequisites for this Part
+
+- `uv` installed. Verify with `uv --version`. If missing, install: `pip install uv` or `brew install uv` (macOS) or `winget install astral-sh.uv` (Windows). If you followed Module 175 CodeMie CLI setup, `uv` v0.10.4+ is already present.
+
+### Step 1 — One-time patch of Copilot extension
+
+GitHub Copilot's BYOK integration has a known bug: tool calls fail with `Unknown tokenizer: undefined`. Patch it with `patch_jn.py` from Module 175 (or run it directly if VS Code Insiders is installed at the default path):
+
+```powershell
+# Run from the directory that contains your VS Code Insiders installation
+python modules/175-codemie-cli/tools/patch_jn.py
+```
+
+Expected output: `Patched successfully!`
+
+> Re-run after any Copilot extension update.
+
+### Step 2 — Start the proxy
+
+```powershell
+# Windows
+$env:DIAL_API_KEY = "your-dial-api-key"
+uv run --no-project modules/170-dial-api-key-curl-access/tools/copilot/dial-proxy.py
+```
+
+```bash
+# macOS/Linux
+export DIAL_API_KEY="your-dial-api-key"
+uv run --no-project modules/170-dial-api-key-curl-access/tools/copilot/dial-proxy.py
+```
+
+Expected output (appears immediately — not only on Ctrl-C):
+```
+🚀 DIAL proxy on http://localhost:4000
+🔑 Key: your-dia...
+🎭 Spoof model: gpt-4o-2024-11-20
+🧹 Strip: ['temperature', 'top_p', ...]
+🔄 Tool ID rewrite: toolu_bdrk_* → call_*
+🧵 Threading: enabled
+```
+
+Keep this terminal open while using Copilot.
+
+### Step 3 — Configure `chatLanguageModels.json`
+
+The configuration file location:
+
+| Platform | Path |
+|----------|------|
+| Windows (VS Code) | `%APPDATA%\Code\User\chatLanguageModels.json` |
+| Windows (VS Code Insiders) | `%APPDATA%\Code - Insiders\User\chatLanguageModels.json` |
+| macOS | `~/Library/Application Support/Code/User/chatLanguageModels.json` |
+| Linux | `~/.config/Code/User/chatLanguageModels.json` |
+
+Add the DIAL entry to the JSON array (see `tools/copilot/chatLanguageModels.js` for the full reference example):
+
+```json
+{
+  "name": "OpenAI Compatible",
+  "vendor": "customoai",
+  "apiKey": "${input:chat.lm.secret.dial}",
+  "models": [
+    {
+      "id": "gpt-4o-2024-11-20",
+      "name": "Claude Sonnet 4.6 (DIAL)",
+      "url": "http://localhost:4000/openai/deployments/claude-sonnet-4-6@default/chat/completions",
+      "toolCalling": true,
+      "vision": true,
+      "maxInputTokens": 80000,
+      "maxOutputTokens": 16000
+    }
+  ]
+}
+```
+
+To open the Language Models panel and add a custom model, use **GitHub Copilot: Manage Models** from the command palette (or the settings icon in Copilot Chat):
+
+![GitHub Copilot Language Models panel with Add Models dropdown](img/01-ghcp-manage-models-panel.png)
+
+After configuring `chatLanguageModels.json` and reloading, the model will appear in the selector:
+
+![GitHub Copilot model selector showing DIAL model available](img/02-ghcp-language-models-add.png)
+
+### Step 4 — Reload VS Code and use
+
+1. Command palette → **Developer: Reload Window**
+2. Open Copilot Chat → click the model selector
+3. Find **Claude Sonnet 4.6 (DIAL)** and select it
+4. First request: VS Code prompts "Enter API key for OpenAI Compatible" — enter any ASCII string (e.g. `dial-proxy`)
+5. Send a test message
+
+### Rate limit errors
+
+If you see `Rate limit exceeded` / `429`:
+
+```
+Hit token rate limit. Minute limit: 122913 / 120000 tokens.
+```
+
+Contact the DIAL support portal to request higher limits. Use the model IDs from `tools/test-dial-models-list-windows.ps1` (or `test-dial-models-list-linux.sh`) to get exact deployment names before writing to support. Sample message template:
+
+> *Regarding the limits on the models I use — is it possible to remove the per-minute and per-day limits for API use? You can set a weekly or monthly limit instead. Model IDs: `claude-sonnet-4-6@default`, `claude-opus-4-6@default`. I'll monitor usage myself via the DIAL analytics screen once it's available.*
+
+---
+
 ## Success Criteria
 
 ✅ Successfully submitted API key request ticket to support  
