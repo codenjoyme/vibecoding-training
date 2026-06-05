@@ -175,6 +175,10 @@ Make the installed agent accessible from inside your editor.
 
 ### VS Code (simplest path)
 
+> **Windows only:** The first time you open Claude Code extension, it may show a login screen asking you to authenticate with Anthropic directly. Do not log in — your CodeMie SSO session is already active. Instead, configure `claudeCode.claudeProcessWrapper` as described below.
+>
+> ![Claude Code login screen on first open](img/01-claude-code-login-screen.png)
+
 1. Open VS Code
 2. Go to Extensions (`Ctrl+Shift+X` / `Cmd+Shift+X`)
 3. Search **Claude Code for VS Code** (publisher: Anthropic) and install
@@ -236,6 +240,8 @@ Hello! What model are you running on?
 ```
 
 A response confirms the full chain: IDE → extension → agent → CodeMie proxy → LLM is working.
+
+![Claude Code working — agent responds in VS Code](img/02-claude-code-working.png)
 
 ---
 
