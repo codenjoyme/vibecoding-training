@@ -526,3 +526,40 @@ node $env:USERPROFILE\.local\bin\codemie-relay.js
 
 Reload Window в VS Code Insiders — расширение подхватит патч. Tool calls должны работать.
 
+## UPD15
+
+Сделал все, но вот ошибка очередная
+```
+Cannot set property tokenizer of #<JN> which has only a getter
+```
+go
+
+## RESULT(UPD15)
+
+**Диагноз:** `this.tokenizer = "o200k_base"` в конструкторе `JN` падает в strict mode — прототип класса объявляет `get tokenizer()` **без setter'а**, поэтому присвоение через `=` запрещено и выбрасывает это исключение.
+
+**Фикс:** вместо простого присвоения — `Object.defineProperty`, который создаёт **own property** прямо на экземпляре, обходя prototype getter:
+
+```js
+// БЫЛО (бросает в strict mode):
+this.tokenizer = "o200k_base";
+
+// СТАЛО (создаёт own enumerable property, прячет prototype getter):
+Object.defineProperty(this, 'tokenizer', {
+  value: 'o200k_base',
+  writable: true, enumerable: true, configurable: true
+});
+```
+
+**Обновлён** [requests/175-codemie-cli/patch_jn.py](patch_jn.py):
+- Теперь обрабатывает оба случая: оригинальный файл и уже применённый старый патч
+- Использует `Object.defineProperty` вместо присвоения
+
+**Патч применён повторно** — найден и заменён старый патч (`this.tokenizer="o200k_base"`).
+
+**Запуск:**
+```powershell
+codemie proxy start
+node $env:USERPROFILE\.local\bin\codemie-relay.js
+```
+Затем **Reload Window** в VS Code Insiders — tool calls должны заработать.
