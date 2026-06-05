@@ -63,7 +63,7 @@ iterative-prompt/SKILL.md
 
 ## UPD4
 
-Смотри у меня стоит плагин Claude Code for VSCode. И я не могу понять что дальше делать. Там такой скрин ![alt text](image.png).
+Смотри у меня стоит плагин Claude Code for VSCode. И я не могу понять что дальше делать. Там такой скрин ![Claude Code login screen](../../modules/175-codemie-cli/img/01-claude-code-login-screen.png).
 Расскажи подробно как мне пользоваться. И еще вопрос, где мне тречить результаты того как я расходую деньги? go
 
 ### RESULT (UPD4)
@@ -153,7 +153,7 @@ codemie analytics --last 30d --export csv
 
 ## UPD6
 
-Завелось, спасибо. ![alt text](image-1.png)
+Завелось, спасибо. ![Claude Code working — conversation in progress](../../modules/175-codemie-cli/img/02-claude-code-working.png)
 Вопрос остается такой. Как мне использовать GHCP на codemie cli моделях? 
 И второй вопрос - где брать информацию по израсходованным токенам в codemie cli?
 Третье что надо сделать, все что мы тут делали в сесии если в вчем-то есть смысл, то добавь в [text](../../modules/175-codemie-cli/tools/SKILL.md), но очень лаконично и точечно. Если в оригинальном скиле все есть уже, то добавлять ничего не надо - сохраним его идентичность. go
@@ -178,7 +178,7 @@ codemie analytics --last 30d --export csv
 ## UPD7
 
 Хорошо, а как же возможность добавлять кастомные модели в GHCP вот так?
-![alt text](image-2.png)
+![GHCP Language Models panel with Add Models dropdown](../../modules/170-dial-api-key-curl-access/img/01-ghcp-manage-models-panel.png)
 Насколько я посмотрел что такое codemie cli это адаптер, и через него можно модели получать `https://raw.githubusercontent.com/codemie-ai/codemie-code/refs/heads/main/README.md`. Изучи плиз вопрос и давай сделаем чудо. go
 
 ### RESULT (UPD7)
@@ -747,7 +747,7 @@ Model ids: Model ids:
 
 And whether I use them right away or later - that’s up to me. I’ll be able to monitor this myself once the screen is fixed. 
 ```
-При этом надо указать так же какие айдишки моделей хочется использовать. А взять их можно из списка. [text](../../modules/170-dial-api-key-curl-access/tools/test-dial-models-list-windows.ps1), потому что названия не точно - есть разные версии одних и тех же моделей. 
+При этом надо указать так же какие айдишки моделей хочется использовать. А взять их можно из списка. [test-dial-models-list-windows.ps1](../../modules/170-dial-api-key-curl-access/tools/test-dial-models-list-windows.ps1), потому что названия не точно - есть разные версии одних и тех же моделей. 
 
 Еще расскажи, почему важно теперь запускать скрипт питона через `uv run --no-project dial-proxy.py` (что мы решили этим)? Если это критично, тогда давай укажем в соответсвующем модуле так же что надо установить как пререквизит чтобы это сработало, но только в той части part которая про установку DIAL прокси. 
 
@@ -765,3 +765,18 @@ go
 **19.1b: `tools/copilot/` подпапка**
 - [modules/170-dial-api-key-curl-access/tools/copilot/dial-proxy.py](../../modules/170-dial-api-key-curl-access/tools/copilot/dial-proxy.py) — перемещён из `tools/`
 - [modules/170-dial-api-key-curl-access/tools/copilot/chatLanguageModels.js](../../modules/170-dial-api-key-curl-access/tools/copilot/chatLanguageModels.js) — перемещён из `tools/`
+
+### RESULT (UPD19.2) — Images reorganized
+
+Все изображения перемещены из `requests/175-codemie-cli/` в модули:
+
+**Модуль 170:**
+- `image-3.png` → [modules/170-dial-api-key-curl-access/img/01-ghcp-manage-models-panel.png](../../modules/170-dial-api-key-curl-access/img/01-ghcp-manage-models-panel.png) — панель Language Models с открытым дропдауном Add Models
+- `image-4.png` → [modules/170-dial-api-key-curl-access/img/02-ghcp-language-models-add.png](../../modules/170-dial-api-key-curl-access/img/02-ghcp-language-models-add.png) — список моделей с подсвеченным OpenAI Compatible
+
+**Модуль 175:**
+- `image.png` → [modules/175-codemie-cli/img/01-claude-code-login-screen.png](../../modules/175-codemie-cli/img/01-claude-code-login-screen.png) — экран логина Claude Code (UPD4)
+- `image-1.png` → [modules/175-codemie-cli/img/02-claude-code-working.png](../../modules/175-codemie-cli/img/02-claude-code-working.png) — Claude Code в работе (UPD6)
+
+`image-2.png` — удалён (дубль image-3).  
+Все оригинальные файлы из `requests/175-codemie-cli/` удалены. Ссылки в `main.prompt.md` обновлены.
