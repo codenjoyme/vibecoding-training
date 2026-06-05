@@ -780,3 +780,18 @@ go
 
 `image-2.png` — удалён (дубль image-3).  
 Все оригинальные файлы из `requests/175-codemie-cli/` удалены. Ссылки в `main.prompt.md` обновлены.
+
+### RESULT (UPD19.3) — Module 175: chatLanguageModels.js reference
+
+- [modules/175-codemie-cli/walkthrough.md](../../modules/175-codemie-cli/walkthrough.md) Part 7 Step 3 уже содержит ссылку на [modules/175-codemie-cli/tools/chatLanguageModels.js](../../modules/175-codemie-cli/tools/chatLanguageModels.js) как ready-to-use reference config.
+
+### RESULT (UPD19.4) — Module 170: GHCP section, uv prereq, rate limits, file paths
+
+Все изменения уже зафиксированы в коммитах `c52ed32`, `323074c`, `2e455ee`. Добавлено в [modules/170-dial-api-key-curl-access/walkthrough.md](../../modules/170-dial-api-key-curl-access/walkthrough.md):
+
+- **Part 8: GitHub Copilot Integration via DIAL Proxy** — полный раздел: патч extension.js, `uv run`, настройка `chatLanguageModels.json`, reload, скриншоты
+- **Зачем `uv run` вместо `python`:** `dial-proxy.py` использует PEP 723 inline metadata — `uv` читает зависимости из заголовка файла и создаёт изолированный venv автоматически. Не нужен `pip install` в глобальное окружение; воспроизводимо на любой машине с `uv`.
+- **Пути к `chatLanguageModels.json`:** таблица с путями для Windows / Windows Insiders / macOS / Linux  
+- **Rate limit → support template:** секция с примером сообщения в суппорт-портал + инструкция получить точные model IDs из `test-dial-models-list-windows.ps1` / `test-dial-models-list-linux.sh`
+- **Prerequisite `uv`:** добавлен в about.md и в Prerequisites for Part 8
+- **Картинки:** [modules/170-dial-api-key-curl-access/img/01-ghcp-manage-models-panel.png](../../modules/170-dial-api-key-curl-access/img/01-ghcp-manage-models-panel.png) и [modules/170-dial-api-key-curl-access/img/02-ghcp-language-models-add.png](../../modules/170-dial-api-key-curl-access/img/02-ghcp-language-models-add.png) вставлены в Part 8
