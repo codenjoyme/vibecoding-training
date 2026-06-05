@@ -755,4 +755,13 @@ And whether I use them right away or later - that’s up to me. I’ll be able t
 
 Обрати внимание что каждый сабтаск отвечает за тот или иной модуль 170 или 175. Будь внимателен делая правки. 
 
-go 
+go
+
+### RESULT (UPD19.1) — Linux скрипт + reorganize tools/
+
+**19.1a: Linux аналог**
+- [modules/170-dial-api-key-curl-access/tools/test-dial-models-list-linux.sh](../../modules/170-dial-api-key-curl-access/tools/test-dial-models-list-linux.sh) — создан bash-скрипт (аналог ps1), использует `curl` + `python3 -c`. Запуск: `DIAL_API_KEY="your-key" ./test-dial-models-list-linux.sh`
+
+**19.1b: `tools/copilot/` подпапка**
+- [modules/170-dial-api-key-curl-access/tools/copilot/dial-proxy.py](../../modules/170-dial-api-key-curl-access/tools/copilot/dial-proxy.py) — перемещён из `tools/`
+- [modules/170-dial-api-key-curl-access/tools/copilot/chatLanguageModels.js](../../modules/170-dial-api-key-curl-access/tools/copilot/chatLanguageModels.js) — перемещён из `tools/`
