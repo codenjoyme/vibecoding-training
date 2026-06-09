@@ -895,3 +895,41 @@ Copilot ← relay (model: "gpt-4o")  ← CodeMie proxy (model: "claude-opus-4-5"
 { "id": "gpt-4o", "realModelId": "claude-opus-4-5",   ... }
 ```
 Давай потестим как работает. Сделай так чтобы два прокси стартовали по скрипту что ты выполнил и как будешь готов, дай знать. go
+
+### RESULT (UPD22)
+
+...
+
+## UPD23
+
+Смотри, я откатил изменения, потому что все перестало работаь. Посмотри мой последний коммит. Давай сделаем baby steps подход. Давай сделаем для начала, чтобы только
+[text](../../modules/175-codemie-cli/tools/chatLanguageModels.js) `realModelId` поле проростало внутрь `const REAL_MODEL = 'claude-sonnet-4-6';` файла [text](../../modules/175-codemie-cli/tools/codemie-relay.js). И не коммить пока. go
+
+### RESULT (UPD23)
+
+Минимальное изменение — только чтение `realModelId` из конфига, всё остальное без изменений.
+
+**Что изменилось в [modules/175-codemie-cli/tools/codemie-relay.js](../../modules/175-codemie-cli/tools/codemie-relay.js):**
+
+Добавлена функция `loadModelIds()` которая при старте:
+1. Ищет `chatLanguageModels.json` в стандартных путях (Windows/macOS/Linux, Insiders + Stable)
+2. Находит первую запись с полем `realModelId`
+3. Возвращает `{ fakeModel: model.id, realModel: model.realModelId }`
+4. Если файл не найден или нет `realModelId` — возвращает `null` → используются дефолты
+
+```js
+const loaded = loadModelIds();
+const FAKE_MODEL = loaded ? loaded.fakeModel : 'gpt-4';
+const REAL_MODEL = loaded ? loaded.realModel : 'claude-sonnet-4-6';
+```
+
+Вся остальная логика relay не изменилась — `FAKE_MODEL` и `REAL_MODEL` используются ровно так же как раньше.
+
+**Проверено:**
+```
+model ids loaded from: C:\Users\...\Code - Insiders\User\chatLanguageModels.json
+  fakeModel: gpt-4
+  realModel: claude-sonnet-4-6
+```
+
+Relay стартует, читает конфиг, `REAL_MODEL` = `claude-sonnet-4-6` из `realModelId` в `chatLanguageModels.json`. Не закоммичено.

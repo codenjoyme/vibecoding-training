@@ -5,23 +5,80 @@
  * forwards to codemie proxy on port 4001 with the correct gateway key.
  *
  * Patches applied:
- *  1. Authorization header → Bearer codemie-proxy (any incoming key accepted)
- *  2. temperature + top_p → remove top_p (litellm/Bedrock Claude rejects both)
- *  3. model "gpt-4" in request → "claude-sonnet-4-6" (Copilot sends id from config)
- *  4. model in responses (streaming + non-streaming) → "gpt-4"
+ *  1. Authorization header -> Bearer codemie-proxy (any incoming key accepted)
+ *  2. temperature + top_p -> remove top_p (litellm/Bedrock Claude rejects both)
+ *  3. model FAKE_MODEL in request -> REAL_MODEL (Copilot sends id from config)
+ *  4. model in responses (streaming + non-streaming) -> FAKE_MODEL
  *     (Copilot needs a recognized model name in responses to resolve tokenizer)
+ *
+ * FAKE_MODEL and REAL_MODEL are loaded from chatLanguageModels.json at startup.
+ * Add "realModelId" to the model entry in chatLanguageModels.json:
+ *   { "id": "gpt-4", "realModelId": "claude-sonnet-4-6", ... }
+ * The relay reads "id" as FAKE_MODEL and "realModelId" as REAL_MODEL.
+ * If the file is not found or has no realModelId, hardcoded defaults are used.
  *
  * Start: node codemie-relay.js
  */
 'use strict';
 const http = require('http');
+const fs   = require('fs');
+const path = require('path');
+const os   = require('os');
 
 const TARGET_HOST = '127.0.0.1';
 const TARGET_PORT = 4001;
 const GATEWAY_KEY = 'codemie-proxy';
-const RELAY_PORT = 4002;
-const FAKE_MODEL = 'gpt-4';          // what Copilot sees (known tokenizer)
-const REAL_MODEL = 'claude-sonnet-4-6'; // what codemie proxy receives
+const RELAY_PORT  = 4002;
+
+// ---- Load FAKE_MODEL / REAL_MODEL from chatLanguageModels.json -------------
+function findConfigPaths() {
+  const home = os.homedir();
+  if (process.platform === 'win32') {
+    const base = process.env.APPDATA || path.join(home, 'AppData', 'Roaming');
+    return [
+      path.join(base, 'Code - Insiders', 'User', 'chatLanguageModels.json'),
+      path.join(base, 'Code',            'User', 'chatLanguageModels.json'),
+    ];
+  } else if (process.platform === 'darwin') {
+    const base = path.join(home, 'Library', 'Application Support');
+    return [
+      path.join(base, 'Code - Insiders', 'User', 'chatLanguageModels.json'),
+      path.join(base, 'Code',            'User', 'chatLanguageModels.json'),
+    ];
+  } else {
+    const base = process.env.XDG_CONFIG_HOME || path.join(home, '.config');
+    return [
+      path.join(base, 'Code - Insiders', 'User', 'chatLanguageModels.json'),
+      path.join(base, 'Code',            'User', 'chatLanguageModels.json'),
+    ];
+  }
+}
+
+function loadModelIds() {
+  for (const p of findConfigPaths()) {
+    if (!fs.existsSync(p)) continue;
+    try {
+      const entries = JSON.parse(fs.readFileSync(p, 'utf8'));
+      for (const vendor of entries) {
+        for (const model of (vendor.models || [])) {
+          if (model.id && model.realModelId) {
+            console.log('model ids loaded from: ' + p);
+            return { fakeModel: model.id, realModel: model.realModelId };
+          }
+        }
+      }
+      console.log('config found at ' + p + ' but no realModelId entry -- using defaults');
+    } catch (e) {
+      console.log('warning: could not parse ' + p + ': ' + e.message);
+    }
+  }
+  console.log('chatLanguageModels.json not found -- using defaults');
+  return null;
+}
+
+const loaded = loadModelIds();
+const FAKE_MODEL = loaded ? loaded.fakeModel : 'gpt-4';           // what Copilot sees (known tokenizer)
+const REAL_MODEL = loaded ? loaded.realModel : 'claude-sonnet-4-6'; // what codemie proxy receives
 
 const server = http.createServer((req, res) => {
   const chunks = [];
