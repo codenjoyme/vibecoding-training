@@ -1103,3 +1103,29 @@ Done. Both proxies running as daemons.
 ```
 
 Скрипт завершается сразу после запуска — терминал свободен. Relay живёт до перезагрузки или `Stop-Process`.
+
+## UPD29
+
+А давай тренинговый модуль сам поправим. И [modules/175-codemie-cli/tools/SKILL.md](../../modules/175-codemie-cli/tools/SKILL.md) тоже наверное устарел, мы столько всего тут сделали нового. go
+
+### RESULT (UPD29)
+
+Обновлены три файла модуля 175 — всё что накопилось за UPD20–28.
+
+**[modules/175-codemie-cli/tools/SKILL.md](../../modules/175-codemie-cli/tools/SKILL.md)**
+
+- **GHCP Integration** — добавлено вводное описание relay (multi-model routing, auth passthrough, parameter fixing, response patching)
+- **Step 3** переписан: теперь показывает `chatLanguageModels.json` с двумя моделями и полем `realModelId`; таблица путей к файлу (Windows/macOS/Linux, Insiders + Stable)
+- **Fixing Tool Calls** — секция расширена: Fix B теперь описывает multi-model поддержку через `realModelId`
+- Новые подсекции: **Multi-model support via `realModelId`**, **Listing available CodeMie models** (`list-codemie-models.ps1`), **Startup script (`start.ps1`)** с описанием 4 шагов и daemon mode, **Manual startup**
+
+**[modules/175-codemie-cli/walkthrough.md](../../modules/175-codemie-cli/walkthrough.md)**
+
+- **Part 7** переписан: Step 2 — конфиг с двумя моделями + `realModelId`; Step 3 — `start.ps1` как основной способ запуска + manual fallback; добавлен раздел **Adding more models**
+- **Success Criteria** — добавлена вторая модель (Claude Opus 4.6)
+- **Understanding Check #5** — обновлён ответ: упоминает `gpt-4o`, `realModelId`, автоматическое построение маппинга
+
+**[modules/175-codemie-cli/about.md](../../modules/175-codemie-cli/about.md)**
+
+- **Topics** — добавлены: multi-model support via `realModelId`, daemon mode (`start.ps1`)
+- **Resources** — добавлены все новые инструменты: `start.ps1`, `codemie-relay.js`, `chatLanguageModels.js`, `list-codemie-models.ps1`, `patch_jn.py` 

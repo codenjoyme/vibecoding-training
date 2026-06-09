@@ -14,6 +14,8 @@
 - Installing AI coding agents: Claude Code, Gemini CLI, OpenCode
 - IDE integration: Claude Code extension for VS Code and Cursor (proxy configuration)
 - GitHub Copilot (GHCP) integration via relay proxy and `chatLanguageModels.json`
+- Multi-model support: adding multiple CodeMie models via `realModelId` field
+- Daemon mode: `start.ps1` launches both proxies as background processes
 - One-time Copilot extension patch (`patch_jn.py`) to fix tool call tokenizer bug
 - Running `codemie doctor` to health-check the installation
 - Cross-platform troubleshooting with `tools/SKILL.md` as the reference guide
@@ -49,3 +51,8 @@ Apply this module when:
 - [nodejs.org](https://nodejs.org) — LTS download
 - [python.org/downloads](https://python.org/downloads) — optional Python 3.13.x
 - `tools/SKILL.md` — complete CodeMie CLI FAQ and reference (load this into your AI agent during setup)
+- `tools/start.ps1` — one-command startup script (kill → proxy → list models → relay daemon)
+- `tools/codemie-relay.js` — relay proxy with multi-model support via `realModelId`
+- `tools/chatLanguageModels.js` — ready-to-use VS Code config template
+- `tools/list-codemie-models.ps1` — list all available CodeMie models
+- `tools/patch_jn.py` — one-time Copilot extension patch for tokenizer bug

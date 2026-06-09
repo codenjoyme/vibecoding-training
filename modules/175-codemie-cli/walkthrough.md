@@ -249,14 +249,14 @@ A response confirms the full chain: IDE → extension → agent → CodeMie prox
 
 ### What we'll do
 
-Connect GitHub Copilot Chat to a CodeMie model using Copilot's built-in "OpenAI Compatible" BYOK feature. This lets you select a CodeMie model in the Copilot Chat dropdown alongside regular GitHub models.
+Connect GitHub Copilot Chat to CodeMie models using Copilot's built-in "OpenAI Compatible" BYOK feature. This lets you select CodeMie models (e.g. Claude Sonnet 4.6, Claude Opus 4.6) in the Copilot Chat dropdown alongside regular GitHub models.
 
 ### Why a relay proxy is needed
 
 GitHub Copilot's BYOK integration has a known bug: tool calls fail with `Unknown tokenizer: undefined` because the Copilot extension's `JN` class stores `tokenizer` as a prototype getter that is lost when the endpoint object is spread. Two fixes are required:
 
 1. **One-time extension patch** (`patch_jn.py`) — adds `tokenizer` as an own property to the JN constructor
-2. **Relay proxy** (`codemie-relay.js`) — bridges port 4001 (CodeMie) with model name translation
+2. **Relay proxy** (`codemie-relay.js`) — bridges port 4001 (CodeMie) with model name translation, supports multiple models
 
 ### Step 1 — Patch the Copilot extension (one-time)
 
@@ -275,26 +275,9 @@ Patched successfully!
 
 > After any VS Code / Copilot extension update, re-run this script.
 
-### Step 2 — Copy and start the relay proxy
+### Step 2 — Configure chatLanguageModels.json
 
-```powershell
-# Copy relay to user bin (once)
-New-Item -ItemType Directory -Force "$env:USERPROFILE\.local\bin" | Out-Null
-Copy-Item modules/175-codemie-cli/tools/codemie-relay.js "$env:USERPROFILE\.local\bin\codemie-relay.js"
-
-# Start relay (keep this terminal open)
-node "$env:USERPROFILE\.local\bin\codemie-relay.js"
-```
-
-Expected output:
-```
-codemie-relay listening on http://127.0.0.1:4002/v1
-forwarding to http://127.0.0.1:4001 with key codemie-proxy
-```
-
-### Step 3 — Configure chatLanguageModels.json
-
-Open `%APPDATA%\Code\User\chatLanguageModels.json` and add this entry to the JSON array. A ready-to-use reference config is at [tools/chatLanguageModels.js](tools/chatLanguageModels.js).
+Open `%APPDATA%\Code\User\chatLanguageModels.json` (or `%APPDATA%\Code\User\chatLanguageModels.json` for stable) and add this entry. A ready-to-use reference config is at [tools/chatLanguageModels.js](tools/chatLanguageModels.js).
 
 ```json
 {
@@ -304,7 +287,18 @@ Open `%APPDATA%\Code\User\chatLanguageModels.json` and add this entry to the JSO
   "models": [
     {
       "id": "gpt-4",
+      "realModelId": "claude-sonnet-4-6",
       "name": "Claude Sonnet 4.6 (CodeMie)",
+      "url": "http://127.0.0.1:4002/v1/chat/completions",
+      "toolCalling": true,
+      "vision": true,
+      "maxInputTokens": 200000,
+      "maxOutputTokens": 16000
+    },
+    {
+      "id": "gpt-4o",
+      "realModelId": "claude-opus-4-6-20260205",
+      "name": "Claude Opus 4.6 (CodeMie)",
       "url": "http://127.0.0.1:4002/v1/chat/completions",
       "toolCalling": true,
       "vision": true,
@@ -315,22 +309,43 @@ Open `%APPDATA%\Code\User\chatLanguageModels.json` and add this entry to the JSO
 }
 ```
 
-> `id: "gpt-4"` is used so Copilot resolves a known tokenizer. The relay translates `gpt-4` → `claude-sonnet-4-6` in actual requests.
+Key points:
+- `id` must be a Copilot-known tokenizer name (`gpt-4`, `gpt-4o`, etc.) — this is what Copilot uses internally
+- `realModelId` is the actual CodeMie model name — the relay reads this field and translates automatically
+- Use `list-codemie-models.ps1` to find exact model names available in your CodeMie instance
+
+### Step 3 — Start both proxies
+
+The easiest way — use the startup script:
+
+```powershell
+cd modules/175-codemie-cli/tools
+.\start.ps1
+```
+
+This kills old processes, starts CodeMie proxy (port 4001), lists available models, and starts the relay as a background daemon (port 4002). Terminal is free after the script finishes.
+
+**Manual startup (alternative):**
+
+```powershell
+codemie proxy start                                          # port 4001 — CodeMie proxy
+Copy-Item modules/175-codemie-cli/tools/codemie-relay.js "$env:USERPROFILE\.local\bin\codemie-relay.js"
+node "$env:USERPROFILE\.local\bin\codemie-relay.js"         # port 4002 — relay (foreground)
+```
 
 ### Step 4 — Reload and use
 
 1. Open VS Code command palette → **Developer: Reload Window**
 2. Open Copilot Chat → click the model selector
-3. Find **Claude Sonnet 4.6 (CodeMie)** and select it
+3. Find **Claude Sonnet 4.6 (CodeMie)** or **Claude Opus 4.6 (CodeMie)** and select it
 4. Send a test message — VS Code will ask for an API key once: enter any non-empty string (e.g. `sk-codemie`)
 
-### Startup order (every session)
+### Adding more models
 
-```powershell
-codemie proxy start                                          # port 4001 — CodeMie proxy
-node "$env:USERPROFILE\.local\bin\codemie-relay.js"         # port 4002 — relay
-# Then Reload Window in VS Code
-```
+To add a new model (no code changes needed):
+1. Run `.\list-codemie-models.ps1` to find the exact model name
+2. Add an entry to `chatLanguageModels.json` with a unique `id` (any Copilot-known name like `gpt-4o-mini`, `o1`, `o3-mini`) and the correct `realModelId`
+3. Restart relay (`.\start.ps1` or restart node process)
 
 ---
 
@@ -341,7 +356,7 @@ node "$env:USERPROFILE\.local\bin\codemie-relay.js"         # port 4002 — rela
 - ✅ `codemie doctor` shows all five required checks as ✓
 - ✅ At least one agent (`claude`, `gemini`, or `opencode`) is installed and responds to `--version`
 - ✅ The agent is reachable from inside VS Code or Cursor
-- ✅ GitHub Copilot Chat shows **Claude Sonnet 4.6 (CodeMie)** in the model selector and responds to a test message
+- ✅ GitHub Copilot Chat shows **Claude Sonnet 4.6 (CodeMie)** and **Claude Opus 4.6 (CodeMie)** in the model selector and responds to a test message
 
 ---
 
@@ -360,7 +375,7 @@ node "$env:USERPROFILE\.local\bin\codemie-relay.js"         # port 4002 — rela
    *(Installs the specific Claude Code version tested with your CodeMie CLI version, avoiding compatibility issues with the absolute latest release.)*
 
 5. **What is `codemie-relay.js` and why is it needed for GitHub Copilot?**  
-   *(A Node.js relay on port 4002 that translates model names between what Copilot sends (`gpt-4`) and what CodeMie expects (`claude-sonnet-4-6`), removes incompatible request parameters, and patches response model fields. Needed because the CodeMie proxy rejects unknown model names, and Copilot tool calls have a tokenizer bug when using BYOK custom models.)*
+   *(A Node.js relay on port 4002 that translates model names between what Copilot sends (`gpt-4`, `gpt-4o`) and what CodeMie expects (`claude-sonnet-4-6`, `claude-opus-4-6-20260205`). It reads `realModelId` from `chatLanguageModels.json` to build the mapping automatically. Also removes incompatible request parameters (`top_p` + `temperature` conflict) and patches response model fields. Needed because the CodeMie proxy rejects unknown model names, and Copilot tool calls have a tokenizer bug when using BYOK custom models.)*
 
 6. **How do you use `tools/SKILL.md` for troubleshooting in an agentic workflow?**  
    *(Attach it to your AI agent chat session and describe the error — the agent reads the relevant FAQ section and provides adapted fix commands.)*
