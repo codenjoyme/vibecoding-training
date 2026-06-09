@@ -798,8 +798,59 @@ go
 
 ## UPD20
 
-Смотри какая ситуация. Я хочу добавить вторую модель из codemie подборки. Но скрипт [text](../../modules/175-codemie-cli/tools/codemie-relay.js) заточен под то, чтобы использовтаь только одну модель. Запускать N прокиков тоже не вариант. Могу я как-то передать модель из файла [text](../../modules/175-codemie-cli/tools/chatLanguageModels.js) задав в конфиге. А проксик пусть будет запущен один? 
+Смотри какая ситуация. Я хочу добавить вторую модель из codemie подборки. Но скрипт [codemie-relay.js](../../modules/175-codemie-cli/tools/codemie-relay.js) заточен под то, чтобы использовтаь только одну модель. Запускать N прокиков тоже не вариант. Могу я как-то передать модель из файла [chatLanguageModels.js](../../modules/175-codemie-cli/tools/chatLanguageModels.js) задав в конфиге. А проксик пусть будет запущен один? 
 
-Я так же добавил скрипт [text](../../modules/175-codemie-cli/tools/start.ps1) который пожалуйста дополни тем, чтобы сначала килялись все процесы codemie cli и прокси, а потом выводился список доступных моделей, информация о том какой файл конфига в GHCP править и где он (возможно надо сделать cat его на экран) и потом только зпуск двух прокси.
+Я так же добавил скрипт [start.ps1](../../modules/175-codemie-cli/tools/start.ps1) который пожалуйста дополни тем, чтобы сначала килялись все процесы codemie cli и прокси, а потом выводился список доступных моделей, информация о том какой файл конфига в GHCP править и где он (возможно надо сделать cat его на экран) и потом только зпуск двух прокси.
 
 go
+
+### RESULT (UPD20)
+
+**Да, один прокси на все модели — реализовано.**
+
+#### Как это работает
+
+Copilot шлёт в запросе поле `model` равное `id` из `chatLanguageModels.json`. Relay теперь смотрит это значение в таблице `MODEL_MAP` и подставляет реальный CodeMie model id. В ответе возвращает обратно тот же fake id — Copilot доволен.
+
+```
+Copilot → relay (model: "gpt-4")   → CodeMie proxy (model: "claude-sonnet-4-6")
+Copilot ← relay (model: "gpt-4")   ← CodeMie proxy (model: "claude-sonnet-4-6")
+
+Copilot → relay (model: "gpt-4o")  → CodeMie proxy (model: "claude-opus-4-5")
+Copilot ← relay (model: "gpt-4o")  ← CodeMie proxy (model: "claude-opus-4-5")
+```
+
+#### Изменённые файлы
+
+**[modules/175-codemie-cli/tools/codemie-relay.js](../../modules/175-codemie-cli/tools/codemie-relay.js)** — переписан:
+- Убраны константы `FAKE_MODEL` / `REAL_MODEL`
+- Добавлена таблица `MODEL_MAP` (легко расширяемая):
+  ```js
+  const MODEL_MAP = {
+    'gpt-4':   'claude-sonnet-4-6',
+    'gpt-4o':  'claude-opus-4-5',
+    // 'gpt-4o-mini': 'gemini-2.5-flash',
+  };
+  ```
+- `fakeModelId` запоминается per-request и эхируется обратно в ответах (streaming + non-streaming)
+- При старте выводит всю таблицу маппинга
+
+**[modules/175-codemie-cli/tools/chatLanguageModels.js](../../modules/175-codemie-cli/tools/chatLanguageModels.js)** — добавлена вторая модель:
+```json
+{ "id": "gpt-4o", "name": "Claude Opus 4.5 (CodeMie)", "url": "http://127.0.0.1:4002/v1/chat/completions", ... }
+```
+
+**[modules/175-codemie-cli/tools/start.ps1](../../modules/175-codemie-cli/tools/start.ps1)** — переписан, 4 шага:
+1. Kill старых процессов (`node *codemie-relay*` + `codemie proxy stop`)
+2. Показывает доступные модели (если прокси уже был запущен)
+3. Находит и выводит содержимое `chatLanguageModels.json` (ищет в `Code - Insiders` и `Code`), показывает MODEL_MAP и путь к reference config
+4. Запускает `codemie proxy start`, копирует relay в `~/.local/bin/`, показывает модели снова, запускает relay (foreground)
+
+#### Как добавить ещё одну модель
+
+1. Добавить строку в `MODEL_MAP` в `codemie-relay.js`:
+   ```js
+   'gpt-4o-mini': 'gemini-2.5-flash',
+   ```
+2. Добавить запись в `chatLanguageModels.json` с `"id": "gpt-4o-mini"` и нужным `name`
+3. Перезапустить relay (`start.ps1`)
