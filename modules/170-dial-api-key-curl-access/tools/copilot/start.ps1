@@ -1,0 +1,1 @@
+uv run --no-project dial-proxy.py
