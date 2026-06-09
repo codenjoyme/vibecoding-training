@@ -29,16 +29,40 @@ Write-Host ""
 Write-Host "[3/4] Available CodeMie models:" -ForegroundColor Cyan
 & "$PSScriptRoot\list-codemie-models.ps1"
 
-# -- 4. Copy relay and start it --
+# -- 4. Copy relay and start it as daemon --
 Write-Host ""
-Write-Host "[4/4] Starting relay..." -ForegroundColor Cyan
+Write-Host "[4/4] Starting relay daemon..." -ForegroundColor Cyan
 
 $relayDest = "$env:USERPROFILE\.local\bin\codemie-relay.js"
+$relayLog  = "$env:USERPROFILE\.local\bin\codemie-relay.log"
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.local\bin" | Out-Null
 Copy-Item "$PSScriptRoot\codemie-relay.js" $relayDest -Force
 Write-Host "  Relay copied to: $relayDest" -ForegroundColor Green
 
+# Start relay as background job, redirect output to log file
+$proc = Start-Process -FilePath "node" -ArgumentList $relayDest `
+    -WindowStyle Hidden `
+    -RedirectStandardOutput $relayLog `
+    -RedirectStandardError "$env:USERPROFILE\.local\bin\codemie-relay.err.log" `
+    -PassThru
+
+Start-Sleep -Milliseconds 500
+
+# Verify it started
+$check = Get-NetTCPConnection -LocalPort 4002 -ErrorAction SilentlyContinue
+if ($check) {
+    Write-Host "  Relay daemon started (PID: $($proc.Id), port 4002)" -ForegroundColor Green
+    Write-Host "  Log: $relayLog" -ForegroundColor DarkGray
+    Write-Host ""
+    Write-Host "  To stop:  Stop-Process -Id $($proc.Id)" -ForegroundColor DarkGray
+    Write-Host "  To check: Get-Content $relayLog" -ForegroundColor DarkGray
+} else {
+    Write-Host "  WARNING: relay may not have started. Check log:" -ForegroundColor Red
+    Write-Host "  $relayLog" -ForegroundColor Yellow
+    if (Test-Path $relayLog) { Get-Content $relayLog | ForEach-Object { Write-Host "    $_" } }
+}
+
 Write-Host ""
-Write-Host "  Starting relay on port 4002 (Ctrl+C to stop)..." -ForegroundColor Green
-Write-Host ""
-node $relayDest
+Write-Host "Done. Both proxies running as daemons." -ForegroundColor Green
+Write-Host "  codemie proxy: http://127.0.0.1:4001" -ForegroundColor DarkGray
+Write-Host "  codemie relay: http://127.0.0.1:4002" -ForegroundColor DarkGray

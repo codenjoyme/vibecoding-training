@@ -1072,3 +1072,34 @@ Reason: Request Failed: 400 {"error":{"message":"/chat/completions: Invalid mode
 ```
 
 Relay работает, обе модели маппятся. Ctrl+C для остановки.
+
+## UPD28 
+
+Давай сделаем так, чтобы проксик наш запускался демоном, а не висел с риском быть опущенным по ctrl-c. go
+
+### RESULT (UPD28)
+
+**Relay теперь запускается как фоновый демон.**
+
+Изменён шаг [4/4] в [modules/175-codemie-cli/tools/start.ps1](../../modules/175-codemie-cli/tools/start.ps1):
+- `Start-Process -WindowStyle Hidden` — relay запускается в скрытом окне, не блокирует терминал
+- stdout → `~/.local/bin/codemie-relay.log`, stderr → `codemie-relay.err.log`
+- После запуска проверяет что порт 4002 слушается
+- Выводит PID и команды для управления
+
+**Проверено:**
+```
+[4/4] Starting relay daemon...
+  Relay copied to: C:\Users\...\.local\bin\codemie-relay.js
+  Relay daemon started (PID: 22580, port 4002)
+  Log: C:\Users\...\.local\bin\codemie-relay.log
+
+  To stop:  Stop-Process -Id 22580
+  To check: Get-Content C:\Users\...\.local\bin\codemie-relay.log
+
+Done. Both proxies running as daemons.
+  codemie proxy: http://127.0.0.1:4001
+  codemie relay: http://127.0.0.1:4002
+```
+
+Скрипт завершается сразу после запуска — терминал свободен. Relay живёт до перезагрузки или `Stop-Process`.
