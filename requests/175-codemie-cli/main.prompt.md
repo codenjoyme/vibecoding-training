@@ -1045,3 +1045,30 @@ Reason: Request Failed: 400 {"error":{"message":"/chat/completions: Invalid mode
 .\list-codemie-models.ps1   # требует: codemie proxy start
 ```
 Выводит полный список моделей отсортированный по имени. Использовать когда нужно узнать точное имя модели для `realModelId`.
+
+## UPD27
+
+Давай сделаем теперь в скрипте [text](../../modules/175-codemie-cli/tools/start.ps1) как мы делали ранее (что я откатил потом), чтобы было тушение всех прокси, потом список всех моделей через вызов [text](../../modules/175-codemie-cli/tools/list-codemie-models.ps1) потом копирование [text](../../modules/175-codemie-cli/tools/codemie-relay.js) куда надо, а потом уже запуск кодми прокси, и запуск нашего прокксика нового. go
+
+### RESULT (UPD27)
+
+**Скрипт [modules/175-codemie-cli/tools/start.ps1](../../modules/175-codemie-cli/tools/start.ps1) переписан, 4 шага:**
+
+1. **Kill** — убивает relay по порту 4002 (`Get-NetTCPConnection`) + `codemie proxy stop`
+2. **Start codemie proxy** — `codemie proxy start` (порт 4001)
+3. **List models** — вызывает `list-codemie-models.ps1` (показывает все 37 моделей)
+4. **Copy relay + start** — копирует `codemie-relay.js` в `~/.local/bin/`, запускает relay (foreground, порт 4002)
+
+**Проверено:**
+```
+[1/4] Stopping existing processes... Done.
+[2/4] Starting codemie proxy... Proxy running at http://127.0.0.1:4001
+[3/4] Available CodeMie models (37 total): ...
+[4/4] Starting relay... model map loaded from: ...chatLanguageModels.json
+  codemie-relay listening on http://127.0.0.1:4002/v1
+  model map:
+    gpt-4 -> claude-sonnet-4-6
+    gpt-4o -> claude-opus-4-6-20260205
+```
+
+Relay работает, обе модели маппятся. Ctrl+C для остановки.
