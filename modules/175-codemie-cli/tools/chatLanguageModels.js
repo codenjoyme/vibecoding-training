@@ -16,7 +16,7 @@
 			},
 			{
 				"id": "gpt-4o",
-				"realModelId": "claude-opus-4-6",
+				"realModelId": "claude-opus-4-6-20260205",
 				"name": "Claude Opus 4.6 (CodeMie)",
 				"url": "http://127.0.0.1:4002/v1/chat/completions",
 				"toolCalling": true,

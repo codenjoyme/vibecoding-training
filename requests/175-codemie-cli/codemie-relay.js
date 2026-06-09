@@ -57,7 +57,7 @@ function findConfigPaths() {
 
 const FALLBACK_MAP = {
   'gpt-4':  'claude-sonnet-4-6',
-  'gpt-4o': 'claude-opus-4-6',
+  'gpt-4o': 'claude-opus-4-6-20260205',
 };
 
 function buildModelMap() {

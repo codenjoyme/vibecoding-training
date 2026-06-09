@@ -1015,3 +1015,33 @@ MODEL_MAP:
 ```
 
 **Про токенайзер:** да, `gpt-4` и `gpt-4o` — это fake id которые Copilot знает как токенайзеры (`o200k_base`). Реальная модель определяется через `realModelId` в конфиге. Для новых моделей можно использовать любой из известных Copilot id: `gpt-4`, `gpt-4o`, `gpt-4o-mini`, `o1`, `o3-mini` и т.д.
+
+## UPD26 
+
+Но токенайзер всегда используется один и тот же, или тот что я укажу в качестве ID? Пока просто ответь тут.
+
+Что касается опуса вот на что наткнулся
+```
+Sorry, your request failed. Please try again.
+
+Reason: Request Failed: 400 {"error":{"message":"/chat/completions: Invalid model name passed in model=claude-opus-4-6. Call /v1/models to view available models for your key.","type":"None","param":"None","code":"400","provider_specific_fields":{"error":"/chat/completions: Invalid model name passed in model=claude-opus-4-6. Call /v1/models to view available models for your key."}}}: Error: Request Failed: 400 {"error":{"message":"/chat/completions: Invalid model name passed in model=claude-opus-4-6. Call /v1/models to view available models for your key.","type":"None","param":"None","code":"400","provider_specific_fields":{"error":"/chat/completions: Invalid model name passed in model=claude-opus-4-6. Call /v1/models to view available models for your key."}}} at $j._provideLanguageModelResponse (.\resources\app\extensions\copilot\dist\extension.js:1709:13738) at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+```
+Может модель не так называется. давай скриптик сделаем ps1 со списком всех моделей что есть в codemie. go
+
+### RESULT (UPD26)
+
+**Про токенайзер:** используется тот, что соответствует `id`. `gpt-4` и `gpt-4o` оба дают `o200k_base` — фактически одинаково. Для всех Claude-моделей через relay разницы нет, можно использовать любой из них.
+
+**Причина ошибки:** модель называется не `claude-opus-4-6`, а `claude-opus-4-6-20260205`. Проверено через `/v1/models`.
+
+**Что исправлено:**
+
+- [modules/175-codemie-cli/tools/chatLanguageModels.js](../../modules/175-codemie-cli/tools/chatLanguageModels.js) — `realModelId` исправлен: `claude-opus-4-6` → `claude-opus-4-6-20260205`
+- [modules/175-codemie-cli/tools/codemie-relay.js](../../modules/175-codemie-cli/tools/codemie-relay.js) — fallback map исправлен аналогично
+- `chatLanguageModels.json` (реальный конфиг VS Code) — исправлен `realModelId`
+
+**Создан [modules/175-codemie-cli/tools/list-codemie-models.ps1](../../modules/175-codemie-cli/tools/list-codemie-models.ps1):**
+```powershell
+.\list-codemie-models.ps1   # требует: codemie proxy start
+```
+Выводит полный список моделей отсортированный по имени. Использовать когда нужно узнать точное имя модели для `realModelId`.
