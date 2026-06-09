@@ -11,49 +11,113 @@
  *  4. model in responses (streaming + non-streaming) → echoed back as the fake-id
  *     (Copilot needs a recognized model name in responses to resolve tokenizer)
  *
- * Multi-model support:
- *  Add entries to MODEL_MAP below. The key is the "id" field in chatLanguageModels.json
- *  (must be a name Copilot knows, e.g. "gpt-4", "gpt-4o", "gpt-4o-mini").
- *  The value is the real model id sent to the CodeMie proxy.
+ * Multi-model support via chatLanguageModels.json:
+ *  Add "realModelId" to any model entry in chatLanguageModels.json:
+ *    { "id": "gpt-4", "realModelId": "claude-sonnet-4-6", "name": "...", ... }
+ *  The relay reads the config at startup and builds MODEL_MAP automatically.
+ *  No need to edit this file when adding new models — only edit chatLanguageModels.json.
+ *
+ * Config file locations (searched in order):
+ *  Windows: %APPDATA%\Code - Insiders\User\chatLanguageModels.json
+ *           %APPDATA%\Code\User\chatLanguageModels.json
+ *  macOS:   ~/Library/Application Support/Code - Insiders/User/chatLanguageModels.json
+ *           ~/Library/Application Support/Code/User/chatLanguageModels.json
+ *  Linux:   ~/.config/Code - Insiders/User/chatLanguageModels.json
+ *           ~/.config/Code/User/chatLanguageModels.json
  *
  * Start: node codemie-relay.js
  */
 'use strict';
 const http = require('http');
+const fs   = require('fs');
+const path = require('path');
+const os   = require('os');
 
 const TARGET_HOST = '127.0.0.1';
 const TARGET_PORT = 4001;
 const GATEWAY_KEY = 'codemie-proxy';
-const RELAY_PORT = 4002;
+const RELAY_PORT  = 4002;
 
-// --- Multi-model map ---
-// key   = fake model id used in chatLanguageModels.json (must be a Copilot-known tokenizer name)
-// value = real model id forwarded to the CodeMie proxy
-const MODEL_MAP = {
-  'gpt-4':    'claude-sonnet-4-6',
-  'gpt-4o':   'claude-opus-4-5',
-  // Add more entries here as needed, e.g.:
-  // 'gpt-4o-mini': 'gemini-2.5-flash',
+// ── Locate chatLanguageModels.json ──────────────────────────────────────────
+function findConfigPaths() {
+  const home = os.homedir();
+  const platform = process.platform;
+  let base;
+  if (platform === 'win32') {
+    base = process.env.APPDATA || path.join(home, 'AppData', 'Roaming');
+    return [
+      path.join(base, 'Code - Insiders', 'User', 'chatLanguageModels.json'),
+      path.join(base, 'Code',            'User', 'chatLanguageModels.json'),
+    ];
+  } else if (platform === 'darwin') {
+    base = path.join(home, 'Library', 'Application Support');
+    return [
+      path.join(base, 'Code - Insiders', 'User', 'chatLanguageModels.json'),
+      path.join(base, 'Code',            'User', 'chatLanguageModels.json'),
+    ];
+  } else {
+    base = process.env.XDG_CONFIG_HOME || path.join(home, '.config');
+    return [
+      path.join(base, 'Code - Insiders', 'User', 'chatLanguageModels.json'),
+      path.join(base, 'Code',            'User', 'chatLanguageModels.json'),
+    ];
+  }
+}
+
+// ── Build MODEL_MAP from config ─────────────────────────────────────────────
+// Reads all entries that have "realModelId" set.
+// Falls back to hardcoded defaults if config is missing or has no realModelId entries.
+const FALLBACK_MAP = {
+  'gpt-4':   'claude-sonnet-4-6',
+  'gpt-4o':  'claude-opus-4-5',
 };
 
-// Fallback: if the incoming model id is not in MODEL_MAP, forward it unchanged.
+function buildModelMap() {
+  const candidates = findConfigPaths();
+  for (const p of candidates) {
+    if (!fs.existsSync(p)) continue;
+    try {
+      const raw = fs.readFileSync(p, 'utf8');
+      const entries = JSON.parse(raw);
+      const map = {};
+      for (const vendor of entries) {
+        for (const model of (vendor.models || [])) {
+          if (model.id && model.realModelId) {
+            map[model.id] = model.realModelId;
+          }
+        }
+      }
+      if (Object.keys(map).length > 0) {
+        console.log('model map loaded from: ' + p);
+        return map;
+      }
+      console.log('config found at ' + p + ' but no realModelId entries — using fallback');
+      return FALLBACK_MAP;
+    } catch (e) {
+      console.log('warning: could not parse ' + p + ': ' + e.message);
+    }
+  }
+  console.log('chatLanguageModels.json not found — using fallback MODEL_MAP');
+  return FALLBACK_MAP;
+}
+
+const MODEL_MAP = buildModelMap();
+
 function toRealModel(fakeId) {
   return MODEL_MAP[fakeId] || fakeId;
 }
 
-// Reverse: given a real model id, find the fake id to echo back.
-// If not found, return the real id as-is (safe fallback).
 function toFakeModel(realId, originalFakeId) {
-  // Prefer the original fake id that was sent in the request (stored per-request).
   return originalFakeId || realId;
 }
 
+// ── HTTP relay ───────────────────────────────────────────────────────────────
 const server = http.createServer((req, res) => {
   const chunks = [];
   req.on('data', (chunk) => chunks.push(chunk));
   req.on('end', () => {
     let body = Buffer.concat(chunks);
-    let fakeModelId = null; // remember what Copilot sent so we can echo it back
+    let fakeModelId = null;
 
     if (req.method !== 'GET' && body.length > 0) {
       try {
@@ -75,17 +139,17 @@ const server = http.createServer((req, res) => {
     }
 
     const headers = Object.assign({}, req.headers, {
-      host: TARGET_HOST + ':' + TARGET_PORT,
-      authorization: 'Bearer ' + GATEWAY_KEY,
+      host:             TARGET_HOST + ':' + TARGET_PORT,
+      authorization:    'Bearer ' + GATEWAY_KEY,
       'content-length': body.length,
     });
 
     const options = {
       hostname: TARGET_HOST,
-      port: TARGET_PORT,
-      path: req.url,
-      method: req.method,
-      headers: headers,
+      port:     TARGET_PORT,
+      path:     req.url,
+      method:   req.method,
+      headers:  headers,
     };
 
     const proxyReq = http.request(options, (proxyRes) => {

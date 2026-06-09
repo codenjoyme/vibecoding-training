@@ -61,10 +61,11 @@ if ($foundConfig) {
 
 Write-Host ""
 Write-Host "  Reference config (this folder): $(Resolve-Path '.\chatLanguageModels.js')" -ForegroundColor DarkGray
-Write-Host "  MODEL_MAP in codemie-relay.js:" -ForegroundColor DarkGray
-Write-Host "    gpt-4    -> claude-sonnet-4-6" -ForegroundColor DarkGray
-Write-Host "    gpt-4o   -> claude-opus-4-5" -ForegroundColor DarkGray
-Write-Host "  To add more models: edit MODEL_MAP in codemie-relay.js and add entries to chatLanguageModels.json." -ForegroundColor DarkGray
+Write-Host ""
+Write-Host "  MODEL_MAP is built automatically from chatLanguageModels.json at relay startup." -ForegroundColor DarkGray
+Write-Host "  To add a new model — add an entry to chatLanguageModels.json with 'realModelId':" -ForegroundColor DarkGray
+Write-Host '    { "id": "gpt-4o-mini", "realModelId": "claude-haiku-4-6", "name": "...", ... }' -ForegroundColor DarkGray
+Write-Host "  No changes to codemie-relay.js needed." -ForegroundColor DarkGray
 
 # ── 4. Start codemie proxy + relay ──────────────────────────────────────────
 Write-Host "`n[4/4] Starting proxies..." -ForegroundColor Cyan

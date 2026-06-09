@@ -6,6 +6,7 @@
 		"models": [
 			{
 				"id": "gpt-4",
+				"realModelId": "claude-sonnet-4-6",
 				"name": "Claude Sonnet 4.6 (CodeMie)",
 				"url": "http://127.0.0.1:4002/v1/chat/completions",
 				"toolCalling": true,
@@ -15,6 +16,7 @@
 			},
 			{
 				"id": "gpt-4o",
+				"realModelId": "claude-opus-4-5",
 				"name": "Claude Opus 4.5 (CodeMie)",
 				"url": "http://127.0.0.1:4002/v1/chat/completions",
 				"toolCalling": true,

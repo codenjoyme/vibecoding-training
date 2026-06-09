@@ -854,3 +854,33 @@ Copilot ← relay (model: "gpt-4o")  ← CodeMie proxy (model: "claude-opus-4-5"
    ```
 2. Добавить запись в `chatLanguageModels.json` с `"id": "gpt-4o-mini"` и нужным `name`
 3. Перезапустить relay (`start.ps1`)
+
+## UPD21
+
+Выглядит как какой-то костыль. А если у меня будет 25 моделей, которые я хочу запускать? Могу ли я добавить новое поле в конфиг `chatLanguageModels.json` например `realModelId` и там указывать реальный айди модели, а токенизатор пусть остается всегда один и тот же? go
+
+### RESULT (UPD21)
+
+Да — VS Code игнорирует неизвестные поля в `chatLanguageModels.json`, поэтому `realModelId` добавляется безопасно.
+
+**Что изменилось:**
+
+- [modules/175-codemie-cli/tools/chatLanguageModels.js](../../modules/175-codemie-cli/tools/chatLanguageModels.js) — добавлено поле `"realModelId"` в каждую запись:
+  ```json
+  { "id": "gpt-4",  "realModelId": "claude-sonnet-4-6", ... }
+  { "id": "gpt-4o", "realModelId": "claude-opus-4-5",   ... }
+  ```
+
+- [modules/175-codemie-cli/tools/codemie-relay.js](../../modules/175-codemie-cli/tools/codemie-relay.js) — убран хардкод `MODEL_MAP`. Теперь при старте:
+  1. Ищет `chatLanguageModels.json` в стандартных путях (Windows/macOS/Linux, Insiders + Stable)
+  2. Читает все записи с полем `realModelId`, строит `MODEL_MAP = { id → realModelId }`
+  3. Если файл не найден или нет ни одной записи с `realModelId` — использует fallback-таблицу (gpt-4 → claude-sonnet-4-6, gpt-4o → claude-opus-4-5)
+  4. Логирует откуда загружена карта и все маппинги при старте
+
+- [modules/175-codemie-cli/tools/start.ps1](../../modules/175-codemie-cli/tools/start.ps1) — обновлена секция [3/4]: теперь объясняет что MODEL_MAP строится из конфига, и показывает пример добавления новой модели через `realModelId`
+
+**Как добавить новую модель (теперь без правки relay.js):**
+1. Добавить запись в `chatLanguageModels.json` с полями `id` (fake, Copilot-known), `realModelId` (реальный CodeMie id), `url`, `apiKey`
+2. Перезапустить relay (`node codemie-relay.js`) — он подхватит новую запись автоматически
+
+**Ограничение:** `id` по-прежнему должен быть именем, которое Copilot знает как токенизатор (`gpt-4`, `gpt-4o`, `gpt-4o-mini` и т.д.) — это требование самого Copilot, не relay.
