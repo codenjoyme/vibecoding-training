@@ -66,3 +66,5 @@ This file serves as a catalog of all project instructions. Each instruction cove
   + Keywords: images, screenshots, картинки, скриншоты, organize images, rename images, img, module images
 - `iterative-prompt/SKILL.md` - **[ITERATIVE PROMPT WORKFLOW v2.0]** Autonomous AI agent workflow — file-based UPD/RESULT polling cycle with async terminal watcher (Python, with retry & smart UPD detection). Supersedes `iterative-prompt.agent.md`. Use `<follow>iterative-prompt/SKILL.md</follow>` in any `*.prompt.md` that uses the UPD pattern.
   + Keywords: iterative prompt, UPD, polling loop, watcher, async terminal, main.prompt.md, итеративный промпт
+- `generate-algorithm-code.agent.md` - Generate classic algorithm implementations (sort, search, graph traversal, etc.) as a single method in Java or any requested language, following Clean Code principles. Asks clarifying questions (algorithm + language) via `vscode_askQuestions` if not specified. Output-only mode with no prose, tests, or comments.
+  + Keywords: algorithm, sort, search, bubble sort, binary search, merge sort, quick sort, dijkstra, dfs, bfs, алгоритм, сортировка, поиск, Clean Code, only method, only code
