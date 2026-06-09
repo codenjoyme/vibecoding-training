@@ -795,3 +795,11 @@ go
 - **Rate limit → support template:** секция с примером сообщения в суппорт-портал + инструкция получить точные model IDs из `test-dial-models-list-windows.ps1` / `test-dial-models-list-linux.sh`
 - **Prerequisite `uv`:** добавлен в about.md и в Prerequisites for Part 8
 - **Картинки:** [modules/170-dial-api-key-curl-access/img/01-ghcp-manage-models-panel.png](../../modules/170-dial-api-key-curl-access/img/01-ghcp-manage-models-panel.png) и [modules/170-dial-api-key-curl-access/img/02-ghcp-language-models-add.png](../../modules/170-dial-api-key-curl-access/img/02-ghcp-language-models-add.png) вставлены в Part 8
+
+## UPD20
+
+Смотри какая ситуация. Я хочу добавить вторую модель из codemie подборки. Но скрипт [text](../../modules/175-codemie-cli/tools/codemie-relay.js) заточен под то, чтобы использовтаь только одну модель. Запускать N прокиков тоже не вариант. Могу я как-то передать модель из файла [text](../../modules/175-codemie-cli/tools/chatLanguageModels.js) задав в конфиге. А проксик пусть будет запущен один? 
+
+Я так же добавил скрипт [text](../../modules/175-codemie-cli/tools/start.ps1) который пожалуйста дополни тем, чтобы сначала килялись все процесы codemie cli и прокси, а потом выводился список доступных моделей, информация о том какой файл конфига в GHCP править и где он (возможно надо сделать cat его на экран) и потом только зпуск двух прокси.
+
+go
