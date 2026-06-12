@@ -1,82 +1,94 @@
 ---
 name: fill-docx-template
-description: Fill a DOCX template by copying it and replacing <placeholder> tokens with values from a .properties file. The original template is never modified.
-version: 1.0.0
+description: Fill a DOCX template interactively — extracts <placeholder> names via CLI, asks the user for each value with vscode_askQuestions, then produces a filled copy. The original template is never modified.
+version: 2.0.0
 ---
 
-- Use this skill when asked to **fill a DOCX template** with data from a properties file.
-- Input: a `.docx` template with `<key>` placeholders + a `.properties` file with `key=value` lines.
-- Output: a new `.docx` file — a filled copy of the template. Original is never touched.
+- Use this skill when asked to **fill a DOCX template** with data.
+- Input: a `.docx` template path + desired output path.
+- Placeholders are discovered automatically from the template — no properties file needed.
+- Agent asks the user for every placeholder value using the `vscode_askQuestions` tool.
+- Output: a new `.docx` file — a filled copy. Original template is never touched.
 
-## Placeholders
+## Step-by-step agent workflow
 
-- Template placeholders use angle-bracket syntax: `<key>` (e.g. `<data1>`, `<fullName>`, `<date>`).
-- Inspect all placeholders in a template by running:
+**Step 1 — get template and output paths**
+- If the user has not provided both, ask them (one `vscode_askQuestions` call with two questions):
+  + `template` — path to the `.docx` template file.
+  + `output` — desired path for the filled output file.
+
+**Step 2 — extract placeholders via CLI**
+- Run the extractor script and capture the output:
   ```
-  python -c "
-  from docx import Document
-  doc = Document('path/to/Template.docx')
-  for p in doc.paragraphs:
-      if p.text.strip(): print(p.text)
-  "
+  python instructions/fill-docx-template/scripts/extract_placeholders.py \
+      --template <template-path>
+  ```
+- Each line of stdout is one placeholder key name (without angle brackets), e.g. `data1`, `fullName`.
+- If no placeholders are found — inform the user and stop.
+
+**Step 3 — ask the user for values**
+- Build one `vscode_askQuestions` call with one question per placeholder:
+  + `header` — the placeholder key (e.g. `data1`).
+  + `question` — `"Enter value for <data1>:"` (show the angle-bracket form so the user sees what it replaces).
+- Send **all questions in a single call** — do not loop one-by-one.
+- Example call structure:
+  ```json
+  {
+    "questions": [
+      { "header": "data1", "question": "Enter value for <data1>:" },
+      { "header": "data2", "question": "Enter value for <data2>:" },
+      { "header": "data3", "question": "Enter value for <data3>:" }
+    ]
+  }
   ```
 
-## Properties file format
-
-- One `key=value` pair per line.
-- Lines starting with `#` are comments — ignored.
-- Keys must match placeholder names exactly (without angle brackets).
-- Example for a template with `<data1>`, `<data2>`, `<data3>`:
-  ```properties
-  # data.properties
-  data1=Alice Johnson
-  data2=Senior Engineer
-  data3=Acme Corp
+**Step 4 — fill the template**
+- Run the fill script, passing each answer as a `--set key=value` argument:
   ```
+  python instructions/fill-docx-template/scripts/fill_docx_template.py \
+      --template <template-path> \
+      --output <output-path> \
+      --set data1="Alice Johnson" \
+      --set data2="Software Engineer" \
+      --set data3="Acme Corp"
+  ```
+- `--properties` is optional and can be omitted in the interactive flow.
+
+**Step 5 — confirm**
+- Report the output file path to the user.
+- Optionally show a summary table of key → value used.
+
+## Scripts reference
+
+- `extract_placeholders.py` — prints placeholder names (one per line) from a DOCX.
+  + Script: [scripts/extract_placeholders.py](./scripts/extract_placeholders.py)
+  + Args: `--template TEMPLATE.docx`
+- `fill_docx_template.py` — copies template and replaces `<key>` tokens.
+  + Script: [scripts/fill_docx_template.py](./scripts/fill_docx_template.py)
+  + Args: `--template`, `--output`, `--set key=value` (repeatable), `--properties` (optional).
+
+## Placeholder format
+
+- Templates use angle-bracket syntax: `<key>` (e.g. `<data1>`, `<fullName>`, `<date>`).
+- Placeholders may appear in body paragraphs and table cells.
+- Placeholders split across XML runs are handled automatically.
 
 ## Prerequisites
 
 - Python 3.8+
 - `pip install python-docx`
 
-## How to invoke
+## Alternative: properties-file mode (non-interactive)
 
-- Script: [scripts/fill_docx_template.py](./scripts/fill_docx_template.py)
-
-```
-python instructions/fill-docx-template/scripts/fill_docx_template.py \
-    --template path/to/Template.docx \
-    --properties path/to/data.properties \
-    --output path/to/Output.docx
-```
-
-- `--template` — path to the source `.docx` template (read-only, never modified).
-- `--properties` — path to the `.properties` file with `key=value` pairs.
-- `--output` — destination path for the filled `.docx`. Parent folder is created automatically.
-
-### Example with the course test template
-
-```
-python instructions/fill-docx-template/scripts/fill_docx_template.py \
-    --template work/test-docx/Template.docx \
-    --properties work/test-docx/data.properties \
-    --output work/test-docx/Filled.docx
-```
-
-Sample `data.properties` for `work/test-docx/Template.docx` (placeholders: `<data1>`–`<data6>`):
-```properties
-data1=Alice Johnson
-data2=Software Engineer
-data3=Acme Corp
-data4=2024
-data5=New York
-data6=USA
-```
-
-## Behavior details
-
-- The original template is **never modified** — the script copies it first, then edits the copy.
-- Replacements happen in **all paragraphs and all table cells**.
-- If a placeholder is split across multiple Word XML runs (can happen after copy-paste or autocorrect), the script merges those runs automatically — slight formatting loss only for that run.
-- Properties keys with no matching placeholder in the template are silently ignored.
-- Placeholders with no matching key in the properties file are left unchanged in the output.
+- Still supported for batch / CI scenarios:
+  ```
+  python instructions/fill-docx-template/scripts/fill_docx_template.py \
+      --template path/to/Template.docx \
+      --properties path/to/data.properties \
+      --output path/to/Output.docx
+  ```
+- Properties file format — one `key=value` per line, `#` lines are comments:
+  ```properties
+  data1=Alice Johnson
+  data2=Senior Engineer
+  ```

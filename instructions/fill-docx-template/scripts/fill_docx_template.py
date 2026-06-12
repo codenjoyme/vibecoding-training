@@ -74,8 +74,32 @@ def _replace_in_paragraph(para, props: dict) -> None:
             run.text = ""
 
 
-def fill_template(template_path: str, properties_path: str, output_path: str) -> None:
-    """Copy template → output, then replace all <key> placeholders."""
+def parse_set_args(set_args: list) -> dict:
+    """Parse a list of 'key=value' strings into a dict."""
+    props = {}
+    for item in set_args:
+        if "=" not in item:
+            print(
+                f"Warning: --set value ignored (no '='): {item!r}",
+                file=sys.stderr,
+            )
+            continue
+        key, _, value = item.partition("=")
+        props[key.strip()] = value.strip()
+    return props
+
+
+def fill_template(
+    template_path: str,
+    output_path: str,
+    properties_path: str = None,
+    set_args: list = None,
+) -> None:
+    """Copy template → output, then replace all <key> placeholders.
+
+    Values come from --properties file and/or --set key=value args.
+    --set values override --properties values for the same key.
+    """
     template = Path(template_path)
     output = Path(output_path)
 
@@ -83,14 +107,21 @@ def fill_template(template_path: str, properties_path: str, output_path: str) ->
         print(f"Error: template not found: {template}", file=sys.stderr)
         sys.exit(1)
 
-    if not Path(properties_path).exists():
-        print(f"Error: properties file not found: {properties_path}", file=sys.stderr)
-        sys.exit(1)
+    props = {}
+    if properties_path:
+        if not Path(properties_path).exists():
+            print(
+                f"Error: properties file not found: {properties_path}", file=sys.stderr
+            )
+            sys.exit(1)
+        props.update(load_properties(properties_path))
 
-    props = load_properties(properties_path)
+    if set_args:
+        props.update(parse_set_args(set_args))
+
     if not props:
         print(
-            "Warning: properties file is empty — output will be identical to template.",
+            "Warning: no values provided — output will be identical to template.",
             file=sys.stderr,
         )
 
@@ -118,7 +149,7 @@ def fill_template(template_path: str, properties_path: str, output_path: str) ->
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Fill a DOCX template with values from a .properties file."
+        description="Fill a DOCX template with values from a .properties file and/or --set args."
     )
     parser.add_argument(
         "--template",
@@ -128,9 +159,16 @@ def main() -> None:
     )
     parser.add_argument(
         "--properties",
-        required=True,
         metavar="data.properties",
-        help="Path to the .properties file (key=value, one per line).",
+        help="Optional path to a .properties file (key=value, one per line).",
+    )
+    parser.add_argument(
+        "--set",
+        dest="set_args",
+        action="append",
+        metavar="key=value",
+        default=[],
+        help="Set a single placeholder value. Repeatable. Overrides --properties for the same key.",
     )
     parser.add_argument(
         "--output",
@@ -139,7 +177,12 @@ def main() -> None:
         help="Destination path for the filled .docx file.",
     )
     args = parser.parse_args()
-    fill_template(args.template, args.properties, args.output)
+    fill_template(
+        template_path=args.template,
+        output_path=args.output,
+        properties_path=args.properties,
+        set_args=args.set_args,
+    )
 
 
 if __name__ == "__main__":
