@@ -10,12 +10,16 @@ go
 
 ### RESULT (UPD1)
 
-- Создан [instructions/demo/fill-docx-template/SKILL.md](../../instructions/demo/fill-docx-template/SKILL.md) — описание скилла: входы, формат плейсхолдеров, формат properties файла, как запускать
-- Создан [instructions/demo/fill-docx-template/scripts/fill_docx_template.py](../../instructions/demo/fill-docx-template/scripts/fill_docx_template.py) — Python скрипт: копирует шаблон, заменяет `<key>` токены, обрабатывает split-runs
-- Создан [.github/prompts/to-fill-docx-template.prompt.md](../../.github/prompts/to-fill-docx-template.prompt.md) — VSCode обёртка для Copilot
-- Создан [work/test-docx/data.properties](../../work/test-docx/data.properties) — пример properties файла для Template.docx
-- Обновлён [instructions/main.agent.md](../../instructions/main.agent.md) — добавлена запись в каталог
-- Протестировано: оригинальный Template.docx не изменился, Filled.docx содержит подставленные значения
+**Новые файлы:**
+- [instructions/demo/fill-docx-template/SKILL.md](../../instructions/demo/fill-docx-template/SKILL.md) — инструкции для скилла
+- [instructions/demo/fill-docx-template/scripts/fill_docx_template.py](../../instructions/demo/fill-docx-template/scripts/fill_docx_template.py) — Python скрипт
+- [.github/prompts/to-fill-docx-template.prompt.md](../../.github/prompts/to-fill-docx-template.prompt.md) — VSCode обёртка
+- [work/test-docx/data.properties](../../work/test-docx/data.properties) — пример properties файла
+
+**Обновлено:**
+- [instructions/main.agent.md](../../instructions/main.agent.md) — добавлена запись в каталог
+
+**Результат теста** — шаблон не изменился, в Filled.docx все плейсхолдеры `<data1>`–`<data6>` заменены значениями из data.properties
 
 ## UPD2
 
@@ -25,9 +29,18 @@ go
 
 ### RESULT (UPD2)
 
-- Создан [instructions/demo/fill-docx-template/scripts/extract_placeholders.py](../../instructions/demo/fill-docx-template/scripts/extract_placeholders.py) — извлекает имена плейсхолдеров из DOCX через ZIP/XML, печатает по одному на строку
-- Обновлён [instructions/demo/fill-docx-template/scripts/fill_docx_template.py](../../instructions/demo/fill-docx-template/scripts/fill_docx_template.py) — `--properties` теперь опциональный, добавлен `--set key=value` (повторяемый аргумент)
-- Переписан [instructions/demo/fill-docx-template/SKILL.md](../../instructions/demo/fill-docx-template/SKILL.md) — полный интерактивный workflow: Step 1 получить пути → Step 2 extract placeholders via CLI → Step 3 `vscode_askQuestions` (все вопросы одним вызовом) → Step 4 fill via `--set` → Step 5 подтвердить
+**Новый файл:**
+- [instructions/demo/fill-docx-template/scripts/extract_placeholders.py](../../instructions/demo/fill-docx-template/scripts/extract_placeholders.py) — извлекает плейсхолдеры из DOCX через ZIP/XML (даже если разбиты между XML-рунами)
+
+**Обновлённые файлы:**
+- [instructions/demo/fill-docx-template/SKILL.md](../../instructions/demo/fill-docx-template/SKILL.md) — полностью переписан под интерактивный workflow
+- [instructions/demo/fill-docx-template/scripts/fill_docx_template.py](../../instructions/demo/fill-docx-template/scripts/fill_docx_template.py) — `--properties` теперь опциональный, добавлен `--set key=value` (повторяемый)
+
+**Как выглядит новый flow:**
+1. Агент запускает `extract_placeholders.py --template Template.docx` → получает список: `data1, data2 ...data6`
+2. Агент вызывает `vscode_askQuestions` — одно вопрос на плейсхолдер, все в одном вызове
+3. Агент запускает `fill_docx_template.py --set data1="..." --set data2="..."` с ответами
+4. Сообщает о готовом файле
 
 ## UPD3
 
@@ -37,11 +50,18 @@ go
 
 ### RESULT (UPD3)
 
-- Запущен `extract_placeholders.py` на [work/test-docx/Template.docx](../../work/test-docx/Template.docx) → получены: `data1 data2 data3 data4 data5 data6`
-- Вызван `vscode_askQuestions` с 6 вопросами одним батчем (по одному на плейсхолдер)
-- Запущен `fill_docx_template.py` с `--set` аргументами из ответов
-- Создан [work/test-docx/FilledTest.docx](../../work/test-docx/FilledTest.docx) — все плейсхолдеры заменены, оригинал не тронут
-- Flow отработал полностью: extract → ask → fill ✅
+Результат в [work/test-docx/FilledTest.docx](../../work/test-docx/FilledTest.docx):
+
+| Плейсхолдер | Значение |
+|---|---|
+| `<data1>` | value1 |
+| `<data2>` | value2 |
+| `<data3>` | value3 |
+| `<data4>` | value4 |
+| `<data5>` | value5 |
+| `<data6>` | value6 |
+
+Flow отработал полностью: extract → ask → fill. Оригинальный [work/test-docx/Template.docx](../../work/test-docx/Template.docx) не изменён.
 
 ## UPD4
 
@@ -51,8 +71,12 @@ go
 
 ### RESULT (UPD4)
 
-- Создана папка `instructions/demo/` — подпапка для инструкций используемых только в демках
-- Перемещён `instructions/calculate-trig-table/` → [instructions/demo/calculate-trig-table/](../../instructions/demo/calculate-trig-table/)
-- Перемещён `instructions/fill-docx-template/` → [instructions/demo/fill-docx-template/](../../instructions/demo/fill-docx-template/)
-- Обновлён [instructions/main.agent.md](../../instructions/main.agent.md) — исправлены пути для обоих скиллов на `./demo/...`
-- Создан [requests/demo-cases/main.prompt.md](main.prompt.md) — этот файл, полная история сессии в формате UPD/RESULT на русском языке
+**Переезд инструкций:**
+- `instructions/calculate-trig-table/` → [instructions/demo/calculate-trig-table/](../../instructions/demo/calculate-trig-table/)
+- `instructions/fill-docx-template/` → [instructions/demo/fill-docx-template/](../../instructions/demo/fill-docx-template/)
+
+**Обновлены ссылки:**
+- [instructions/main.agent.md](../../instructions/main.agent.md) — оба скилла теперь указывают на `./demo/...`
+
+**Создан prompt файл:**
+- [requests/demo-cases/main.prompt.md](main.prompt.md) — вся сессия в формате UPD1–UPD4 на русском, RESULT'ы соответствуют тому что реально было сделано
