@@ -10,19 +10,47 @@ iterative-prompt/SKILL.md
 
 ### RESULT (UPD1)
 
-Conversational answer only — nothing committed. Summary of the 5 layers of defence given in chat:
+Хороший вопрос — это сейчас одна из самых горячих болевых точек в agentic-разработке. Кратко по уровням защиты, как это рекомендуют делать:
 
-1. **Не хранить секреты в `.env` рядом с кодом** — `.env` только для локалки; `.gitignore` + `.env.example`; pre-commit hooks `git-secrets` / `gitleaks` / `trufflehog`.
-2. **Внешние секрет-менеджеры** — OS keychain (macOS Keychain / Windows Credential Manager / libsecret / `pass`), 1Password CLI (`op run`), Bitwarden CLI, HashiCorp Vault, AWS Secrets Manager, Azure Key Vault, Doppler, Infisical, `direnv` + `sops/age`.
-3. **Изоляция от модели (ключевой пункт для GenAI):**
-   - модель НИКОГДА не видит plaintext-значение, только ссылку/имя
-   - sandboxing файловой системы (devcontainers, ограниченный workdir)
-   - MCP server как прокси к секрету — токен живёт внутри MCP-процесса, модель оперирует *capability*, а не *credential*
-   - tool-level allowlist (запрещён произвольный `curl`)
-4. **Минимизация ущерба при утечке** — short-lived tokens (OIDC, fine-grained PAT с TTL, AWS STS, Azure Managed Identity), scoped permissions, audit log + аномалии, автоматическая ротация.
-5. **Прагматичный стек одиночки** — 1Password/Bitwarden/OS keychain + `op run -- mcp-server` + MCP конфиг ссылается только на имена + `gitleaks` pre-commit + GitHub Secret Scanning + devcontainer без доступа к личным ключам.
+#### 1. Не хранить секреты в `.env` рядом с кодом
+- `.env` — это для локальной разработки, и то с оговорками.
+- Базовый минимум: `.env` в `.gitignore` + `.env.example` с пустыми ключами в репо. Но это только защита от случайного коммита, не от модели.
+- Использовать `git-secrets`, `gitleaks`, `trufflehog` как pre-commit hook — чтобы физически не дать закоммитить.
 
-Community trends: capability tokens для MCP (Anthropic / Google), MCP authorization spec (OAuth-based), secretless-архитектура (CyberArk Conjur, workload identity).
+#### 2. Внешние секрет-менеджеры вместо файлов
+Идея: секрет не лежит на диске в plaintext, а подтягивается в момент запуска процесса.
+- **OS-level keychain**: macOS Keychain, Windows Credential Manager, libsecret (Linux). Доступ через CLI вроде `keyring` (Python) или `pass`.
+- **1Password CLI** (`op run -- ./tool`) и **Bitwarden CLI** — очень популярны в dev-среде. Команда запускается с переменными, инжектированными в процесс, и нигде не пишутся.
+- **HashiCorp Vault**, **AWS Secrets Manager**, **Azure Key Vault**, **Doppler**, **Infisical** — для команд и CI.
+- **direnv + sops/age** — секреты лежат зашифрованные в репо, расшифровываются только в нужной директории.
+
+#### 3. Изоляция от модели — это ключевой пункт для GenAI
+Главный риск, о котором ты говоришь: агент может прочитать `.env` сам и выполнить что-то мимо твоих "тулов". Решения:
+- **Принцип**: модель НИКОГДА не должна видеть значение секрета в plaintext. Она видит только "имя ссылки".
+- **Sandboxing файловой системы** — ограничить агенту workdir, чтобы он физически не мог `cat .env` или прочитать `~/.aws/credentials`. В VS Code Copilot это пока слабое место, но в Claude Code / Cursor / devcontainers можно.
+- **MCP server как прокси к секрету**: вместо того чтобы агент видел `GITHUB_TOKEN`, он вызывает MCP tool `github.create_issue(...)`, а сам токен живёт внутри MCP-сервера, поднятого с секретом из keychain. Модель оперирует *capability*, а не *credential*.
+- **Tool-level allowlist**: явно разрешённый список команд/доменов, всё остальное блокируется. Это спасает от "модель сама пошла и выполнила curl с твоим токеном".
+
+#### 4. Минимизация ущерба, если секрет всё-таки утечёт
+- **Short-lived tokens** вместо долгоживущих API-ключей: OIDC, GitHub fine-grained PAT с TTL, AWS STS, Azure Managed Identity.
+- **Scoped permissions**: токен только на один репо, только read, только один bucket. Если утёк — радиус взрыва маленький.
+- **Audit log + аномалии**: логи использования ключа, алерты на необычные действия.
+- **Rotation**: автоматическая ротация секретов (Doppler, Vault это умеют из коробки).
+
+#### 5. Прагматичный стек "для разработчика-одиночки"
+Если без энтерпрайза, то типичная рекомендация сейчас:
+1. Секреты в **1Password / Bitwarden / OS keychain**.
+2. Запуск агентских инструментов через wrapper типа `op run --env-file=.env.template -- npx some-mcp`.
+3. MCP-серверы пишутся так, чтобы получать креды из env, а конфиг агента **только ссылается на имена**, не значения.
+4. `gitleaks` в pre-commit + GitHub Secret Scanning включён.
+5. Devcontainer / отдельный профиль OS, где у агента нет доступа к личным ключам.
+
+#### Что обсуждается прямо сейчас в community
+- Anthropic и Google толкают идею **"capability tokens"** для MCP — чтобы агенту выдавался узкий ограниченный токен на конкретную задачу, а не весь твой PAT.
+- Идёт работа над **MCP authorization spec** (OAuth-based) — чтобы MCP сервер сам делал авторизацию, а агент вообще никогда не держал секрет.
+- Растёт интерес к **"secretless" архитектуре** (CyberArk Conjur, workload identity) — приложение/агент не имеет секрета, его выдаёт инфраструктура на лету.
+
+Если хочешь — могу копнуть в любой из этих пунктов глубже: например, как конкретно настроить `op run` с MCP-сервером, или как написать MCP-прокси, который прячет токен от модели.
 
 ## UPD2
 
@@ -30,30 +58,37 @@ Community trends: capability tokens для MCP (Anthropic / Google), MCP authori
 
 ### RESULT (UPD2)
 
-Conversational answer only — nothing committed. Mapping result:
+Что у тебя есть на эту тему:
 
-**Уже существует:**
-- [modules/108-token-api-key-management/about.md](../../modules/108-token-api-key-management/about.md) — базовый уровень: `.env` + `dotenv`, `.gitignore`, env vars в shell, ротация, pre-commit чек-лист. Это «не утечь в git».
-- [instructions/handle-secrets-in-ai-workflows.agent.md](../../instructions/handle-secrets-in-ai-workflows.agent.md) — инструкция-страж для самого агента (не цитировать секрет, не копировать в артефакты, что делать при утечке). На неё ссылается модуль 058.
+#### Уже существует
+**Module 108 — Token & API Key Management** — [modules/108-token-api-key-management/about.md](../../modules/108-token-api-key-management/about.md)
 
-**Чего нет (это и есть тема UPD1):**
+Покрывает базу: `.env` + `dotenv`, `.gitignore`, переменные окружения в shell, ротация ключей, pre-commit чек-лист. Это «не утечь в git» уровень.
+
+Плюс есть инструкция-«страж» для агента: [instructions/handle-secrets-in-ai-workflows.agent.md](../../instructions/handle-secrets-in-ai-workflows.agent.md) — правила для самого агента (не цитировать секрет, не копировать его в артефакты, что делать при утечке). На неё ссылается модуль 058.
+
+#### Чего нет (и это как раз твой вопрос)
+Модуля про **agentic-эпоху секретов**: агент сам читает `.env`, MCP-серверы требуют токены, риск «модель сделала действие мимо тулов». Темы, которые не покрыты ни в 108, ни в `handle-secrets`:
 - secret managers как источник (1Password CLI / Bitwarden / OS keychain / Vault)
-- MCP как credential proxy (агент видит capability, а не токен)
+- MCP как **credential proxy** (агент видит capability, а не токен)
 - short-lived / scoped tokens, OIDC, fine-grained PAT
 - sandboxing файловой системы для агента
 - secretless architecture, capability tokens, MCP authorization spec
 
-**Куда вставить:** новый слот `109 — Secrets in Agentic Workflows` между 108 и 110.
+#### Куда вставить
+Идеальный слот — **109**, прямо между 108 и 110:
 
 | ID | Что |
 |----|-----|
-| 108 | Token & API Key Management *(основы)* |
-| **109** | **Secrets in Agentic Workflows** *(новый — secret managers, MCP-прокси, capability tokens, sandbox)* |
+| 108 | Token & API Key Management *(основы: .env, gitignore, ротация)* |
+| **109** | **Secrets in Agentic Workflows** *(secret managers, MCP-прокси, capability tokens, sandbox)* — **новый, твоя тема** |
 | 110 | Development Environment Setup |
 
-Зависимости: 060 (git) → 100/105/106 (MCP) → 108 (.env база) → **109 (защита от агента)** → 110.
+Зависимости логично складываются: 060 (git) → 100/105/106 (MCP — где появляются токены) → 108 (база `.env`) → **109 (защита от агента)** → 110.
 
-Альтернатива — расширить 108, но угрозы разные: 108 защищает от утечки людям через git, 109 — от утечки модели и через модель.
+Альтернатива — расширить 108 разделом «Beyond .env: keeping secrets out of the agent's reach», но по объёму это уже отдельный модуль: 108 — это «не утечь людям через git», а 109 — «не утечь модели и через модель». Разные угрозы, разные инструменты, разная аудитория (108 — все, 109 — кто реально гоняет агентов с MCP).
+
+Если решишь делать — могу набросать `about.md` + план в стиле остальных модулей. Скажешь — поехали.
 
 ## UPD3
 
@@ -61,6 +96,25 @@ Conversational answer only — nothing committed. Mapping result:
 
 ### RESULT (UPD3)
 
-- [requests/108-secrets-in-agentic-workflows/main.prompt.md](main.prompt.md) — создан этот файл с UPD1+RESULT (исследовательский ответ про 5 уровней защиты), UPD2+RESULT (маппинг на существующий модуль 108 и предложение нового 109), UPD3+RESULT (текущий мета-шаг).
+Готово. Создал [requests/108-secrets-in-agentic-workflows/main.prompt.md](main.prompt.md) — три твоих вопроса как `UPD1`/`UPD2`/`UPD3` с моими ответами в `### RESULT` каждого блока. Внизу пустой `## UPD4`, можешь продолжать писать туда новые запросы — закончи блок словом `go`, и я подхвачу.
 
 ## UPD4
+
+Смотри ты сделал RESULT не слово в слово с тем что мне писал тут 
+например ### RESULT (UPD1)
+в файле 
+"""
+Conversational answer only — nothing committed. Summary of the 5 layers of defence given in chat:
+"""
+а тут в чате
+"""
+Хороший вопрос — это сейчас одна из самых горячих болевых точек в agentic-разработке. Кратко по уровням защиты, как это рекомендуют делать:
+"""
+Мнен адо чтобі в файле было как тут
+go
+
+### RESULT (UPD4)
+
+Переписал `RESULT` блоки для UPD1, UPD2 и UPD3 в [main.prompt.md](main.prompt.md) — теперь они содержат дословные ответы из чата (полный текст со всеми разделами, списками и финальными предложениями), а не сжатые саммари. Заголовки уровня `###` внутри ответов понижены до `####`, чтобы не ломать структуру `## UPD` / `### RESULT`. Пути к файлам в ссылках пересчитаны относительно расположения `requests/108-secrets-in-agentic-workflows/`.
+
+## UPD5
