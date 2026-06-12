@@ -70,3 +70,5 @@ This file serves as a catalog of all project instructions. Each instruction cove
   + Keywords: trig table, trigonometry, sine, cosine, tangent, sin, cos, tan, degrees, calculate, таблица, синус, косинус, тангенс
 - [`./instructions/generate-algorithm-code.agent.md`](./generate-algorithm-code.agent.md) — Generate a clean algorithm method (bubble sort, binary search, merge sort, etc.) in one or more languages. Asks for algorithm and language if not specified. Outputs fenced code block only — no prose, no imports, no class wrapper.
   + Keywords: algorithm, sort, search, bubble sort, merge sort, quick sort, binary search, Dijkstra, алгоритм, сортировка, поиск, give me code, copy code
+- [`./instructions/fill-docx-template/SKILL.md`](./fill-docx-template/SKILL.md) — Fill a DOCX template by copying it and replacing `<placeholder>` tokens with values from a `.properties` file. Original template is never modified.
+  + Keywords: fill docx, docx template, replace placeholders, word template, properties file, заповнити шаблон, замінити плейсхолдери
