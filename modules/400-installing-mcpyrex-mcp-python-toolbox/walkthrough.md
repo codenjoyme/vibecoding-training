@@ -548,4 +548,4 @@ pip install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-hos
 
 With mcpyrex installed and verified, you're ready to explore individual tools in depth. The next module — **405: Word Count & Math — First Custom Tools** — dives into the anatomy of an MCP tool and teaches you to read, understand, and modify tool source code.
 
-The full mcpyrex training series (400-550) covers all 30+ tools and 8 projects. See `modules/proposed-mcpyrex-modules.md` for the complete roadmap.
+The full mcpyrex training series (400-550) covers all 30+ tools and 8 projects. See [proposed-mcpyrex-modules.md](../../requests/module-catalog/proposed-mcpyrex-modules.md) for the complete roadmap.

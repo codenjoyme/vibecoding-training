@@ -17,7 +17,7 @@ This prompt was created from a live chat session on 2026-04-30.
 **Agent:** Отдельного модуля по Jira нет. Тема Jira частично покрыта в:
 
 - [modules/168-elitea-remote-mcp-http-integration/walkthrough.md](../../modules/168-elitea-remote-mcp-http-integration/walkthrough.md) — там есть раздел про подключение Jira через Remote MCP (OAuth 2.0) с инструментами `jira_create_issue`, `jira_search_issues`, `jira_get_board` и др.
-- [modules/proposed-mcpyrex-modules.md](../../modules/proposed-mcpyrex-modules.md) — предложен модуль `470: mcpyrex: Jira Integration & PDF Processing`, но он ещё не создан.
+- [requests/module-catalog/proposed-mcpyrex-modules.md](../module-catalog/proposed-mcpyrex-modules.md) — предложен модуль `470: mcpyrex: Jira Integration & PDF Processing`, но он ещё не создан.
 
 Если нужен полноценный модуль по работе с Jira — можем создать.
 

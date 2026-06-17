@@ -20,7 +20,7 @@
   + A summary table of all proposed modules with ID, Name, and Phase.
   + An updated learning path showing all existing + proposed modules in sequence (mark new ones with ★).
   + A dependency graph showing what each new module depends on.
-- Save the output file to `./modules/proposed-modules.md`.
+- Save the output file to `./requests/module-catalog/proposed-modules.md`.
 - Use English for all file content, respond to user in their language.
 - Do not create actual module folders during Phase 1 — this is a proposal document only.
 
@@ -46,7 +46,7 @@ For EACH module, before doing anything else, execute ALL of the following steps 
 
 ---
 
-**STEP 2 — CALL `read_file` on `./modules/proposed-modules.md` and locate the section for the CURRENT module.**
+**STEP 2 — CALL `read_file` on `./requests/module-catalog/proposed-modules.md` and locate the section for the CURRENT module.**
 - This is not optional. This is not "already seen". **This MUST be an actual `read_file` tool call with a visible result — NOT a text statement saying it was read earlier.**
 - FORBIDDEN justifications: "выполнено выше", "загружен полностью от строки 1", "already seen", "read above", "loaded earlier", "found in previous step", or any variation. If you wrote any of these, you have violated this step.
 - Call `read_file` and find the section for the CURRENT module by its ID and name.
@@ -80,7 +80,7 @@ For EACH module, before doing anything else, execute ALL of the following steps 
 
 ---
 
-**STEP 6 — MARK the module as done in `./modules/proposed-modules.md`.**
+**STEP 6 — MARK the module as done in `./requests/module-catalog/proposed-modules.md`.**
 - Edit the heading of the current module section: `## Module N: Name` → `## ✅ Module N: Name`
 - This is the progress checkpoint. If the session is interrupted, this shows where to resume.
 
@@ -99,7 +99,7 @@ For EACH module, before doing anything else, execute ALL of the following steps 
 - "Step 1 already done in this iteration" → NO. Call `read_file` again.
 - "(выполнено выше в этой же итерации, файл загружен полностью от строки 1 до конца)" → NO. That is a violation. Call `read_file` again.
 - "Instruction read above" → NO. Call `read_file` again.
-- "Section from proposed-modules.md seen earlier" → NO. Call `read_file` again.
+- "Section from requests/module-catalog/proposed-modules.md seen earlier" → NO. Call `read_file` again.
 - Writing Step 1 or Step 2 as a text paragraph instead of a tool call result → NO. Steps 1 and 2 must show tool call output, not prose.
 - Creating two modules before confirming the first → NO. One module = complete Steps 1-7 = confirm = then next module.
 - Batching `about.md` + `walkthrough.md` across multiple modules in one response → NO.

@@ -391,7 +391,7 @@ Each iteration takes about 15-20 minutes for generation and review, plus another
 | AI ignores the creation instructions format | Re-send with emphasis: "Follow EXACTLY the format in create-training-module.agent.md. Especially the Prerequisites section format and walkthrough.md structure." |
 | Generated module is too short/thin | The source article may lack hands-on content. Ask AI: "The walkthrough needs more hands-on steps. Add practical exercises, verification steps, and a troubleshooting section." |
 | Prerequisites link to non-existent modules | Verify module folder names in `./modules/`. The AI may guess incorrect folder names. Check and fix the relative paths manually. |
-| Module ID conflicts with existing module | Check `training-plan.md` for all existing IDs. Use one of the available gaps documented in `proposed-modules.md`. |
+| Module ID conflicts with existing module | Check `training-plan.md` for all existing IDs. Use one of the available gaps documented in [`proposed-modules.md`](../../requests/module-catalog/proposed-modules.md). |
 | Fork & PR workflow fails on push | Verify your remote is set correctly: `git remote -v`. Ensure you're pushing to your fork, not the original repo. |
 | AI generates keyboard shortcuts in walkthrough | Replace with menu paths or generic descriptions: "Open the command palette" instead of specific key combinations. |
 

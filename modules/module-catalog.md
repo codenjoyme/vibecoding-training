@@ -23,6 +23,7 @@
 | 088 | IDE Workspace as Knowledge Base | Use your IDE workspace as a lightweight knowledge base — drop documents into a folder and query them through AI chat instead of building a full RAG pipeline |
 | 090 | AI Skills & Tools Creation | Create reliable AI skills by combining instructions with parameterized tools to eliminate hallucinations |
 | 091 | CLI Snapshot Testing with Docker | Test any CLI tool by capturing its full output as a golden Markdown snapshot and reviewing changes via `git diff` |
+| 092 | Kata — Building Calculation Skills | Practice the full skill-creation loop — describe a calculation, let the agent generate a deterministic Python CLI script, write a SKILL.md, run and verify output, then repeat |
 | 100 | Model Context Protocol (MCP) | Connect AI to any data source |
 | 103 | CLI: Command Line Interface | Call REST APIs directly from terminal using curl — bypassing LLM for deterministic, token-efficient tool execution without hallucination risk |
 | 104 | Port Existing Code into Skills | Port an existing backend service into a portable CLI tool and package it as a reusable AI Skill |
@@ -46,6 +47,7 @@
 | 165 | Elitea Platform MCP Integration | Connect to Elitea platform and manage AI agents through MCP from VS Code |
 | 168 | Elitea Remote MCP — HTTP Integration | Configure Remote MCP servers on Elitea platform to connect cloud services via HTTP without local installation |
 | 170 | DIAL API Key and cURL Access | Obtain DIAL API key and test connection to AI models using simple cURL requests |
+| 175 | CodeMie CLI Setup & IDE Integration | Install, authenticate, and configure CodeMie CLI to run AI coding agents (Claude Code, Gemini, OpenCode) through your company's enterprise proxy, and connect them to VS Code or Cursor |
 | 180 | DIAL Integration with Python and Langchain | Set up Python virtual environment, install langchain framework, and build a working AI application that connects to DIAL |
 | 185 | Prompt Templates for Dynamic Queries | Use Langchain prompt templates to create reusable, parameterized AI queries |
 | 187 | Structured Output & JSON Mode | Get reliable JSON from any LLM using Pydantic schemas and Langchain output parsers |
@@ -59,9 +61,11 @@
 | 230 | Creating Training Modules from Articles | Transform any article or resource into a structured, course-quality training module using AI agent |
 | 240 | Engineering Career Evolution with AI | Reframe AI disruption as a career accelerator — map your engineering strengths to the agent-led workflow and build a personal evolution plan |
 | 250 | Export Chat Session | Extract, preserve, and share AI chat sessions from VS Code as portable HTML files |
+| 260 | Translate Any Website with AI Agent | Use Chrome DevTools MCP to translate any website into any language via AI agent commands |
 | 300 | DMtools — Agent Skill & Automation Catalog | Install a third-party agent skill, explore a catalog of 152+ automation tools across 16 integrations |
 | 350 | OpenClaw — AI Personal Assistant Platform | Install OpenClaw, connect an AI model, and interact with a personal AI assistant through a local Gateway, dashboard, and chat channels |
 | 400 | Installing mcpyrex — MCP Python Toolbox | Install mcpyrex (open-source MCP server with 30+ Python/Langchain tools) into a dedicated workspace and run your first deterministic tool |
+| 465 | Cookie Grabber — Secure API Calls | Access cookie-protected internal APIs from the AI agent via an encrypted CLI pipeline — without exposing cookies to the model or storing them in plaintext |
 | 470 | Jira CLI Access via MCPyrex Python Script | Build a Python CLI for Jira REST API access, create a scoped API token with expiry and IP restriction, use VPN for protection, and teach the AI agent to drive it via a skill.md descriptor |
 | 500 | AI Workflow Decision Guide | Know exactly which AI tools to use, when to use them, and how to combine them for any daily development task |
 | 600 | Microsoft Teams AI Chat Summarizer | Build a Dockerized Python app that authenticates to Entra ID, reads Teams chats via Microsoft Graph, summarizes with an LLM, and posts back to a dedicated chat |
