@@ -19,6 +19,7 @@
 | 076 | Advanced Skills Management System | Set up a centralized AI skills repository with manifest-driven sparse checkout and the `skills` CLI to manage team-wide AI instructions at scale |
 | 080 | Learning from Hallucinations | Transform AI output deviations into instruction improvements by delegating fixes to the agent itself |
 | 083 | AI Cost Optimization & Token Economics *(optional)* | Understand how tokens are counted, what context windows cost, and how to cut your AI bill without losing quality — primarily for team leads and managers |
+| 084 | Copilot Usage Telemetry — Credit & Token Tracking | Pull Copilot credit/quota and token-usage statistics from the internal `copilot_internal/user` API and per-session debug logs — no UI, no screenshots |
 | 085 | Evaluating AI Output Quality | Score and validate AI responses using a systematic quality framework including hallucination detection |
 | 088 | IDE Workspace as Knowledge Base | Use your IDE workspace as a lightweight knowledge base — drop documents into a folder and query them through AI chat instead of building a full RAG pipeline |
 | 090 | AI Skills & Tools Creation | Create reliable AI skills by combining instructions with parameterized tools to eliminate hallucinations |

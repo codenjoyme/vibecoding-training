@@ -57,6 +57,7 @@ After completing all modules, participants will build a complete application tha
 1. [Advanced Skills Management System](modules/076-skills-management-system/about.md) - Build a centralized AI skills repository with CLI tooling, sparse checkout, and team governance workflows
 1. [Learning from Hallucinations](modules/080-learning-from-hallucinations/about.md) - Use AI mistakes to improve instructions
 1. [AI Cost Optimization & Token Economics](modules/083-ai-cost-optimization/about.md) - Understand token economics and reduce AI costs for your team *(optional — for team leads and managers)*
+1. [Copilot Usage Telemetry — Credit & Token Tracking](modules/084-copilot-usage-telemetry/about.md) - Pull Copilot credit/quota and token-usage stats from the internal API and session logs, no screenshots
 1. [Evaluating AI Output Quality](modules/085-evaluating-ai-output-quality/about.md) - Score and validate AI responses with a systematic quality framework
 1. [IDE Workspace as Knowledge Base](modules/088-ide-workspace-as-knowledge-base/about.md) - Use workspace folders + AI chat to analyze documents without building a RAG pipeline
 1. [AI Skills - Context, Tools & Memory](modules/090-ai-skills-tools-creation/about.md) - Understand AI's eyes, hands, and memory

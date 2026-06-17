@@ -65,3 +65,53 @@ iterative-prompt/SKILL.md
 
 - Кредиты нельзя достать из локальных файлов — только живой вызов API с токеном. Значит скилл должен где-то взять токен (`gh auth token` при нужных scope, либо токен из секрет-стора VS Code).
 - Сопоставление «UPD-прогон ↔ участок JSONL»: в логах нет явного маркера UPD. Маппить придётся по времени старта/финиша (`ts`) или по тексту `userRequest`/`go`.
+
+## UPD2
+
+У тебя были вопросы. 
+
+- Откуда скилл будет брать GitHub-токен для запроса кредитов? -> давай посмотрим как я могу его получить? Через github pat токен смогу? Расположим в `.env` файле. 
+
+- На чём писать инструмент (по примеру курса — обычно Python CLI)? -> на питоне 
+
+- Что делаем в UPD2 — строим скилл или сначала ещё research? -> Давай сделаем новый модуль следуя и нструкции по созданию модулей. [text](../../instructions/create-training-module.agent.md) но в нем пока не создаем walkthrough.md (потом сделаем) а только skill в папке `tools` модуля и там пусть будет питоновский скрипт и на шем мы будем экспериментировать. А как вытянем все данные, что нам надо из github по статистике, тогда уже сделаем `SKILL.md` и дальше продолжим с тобой - подумаем как подбивать статистику чтобы она сторилась между сессиями где-то в каком-то месте (но это все будет потом). Сейчас задача пробиться статистике гитхаба. 
+
+Токен я засторил в `COPILOT_GITHUB_TOKEN` в файле `.env` в корне репозитория. Не рассекречивай его. Нам для экспериментов возле скрипта надо `.env.example` с рыбой и отдельный `.env` с реальным токеном - он гитигнорится.
+
+Токена я не должен видеть нигде тут в отчетах. 
+
+Если токен не подходит, давай скажи мне какой сгенерить я попробую сделать новый. 
+go
+
+### RESULT (UPD2)
+
+Создал новый модуль **084 — Copilot Usage Telemetry** (следуя [create-training-module.agent.md](../../instructions/create-training-module.agent.md)). `walkthrough.md` и `SKILL.md` пока НЕ создавал — как договаривались.
+
+**Созданные файлы:**
+- [modules/084-copilot-usage-telemetry/about.md](../../modules/084-copilot-usage-telemetry/about.md) — описание модуля (ссылка на walkthrough помечена «coming soon»)
+- [modules/084-copilot-usage-telemetry/tools/scripts/copilot_stats.py](../../modules/084-copilot-usage-telemetry/tools/scripts/copilot_stats.py) — экспериментальный Python CLI: команды `credits`, `raw`, `token-info`; токен читается из `.env` и **нигде не печатается**
+- [modules/084-copilot-usage-telemetry/tools/.env.example](../../modules/084-copilot-usage-telemetry/tools/.env.example) — рыба с `COPILOT_GITHUB_TOKEN`
+- [training-plan.md](../../training-plan.md) — модуль 084 добавлен после 083
+- [modules/module-catalog.md](../../modules/module-catalog.md) — строка 084 добавлена
+
+`.env` в корне уже в `.gitignore` (проверил) — реальный токен не коммитится.
+
+**⚠️ Главный блокер: текущий токен невалиден.**
+
+Скрипт берёт кредиты с приватного эндпоинта `GET https://api.github.com/copilot_internal/user` (заголовки `Authorization: token <…>` + `X-GitHub-Api-Version: 2025-04-01` — формат вытащил из бандла плагина). Результат теста:
+
+| Проверка | Результат |
+|---|---|
+| Тип токена | `github_pat_…`, длина 93 → **fine-grained PAT** |
+| `GET /user` (обычный API) | **401 Bad credentials** |
+| `GET /copilot_internal/user` | **401 Bad credentials** |
+| Схемы `Bearer` и `token` | обе 401 |
+
+Раз даже обычный `/user` отдаёт «Bad credentials» — проблема **не в эндпоинте, а в самом токене**: он просрочен/отозван/скопирован с ошибкой. (Токен я нигде не показывал — только префикс `github_pat_` и длину.)
+
+**Что сгенерить и попробовать (по порядку):**
+1. **Сначала — classic PAT** (`ghp_…`): https://github.com/settings/tokens → *Generate new token (classic)*. Скоупы для чтения профиля: `read:user`. Положи в `COPILOT_GITHUB_TOKEN`, перезапусти `python modules/084-copilot-usage-telemetry/tools/scripts/copilot_stats.py credits`.
+   - Я подозреваю, что внутренние `copilot_internal/*` эндпоинты вообще принимают только classic-токены / editor-OAuth, а fine-grained — нет. Поэтому classic стоит проверить первым.
+2. Если classic PAT даст **403** (а не 401) на `copilot_internal/user` — значит токен валиден, но эндпоинту нужен именно editor-OAuth токен. Тогда в следующем UPD пойдём через device-flow OAuth (client_id Copilot-приложения) — напишу отдельный шаг.
+
+Как обновишь токен — скажи `go`, прогоню снова. 
