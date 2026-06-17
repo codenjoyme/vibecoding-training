@@ -115,3 +115,64 @@ go
 2. Если classic PAT даст **403** (а не 401) на `copilot_internal/user` — значит токен валиден, но эндпоинту нужен именно editor-OAuth токен. Тогда в следующем UPD пойдём через device-flow OAuth (client_id Copilot-приложения) — напишу отдельный шаг.
 
 Как обновишь токен — скажи `go`, прогоню снова. 
+
+## UPD3
+
+Я сделал токен как ты просил. Вот что вижу 
+```
+python modules/084-copilot-usage-telemetry/tools/scripts/copilot_stats.py credits
+Plan:        business
+Reset date:  2026-07-01
+
+Quota snapshots:
+  chat               used=0.0%  remaining=0  entitlement=0  unlimited=True
+  completions        used=0.0%  remaining=0  entitlement=0  unlimited=True
+  premium_interactions used=64.0%  remaining=10802  entitlement=30000  unlimited=False
+```
+Давай пофиксим скрипт, чтобы он искал `.env` от текущей папки рекурсивно вверх. 
+Так же давай аутпут сделаем в виде json, в дополнение к text как сейчас. 
+
+Выдай мне так же  максимально много информации что дает этот эндпоинт сейчас. Мне надо максимуми инфу. 
+
+go
+
+### RESULT (UPD3)
+
+Токен заработал (`business` план). Все три задачи сделаны + добавил команду `info` для максимума данных.
+
+**Изменения в [copilot_stats.py](../../modules/084-copilot-usage-telemetry/tools/scripts/copilot_stats.py):**
+1. **`.env` ищется рекурсивно вверх** — новая функция `_find_env_file()` идёт вверх от двух якорей: текущей папки (CWD) И папки скрипта. Проверено: запуск из `tools/scripts/` находит корневой `.env`.
+2. **JSON-вывод у всех команд** — флаг `--format json` (работает и до, и после имени команды). `raw`/`token-info` всегда JSON.
+3. **Новая команда `info`** — выводит максимум полей в читаемом виде; `info --format json` = полный дамп.
+
+**Команды:**
+- `credits` — кратко: used%, remaining/entitlement, overage (то, что в статус-баре)
+- `info` — максимум: план, фичефлаги, орги, региональные эндпоинты, полные квоты
+- `raw` — сырой JSON эндпоинта
+- `token-info` — метаданные токена обмена (сам токен redacted)
+
+#### Полный каталог полей `copilot_internal/user` (24 поля)
+
+**Account / plan:** `login`, `copilot_plan` (business), `access_type_sku` (`copilot_for_business_seat_quota`), `token_based_billing`, `assigned_date`, `quota_reset_date` + `quota_reset_date_utc`, `can_upgrade_plan`, `can_signup_for_limited`, `is_staff`, `analytics_tracking_id` (не печатаю), `restricted_telemetry`.
+
+**Feature flags:** `chat_enabled`, `cli_enabled`, `cli_remote_control_enabled`, `cloud_session_storage_enabled`, `copilotignore_enabled`, `editor_preview_features_enabled`, `is_mcp_enabled`.
+
+**`organization_list` / `organization_login_list`** — список орг (у тебя `EPAM-Copilot-Projects`).
+
+**`endpoints`** — региональные URL: `api`, `proxy`, `origin-tracker`, `telemetry` (все `*.business.githubcopilot.com`).
+
+**`quota_snapshots`** — три квоты (`chat`, `completions`, `premium_interactions`), у каждой:
+
+| Поле | Значение / смысл |
+|---|---|
+| `quota_id` | имя квоты |
+| `entitlement` | месячный лимит (premium = **30000**) |
+| `remaining` / `quota_remaining` | остаток (целое / дробное) |
+| `percent_remaining` | % остатка (premium ≈ **35.9%** → used ≈ **64.1%**) |
+| `unlimited` | chat/completions = true, premium = false |
+| `overage_count` / `overage_entitlement` / `overage_permitted` | перерасход (premium: permitted=true) |
+| `has_quota`, `quota_reset_at`, `token_based_billing`, `timestamp_utc` | служебные |
+
+**Главный вывод для твоей таблицы:** «AI кредиты» = `premium_interactions.remaining` (сейчас **10782 / 30000**). «62% used» из статус-бара = `100 - percent_remaining`. Замер до/после UPD = разница `remaining`.
+
+Дальше (следующие UPD): свяжем это с токенами из debug-logs JSONL и придумаем, где сторить статистику между сессиями. Скажи, когда продолжаем.
