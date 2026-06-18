@@ -200,6 +200,44 @@ full context window — the log does not expose the latter.
 
 ---
 
+## Agent integration block
+
+> This is the block an agent should follow to record telemetry on every run.
+> Other agents (e.g. iterative-prompt) reference this section instead of
+> copying the steps inline.
+
+If `modules/084-copilot-usage-telemetry/tools/scripts/usage_track.py` exists, track each UPD run:
+
+1. **At the start of a UPD**, before doing the work, run `usage_track.py begin "UPD<N>"`. It prints a unique `marker`. **Echo that marker on its own line into the chat** so it lands in the session log (this is how the run is later matched to the right log).
+2. **At the end of the UPD**, after the `### RESULT` is written and committed, ask the user two quick numbers — minutes spent writing the prompt and minutes spent reading the result — then run `usage_track.py end <run_id> --write-min <W> --read-min <R>`.
+
+The two marker echoes (begin/end) bracket the run inside the log. Never block the UPD on telemetry — if a telemetry command fails, note it and continue.
+
+---
+
+## Installing this telemetry into another agent
+
+To bolt usage tracking onto the iterative-prompt agent — or any other agent
+that has a recurring run boundary — add a small optional block that points at
+the [Agent integration block](#agent-integration-block) above. Keep it
+**optional** so the agent still works when this module is absent.
+
+Add to the agent's instruction file (e.g. `.github/agents/<name>.agent.md`):
+
+```markdown
+## Usage telemetry (optional)
+
+If `modules/084-copilot-usage-telemetry/tools/scripts/usage_track.py` exists,
+follow the **Agent integration block** in
+`modules/084-copilot-usage-telemetry/tools/SKILL.md` to record one telemetry
+row per run (`begin` + echo marker at the start, `end` after the commit).
+```
+
+Why a reference and not the full steps: the agent file stays short, and the
+canonical procedure lives in one place (this SKILL) so updates apply everywhere.
+
+---
+
 ## Security
 
 - The real `.env` is gitignored; only `.env.example` is committed.

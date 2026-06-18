@@ -394,3 +394,49 @@ python session_log.py requests "C:\...\debug-logs\<sid>\main.jsonl"
 - `response_text` на момент `end` в том же turn'е может быть пустым (лог ещё не сброшен) → `refresh` позже.
 - `context_max` = per-request бюджет ответа (`maxTokens`), а не полное окно модели (264K) — лога такого поля нет.
 - `request_text` берётся best-effort из первого `userRequest`/`user_message` в диапазоне (может зацепить tool_result, если turn начался с тулзы). 
+
+## UPD8 
+
+Давай сделаем полный прогон. Скажем давай сделаем недостающие артефакты, следуя инсттрукции по созданию модулей создай мне walkwthrough.md и SKILL.md (если его еще нет), и пусть там будет в parts использование каждого тула по отдельности. Как настроить pat токен. И потом все в связке. 
+
+Так же мне не хочется видеть весьт жтот текст тут [text](../../.github/agents/iterative-prompt.agent.md)
+```
+1. **At the start of a UPD**, before doing the work, run `usage_track.py begin "UPD<N>"`. It prints a unique `marker`. **Echo that marker on its own line into the chat** so it lands in the session log (this is how the run is later matched to the right log).
+2. **At the end of the UPD**, after the `### RESULT` is written and committed, ask the user two quick numbers — minutes spent writing the prompt and minutes spent reading the result — then run `usage_track.py end <run_id> --write-min <W> --read-min <R>`.
+
+The two marker echoes (begin/end) bracket the run inside the log. Never block the UPD on telemetry — if a telemetry command fails, note it and continue.
+```
+Пусть это будет внутри Skill.md на который мы ссылаемся из агента, на его конкретный блок куда мы перенесем этот текст. 
+
+Так же в скиле надо раздел по установке этого скила, чтобы если рядом есть итеративный промпт, или любой другой агент, то к нему подселялость
+```
+## Usage telemetry (optional)
+
+If `modules/084-copilot-usage-telemetry/tools/scripts/usage_track.py` exists, track each UPD run:
+```
+go
+
+### RESULT (UPD8)
+
+Полный прогон сделан (с включённой телеметрией — маркер `58JCG9VTK81M68O8J`). Следовал [create-training-module.agent.md](../../instructions/create-training-module.agent.md) (прочитал целиком).
+
+#### 1. Создал [walkthrough.md](../../modules/084-copilot-usage-telemetry/walkthrough.md)
+По стандарту инструкции (Part N, Success Criteria, Understanding Check 7 вопросов, Troubleshooting, Next Steps). Структура по твоей просьбе — каждый тул отдельно, потом в связке:
+- **Part 1** — настройка PAT-токена (classic `ghp_`, scope `read:user`, `.env`, почему fine-grained отклоняется).
+- **Part 2** — `copilot_stats.py` (credits / info).
+- **Part 3** — `session_log.py` (locate → явный путь → views).
+- **Part 4** — `usage_track.py` полный цикл begin → эхо маркера → end → refresh → list/show/export.
+- **Part 5** — подключение к агенту (опционально).
+
+#### 2. SKILL.md уже был — дополнил [tools/SKILL.md](../../modules/084-copilot-usage-telemetry/tools/SKILL.md)
+- Перенёс текст телеметрийного блока из агента в новый раздел **«Agent integration block»** (с якорем `#agent-integration-block`).
+- Добавил раздел **«Installing this telemetry into another agent»** — как подселить блок `## Usage telemetry (optional)` к iterative-prompt или любому агенту через ссылку (а не копипасту шагов).
+
+#### 3. Вынес текст из агента
+[.github/agents/iterative-prompt.agent.md](../../.github/agents/iterative-prompt.agent.md) теперь содержит короткий блок, ссылающийся на **Agent integration block** в SKILL.md — самого текста про begin/end там больше нет, как ты просил.
+
+#### 4. about.md
+[about.md](../../modules/084-copilot-usage-telemetry/about.md) — убрал «coming soon», поставил рабочую ссылку **👉 Start hands-on walkthrough**.
+
+Все файлы без ошибок рендеринга. `instructions/iterative-prompt.agent.md` (старая версия) телеметрийного блока не содержит — трогать не пришлось.
+

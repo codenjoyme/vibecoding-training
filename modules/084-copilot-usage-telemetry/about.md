@@ -4,7 +4,7 @@
 
 **Skill:** Pull GitHub Copilot credit/quota and token-usage statistics programmatically — directly from Copilot's internal API and the plugin's per-session debug logs — instead of reading the status bar and taking screenshots by hand.
 
-**👉 Hands-on walkthrough — *coming soon* (module under construction).**
+**👉 [Start hands-on walkthrough](walkthrough.md)**
 
 ## Topics
 
