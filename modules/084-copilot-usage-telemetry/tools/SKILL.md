@@ -41,7 +41,12 @@ python ./modules/084-copilot-usage-telemetry/tools/scripts/copilot_stats.py info
 python ./modules/084-copilot-usage-telemetry/tools/scripts/copilot_stats.py info --format json
 ```
 
-**Key field for tracking:** AI credits = `premium_interactions.remaining` (out of `entitlement`). The status-bar "N% used" = `100 - percent_remaining`. Measure `remaining` before and after a run; the delta is what the run cost.
+**Key field for tracking:** AI credits = `premium_interactions.remaining` (out of `entitlement`, e.g. 30000). The value is fractional and **personal** — it is your own quota, not a number shared across your org. The status-bar "N% used" = `100 - percent_remaining`. Measure `remaining` before and after a run; the delta is what the run cost.
+
+**Two gotchas this endpoint has — both handled by `usage_track.py`:**
+
+1. **Eventually consistent.** The endpoint serves a cached snapshot whose `quota_snapshots.premium_interactions.timestamp_utc` only advances every few minutes. So immediately after a run, `remaining` may be *unchanged* — the spend shows up a few minutes later. `usage_track.py end` therefore marks the run `stale` when the snapshot did not move, and you re-settle it later with `refresh`.
+2. **Cumulative, not per-run.** `remaining` is a running total, so re-reading it "now" includes every run since. The only crisp per-run boundary is the **next run's begin reading**: `spent(run N) = credits_start(N) − credits_start(N+1)`. `refresh` uses that boundary automatically once a later run exists; until then it falls back to a fresh read.
 
 ---
 
@@ -155,17 +160,32 @@ UPD5 showed "most recent log" is unreliable (any keystroke in any chat bumps a d
 ### Other commands
 
 ```bash
-python $T refresh 12              # re-extract log fields once the log has flushed
-python $T list                    # recent runs (id, status, label, spent, tokens, model)
+python $T refresh 12              # re-settle a run once later runs/log have flushed
+python $T list                    # recent runs (id, status, label, spent, stale, reqs, peak ctx, out, model)
 python $T list --workspace <path> # only runs from one workspace
 python $T show 12                 # full JSON record of one run
 python $T export --format md      # the UPD1 tracking table, ready to paste
 python $T export --format csv     # same, as CSV
 ```
 
+### What the token columns mean
+
+Per-request `inputTokens` in the log is the **cumulative context** sent that turn, so summing it across a run is meaningless (it N-counts the context). The row therefore stores:
+
+- `input_tokens` = **peak context** — the high-water mark of `inputTokens` across the run (how big the conversation got). `context_start` / `context_finish` are the first/last values.
+- `output_tokens` = **sum** of `outputTokens` (genuinely new tokens the model produced — this one IS additive).
+- `llm_requests` = number of `llm_request` events in the run.
+- `work_started_at` / `work_finished_at` = first/last `llm_request` timestamps (real agent work span), as opposed to `started_at` / `ended_at` which are wall-clock when you ran `begin` / `end` (these include your think/read time and Q&A lag).
+
+Each run is bounded by the **next run's marker**, so a closed run never scans past the next `begin` and swallows a later run's events.
+
+### Settling credits — run `refresh` after the next run starts
+
+Because the credit endpoint is eventually consistent and cumulative (see §1), the cleanest spend number arrives only after the *next* run's `begin`. Workflow: `end` records a best-effort (often `stale=yes`) number now; once you start the next UPD, run `refresh <previous_run_id>` and it back-fills the exact spend from the next run's start reading.
+
 ### Known limitation
 
-When `end` runs inside the same turn, the final `agent_response` may not be flushed to the log yet, so `response_text` can be empty and token sums may be slightly short. Run `refresh <run_id>` afterwards (next turn) to top it up. `context_max` is the per-request response budget (`maxTokens`), not the model's full context window — the log does not expose the latter.
+When `end` runs inside the same turn, the final `agent_response` may not be flushed to the log yet, so `response_text` can be empty and `output_tokens` may be slightly short. Run `refresh <run_id>` afterwards (next turn) to top it up. Credits are likewise often `stale` at `end` time — `refresh` settles them. `context_max` is the per-request response budget (`maxTokens`), not the model's full context window — the log does not expose the latter.
 
 ---
 

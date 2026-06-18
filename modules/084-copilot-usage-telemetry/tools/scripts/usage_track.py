@@ -70,39 +70,60 @@ def _db_path():
 # from the agent's --write-min / --read-min flags.
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS runs (
-    run_id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    status          TEXT,           -- pending | done
-    marker          TEXT,           -- random anchor printed into chat at begin
-    label           TEXT,           -- e.g. "UPD7"
-    workspace       TEXT,           -- repo / folder the run happened in
-    date            TEXT,           -- YYYY-MM-DD
-    started_at      TEXT,           -- ISO ts captured at begin
-    ended_at        TEXT,           -- ISO ts captured at end
-    write_minutes   INTEGER,        -- human: minutes spent writing the prompt
-    read_minutes    INTEGER,        -- human: minutes spent reading the result
-    credits_start   REAL,           -- premium_interactions.remaining at begin
-    credits_end     REAL,           -- premium_interactions.remaining at end
-    credits_spent   REAL,           -- start - end
-    context_start   INTEGER,        -- first llm_request inputTokens in range
-    context_finish  INTEGER,        -- last llm_request inputTokens in range
-    context_max     INTEGER,        -- max maxTokens seen (response budget)
-    compact         TEXT,           -- yes | no  (heuristic)
-    input_tokens    INTEGER,        -- sum inputTokens over the run
-    output_tokens   INTEGER,        -- sum outputTokens over the run
-    log_file        TEXT,           -- resolved main.jsonl
-    model           TEXT,
-    thinking_effort TEXT,
-    vendor          TEXT,
-    request_text    TEXT,
-    response_text   TEXT
+    run_id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    status            TEXT,           -- pending | done
+    marker            TEXT,           -- random anchor printed into chat at begin
+    label             TEXT,           -- e.g. "UPD7"
+    workspace         TEXT,           -- repo / folder the run happened in
+    date              TEXT,           -- YYYY-MM-DD
+    started_at        TEXT,           -- ISO ts captured at begin (telemetry open)
+    ended_at          TEXT,           -- ISO ts captured at end (telemetry close)
+    work_started_at   TEXT,           -- first llm_request ts in range (real work start)
+    work_finished_at  TEXT,           -- last llm_request ts in range (real work end)
+    write_minutes     INTEGER,        -- human: minutes spent writing the prompt
+    read_minutes      INTEGER,        -- human: minutes spent reading the result
+    credits_start     REAL,           -- premium_interactions.remaining at begin
+    credits_end       REAL,           -- premium_interactions.remaining at end
+    credits_spent     REAL,           -- start - end
+    credits_start_ts  TEXT,           -- snapshot timestamp_utc at begin
+    credits_end_ts    TEXT,           -- snapshot timestamp_utc at end
+    credits_stale     TEXT,           -- yes = same snapshot at begin/end (delta unreliable)
+    context_start     INTEGER,        -- first llm_request inputTokens in range
+    context_finish    INTEGER,        -- last llm_request inputTokens in range
+    context_max       INTEGER,        -- max maxTokens seen (response budget)
+    compact           TEXT,           -- yes | no  (heuristic)
+    input_tokens      INTEGER,        -- PEAK inputTokens (context high-water mark)
+    output_tokens     INTEGER,        -- sum outputTokens over the run (real generation)
+    llm_requests      INTEGER,        -- count of llm_request round-trips in range
+    log_file          TEXT,           -- resolved main.jsonl
+    model             TEXT,
+    thinking_effort   TEXT,
+    vendor            TEXT,
+    request_text      TEXT,
+    response_text     TEXT
 );
 """
+
+# Columns added after the first schema version — applied to existing DBs.
+_ADDED_COLUMNS = {
+    "work_started_at": "TEXT",
+    "work_finished_at": "TEXT",
+    "credits_start_ts": "TEXT",
+    "credits_end_ts": "TEXT",
+    "credits_stale": "TEXT",
+    "llm_requests": "INTEGER",
+}
 
 
 def _connect():
     conn = sqlite3.connect(str(_db_path()))
     conn.row_factory = sqlite3.Row
     conn.executescript(_SCHEMA)
+    existing = {r[1] for r in conn.execute("PRAGMA table_info(runs)").fetchall()}
+    for col, decl in _ADDED_COLUMNS.items():
+        if col not in existing:
+            conn.execute(f"ALTER TABLE runs ADD COLUMN {col} {decl}")
+    conn.commit()
     return conn
 
 
@@ -112,28 +133,33 @@ def _now_iso():
     return datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
 
 
-def fetch_credits_remaining():
-    """Return premium_interactions.remaining via copilot_stats, or None.
+def fetch_credits():
+    """Return (remaining, snapshot_timestamp_utc) for premium_interactions.
 
-    Any failure (no token, network, missing deps) degrades to None so begin/end
-    never crash on the credit side.
+    The endpoint is eventually consistent: it serves a cached snapshot whose
+    `timestamp_utc` only advances every few minutes. Two reads taken close
+    together can return the SAME snapshot, so a begin/end delta of 0 does NOT
+    mean nothing was spent — the new figure simply hasn't settled yet. We return
+    the timestamp so callers can detect a stale (unchanged) snapshot.
+
+    Any failure (no token, network, missing deps) degrades to (None, None).
     """
     try:
         import copilot_stats as cs
     except Exception:
-        return None
+        return None, None
     try:
         cs._require_token()
         data = cs.api_get("/copilot_internal/user")
     except SystemExit:
-        return None
+        return None, None
     except Exception:
-        return None
+        return None, None
     snap = (data.get("quota_snapshots") or {}).get("premium_interactions") or {}
     val = snap.get("remaining")
     if val is None:
         val = snap.get("quota_remaining")
-    return val
+    return val, snap.get("timestamp_utc")
 
 
 def _resolve_log_by_marker(marker, explicit=None, scan_limit=25):
@@ -183,40 +209,67 @@ def _vendor_for(model):
     return "GHCP"
 
 
-def extract_from_log(path, marker=None):
-    """Pull token/model metadata from the log, scanning from the marker line
-    (the start of this UPD run) to EOF. Everything is best-effort."""
+def _ts_to_local_iso(ms):
+    if not isinstance(ms, (int, float)):
+        return None
+    return datetime.fromtimestamp(ms / 1000).astimezone().isoformat(timespec="seconds")
+
+
+def extract_from_log(path, marker=None, end_marker=None):
+    """Pull token/model metadata from the log for ONE run's range.
+
+    The range is [first line containing `marker` .. first line containing
+    `end_marker`). Bounding by the NEXT run's marker is critical: without it a
+    closed run would scan to EOF and swallow later runs' events.
+
+    Token accounting note: per-request `inputTokens` is the FULL context sent
+    that round-trip, so summing it across requests N-counts the same context
+    and is meaningless. We therefore report the PEAK context (high-water mark)
+    and the context start->finish progression, plus the real generated
+    `outputTokens` sum and the number of round-trips. Everything best-effort.
+    """
     try:
         import session_log as sl
     except Exception:
         return {}
 
     start_line = 1
-    if marker:
+    end_line = None
+    if marker or end_marker:
         for ln, raw, _ in sl.iter_events(path):
-            if marker in raw:
+            if marker and start_line == 1 and marker in raw:
                 start_line = ln
+            elif end_marker and ln > start_line and end_marker in raw:
+                end_line = ln
                 break
 
     model = thinking = req_text = resp_text = None
-    in_sum = out_sum = 0
+    out_sum = 0
     ctx_first = ctx_last = None
-    ctx_max = 0
+    ctx_peak = ctx_max = 0
+    llm_count = 0
+    first_ts = last_ts = None
     input_series = []
 
     for ln, _, obj in sl.iter_events(path):
-        if ln < start_line or not obj:
+        if ln < start_line or (end_line and ln >= end_line) or not obj:
             continue
         t = obj.get("type")
         attrs = obj.get("attrs") or {}
         if t == "llm_request":
+            llm_count += 1
             model = attrs.get("model") or model
             it, ot, mx = attrs.get("inputTokens"), attrs.get("outputTokens"), attrs.get("maxTokens")
+            ts = obj.get("ts")
+            if isinstance(ts, (int, float)):
+                if first_ts is None:
+                    first_ts = ts
+                last_ts = ts
             if isinstance(it, (int, float)):
-                in_sum += it
                 if ctx_first is None:
                     ctx_first = it
                 ctx_last = it
+                ctx_peak = max(ctx_peak, it)
                 input_series.append(it)
             if isinstance(ot, (int, float)):
                 out_sum += ot
@@ -234,8 +287,9 @@ def extract_from_log(path, marker=None):
 
     return {
         "model": model,
-        "input_tokens": in_sum or None,
+        "input_tokens": ctx_peak or None,          # peak context, NOT a sum
         "output_tokens": out_sum or None,
+        "llm_requests": llm_count or None,
         "context_start": ctx_first,
         "context_finish": ctx_last,
         "context_max": ctx_max or None,
@@ -244,7 +298,22 @@ def extract_from_log(path, marker=None):
         "vendor": _vendor_for(model),
         "request_text": req_text,
         "response_text": resp_text,
+        "work_started_at": _ts_to_local_iso(first_ts),
+        "work_finished_at": _ts_to_local_iso(last_ts),
     }
+
+
+def _next_marker(conn, run_id, workspace):
+    """Marker of the next run (smallest run_id > this) in the same workspace.
+
+    Used to bound a run's log range so it stops at the following run's start.
+    """
+    row = conn.execute(
+        "SELECT marker FROM runs WHERE run_id > ? AND workspace = ? "
+        "ORDER BY run_id ASC LIMIT 1",
+        (run_id, workspace),
+    ).fetchone()
+    return row["marker"] if row else None
 
 
 def _gen_marker(n=17):
@@ -259,13 +328,14 @@ def cmd_begin(args):
     marker = args.marker or _gen_marker()
     workspace = args.workspace or os.getcwd()
     started = _now_iso()
-    credits_start = fetch_credits_remaining()
+    credits_start, credits_start_ts = fetch_credits()
 
     conn = _connect()
     cur = conn.execute(
-        "INSERT INTO runs (status, marker, label, workspace, date, started_at, credits_start) "
-        "VALUES ('pending', ?, ?, ?, ?, ?, ?)",
-        (marker, args.label, workspace, started[:10], started, credits_start),
+        "INSERT INTO runs (status, marker, label, workspace, date, started_at, "
+        "credits_start, credits_start_ts) "
+        "VALUES ('pending', ?, ?, ?, ?, ?, ?, ?)",
+        (marker, args.label, workspace, started[:10], started, credits_start, credits_start_ts),
     )
     conn.commit()
     run_id = cur.lastrowid
@@ -297,27 +367,37 @@ def cmd_end(args):
     row = _load_run(conn, args.run_id)
 
     ended = _now_iso()
-    credits_end = fetch_credits_remaining()
+    credits_end, credits_end_ts = fetch_credits()
     credits_start = row["credits_start"]
+    credits_start_ts = row["credits_start_ts"]
     spent = None
     if isinstance(credits_start, (int, float)) and isinstance(credits_end, (int, float)):
         spent = round(credits_start - credits_end, 3)
+    # Eventual consistency: same snapshot timestamp at begin and end means the
+    # quota hasn't refreshed, so the delta is unreliable (often 0). Flag it.
+    stale = "yes" if (credits_start_ts and credits_end_ts
+                      and credits_start_ts == credits_end_ts) else "no"
 
     log_path = _resolve_log_by_marker(row["marker"], explicit=args.file)
-    extracted = extract_from_log(log_path, marker=row["marker"]) if log_path else {}
+    next_marker = _next_marker(conn, args.run_id, row["workspace"])
+    extracted = extract_from_log(log_path, marker=row["marker"],
+                                 end_marker=next_marker) if log_path else {}
 
     conn.execute(
         """UPDATE runs SET
-            status='done', ended_at=?, write_minutes=?, read_minutes=?,
-            credits_end=?, credits_spent=?, log_file=?,
-            model=?, input_tokens=?, output_tokens=?,
+            status='done', ended_at=?, work_started_at=?, work_finished_at=?,
+            write_minutes=?, read_minutes=?,
+            credits_end=?, credits_spent=?, credits_end_ts=?, credits_stale=?,
+            log_file=?, model=?, input_tokens=?, output_tokens=?, llm_requests=?,
             context_start=?, context_finish=?, context_max=?, compact=?,
             thinking_effort=?, vendor=?, request_text=?, response_text=?
            WHERE run_id=?""",
         (
-            ended, args.write_min, args.read_min,
-            credits_end, spent, log_path,
-            extracted.get("model"), extracted.get("input_tokens"), extracted.get("output_tokens"),
+            ended, extracted.get("work_started_at"), extracted.get("work_finished_at"),
+            args.write_min, args.read_min,
+            credits_end, spent, credits_end_ts, stale,
+            log_path, extracted.get("model"), extracted.get("input_tokens"),
+            extracted.get("output_tokens"), extracted.get("llm_requests"),
             extracted.get("context_start"), extracted.get("context_finish"),
             extracted.get("context_max"), extracted.get("compact"),
             extracted.get("thinking_effort"), extracted.get("vendor"),
@@ -333,9 +413,11 @@ def cmd_end(args):
         print(json.dumps(out, indent=2, ensure_ascii=False))
         return
     print(f"run {args.run_id} closed ({out['label']})")
-    print(f"  credits: {out['credits_start']} -> {out['credits_end']}  spent={out['credits_spent']}")
-    print(f"  tokens:  in={out['input_tokens']} out={out['output_tokens']}")
+    print(f"  credits: {out['credits_start']} -> {out['credits_end']}  spent={out['credits_spent']}"
+          f"{'  (STALE: snapshot not refreshed, run refresh later)' if stale == 'yes' else ''}")
+    print(f"  tokens:  peak_ctx={out['input_tokens']} out={out['output_tokens']} llm_reqs={out['llm_requests']}")
     print(f"  context: {out['context_start']} -> {out['context_finish']} (max {out['context_max']}, compact={out['compact']})")
+    print(f"  work:    {out['work_started_at']} -> {out['work_finished_at']}")
     print(f"  model:   {out['model']}  thinking={out['thinking_effort']}  vendor={out['vendor']}")
     print(f"  log:     {out['log_file']}")
     if not log_path:
@@ -343,26 +425,69 @@ def cmd_end(args):
 
 
 def cmd_refresh(args):
-    """Re-extract log-derived fields for an existing run (post-flush top-up)."""
+    """Re-derive a run's fields from the now-settled log AND credit endpoint.
+
+    Run this a few minutes after `end`: by then the session log has flushed the
+    final response and the credit snapshot has advanced, so both the token
+    metrics and the true `credits_spent` become accurate. The range is bounded
+    by the next run's marker so it never bleeds into a later UPD.
+    """
     conn = _connect()
     row = _load_run(conn, args.run_id)
     log_path = _resolve_log_by_marker(row["marker"], explicit=args.file)
     if not log_path:
         conn.close()
         sys.exit("ERROR: could not resolve a log (marker not found, pass --file).")
-    extracted = extract_from_log(log_path, marker=row["marker"])
+    next_row = conn.execute(
+        "SELECT marker, credits_start, credits_start_ts FROM runs "
+        "WHERE run_id > ? AND workspace = ? ORDER BY run_id ASC LIMIT 1",
+        (args.run_id, row["workspace"]),
+    ).fetchone()
+    next_marker = next_row["marker"] if next_row else None
+    extracted = extract_from_log(log_path, marker=row["marker"], end_marker=next_marker)
+
+    credits_start = row["credits_start"]
+    credits_start_ts = row["credits_start_ts"]
+    spent = row["credits_spent"]
+    stale = row["credits_stale"]
+    credits_end = row["credits_end"]
+    credits_end_ts = row["credits_end_ts"]
+
+    # Clean per-run credit attribution. The endpoint is eventually consistent
+    # AND cumulative, so re-reading "now" would include later runs' spend. The
+    # only crisp boundary is the NEXT run's begin reading (the settled value
+    # right after this run). Use it when available; otherwise re-read now (only
+    # correct if no later run has started since).
+    if next_row and isinstance(next_row["credits_start"], (int, float)) and isinstance(credits_start, (int, float)):
+        credits_end = next_row["credits_start"]
+        credits_end_ts = next_row["credits_start_ts"]
+        spent = round(credits_start - credits_end, 3)
+        stale = "no"
+    else:
+        credits_now, credits_now_ts = fetch_credits()
+        if credits_now_ts and credits_now_ts != credits_start_ts and isinstance(credits_now, (int, float)):
+            credits_end = credits_now
+            credits_end_ts = credits_now_ts
+            if isinstance(credits_start, (int, float)):
+                spent = round(credits_start - credits_now, 3)
+            stale = "no"
+
     conn.execute(
         """UPDATE runs SET log_file=?, model=?, input_tokens=?, output_tokens=?,
-            context_start=?, context_finish=?, context_max=?, compact=?,
-            thinking_effort=?, vendor=?, request_text=?, response_text=?
+            llm_requests=?, context_start=?, context_finish=?, context_max=?,
+            compact=?, thinking_effort=?, vendor=?, request_text=?, response_text=?,
+            work_started_at=?, work_finished_at=?,
+            credits_end=?, credits_end_ts=?, credits_spent=?, credits_stale=?
            WHERE run_id=?""",
         (
             log_path, extracted.get("model"), extracted.get("input_tokens"),
-            extracted.get("output_tokens"), extracted.get("context_start"),
-            extracted.get("context_finish"), extracted.get("context_max"),
-            extracted.get("compact"), extracted.get("thinking_effort"),
-            extracted.get("vendor"), extracted.get("request_text"),
-            extracted.get("response_text"), args.run_id,
+            extracted.get("output_tokens"), extracted.get("llm_requests"),
+            extracted.get("context_start"), extracted.get("context_finish"),
+            extracted.get("context_max"), extracted.get("compact"),
+            extracted.get("thinking_effort"), extracted.get("vendor"),
+            extracted.get("request_text"), extracted.get("response_text"),
+            extracted.get("work_started_at"), extracted.get("work_finished_at"),
+            credits_end, credits_end_ts, spent, stale, args.run_id,
         ),
     )
     conn.commit()
@@ -372,7 +497,9 @@ def cmd_refresh(args):
         print(json.dumps(out, indent=2, ensure_ascii=False))
         return
     print(f"run {args.run_id} refreshed from {log_path}")
-    print(f"  tokens in={out['input_tokens']} out={out['output_tokens']}  model={out['model']}")
+    print(f"  credits: {out['credits_start']} -> {out['credits_end']}  spent={out['credits_spent']} (stale={out['credits_stale']})")
+    print(f"  tokens:  peak_ctx={out['input_tokens']} out={out['output_tokens']} llm_reqs={out['llm_requests']}  model={out['model']}")
+    print(f"  work:    {out['work_started_at']} -> {out['work_finished_at']}")
 
 
 def cmd_list(args):
@@ -390,11 +517,11 @@ def cmd_list(args):
     if args.json:
         print(json.dumps([dict(r) for r in rows], indent=2, ensure_ascii=False))
         return
-    print(f"{'id':>4}  {'status':8} {'label':10} {'date':10}  {'spent':>7}  {'in':>8} {'out':>7}  model")
+    print(f"{'id':>4}  {'status':8} {'label':10} {'date':10}  {'spent':>7} {'stale':5}  {'reqs':>4} {'peakctx':>8} {'out':>7}  model")
     for r in rows:
         print(f"{r['run_id']:>4}  {r['status']:8} {str(r['label'] or ''):10} "
-              f"{str(r['date'] or ''):10}  {str(r['credits_spent'] or ''):>7}  "
-              f"{str(r['input_tokens'] or ''):>8} {str(r['output_tokens'] or ''):>7}  "
+              f"{str(r['date'] or ''):10}  {str(r['credits_spent'] or ''):>7} {str(r['credits_stale'] or ''):5}  "
+              f"{str(r['llm_requests'] or ''):>4} {str(r['input_tokens'] or ''):>8} {str(r['output_tokens'] or ''):>7}  "
               f"{r['model'] or ''}")
 
 
@@ -410,21 +537,26 @@ def cmd_show(args):
 _EXPORT_COLUMNS = [
     ("date", "date"),
     ("started_at", "started_at"),
+    ("work_started_at", "work_started_at"),
+    ("work_finished_at", "work_finished_at"),
     ("ended_at", "ended_at"),
     ("write_minutes", "write_minutes"),
     ("read_minutes", "read_minutes"),
     ("credits_start", "credits_start"),
     ("credits_end", "credits_end"),
     ("credits_spent", "credits_spent"),
+    ("credits_stale", "credits_stale"),
     ("context_start", "context_start"),
     ("compact", "compact"),
     ("context_finish", "context_finish"),
-    ("chat_credits", "credits_spent"),
+    ("llm_requests", "llm_requests"),
     ("log_file", "log_file"),
     ("label", "label"),
     ("request_text", "request_text"),
     ("response_text", "response_text"),
     ("model", "model"),
+    ("peak_context", "input_tokens"),
+    ("output_tokens", "output_tokens"),
     ("context_max", "context_max"),
     ("thinking_effort", "thinking_effort"),
     ("vendor", "vendor"),
