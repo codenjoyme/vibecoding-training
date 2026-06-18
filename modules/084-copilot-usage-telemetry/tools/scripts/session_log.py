@@ -53,16 +53,63 @@ def _userdata_roots():
     return roots
 
 
+def _resolve_workspace_folder(log_path):
+    """Given a debug-log path, find the owning workspace folder.
+
+    Walks up from the log to the `<wsId>` directory under `workspaceStorage`
+    and reads its `workspace.json` (key `folder`, a file:// URI). Returns a
+    (ws_id, folder_path_or_None) tuple.
+    """
+    p = Path(log_path).resolve()
+    ws_id, ws_dir = None, None
+    for parent in p.parents:
+        if parent.parent.name == "workspaceStorage":
+            ws_id = parent.name
+            ws_dir = parent
+            break
+    if ws_dir is None:
+        return ws_id, None
+    meta = ws_dir / "workspace.json"
+    if not meta.is_file():
+        return ws_id, None
+    try:
+        folder_uri = json.loads(meta.read_text(encoding="utf-8")).get("folder")
+    except (ValueError, OSError):
+        return ws_id, None
+    if not folder_uri:
+        return ws_id, None
+    # Decode file:///c%3A/path -> c:/path
+    from urllib.parse import unquote, urlparse
+    parsed = urlparse(folder_uri)
+    path = unquote(parsed.path)
+    if path.startswith("/") and len(path) > 2 and path[2] == ":":
+        path = path[1:]  # strip leading slash before drive letter on Windows
+    return ws_id, path
+
+
 def find_logs():
-    """Return all `main.jsonl` debug logs, newest first (by mtime)."""
-    logs = []
+    """Return all `main.jsonl` debug logs as info dicts, newest first.
+
+    Each dict: {path, sid, ws_id, ws_folder, mtime, size}.
+    """
+    out = []
     for root in _userdata_roots():
         pattern = str(root / "User" / "workspaceStorage" / "*" /
                       "GitHub.copilot-chat" / "debug-logs" / "*" / "main.jsonl")
-        logs.extend(glob.glob(pattern))
-    logs = [p for p in logs if os.path.isfile(p)]
-    logs.sort(key=lambda p: os.path.getmtime(p), reverse=True)
-    return logs
+        for path in glob.glob(pattern):
+            if not os.path.isfile(path):
+                continue
+            ws_id, ws_folder = _resolve_workspace_folder(path)
+            out.append({
+                "path": path,
+                "sid": Path(path).parent.name,
+                "ws_id": ws_id,
+                "ws_folder": ws_folder,
+                "mtime": os.path.getmtime(path),
+                "size": os.path.getsize(path),
+            })
+    out.sort(key=lambda d: d["mtime"], reverse=True)
+    return out
 
 
 def resolve_log(arg_file):
@@ -74,7 +121,7 @@ def resolve_log(arg_file):
     logs = find_logs()
     if not logs:
         sys.exit("ERROR: no main.jsonl debug logs found. Is Copilot Chat logging enabled?")
-    return logs[0]
+    return logs[0]["path"]
 
 
 # ── Reading ──────────────────────────────────────────────────────────────────
@@ -141,16 +188,40 @@ def get_path(obj, path):
 # ── Commands ─────────────────────────────────────────────────────────────────
 
 def cmd_locate(args):
+    import datetime
     logs = find_logs()
     if not logs:
         sys.exit("No main.jsonl debug logs found.")
-    if args.all:
-        for p in logs:
-            size_kb = os.path.getsize(p) / 1024
-            mtime = __import__("datetime").datetime.fromtimestamp(os.path.getmtime(p))
-            print(f"{mtime:%Y-%m-%d %H:%M}  {size_kb:8.0f} KB  {p}")
-    else:
-        print(logs[0])
+
+    # --all overrides --limit; otherwise show the N most-recent (default 5).
+    shown = logs if args.all else logs[: args.limit]
+
+    if args.json:
+        print(json.dumps(shown, indent=2, ensure_ascii=False))
+        return
+
+    # Group the shown logs by workspace, preserving recency order of groups.
+    groups = {}
+    order = []
+    for info in shown:
+        key = info["ws_id"] or "<unknown>"
+        if key not in groups:
+            groups[key] = {"folder": info["ws_folder"], "logs": []}
+            order.append(key)
+        groups[key]["logs"].append(info)
+
+    total = len(logs)
+    print(f"# Showing {len(shown)} of {total} debug-logs session(s), newest first\n")
+    for key in order:
+        folder = groups[key]["folder"] or "<no workspace.json>"
+        print(f"workspace {key}")
+        print(f"  folder: {folder}")
+        for info in groups[key]["logs"]:
+            mtime = datetime.datetime.fromtimestamp(info["mtime"])
+            size_kb = info["size"] / 1024
+            print(f"    {mtime:%Y-%m-%d %H:%M}  {size_kb:9.0f} KB")
+            print(f"    {info['path']}")
+        print()
 
 
 def cmd_types(args):
@@ -282,8 +353,11 @@ def main():
     )
     sub = parser.add_subparsers(dest="command", required=True)
 
-    p = sub.add_parser("locate", help="print the current (most recent) log path")
-    p.add_argument("--all", action="store_true", help="list all logs newest-first")
+    p = sub.add_parser("locate", help="list recent debug-logs, grouped by workspace")
+    p.add_argument("--limit", type=int, default=5,
+                   help="how many most-recent sessions to show (default: 5)")
+    p.add_argument("--all", action="store_true", help="show every log (ignores --limit)")
+    p.add_argument("--json", action="store_true", help="output structured JSON")
 
     p = sub.add_parser("types", help="count events by type")
     _add_common(p)
