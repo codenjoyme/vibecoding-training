@@ -354,3 +354,43 @@ python session_log.py requests "C:\...\debug-logs\<sid>\main.jsonl"
 
 - **Маркер в jsonl** → агент **явно пишет** рандомную строку в чат в начале итерации (а не только в args `begin`), чтобы она гарантированно попала в `agent_response` текущей сессии.
 - **Интеграция в workflow** → в `iterative-prompt.agent.md` добавить инструкцию: в начале итерации вызвать `usage_track.py begin` и напечатать маркер, в конце итерации — `usage_track.py end`. Маркер начала и конца создают «интерференцию» (диапазон), внутри которого лежит весь UPD-прогон.
+
+## UPD7
+
+Давай погнали в реализацию.go
+
+### RESULT (UPD7)
+
+Реализовал, протестировал, подключил к workflow.
+
+#### Новый скрипт [usage_track.py](../../modules/084-copilot-usage-telemetry/tools/scripts/usage_track.py)
+
+Оркестратор: дёргает `copilot_stats.py` (кредиты) и `session_log.py` (токены) **за агента** и пишет одну строку телеметрии на UPD-прогон в SQLite `~/.copilot-telemetry/telemetry.db` (override через `COPILOT_TELEMETRY_DIR`). Stdlib-only; sibling-скрипты импортируются лениво — при сбое колонки становятся NULL, а не падают.
+
+**Команды:**
+| Команда | Что делает |
+|---|---|
+| `begin "UPD7"` | открывает прогон: `started_at` + `credits_start`, печатает **рандомный маркер** |
+| `end <id> --write-min W --read-min R` | закрывает: `credits_end`/`spent`, **резолвит лог по маркеру**, вытягивает токены/модель/контекст |
+| `refresh <id>` | до-вытягивает поля из лога (если `agent_response` ещё не сброшен на момент `end`) |
+| `list` / `show <id>` | последние прогоны / полная запись |
+| `export --format csv\|md` | таблица из UPD1, готовая для вставки |
+
+**Резолв по маркеру** (лечит боль UPD5): `begin` печатает уникальную строку → агент эхает её в чат → `end` ищет её среди свежих логов; лог, где она есть, — гарантированно текущий.
+
+#### Проверено вживую
+- `begin` → `run_id:1, marker:V2CFD2E7A1DLSRFJC, credits_start:8979`.
+- `end 1` → нашёл **правильный** лог по маркеру (workspace `483957ea…`), извлёк `model=claude-opus-4.8`, `in=315973 out=3818`, `context 99514→103605`, `compact=yes`, `vendor=Anthropic/GHCP`.
+- `list` и `export --format md` дают полную таблицу UPD1-колонок.
+- Поймал и пофиксил баг: мой `TextIOWrapper` для UTF-8 на Windows «сиротел» и закрывал буфер, когда `session_log` при импорте перевешивал `sys.stdout` → перешёл на `reconfigure` (мутирует поток на месте). Тестовую строку из БД очистил.
+
+#### Подключение к workflow
+[.github/agents/iterative-prompt.agent.md](../../.github/agents/iterative-prompt.agent.md) — добавил блок «Usage telemetry»: в начале UPD `begin` + эхо маркера в чат; в конце (после RESULT+коммита) спросить у юзера минуты на написание/чтение и вызвать `end`. Телеметрия не блокирует UPD — при сбое отметить и продолжить.
+
+#### Документация
+[tools/SKILL.md](../../modules/084-copilot-usage-telemetry/tools/SKILL.md) — добавил `usage_track.py` в таблицу скриптов и полную секцию (двухфазный workflow, маркер, команды, ограничения).
+
+#### Известные ограничения (честно)
+- `response_text` на момент `end` в том же turn'е может быть пустым (лог ещё не сброшен) → `refresh` позже.
+- `context_max` = per-request бюджет ответа (`maxTokens`), а не полное окно модели (264K) — лога такого поля нет.
+- `request_text` берётся best-effort из первого `userRequest`/`user_message` в диапазоне (может зацепить tool_result, если turn начался с тулзы). 

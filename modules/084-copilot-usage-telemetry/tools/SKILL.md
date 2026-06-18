@@ -18,9 +18,11 @@ hidden session logs into scriptable data.
 |--------|--------|---------------|
 | `scripts/copilot_stats.py` | live GitHub API `copilot_internal/user` | AI credits / quota, plan, feature flags |
 | `scripts/session_log.py` | local `debug-logs/*/main.jsonl` | tokens, context window, requests, tool calls — by line number |
+| `scripts/usage_track.py` | orchestrates the two above | persists ONE telemetry row per UPD run into a SQLite DB |
 
 Dependencies: `requests`, `python-dotenv` (only `copilot_stats.py` needs them;
-`session_log.py` is stdlib-only).
+`session_log.py` and `usage_track.py` are stdlib-only — `usage_track.py` imports
+the other two lazily and degrades to NULL columns if they fail).
 
 ---
 
@@ -138,6 +140,63 @@ it is the only source with per-request token counts and tool timings.
 `chatSessions` is the right source if you only need the rendered conversation
 (it covers more history), which is exactly what module 250's export tool reads.
 `session_log.py` targets `debug-logs` exclusively.
+
+---
+
+## 3. `usage_track.py` — persist one telemetry row per UPD run
+
+The orchestrator. It calls `copilot_stats.py` (credits) and `session_log.py`
+(tokens) on the agent's behalf and writes the result into a SQLite database at
+`~/.copilot-telemetry/telemetry.db` (override with `COPILOT_TELEMETRY_DIR`).
+One row = one iterative-prompt UPD run. The AI agent never parses the log or
+talks to GitHub itself — it just runs two commands.
+
+### Two-phase workflow
+
+```bash
+T=./modules/084-copilot-usage-telemetry/tools/scripts/usage_track.py
+
+# 1) START of a UPD — captures start time + start credits, prints a MARKER.
+python $T begin "UPD7"
+#   -> run_id: 12 ; marker: FG8FBJ7EV547HBJEH
+
+# 2) The agent ECHOES that marker into the chat (one line) so it lands in the
+#    current session's debug log. This is what lets `end` find the right log.
+
+# 3) END of the UPD — after RESULT is written and committed. Captures end
+#    credits, resolves the log BY MARKER, extracts tokens/model/context.
+python $T end 12 --write-min 6 --read-min 20
+```
+
+`--write-min` / `--read-min` are the human minutes the user reports (time spent
+writing the prompt and reading the result) — the only fields the logs cannot
+supply. The agent asks the user for these during the report.
+
+### Why the marker
+
+UPD5 showed "most recent log" is unreliable (any keystroke in any chat bumps a
+different log's mtime). `begin` prints a unique random string; the agent echoes
+it; `end` scans the most-recent logs for that exact string — the log that
+contains it is provably THIS session's log. No guessing.
+
+### Other commands
+
+```bash
+python $T refresh 12              # re-extract log fields once the log has flushed
+python $T list                    # recent runs (id, status, label, spent, tokens, model)
+python $T list --workspace <path> # only runs from one workspace
+python $T show 12                 # full JSON record of one run
+python $T export --format md      # the UPD1 tracking table, ready to paste
+python $T export --format csv     # same, as CSV
+```
+
+### Known limitation
+
+When `end` runs inside the same turn, the final `agent_response` may not be
+flushed to the log yet, so `response_text` can be empty and token sums may be
+slightly short. Run `refresh <run_id>` afterwards (next turn) to top it up.
+`context_max` is the per-request response budget (`maxTokens`), not the model's
+full context window — the log does not expose the latter.
 
 ---
 
