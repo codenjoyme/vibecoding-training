@@ -6,9 +6,9 @@ Preserves directory structure:
   <output_dir>/<VSCode Variant>/<workspace_name>/chat_<id>_<ts>.html
 
 Usage:
-  python ./modules/250-export-chat-session/tools/copilot/export_all.py
-  python ./modules/250-export-chat-session/tools/copilot/export_all.py --output-dir ./work/my_export
-  python ./modules/250-export-chat-session/tools/copilot/export_all.py --format json
+  python ./modules/250-export-chat-session/tools/copilot/scripts/export_all.py
+  python ./modules/250-export-chat-session/tools/copilot/scripts/export_all.py --output-dir ./work/my_export
+  python ./modules/250-export-chat-session/tools/copilot/scripts/export_all.py --format json
 
 Default output: ./work/copilot_export_all/
 """

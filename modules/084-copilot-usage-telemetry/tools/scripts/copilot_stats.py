@@ -125,52 +125,69 @@ def cmd_credits(args):
     _require_token()
     data = api_get("/copilot_internal/user")
 
-    snapshots = data.get("quota_snapshots")
-    reset_date = data.get("quota_reset_date")
+    snapshots = data.get("quota_snapshots") or {}
     plan = data.get("copilot_plan") or data.get("access_type_sku")
+
+    # One structured summary — BOTH text and json render exactly these fields,
+    # so the two formats carry the same amount of information.
+    quotas = {}
+    for name, snap in snapshots.items():
+        if not isinstance(snap, dict):
+            quotas[name] = snap
+            continue
+        pct = snap.get("percent_remaining")
+        used_pct = round(100 - pct, 1) if isinstance(pct, (int, float)) else None
+        quotas[name] = {
+            "used_percent": used_pct,
+            "remaining": snap.get("remaining"),
+            "entitlement": snap.get("entitlement"),
+            "unlimited": snap.get("unlimited"),
+            "overage_count": snap.get("overage_count"),
+            "overage_permitted": snap.get("overage_permitted"),
+        }
 
     out = {
         "copilot_plan": plan,
-        "quota_reset_date": reset_date,
+        "quota_reset_date": data.get("quota_reset_date"),
         "quota_reset_date_utc": data.get("quota_reset_date_utc"),
-        "quota_snapshots": snapshots,
+        "quotas": quotas,
     }
 
     if args.format == "json":
         print(json.dumps(out, indent=2, ensure_ascii=False))
         return
 
-    # table format
-    print(f"Plan:        {plan}")
-    print(f"Reset date:  {reset_date}")
-    if not snapshots:
+    # table format — same fields as the json above
+    print(f"Plan:        {out['copilot_plan']}")
+    print(f"Reset date:  {out['quota_reset_date']}")
+    if not quotas:
         print("\nNo quota_snapshots in response. Full keys returned:")
         print("  " + ", ".join(sorted(data.keys())))
         return
-    print("\nQuota snapshots:")
-    for name, snap in snapshots.items():
-        if not isinstance(snap, dict):
-            print(f"  {name}: {snap}")
+    print("\nQuotas:")
+    for name, q in quotas.items():
+        if not isinstance(q, dict):
+            print(f"  {name}: {q}")
             continue
-        pct = snap.get("percent_remaining")
-        entitled = snap.get("entitlement")
-        remaining = snap.get("remaining")
-        unlimited = snap.get("unlimited")
-        overage = snap.get("overage_count")
-        overage_ok = snap.get("overage_permitted")
-        used_pct = round(100 - pct, 1) if isinstance(pct, (int, float)) else "?"
         print(
-            f"  {name:22} used={used_pct}%  remaining={remaining}/{entitled}  "
-            f"unlimited={unlimited}  overage={overage} (permitted={overage_ok})"
+            f"  {name:22} used={q['used_percent']}%  "
+            f"remaining={q['remaining']}/{q['entitlement']}  "
+            f"unlimited={q['unlimited']}  "
+            f"overage={q['overage_count']} (permitted={q['overage_permitted']})"
         )
 
 
 def cmd_info(args):
-    """Maximum info: everything useful the copilot_internal/user endpoint exposes."""
+    """Maximum info: everything the copilot_internal/user endpoint exposes.
+
+    `info --format json` prints the raw, unmodified endpoint response.
+    `info` (table) prints the same data grouped and labelled for humans.
+    """
     _require_token()
     data = api_get("/copilot_internal/user")
 
     if args.format == "json":
+        # Raw endpoint dump — the json view is intentionally the full response.
         print(json.dumps(data, indent=2, ensure_ascii=False))
         return
 
@@ -213,31 +230,11 @@ def cmd_info(args):
                 print(f"      {snap}")
 
 
-def cmd_raw(args):
-    """Dump the full copilot_internal/user response (for exploration).
-
-    The token itself is never part of this response, but review before sharing.
-    """
-    _require_token()
-    data = api_get("/copilot_internal/user")
-    print(json.dumps(data, indent=2, ensure_ascii=False))
-
-
 def _add_format_arg(p):
     p.add_argument(
         "--format", choices=["table", "json"], default=None,
         help="output format (default: table)",
     )
-
-
-def cmd_token_info(args):
-    """Exchange for a Copilot token; its body also carries quota fields."""
-    _require_token()
-    data = api_get("/copilot_internal/v2/token")
-    # Strip the actual token value before printing — keep only metadata.
-    safe = {k: v for k, v in data.items() if k != "token"}
-    safe["token"] = "<redacted>" if data.get("token") else None
-    print(json.dumps(safe, indent=2, ensure_ascii=False))
 
 
 def main():
@@ -252,10 +249,8 @@ def main():
     sub = parser.add_subparsers(dest="command", required=True)
 
     for name, help_text in (
-        ("credits", "show credit/quota snapshot (the status-bar number)"),
-        ("info", "show MAX info the endpoint exposes (plan, flags, orgs, endpoints, quotas)"),
-        ("raw", "dump full copilot_internal/user JSON"),
-        ("token-info", "show copilot token metadata + quota (token redacted)"),
+        ("credits", "quick credit/quota summary (the status-bar number)"),
+        ("info", "everything the endpoint exposes; --format json = raw response"),
     ):
         p = sub.add_parser(name, help=help_text)
         _add_format_arg(p)
@@ -268,8 +263,6 @@ def main():
     handlers = {
         "credits": cmd_credits,
         "info": cmd_info,
-        "raw": cmd_raw,
-        "token-info": cmd_token_info,
     }
     handlers[args.command](args)
 

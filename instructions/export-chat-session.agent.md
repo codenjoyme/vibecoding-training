@@ -55,7 +55,7 @@ When user asks to save/export the current chat session:
 ### Batch Export Examples
 
 ```powershell
-$batch = "./modules/250-export-chat-session/tools/copilot/export_all.py"
+$batch = "./modules/250-export-chat-session/tools/copilot/scripts/export_all.py"
 
 # Export everything to default location (./work/copilot_export_all/)
 python $batch
@@ -90,7 +90,7 @@ work/copilot_export_all/
 
 ```powershell
 # Set script path for convenience
-$script = "./modules/250-export-chat-session/tools/copilot/chat_export.py"
+$script = "./modules/250-export-chat-session/tools/copilot/scripts/chat_export.py"
 
 # List all workspaces
 python $script workspaces

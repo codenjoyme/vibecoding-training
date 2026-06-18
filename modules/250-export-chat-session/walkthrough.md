@@ -61,7 +61,7 @@ We'll use a ready-made Python script that reads VS Code's internal storage and c
 
 1. Verify the export script exists — it's already part of this course:
    ```
-   python ./modules/250-export-chat-session/tools/copilot/chat_export.py --help
+   python ./modules/250-export-chat-session/tools/copilot/scripts/chat_export.py --help
    ```
 
 1. You should see available commands: `workspaces`, `sessions`, `export`, `search`
@@ -76,7 +76,7 @@ We'll discover which workspaces have chat sessions and list them.
 
 1. List all VS Code workspaces that have chat history:
    ```
-   python ./modules/250-export-chat-session/tools/copilot/chat_export.py workspaces
+   python ./modules/250-export-chat-session/tools/copilot/scripts/chat_export.py workspaces
    ```
 
 1. You should see output like:
@@ -90,7 +90,7 @@ We'll discover which workspaces have chat sessions and list them.
 
 1. List all sessions in that workspace:
    ```
-   python ./modules/250-export-chat-session/tools/copilot/chat_export.py sessions <workspace_id>
+   python ./modules/250-export-chat-session/tools/copilot/scripts/chat_export.py sessions <workspace_id>
    ```
    Replace `<workspace_id>` with the actual ID you copied.
 
@@ -108,7 +108,7 @@ We'll export a session as a standalone HTML file you can open in any browser and
 
 1. Export it to HTML:
    ```
-   python ./modules/250-export-chat-session/tools/copilot/chat_export.py export <workspace_id> <session_id> --output-dir ./work/copilot_export --format html
+   python ./modules/250-export-chat-session/tools/copilot/scripts/chat_export.py export <workspace_id> <session_id> --output-dir ./work/copilot_export --format html
    ```
 
 1. You should see:
@@ -172,7 +172,7 @@ Before sharing any exported session, you must understand the risks.
 
 1. Alternatively, export as JSON and write a script to redact sensitive patterns:
    ```
-   python ./modules/250-export-chat-session/tools/copilot/chat_export.py export <workspace_id> <session_id> --format json
+   python ./modules/250-export-chat-session/tools/copilot/scripts/chat_export.py export <workspace_id> <session_id> --format json
    ```
 
 **Rule of thumb:** Treat exported sessions like you treat server logs — they may contain secrets.
@@ -279,7 +279,7 @@ Find specific information across all your past sessions.
 
 1. Use the search command to find sessions containing specific text:
    ```
-   python ./modules/250-export-chat-session/tools/copilot/chat_export.py search "MCP server"
+   python ./modules/250-export-chat-session/tools/copilot/scripts/chat_export.py search "MCP server"
    ```
 
 1. The script searches across all workspaces and all sessions
@@ -290,7 +290,7 @@ Find specific information across all your past sessions.
 
 1. **Practical example:** "When did we set up the GitHub MCP? Let me search."
    ```
-   python ./modules/250-export-chat-session/tools/copilot/chat_export.py search "github mcp"
+   python ./modules/250-export-chat-session/tools/copilot/scripts/chat_export.py search "github mcp"
    ```
 
 ### Part 9: Other Export Formats
@@ -299,7 +299,7 @@ Find specific information across all your past sessions.
 
 1. Export as JSON:
    ```
-   python ./modules/250-export-chat-session/tools/copilot/chat_export.py export <workspace_id> <session_id> --format json
+   python ./modules/250-export-chat-session/tools/copilot/scripts/chat_export.py export <workspace_id> <session_id> --format json
    ```
 
 1. Use this when you want to:
@@ -311,7 +311,7 @@ Find specific information across all your past sessions.
 
 1. Export as JSONL:
    ```
-   python ./modules/250-export-chat-session/tools/copilot/chat_export.py export <workspace_id> <session_id> --format jsonl
+   python ./modules/250-export-chat-session/tools/copilot/scripts/chat_export.py export <workspace_id> <session_id> --format jsonl
    ```
 
 1. This copies the raw VS Code internal format — useful for backup or archival
@@ -320,7 +320,7 @@ Find specific information across all your past sessions.
 
 1. Export all sessions from a specific workspace:
    ```
-   python ./modules/250-export-chat-session/tools/copilot/chat_export.py export <workspace_id> * --output-dir ./work/copilot_export
+   python ./modules/250-export-chat-session/tools/copilot/scripts/chat_export.py export <workspace_id> * --output-dir ./work/copilot_export
    ```
 
 1. Useful for creating a backup of a single workspace's chat history
@@ -333,7 +333,7 @@ Export every session from every workspace in one command — a full backup of al
 
 1. Run the batch export script:
    ```
-   python ./modules/250-export-chat-session/tools/copilot/export_all.py
+   python ./modules/250-export-chat-session/tools/copilot/scripts/export_all.py
    ```
 
 1. The script automatically:
@@ -360,10 +360,10 @@ Export every session from every workspace in one command — a full backup of al
 1. You can customize the output:
    ```
    # Custom output directory
-   python ./modules/250-export-chat-session/tools/copilot/export_all.py --output-dir ./my_backup
+   python ./modules/250-export-chat-session/tools/copilot/scripts/export_all.py --output-dir ./my_backup
 
    # Export as JSON instead of HTML
-   python ./modules/250-export-chat-session/tools/copilot/export_all.py --format json
+   python ./modules/250-export-chat-session/tools/copilot/scripts/export_all.py --format json
    ```
 
 1. **Key feature:** The script is idempotent — running it again will only export new sessions that appeared since the last run
@@ -384,14 +384,14 @@ You're in the middle of a chat session and want to export it. But how do you fin
 
 1. Now use the search command to find the session containing this marker:
    ```
-   python ./modules/250-export-chat-session/tools/copilot/chat_export.py search "XYZZY_EXPORT_ME_12345"
+   python ./modules/250-export-chat-session/tools/copilot/scripts/chat_export.py search "XYZZY_EXPORT_ME_12345"
    ```
 
 1. The script will return exactly one match — your current session — with the workspace ID and session ID
 
 1. Export it:
    ```
-   python ./modules/250-export-chat-session/tools/copilot/chat_export.py export <workspace_id> <session_id> --output-dir ./work/copilot_export
+   python ./modules/250-export-chat-session/tools/copilot/scripts/chat_export.py export <workspace_id> <session_id> --output-dir ./work/copilot_export
    ```
 
 **Why this works:**
@@ -448,7 +448,7 @@ Congratulations! You've completed this module if:
    - Use the `search` command with keywords: `python chat_export.py search "keywords"` — it searches across all workspaces and sessions.
 
 1. **How can you export ALL sessions at once?**
-   - Use the `export_all.py` script: `python ./modules/250-export-chat-session/tools/copilot/export_all.py` — it exports every session from every workspace, preserving the directory structure.
+   - Use the `export_all.py` script: `python ./modules/250-export-chat-session/tools/copilot/scripts/export_all.py` — it exports every session from every workspace, preserving the directory structure.
 
 1. **How do you find and export the session you're currently in?**
    - Type a unique marker string (like `XYZZY_MARKER_123`) in the chat, then use `search` to find the session by that marker and export it by ID.
