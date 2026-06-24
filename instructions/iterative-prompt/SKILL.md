@@ -121,9 +121,23 @@ You can create a dedicated VS Code agent mode that permanently follows this skil
 
 ### How to create the agent
 
-Create a file `instructions/iterative-prompt/ide-agent.md` (already provided below) and reference it as a VS Code custom agent. In VS Code, you can select it from the agent picker in Copilot Chat.
+For **GitHub Copilot in VS Code**, the agent must live in `.github/agents/` so it shows up in the agent picker. Create `.github/agents/iterative-prompt.agent.md` with YAML frontmatter (`name`, `description`, `tools`) followed by a one-line body pointing at this skill:
 
-The agent file [`ide-agent.md`](./ide-agent.md) is a thin wrapper that:
+```markdown
+---
+name: iterative-prompt
+description: "Iterative Prompt agent — follows the UPD/RESULT cycle permanently, no context drift"
+tools: [vscode/askQuestions, execute/runInTerminal, read/readFile, edit/editFiles, edit/createFile, search/codebase, search/changes, ...]
+---
+
+Follow the `instructions/iterative-prompt/SKILL.md`. Ask questions after each UPD.
+```
+
+After the file exists, reload VS Code (or the Copilot Chat window). The agent then appears in the **agent picker** dropdown in Copilot Chat — select `iterative-prompt` to activate it:
+
+![Iterative Prompt agent in the VS Code agent picker](../../modules/058-workspace-kickoff-iterative-prompt/tools/img/01-iterative-prompt-agent-picker.png)
+
+The companion file [`ide-agent.md`](./ide-agent.md) holds the full IDE-runtime agent body (a thin wrapper) that:
 1. Reads [`SKILL.md`](./SKILL.md) + [`runtime-ide.md`](./runtime-ide.md) on every activation.
 2. Identifies the active prompt file (from user message, open editor, or `<follow>` header).
 3. Runs the `vscode_askQuestions` loop permanently.

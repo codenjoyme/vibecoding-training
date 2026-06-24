@@ -234,6 +234,26 @@ The skill is split into three files:
 
 Once installed, any `main.prompt.md` with the `<follow>iterative-prompt/SKILL.md</follow>` header will use the full workflow: `go` keyword triggering, `### RESULT` changelogs, atomic commits per UPD, and an autonomous polling loop that saves premium requests — in whichever runtime you launch it from.
 
+### Creating the Copilot agent (no context drift)
+
+For **GitHub Copilot in VS Code**, you can turn the skill into a dedicated agent so it never drifts out of the iterative-prompt loop. Create the file `.github/agents/iterative-prompt.agent.md` with YAML frontmatter and a one-line body pointing at the skill:
+
+```markdown
+---
+name: iterative-prompt
+description: "Iterative Prompt agent — follows the UPD/RESULT cycle permanently, no context drift"
+tools: [vscode/askQuestions, execute/runInTerminal, read/readFile, edit/editFiles, edit/createFile, search/codebase, search/changes]
+---
+
+Follow the `instructions/iterative-prompt/SKILL.md`. Ask questions after each UPD.
+```
+
+After the file exists, reload the Copilot Chat window. The agent appears in the **agent picker** dropdown — select `iterative-prompt` to activate it:
+
+![Iterative Prompt agent in the VS Code agent picker](tools/img/01-iterative-prompt-agent-picker.png)
+
+With the agent active, every chat turn stays inside the UPD/RESULT cycle automatically — no need to re-state the rules.
+
 ---
 
 ## Part 7: Run the Same Development Log from the Copilot CLI (CLI runtime)
