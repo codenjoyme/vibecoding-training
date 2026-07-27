@@ -17,6 +17,8 @@ After every `### RESULT` is written and committed, re-arm the loop using **one o
 
 ## ✅ PRIMARY: vscode_askQuestions polling (recommended, plugin-version-independent)
 
+**Scope:** `vscode_askQuestions` is used **only** to ask the user whether to continue or stop the loop between UPD cycles. It is **not** used for clarifying/domain questions about the task itself — those go into the helm-log file (see "Clarifying questions go into the helm-log" below).
+
 Ask the user at the end of every turn:
 
 ```
@@ -33,12 +35,7 @@ When the answer is `go`:
 3. If **no new block** is found (user pressed `go` but hasn't written a new UPD yet) → **auto-generate** a continuation block: append `## UPD[N+1]\n\ncontinue. go\n` to the prompt file and process it as if the user wrote it. This keeps the loop alive without requiring the user to manually write a trivial "continue" request.
 4. Ask again via `vscode_askQuestions`.
 
-When the answer is a **question with options** (decision-point questions like "what to do next?"):
-1. The user's selection (or freeText) **is the next UPD**. Auto-append to the prompt file: `## UPD[N+1]\n\n<user's answer text>\ngo\n`
-2. Process it immediately (implement, write `### RESULT`, commit).
-3. Ask again via `vscode_askQuestions`.
-
-This eliminates the gap between "user picks an option" and "agent acts on it" — the user's choice is recorded in the prompt file as a proper UPD for traceability.
+When the answer is anything else (freeform text, or a message containing a redirect/new instruction): treat it as the next UPD. Auto-append to the prompt file: `## UPD[N+1]\n\n<user's answer text>\ngo\n`, process it immediately (implement, write `### RESULT`, commit), then ask again via `vscode_askQuestions`.
 
 **Why this is primary:** works on any plugin version, no dependency on terminal notification mechanism or shell integration. Requires one explicit user interaction per UPD cycle.
 
@@ -46,14 +43,35 @@ This eliminates the gap between "user picks an option" and "agent acts on it" �
 
 ### Recording user answers
 
-When the user selects an option or provides freeText in `vscode_askQuestions`, copy their answer **verbatim** into the prompt file as the UPD body. Do not paraphrase, summarize, or reformat — the user's exact words become the UPD text.
+When the user replies via `vscode_askQuestions` (option or freeText), copy their answer **verbatim** into the prompt file as the next UPD body. Do not paraphrase, summarize, or reformat — the user's exact words become the UPD text.
+
+## 📋 Clarifying questions go into the helm-log (not vscode_askQuestions)
+
+When the user explicitly asks to be asked questions (e.g. "задай мне вопросы", "ask me questions", "what do you need to know before starting?") **within an UPD's work**, do **not** use `vscode_askQuestions` for that. Instead:
+
+1. Write the questions directly into the `### RESULT (UPD[N])` block in the helm-log file — numbered, with recommended choices marked (e.g. "*рекомендую*" / "recommended"), same as any other RESULT content.
+2. Ask the user to reply inside a new `## UPD[N+1]` block ending with `go`, same as any other update.
+3. Commit as usual (this RESULT is the deliverable for that UPD — a set of questions is a valid outcome, not a placeholder).
+4. Re-arm the loop via `vscode_askQuestions` (go/stop) as normal — that popup only asks "continue or stop", never repeats the domain questions.
+
+This keeps clarifying questions in the same versioned, language-preserving artifact as everything else, rather than a transient UI popup that isn't recorded anywhere.
+
+## 🔀 Mid-task vscode_askQuestions → intermediate RESULT
+
+If, while working through a single UPD, the agent still ends up calling `vscode_askQuestions` for some ad-hoc confirmation (not a full clarifying-questions request — see above), the answer **must** be persisted immediately:
+
+1. As soon as `vscode_askQuestions` returns an answer, append it as an **intermediate** result segment inside the current UPD block: `### RESULT (UPD[N]) — interim: <short topic>`, with the question asked and the user's verbatim answer.
+2. Commit is optional at this point (do it if the intermediate state is meaningful on its own); otherwise continue working.
+3. Continue the task. When the whole UPD is complete, write the **final** `### RESULT (UPD[N])` summarizing the full outcome (the interim segment can stay as history above it, or be folded into the final summary — do not delete it).
+
+This ensures mid-task Q&A survives even if the session is interrupted or compacted before the UPD finishes.
 
 ### Language rules
 
-- **RESULT blocks** in the prompt file: write in the same language the user used in the corresponding UPD.
-- **`vscode_askQuestions` prompts** (question text, option labels): use the same language the user used in their last UPD.
-- **Chat reflections** (thinking out loud in the chat panel): same language as the user's last UPD.
-- **Production code, project artifacts, instructions**: always English regardless of UPD language.
+- **`vscode_askQuestions` question text and option labels**, and **any clarifying questions written into the helm-log**: always the same language as the helm-log (i.e., the language of the user's most recent `## UPD` block).
+- **`### RESULT` blocks** (including interim ones): same language as the corresponding UPD.
+- **Internal reasoning / chat "thinking out loud"**: may be in English regardless of the helm-log's language, to save tokens — as long as it is not the actual question or RESULT text shown/recorded for the user.
+- **Production code, project artifacts, instructions, script comments**: always English regardless of helm-log language.
 
 ### Progress report before re-arming
 

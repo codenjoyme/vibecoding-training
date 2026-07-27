@@ -1345,3 +1345,85 @@ RESULT: Добавлен подраздел `Progress report before re-arming` �
 Также уточню один технический момент от себя: скрипт будет принимать путь к helm-log файлу как обязательный аргумент (например `python index_prompt.py path/to/main.prompt.md [флаги]`) и работать построчным regex-сканированием без загрузки лишнего в память — ок?
 
 ## UPD53  
+
+Мои ответы:
+**Detail per entry**
+**Preview length**
+- Что показывать модели: 
+```
+File: /pth/to/main.prompt.md
+UPD blocks: 
+  - UPD1 (lines 10-20) [done] —
+        "Some text of the request here. We need to show only         first N characters of the request text for preview."
+    + RESULT (lines 21-29)
+        "Some text of the result here. It can be multiline, but we show only first N characters for preview."
+    + RESULT (lines 30-45) 
+        "Some text of the other result here. One UPD can have several RESULT blocks."
+  - UPD2 (lines 46-50) [done] —
+        "Another request text here. Preview is also limited to N chars. With multiline text, we show..."
+    + RESULT (lines 51-56)
+        "..."
+  - UPD55 (lines 58-60) [done] —
+        "Index is not sequential, some UPD blocks may be missing. 
+        Sometime I merged several files. Be aware of that."
+    + RESULT (lines 59-62)
+        "..."
+  - UPD2  (lines 63-70) [pending] —
+        "This UPD is not yet processed. It will be marked as done 
+        after the model processes it and writes RESULT."
+    + RESULT (lines 71-78)
+        "..."
+```
+Тут важно, чтобы сам вывод текста и количество символов (или линий) моделька могла задавать сама через параметры этого CLI. Если текст моделька решила не выводить, то результат будет таким:
+```
+File: /pth/to/main.prompt.md
+UPD blocks: 
+  - UPD1 (lines 10-20) [done] —
+    + RESULT (lines 21-29)
+    + RESULT (lines 30-45) 
+  - UPD2 (lines 46-50) [done] —
+    + RESULT (lines 51-56)
+  - UPD55 (lines 58-60) [done] —
+    + RESULT (lines 59-62)
+  - UPD2  (lines 63-70) [pending] —
+    + RESULT (lines 71-78)
+```
+
+**Drill-down mode** - да, пусть моделька потом сама будет читать. 
+
+**Script name** - `list_upds.py`
+
+**Filtering options** - давай `last n`. 
+
+И еще один фильтр надо добавлять RESULT или нет в выборку. 
+
+Давай наверное все же огранизуем это как отдельный скилл внутри iterative prompt скила. Потому что по сути это отдельная функциональность, которая может быть полезна и в других случаях. А с основного сила давай ссылку на новый.
+
+Тут делай коммит. А то что ниже, другим коммитом. 
+
+Да и поправь iteartive prompt скилл так, чтобы: 
+- вопросы все задавались всегда через helm-log файл подобного плана, когда я прошу в запросе "задай мне вопросі". `vscode_askQuestions` нужен только для того, чтобы между UPD блоками спрашивать у оператора, ты хочешь продолжать и уже написан следующий UPD -> "go" или ты хочешь остановиться -> "stop". 
+- А если уже случилось так, что ты задал какие-то вопросы внутри ожного UPD блока через `vscode_askQuestions` то ответы должны быть подклеены соразу после отработки `vscode_askQuestions` в промеждуточный RESULT блок, тогда как после завершения всей задачи будет сформирован финальный RESULT блок. Потому давай заложим два таких режима. 
+- И еще важно в `vscode_askQuestions` ты всегда используешь тот же язык, что в helm-log. Тогда как любой другой thinking можешь делать на английском для экномии токенов. go
+
+### RESULT (UPD53)
+
+**Часть 1 — новый саб-скилл `prompt-index` (коммит `2f898d4`):**
+
+- A [instructions/iterative-prompt/prompt-index/scripts/list_upds.py](../../instructions/iterative-prompt/prompt-index/scripts/list_upds.py) — построчный regex-сканер (без сторонних зависимостей), парсит `## UPD[N]` / `### RESULT` блоки в порядке появления в файле (номера не обязаны быть последовательными и уникальными — доверяем диапазону строк, а не номеру). Флаги: `--last N`, `--pending` (только необработанные), `--no-results` (скрыть RESULT-строки), `--preview N` (символов текста, `0` = без текста). Ничего кроме индекса не печатается — drill-down делает сама моделька через `read_file` по репортнутому диапазону строк.
+- A [instructions/iterative-prompt/prompt-index/SKILL.md](../../instructions/iterative-prompt/prompt-index/SKILL.md) — саб-скилл с описанием флагов, формата вывода и когда использовать.
+- M [instructions/iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md) — добавлена строка в таблицу скриптов + раздел «Indexing large helm-logs» со ссылкой на саб-скилл. Version bump `3.0.0` → `3.1.0`.
+
+Smoke-test на этом самом файле (`--last 3`, `--pending`, `--last 2 --no-results --preview 0`) — все три режима отработали корректно на реальных 53 UPD-блоках.
+
+**Часть 2 — поведение `runtime-ide.md` (отдельный коммит ниже):**
+
+- M [instructions/iterative-prompt/runtime-ide.md](../../instructions/iterative-prompt/runtime-ide.md):
+  - `vscode_askQuestions` теперь **только** для go/stop между UPD-циклами — убран generic-режим «question with options» для произвольных decision-point вопросов.
+  - Новый раздел **«Clarifying questions go into the helm-log»** — если явно просишь «задай мне вопросы», вопросы пишутся прямо в `### RESULT` (как я это сделал в UPD52), ответ ждём как новый `## UPD[N+1]` с `go`, попап не используется.
+  - Новый раздел **«Mid-task vscode_askQuestions → intermediate RESULT»** — если всё же в середине работы над UPD случился `vscode_askQuestions` (не по явной просьбе задать вопросы), ответ сразу же приклеивается как `### RESULT (UPD[N]) — interim: <тема>`, работа продолжается, финальный `### RESULT` пишется по завершении всей задачи.
+  - **Language rules** переписаны: `vscode_askQuestions` и любые вопросы, записанные в helm-log, — всегда на языке helm-log; `### RESULT` — язык соответствующего UPD; внутренний reasoning/"thinking out loud" — можно на английском для экономии токенов; код/артефакты/инструкции — всегда английский.
+
+**Не тронуто:** [instructions/training-mode-iterative-prompt.agent.md](../../instructions/training-mode-iterative-prompt.agent.md) — там `vscode_askQuestions` используется для выбора модуля до старта первого UPD (другой контекст использования, не clarifying-question-во-время-UPD). Скажи, если это тоже нужно привести к новому правилу.
+
+Оба коммита сделаны раздельно, как просил.
