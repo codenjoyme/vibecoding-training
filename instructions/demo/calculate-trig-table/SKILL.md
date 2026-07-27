@@ -9,9 +9,9 @@ Generate a deterministic trigonometric table for a degree range using Python std
 ## Usage
 
 ```bash
-python instructions/calculate-trig-table/scripts/calculate.py --start 0 --end 90 --step 15 --format md
-python instructions/calculate-trig-table/scripts/calculate.py --start 0 --end 90 --step 15 --format json --output output/trig.json
-python instructions/calculate-trig-table/scripts/calculate.py --start 0 --end 90 --step 15 --format csv --output output/trig.csv
+python instructions/demo/calculate-trig-table/scripts/calculate.py --start 0 --end 90 --step 15 --format md
+python instructions/demo/calculate-trig-table/scripts/calculate.py --start 0 --end 90 --step 15 --format json --output output/trig.json
+python instructions/demo/calculate-trig-table/scripts/calculate.py --start 0 --end 90 --step 15 --format csv --output output/trig.csv
 ```
 
 ## Notes
