@@ -1,7 +1,7 @@
 ---
 name: iterative-prompt
 description: Autonomous AI agent workflow — file-based UPD/RESULT cycle
-version: 3.0.0
+version: 3.1.0
 ---
 
 # Iterative Prompt — the pattern
@@ -104,8 +104,13 @@ Name the file `main.prompt.md` (or `cli.prompt.md` for CLI runtime) and place it
 | [`scripts/run_cli.py`](./scripts/run_cli.py) | Thin `copilot` CLI wrapper with `--autopilot` and the right flags for iterative-prompt mode. | CLI runtime only. Pure `copilot` commands, no orchestration framework dependency. |
 | [`cli-agent.md`](./cli-agent.md) | Executable agent-identity file passed to `copilot -p`. Tells the CLI agent to run the watcher loop. | CLI runtime only. |
 | [`ide-agent.md`](./ide-agent.md) | VS Code custom agent that permanently follows this skill. Select it from the agent picker — no context drift. | IDE runtime only. |
+| [`prompt-index/scripts/list_upds.py`](./prompt-index/scripts/list_upds.py) | Compact line-number index of `## UPD[N]` / `### RESULT` blocks in a large helm-log — avoids loading the whole file into context. See [`prompt-index/SKILL.md`](./prompt-index/SKILL.md). | Both runtimes. Call it whenever the helm-log is large and you need to locate a block before drilling in with `read_file`. |
 
 How each script is invoked differs per runtime — see the runtime files.
+
+## Indexing large helm-logs
+
+A helm-log can grow to thousands of lines after dozens of UPD cycles. Before reading the whole file, use [`prompt-index/SKILL.md`](./prompt-index/SKILL.md) to get a compact line-number index of every `## UPD[N]` / `### RESULT` block, then `read_file` only the exact line range you need.
 
 ### Watcher exit codes
 
