@@ -1304,3 +1304,44 @@ RESULT: Добавлен подраздел `Progress report before re-arming` �
 - M [instructions/iterative-prompt/SKILL.md](../../instructions/iterative-prompt/SKILL.md) — секция «How to create the agent» переписана: теперь явно сказано, что для GitHub Copilot агент должен лежать в `.github/agents/iterative-prompt.agent.md` (с примером YAML frontmatter `name`/`description`/`tools` + однострочным телом `Follow the iterative-prompt/SKILL.md`), и после reload появляется в agent picker. Встроен скриншот picker'а.
 - A [modules/058-workspace-kickoff-iterative-prompt/tools/img/01-iterative-prompt-agent-picker.png](../../modules/058-workspace-kickoff-iterative-prompt/tools/img/01-iterative-prompt-agent-picker.png) — скриншот agent picker'а с выбранным `iterative-prompt` (скопирован из `image-7.png`, переименован по конвенции `NN-short-description.png`).
 - M [modules/058-workspace-kickoff-iterative-prompt/walkthrough.md](../../modules/058-workspace-kickoff-iterative-prompt/walkthrough.md) — в раздел «Installing the Iterative Prompt skill» добавлен подраздел «Creating the Copilot agent (no context drift)» с примером файла `.github/agents/iterative-prompt.agent.md` и встроенным скриншотом.
+
+## UPD52
+
+Давай сделаем CLI в этот скил iterative prompt на питоне, которая будет давать модельке по ее запросу возможность доставать список всез UPD/RESULT блоков в заданном helm-log файле в структурированном лаконичном виде который даст ей понимание, где что находится. Подумай как решить проблему того что helm log может быть размером несколько тысяч счтрок, и мы не хотим перегружать контекст модели а она может захоеть загрузить весь файл. Мы не будем создавать новый SKILL.md но исправим существубющий добавив новый скрипт-подделжку. Задай мне вопросы, давай обсудим перед реализацией. go
+
+### RESULT (UPD52) — questions before implementation
+
+Пользователь попросил задавать все вопросы прямо в этом файле (helm-log), а не через `vscode_askQuestions` popup — так и делаю дальше по этой задаче.
+
+Уже выбрано (через popup, один вопрос успел пройти до просьбы переключиться):
+- **Output format:** Plain text list (одна строка на блок, минимум токенов).
+
+Остальные вопросы — пиши ответы в `## UPD53` (можно кратко, по номерам):
+
+1. **Detail per entry** — что показывать в каждой строке индекса?
+   - (a) Lines + status (done/pending) + короткий preview текста запроса — *рекомендую*
+   - (b) Только номер UPD + диапазон строк (модель сама читает через read_file)
+   - (c) Полный вариант: lines + status + preview запроса + заголовок/первая строка RESULT + отдельный диапазон строк RESULT
+
+2. **Preview length** — сколько символов текста запроса показывать в превью?
+   - (a) 80 символов — *рекомендую*
+   - (b) Без ограничения по символам, просто первая строка текста
+   - (c) Без превью вообще — только номер, диапазон строк, статус
+
+3. **Drill-down mode** — нужна ли скрипту возможность напечатать полный текст одного конкретного UPD (или диапазона), или модель сама читает нужные строки через `read_file` по данным из индекса?
+   - (a) Только индекс, drill-down через `read_file` — *рекомендую*
+   - (b) Добавить флаг `--show N` (и/или `--show N-M`) чтобы скрипт сам печатал полный блок
+
+4. **Filtering options** — нужны ли фильтры `--pending` (только необработанные UPD, без RESULT) и `--last N` (последние N блоков)?
+   - (a) Да, добавить оба — *рекомендую*
+   - (b) Нет, пока достаточно полного списка
+
+5. **Script name** — как назвать новый скрипт в `instructions/iterative-prompt/scripts/`?
+   - (a) `index_prompt.py` — *рекомендую*
+   - (b) `list_upds.py`
+   - (c) `prompt_index.py`
+   - (d) свой вариант
+
+Также уточню один технический момент от себя: скрипт будет принимать путь к helm-log файлу как обязательный аргумент (например `python index_prompt.py path/to/main.prompt.md [флаги]`) и работать построчным regex-сканированием без загрузки лишнего в память — ок?
+
+## UPD53  
