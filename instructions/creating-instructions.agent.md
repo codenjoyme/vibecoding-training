@@ -138,6 +138,7 @@ Each entry below is an instruction file with a one-line description. Optional su
 
 - Use a **skill** instead of a plain instruction when the workflow includes executable code, reference docs, or reusable assets — not just prose steps.
 - Skills follow the [agentskills.io](https://agentskills.io/what-are-skills) format: a self-contained folder with a required `SKILL.md` and optional sub-folders.
+- When creating skills, I want you to generate scripts that retrieve data from the file system and write it to other files during execution. This is because I want to preserve tokens and minimize hallucinations, so as a model, you should focus less on monitoring the data and rely more on the deterministic script developed within the skill.
 - Create skill under `./instructions/[name]/` where `[name]` follows the same verb-first, hyphen-separated naming as instructions (e.g. `run-migration`, `generate-report`).
 - Required structure:
   ```
