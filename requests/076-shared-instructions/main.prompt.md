@@ -719,14 +719,14 @@ All 13 points implemented in both Go and Node.js versions with individual commit
 13. **Updated `walkthrough.md`** — renamed `skills-cli` paths to `scripts/`, updated help output, added Part 6 (Advanced Commands) covering `create`, `list --verbose/--json`, `enable/disable`, `init`, `ai-help`, `init-repo`. Renumbered parts and steps. Simplified Part 8 to use `skills init-repo`. Commit: `4cc8053`.
 
 Files changed:
-- [tools/scripts/cmd/initrepo.go](modules/076-skills-management-system/tools/scripts/cmd/initrepo.go) — new
-- [tools/scripts/cmd/root.go](modules/076-skills-management-system/tools/scripts/cmd/root.go) — registered init-repo
-- [tools2/scripts/src/commands/initrepo.ts](modules/076-skills-management-system/tools2/scripts/src/commands/initrepo.ts) — new
-- [tools2/scripts/src/commands/root.ts](modules/076-skills-management-system/tools2/scripts/src/commands/root.ts) — registered init-repo
-- [tools2/scripts/src/commands/help.ts](modules/076-skills-management-system/tools2/scripts/src/commands/help.ts) — added init-repo to help
-- [tools/SKILL.md](modules/076-skills-management-system/tools/SKILL.md) — renamed paths
-- [tools2/SKILL.md](modules/076-skills-management-system/tools2/SKILL.md) — renamed paths
-- [walkthrough.md](modules/076-skills-management-system/walkthrough.md) — new Part 6, updated paths and steps
+- [tools/scripts/cmd/initrepo.go](../../modules/076-skills-management-system/tools/scripts/cmd/initrepo.go) — new
+- [tools/scripts/cmd/root.go](../../modules/076-skills-management-system/tools/scripts/cmd/root.go) — registered init-repo
+- [tools2/src/commands/initrepo.ts](../../modules/076-skills-management-system/tools2/src/commands/initrepo.ts) — new
+- [tools2/src/commands/root.ts](../../modules/076-skills-management-system/tools2/src/commands/root.ts) — registered init-repo
+- [tools2/src/commands/help.ts](../../modules/076-skills-management-system/tools2/src/commands/help.ts) — added init-repo to help
+- [tools/SKILL.md](../../modules/076-skills-management-system/tools/SKILL.md) — renamed paths
+- [tools2/SKILL.md](../../modules/076-skills-management-system/tools2/SKILL.md) — renamed paths
+- [walkthrough.md](../../modules/076-skills-management-system/walkthrough.md) — new Part 6, updated paths and steps
 
 ## UPD21
 
@@ -754,7 +754,7 @@ Files changed:
 12. E2E Workflow (2 теста) — полный флоу с разными группами
 
 Files changed:
-- [test-checklist.md](modules/076-skills-management-system/test-checklist.md) — new, 66 tests with results
+- [test-checklist.md](../../modules/076-skills-management-system/test-checklist.md) — new, 66 tests with results
 
 ## UPD22
 
@@ -1350,13 +1350,13 @@ git diff scripts/test/commands.md
 
 Добавлено:
 
-- [`tools_py/skills.py`](../../modules/076-skills-management-system/tools_py/skills.py) и [`tools_py/pyproject.toml`](../../modules/076-skills-management-system/tools_py/pyproject.toml) для прямого запуска и запуска как пакета.
-- [`tools_py/skills_cli/commands`](../../modules/076-skills-management-system/tools_py/skills_cli/commands) с командами `init`, `pull`, `push`, `list`, `create`, `enable`, `disable`, `ai-help`, `init-repo` и `help`.
-- [`tools_py/skills_cli/lib`](../../modules/076-skills-management-system/tools_py/skills_cli/lib) с конфигурацией, рекурсивным разрешением манифестов, безопасными Git subprocess-операциями и типизированными ошибками.
+- [`tools_py/scripts/main.py`](../../modules/076-skills-management-system/tools_py/scripts/main.py) и [`tools_py/pyproject.toml`](../../modules/076-skills-management-system/tools_py/pyproject.toml) для прямого запуска и запуска как пакета.
+- [`tools_py/scripts/cmd`](../../modules/076-skills-management-system/tools_py/scripts/cmd) с командами `init`, `pull`, `push`, `list`, `create`, `enable`, `disable`, `ai-help`, `init-repo` и `help`.
+- [`tools_py/scripts/internal`](../../modules/076-skills-management-system/tools_py/scripts/internal) с конфигурацией, рекурсивным разрешением манифестов, безопасными Git subprocess-операциями и типизированными ошибками.
 - [`tools_py/SKILL.md`](../../modules/076-skills-management-system/tools_py/SKILL.md), [`tools_py/SKILL-CLI.md`](../../modules/076-skills-management-system/tools_py/SKILL-CLI.md) и [`tools_py/README.md`](../../modules/076-skills-management-system/tools_py/README.md).
-- [`tools_py/tests`](../../modules/076-skills-management-system/tools_py/tests) с unit- и integration-тестами, а также [`tools_py/test`](../../modules/076-skills-management-system/tools_py/test) с Docker smoke runner для чистого Linux.
-- [`tools_py/test-report.md`](../../modules/076-skills-management-system/tools_py/test-report.md) с матрицей тестов и исправлениями переносимости.
-- [`tools_py/go-node-differences.md`](../../modules/076-skills-management-system/tools_py/go-node-differences.md) с обнаруженными расхождениями Go/Node.js и решениями по совместимости.
+- [`tools_py/scripts/test`](../../modules/076-skills-management-system/tools_py/scripts/test) с Docker smoke runner для чистого Linux.
+- [`work/076-task/python/test-report.md`](../../work/076-task/python/test-report.md) с матрицей тестов и исправлениями переносимости.
+- [`work/076-task/python/go-node-differences.md`](../../work/076-task/python/go-node-differences.md) с обнаруженными расхождениями Go/Node.js и решениями по совместимости.
 
 В обзор и walkthrough модуля добавлен Part со сравнением и тестированием Python-реализации: [`modules/076-skills-management-system/about.md`](../../modules/076-skills-management-system/about.md) и [`modules/076-skills-management-system/walkthrough.md`](../../modules/076-skills-management-system/walkthrough.md).
 
@@ -1371,3 +1371,53 @@ git diff scripts/test/commands.md
 - Диагностика workspace: ошибок в Python-порте и обновлённых файлах модуля нет.
 
 В ходе работы найдены и исправлены проблемы с UTF-8-выводом portable Python в Windows, удалением read-only Git-файлов при re-init, созданием `/workspace` в Docker и поиском ресурса пакета. В сравнении smoke-тестов Go/Node.js также зафиксирована утечка stderr при пересоздании ветки в Node.js для последующего рассмотрения. Существующие несвязанные изменения пользователя не изменялись.
+
+## UPD40
+
+Перемести в [work/076-task/python](../../work/076-task/python), где находится helm log файл, и переведи на русский такие файлы:
+- [go-node-differences](../../work/076-task/python/go-node-differences.md)
+- [test-report](../../work/076-task/python/test-report.md)
+
+Дальше я вижу существенное различие в структуре папок:
+- `tools\scripts\[cmd|internal|test]` в go против `tools_py/[skills_cli|test|tests]` в python. Я хочу чтобы в питоновской версии было как в go.
+- Тесты мне нужны только снепшот, причем их внутрення структура файлов [Go snapshot](../../modules/076-skills-management-system/tools/scripts/test/commands.md) и [Node.js snapshot](../../modules/076-skills-management-system/tools2/test/commands.md) должна совпадать с go и node.
+- Все отдельные файлы, должны так же совпадать по структуре и описанию блоков: `SKILLS.md`, `SKILLS-CLI.md`, `README.md` и так далее.
+- Файл [tools_py/SKILL-CLI.md](../../modules/076-skills-management-system/tools_py/SKILL-CLI.md) почему-то дублировался внутри удалённого пакетного каталога и с [этим prompt](main.prompt.md).
+go
+
+### RESULT (UPD40)
+
+Выполнено.
+
+**Отчёты перенесены и переведены:**
+
+- [go-node-differences.md](../../work/076-task/python/go-node-differences.md) — русский перевод исследования различий Go и Node.js.
+- [test-report.md](../../work/076-task/python/test-report.md) — русский отчёт, обновлённый под snapshot-only тестирование: 14 фаз и 166 команд.
+- Старые копии отчётов удалены из `tools_py/`.
+
+**Python-порт перестроен по структуре Go:**
+
+- [`scripts/main.py`](../../modules/076-skills-management-system/tools_py/scripts/main.py) — точка входа вместо корневого `skills.py`.
+- [`scripts/cmd`](../../modules/076-skills-management-system/tools_py/scripts/cmd) — обработчики CLI-команд.
+- [`scripts/internal/config`](../../modules/076-skills-management-system/tools_py/scripts/internal/config), [`scripts/internal/manifest`](../../modules/076-skills-management-system/tools_py/scripts/internal/manifest) и [`scripts/internal/gitops`](../../modules/076-skills-management-system/tools_py/scripts/internal/gitops) — внутренние пакеты, соответствующие Go-структуре.
+- [`scripts/test`](../../modules/076-skills-management-system/tools_py/scripts/test) — единственный тестовый каталог; отдельный `tests/` удалён.
+
+**Snapshot-тесты выровнены:**
+
+- [`scripts/test/commands.md`](../../modules/076-skills-management-system/tools_py/scripts/test/commands.md) теперь использует ту же структуру 14 фаз и те же 166 команд, что Go snapshot; Docker предоставляет wrapper `skills`, запускающий Python `scripts/main.py`.
+- [`scripts/test/run-tests.sh`](../../modules/076-skills-management-system/tools_py/scripts/test/run-tests.sh), [`scripts/test/README.md`](../../modules/076-skills-management-system/tools_py/scripts/test/README.md) и [`scripts/test/Dockerfile`](../../modules/076-skills-management-system/tools_py/scripts/test/Dockerfile) соответствуют общей модели Go/Node snapshot runner.
+- Python smoke test выполнен в Docker без traceback, `ModuleNotFoundError`, `No such file` и устаревших Python-путей; ожидаемые negative cases сохранены.
+
+**Документация выровнена:**
+
+- [`tools_py/SKILL.md`](../../modules/076-skills-management-system/tools_py/SKILL.md) получил общую структуру Go/Node: Architecture, Manifest Files, CLI Reference, AI Agent Setup, Snapshot Test Framework, Differences across Editions, Governance и IDE Integration.
+- [`tools_py/SKILL-CLI.md`](../../modules/076-skills-management-system/tools_py/SKILL-CLI.md) синхронизирован по структуре и описательным блокам с Go/Node reference.
+- [`tools_py/README.md`](../../modules/076-skills-management-system/tools_py/README.md), [`modules/076-skills-management-system/about.md`](../../modules/076-skills-management-system/about.md) и [`modules/076-skills-management-system/walkthrough.md`](../../modules/076-skills-management-system/walkthrough.md) обновлены на `scripts/main.py`, `scripts/test` и snapshot-only workflow.
+- Дублирующий файл `tools_py/skills_cli/SKILL-CLI.md` удалён; в исходном дереве остался один `tools_py/SKILL-CLI.md`.
+
+**Проверено:**
+
+- `python scripts/main.py help` и `ai-help` — работают.
+- `work/076-task/python` — существующий workspace отвечает на `list --json` через новый launcher.
+- Установка wheel-пакета — `scripts.main` и root `SKILL-CLI.md` работают, старого `skills_cli` нет.
+- Docker snapshot — 14 фаз, 166 команд, без неожиданных ошибок.

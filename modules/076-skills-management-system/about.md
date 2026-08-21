@@ -13,7 +13,7 @@
 - The `SKILL.md` convention — IDE-agnostic, plain Markdown skill content
 - Installing and using the `skills` CLI (cross-platform Go binary)
 - Comparing and running the Go, Node.js/TypeScript, and Python CLI implementations
-- Python standard-library packaging, integration tests, and Docker smoke testing
+- Python standard-library packaging and Docker snapshot smoke testing
 - Sparse checkout — pull only the skills your project needs
 - Contribution workflow — branch → PR → owner review → merge → team-wide update
 - Ownership and governance model (advisory)
@@ -55,4 +55,4 @@ Apply this module when:
 - `tools/SKILL.md` — operator guide for the skills management system (read this with your AI agent)
 - [`tools2/SKILL.md`](tools2/SKILL.md) — Node.js/TypeScript edition
 - [`tools_py/SKILL.md`](tools_py/SKILL.md) — Python edition and operator workflow
-- [`tools_py/test/README.md`](tools_py/test/README.md) — Python Docker smoke tests
+- [`tools_py/scripts/test/README.md`](tools_py/scripts/test/README.md) — Python Docker snapshot tests

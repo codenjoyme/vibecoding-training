@@ -20,7 +20,7 @@ See [module overview](about.md) for full prerequisites list.
 | `.manifest/` | Folder with `_global.json`, `_agents.json`, per-group configs, sub-configs |
 | `skills` CLI | Go binary that automates all Git + sparse checkout operations |
 | `tools2/` | Node.js/TypeScript port with the same command interface |
-| `tools_py/` | Python standard-library port with unit, integration, and Docker tests |
+| `tools_py/` | Python standard-library port with Go-shaped scripts and Docker snapshot tests |
 | `project-alpha/` | First project workspace — initialized with alpha group skills |
 | `project-beta/` | Second project workspace — initialized with beta group skills |
 | `demo/` | Pre-built skills-repo with sample skills — use to skip manual content creation |
@@ -1046,7 +1046,7 @@ You should see all global skills as ✅ active, with descriptions and owners.
 
 ### What we'll do
 
-The Python edition lives in `tools_py/` and intentionally keeps the same command names, configuration format, manifest resolution, Git workflow, and output shape as the Go and Node.js editions. It uses only the Python standard library, so it is useful when a team prefers Python tooling or wants a readable reference implementation.
+The Python edition lives in `tools_py/` and intentionally keeps the same command names, configuration format, manifest resolution, Git workflow, and output shape as the Go and Node.js editions. Its source layout mirrors Go: `scripts/main.py`, `scripts/cmd/`, `scripts/internal/`, and `scripts/test/`. It uses only the Python standard library.
 
 ### Step 30 — Run the Python CLI from source
 
@@ -1054,50 +1054,34 @@ From the module's `tools_py/` folder:
 
 ```powershell
 # Windows PowerShell
-python .\skills.py help
-python .\skills.py ai-help
+python .\scripts\main.py help
+python .\scripts\main.py ai-help
 ```
 
 ```bash
 # macOS/Linux
-python3 ./skills.py help
-python3 ./skills.py ai-help
+python3 ./scripts/main.py help
+python3 ./scripts/main.py ai-help
 ```
 
-The direct `skills.py` launcher also works with isolated portable Python distributions. On a regular Python installation, `python -m skills_cli help` is an alternative.
+The direct `scripts/main.py` launcher also works with isolated portable Python distributions. On a regular Python installation, `python -m scripts.main help` is an alternative.
 
-### Step 31 — Run the Python automated tests
+### Step 31 — Run the Python snapshot smoke test
 
-The test suite creates temporary Git repositories and checks config defaults, recursive sub-config resolution, cycles, global-only initialization, metadata fallback, toggles, force stash, push/merge/pull, and re-initialization.
-
-```powershell
-# Windows PowerShell
-python .\tests\run.py
-```
-
-```bash
-# macOS/Linux
-python3 ./tests/run.py
-```
-
-You should see `Ran 8 tests` followed by `OK`.
-
-### Step 32 — Run the clean Linux smoke test
-
-Docker runs the same CLI in a fresh Linux container and rewrites `test/commands.md` with the actual output. Review the diff after the run; expected error lines are part of the negative test cases.
+The Python test surface is intentionally snapshot-only. Its `scripts/test/` directory has the same four files and 14-phase `commands.md` structure as the Go and Node.js editions. Docker runs the `skills` command wrapper over `scripts/main.py`, then rewrites only output fences in the snapshot.
 
 ```bash
 cd modules/076-skills-management-system/tools_py
-docker build -t skills-python-smoke -f test/Dockerfile .
-docker run --rm -v ./test:/app/test skills-python-smoke
-git diff -- test/commands.md
+docker build -t skills-python-smoke -f scripts/test/Dockerfile .
+docker run --rm -v ./scripts/test:/app/test skills-python-smoke
+git diff -- scripts/test/commands.md
 ```
 
-On Windows PowerShell, use the equivalent bind mount `docker run --rm -v "${PWD}/test:/app/test" skills-python-smoke`.
+On Windows PowerShell, use the equivalent bind mount `docker run --rm -v "${PWD}/scripts/test:/app/test" skills-python-smoke`.
 
-### Step 33 — Compare the implementations
+### Step 32 — Compare the implementations
 
-Use the same temporary or `work/076-task/` skills repository with each edition. Compare `skills help`, `skills list --json`, `skills init`, `skills push`, and `skills pull`. Read [`tools_py/go-node-differences.md`](tools_py/go-node-differences.md) for documented differences that were intentionally preserved as research findings rather than silently changing Go or Node.js.
+Use the same `work/076-task/` skills repository with each edition. Compare `skills help`, `skills list --json`, `skills init`, `skills push`, and `skills pull`. Read the translated reports [`go-node-differences.md`](../../work/076-task/python/go-node-differences.md) and [`test-report.md`](../../work/076-task/python/test-report.md) for the recorded comparison and smoke results.
 
 ### What happened
 
@@ -1115,8 +1099,8 @@ You now have three implementations of one tools-agnostic workflow. The shared co
 - ✅ `skills list` shows correct active/inactive skill counts for each workspace
 - ✅ `skills push` created a branch in `skills-repo` 
 - ✅ `skills pull` synced the merged change back to the workspace
-- ✅ Python edition ran from source and passed its unit/integration suite
-- ✅ Python Docker smoke test produced a reviewed `commands.md` snapshot
+- ✅ Python edition ran from `scripts/main.py`
+- ✅ Python Docker snapshot test produced a reviewed `scripts/test/commands.md`
 - ✅ (Part 7) Personal skills repository created and linked to your real project directory
 
 ## Understanding Check
@@ -1169,14 +1153,14 @@ The branch you're pushing to is checked out in the remote. This can happen if yo
 **Sparse checkout shows extra directories**
 Run `git sparse-checkout reapply` inside `instructions/` to force reapply the sparse filter.
 
-**Python reports `No module named skills_cli`**
-Run the direct launcher from `tools_py/`: `python skills.py ...` on Windows or `python3 ./skills.py ...` on macOS/Linux. A portable Python distribution may use an isolated import path.
+**Python reports `No module named scripts`**
+Run the direct launcher from `tools_py/`: `python scripts\main.py ...` on Windows or `python3 ./scripts/main.py ...` on macOS/Linux. A portable Python distribution may use an isolated import path.
 
 **Python CLI output fails on a Windows code page**
-Use the included `skills.py` launcher. It configures UTF-8 output before running the command.
+Use the included `scripts/main.py` launcher. It configures UTF-8 output before running the command.
 
 **Docker smoke output is empty**
-Rebuild the image from `tools_py/` and make sure the image contains `/workspace`; the included `test/Dockerfile` creates it and the runner uses it as the clean test root.
+Rebuild the image from `tools_py/` and make sure the image contains `/workspace`; the included `scripts/test/Dockerfile` creates it and the runner uses it as the clean test root.
 
 ## Next Steps
 

@@ -1,0 +1,41 @@
+"""Git operations package."""
+
+from .git import (
+    SkillInfo,
+    add_to_sparse_checkout,
+    checkout_branch,
+    clone,
+    create_branch,
+    current_branch,
+    default_branch,
+    get_remote_url,
+    has_uncommitted_changes,
+    list_all_skills,
+    load_skill_info,
+    pull,
+    push,
+    run,
+    setup_sparse_checkout,
+    stage_and_commit,
+    stash_skill_changes,
+)
+
+__all__ = [
+    "SkillInfo",
+    "add_to_sparse_checkout",
+    "checkout_branch",
+    "clone",
+    "create_branch",
+    "current_branch",
+    "default_branch",
+    "get_remote_url",
+    "has_uncommitted_changes",
+    "list_all_skills",
+    "load_skill_info",
+    "pull",
+    "push",
+    "run",
+    "setup_sparse_checkout",
+    "stage_and_commit",
+    "stash_skill_changes",
+]
