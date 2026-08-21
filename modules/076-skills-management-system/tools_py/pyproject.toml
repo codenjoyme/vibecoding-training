@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skills-cli-python"
+version = "1.0.0"
+description = "Skills CLI - manage shared AI instruction skills across your team"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+skills = "skills_cli.__main__:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["skills_cli*"]
+
+[tool.setuptools.package-data]
+skills_cli = ["SKILL-CLI.md"]

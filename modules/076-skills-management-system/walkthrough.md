@@ -1,10 +1,11 @@
 # Advanced Skills Management System — Hands-on Walkthrough
 
-In this walkthrough you will build a complete, working skills management system from scratch. By the end you will have:
+In this walkthrough you will build a complete, working skills management system from scratch and compare three compatible CLI implementations. By the end you will have:
 
 - A central skills Git repository with the full `.manifest/` structure
 - Two independent project workspaces, each with sparse checkout for their specific skills
 - The `skills` CLI installed and working on your machine
+- The Go, Node.js/TypeScript, and Python editions available for comparison
 - Tested push, pull, and list workflows
 
 ## Prerequisites
@@ -18,6 +19,8 @@ See [module overview](about.md) for full prerequisites list.
 | `skills-repo/` | Central Git repository — single source of truth for all skills |
 | `.manifest/` | Folder with `_global.json`, `_agents.json`, per-group configs, sub-configs |
 | `skills` CLI | Go binary that automates all Git + sparse checkout operations |
+| `tools2/` | Node.js/TypeScript port with the same command interface |
+| `tools_py/` | Python standard-library port with unit, integration, and Docker tests |
 | `project-alpha/` | First project workspace — initialized with alpha group skills |
 | `project-beta/` | Second project workspace — initialized with beta group skills |
 | `demo/` | Pre-built skills-repo with sample skills — use to skip manual content creation |
@@ -1039,6 +1042,69 @@ You should see all global skills as ✅ active, with descriptions and owners.
 
 ---
 
+## Part 9: Compare and Test the Python Edition
+
+### What we'll do
+
+The Python edition lives in `tools_py/` and intentionally keeps the same command names, configuration format, manifest resolution, Git workflow, and output shape as the Go and Node.js editions. It uses only the Python standard library, so it is useful when a team prefers Python tooling or wants a readable reference implementation.
+
+### Step 30 — Run the Python CLI from source
+
+From the module's `tools_py/` folder:
+
+```powershell
+# Windows PowerShell
+python .\skills.py help
+python .\skills.py ai-help
+```
+
+```bash
+# macOS/Linux
+python3 ./skills.py help
+python3 ./skills.py ai-help
+```
+
+The direct `skills.py` launcher also works with isolated portable Python distributions. On a regular Python installation, `python -m skills_cli help` is an alternative.
+
+### Step 31 — Run the Python automated tests
+
+The test suite creates temporary Git repositories and checks config defaults, recursive sub-config resolution, cycles, global-only initialization, metadata fallback, toggles, force stash, push/merge/pull, and re-initialization.
+
+```powershell
+# Windows PowerShell
+python .\tests\run.py
+```
+
+```bash
+# macOS/Linux
+python3 ./tests/run.py
+```
+
+You should see `Ran 8 tests` followed by `OK`.
+
+### Step 32 — Run the clean Linux smoke test
+
+Docker runs the same CLI in a fresh Linux container and rewrites `test/commands.md` with the actual output. Review the diff after the run; expected error lines are part of the negative test cases.
+
+```bash
+cd modules/076-skills-management-system/tools_py
+docker build -t skills-python-smoke -f test/Dockerfile .
+docker run --rm -v ./test:/app/test skills-python-smoke
+git diff -- test/commands.md
+```
+
+On Windows PowerShell, use the equivalent bind mount `docker run --rm -v "${PWD}/test:/app/test" skills-python-smoke`.
+
+### Step 33 — Compare the implementations
+
+Use the same temporary or `work/076-task/` skills repository with each edition. Compare `skills help`, `skills list --json`, `skills init`, `skills push`, and `skills pull`. Read [`tools_py/go-node-differences.md`](tools_py/go-node-differences.md) for documented differences that were intentionally preserved as research findings rather than silently changing Go or Node.js.
+
+### What happened
+
+You now have three implementations of one tools-agnostic workflow. The shared contract is more important than the implementation language: a project can initialize with one edition and continue with another because `skills.json`, `.manifest/`, and the `instructions/` sparse clone are compatible.
+
+---
+
 ## Success Criteria
 
 - ✅ `skills-repo/` created as a local Git repository with `.manifest/` folder (or demo initialized via setup script)
@@ -1049,6 +1115,8 @@ You should see all global skills as ✅ active, with descriptions and owners.
 - ✅ `skills list` shows correct active/inactive skill counts for each workspace
 - ✅ `skills push` created a branch in `skills-repo` 
 - ✅ `skills pull` synced the merged change back to the workspace
+- ✅ Python edition ran from source and passed its unit/integration suite
+- ✅ Python Docker smoke test produced a reviewed `commands.md` snapshot
 - ✅ (Part 7) Personal skills repository created and linked to your real project directory
 
 ## Understanding Check
@@ -1077,9 +1145,9 @@ You should see all global skills as ✅ active, with descriptions and owners.
 
 > Both are `.manifest/<name>.json` files. A group manifest is the entry point referenced in `skills init --groups`. A sub-config is a shared building block that multiple group manifests can reference — it avoids duplicating the same skill list across several group files.
 
-**7. The `skills` CLI is described as tools-agnostic. What does that mean in practice?**
+**7. The `skills` CLI is described as tools-agnostic. What does that mean in practice, and how does the Python port demonstrate it?**
 
-> The SKILL.md files are plain Markdown with no IDE-specific syntax. They work identically whether loaded by VSCode Copilot, Cursor, Claude Code, or a raw API call. IDE-specific behavior (e.g., `applyTo:` patterns) lives in thin adapter wrappers at the IDE level — not in the skill content itself.
+> The SKILL.md files are plain Markdown with no IDE-specific syntax. They work identically whether loaded by VSCode Copilot, Cursor, Claude Code, or a raw API call. IDE-specific behavior (e.g., `applyTo:` patterns) lives in thin adapter wrappers at the IDE level — not in the skill content itself. The Python port demonstrates that the CLI contract and repository data format are also independent of the implementation language.
 
 ## Troubleshooting
 
@@ -1101,9 +1169,19 @@ The branch you're pushing to is checked out in the remote. This can happen if yo
 **Sparse checkout shows extra directories**
 Run `git sparse-checkout reapply` inside `instructions/` to force reapply the sparse filter.
 
+**Python reports `No module named skills_cli`**
+Run the direct launcher from `tools_py/`: `python skills.py ...` on Windows or `python3 ./skills.py ...` on macOS/Linux. A portable Python distribution may use an isolated import path.
+
+**Python CLI output fails on a Windows code page**
+Use the included `skills.py` launcher. It configures UTF-8 output before running the command.
+
+**Docker smoke output is empty**
+Rebuild the image from `tools_py/` and make sure the image contains `/workspace`; the included `test/Dockerfile` creates it and the runner uses it as the clean test root.
+
 ## Next Steps
 
 - **Module 077** (coming soon): Evaluate skill quality with automated evals (`evals.json` test cases run against LLM)
 - Add new skills to your team repository and propose them via PR
 - Configure branch protection rules in your Git host to enforce the governance model
 - Use `SKILL.md` from `tools/SKILL.md` to guide your AI agent through any setup questions
+- Use `tools_py/SKILL.md` when your team wants the Python implementation or needs to inspect the standard-library reference.
