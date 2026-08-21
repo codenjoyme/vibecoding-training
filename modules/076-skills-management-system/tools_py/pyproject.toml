@@ -10,13 +10,13 @@ requires-python = ">=3.10"
 dependencies = []
 
 [project.scripts]
-skills = "skills_cli.__main__:main"
+skills = "scripts.main:main"
 
 [tool.setuptools]
 include-package-data = true
 
 [tool.setuptools.packages.find]
-include = ["skills_cli*"]
+include = ["scripts*"]
 
-[tool.setuptools.package-data]
-skills_cli = ["SKILL-CLI.md"]
+[tool.setuptools.data-files]
+"" = ["SKILL-CLI.md"]

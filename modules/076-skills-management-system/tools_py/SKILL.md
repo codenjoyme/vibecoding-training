@@ -1,118 +1,455 @@
----
-name: skills-management-python
-description: Manage shared AI instruction skills with the Python Skills CLI and Git sparse checkout.
-version: 1.0.0
----
+# Skills Management System — SKILL.md (Python Edition)
 
-# Skills Management System - Python Edition
+> **This file is both a human guide and an AI skill.** When an AI agent reads this file, it gains full context on how to set up, operate, and manage the skills management system using the Python CLI. Use it as an onboarding script: share it with your AI agent and ask it to guide you through any step.
 
-This file is both a human guide and an AI skill. It describes the Python implementation of the Skills Management System, its command contract, and the workflow an AI agent should follow when setting it up or operating it.
+---
 
 ## What This System Does
 
-The system keeps AI instructions in a central Git repository and gives each project only the skills selected by its manifests. The Python CLI preserves the Go and Node.js interface while using Python's standard library and the system `git` executable.
+The skills management system solves a specific scaling problem: as a team accumulates AI instructions, a single shared folder breaks down — merge conflicts, everyone seeing all instructions, no ownership model.
 
-| Capability | Implementation |
+This system provides:
+
+| Feature | Implementation |
 |---|---|
-| Shared source of truth | Central Git repository containing one folder per skill |
-| Project selection | `.manifest/` JSON files with global, group, and sub-config entries |
-| Minimal local checkout | Git cone-mode sparse checkout |
-| Team contribution | Feature branch, commits, push, and review/PR URL |
-| Project customization | `skills.json` with groups, extra skills, and exclusions |
-| AI support | `skills ai-help` prints `SKILL-CLI.md` |
+| Single source of truth | Central Git repository for all skills |
+| Per-project selection | `.manifest/<group>.json` defines which skills a project uses |
+| No duplication | Sparse checkout — each workspace has only what it needs |
+| Team contribution workflow | PR-based: branch → review → merge → everyone updates |
+| Automation | `skills` CLI handles all Git operations |
 
-## Port Layout
+---
 
-The `tools_py/` folder contains `pyproject.toml`, `skills.py`, this `SKILL.md`, `SKILL-CLI.md`, `README.md`, `go-node-differences.md`, the `skills_cli/` package, and `tests/`. The package has `commands/` for `root`, `help`, `init`, `pull`, `push`, `list`, `create`, `toggle`, `aihelp`, and `initrepo`; `lib/` contains `config`, `manifest`, `gitops`, and `errors`.
+## Architecture Overview
 
-The direct `skills.py` launcher supports isolated portable Python distributions. A regular Python installation can also use `python -m skills_cli`.
-
-## Prerequisites
-
-- Python 3.10 or newer.
-- Git 2.25 or newer with a configured user identity.
-- Access to the central skills repository.
-- A GitHub/GitLab token or SSH key when pushing to a remote host.
-
-Check `python --version` and `git --version` before setup.
-
-## Installation and Launch
-
-From `tools_py/`, run `python .\skills.py help` on Windows or `python3 ./skills.py help` on macOS/Linux. On a regular Python installation, `python -m skills_cli help` is also supported.
-
-To install a local `skills` command, run `python -m pip install .` and then `skills help`. Use `python -m pip install --editable .` for development. The runtime has no third-party dependencies. Git arguments are passed as an argument list, never through a shell command string.
-
-## Central Repository Structure
-
-```text
-central-skills-repo/
+```
+central-skills-repo/          ← shared Git repo (one per organization)
 ├── .manifest/
-│   ├── _global.json
-│   ├── _agents.json
-│   ├── <group-name>.json
-│   └── <sub-config>.json
+│   ├── _global.json          ← skills for everyone (sorted first)
+│   ├── _agents.json          ← IDE/tool-specific bindings (sorted first)
+│   ├── <group-name>.json     ← per-project or per-team skills
+│   └── security.json         ← example sub-config (shared thematic group)
 ├── code-review-base/
+│   ├── SKILL.md              ← plain Markdown, IDE-agnostic instruction content
+│   └── info.json             ← owner, description metadata
+├── security-guidelines/
 │   ├── SKILL.md
 │   └── info.json
 └── ...
+
+project-workspace/            ← a developer's local project
+├── skills.json               ← local workspace configuration
+└── instructions/             ← sparse clone of central-skills-repo (has .git)
+    ├── .git/
+    ├── .manifest/
+    │   ├── _global.json      ← tracked: universal skills
+    │   ├── project-alpha.json← tracked: group config
+    ├── code-review-base/     ← included (in project's groups)
+    └── security-guidelines/  ← included
+    # style-guidelines/ NOT here (not in this project's groups)
 ```
 
-`_global.json` applies skills to every workspace. Group files list skills and reference reusable `sub-configs`. Each skill is a top-level folder with `SKILL.md`; `info.json` is recommended for metadata. Its fields are only `description` and `owner`.
+### How the AI agent reads skills
 
-## Resolution Rules
+Once `skills init` runs, your AI agent can discover and load skill content from:
+```
+instructions/<skill-name>/SKILL.md
+```
 
-The resolver applies `_global.json` skills, selected group skills, recursively referenced `sub-configs`, deduplication and sorting, `extra_skills`, and finally `excluded_skills`. Exclusions override every other source. Sub-config traversal has cycle protection. A missing explicitly selected group is an error; a missing nested sub-config is warned about and skipped.
+No manual prompt assembly needed. The agent scans the local workspace and loads relevant SKILL.md files as context.
 
-## Workspace Configuration
+---
 
-`skills init` writes `skills.json` in the project root with `repo_url`, `groups`, `extra_skills`, and `excluded_skills`. Active skills are resolved dynamically from the cloned manifests; the CLI does not persist a second `skills` list.
+## Manifest Files Reference
 
-## Command Reference
+### `_global.json`
 
-### `skills init`
+Skills applied to **every** workspace, regardless of groups.
 
-Use `skills init --repo <url-or-path> [--groups <group1>[,<group2>...]] [group...]` to clone into `instructions/`, resolve manifests, configure sparse checkout, and write `skills.json`. Groups are optional; without them only `_global.json` is used. If `skills.json` exists and `--repo` is omitted, the command reclones from the saved configuration.
+```json
+{
+  "skills": ["creating-instructions", "iterative-prompting"]
+}
+```
 
-### `skills pull`
+### `_agents.json`
 
-Use `skills pull` to check out the detected default branch and run `git pull origin <branch>`.
+IDE/tool-specific skill bindings.
 
-### `skills push`
+```json
+{
+  "copilot": ["agent-copilot"],
+  "cursor": [],
+  "vscode": []
+}
+```
 
-Use `skills push <skill-name> [--groups <group1> <group2> ...]`. The command creates or recreates `feature/<skill-name>-update`, commits the skill changes, optionally creates or updates group manifests and commits them on the same branch, pushes to `origin`, and prints a GitHub/GitLab PR URL when supported. The local clone returns to its default branch.
+### `<group-name>.json`
 
-### `skills list`
+Per-project or per-team skill selection. Can reference sub-configs.
 
-Use `skills list`, `skills list --verbose`, or `skills list --json`. The command lists top-level skills from Git and marks active skills. `--verbose` shows metadata from `info.json`. `--json` emits an indented array with `name`, `active`, `description`, and `owner` when available. Sparse-excluded metadata is read with `git show`.
+```json
+{
+  "skills": ["code-review-base", "style-guidelines"],
+  "sub-configs": ["security"]
+}
+```
 
-### `skills create`
+### Sub-config (e.g., `security.json`)
 
-Use `skills create <skill-name>` to create `instructions/<skill-name>/SKILL.md` and `info.json`, register the skill in `extra_skills`, and extend sparse checkout. Edit the files, then use `skills push <skill-name>`.
+Reusable thematic group — reference it from multiple group manifests.
 
-### `skills enable`
+```json
+{
+  "skills": ["security-guidelines", "owasp-top10"],
+  "sub-configs": []
+}
+```
 
-Use `skills enable group <group-name>` to append a group to `groups`, or `skills enable <skill-name>` to append an individual skill to `extra_skills`. If the individual skill is excluded, enable removes it from `excluded_skills`. Sparse checkout is reapplied immediately.
+**Resolution order:** `_global.json` skills + group skills + sub-config skills (deduped, sorted).
 
-### `skills disable`
+---
 
-Use `skills disable group <group-name>` to remove a group, or `skills disable <skill-name>` to add an individual skill to `excluded_skills`. Uncommitted changes block removal. `--force` stashes tracked and untracked files with `git stash push -u`, then reapplies sparse checkout.
+## CLI Reference
 
-### `skills init-repo`
+### Installation
 
-Use `skills init-repo <folder-name>` to create `.manifest/_global.json`, `.manifest/group-1.json`, `.manifest/sub-group.json`, a `skills-cli/` starter skill containing the compact CLI reference, its `info.json`, and `.gitignore`. It does not run Git initialization. In the new folder, run `git init`, `git add .`, and `git commit -m "init: skills repository"`.
+The Python edition runs from `scripts/main.py` and has no third-party runtime dependencies.
 
-### `skills ai-help` and `skills help`
+#### Prerequisites
 
-Use `skills ai-help` to print `SKILL-CLI.md`, or `skills help` to print the command list, flags, and examples.
+- **Python 3.10+** — use the system installation or a portable distribution
+- **git 2.25+** — required for sparse checkout
+- A configured Git identity for `skills push` commits
 
-## AI Agent Workflow
+Verify:
+```bash
+python --version
+git --version
+```
 
-When an agent reads this skill, it should check Python, Git, and CLI availability; detect the operating system; ask for the repository URL/path and groups if unknown; run `skills init --repo ...` from the project root; explain active skills with `skills list --verbose`; use `skills pull` for updates and `skills push <name>` for reviewed changes; and never print credentials, tokens, or secret-bearing URLs.
+#### Run from the source checkout
 
-## Testing
+From `tools_py/`:
+```powershell
+python scripts\main.py help
+```
+```bash
+python3 ./scripts/main.py help
+```
 
-Run `python tests/run.py` from `tools_py/`. The included launcher is recommended because some portable Python distributions use an isolated import path. The Docker smoke test is built with `docker build -t skills-python-smoke -f test/Dockerfile .`, run with `docker run --rm -v ./test:/app/test skills-python-smoke`, and reviewed with `git diff test/commands.md`. The smoke runner treats `test/commands.md` as both command source and output snapshot, replacing only output fences on rerun.
+On a regular Python installation, the package entry point is also available:
+```bash
+python -m scripts.main help
+```
 
-## Compatibility
+#### Install as a local command
 
-The port preserves command names, flags, JSON fields, commit messages, folder names, and user-facing workflow from the Go and Node.js editions. Differences found while comparing them are recorded in [`go-node-differences.md`](./go-node-differences.md).
+From `tools_py/`:
+```bash
+python -m pip install .
+skills help
+```
+
+For development:
+```bash
+python -m pip install --editable .
+```
+
+The direct launcher is recommended for isolated portable Python distributions because it adds the source directory to `sys.path` and configures UTF-8 output.
+
+---
+
+### Commands
+
+#### `skills init`
+
+Initialize a workspace. Clones the central skills repo, resolves skills for the specified groups, applies sparse checkout.
+
+```bash
+skills init --repo <url-or-local-path> --groups <group1>[,<group2>...] [group3 ...]
+```
+
+**Flags:**
+- `--repo` *(required)* — URL or local filesystem path to the central skills repository
+- `--groups` *(optional)* — comma-separated list of group names, or space-separated positional args
+
+**Examples:**
+```bash
+# Remote GitHub repo
+skills init --repo https://github.com/org/skills-repo --groups backend
+
+# Local path (for testing)
+skills init --repo ../skills-repo --groups backend,security
+
+# Multiple groups, positional style
+skills init --repo ../skills-repo backend security
+```
+
+**Creates:**
+- `instructions/` — sparse clone of the central repo (contains `.git`)
+- `skills.json` — workspace configuration in project root
+
+If `--groups` is omitted, only `_global.json` skills are initialized. If `skills.json` already exists and no `--repo` is supplied, the saved configuration is used to reinitialize the workspace.
+
+#### `skills pull`
+
+Update local skills from the remote repository.
+
+```bash
+skills pull
+```
+
+Runs `git pull` in `instructions/`. Always checks out the default branch first to avoid tracking issues.
+
+#### `skills push <skill-name>`
+
+Propose a change to a skill via a branch and Pull Request.
+
+```bash
+skills push code-review-base
+```
+
+**What it does:**
+1. Creates branch `feature/<skill-name>-update` in `instructions/`
+2. Stages all changes in `instructions/<skill-name>/`
+3. Commits with message `feat(<skill-name>): update skill instructions`
+4. Pushes to origin
+5. Prints PR creation URL (for GitHub/GitLab remotes)
+
+#### `skills list`
+
+List all skills in the repository with active/inactive status.
+
+```bash
+skills list
+```
+
+Active skills (checked out in this workspace) are marked ✅. Inactive skills exist in the repo but aren't part of your groups. Use `--verbose` to show `info.json` metadata or `--json` for a structured array.
+
+```bash
+skills list --verbose
+skills list --json
+```
+
+#### `skills create <skill-name>`
+
+Create `instructions/<skill-name>/SKILL.md` and `info.json` templates, register the skill in `extra_skills`, and extend sparse checkout.
+
+```bash
+skills create my-custom-skill
+```
+
+#### `skills enable`
+
+Enable a group or an individual skill and immediately reapply sparse checkout:
+
+```bash
+skills enable group security
+skills enable my-custom-skill
+```
+
+Groups are stored in `groups`; individual additions are stored in `extra_skills`. Enabling a previously excluded individual skill removes it from `excluded_skills`.
+
+#### `skills disable`
+
+Disable a group or exclude an individual skill:
+
+```bash
+skills disable group security
+skills disable security-guidelines
+skills disable security-guidelines --force
+```
+
+The command refuses to remove uncommitted skill changes unless `--force` is used. Forced disable stashes tracked and untracked changes with `git stash push -u` before sparse checkout is reapplied.
+
+#### `skills init-repo <folder-name>`
+
+Create a central skills repository skeleton with `.manifest/` example files and the `skills-cli/` starter skill. The command prints the follow-up `git init` commands; it does not initialize Git itself.
+
+```bash
+skills init-repo my-skills-repo
+```
+
+#### `skills ai-help`
+
+Print the compact `SKILL-CLI.md` reference for AI agents:
+
+```bash
+skills ai-help
+```
+
+#### `skills help`
+
+Show usage information and all available commands.
+
+```bash
+skills help
+```
+
+---
+
+## Skill Directory Structure
+
+Each skill in the central repository must have:
+
+```
+<skill-name>/
+├── SKILL.md     ← required: instruction content (plain Markdown, AI-readable)
+└── info.json    ← required: metadata (owner, description)
+```
+
+Optional:
+```
+<skill-name>/
+└── evals.json   ← coming soon: test cases for automated skill validation
+```
+
+### SKILL.md conventions
+
+- Write in plain English, clear and direct
+- No IDE-specific syntax (`applyTo:`, `globs:`, frontmatter for Cursor/Copilot)
+- Structure with `## Purpose`, `## When to Use`, `## How to Apply` sections
+- Cross-references to other skills are allowed: "See also: `code-review-base`"
+- Target reading time: 2–5 minutes per skill
+
+### info.json required fields
+
+```json
+{
+  "description": "One sentence explaining what this skill does.",
+  "owner": "team-or-person@example.com"
+}
+```
+
+---
+
+## AI Agent Setup Guide
+
+When an AI agent reads this SKILL.md, it can perform the following setup steps on behalf of a user (including beginners):
+
+### Step 1 — Check prerequisites
+```bash
+python --version # must be 3.10+
+git --version    # must be 2.25+
+python scripts/main.py help
+```
+
+If `skills` is not installed: run `python -m pip install .` from `tools_py/`, or use `python scripts/main.py ...` directly.
+
+### Step 2 — Create skills repository (first time, for team admin)
+```bash
+mkdir my-skills-repo && cd my-skills-repo
+git init
+git config receive.denyCurrentBranch warn
+
+mkdir .manifest
+# Create _global.json, _agents.json, group configs
+# Create skill directories with SKILL.md + README.md
+git add . && git commit -m "init: skills repository"
+```
+
+### Step 3 — Initialize a project workspace
+```bash
+cd /path/to/my-project
+skills init --repo <skills-repo-url-or-path> [--groups <my-group>]
+```
+
+### Step 4 — Verify
+```bash
+skills list
+ls instructions/
+```
+
+### Step 5 — Working with skills daily
+```bash
+skills pull                    # get latest
+# edit instructions/<skill>/SKILL.md
+skills push <skill-name>       # propose change via PR
+```
+
+---
+
+## Snapshot Test Framework
+
+The Python test surface is snapshot-only and matches the Go and Node.js test structure:
+
+```text
+scripts/test/
+├── README.md
+├── commands.md
+├── run-tests.sh
+└── Dockerfile
+```
+
+Build and run it from `tools_py/`:
+
+```bash
+docker build -t skills-python-smoke -f scripts/test/Dockerfile .
+docker run --rm -v ./scripts/test:/app/test skills-python-smoke
+git diff scripts/test/commands.md
+```
+
+`commands.md` is both the command source and the golden snapshot. The runner replaces only output fences, so headings and command lines remain stable. The Python edition intentionally has no separate unit-test directory.
+
+---
+
+## Differences across Editions
+
+| Aspect | Go edition (`tools/`) | Node.js edition (`tools2/`) | Python edition (`tools_py/`) |
+|---|---|---|---|
+| Runtime | None (compiled binary) | Node.js 18+ required | Python 3.10+ required |
+| Installation | Copy binary to PATH | `npm install -g git+<url>` | `python -m pip install .` or direct launcher |
+| Build required | Only if no pre-built binary | Never (dist/ is committed) | No build step |
+| CLI interface | Identical | Identical | Identical |
+| Config format | Identical | Identical | Identical |
+| Manifest format | Identical | Identical | Identical |
+| Git operations | `os/exec` → system `git` | `child_process.execSync` → system `git` | `subprocess.run` → system `git` |
+| Platform | Windows/macOS/Linux | Windows/macOS/Linux | Windows/macOS/Linux |
+
+All editions are fully interoperable — the `instructions/` folder and `.manifest/` configs are 100% compatible. Teams can mix the CLIs.
+
+---
+
+## Governance Recommendations
+
+> These are advisory guidelines. Enforcement is through your Git host's branch protection, not the CLI.
+
+| Skill type | Approvals required | Reviewer |
+|---|---|---|
+| Regular skill | 1 | Skill owner (from README.md) |
+| Global skill (`_global.json`) | 2 | Any 2 senior team members |
+| Sub-config | 1 | Sub-config owner |
+
+**PR best practices:**
+- One skill change per PR (smaller = easier review)
+- Include a brief description of why the change improves behavior
+- Test the skill change locally before pushing
+
+---
+
+## Adding the System to a New IDE
+
+Since SKILL.md files are plain Markdown, they work with any IDE. Add a thin adapter wrapper:
+
+**VSCode (Copilot):** `.github/prompts/skills-context.prompt.md`
+```markdown
+Load all SKILL.md files from `instructions/` as context for this workspace.
+```
+
+**Cursor:** `.cursor/rules/skills-context.mdc`
+```
+---
+description: Load team skills from instructions/
+alwaysApply: true
+---
+Read all SKILL.md files in instructions/**/ and apply them as context.
+```
+
+**Claude Code:** `.claude/CLAUDE.md` — reference this SKILL.md file directly.
+
+---
+
+## evals.json Preview *(coming soon)*
+
+In a future release, each skill can have an `evals.json` file with automated test cases for validating skill behaviour.

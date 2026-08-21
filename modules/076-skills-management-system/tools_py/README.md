@@ -5,17 +5,31 @@ This folder contains the Python port of the Skills Management System. It keeps t
 ## Run from the source checkout
 
 ```powershell
-python skills.py help
+python scripts\main.py help
 ```
 
 ```bash
-python skills.py help
+python3 ./scripts/main.py help
 ```
 
-The direct launcher is useful on Windows portable Python distributions that do not add the current folder to `sys.path`. On a regular Python installation, the package entry point also works:
+The direct launcher is useful on Windows portable Python distributions that do not add the current folder to `sys.path`. The source layout mirrors the Go edition:
+
+```text
+tools_py/
+├── SKILL.md
+├── SKILL-CLI.md
+├── README.md
+└── scripts/
+	├── main.py
+	├── cmd/
+	├── internal/
+	└── test/
+```
+
+On a regular Python installation, the package entry point also works:
 
 ```bash
-python -m skills_cli help
+python -m scripts.main help
 ```
 
 ## Optional installation
@@ -31,18 +45,19 @@ The project has no runtime dependencies. It requires Python 3.10 or newer and a 
 
 ## Tests
 
-Run the standard-library unit and integration tests:
+Run the snapshot smoke test from the source checkout:
 
 ```bash
-python tests/run.py
+cd tools_py
+docker build -t skills-python-smoke -f scripts/test/Dockerfile .
+docker run --rm -v ./scripts/test:/app/test skills-python-smoke
+git diff scripts/test/commands.md
 ```
 
-The included launcher is recommended because some portable Python distributions use an isolated import path.
-
-The Docker smoke-test files in `test/` execute the same command-driven workflow used by the Go and Node.js editions.
+The snapshot files in `scripts/test/` use the same four-file structure and 14-phase command layout as the Go and Node.js editions. There is no separate unit-test tree; validation is performed by reviewing the generated snapshot diff.
 
 ## Documentation
 
 - `SKILL.md` is the full operator guide for an AI agent.
-- `SKILL-CLI.md` is the compact reference printed by `python skills.py ai-help`.
-- `go-node-differences.md` records behavior differences found while comparing the source implementations.
+- `SKILL-CLI.md` is the compact reference printed by `python scripts/main.py ai-help`.
+- The translated comparison and test reports are kept in `work/076-task/python/` with the development log.
