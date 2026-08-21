@@ -34,12 +34,26 @@ python -m scripts.main help
 
 ## Optional installation
 
-From this folder, install the local project to expose the `skills` command:
+From the `tools_py/` project root, install the local project to expose the `skills` command:
 
 ```bash
 python -m pip install .
 skills help
 ```
+
+The project metadata file is in `tools_py/`, not in `tools_py/scripts/`. If your terminal prompt ends with `tools_py\scripts>`, install the parent project instead:
+
+```powershell
+# Windows PowerShell, from tools_py/scripts/
+python -m pip install ..
+```
+
+```bash
+# macOS/Linux, from tools_py/scripts/
+python3 -m pip install ..
+```
+
+The equivalent editable command is `python -m pip install --editable ..` (or `python3` on macOS/Linux). Running `python -m pip install .` from `scripts/` fails because that directory has no `pyproject.toml`.
 
 The project has no runtime dependencies. It requires Python 3.10 or newer and a system `git` executable.
 

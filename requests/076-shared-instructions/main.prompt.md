@@ -1421,3 +1421,58 @@ go
 - `work/076-task/python` — существующий workspace отвечает на `list --json` через новый launcher.
 - Установка wheel-пакета — `scripts.main` и root `SKILL-CLI.md` работают, старого `skills_cli` нет.
 - Docker snapshot — 14 фаз, 166 команд, без неожиданных ошибок.
+
+## UPD41
+
+Смолтри я хочу установить скрипт сам и попробовать. Я вижу в SKILL.md такую инфу
+```
+#### Install as a local command
+
+From `tools_py/`:
+`python -m pip install .`
+`skills help`
+
+For development:
+`python -m pip install --editable .`
+```
+Но пробуя запустить вижу
+```
+PS C:\Java\CopipotTraining\vibecoding-for-managers\modules\076-skills-management-system\tools_py\scripts> python -m pip install .
+
+[notice] A new release of pip is available: 26.0.1 -> 26.2.1
+[notice] To update, run: python.exe -m pip install --upgrade pip
+ERROR: Directory '.' is not installable. Neither 'setup.py' nor 'pyproject.toml' found.
+```
+Это раз. Наверное надо починить.go
+
+### RESULT (UPD41)
+
+Причина ошибки найдена: команда была запущена из `tools_py/scripts/`, а `pyproject.toml` находится на уровень выше, в корне `tools_py/`. Поэтому `pip install .` искал project metadata в каталоге `scripts/` и закономерно завершался с ошибкой.
+
+Уточнено в [`tools_py/SKILL.md`](../../modules/076-skills-management-system/tools_py/SKILL.md) и [`tools_py/README.md`](../../modules/076-skills-management-system/tools_py/README.md) с учётом расположения [`tools_py/pyproject.toml`](../../modules/076-skills-management-system/tools_py/pyproject.toml):
+
+- Из корня `tools_py/`:
+
+  ```powershell
+  python -m pip install .
+  skills help
+  python -m pip install --editable .
+  ```
+
+- Если текущий каталог — `tools_py/scripts/`, нужно устанавливать родительский проект:
+
+  ```powershell
+  python -m pip install ..
+  python -m pip install --editable ..
+  ```
+
+- В документации явно объяснено, почему `python -m pip install .` из `scripts/` не работает: в этом каталоге нет `pyproject.toml`.
+- Packaging root оставлен единственным — второй `pyproject.toml` в `scripts/` не создавался.
+
+Проверено:
+
+- `pip install .` из `tools_py/` — успешно в изолированной target-папке.
+- `pip install ..` из `tools_py/scripts/` — успешно в изолированной target-папке.
+- `pip install --editable .. --dry-run` из `tools_py/scripts/` — backend подготовил editable metadata без ошибок.
+- В обоих установленных вариантах присутствует `scripts/main.py`, старого пакета `skills_cli` нет.
+- `python scripts/main.py help` и `ai-help` продолжают работать.

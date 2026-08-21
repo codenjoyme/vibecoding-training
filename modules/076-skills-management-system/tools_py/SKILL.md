@@ -145,16 +145,32 @@ python -m scripts.main help
 
 #### Install as a local command
 
-From `tools_py/`:
+From the `tools_py/` project root (the directory containing `pyproject.toml`):
 ```bash
 python -m pip install .
 skills help
 ```
 
-For development:
+For development from `tools_py/`:
 ```bash
 python -m pip install --editable .
 ```
+
+`pyproject.toml` is located in `tools_py/`, one level above `scripts/`. If your terminal is currently in `tools_py/scripts/`, use the parent directory explicitly:
+
+```powershell
+# Windows PowerShell, from tools_py/scripts/
+python -m pip install ..
+python -m pip install --editable ..
+```
+
+```bash
+# macOS/Linux, from tools_py/scripts/
+python3 -m pip install ..
+python3 -m pip install --editable ..
+```
+
+Do not use `python -m pip install .` from `tools_py/scripts/`: `.` is the `scripts/` directory, which contains the source packages but not the project metadata file.
 
 The direct launcher is recommended for isolated portable Python distributions because it adds the source directory to `sys.path` and configures UTF-8 output.
 
@@ -335,7 +351,7 @@ git --version    # must be 2.25+
 python scripts/main.py help
 ```
 
-If `skills` is not installed: run `python -m pip install .` from `tools_py/`, or use `python scripts/main.py ...` directly.
+If `skills` is not installed: run `python -m pip install .` from `tools_py/`, or run `python -m pip install ..` from `tools_py/scripts/`. You can also use `python scripts/main.py ...` directly.
 
 ### Step 2 — Create skills repository (first time, for team admin)
 ```bash
