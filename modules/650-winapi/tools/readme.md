@@ -12,11 +12,7 @@
 
 ![Final frame: snow falling on google.com, with the agent reasoning in the side panel](img/00-final-result.png)
 
-White snowflakes of varying size and speed are falling over `google.com`. The
-logo, search box, and buttons keep working (the canvas uses
-`pointer-events:none`). The right-hand panel shows the agent's chat — it
-located the Chrome process by itself, sent hotkeys, copied JS into the
-clipboard, defeated paste-protection, and saved the final screenshot.
+White snowflakes of varying size and speed are falling over `google.com`. The logo, search box, and buttons keep working (the canvas uses `pointer-events:none`). The right-hand panel shows the agent's chat — it located the Chrome process by itself, sent hotkeys, copied JS into the clipboard, defeated paste-protection, and saved the final screenshot.
 
 To reproduce this, you need to:
 
@@ -34,9 +30,7 @@ From the workspace root, in **PowerShell**:
 pwsh -ExecutionPolicy Bypass -File ./modules/650-winapi/tools/scripts/install.ps1
 ```
 
-The script is idempotent: it creates `.venv/` next to `server.py`, upgrades
-`pip`, and installs everything in `requirements.txt`. If your Python build is
-missing the `venv` module, it transparently falls back to `virtualenv`.
+The script is idempotent: it creates `.venv/` next to `server.py`, upgrades `pip`, and installs everything in `requirements.txt`. If your Python build is missing the `venv` module, it transparently falls back to `virtualenv`.
 
 > Requires **Python 3.10+** and **Windows**. The server will not load on
 > macOS or Linux (it depends on `pywin32` / `pywinauto`).
@@ -45,11 +39,7 @@ missing the `venv` module, it transparently falls back to `virtualenv`.
 
 ## Step 2 — Register the Server in VS Code
 
-Open `.vscode/mcp.json` at your workspace root and add the `winapi-mcp` block.
-If the file does not exist, create it; note that VS Code uses the key
-`"servers"` (Cursor would use `"mcpServers"`). Ready-to-copy templates live in
-[`config/.vscode/mcp.json`](config/.vscode/mcp.json) (and
-[`config/.cursor/mcp.json`](config/.cursor/mcp.json) for Cursor).
+Open `.vscode/mcp.json` at your workspace root and add the `winapi-mcp` block. If the file does not exist, create it; note that VS Code uses the key `"servers"` (Cursor would use `"mcpServers"`). Ready-to-copy templates live in [`config/.vscode/mcp.json`](config/.vscode/mcp.json) (and [`config/.cursor/mcp.json`](config/.cursor/mcp.json) for Cursor).
 
 ```jsonc
 {
@@ -66,23 +56,19 @@ If the file does not exist, create it; note that VS Code uses the key
 }
 ```
 
-Save the file. VS Code shows an inline action bar above the JSON block:
-**Start | Stop | Restart | N tools**. Click **Start**.
+Save the file. VS Code shows an inline action bar above the JSON block: **Start | Stop | Restart | N tools**. Click **Start**.
 
-In **Output → Model Context Protocol** you should see `Discovered 21 tools` —
-that means the server started and the MCP handshake succeeded.
+In **Output → Model Context Protocol** you should see `Discovered 21 tools` — that means the server started and the MCP handshake succeeded.
 
 ![mcp.json with winapi-mcp and the "Discovered 11 tools" log (the screenshot is from the original 11-tool build; after UPD8 the count is 21)](img/06-mcp-server-registered.png)
 
-The screenshot highlights: the `winapi-mcp` entry under `servers`, the inline
-`Running | 21 tools` indicator, and the `Discovered 21 tools` line in the log.
+The screenshot highlights: the `winapi-mcp` entry under `servers`, the inline `Running | 21 tools` indicator, and the `Discovered 21 tools` line in the log.
 
 ---
 
 ## Step 3 — Enable the Tools in the Chat
 
-Open Copilot Chat → switch to **Agent Mode** → click the wrench icon
-(Configure Tools). Find the `winapi-mcp` branch in the tree and make sure all
+Open Copilot Chat → switch to **Agent Mode** → click the wrench icon (Configure Tools). Find the `winapi-mcp` branch in the tree and make sure all
 11 checkboxes are ticked:
 
 ![Configure Tools — all winapi-mcp tools enabled](img/07-tools-enabled.png)
@@ -90,18 +76,14 @@ Open Copilot Chat → switch to **Agent Mode** → click the wrench icon
 Tool list (see [SKILL.md](SKILL.md) for full details):
 
 - `screenshot_window`, `screenshot_area` — screenshots
-- `mouse_move`, `mouse_click`, `mouse_click_window`, `mouse_drag`,
-  `mouse_scroll`, `mouse_position` — mouse
+- `mouse_move`, `mouse_click`, `mouse_click_window`, `mouse_drag`, `mouse_scroll`, `mouse_position` — mouse
 - `send_hotkey` — keyboard (hotkeys / named keys / text / sequences)
 - `clipboard_get`, `clipboard_set` — clipboard
-- `list_processes`, `window_list`, `window_focus`, `window_get_rect`,
-  `wait_for_window`, `window_tree`, `get_window_content` — process & window inspection
+- `list_processes`, `window_list`, `window_focus`, `window_get_rect`, `wait_for_window`, `window_tree`, `get_window_content` — process & window inspection
 - `find_element`, `click_element` — UI Automation by accessible name
 - `screen_size` — monitor dimensions
 
-> **If you just registered the server but the tool list is empty** — VS Code
-> discovers MCP servers at chat-session startup. Open a fresh chat (`+` next
-> to the model) or explicitly approve the new server via `Configure Tools`.
+> **If you just registered the server but the tool list is empty** — VS Code discovers MCP servers at chat-session startup. Open a fresh chat (`+` next to the model) or explicitly approve the new server via `Configure Tools`.
 
 ---
 
@@ -109,12 +91,9 @@ Tool list (see [SKILL.md](SKILL.md) for full details):
 
 Open a new Agent Mode chat and ask the agent something like:
 
-> Open Chrome on `google.com`, open the DevTools Console, and paste a
-> JavaScript snippet that draws falling snow over the page. Take a screenshot
-> after every step and explain what you see.
+> Open Chrome on `google.com`, open the DevTools Console, and paste a JavaScript snippet that draws falling snow over the page. Take a screenshot after every step and explain what you see.
 
-The agent will go through roughly the following route (each step → one MCP
-call):
+The agent will go through roughly the following route (each step → one MCP call):
 
 ### 4.1. Find and focus Chrome
 
@@ -165,8 +144,7 @@ send_hotkey pid=78812 sequence=[
 
 ### 4.4. Defeat paste-protection (one time per origin)
 
-By default Chrome blocks the first paste into the DevTools Console (self-XSS
-protection). The first attempt shows a yellow warning bar:
+By default Chrome blocks the first paste into the DevTools Console (self-XSS protection). The first attempt shows a yellow warning bar:
 
 ![04 — "Don't paste code into the DevTools Console" warning](img/04-paste-protection-warning.png)
 
@@ -201,40 +179,22 @@ across the Google UI.
 
 ## Lessons Learned
 
-- **`screenshot_window` captures the window's screen bbox, not its bitmap.**
-  If the target window is occluded, the screenshot shows whatever is on top.
-  Focus the window before each important screenshot via
-  `send_hotkey pid=...` (any safe key like ESC works) — `_focus_pid` has the
-  side effect of `set_focus()` + `restore()`.
-- **Hotkey-via-`pid` is more reliable than a global hotkey.** With `pid` the
-  server focuses the window first and only then sends keys — no more
-  "the keystroke went to the wrong window".
-- **`Ctrl+Shift+J` toggles Console.** If DevTools is already open on Console,
-  the second press closes it. Sometimes you need to send it twice, sometimes
-  not at all — verify with a screenshot.
-- **Chrome paste-protection is per-origin.** Once you typed `allow pasting`
-  on `google.com`, all later `^v` operations in that session work silently.
-- **`sequence` with `delay` solves race conditions.** Without `delay`, ENTER
-  can arrive before a long `^v` paste has actually landed in the input.
+- **`screenshot_window` captures the window's screen bbox, not its bitmap.** If the target window is occluded, the screenshot shows whatever is on top. Focus the window before each important screenshot via `send_hotkey pid=...` (any safe key like ESC works) — `_focus_pid` has the side effect of `set_focus()` + `restore()`.
+- **Hotkey-via-`pid` is more reliable than a global hotkey.** With `pid` the server focuses the window first and only then sends keys — no more "the keystroke went to the wrong window".
+- **`Ctrl+Shift+J` toggles Console.** If DevTools is already open on Console, the second press closes it. Sometimes you need to send it twice, sometimes not at all — verify with a screenshot.
+- **Chrome paste-protection is per-origin.** Once you typed `allow pasting` on `google.com`, all later `^v` operations in that session work silently.
+- **`sequence` with `delay` solves race conditions.** Without `delay`, ENTER can arrive before a long `^v` paste has actually landed in the input.
 
 ---
 
 ## Security
 
-This server **physically drives your machine**: it moves the mouse, types
-into whatever window is focused, and reads the screen. Only enable it for
-chats where you actively want UI automation, and disable / unregister it from
-`mcp.json` when you are done. The agent has no concept of "this is a
-sensitive window" — if your password manager is focused when `send_hotkey`
-fires with `text: "..."`, that text goes there.
+This server **physically drives your machine**: it moves the mouse, types into whatever window is focused, and reads the screen. Only enable it for chats where you actively want UI automation, and disable / unregister it from `mcp.json` when you are done. The agent has no concept of "this is a sensitive window" — if your password manager is focused when `send_hotkey` fires with `text: "..."`, that text goes there.
 
 ---
 
 ## Where to Go Next
 
-- [SKILL.md](SKILL.md) — full reference for every tool and its parameters
-  (agent-facing and deep-read for humans).
-- [Module walkthrough.md](../walkthrough.md) — step-by-step coverage of
-  everything, from install to writing your own MCP commands.
-- [scripts/server.py](scripts/server.py) — see how to plug in your own MCP
-  tool next to the existing 11.
+- [SKILL.md](SKILL.md) — full reference for every tool and its parameters (agent-facing and deep-read for humans).
+- [Module walkthrough.md](../walkthrough.md) — step-by-step coverage of everything, from install to writing your own MCP commands.
+- [scripts/server.py](scripts/server.py) — see how to plug in your own MCP tool next to the existing 11.
