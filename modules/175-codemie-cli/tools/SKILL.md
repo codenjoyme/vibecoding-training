@@ -1,5 +1,7 @@
 # CodeMie CLI FAQ
 
+> **Relationship to the source FAQ:** The original [CodeMie CLI FAQ](../../../requests/175-codemie-cli/CodeMie+CLI+FAQ.docx) is preserved unchanged. This file is its living, agent-readable operational supplement: the installation and platform FAQ establish the source baseline, while the GitHub Copilot relay, multi-model routing, daemon startup, profile checks, and analytics sections capture the module's later lessons. Use this file for current commands and troubleshooting rather than editing the source DOCX.
+
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
@@ -109,7 +111,9 @@ Verify:
 codemie --version
 ```
 
-Should print `0.0.54` or higher.
+Should print a version string. The exact version changes as the CLI is released; use the current version available to your organization.
+
+On Windows, if PowerShell resolves a blocked `.ps1` shim, use `npm.cmd` and `codemie.cmd` for the same commands. The package name is always `@codemieai/code`; do not install an unrelated package named `codemie`.
 
 If codemie is not recognized: [macOS](#macos-npm-not-found) · [Windows](#win-npm-not-found) · [Windows: PowerShell policy](#win-powershell-policy)
 
@@ -158,6 +162,8 @@ Confirm at minimum:
 ```
 
 Warnings about Python or uv are safe to ignore — see FAQ: [macOS](#macos-python-warnings) · [Windows](#win-python-warnings)
+
+For an existing installation, inspect the active profile with `codemie profile status`. If the SSO session has expired, refresh it with `codemie profile refresh` before restarting the proxy.
 
 ---
 
@@ -346,9 +352,17 @@ Close Cursor completely (`Cmd+Q` / `Alt+F4`) and reopen it — “Developer: Rel
 
 1. Go to Extensions (`Cmd+Shift+X` / `Ctrl+Shift+X`)
 2. Search for **Claude Code for VS Code** (publisher: Anthropic) and install it
-3. Open the command palette and run **Claude Code: Open**
+3. From a native terminal outside the IDE, connect the Claude Code extension:
 
-**Windows only:** VS Code also requires `claudeCode.claudeProcessWrapper` pointing to the `.exe` proxy (same setup as [Cursor › Set Up the Proxy](#2-set-up-the-proxy)). Without it you will get `spawn EINVAL`. Add to `%APPDATA%\Code\User\settings.json` (or `%APPDATA%\Code - Insiders\User\settings.json` for VS Code Insiders):
+```bash
+codemie proxy connect --vscode-claude-code --verbose
+```
+
+Use `--profile <name>` only for a non-active profile and `--insiders` for VS Code Insiders. The connector starts or reuses the local proxy and writes the managed `settings.json` values, including `claudeCode.disableLoginPrompt`, `ANTHROPIC_BASE_URL`, and `ANTHROPIC_AUTH_TOKEN`.
+
+4. Open the command palette and run **Claude Code: Open**. After the connector reports success, use **Developer: Reload Window**. Restart the IDE completely if the PATH itself was changed.
+
+If the connector is unavailable or the extension reports `spawn EINVAL`, use the Windows `.exe` wrapper from [Cursor › Set Up the Proxy](#2-set-up-the-proxy) and set `claudeCode.claudeProcessWrapper` in `%APPDATA%\Code\User\settings.json` (or `%APPDATA%\Code - Insiders\User\settings.json` for VS Code Insiders):
 
 ```json
 "claudeCode.claudeProcessWrapper": "C:\\Users\\<you>\\.local\\bin\\claude-codemie-proxy.exe",
@@ -356,6 +370,8 @@ Close Cursor completely (`Cmd+Q` / `Alt+F4`) and reopen it — “Developer: Rel
 ```
 
 Restart VS Code completely (not Reload Window) after saving.
+
+For GitHub Copilot Chat BYOK, use the separate connector `codemie proxy connect --vscode`; the relay and multi-model setup below remains available when you need model translation and tool-call fixes.
 
 ---
 
@@ -454,6 +470,13 @@ If you use bash instead of zsh, replace `~/.zshrc` with `~/.bash_profile`. Verif
 "claudeCode.environmentVariables": []
 ```
 
+Refresh the CodeMie session and reconnect the proxy:
+
+```bash
+codemie profile refresh
+codemie proxy connect --vscode-claude-code
+```
+
 ---
 
 #### Python and uv warnings in codemie doctor <a id="macos-python-warnings"></a>
@@ -503,6 +526,13 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
 
 Alternatively, use Command Prompt (`cmd`) — it does not have this restriction.
+
+When the PowerShell shim itself is the problem, use the Windows command shims directly:
+
+```powershell
+npm.cmd install --global @codemieai/code
+codemie.cmd --version
+```
 
 ---
 
@@ -920,11 +950,12 @@ Track token and session usage after running agents:
 codemie analytics --last 7d          # summary for last 7 days
 codemie analytics --last 7d -v       # per-session breakdown
 codemie analytics --last 30d --export csv   # export to file
+codemie analytics --last 30d --report --open # open an HTML report
 ```
 
 Filters: `--agent claude`, `--project myrepo`, `--from 2026-01-01 --to 2026-01-31`.
 
-Data appears only after the first agent session completes. More detailed analytics (with token cost breakdown) are available in the CodeMie web platform under the same URL used during `codemie setup`.
+Data appears only after the first agent session completes. CLI analytics summarizes local sessions and usage; organization-level cost or billing details belong in the CodeMie web platform under the same URL used during `codemie setup`, when your account has access. Never use an SSO password, cookie, or personal credential as the local proxy API key.
 
 ---
 

@@ -82,7 +82,7 @@ npm install -g @codemieai/code
 codemie --version
 ```
 
-Expected: `0.0.54` or higher.
+Expected: a version string. The exact version changes as the CLI is released; use the current version available to your organization.
 
 > **Why does IDE terminal matter?**  
 > IDE terminals (VS Code, Cursor) may have modified PATH environments that cause auth and PATH issues later. Always use the native terminal for setup steps.
@@ -173,18 +173,28 @@ claude --version
 
 Make the installed agent accessible from inside your editor.
 
-### VS Code (simplest path)
+### VS Code
 
 > **Windows only:** The first time you open Claude Code extension, it may show a login screen asking you to authenticate with Anthropic directly. Do not log in — your CodeMie SSO session is already active. Instead, configure `claudeCode.claudeProcessWrapper` as described below.
 >
 > ![Claude Code login screen on first open](img/01-claude-code-login-screen.png)
 
 1. Open VS Code
-2. Go to Extensions (`Ctrl+Shift+X` / `Cmd+Shift+X`)
+2. Go to Extensions
 3. Search **Claude Code for VS Code** (publisher: Anthropic) and install
-4. Open the command palette (`Ctrl+Shift+P`) and run **Claude Code: Open**
+4. In a native terminal outside the IDE, connect the extension to CodeMie:
 
-Claude Code will launch using the globally installed `claude` binary, which CodeMie already configured. No additional proxy setup needed for VS Code.
+```bash
+codemie proxy connect --vscode-claude-code --verbose
+```
+
+Use `--profile <name>` only when the required profile is not active. Add `--insiders` when the target is VS Code Insiders. The connector starts or reuses the local proxy and writes the managed `settings.json` values, including the local base URL and gateway token. It does not require a direct Anthropic login.
+
+5. Open the command palette and run **Claude Code: Open**
+
+For Windows, if the connector is unavailable or the extension reports `spawn EINVAL`, use the `.exe` wrapper described in the [VS Code reference](tools/SKILL.md#vs-code). After the connector reports success, use **Developer: Reload Window**. A full IDE restart is required when the PATH itself has changed.
+
+The CLI has a separate `--vscode` connector for GitHub Copilot Chat BYOK; that flow is covered in [Part 7](#part-7-github-copilot-integration-via-relay-proxy).
 
 ### Cursor (requires proxy)
 
@@ -231,6 +241,16 @@ Expected final output:
 
 All five checks should be green. Python/uv warnings are acceptable.
 
+Also confirm the active profile, proxy, and wrapper:
+
+```bash
+codemie profile status
+codemie proxy status --deep
+codemie-claude --help
+```
+
+The profile should be authenticated, the proxy should be reachable at its local URL, and the wrapper should print help without asking for a new credential.
+
 ### Step 2 — Send a test message from the IDE
 
 Open **Claude Code: Open** in VS Code (or the Cursor equivalent) and type:
@@ -261,9 +281,9 @@ GitHub Copilot's BYOK integration has a known bug: tool calls fail with `Unknown
 ### Step 1 — Patch the Copilot extension (one-time)
 
 ```powershell
-# Run from the directory that contains your VS Code Insiders installation
-# (e.g. C:\Java if VS Code Insiders is at C:\Java\VSCode-win32-x64-...\)
-cd C:\Java
+# Run from the directory that contains your VS Code installation
+# (e.g. C:\Tools if VS Code is at C:\Tools\VSCode-win32-x64-...\)
+cd C:\Tools
 python modules/175-codemie-cli/tools/patch_jn.py
 ```
 
@@ -277,7 +297,15 @@ Patched successfully!
 
 ### Step 2 — Configure chatLanguageModels.json
 
-Open `%APPDATA%\Code\User\chatLanguageModels.json` (or `%APPDATA%\Code\User\chatLanguageModels.json` for stable) and add this entry. A ready-to-use reference config is at [tools/chatLanguageModels.js](tools/chatLanguageModels.js).
+Open `%APPDATA%\Code - Insiders\User\chatLanguageModels.json` (or `%APPDATA%\Code\User\chatLanguageModels.json` for stable) and add this entry. A ready-to-use reference config is at [tools/chatLanguageModels.js](tools/chatLanguageModels.js).
+
+For the standard Copilot BYOK connector, the CLI can write the VS Code configuration for you:
+
+```powershell
+codemie proxy connect --vscode
+```
+
+Use the relay configuration below when you need the module's multi-model mapping, response patching, and tokenizer workaround.
 
 ```json
 {
@@ -325,6 +353,8 @@ cd modules/175-codemie-cli/tools
 
 This kills old processes, starts CodeMie proxy (port 4001), lists available models, and starts the relay as a background daemon (port 4002). Terminal is free after the script finishes.
 
+`start.ps1` is the bundled Windows/PowerShell helper. On macOS or Linux, start the CodeMie proxy with `codemie proxy start`, then run the relay with Node.js as described in the [manual startup reference](tools/SKILL.md#manual-startup-without-startps1).
+
 **Manual startup (alternative):**
 
 ```powershell
@@ -352,11 +382,13 @@ To add a new model (no code changes needed):
 ## Success Criteria
 
 - ✅ `node --version` and `npm --version` both print version numbers
-- ✅ `codemie --version` prints `0.0.54` or higher
+- ✅ `codemie --version` prints a current version string
 - ✅ `codemie doctor` shows all five required checks as ✓
 - ✅ At least one agent (`claude`, `gemini`, or `opencode`) is installed and responds to `--version`
 - ✅ The agent is reachable from inside VS Code or Cursor
 - ✅ GitHub Copilot Chat shows **Claude Sonnet 4.6 (CodeMie)** and **Claude Opus 4.6 (CodeMie)** in the model selector and responds to a test message
+- ✅ `codemie profile status`, `codemie proxy status --deep`, and `codemie doctor` report a usable setup
+- ✅ `codemie analytics --last 7d` can report the first completed agent session
 
 ---
 
@@ -368,8 +400,8 @@ To add a new model (no code changes needed):
 2. **What does `codemie doctor` check, and what does a Python/uv warning mean?**  
    *(Checks Node.js compat, auth, SSO, model availability, agent install. Python warnings are informational — they appear when Python or uv is not installed, but the core CLI still works.)*
 
-3. **Why does Cursor need a proxy script but VS Code does not?**  
-   *(Cursor's extension uses `claudeProcessWrapper` to intercept the claude binary path. VS Code's Claude Code extension calls the binary directly from PATH — which CodeMie already controls.)*
+3. **Why does Cursor use a manual proxy wrapper while VS Code has a CLI connector?**
+   *(The VS Code Claude extension has a supported `codemie proxy connect --vscode-claude-code` path that writes its managed settings. Cursor still needs the platform-specific `claudeProcessWrapper` described in `tools/SKILL.md`.)*
 
 4. **What is the `--supported` flag on `codemie install claude`?**  
    *(Installs the specific Claude Code version tested with your CodeMie CLI version, avoiding compatibility issues with the absolute latest release.)*
@@ -380,13 +412,16 @@ To add a new model (no code changes needed):
 6. **How do you use `tools/SKILL.md` for troubleshooting in an agentic workflow?**  
    *(Attach it to your AI agent chat session and describe the error — the agent reads the relevant FAQ section and provides adapted fix commands.)*
 
+7. **What is the difference between CLI analytics and cost tracking in the web platform?**
+   *(CLI analytics summarizes sessions, tokens, and exports from the local installation; the web platform is the place to check organization-level cost or billing details when your account has access.)*
+
 ---
 
 ## Troubleshooting
 
 | Symptom | Fix |
 |---|---|
-| `codemie: command not found` after install | Open a **new** terminal window (PATH is loaded at shell start) |
+| `codemie: command not found` after install | Open a **new** terminal window (PATH is loaded at shell start); on Windows try `codemie.cmd` |
 | Browser doesn't open during `codemie setup` | See [Browser doesn't open](tools/SKILL.md) in SKILL.md |
 | `EACCES: permission denied` on npm install | See [npm error EACCES](tools/SKILL.md) in SKILL.md (macOS) |
 | PowerShell blocks npm scripts | See [PowerShell blocks npm scripts](tools/SKILL.md) in SKILL.md (Windows) |
@@ -394,8 +429,31 @@ To add a new model (no code changes needed):
 | `codemie doctor` shows SSO expired | See [SSO session expired](tools/SKILL.md) in SKILL.md |
 | `spawn EINVAL` in VS Code or Cursor | Windows-specific — see [spawn EINVAL in Cursor](tools/SKILL.md) in SKILL.md |
 | `Unknown tokenizer: undefined` on tool calls | Run `patch_jn.py` and restart the relay (see [Fixing Tool Calls](tools/SKILL.md) in SKILL.md) |
+| `codemie proxy connect` targets the wrong VS Code installation | Add `--insiders` for VS Code Insiders; use `--vscode-claude-code` for the Claude extension and `--vscode` for Copilot BYOK |
+| PowerShell blocks `npm` or `codemie` | Use the `.cmd` shims or follow [PowerShell blocks npm scripts](tools/SKILL.md) in SKILL.md |
 
 For issues not listed here, attach `tools/SKILL.md` to your AI agent and describe what you see.
+
+---
+
+## Part 8: Track Usage and Cost
+
+### What we'll do
+
+Review completed agent sessions locally, then use the CodeMie web platform for organization-level cost details when those metrics are available to your account.
+
+### Step 1 — Generate a local usage summary
+
+Run these commands after at least one agent session has finished:
+
+```bash
+codemie analytics --last 7d
+codemie analytics --last 7d --verbose
+codemie analytics --last 30d --export csv
+codemie analytics --last 30d --report --open
+```
+
+The CLI report covers sessions and usage captured by the local installation. It is not a replacement for the platform's organization-level billing or cost view. Never enter an SSO password, cookie, or personal credential as a proxy API key.
 
 ---
 

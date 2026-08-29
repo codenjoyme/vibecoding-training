@@ -17,12 +17,14 @@
 - Multi-model support: adding multiple CodeMie models via `realModelId` field
 - Daemon mode: `start.ps1` launches both proxies as background processes
 - One-time Copilot extension patch (`patch_jn.py`) to fix tool call tokenizer bug
+- Profile and proxy health checks (`profile status`, `proxy status --deep`, `profile refresh`)
+- Usage analytics and cost visibility with `codemie analytics` and the web platform
 - Running `codemie doctor` to health-check the installation
 - Cross-platform troubleshooting with `tools/SKILL.md` as the reference guide
 
 ## Learning Outcome
 
-CodeMie CLI is installed, authenticated, and connected to your IDE. `codemie doctor` reports all required checks as green. You know how to hand the `tools/SKILL.md` reference to your AI agent to get context-aware troubleshooting help.
+CodeMie CLI is installed, authenticated, and connected to your IDE. You can distinguish the local proxy gateway key from your SSO credentials, inspect and refresh the active profile, verify the proxy, and use `codemie analytics` to review session usage. `codemie doctor` reports all required checks as green, and you know how to hand the [`tools/SKILL.md`](tools/SKILL.md) reference to your AI agent for context-aware troubleshooting.
 
 ## Prerequisites
 
@@ -50,7 +52,7 @@ Apply this module when:
 
 - [nodejs.org](https://nodejs.org) — LTS download
 - [python.org/downloads](https://python.org/downloads) — optional Python 3.13.x
-- `tools/SKILL.md` — complete CodeMie CLI FAQ and reference (load this into your AI agent during setup)
+- [`tools/SKILL.md`](tools/SKILL.md) — living CodeMie CLI FAQ and operational reference (load this into your AI agent during setup)
 - `tools/start.ps1` — one-command startup script (kill → proxy → list models → relay daemon)
 - `tools/codemie-relay.js` — relay proxy with multi-model support via `realModelId`
 - `tools/chatLanguageModels.js` — ready-to-use VS Code config template

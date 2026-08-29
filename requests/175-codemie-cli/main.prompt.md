@@ -1133,3 +1133,11 @@ Done. Both proxies running as daemons.
 ## UPD30
 
 Смотри мы с коллегой устанаваливали кодми cli и я попросил выэкстратить инструкцию. Вот что получилось. Посмотри на сам модуль и реши, что можно обогатить им из этой инструкции. Ее оставь без измернений. Так же посмотри чем-то можно из модуля ее обогатить. Мне интересно чтобы новые знания прорасли как в модуль тренинга (и Skill.md) так и назад в инструкцию. В общем подружи их. Но чтобы дублирования было минимально. go
+
+### RESULT (UPD30)
+
+- [modules/175-codemie-cli/about.md](../../modules/175-codemie-cli/about.md) — добавлены проверка профиля и прокси, обновление SSO-сессии и аналитика использования/стоимости в результатах обучения и ресурсах.
+- [modules/175-codemie-cli/walkthrough.md](../../modules/175-codemie-cli/walkthrough.md) — VS Code теперь настраивается через проверенный `codemie proxy connect --vscode-claude-code`; отдельно объяснён коннектор `--vscode` для Copilot BYOK, уточнены пути Insiders/Stable, relay для нескольких моделей, проверки `profile/proxy`, аналитика и troubleshooting.
+- [modules/175-codemie-cli/tools/SKILL.md](../../modules/175-codemie-cli/tools/SKILL.md) — оформлен как живое agent-readable дополнение к исходному FAQ: добавлены Windows `.cmd`-shims, профильные команды, VS Code-коннектор, fallback с `.exe`, SSO recovery и HTML-отчёт аналитики.
+- [CodeMie+CLI+FAQ.docx](CodeMie+CLI+FAQ.docx) — исходная инструкция оставлена без изменений; новые знания связаны с модулем через `tools/SKILL.md`, чтобы не дублировать FAQ в walkthrough.
+- Проверены команды `codemie.cmd --help`, `codemie.cmd proxy --help`, `codemie.cmd proxy connect --help`, `codemie.cmd profile --help` и `codemie.cmd analytics --help`; `git diff --check` проходит для изменённых документов.
