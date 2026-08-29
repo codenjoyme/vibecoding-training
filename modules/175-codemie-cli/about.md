@@ -53,6 +53,7 @@ Apply this module when:
 - [nodejs.org](https://nodejs.org) — LTS download
 - [python.org/downloads](https://python.org/downloads) — optional Python 3.13.x
 - [`tools/SKILL.md`](tools/SKILL.md) — living CodeMie CLI FAQ and operational reference (load this into your AI agent during setup)
+- [`tools/install-codemie-sso-claude-vscode.agent.md`](tools/install-codemie-sso-claude-vscode.agent.md) — short Windows bootstrap for terminal setup
 - `tools/start.ps1` — one-command startup script (kill → proxy → list models → relay daemon)
 - `tools/codemie-relay.js` — relay proxy with multi-model support via `realModelId`
 - `tools/chatLanguageModels.js` — ready-to-use VS Code config template

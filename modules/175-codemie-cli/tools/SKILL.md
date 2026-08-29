@@ -2,6 +2,8 @@
 
 > **Relationship to the source FAQ:** The original [CodeMie CLI FAQ](../../../requests/175-codemie-cli/CodeMie+CLI+FAQ.docx) is preserved unchanged. This file is its living, agent-readable operational supplement: the installation and platform FAQ establish the source baseline, while the GitHub Copilot relay, multi-model routing, daemon startup, profile checks, and analytics sections capture the module's later lessons. Use this file for current commands and troubleshooting rather than editing the source DOCX.
 
+> **Fast Windows path:** For a colleague's initial setup, follow the [quick Windows bootstrap instruction](install-codemie-sso-claude-vscode.agent.md). It intentionally covers terminal installation and validation only; use this FAQ for detailed troubleshooting and IDE integration.
+
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)

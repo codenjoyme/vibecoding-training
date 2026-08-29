@@ -22,6 +22,8 @@ See [module overview](about.md) for full prerequisites list.
 
 > **How to use `tools/SKILL.md`:** At any step where something doesn't work, open a chat with your AI agent, attach `tools/SKILL.md`, and ask: *"I followed step X but got error Y — what does the SKILL.md say to do?"* The document is written as an agent-readable reference so it gives precise, step-specific answers.
 
+> **Fast Windows path:** For a colleague's initial setup, follow the [quick Windows bootstrap instruction](tools/install-codemie-sso-claude-vscode.agent.md). It covers terminal installation and validation only; after its checks pass, continue here for IDE integration.
+
 ---
 
 ## Part 1: Install Node.js
