@@ -23,7 +23,7 @@ In CLI runtime there is no inbound channel after launch. The agent **must not en
 ### Quickstart (recommended)
 
 ```powershell
-python ./.dark-factory/bricks/iterative-prompt/scripts/run_cli.py [helm-log]
+python ./instructions/iterative-prompt/scripts/run_cli.py [helm-log]
 ```
 
 The positional `helm-log` argument is optional. Resolution order:
@@ -47,9 +47,9 @@ If you must run `copilot` by hand, do the same substitution yourself first:
 
 ```powershell
 # 1. Substitute the placeholder into a temp file
-$helm = (Resolve-Path .dark-factory/work/cli.prompt.md).Path
+$helm = (Resolve-Path .\work\cli.prompt.md).Path
 $agent = New-TemporaryFile | Rename-Item -NewName { $_.Name + '.md' } -PassThru
-(Get-Content .dark-factory/bricks/iterative-prompt/cli-agent.md -Raw).Replace('{{HELM_LOG}}', $helm) `
+(Get-Content .\instructions\iterative-prompt\cli-agent.md -Raw).Replace('{{HELM_LOG}}', $helm) `
   | Set-Content $agent.FullName -Encoding UTF8
 
 # 2. Launch copilot with the substituted file
@@ -71,10 +71,11 @@ The agent file [`cli-agent.md`](./cli-agent.md) starts with an imperative `EXECU
 1. **Bootstrap (once):**
    - Read [`SKILL.md`](./SKILL.md) for the pattern (UPD/RESULT, file format, atomic commits).
    - Read this file for the runtime rules.
-   - The helm-log path is **already in the agent prompt** (substituted from `{{HELM_LOG}}` by the runner before launch). No env-var lookup needed.2. **Loop forever (single long turn — DO NOT END THE TURN BETWEEN ITERATIONS):**
+   - The helm-log path is **already in the agent prompt** (substituted from `{{HELM_LOG}}` by the runner before launch). No env-var lookup is needed.
+2. **Loop forever (single long turn — DO NOT END THE TURN BETWEEN ITERATIONS):**
    1. Run watcher BLOCKING:
       ```
-      python ./.dark-factory/bricks/iterative-prompt/scripts/watch_prompt.py <helm-log>
+      python ./instructions/iterative-prompt/scripts/watch_prompt.py <helm-log>
       ```
    2. Watcher exit code:
       - `0` → new UPD with `go` ready → run `status.py --start --helm-log="<absolute-helm-log>" --upd-id="<UPD-id>"`, retain its `hash`, process it (read prompt, implement, write `### RESULT`, run `status.py --finish --started_from="<start-hash>"`, then make the atomic commit).

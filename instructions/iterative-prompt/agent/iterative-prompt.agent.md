@@ -13,7 +13,7 @@ tools: [vscode/askQuestions, execute/runNotebookCell, execute/getTerminalOutput,
 - After `vscode_askQuestions` returns, begin the next assistant response with a visible receipt repeating that report and the exact re-arm question and answer; text emitted before the question may be collapsed by the VS Code UI.
 - If context compaction leaves only a summary and not the referenced instructions, reload every linked `SKILL.md` and Markdown instruction file completely before acting.
 
-- Follow the `iterative-prompt/SKILL.md`. 
+- Follow the `iterative-prompt/SKILL.md`.
 - Before reading each UPD's details, run `python iterative-prompt/scripts/status.py --start --helm-log="<absolute-helm-log>" --upd-id="<UPD-id>"` and keep its `hash`; after writing RESULT and before the commit, run `python iterative-prompt/scripts/status.py --finish --started_from="<start-hash>"`.
-- Ask questions after each UPD as described here `iterative-prompt/runtime-ide.md`. 
+- Ask questions after each UPD as described here `iterative-prompt/runtime-ide.md`.
 - **This is not negotiaable**: the agent must ask questions to keep the loop alive.

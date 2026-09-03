@@ -1,8 +1,8 @@
 # Format: source_file_from_franchise_root destination_file_in_workspace_from_franchise_root [mode]
-#   mode (optional): 
-#     `keep-local` = copy only if the destination doesn't already 
+#   mode (optional):
+#     `keep-local` = copy only if the destination doesn't already
 #     `exist` = franchisee-owned seed — never clobber local edits on re-install
 #     `omitted` (default) = always overwrite (generated/registered files).
-# 
+#
 iterative-prompt/agent/iterative-prompt.agent.md .github/agents/iterative-prompt.agent.md
 iterative-prompt/prompts/iterative-prompt.prompt.md .github/prompts/iterative-prompt.prompt.md

@@ -136,7 +136,7 @@ When the user picks an option that means "I'll write the next UPD myself" (e.g. 
 Run via `run_in_terminal` with **`mode=async`**:
 
 ```powershell
-python ./.dark-factory/bricks/iterative-prompt/scripts/watch_prompt.py .dark-factory/work/main.prompt.md
+python ./instructions/iterative-prompt/scripts/watch_prompt.py <path-to-helm-log>
 ```
 
 **Why `mode=async`, not `mode=sync`:** with `mode=sync` the agent's turn blocks until the command returns — by that time the platform has timed out the turn, no continuation fires. With `mode=async` the turn ends immediately, and when the watcher eventually exits VS Code fires the terminal notification → new agent turn starts.

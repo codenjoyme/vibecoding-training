@@ -1,6 +1,6 @@
 # Workspace Kickoff with Iterative Prompt - Hands-on Walkthrough
 
-You're about to learn a technique for starting any AI-assisted investigation: dump all your materials into a folder, then write a single `main.prompt.md` file — your `development log` — that tells the AI what's there and what you want. This file lives alongside the materials and becomes a permanent artifact — your breadcrumb trail for future reference. As the work evolves, you add `## UPD[N]` blocks instead of starting new chats.
+You're about to learn a technique for starting any AI-assisted investigation: dump all your materials into a folder, then write a single `main.prompt.md` file — your `development log` — that tells the AI what's there and what you want. This file lives alongside the materials and becomes a permanent artifact — your breadcrumb trail for future reference. As the work evolves, you add `## UPD[N]` blocks instead of starting new chats. You will also see how the current skill tracks each UPD and drives the same log from either an IDE or the Copilot CLI.
 
 ## Prerequisites
 
@@ -16,8 +16,10 @@ You'll create a small research workspace with sample materials and a `developmen
 | `main.prompt.md` | The `development log` — describes the materials and what you want done |
 | `<follow>` block | Links to the iterative prompt skill so the agent knows the UPD workflow |
 | `## UPD[N]` blocks | Incremental updates that grow the `development log` over time |
-| **IDE runtime** | VS Code Copilot Chat + async watcher with terminal-notification wakeups |
+| **IDE runtime** | VS Code Copilot Chat with `vscode_askQuestions` as the primary re-arm mechanism; async watcher as fallback |
 | **CLI runtime** | `copilot` CLI process with `--autopilot` driven by the same watcher |
+| **Lifecycle tracking** | `status.py` start/finish records, tracking annotations, and line coordinates |
+| **Runtime settings** | `.env.example` switches for autocommit, trace output, and status-log location |
 
 ---
 
@@ -132,7 +134,7 @@ The `development log` is now part of the research workspace. It captures your in
 
 ### What we'll do
 
-Open the prompt file and run it directly in the IDE — this is the **IDE runtime** of the iterative prompt pattern. In VS Code with GitHub Copilot, you can run `.prompt.md` files without copying the content into the chat. The IDE runtime uses an `mode=async` Python watcher and wakes the agent through VS Code terminal notifications — see [`runtime-ide.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/runtime-ide.md) for the full mechanics.
+Open the prompt file and run it directly in the IDE — this is the **IDE runtime** of the iterative prompt pattern. In VS Code with GitHub Copilot, you can run `.prompt.md` files without copying the content into the chat. The primary loop re-arms with `vscode_askQuestions` between UPDs; the Python watcher remains a fallback for IDE versions that support terminal notifications. See [`runtime-ide.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/runtime-ide.md) for the full mechanics.
 
 ### Steps
 
@@ -146,7 +148,7 @@ Open the prompt file and run it directly in the IDE — this is the **IDE runtim
 
 3. Make sure the AI assistant is in **Agent Mode** and has access to the workspace folder.
 
-4. Trigger the prompt and watch the AI work through the action items.
+4. Trigger the prompt and watch the AI work through the action items. After the UPD is complete, the agent re-arms through `vscode_askQuestions`; use the watcher fallback only when the IDE runtime documentation says your extension supports it.
 
 5. After it finishes, check that `output.md` (or whatever you named the result file) was created in the same folder.
 
@@ -154,7 +156,7 @@ Open the prompt file and run it directly in the IDE — this is the **IDE runtim
 
 ### What just happened
 
-The AI read everything in the folder, understood the context, and completed your action items. The `development log` remains in place with a `### RESULT` documenting what was produced. The chat will end, but the log and its results stay.
+The AI read everything in the folder, understood the context, and completed your action items. The `development log` remains in place with a `### RESULT` documenting what was produced. The chat will end, but the log and its results stay. For an accepted UPD, `status.py --start` is the first lifecycle operation before the agent studies the request.
 
 ---
 
@@ -172,7 +174,7 @@ Chat sessions can be closed, lost, or buried. But the `development log` (`main.p
 ### Good practices
 
 - The default name is `main.prompt.md`, but you can use any name that fits: `phase1.prompt.md`, `aggregate.prompt.md`, `research-kickoff.prompt.md` — whatever describes the purpose
-- **Check for secrets before committing.** The `development log` is a text file that goes into version control. Before `git add`, scan it for accidentally pasted API keys, tokens, or credentials. Use `instructions/handle-secrets-in-ai-workflows.agent.md` to run a safety check
+- **Check for secrets before committing.** The `development log` is a text file that goes into version control. Before `git add`, scan it for accidentally pasted API keys, tokens, or credentials. Use [`instructions/handle-secrets-in-ai-workflows.agent.md`](../../instructions/handle-secrets-in-ai-workflows.agent.md) to run a safety check
 - You can reference files and images located next to the `development log` — in most IDEs, copy-pasting a file into a markdown document creates a relative link automatically
 - **Commit the `development log` together with the changes it produced.** This gives readers a historical connection: what was asked, in what context, what changes it led to, and how the agent reported back
 - You can share a `development log` from one workspace with an agent running in another workspace — just give it the file path or paste a link. This way, two agents in different projects can coordinate through shared logs
@@ -187,7 +189,7 @@ A kickoff prompt is rarely final. As your investigation evolves, you think of ne
 
 ### How it works
 
-Each `## UPD[N]` block is a self-contained update. The AI reads the original prompt **plus** all previous UPDs and RESULTs in one file — full context, no re-explanation needed. After completing each UPD, the agent appends `### RESULT` with a changelog and commits.
+Each `## UPD[N]` block is a self-contained update. The AI reads the original prompt **plus** all previous UPDs and RESULTs in one file — full context, no re-explanation needed. For every accepted UPD, the current lifecycle is `status.py --start` before studying the request, implementation and tests, `### RESULT`, `status.py --finish`, and one atomic commit containing the work and the log.
 
 The `go` keyword at the end of a UPD block signals the agent to start working. Without `go`, the agent assumes you're still writing and waits.
 
@@ -224,35 +226,32 @@ The UPD/RESULT pattern is formalized as **Iterative Prompt** — a reusable skil
 Setup https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/SKILL.md
 ```
 
-The skill is split into three files:
+In a standalone course workspace, copy [`instructions/iterative-prompt/.env.example`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/.env.example) to `.env` if you want the documented `.telemetry/iterative_prompt` status-log location. Keep `.env` local — it is ignored by Git — and commit only the safe example file.
+
+The skill keeps the pattern and runtime mechanics separate, with a few operational files:
 
 | File | What it covers |
 |------|----------------|
-| [`SKILL.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/SKILL.md) | The runtime-agnostic pattern: file format, `<follow>` header, UPD/RESULT cycle, `go` keyword, atomic commits |
-| [`runtime-ide.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/runtime-ide.md) | IDE runtime mechanics: `mode=async` watcher, terminal-notification wakeups, anti-drift rules |
+| [`SKILL.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/SKILL.md) | The runtime-agnostic pattern: file format, `<follow>` header, UPD/RESULT cycle, `go` keyword, status lifecycle, and atomic commits |
+| [`runtime-ide.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/runtime-ide.md) | IDE runtime mechanics: `vscode_askQuestions` primary re-arm, async watcher fallback, visible receipts, and anti-drift rules |
 | [`runtime-cli.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/runtime-cli.md) | CLI runtime mechanics: blocking watcher inside one long turn, `--autopilot --max-autopilot-continues N` |
+| [`scripts/status.py`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/scripts/status.py) | Records start/finish snapshots, computes stable hashes, and annotates the matching UPD header when tracing is enabled |
+| [`agent/iterative-prompt.agent.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/agent/iterative-prompt.agent.md) | Source Copilot agent identity that keeps the runtime rules loaded |
+| [`.env.example`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/.env.example) | Safe defaults for autocommit, trace output, and the status-log directory |
 
-Once installed, any `main.prompt.md` with the `<follow>iterative-prompt/SKILL.md</follow>` header will use the full workflow: `go` keyword triggering, `### RESULT` changelogs, atomic commits per UPD, and an autonomous polling loop that saves premium requests — in whichever runtime you launch it from.
+Once installed, any `main.prompt.md` with the `<follow>iterative-prompt/SKILL.md</follow>` header will use the full workflow: `go` keyword triggering, `### RESULT` changelogs, status start/finish records, atomic commits per UPD, and a runtime-specific re-arm loop that saves premium requests.
 
 ### Creating the Copilot agent (no context drift)
 
-For **GitHub Copilot in VS Code**, you can turn the skill into a dedicated agent so it never drifts out of the iterative-prompt loop. Create the file `.github/agents/iterative-prompt.agent.md` with YAML frontmatter and a one-line body pointing at the skill:
+For **GitHub Copilot in VS Code**, install the supplied source agent so it never drifts out of the iterative-prompt loop. The mapping in [`install/list.txt`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/install/list.txt) copies [`agent/iterative-prompt.agent.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/agent/iterative-prompt.agent.md) to `.github/agents/iterative-prompt.agent.md`. If your installer does not process that manifest, copy the source file to the destination manually; preserve its YAML frontmatter and operating rules.
 
-```markdown
----
-name: iterative-prompt
-description: "Iterative Prompt agent — follows the UPD/RESULT cycle permanently, no context drift"
-tools: [vscode/askQuestions, execute/runInTerminal, read/readFile, edit/editFiles, edit/createFile, search/codebase, search/changes]
----
-
-Follow the `instructions/iterative-prompt/SKILL.md`. Ask questions after each UPD.
-```
+The skill also supplies a VS Code prompt shortcut: [`prompts/iterative-prompt.prompt.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/prompts/iterative-prompt.prompt.md) maps to `.github/prompts/iterative-prompt.prompt.md` through the same manifest.
 
 After the file exists, reload the Copilot Chat window. The agent appears in the **agent picker** dropdown — select `iterative-prompt` to activate it:
 
 ![Iterative Prompt agent in the VS Code agent picker](tools/img/01-iterative-prompt-agent-picker.png)
 
-With the agent active, every chat turn stays inside the UPD/RESULT cycle automatically — no need to re-state the rules.
+With the agent active, every chat turn stays inside the UPD/RESULT cycle automatically — no need to re-state the rules. The source agent includes the lifecycle, atomic-commit, and compaction safeguards; the full behavior remains in `SKILL.md` and `runtime-ide.md` rather than being duplicated here.
 
 ---
 
@@ -297,11 +296,11 @@ Install the Copilot CLI, then launch the same `development log` from a terminal 
    + Resolves the helm-log path (positional argument here, but you can also use `--helm-log`, the `ITERATIVE_PROMPT_HELM_LOG` env var, or rely on the default `instructions/iterative-prompt/cli.prompt.md`)
    + Auto-creates the file from a starter template if it doesn't exist
    + Builds the right `copilot` command: `-p @cli-agent.md --add-dir <ws> --allow-all --no-ask-user -s --autopilot --max-autopilot-continues 50 --model claude-opus-4.6`
-   + Streams the CLI's stdout/stderr live to your terminal
+   + Streams the CLI's stdout/stderr live to your terminal and writes `session.log` beside the helm-log unless logging is disabled
 
 5. **Watch what happens.** The CLI process reads [`cli-agent.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/cli-agent.md) (an executable agent-identity file with an imperative `EXECUTE NOW` header), reads the protocol files, then enters a blocking watcher loop on your `development log`.
 
-6. **Add a new `## UPD3` block** to `main.prompt.md` ending with `go`. Watch the terminal: the watcher should detect the change, the CLI agent should process the UPD, append `### RESULT`, commit, and loop back to wait for the next `## UPD`.
+6. **Add a new `## UPD3` block** to `main.prompt.md` ending with `go`. Watch the terminal: the watcher should detect the change, the CLI agent should run the status start/finish lifecycle, process the UPD, append `### RESULT`, commit, and loop back to wait for the next `## UPD`.
 
 7. **Stop the CLI runtime** with `Ctrl+C` in the terminal when done.
 
@@ -311,10 +310,17 @@ Install the Copilot CLI, then launch the same `development log` from a terminal 
 - **More continues:** `--continues 999` (or env `COPILOT_AUTOPILOT_CONTINUES`) for very long sessions
 - **Print the command without running:** `--print-cmd` for smoke-testing
 - **Skip auto-create:** `--no-auto-create` if you don't want a stub created when the file is missing
+- **Disable the session log:** `--no-log`, or choose another location with `--log <path>`
+
+### New operational features in the current skill
+
+Every accepted UPD follows one observable sequence: `status.py --start` records the starting hash and line coordinate; implementation, tests, and the final review happen next; `### RESULT` is written to the `development log`; `status.py --finish` adds the finish record and `(tracked: start : finish)` annotation; then the work and log are committed together. Set `ITERATIVE_PROMPT_AUTOCOMMIT=false` in a local `.env` when you need to review changes before committing, and set `ITERATIVE_PROMPT_TRACE=false` when you want the payload printed without JSONL or helm-log changes.
+
+For advanced work, `multi result` lets one UPD contain several independent sub-tasks with one RESULT and commit per sub-task, while multi-repo rules keep commits separate in each repository and require the compact chat receipt to list every touched repository.
 
 ### What just happened
 
-The same `development log` was driven by two completely different runtimes. The pattern (UPD/RESULT, `<follow>`, `go`, atomic commits) is identical — only the wakeup mechanism differs. In the IDE runtime, VS Code's terminal-notification mechanism wakes the agent. In the CLI runtime, `--autopilot` keeps a single long process alive across many UPDs. Pick whichever runtime fits the situation.
+The same `development log` was driven by two completely different runtimes. The pattern (UPD/RESULT, `<follow>`, `go`, status lifecycle, and atomic commits) is identical — only the wakeup mechanism differs. In the IDE runtime, `vscode_askQuestions` is the primary re-arm mechanism and the async watcher is a fallback. In the CLI runtime, `--autopilot` keeps a single long process alive around the blocking watcher. Pick whichever runtime fits the situation.
 
 ---
 
@@ -328,6 +334,9 @@ The same `development log` was driven by two completely different runtimes. The 
 - ✅ Added a `## UPD2` block and saw the agent pick it up incrementally
 - ✅ Installed the Copilot CLI and launched the same `development log` via `run_cli.py` (CLI runtime)
 - ✅ Saw the CLI runtime process a new `## UPD3` and survive past the commit thanks to `--autopilot`
+- ✅ Explained the `status.py --start` → RESULT → `status.py --finish` → commit sequence
+- ✅ Configured safe runtime defaults from `.env.example` without committing `.env`
+- ✅ Explained when to use multi-result mode and how multi-repository commits stay separate
 
 ---
 
@@ -358,10 +367,16 @@ The same `development log` was driven by two completely different runtimes. The 
    Key points: the agent enters a polling loop after completing each UPD, consuming zero requests while waiting; you add the next UPD at your own pace and the agent picks it up automatically.
 
 9. **What's the difference between the IDE runtime and the CLI runtime?**  
-   Key points: same pattern (`<follow>`, UPD/RESULT, `go`, atomic commits), different wakeup mechanism. IDE runtime uses `mode=async` watcher + VS Code terminal notifications and runs many short turns. CLI runtime uses a single long `copilot` process kept alive by `--autopilot --max-autopilot-continues N` and a blocking watcher inside that one turn.
+   Key points: same pattern (`<follow>`, UPD/RESULT, `go`, status lifecycle, atomic commits), different wakeup mechanism. IDE runtime uses `vscode_askQuestions` as the primary re-arm mechanism and keeps the async watcher as a fallback. CLI runtime uses a single `copilot` process kept alive by `--autopilot --max-autopilot-continues N` and a blocking watcher inside that process.
 
 10. **Why does the CLI runtime require `--autopilot`?**  
     Key points: the `copilot` CLI normally ends the turn after a clear completion point (e.g. successful `git commit`); without `--autopilot` it would exit after the first UPD. `--autopilot` lets the model self-continue past those natural turn-end points so the watcher loop can iterate.
+
+11. **Why must `status.py --finish` run before `git add` and `git commit`?**
+   Key points: finish adds the tracking annotation and JSONL record; running it first lets the work, RESULT, tracking data, and helm-log enter the same atomic commit. The hash intentionally excludes Git commit state so it remains stable before and after the commit.
+
+12. **When would you use `multi result` or the multi-repository rules?**
+   Key points: use `multi result` for several independent sub-tasks inside one UPD, with one RESULT and commit per sub-task; use multi-repository rules when a change touches a nested repository and its parent or several repositories, committing each repository separately with linked tags.
 
 ---
 
@@ -393,6 +408,12 @@ The `--autopilot` flag is missing. The `run_cli.py` wrapper enables it by defaul
 
 **(CLI runtime) CLI summarises the agent file and asks "what would you like to do?"**  
 You passed the helm-log directly as `-p` instead of the agent-identity file. Use `run_cli.py`, or pass `-p @instructions/iterative-prompt/cli-agent.md` and set `ITERATIVE_PROMPT_HELM_LOG` to the helm-log path.
+
+**`status.py` cannot find its settings or writes to an unexpected directory**
+Copy [`.env.example`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/.env.example) to the workspace `.env`, keep the real file ignored, and remember that closer `.env` files override parent settings. Use `--cwd` when running the script from a different working directory.
+
+**The installed agent or prompt shortcut points to `.dark-factory/bricks`**
+Refresh the installation from [`instructions/iterative-prompt/install/list.txt`](../../instructions/iterative-prompt/install/list.txt) and use the local source files under `instructions/iterative-prompt/`. The course checkout does not require a `.dark-factory` directory.
 
 ---
 

@@ -10,17 +10,20 @@
 - Why a saved prompt file beats chat history as a starting point
 - Setting up a research folder with gathered materials (source code, transcripts, notes, chat excerpts)
 - Writing a kickoff prompt that converts raw thoughts into structured AI action items
-- Two runtimes: **IDE runtime** (VS Code Copilot Chat with async watcher) and **CLI runtime** (Copilot CLI with `--autopilot`)
+- Two runtimes: **IDE runtime** (`vscode_askQuestions` primary, async watcher fallback) and **CLI runtime** (Copilot CLI with `--autopilot`)
 - Running a `.prompt.md` file directly from the IDE
 - Running the same `development log` from a terminal without an IDE
 - Leaving breadcrumbs for your future self and teammates
 - Growing the prompt incrementally with `## UPD[N]` / `### RESULT` blocks
 - Using `iterative-prompt/SKILL.md` to formalize the pattern across projects
+- Using `status.py` for UPD lifecycle tracking and line coordinates
+- Configuring autocommit and trace behavior through `.env.example`
+- Handling multi-result updates and changes across multiple Git repositories
 - Saving premium requests by keeping the agent in a polling loop
 
 ## Learning Outcome
 
-Ability to kick off any AI-assisted research or exploration by creating a `development log` (`main.prompt.md`) that describes materials and goals — and then grow it with `## UPD[N]` blocks as the investigation evolves, without losing context or starting new chat sessions. The `development log` stays in the repository as a permanent artifact showing how and why the work was done.
+Ability to kick off any AI-assisted research or exploration by creating a `development log` (`main.prompt.md`) that describes materials and goals — and then grow it with `## UPD[N]` blocks as the investigation evolves, without losing context or starting new chat sessions. The learner can drive the same log from the IDE or CLI, explain the atomic `status.py` lifecycle, and keep the log in the repository as a permanent artifact showing how and why the work was done.
 
 ## Prerequisites
 
@@ -51,5 +54,6 @@ Ability to kick off any AI-assisted research or exploration by creating a `devel
   Setup https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/SKILL.md
   ```
 - **Runtimes** (pick one — same `development log`, two ways to drive it):
-  + [`runtime-ide.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/runtime-ide.md) — VS Code Copilot Chat with `mode=async` watcher and terminal-notification wakeups
+  + [`runtime-ide.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/runtime-ide.md) — VS Code Copilot Chat with `vscode_askQuestions` as the primary re-arm mechanism and an async watcher fallback
   + [`runtime-cli.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/runtime-cli.md) — Copilot CLI in a terminal with `--autopilot --max-autopilot-continues N` (no IDE required)
+- **Operational files:** [`status.py`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/scripts/status.py), [`agent/iterative-prompt.agent.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/agent/iterative-prompt.agent.md), [`prompts/iterative-prompt.prompt.md`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/prompts/iterative-prompt.prompt.md), [`install/list.txt`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/install/list.txt), and [`.env.example`](https://github.com/codenjoyme/vibecoding-training/blob/main/instructions/iterative-prompt/.env.example)

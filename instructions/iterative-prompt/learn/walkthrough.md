@@ -1,10 +1,10 @@
 # Iterative Prompt — Deep-Dive Walkthrough
 
-This walkthrough is the detailed companion to **Part 3** of the Dark Factory Tour module. It explores the `iterative-prompt` brick — why prompts are the new source code, how the UPD/RESULT cycle works, and how to use it as the primary communication channel with the factory.
+This walkthrough is a detailed companion to **Module 058**. It explores the `iterative-prompt` skill — why prompts are the new source code, how the UPD/RESULT cycle works, and how to use a development log as the primary communication channel with an AI agent.
 
 ## Prerequisites
 
-See [module overview](../../coaching/config/modules/010-dark-factory-tour/about.md) for full prerequisites list.
+See [module overview](../../../modules/058-workspace-kickoff-iterative-prompt/about.md) for the full prerequisites list.
 
 ---
 
@@ -67,7 +67,7 @@ work/
     notes.md            ← your own notes
 `
 
-The folder keeps everything related to one feature together. The `work/` directory in the factory is the standard location for helm-logs.
+The folder keeps everything related to one feature together. The `work/` directory is the standard location for course helm-logs.
 
 ---
 
@@ -110,7 +110,7 @@ The Iterative Prompt has two runtimes:
 
 **IDE runtime (VS Code):** The agent runs in the chat window. After each UPD, it re-arms via `vscode_askQuestions` — asking "continue?" before processing the next UPD. This keeps the loop alive without requiring the user to manually ping the agent.
 
-**CLI runtime:** The agent runs as a background process via `orchestrator.py`. It watches the helm-log file for new `## UPD...go` blocks indefinitely. You write a UPD, save the file, and the agent picks it up automatically. No chat window needed.
+**CLI runtime:** The agent runs from a terminal through `scripts/run_cli.py`. It keeps the Copilot CLI process alive with `--autopilot` and uses a blocking watcher to detect new `## UPD...go` blocks. You write a UPD, save the file, and the agent picks it up automatically. No chat window is needed.
 
 Both runtimes produce the same output: committed code, committed `### RESULT` blocks, clean git history.
 
@@ -128,7 +128,7 @@ Both runtimes produce the same output: committed code, committed `### RESULT` bl
    *To keep the history readable and the agent's context focused. Mixing features makes the history confusing and the context noisy.*
 
 4. What is the difference between the IDE and CLI runtimes?
-   *IDE runtime runs in the chat window and re-arms via vscode_askQuestions. CLI runtime runs as a background process watching the file indefinitely.*
+   *IDE runtime runs in the chat window and re-arms via `vscode_askQuestions`. CLI runtime runs through `run_cli.py`, with `--autopilot` keeping the Copilot CLI process alive around the blocking watcher.*
 
 5. Why can you write requests in any natural language?
    *The model translates internally. Writing in your native language makes you more precise. Code and CLI calls are always in English regardless.*

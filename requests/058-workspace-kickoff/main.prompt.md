@@ -1752,7 +1752,7 @@ main.prompt.md:302 — RESULT (UPD15) записан и закоммичен к�
 
 # Конец секции ~DARK_FACTORY~ из другого воркспейса
  
-## UPD54
+## UPD54 (tracked: 7b28f9f2 : 4af20bc6)
 
 Я перетянул в новый воркспйс скилл, удалив старый. И есть пару квестов, которые надо доделать. 
 
@@ -1760,4 +1760,35 @@ main.prompt.md:302 — RESULT (UPD15) записан и закоммичен к�
 
 Дальше нужно изменить [text](../../modules/058-workspace-kickoff-iterative-prompt) модуль тренинга, чтобы отразить появление новых особенностей, а если старое что-то удалено то удалить/переименовать соответствующие части в модуле.
 
-Ну и обновить все вокруг в проекте если надо. 
+Ну и обновить все вокруг в проекте если надо.
+
+И надо добавить в гит [text](../../instructions/iterative-prompt/.env.example) почему-то у меня не получается
+
+### RESULT (UPD54)
+
+Compared the previous and imported `iterative-prompt` versions with `git diff`. The imported version adds the mandatory pre-read `status.py --start` and post-RESULT `status.py --finish` lifecycle, stable tracking hashes and line coordinates, configurable autocommit and trace settings, compact post-commit receipts, multi-repository commit rules, and opt-in multi-result mode. It also adds source agent and prompt files, an install manifest, CLI status tests, and a session log while removing the obsolete IDE-agent and prompt-index surfaces. The standalone course copy had stale `.dark-factory/bricks` links; those were changed to paths that exist in this repository.
+
+Updated the training module so it now teaches `vscode_askQuestions` as the primary IDE re-arm mechanism, keeps the async watcher as a fallback, documents the CLI `--autopilot` runtime, explains the `status.py --start` → RESULT → `status.py --finish` → atomic commit sequence, introduces `.env.example` settings, and covers multi-result and multi-repository work. The outdated hand-written agent recipe was replaced with the supplied source agent and `install/list.txt` mapping.
+
+Updated the central catalog, runtime documentation, CLI agent, source and installed Copilot agents, prompt shortcut, install manifest, watcher usage text, and standalone `.env.example`. The environment template is now explicitly visible to Git through the `!**/.env.example` ignore exception; the real `.env` remains ignored.
+
+Changed files:
+
+- [`.gitignore`](../../.gitignore)
+- [`.github/agents/iterative-prompt.agent.md`](../../.github/agents/iterative-prompt.agent.md)
+- [`instructions/main.agent.md`](../../instructions/main.agent.md)
+- [`instructions/iterative-prompt/.env.example`](../../instructions/iterative-prompt/.env.example)
+- [`instructions/iterative-prompt/SKILL.md`](../../instructions/iterative-prompt/SKILL.md)
+- [`instructions/iterative-prompt/agent/iterative-prompt.agent.md`](../../instructions/iterative-prompt/agent/iterative-prompt.agent.md)
+- [`instructions/iterative-prompt/cli-agent.md`](../../instructions/iterative-prompt/cli-agent.md)
+- [`instructions/iterative-prompt/install/list.txt`](../../instructions/iterative-prompt/install/list.txt)
+- [`instructions/iterative-prompt/learn/walkthrough.md`](../../instructions/iterative-prompt/learn/walkthrough.md)
+- [`instructions/iterative-prompt/prompts/iterative-prompt.prompt.md`](../../instructions/iterative-prompt/prompts/iterative-prompt.prompt.md)
+- [`instructions/iterative-prompt/runtime-cli.md`](../../instructions/iterative-prompt/runtime-cli.md)
+- [`instructions/iterative-prompt/runtime-ide.md`](../../instructions/iterative-prompt/runtime-ide.md)
+- [`instructions/iterative-prompt/scripts/run_cli.py`](../../instructions/iterative-prompt/scripts/run_cli.py)
+- [`instructions/iterative-prompt/scripts/watch_prompt.py`](../../instructions/iterative-prompt/scripts/watch_prompt.py)
+- [`modules/058-workspace-kickoff-iterative-prompt/about.md`](../../modules/058-workspace-kickoff-iterative-prompt/about.md)
+- [`modules/058-workspace-kickoff-iterative-prompt/walkthrough.md`](../../modules/058-workspace-kickoff-iterative-prompt/walkthrough.md)
+
+Validation before commit: `python -m unittest discover -s .\instructions\iterative-prompt\tests -v` passed `12/12`; `python -m compileall -q .\instructions\iterative-prompt\scripts` passed; `git diff --check` passed; active-link and work-folder checks passed.

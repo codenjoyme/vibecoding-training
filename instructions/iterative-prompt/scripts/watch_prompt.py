@@ -6,7 +6,7 @@ editor, encoding hiccups, etc.) by catching every exception inside the loop and
 continuing.
 
 Usage:
-    python ./.dark-factory/bricks/iterative-prompt/scripts/watch_prompt.py [path-to-main.prompt.md]
+    python ./instructions/iterative-prompt/scripts/watch_prompt.py [path-to-main.prompt.md]
 
 Exits 0 with `NEW UPD ready` on stdout when the trigger fires.
 """
@@ -27,7 +27,7 @@ def _df_home() -> Path:
         p = Path(env_home)
         if p.is_dir():
             return p.resolve()
-    # this script lives at <DF_HOME>/bricks/iterative-prompt/scripts/watch_prompt.py
+    # In this course checkout, this script lives at <repo>/instructions/iterative-prompt/scripts/watch_prompt.py.
     return Path(__file__).resolve().parent.parent.parent.parent
 
 

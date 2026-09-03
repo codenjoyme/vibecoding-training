@@ -27,7 +27,7 @@ Architecture:
                                `--no-log` to disable, `--log <path>` to override the location.
 
 Usage:
-    python ./.dark-factory/bricks/iterative-prompt/scripts/run_cli.py [helm-log]
+    python ./instructions/iterative-prompt/scripts/run_cli.py [helm-log]
 
 Options (or env vars):
     --model <name>             COPILOT_MODEL                  default: claude-opus-4.6
@@ -63,7 +63,8 @@ def _df_home() -> Path:
         p = Path(env_home)
         if p.is_dir():
             return p.resolve()
-    # this script lives at <DF_HOME>/bricks/iterative-prompt/scripts/run_cli.py
+    # In this course checkout, this script lives at <repo>/instructions/iterative-prompt/scripts/run_cli.py.
+    # The same calculation also works when the skill is installed under a brick directory.
     return Path(__file__).resolve().parent.parent.parent.parent
 
 
@@ -233,7 +234,7 @@ def build_command(
     continues: int,
 ) -> list[str]:
     # The -p argument is the AGENT instruction file (executable identity), NOT the helm-log.
-    # The helm-log is passed via ITERATIVE_PROMPT_HELM_LOG env var (read by the agent).
+    # The runner also bakes the helm-log path into the temporary agent prompt.
     # Delegate flag assembly to the agent-harness brick so the copilot argv lives
     # in exactly one place; fall back to a local build when the brick is absent.
     harness = _get_agent_harness()

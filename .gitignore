@@ -5,6 +5,7 @@ __pycache__/
 work/
 training-progress.md
 .env
+!**/.env.example
 feedback/
 lnd/feedback
 lnd/reference
@@ -17,3 +18,5 @@ lnd/output/*.docx
 
 # iterative-prompt CLI runtime artifact (default helm-log when no path given)
 instructions/iterative-prompt/cli.prompt.md
+
+.telemetry

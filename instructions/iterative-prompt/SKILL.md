@@ -2,11 +2,6 @@
 name: iterative-prompt
 description: Autonomous AI agent workflow — file-based UPD/RESULT cycle
 version: 3.1.0
-dependencies:
-  references:
-    - brick
-    - tag-ids
-    - agent-harness
 ---
 
 # Iterative Prompt — the pattern
@@ -16,7 +11,7 @@ The **Iterative Prompt** is a workflow pattern for AI-assisted development: inst
 The key insight: a committed prompt file + `git diff` gives the AI precise, reliable context about what changed since the last run — no hallucination, no drift, no lost history.
 
 > This file is the **runtime-agnostic pattern** (file format, conventions, atomic commits). For the actual loop mechanics, pick one runtime:
-> - [`runtime-ide.md`](./runtime-ide.md) — VS Code agent / Copilot Chat with async terminal-notification watcher.
+> - [`runtime-ide.md`](./runtime-ide.md) — VS Code agent / Copilot Chat with `vscode_askQuestions` as the primary re-arm mechanism and an async watcher fallback.
 > - [`runtime-cli.md`](./runtime-cli.md) — Copilot CLI in a terminal with `--autopilot`, single long process.
 
 ## Why this matters — saving premium requests
@@ -69,7 +64,7 @@ Second request. go
   - Keep it concise — this is a changelog, not documentation.
   - **Multiple RESULT blocks per UPD are allowed** (the *multi-result* pattern, see below). Each one starts with its own `### RESULT` header.
 - **Fix file references inside the UPD block too.** Before writing `### RESULT`, scan the `## UPD[N]` text for any file paths written as plain text or backtick code. Convert them to clickable markdown links in-place. Change only the link formatting — do not alter any other text.
-- **No hard-wrapped prose — in files you create as well as files you edit.** Keep each prose paragraph, list item and blockquote on **one physical line**, however long; blank lines separate paragraphs. Never wrap mid-sentence to fit a column width: it renders the same, but it turns a one-word edit into a whole-paragraph reflow in the diff. Code blocks, tables and YAML keep their own line breaks. See [`creating-instructions/SKILL.md`](../creating-instructions/SKILL.md) for the full rule and how to spot a violation.
+- **No hard-wrapped prose — in files you create as well as files you edit.** Keep each prose paragraph, list item and blockquote on **one physical line**, however long; blank lines separate paragraphs. Never wrap mid-sentence to fit a column width: it renders the same, but it turns a one-word edit into a whole-paragraph reflow in the diff. Code blocks, tables and YAML keep their own line breaks. See [`creating-instructions.agent.md`](../creating-instructions.agent.md) for the full rule and how to spot a violation.
 
 ## Atomic commits
 
@@ -93,13 +88,13 @@ The correct order is:
 
 ### Runtime status and settings
 
-The runtime settings are `ITERATIVE_PROMPT_AUTOCOMMIT`, `ITERATIVE_PROMPT_TRACE`, and `ITERATIVE_PROMPT_STATUS_DIR`. The first two default to `true`; `ITERATIVE_PROMPT_STATUS_DIR` defaults to `.dark-factory/teams/iterative_prompt`. [`.env.example`](.env.example) documents the local configuration.
+The runtime settings are `ITERATIVE_PROMPT_AUTOCOMMIT`, `ITERATIVE_PROMPT_TRACE`, and `ITERATIVE_PROMPT_STATUS_DIR`. The first two default to `true`; `ITERATIVE_PROMPT_STATUS_DIR` defaults to `.dark-factory/teams/iterative_prompt` when no environment file overrides it. [`.env.example`](.env.example) documents safe defaults for a standalone course checkout.
 
 ```bash
 cp iterative-prompt/.env.example .env   # standalone source checkout
 ```
 
-The settings are resolved with process environment values first, then `.dark-factory/.env` and `.env` files discovered from the current directory towards its parents; a closer file wins. Relative `ITERATIVE_PROMPT_STATUS_DIR` values are resolved from the status command's working directory. The installer assembles this brick's `.env.example` into `.dark-factory/.env.example`, which is copied to `.dark-factory/.env` during installation.
+The settings are resolved with process environment values first, then `.dark-factory/.env` and `.env` files discovered from the current directory towards its parents; a closer file wins. Relative `ITERATIVE_PROMPT_STATUS_DIR` values are resolved from the status command's working directory. In a standalone checkout, copy [`.env.example`](.env.example) to the workspace `.env`; keep the real file local because it is ignored by Git.
 
 `status.py` prints the resolved settings, the current UTC timestamp, the latest commit for every repository found from the working directory to its parents, and a short hash derived only from the `timestamp`, `helm-log`, and `upd-id` fields. The git snapshot remains informational and does not affect the hash, so it stays stable across a commit. Its stdout is human-readable UTF-8 JSON with two-space indentation and a final newline. It always prints the payload so a disabled trace is visible as `"trace": false`.
 Status payloads and JSONL records use the canonical key order `status`, `upd-id`, `helm-name`, then the remaining fields. `helm-name` contains every path component below the nearest directory named `work`, joined with `_`, plus the helm-log file name without `.prompt.md`: `.../work/iterative-prompt/main.prompt.md` becomes `iterative-prompt_main`, and `.../work/tokenomics/reference1/main.prompt.md` becomes `tokenomics_reference1_main`. If no `work` directory is present, it falls back to the immediate-folder format. To migrate an existing status log without changing its timestamps or hashes, run `status.py --migrate` from the workspace root.
@@ -151,14 +146,14 @@ The workspace is **not always a single git repo**. A helm-log can live in a git 
 - **Submodule → parent order.** Commit the inner repo (submodule) **first**; then commit the parent repo. The parent's diff is the **submodule-pointer bump plus any parent-repo files this UPD touched**. Make the two commits *linked*: the parent's message references the inner commit sha it points to, e.g. `[subtask1-UPD58] chore(bricks): bump submodule pointer → <inner-sha> (linked)`. This lets a reader walk parent → sub for the same UPD.
 - **Stage explicitly, per repo.** Use `git -C <repo> add <specific paths>` for each repo — never `git add -A`. In the parent, stage the submodule path (e.g. `git -C <parent> add bricks`) **and** every other UPD file (e.g. `git -C <parent> add teams/<feature>/telemetry/...`). Verify a clean tree per repo with `git -C <repo> status` before re-arming.
 - **The `### RESULT` (with markdown links) lives in the helm-log's own repo** (the submodule/primary), committed together with that repo's work — same as the single-repo rule.
-- **Telemetry & UI reflect all repos.** `ide-export --git` discovers the submodule-ownership chain and records a `df.git.repos` list per UPD (see the run-telemetry brick), so the telemetry table shows **one flat row per UPD with one line per touched repo** — each line carrying that repo's branch and short shas. A UPD can therefore show N repos × M commits without any nesting.
+- **Report every touched repository.** The compact post-commit report should contain one line per repository and list every short SHA created for the UPD. Keep the repository-specific details in the report even when the same helm-log drives several repositories.
 
 ### Multi-result mode (opt-in: `follow brick iterative-prompt: multi result`)
 
 When the operator includes the phrase **`multi result`** in a UPD (e.g. `follow brick iterative-prompt: multi result`, or just "делай каждую задачу отдельной итерацией с коммитом"), the rules relax:
 
-- The UPD contains **several independent sub-tasks** (often pre-tagged via the [tag-ids brick](../tag-ids/SKILL.md), e.g. `**MK1**`, `**MK2**`, …).
-- For each sub-task: implement → write its own `### RESULT (**MKn**)` block inside the same `## UPD[N]` → atomic commit referencing that sub-task. So one UPD ends up with N commits and N `### RESULT` blocks stacked one after another in the prompt file.
+- The UPD contains **several independent sub-tasks** (optionally labeled `**MK1**`, `**MK2**`, or another local convention).
+- For each sub-task: implement → write its own `### RESULT (**MKn**)` block inside the same `## UPD[N]` → atomic commit referencing that sub-task. So one UPD ends up with N commits and N `### RESULT` blocks stacked one after another in the prompt file. Use simple labels such as `**MK1**`, `**MK2**`, or another local convention; no extra skill is required.
 - The parser treats every line matching `^### RESULT` as the start of a new RESULT segment (`splitRequestResult` on the frontend, `block_is_answered` regex on the backend). Do **not** rely on the `(UPDn)` suffix being present — the marker is just `### RESULT`, anything else on the line is annotation (e.g. `### RESULT (**MK3**) — done`).
 - The UPD is considered fully answered when the operator confirms (typically by writing the next UPD). The agent should still re-arm after every sub-task commit — re-arming does NOT close the UPD as long as more sub-tasks are pending in the same block.
 - Sub-tasks may also accumulate over multiple agent turns (operator types more `**MKn**` items into the same UPD as work progresses) — append a fresh `### RESULT (**MKn**)` for each new one rather than amending an existing block.
