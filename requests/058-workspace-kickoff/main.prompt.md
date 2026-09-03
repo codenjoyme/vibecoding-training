@@ -1427,3 +1427,337 @@ Smoke-test на этом самом файле (`--last 3`, `--pending`, `--last
 **Не тронуто:** [instructions/training-mode-iterative-prompt.agent.md](../../instructions/training-mode-iterative-prompt.agent.md) — там `vscode_askQuestions` используется для выбора модуля до старта первого UPD (другой контекст использования, не clarifying-question-во-время-UPD). Скажи, если это тоже нужно привести к новому правилу.
 
 Оба коммита сделаны раздельно, как просил.
+
+# Дальше идут риквесты из другого проекта, там разрабатывалась фабрика и связанные с ней компоненты в том числе iterartive prompt они будут промаркированы ~DARK_FACTORY~
+
+## UPD1 ~DARK_FACTORY~
+
+Давай коммитить в одном коммите helm-log файл с изменениями на будущее. Странно в итеративном промпте должно было бы это быть сказанным. [iterative-prompt](../../iterative-prompt) потому что раньше так работало. Или раньше я запускал этого агента [dark-factory-orchestrator.ide.agent.md](../../orchestrator/agents/dark-factory-orchestrator.ide.agent.md) и в нем сказано это делать? Мне надо чтобы итеративный промпт коммитил так же все в одном. go
+
+### RESULT (UPD1 ~DARK_FACTORY~)
+
+Правило уже было в `SKILL.md` (`## Atomic commits`), но формулировка не давала агентам чёткой последовательности шагов — они коммитили работу, потом отдельным коммитом добавляли `### RESULT`. Добавлен явный блок **"Mandatory commit sequence"** с пронумерованными шагами и жирным запретом на два коммита.
+
+- [iterative-prompt/SKILL.md](../../iterative-prompt/SKILL.md) — добавлен раздел `### ⚠️ Mandatory commit sequence` внутри `## Atomic commits`
+
+## UPD2 ~DARK_FACTORY~
+
+Надо навести порядок с именами автокоммитов. Сейчас тег берётся из имени файла helm-лога ([iterative-prompt/SKILL.md](../../iterative-prompt/SKILL.md) — «`<helm-log>` = the helm-log file's base name without extension»), из-за чего все `main.prompt.md` дают одинаковый тег `[main-UPDn]` и по коммиту не понять, к какой работе он относится.
+
+Новое правило:
+
+- файл называется `main.prompt.md` → тег `[<folder>-UPDn]`, где `<folder>` — имя папки, в которой лежит файл;
+- файл называется иначе → тег `[<folder>_<file>-UPDn]`, где `<file>` — имя файла без `.prompt.md`.
+
+Примеры: `work/iterative-prompt/main.prompt.md` → `[iterative-prompt-UPD2]`; `work/common/audit.prompt.md` → `[common_audit-UPD2]`.
+
+Правило надо провести везде, где оно сформулировано или продублировано (`SKILL.md`, `runtime-ide.md`, `runtime-cli.md`, `cli-agent.md`, файлы агента и промпта, орхестратор), а не только в одном месте. go
+
+### RESULT (UPD2 ~DARK_FACTORY~)
+
+Правило переписано: тег теперь выводится из **пути** helm-лога, а не из имени файла.
+
+Проверил грепом, где правило живёт: во франшизе оно сформулировано **только в одном месте** — `SKILL.md`. `runtime-ide.md`, `runtime-cli.md` и `cli-agent.md` на него только ссылаются фразой «the pattern … lives in `SKILL.md`», своего описания тега не держат. Дубликатов править не пришлось — это отрицательный результат, но его стоит знать.
+
+В [iterative-prompt/SKILL.md](../../iterative-prompt/SKILL.md) § `Atomic commits`:
+
+- `main.prompt.md` → `<folder>`; любое другое имя → `<folder>_<file>`;
+- добавлено обоснование — почти каждый поток работ называет свой файл `main.prompt.md`, так что старое правило схлопывало все потоки в один тег `[main-UPDn]`;
+- примеры заменены на реальные из этого репозитория, включая случай не-`main` (`common_audit`) и multi-commit.
+
+## UPD3 ~DARK_FACTORY~
+
+Нужна возможность отключать автокоммит. По умолчанию он **включён**.
+
+Выключатель — файл `NO_AUTOCOMMIT` в корне брика [iterative-prompt](../../iterative-prompt). Есть файл → автокоммита нет; нет файла → автокоммит работает как сейчас. Внутри файла — пояснение, что это за файл и как он работает.
+
+Учесть: если `NO_AUTOCOMMIT` закоммитить, автокоммит выключится у всех франчайзи. Значит файл должен быть локальным — добавить его в `.gitignore` — а в брике оставить только описание механизма в `SKILL.md` (и, если нужно, образец под другим именем). go
+
+### RESULT (UPD3 ~DARK_FACTORY~)
+
+Выключатель сделан по схеме «трекается только образец».
+
+- [iterative-prompt/NO_AUTOCOMMIT.example](../../iterative-prompt/NO_AUTOCOMMIT.example) — новый файл с пояснением: что это, как включить (`cp NO_AUTOCOMMIT.example NO_AUTOCOMMIT`), что именно меняется в поведении и зачем он гитигнорится.
+- [.gitignore](../../.gitignore) — добавлен `iterative-prompt/NO_AUTOCOMMIT` с комментарием, почему его нельзя коммитить. Это же решает вторую проблему: в установленной фабрике брик — это submodule, и созданный там файл иначе делал бы его dirty.
+- [iterative-prompt/SKILL.md](../../iterative-prompt/SKILL.md) — раздел `### Turning autocommit off` сразу после последовательности коммита. Ключевое: проверка ставится **перед шагом 3**, то есть работа делается и `### RESULT` пишется в любом случае, отключается только `git add` / `git commit`. Плюс требование сказать об этом одной строкой в чате, иначе оператор не поймёт, что изменения лежат незакоммиченными.
+
+## UPD4 ~DARK_FACTORY~
+
+Ты кроме того что пишешь RESULT блок, ещё и отчитываешься тем же в чате. Если мы используем итеративный подход, то в чате не надо дабл саммари — просто напиши ссылку на файл и UPD, который добавил, и всё. Всё уже есть в файле, зачем ещё раз дублировать в чате. Побереги токены. go
+
+### RESULT (UPD4 ~DARK_FACTORY~)
+
+Нашёл источник дублирования: это не самодеятельность агентов, а **прямое требование инструкции**. В [runtime-ide.md](../../iterative-prompt/runtime-ide.md) был раздел `Progress report before re-arming`, предписывавший перед каждым re-arm писать в чат «что сделано, какие файлы изменены, что дальше, какие блокеры» — то есть ровно пересказ `### RESULT`.
+
+- [runtime-ide.md](../../iterative-prompt/runtime-ide.md) — раздел переписан: в чат идёт **одна строка** со ссылкой на helm-лог и номером UPD, с явным запретом пересказывать содержимое. Заодно поправлен шаг 2 в «Mandatory pattern», который ссылался на тот же отчёт.
+- [SKILL.md](../../iterative-prompt/SKILL.md) — добавлен раздел `### ⚠️ Do not repeat the RESULT in chat` с обоснованием: это второй экземпляр того же текста, оплаченный дважды, и он расходится с файлом при первой же правке любой из копий.
+
+Оставил ровно два исключения, когда вторая строка допустима, — потому что этого нет в файле и оператор должен узнать об этом сразу: блокер, остановивший работу, и предупреждение из UPD3, что автокоммит выключен и изменения лежат незакоммиченными.
+
+## UPD5 ~DARK_FACTORY~
+
+При генерации файлов не надо разбивать строки посреди предложения и абзаца, вот так:
+
+```
+Being wrong is not loud. Ask the orchestrator to explain a concept and it will
+cheerfully start a pipeline. Ask the coach to ship a feature and it will teach
+you about bricks. Nothing errors. You find out four minutes in, when the wrong
+thing is already happening.
+```
+
+Это встречается часто в разных местах. Поищи, где я это делал в последних коммитах, и поисправляй во всех новых файлах — аккуратно, чтобы старое ничего не поломалось, просто убрать лишние `\n`.
+
+Правило вроде уже добавляли в инструкцию по созданию инструкций и в итеративный промпт, но почему-то оно снова не работает. go
+
+### RESULT (UPD5 ~DARK_FACTORY~)
+
+Сначала выяснил, **почему правило не работает**, и ответ оказался конкретным.
+
+Правило есть ровно в двух местах и сформулировано верно: [creating-instructions/SKILL.md](../../creating-instructions/SKILL.md) и [iterative-prompt/SKILL.md](../../iterative-prompt/SKILL.md). Прогнал по ним же проверку — **оба файла правило не нарушают**, как и `runtime-ide.md`. То есть там, где я редактировал существующие файлы, я его соблюдал.
+
+Нарушено оно в **двенадцати из двенадцати файлов, созданных с нуля**. Причина ровно в этом: при правке существующего файла стиль виден вокруг и копируется автоматически; при создании нового копировать нечего, и включается привычка переносить на ~80 колонок — то, как выглядит большинство markdown в мире. Правило же лежало одним пунктом в списке форматирования, без причины и без способа проверки, то есть читалось как вкусовщина.
+
+Поэтому усилил его в четырёх местах, и три из них — новые:
+
+- [creating-instructions/SKILL.md](../../creating-instructions/SKILL.md) — развёрнутая формулировка: **применяется к создаваемым файлам, а не только к правимым**; почему (правка одного слова превращается в диффе в переформатирование всего абзаца, и следующий автор не отличит осмысленный перенос от косметического); что исключено (код, таблицы, YAML); и команда, которой нарушение видно.
+- [iterative-prompt/SKILL.md](../../iterative-prompt/SKILL.md) — то же короче, со ссылкой на полную формулировку.
+
+Написал одноразовый распрямитель (не в репозитории), устроенный консервативно: он умеет только *убирать* перенос между строками одного абзаца и не трогает ничего, в чём не уверен — YAML-frontmatter, огороженные блоки кода и их содержимое, таблицы, заголовки, горизонтальные линии, HTML, строки с двумя пробелами на конце (осознанный разрыв) и любое начало нового блока. Продолжения списков и цитат подклеиваются к своему элементу с сохранением префикса `> `.
+
+**Чего намеренно не трогал**, чтобы старое не поломать:
+
+- helm-логи `requests/*/main.prompt.md` — в них твой текст, его переформатировать нельзя.
+
+Проверил после правки: количество открывающих/закрывающих ограждений кода чётное во всех файлах, `name:` во frontmatter всех идентичностей на месте, таблицы целы.
+
+## UPD6 ~DARK_FACTORY~
+
+Давай поправим `NO_AUTOCOMMIT` уберем файл и создадим `.env.example` который будет содержать `ITERATIVE_PROMPT_AUTOCOMMIT=true` по умолчанию `true`.
+
+И давай отныне и навсегда будем делать следующее. В итеративном промпте сделай такую пометку `ITERATIVE_PROMPT_TRACE=true`, что неважно юзер вводит текст `UPD` в чате, и отправляет либо там делает ссылку на файл helm log + `UPDn` скидывает, либо как-то еще информирует о намерении. Пусть будет запущен (о чем сказано в скиле итеративного промпта) определенный скрипт из [text](../../iterative-prompt/scripts) (его создай - пусть будет `status.py`), который будет выполняться и в терминал печатать такую информацию:
+```json
+{
+  "autocommit": true, // берется из `.env` файла `ITERATIVE_PROMPT_AUTOCOMMIT`, который ищется где-то в текущей папке или рекурсивно у родителей
+  "trace": true, // тоже берется из `.env` файла `ITERATIVE_PROMPT_TRACE`
+  "hash": "5bd546ab", // хеш двух полей `timestamp` + `git`
+  "timestamp": "2024-06-05T12:00:00Z", // время этого запроса
+  "git": {
+    "last_commits": ["6abde435", "5bd546ab"], // хеши последних коммитов git или `[]` если нет репозиториев. Откуда берутся несколько репозиториев. Мы рекурсивно ходим по родителям и собираем все репозитории, от самого вложенного до самого верхнего.
+    "paths": ["<path1>", "<path2>"] // абсолютные пути репозиториям
+  }
+}
+```
+И так же этот скрипт будет запущен перед самим завершением риквеста, после коммита который сделан итеративным промптом.
+
+### RESULT (UPD6 ~DARK_FACTORY~)
+
+Заменён sentinel `NO_AUTOCOMMIT` на настройки `ITERATIVE_PROMPT_AUTOCOMMIT` и `ITERATIVE_PROMPT_TRACE` с рекурсивным поиском `.dark-factory/.env` и `.env`; старый `NO_AUTOCOMMIT.example` удалён, добавлен [`iterative-prompt/.env.example`](../../iterative-prompt/.env.example), а из [`.gitignore`](../../.gitignore) убрано его специальное правило.
+
+Добавлен [`iterative-prompt/scripts/status.py`](../../iterative-prompt/scripts/status.py): он печатает JSON с флагами, UTC timestamp, коротким hash от `timestamp` + `git`, и latest commit для всех git-репозиториев от текущего каталога к родителям в порядке вложенности.
+
+Запуск status-трека закреплён до обработки каждого UPD и после коммита в [`iterative-prompt/SKILL.md`](../../iterative-prompt/SKILL.md), [`iterative-prompt/runtime-ide.md`](../../iterative-prompt/runtime-ide.md), [`iterative-prompt/runtime-cli.md`](../../iterative-prompt/runtime-cli.md) и [`iterative-prompt/cli-agent.md`](../../iterative-prompt/cli-agent.md). Добавлены [`iterative-prompt/tests/test_status.py`](../../iterative-prompt/tests/test_status.py) и проверки precedence env, nested git и empty git.
+
+## UPD7 ~DARK_FACTORY~
+
+Сделай preaty-print для JSON, который выводит `status.py`.
+
+### RESULT (UPD7 ~DARK_FACTORY~)
+
+Pretty-print оформлен как отдельный контракт в [`iterative-prompt/scripts/status.py`](../../iterative-prompt/scripts/status.py): status CLI выводит UTF-8 JSON с двухпробельными отступами и завершающим переводом строки.
+
+Добавлен регрессионный тест [`iterative-prompt/tests/test_status.py`](../../iterative-prompt/tests/test_status.py), проверяющий точную читаемую структуру и обратную загрузку через `json.loads`; описание формата обновлено в [`iterative-prompt/SKILL.md`](../../iterative-prompt/SKILL.md).
+
+## UPD8 ~DARK_FACTORY~
+
+Давай так же в [text](../../.github/agents/iterative-prompt.agent.md) и [text](../../iterative-prompt/agent/iterative-prompt.agent.md) (как оригинале) скажем очень коротко, что перед загрузкой каждым риквестом, до изучения всех особенностей на каждый запрос юзера ранаем скрипт `status.py` и перед самым завершением после коммита так же его ранаем.
+
+А скрипт пусть так же пишет свой jsonl файл в `.telemetry/iterative_prompt/status.jsonl` с той же информацией (только не притипринт) что выводится. Используй путь к `.telemetry/iterative_prompt/` пусть будет зашит в `.env` в `ITERATIVE_PROMPT_STATUS_DIR`.
+
+Добавь еще одно поле `"status"="start|finish"` в json.
+И еще одно поле `"started_from"="<start_hash>"` для записи хеша старта при завершении.
+И еще два поля `"helm-log"="<absolute-path-to-helm-log>"` и `"upd-id"="<upd_id>"` для записи соответствующих значений.
+
+Давай так сделаем вообще. При старте вызывается `status.py --start --helm-log="<absolute-path-to-helm-log>" --upd-id="<upd_id>"` (моделька сама подкладывает `helm-log` и `upd-id`) и делается все что заявлено.
+
+А при окончании `status.py --finish --started_from=<start_hash>` (моделька сама ставит `started_from`) делает то же самое. Только финиш часть скрипта находит в `jsonl` файле запись с соответствующим `started_from` и достает оттуда и `helm-log` и `upd-id`.
+
+Так же скрипт сам обновляет helm-log файл добавляя в его `## <upd-id>` строчку по по регекспу помня, что строчка начинается с `## UPD` в одном случае - это заголовок нового UPD блока. И так добавляет к нему ` (tracked: <start_hash> : <finish_hash>)`.
+
+Но єто все только если трекинг включен в `.env`.
+
+### RESULT (UPD8 ~DARK_FACTORY~)
+
+В [`iterative-prompt/scripts/status.py`](../../iterative-prompt/scripts/status.py) добавлены операции `--start` и `--finish`: старт сохраняет снимок в compact JSONL, а finish находит старт по hash, восстанавливает `helm-log` и `upd-id`, записывает финишный снимок и добавляет к заголовку UPD `(tracked: <start_hash> : <finish_hash>)`.
+
+Добавлена настройка `ITERATIVE_PROMPT_STATUS_DIR` в [`iterative-prompt/.env.example`](../../iterative-prompt/.env.example); при `ITERATIVE_PROMPT_TRACE=false` JSON по-прежнему печатается, но JSONL и helm-log не изменяются.
+
+Короткие start/finish-команды добавлены в оригинал и установленную копию IDE-agent: [`iterative-prompt/agent/iterative-prompt.agent.md`](../../iterative-prompt/agent/iterative-prompt.agent.md) и [`.github/agents/iterative-prompt.agent.md`](../../.github/agents/iterative-prompt.agent.md). Полный lifecycle-контракт синхронизирован в [`iterative-prompt/SKILL.md`](../../iterative-prompt/SKILL.md), [`iterative-prompt/runtime-ide.md`](../../iterative-prompt/runtime-ide.md), [`iterative-prompt/runtime-cli.md`](../../iterative-prompt/runtime-cli.md) и [`iterative-prompt/cli-agent.md`](../../iterative-prompt/cli-agent.md).
+
+Добавлены интеграционные проверки в [`iterative-prompt/tests/test_status.py`](../../iterative-prompt/tests/test_status.py): focused suite `7/7 OK`, включая реальный CLI-парсер `--start/--finish`, compact JSONL, восстановление metadata, tracking заголовка и отключённый trace; отдельный end-to-end CLI-прогон также прошёл.
+
+## UPD9 ~DARK_FACTORY~ (tracked: 3b6e81ca : 7a83e45f)
+
+Давай проверим это все на текущем апдейте. Я запустил его в новой сесиии и проверим как все получилось. 
+
+### RESULT (UPD9 ~DARK_FACTORY~)
+
+Проверен полный start/finish-цикл текущего UPD: `status.py --start` вернул `hash=3b6e81ca`, `autocommit=true`, `trace=true`, записал корректный compact JSONL snapshot и обнаружил три вложенных git-репозитория. Focused suite в [iterative-prompt/tests/test_status.py](../../iterative-prompt/tests/test_status.py) прошёл: `7/7 OK`; найденный крайний случай с пробелом после заголовка UPD исправлен в [iterative-prompt/scripts/status.py](../../iterative-prompt/scripts/status.py) и покрыт тестом. RESULT, исправление и стартовый trace включаются в один автокоммит, после которого `status.py --finish` добавит tracking к заголовку UPD9.
+
+## UPD10 ~DARK_FACTORY~ (tracked: d888146a : 4487951b)
+
+Смотри какая проблема появилась. После `status.py --finish` делается вставка в `## UPD9 (tracked: 3b6e81ca : 7a83e45f)` и там hash который базируется на коммите, который уже сделан. Но сама вставка `## UPD9 (tracked: 3b6e81ca : 7a83e45f)` это изменение которое тоже надо закоммитить (оно значится как кандидат коммита) что не ок. Потому наверное я предлагаю вот что сделать - в хеш старта и окончания не добавляется комиты, а только `timestamp`, `helm-log`, `upd-id` полей. Тогда хеш будет не меняться относительно коммитов. Тогда порядок будет такой:
+- работа завершена
+- вставляется `### RESULT` 
+- потом запускается скрипт `status.py --finish`
+  + тот автоматом добавляет tracking к заголовку UPD
+- потом делается коммит моделью всего. 
+
+### RESULT (UPD10 ~DARK_FACTORY~)
+
+В [iterative-prompt/scripts/status.py](../../iterative-prompt/scripts/status.py) hash теперь вычисляется только по полям `timestamp`, `helm-log` и `upd-id`; git snapshot остаётся диагностическим и не влияет на hash после commit. Порядок lifecycle синхронизирован в [iterative-prompt/SKILL.md](../../iterative-prompt/SKILL.md), [iterative-prompt/runtime-ide.md](../../iterative-prompt/runtime-ide.md), [iterative-prompt/runtime-cli.md](../../iterative-prompt/runtime-cli.md), [iterative-prompt/cli-agent.md](../../iterative-prompt/cli-agent.md) и agent-копиях: после RESULT вызывается `status.py --finish`, затем tracking и JSONL коммитятся вместе со всей работой. Добавлен регрессионный тест независимости hash от git; focused suite прошёл `8/8 OK`.
+
+## UPD11 ~DARK_FACTORY~ (tracked: f7497505 : 4a608b43)
+
+Сделай мне так же в jsonl поле стартового json новое поле `upd-line` которое будет указывать на номер строки в helm-log файле, где начинается соответствующий UPD, или если его нет, то на конец файла куда он вероятно и добавится. 
+
+А когда финиш случится, тогда там в json будут координаты реального `upd-line` так как он уже добавлен на данный момент и всех его `### RESULT` блоков в поле `result-lines` как массив чисел. 
+
+Помни, что могут быть `UPD` без `### RESULT` - после текущего, это значит, что они будут в будущем завершены в других итерациях. 
+
+Наверное хорошая идея использовать наработки [text](../../iterative-prompt/scripts/watch_prompt.py) по поиску линий в этот момент. 
+
+### RESULT (UPD11 ~DARK_FACTORY~)
+
+В [iterative-prompt/scripts/status.py](../../iterative-prompt/scripts/status.py) добавлены координаты UPD-блоков: `upd-line` — 1-based строка заголовка, а при отсутствии заголовка на старте — следующая строка после текущего конца файла; finish после tracking перечитывает блок и записывает `result-lines` со всеми 1-based строками `### RESULT`. Сканирование ограничено следующим `## UPD`, поэтому будущие незавершённые или завершённые блоки не приписываются текущему UPD.
+
+В [iterative-prompt/tests/test_status.py](../../iterative-prompt/tests/test_status.py) добавлены проверки EOF fallback, нескольких `RESULT` в одном UPD и исключения следующего UPD; focused suite прошёл `9/9 OK`. Контракт полей и 1-based semantics описан в [iterative-prompt/SKILL.md](../../iterative-prompt/SKILL.md).
+
+## UPD12 ~DARK_FACTORY~ (tracked: 4d6fa744 : c6c49e6e)
+
+Посмотри плиз на [text](../../.telemetry/iterative_prompt/status.jsonl) там коммиты на start/finish для первого рана отличался, а для последующих одинаковые. Получается порядок у нас такой:
+- работа завершена
+- вставляется `### RESULT` 
+- потом запускается скрипт `status.py --finish`
+  + тот автоматом добавляет tracking к заголовку UPD
+- потом делается коммит моделью всего. << вот только тут будет хеш коммита, который я хотел бы вставить в jsonl. 
+Но это нереально, потому что я хочу хеш коммита получить до самого коммита. 
+ 
+Ладно пофиг, оставляем как есть. Только сделай плиз следующее. 
+В json я хочу поле `upd-id` вторым полем в объекте, а `status` первым, так же третьим полем я хочу `helm-name` которое будет содержать только папку в которой содержится файл и его имя без `prompt.md` то есть так `iterative-prompt_main` для `...work\\iterative-prompt\\main.prompt.md`. 
+
+Пересчитай все строчки в [text](../../.telemetry/iterative_prompt/status.jsonl) ровно как измени скрипт, который это генерирует.
+
+### RESULT (UPD12 ~DARK_FACTORY~)
+
+В [iterative-prompt/scripts/status.py](../../iterative-prompt/scripts/status.py) добавлено поле `helm-name`, вычисляемое из папки и имени helm-log без суффикса `.prompt.md`: например, `.../iterative-prompt/main.prompt.md` даёт `iterative-prompt_main`. Порядок полей новых JSON/JSONL записей теперь начинается с `status`, `upd-id`, `helm-name`.
+
+Добавлена операция `status.py --migrate`, которая пересериализует существующий `status.jsonl` тем же каноническим порядком и добавляет новые поля, не меняя timestamps, hashes, git snapshots или lifecycle metadata. Все 18 записей текущего status-log мигрированы; UPD12 start/finish также имеют `upd-line` и `result-lines`.
+
+Добавлены регрессионные проверки для `helm-name`, порядка полей и миграции старого snapshot в [iterative-prompt/tests/test_status.py](../../iterative-prompt/tests/test_status.py). Focused suite прошёл `12/12 OK`. Проверка полного status-log: 18 строк, единый порядок ключей и `helm-name` для `iterative-prompt_main`/`telemetry_main`.
+
+## UPD13 ~DARK_FACTORY~ (tracked: 54c24075 : dada1937)
+
+Смотри что случилось
+```
+Edited main.prompt.md+10-0
+
+RESULT UPD79 записан. Выполняю обязательный finish с hash 862a7eea; после него перезапишу live workbook и проверю, что в X нет ни одной SUM, а все формулы перечисляют исходные значения через +.
+
+Lifecycle finish успешен: 862a7eea -> e28ca3a2. 
+
+Теперь выполняю финальный rebuild/write в одну операцию с snapshot до записи и audit, который проверит формулы =a+b, отсутствие SUM, число слагаемых по агрегату, Excel integrity и non-target preservation.
+```
+И потом ты еще минуты 3 гонял тесты и чтьо-то делал. 
+
+Lifecycle start должен быть **СТРОГО** до начала работы, а finish **СТРОГО** последней операцией перед завершением. Я заметил что в какой-то момент ты воспроизводишь больше предыдущие итерации (которые могут идти по принципам, который немного дрефует относительно скила и инструкций). Я думаю что это происходит потому, что в файле агента есть ссылка на SKILL.md но не перечислены основные принципы. Давай усилим агента, но так чтобы не делать много дублирования. 
+
+Плюс допиши в агенте, что надо перегружать основнгой текст скила/маркдаун файлов, если случился компакт (и ты видишь документ по саммари), но нет самих инструкций в контексте на которые ссылается агент. Вот эту последнюю строчку тезисно добавь так же во все остальные агенты что у нас сейчас есть. Как в месте откуда они устанавливаются так и в месте, куда ставятся. [text](../../.github/agents)
+
+### RESULT (UPD13 ~DARK_FACTORY~)
+
+Усилены оригинал и установленная копия iterative-prompt identity: [iterative-prompt agent](../../iterative-prompt/agent/iterative-prompt.agent.md) и [installed iterative-prompt agent](../../.github/agents/iterative-prompt.agent.md).
+
+- Зафиксировано, что `status.py --start` является первой tool-операцией UPD и выполняется до чтения деталей запроса или любой другой работы.
+- Зафиксировано, что все чтения, изменения, тесты и финальный review должны завершиться до RESULT; `status.py --finish` запускается после RESULT как последняя pre-commit операция, после чего разрешены только `git add` и `git commit`.
+- Зафиксированы единый atomic commit для работы/RESULT/tracking и re-arm через одиночный `vscode_askQuestions`.
+- Добавлена короткая compaction-защита: если остался только summary, а связанные инструкции не загружены, агент должен полностью перечитать все связанные `SKILL.md` и Markdown instruction files до действий.
+
+Отсутствующие destinations для author/admin-request/sandbox не создавались, чтобы не менять состав установленного каталога.
+
+Проверка: `agent_contract_validation_ok` для 14 файлов; `git diff --check` прошёл. Неизменёнными оставлены role-агенты и демонстрационные копии вне install identity-пар.
+
+## UPD14 ~DARK_FACTORY~ (tracked: 55657e38 : a699fd53)
+
+Смотри мы когда создаем файлик [text](../../.dark-factory/teams/iterative_prompt/status.jsonl) то там пишем имя в `helm-name` и я говорил, что надо сделать так, чтобы было имя файла `prompt.md` плюс папка в которой он разделены `_`. И вопрос, можем ли мы сделать все папки до коневой папки (которая будет предпоожительно `work`) частью `helm-name`, разделяя их `_`. Вот чтобы для [text](../tokenomics/reference1/main.prompt.md) было как я исправил в [text](../../.dark-factory/teams/iterative_prompt/status.jsonl) в последних двух строчках. 
+
+### RESULT (UPD14 ~DARK_FACTORY~)
+
+Да, сделал. Теперь `helm-name` строится из всех компонентов пути после ближайшей папки `work`, разделённых `_`, плюс имени helm-log без суффикса `.prompt.md`: `.../work/iterative-prompt/main.prompt.md` → `iterative-prompt_main`, а `.../work/tokenomics/reference1/main.prompt.md` → `tokenomics_referencv1_main`. Сама папка `work` в значение не включается.
+
+Обновлён источник истины в [iterative-prompt/scripts/status.py](../../iterative-prompt/scripts/status.py): новые start/finish-записи используют это правило, а пути без папки `work` сохраняют прежний fallback по непосредственной папке. Миграция через `status.py --migrate` пересчитала все 43 существующие записи в [status.jsonl](../../.dark-factory/teams/iterative_prompt/status.jsonl); канонический порядок полей сохранён.
+
+Добавлены проверки в [iterative-prompt/tests/test_status.py](../../iterative-prompt/tests/test_status.py) для вложенного пути `work/tokenomics/reference1` и пересчёта устаревшего имени при миграции. Focused suite прошёл: `12/12 OK`; отдельная проверка status-log подтвердила 43 записи, единый порядок первых ключей и ожидаемые имена последних записей.
+
+Описание нового правила обновлено в [iterative-prompt/SKILL.md](../../iterative-prompt/SKILL.md). UPD15 ниже не изменял и оставил для следующей итерации.
+
+## UPD15 ~DARK_FACTORY~ (tracked: 4b418adc : 39fa2ca5)
+
+И еще когда отчитываешься мне в результате итерации в чате всегда пиши что-то вроде 
+```
+Запрос `UPD25` [main.prompt.md:898] закрыт. 
+Отчет `RESULT (UPD25)` [main.prompt.md:911]. 
+Закоммичен коммитом(-тами): 
+  + В репозитории [<folder1>]: `<hash>`, `<hash2>`
+  + В репозитории [<folder2>]: `<hash3>`, `<hash4>`
+Tracked в файле [status.jsonl:43] `55657e38` : `a699fd53`
+```
+На том языке коненно, что я прошу. Это в догонку к тому, что мы недавно фиксили - чтобы ты не писал много в саммо чате а весь упор был в RESULT по информативности. А в чате пусть отсается такой краткий отчет где ты отчитался, какой коммит (или несколько) сделал? И какой helm-log в каком месте (чтобы клик по нему прееносил меня в нужное место).
+
+### RESULT (UPD15 ~DARK_FACTORY~)
+
+Добавлен компактный пост-коммитный отчёт для IDE-runtime. После каждого коммита в чат нужно писать короткий блок: ссылку на UPD в helm-log с `upd-line`, ссылку на каждый `RESULT` с `result-lines`, короткие SHA коммитов по каждому затронутому репозиторию и ссылку на физическую строку finish-записи в `status.jsonl` со связкой `start_hash : finish_hash`.
+
+Правило закреплено в [iterative-prompt/SKILL.md](../../iterative-prompt/SKILL.md) и подробно описано в [iterative-prompt/runtime-ide.md](../../iterative-prompt/runtime-ide.md). Ссылки должны быть workspace-relative Markdown-ссылками с якорем строки, а текст отчёта переводится на язык обработанного UPD; детали работы и список изменённых файлов остаются только в `### RESULT`.
+
+Краткое требование добавлено в source identity [iterative-prompt/agent/iterative-prompt.agent.md](../../iterative-prompt/agent/iterative-prompt.agent.md) и установленную копию [.github/agents/iterative-prompt.agent.md](../../.github/agents/iterative-prompt.agent.md). Lifecycle не менялся: `status.py --finish` остаётся последней pre-commit операцией, отчёт формируется уже после коммита и перед re-arm.
+
+Проверка: `git diff --check` с учётом CRLF прошёл; поиск по активному набору не находит старую инструкцию `one-line pointer`.
+
+## UPD16 ~DARK_FACTORY~ (tracked: 1c9a6c06 : 9263526d)
+
+Да все ок, но смотри что получилось:
+```
+Запрос UPD15 main.prompt.md:289 закрыт.
+Отчёт RESULT (UPD15) main.prompt.md:302.
+Закоммичен коммитом:
+
+В репозитории factory-franchise — 131dd8b1
+Tracked в файле status.jsonl:46 4b418adc : 39fa2ca5
+Analyzing your answers...
+
+Q: UPD15 закрыт. Продолжить?
+A: стоп
+//// Все что выше свернулось
+main.prompt.md:302 — RESULT (UPD15) записан и закоммичен коммитом 131dd8b1; цикл остановлен по запросу «стоп».
+```
+После ответ на мой вопрос ты свернул все в чате. А я бы ожидал что этот текс ти сам вопрос напечатались бы не в том контейнере что свернется. И останется видным.
+
+### RESULT (UPD16 ~DARK_FACTORY~)
+
+Причина подтверждена по текущему debug-log: compact-отчёт был частью assistant-ответа, который заканчивался вызовом `vscode_askQuestions`; после ответа VS Code свернул этот предыдущий блок, а отдельный текстовый ответ после результата вопроса оставил видимым. Это поведение контейнера интерфейса, его нельзя изменить Markdown-разметкой, prompt-инструкцией или аргументами `vscode_askQuestions`.
+
+Добавлено правило видимого receipt: перед `vscode_askQuestions` агент пишет compact post-commit report как preview, а после возврата инструмента начинает следующий assistant-ответ повтором этого receipt и строками с точным вопросом и ответом. Для `stop`, skipped и placeholder receipt становится последним ответом без дальнейших tool calls; для `go` он выводится первым перед обработкой следующего UPD. Подробный RESULT остаётся единственным детальным отчётом в helm-log.
+
+Контракт закреплён в [iterative-prompt/SKILL.md](../../iterative-prompt/SKILL.md) и [iterative-prompt/runtime-ide.md](../../iterative-prompt/runtime-ide.md), краткое правило добавлено в source identity [iterative-prompt/agent/iterative-prompt.agent.md](../../iterative-prompt/agent/iterative-prompt.agent.md) и установленную копию [.github/agents/iterative-prompt.agent.md](../../.github/agents/iterative-prompt.agent.md). Проверка `git diff --check` с учётом CRLF прошла; старое правило `one-line pointer` в активном iterative-prompt наборе отсутствует.
+
+# Конец секции ~DARK_FACTORY~ из другого воркспейса
+ 
+## UPD54
+
+Я перетянул в новый воркспйс скилл, удалив старый. И есть пару квестов, которые надо доделать. 
+
+Во-первых надо посмотреть в чем отличия старого от нового по git diff. 
+
+Дальше нужно изменить [text](../../modules/058-workspace-kickoff-iterative-prompt) модуль тренинга, чтобы отразить появление новых особенностей, а если старое что-то удалено то удалить/переименовать соответствующие части в модуле.
+
+Ну и обновить все вокруг в проекте если надо. 

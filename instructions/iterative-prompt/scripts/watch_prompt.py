@@ -1,23 +1,37 @@
 """Resilient main.prompt.md watcher.
 
-Wakes only when the file changes AND the last unprocessed ## UPD block ends
-with a 'go' marker.  Survives transient errors (file lock by editor, encoding
-hiccups, etc.) by catching every exception inside the loop and continuing.
+Wakes when the last unprocessed ## UPD block ends with a 'go' marker, either
+at startup or after the file changes.  Survives transient errors (file lock by
+editor, encoding hiccups, etc.) by catching every exception inside the loop and
+continuing.
 
 Usage:
-    python .github/dark-factory/scripts/watch_prompt.py [path-to-main.prompt.md]
+    python ./.dark-factory/bricks/iterative-prompt/scripts/watch_prompt.py [path-to-main.prompt.md]
 
 Exits 0 with `NEW UPD ready` on stdout when the trigger fires.
 """
 from __future__ import annotations
 
 import hashlib
+import os
 import re
 import sys
 import time
 from pathlib import Path
 
-DEFAULT_PATH = Path('.github/work/main.prompt.md')
+
+def _df_home() -> Path:
+    """Resolve DF_HOME env var, else fall back to script-relative parent."""
+    env_home = os.environ.get("DF_HOME")
+    if env_home:
+        p = Path(env_home)
+        if p.is_dir():
+            return p.resolve()
+    # this script lives at <DF_HOME>/bricks/iterative-prompt/scripts/watch_prompt.py
+    return Path(__file__).resolve().parent.parent.parent.parent
+
+
+DEFAULT_PATH = _df_home() / 'work' / 'main.prompt.md'
 SLEEP_IDLE = 4       # seconds between polls when nothing changed
 SLEEP_BUSY = 1       # faster polling when file changed but no `go` yet
 
@@ -93,6 +107,16 @@ def main() -> int:
         print(f'[watcher] initial hash error: {exc!r}; starting with empty baseline', flush=True)
         baseline = ''
     print(f'[watcher] watching {path} baseline={baseline[:12]}', flush=True)
+
+    try:
+        if has_ready_upd(read_file(path)):
+            print(f'[watcher] NEW UPD ready: hash={baseline[:12]}', flush=True)
+            print('[watcher] >>> AGENT ACTION REQUIRED: read the prompt file NOW,', flush=True)
+            print('[watcher] >>> implement the new ## UPD block, write ### RESULT,', flush=True)
+            print('[watcher] >>> commit, then RESTART this watcher. Do NOT stop.', flush=True)
+            return 0
+    except Exception as exc:
+        print(f'[watcher] initial content error: {exc!r}; continuing', flush=True)
 
     pending_change = False
     while True:

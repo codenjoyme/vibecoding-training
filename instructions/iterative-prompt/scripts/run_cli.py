@@ -27,7 +27,7 @@ Architecture:
                                `--no-log` to disable, `--log <path>` to override the location.
 
 Usage:
-    python ./instructions/iterative-prompt/scripts/run_cli.py [helm-log]
+    python ./.dark-factory/bricks/iterative-prompt/scripts/run_cli.py [helm-log]
 
 Options (or env vars):
     --model <name>             COPILOT_MODEL                  default: claude-opus-4.6
@@ -55,7 +55,19 @@ import tempfile
 from datetime import datetime
 from pathlib import Path
 
-DEFAULT_AGENT = Path("instructions/iterative-prompt/cli-agent.md")
+
+def _df_home() -> Path:
+    """Resolve DF_HOME env var, else fall back to script-relative parent."""
+    env_home = os.environ.get("DF_HOME")
+    if env_home:
+        p = Path(env_home)
+        if p.is_dir():
+            return p.resolve()
+    # this script lives at <DF_HOME>/bricks/iterative-prompt/scripts/run_cli.py
+    return Path(__file__).resolve().parent.parent.parent.parent
+
+
+DEFAULT_AGENT = _df_home() / "instructions" / "iterative-prompt" / "cli-agent.md"
 DEFAULT_HELM_LOG_NAME = "cli.prompt.md"   # placed next to the agent file by default
 DEFAULT_LOG_NAME = "session.log"          # placed next to the helm-log by default
 DEFAULT_MODEL = "claude-opus-4.6"
@@ -67,6 +79,29 @@ HELM_LOG_PLACEHOLDER = "{{HELM_LOG}}"
 TEMPLATE = "<follow>\niterative-prompt/SKILL.md\n</follow>\n\n## UPD1\n\n"
 
 
+def _get_agent_harness():
+    """Return the configured AgentHarness from the sibling agent-harness brick, or None.
+
+    Bricks are always siblings: this file is
+    ``<X>/iterative-prompt/scripts/run_cli.py`` (``<X>`` = repo root in the
+    franchise, ``.dark-factory/bricks`` when installed), so the harness lives at
+    ``<X>/agent-harness/scripts``. Which concrete agent system to use is decided
+    entirely inside agent-harness's ``get_configured_harness()`` (reads
+    ``AGENT_HARNESS_SYSTEM`` via env-loader) -- this function does not hardcode
+    a strategy name.
+    """
+    try:
+        scripts = Path(__file__).resolve().parents[2] / "agent-harness" / "scripts"
+        if not (scripts / "agent_harness.py").exists():
+            return None
+        if str(scripts) not in sys.path:
+            sys.path.insert(0, str(scripts))
+        from agent_harness import get_configured_harness  # noqa: PLC0415
+        return get_configured_harness()
+    except Exception:  # noqa: BLE001
+        return None
+
+
 def find_copilot(override: str | None) -> str | None:
     if override:
         p = Path(override)
@@ -76,8 +111,17 @@ def find_copilot(override: str | None) -> str | None:
         p = Path(env)
         if p.exists():
             return str(p)
-    found = shutil.which("copilot") or shutil.which("copilot.cmd")
-    return found
+    # Delegate CLI discovery to the agent-harness brick (single source of truth);
+    # fall back to a local PATH lookup when that brick is absent.
+    harness = _get_agent_harness()
+    if harness is not None:
+        try:
+            found = harness.find_cli()
+            if found:
+                return found
+        except Exception:  # noqa: BLE001
+            pass
+    return shutil.which("copilot") or shutil.which("copilot.cmd")
 
 
 def auto_create_prompt(prompt_path: Path) -> None:
@@ -190,6 +234,20 @@ def build_command(
 ) -> list[str]:
     # The -p argument is the AGENT instruction file (executable identity), NOT the helm-log.
     # The helm-log is passed via ITERATIVE_PROMPT_HELM_LOG env var (read by the agent).
+    # Delegate flag assembly to the agent-harness brick so the copilot argv lives
+    # in exactly one place; fall back to a local build when the brick is absent.
+    harness = _get_agent_harness()
+    if harness is not None:
+        try:
+            return harness.build_command(
+                agent_file,
+                workspace=str(workspace),
+                model=model,
+                autopilot_continues=continues,
+                cli=copilot,
+            )
+        except Exception:  # noqa: BLE001
+            pass
     agent_arg = f"@{agent_file.resolve()}"
     cmd: list[str] = []
     if sys.platform == "win32":
