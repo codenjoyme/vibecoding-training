@@ -1202,3 +1202,41 @@ Done. Both proxies running as daemons.
 - Тестовый chat-запрос через relay: `gpt-4 -> OK`
 
 Запуск выполнялся через [modules/175-codemie-cli/tools/start.ps1](../../modules/175-codemie-cli/tools/start.ps1). Предупреждение про AWS CLI можно игнорировать: он нужен только для сценариев с Bedrock.
+
+## UPD32 (tracked: b8fac450 : 4fecb7bb)
+
+А вот єти правки что ты сделала, это что?
+
+### RESULT (UPD32)
+
+Это скриншот именно той правки, которую я внёс в [modules/175-codemie-cli/tools/codemie-relay.js](../../modules/175-codemie-cli/tools/codemie-relay.js#L186-L191), пока разбирался, почему CodeMie не работал через relay на порту 4002.
+
+Что было не так (красным на скрине):
+
+```js
+const respHeaders = Object.assign({}, proxyRes.headers, {
+  'content-length': outBuf.length,
+});
+```
+
+Relay пересобирает ответ от CodeMie proxy (декодирует, патчит JSON поле `model`, кодирует обратно в `outBuf`), но при формировании заголовков ответа клиенту брал `proxyRes.headers` **как есть** — включая `content-encoding: br` (Brotli), который проставил upstream для исходного, ещё сжатого тела. В итоге клиенту отправлялся заголовок "это Brotli-сжатые данные", а по факту в `outBuf` лежал уже готовый несжатый JSON. Клиент (в моём тесте — обычный HTTP-запрос с `Accept-Encoding: gzip, deflate, br`) пытался распаковать Brotli из несжатых байт и падал с ошибкой типа "Decoder ran into invalid data".
+
+Что стало (зелёным):
+
+```js
+const respHeaders = Object.assign({}, proxyRes.headers);
+delete respHeaders['content-encoding'];
+delete respHeaders['transfer-encoding'];
+respHeaders['content-length'] = outBuf.length;
+```
+
+Теперь relay:
+1. Берёт заголовки upstream-ответа.
+2. Удаляет `content-encoding` и `transfer-encoding` — они больше не соответствуют телу, которое relay сам пересобрал вручную.
+3. Проставляет корректный `content-length` для нового несжатого `outBuf`.
+
+Также рядом (не на этом скрине, но в том же коммите) я добавил `'accept-encoding': 'identity'` в заголовки запроса к upstream, чтобы CodeMie proxy сразу отдавал несжатый ответ и relay не приходилось вообще иметь дело со сжатием.
+
+Итог: запрос `/v1/models` и тестовый chat-запрос через relay (порт 4002) после этой правки возвращают корректный JSON вместо ошибки декодирования — это подтверждено в терминале ранее в этой сессии.
+
+Хочешь, я закоммичу эту правку в репозиторий?
