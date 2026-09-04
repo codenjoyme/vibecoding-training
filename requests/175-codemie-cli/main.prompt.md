@@ -1177,3 +1177,28 @@ Done. Both proxies running as daemons.
 - [modules/175-codemie-cli/tools/install-codemie-sso-claude-vscode.agent.md](../../modules/175-codemie-cli/tools/install-codemie-sso-claude-vscode.agent.md) — сохранена исходная структура и точечно добавлены native-terminal workflow, skip-if-already-installed, PATH refresh, checksum retry и финальная локальная проверка; proxy/IDE connector пункты удалены из quick-agent.
 - [modules/175-codemie-cli/about.md](../../modules/175-codemie-cli/about.md), [modules/175-codemie-cli/walkthrough.md](../../modules/175-codemie-cli/walkthrough.md), [modules/175-codemie-cli/tools/SKILL.md](../../modules/175-codemie-cli/tools/SKILL.md) — добавлены прямые ссылки на quick-agent; walkthrough и SKILL объясняют, когда использовать короткий Windows bootstrap, а когда подробный reference.
 - Исходные install/auth шаги и корпоративные значения quick-agent сохранены; файл не переписывался с нуля. Проверки: `git diff --check` проходит, поиск proxy/API gateway терминов в quick-agent пустой.
+
+## UPD31 (tracked: 7c620c97 : 04c1cdda)
+
+Запусти мне этот солюшен, я хочу понять почему кодми не работает #attachment:Pasted text #1
+
+### RESULT (UPD31)
+
+Солюшен запущен и теперь работает.
+
+Причины проблемы были три:
+
+1. Глобальная установка `@codemieai/code` была повреждена: npm считал пакет установленным, но у него отсутствовали `package.json` и `bin/codemie.js`. Поэтому команда `codemie` не находилась.
+2. После переустановки CLI у профиля `prfm-dark-factory` отсутствовала SSO-сессия. Авторизация обновлена, сессия действительна примерно 24 часа.
+3. В relay была ошибка обработки сжатых Brotli-ответов: он передавал сжатые данные как JSON. Исправлено в [modules/175-codemie-cli/tools/codemie-relay.js](../../modules/175-codemie-cli/tools/codemie-relay.js).
+
+Текущее состояние:
+
+- CodeMie CLI: `0.15.0`
+- Proxy: `http://127.0.0.1:4001`
+- Relay: `http://127.0.0.1:4002`
+- Доступно моделей: `43`
+- `codemie doctor`: аутентификация и модель проходят проверку
+- Тестовый chat-запрос через relay: `gpt-4 -> OK`
+
+Запуск выполнялся через [modules/175-codemie-cli/tools/start.ps1](../../modules/175-codemie-cli/tools/start.ps1). Предупреждение про AWS CLI можно игнорировать: он нужен только для сценариев с Bedrock.

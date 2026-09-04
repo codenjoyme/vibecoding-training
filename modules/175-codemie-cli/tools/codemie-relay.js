@@ -123,6 +123,7 @@ const server = http.createServer((req, res) => {
       host: TARGET_HOST + ':' + TARGET_PORT,
       authorization: 'Bearer ' + GATEWAY_KEY,
       'content-length': body.length,
+      'accept-encoding': 'identity',
     });
 
     const options = {
@@ -183,9 +184,10 @@ const server = http.createServer((req, res) => {
             respBody = JSON.stringify(parsed);
           } catch (e) { /* not JSON, leave as-is */ }
           const outBuf = Buffer.from(respBody, 'utf8');
-          const respHeaders = Object.assign({}, proxyRes.headers, {
-            'content-length': outBuf.length,
-          });
+          const respHeaders = Object.assign({}, proxyRes.headers);
+          delete respHeaders['content-encoding'];
+          delete respHeaders['transfer-encoding'];
+          respHeaders['content-length'] = outBuf.length;
           res.writeHead(proxyRes.statusCode, respHeaders);
           res.end(outBuf);
         });
