@@ -9,15 +9,21 @@ See [module overview](about.md) for full prerequisites list.
 ## What We'll Cover
 
 - **Name the fear** — acknowledge what actually scares you before trying to fix it
+- **Find the hidden blocker** — separate lack of time from lack of trust, context, skill, cost, or risk tolerance
 - **Quick win** — experience AI acceleration on YOUR real task in 5 minutes
 - **The fear reframe** — why "AI will take my job" is the wrong question
+- **The familiar engineering pattern** — GenAI as an interpreter and a new interface for automation
 - **Skill audit** — mapping what you already know to the new workflow
 - **The evolution spectrum** — from coder to agent team lead, with a day-in-the-life view
+- **The delegation crisis** — why working with agents repeats the senior-to-team-lead transition
 - **The craft identity shift** — from "I write beautiful code" to "I write beautiful instructions"
 - **Scope expansion** — looking one step left and right in the SDLC chain
 - **Industry pattern recognition** — this happened before (Docker, Cloud, K8s)
+- **Practice before theory** — use a real bump or failure to make learning stick
 - **Sustainable learning rhythm** — how to keep up when everything changes every 2 months
 - **Personal roadmap** — automate one real thing and plan the next 3 months
+- **Reliable delegation** — turn a guided first attempt into a repeatable specialist workflow
+- **Bounded initiative** — use the bush-trimming test to act without waiting for perfect permission
 
 ---
 
@@ -31,15 +37,17 @@ Before fixing anything, acknowledge what you're actually feeling. Fear of obsole
 
 Your brain can't process a solution while it's stuck in fight-or-flight mode. Research on change management shows that people who first acknowledge their resistance adapt faster than those who skip straight to "positive thinking." We're not here for motivational quotes. We're here to look the fear in the eye and then decide what to do about it.
 
+The first answer is often "I do not have time." Sometimes that is true. Often it is a safer sentence hiding a harder one: "I do not trust the agent yet, I do not know how to verify it, or I expect delegation to take longer than doing the work myself." Name the hidden blocker before trying to solve the calendar.
+
 ### Hands-on
 
 Ask your AI assistant:
 
-> "I want to name my specific fears about AI and my career. Don't reassure me or give me motivational advice. Instead, interview me: ask me 5 questions, one at a time, about what specifically worries me about AI in my professional life. After all questions, summarize my fears back to me in a structured list — raw, unfiltered, no sugarcoating. Then for each fear, classify it as: (A) this is already happening, (B) this will likely happen in 1-2 years, or (C) this is unlikely but feels scary."
+> "I want to name my specific fears about AI and my career. Don't reassure me or give me motivational advice. Instead, interview me: ask me 5 questions, one at a time, about what specifically worries me about AI in my professional life. After all questions, summarize my fears back to me in a structured list — raw, unfiltered, no sugarcoating. For each fear, classify it as: (A) this is already happening, (B) this will likely happen in 1-2 years, or (C) this is unlikely but feels scary. Then identify the hidden blocker beneath each fear: trust, missing context, missing skill, cost, risk, or something else."
 
 Let the AI interview you honestly. Don't edit yourself — say the uncomfortable things.
 
-**Verify:** You have a written list of your specific fears, each classified as A/B/C. You feel slightly lighter because vague anxiety is now a concrete list.
+**Verify:** You have a written list of your specific fears, each classified as A/B/C, plus a named blocker and one small action that could test it. You feel slightly lighter because vague anxiety is now a concrete list.
 
 ---
 
@@ -53,20 +61,22 @@ Experience the power of AI assistance on a task from YOUR real work. Not a toy e
 
 Fear lives in the abstract. The best antidote is a concrete experience. When you take a task that normally takes you 2 hours and finish it in 10 minutes with an agent, the fear shifts: "This thing might replace me" becomes "This thing just made me 12x faster."
 
+Do not use theory as a waiting room. For an adult learner, information that is not attached to a real problem can fly in one ear and out the other. A real task, a real failure, or a real time saving gives the new idea somewhere to stick.
+
 ### Hands-on
 
-Think of a real task from your recent work that:
+Think of a real task from your current work that:
 - You've done before (you know what the output should look like)
 - Takes at least 30-60 minutes normally
 - Is somewhat repetitive or well-defined
 
 Examples: writing a technical document, creating a test plan, writing boilerplate code, drafting an email summary of a meeting, creating a config file, writing release notes, refactoring a class.
 
-Now ask your AI assistant to do it. Give it full context — paste in the relevant code, describe the requirements, share the background. Be as specific as you would be when delegating to a competent colleague.
+Do not start with a new side project. Use the work already in front of you. Ask your AI assistant to do it. Give it full context — paste in the relevant code, describe the requirements, share the background. Be as specific as you would be when delegating to a competent colleague.
 
 Time how long it takes.
 
-**Verify:** You completed a real work task significantly faster with AI. Write down two numbers: how long it normally takes vs. how long it took now. That ratio is your personal acceleration factor.
+**Verify:** You completed a real work task significantly faster with AI, or you captured a concrete failure worth learning from. Write down two numbers: how long it normally takes vs. how long it took now. That ratio is your personal acceleration factor. If the attempt failed, record whether the likely cause was the model, missing context, unclear instructions, tool usage, or verification.
 
 ---
 
@@ -87,6 +97,8 @@ Now that you've named the fear (Part 1) and felt the power (Part 2), replace the
 
 The key insight: **AI does replace certain tasks — specifically, tasks that can be fully described as instructions.** If your entire job is following a step-by-step procedure, that procedure can be given to an agent. But if your job involves judgment, context-switching, negotiation, debugging novel problems, and understanding trade-offs — you become more valuable, not less.
 
+GenAI is not a new species of magic. It is an interpreter between languages: natural language to code, one programming language to another, and a goal to a sequence of technical actions. The old DevOps instinct automated delivery. The new opportunity is to ask how that same instinct can reach across requirements, architecture, development, testing, deployment, documentation, and operations: the whole SDLC.
+
 ### Hands-on
 
 Ask your AI assistant:
@@ -95,7 +107,7 @@ Ask your AI assistant:
 
 Read the response carefully. Highlight the parts that require human judgment — these are your durable strengths.
 
-**Verify:** You received an honest breakdown of automatable vs. non-automatable parts of your work. You can name at least 3 activities that require your human judgment.
+**Verify:** You received an honest breakdown of automatable vs. non-automatable parts of your work, can name at least 3 activities that require your human judgment, and can explain how GenAI extends familiar automation rather than erasing engineering.
 
 ---
 
@@ -121,6 +133,8 @@ Experienced engineers have a foundation that junior vibecoders lack:
 
 A junior developer who starts with AI tools but lacks these foundations will eventually face: leaked production data, security vulnerabilities, unmaintainable architecture, or production incidents they cannot debug.
 
+Keep one sentence close: **"The model is stupid" is a diagnosis, not a conclusion.** The visible failure may come from the wrong model, missing local context, a vague instruction, poor tool use, or no verification loop. A model can be an encyclopedia and still be useless for your task if you never tell it which book, which chapter, and what a correct answer looks like.
+
 ### Hands-on
 
 Ask your AI assistant:
@@ -129,11 +143,11 @@ Ask your AI assistant:
 > - [List 5-7 of your strongest technical skills]
 > - [List your years of experience per area]
 >
-> For each skill, explain how it becomes MORE valuable (not less) in a world where AI agents write most of the code. Be specific — give a concrete scenario for each."
+> For each skill, explain how it becomes MORE valuable (not less) in a world where AI agents write most of the code. Be specific — give a concrete scenario for each. Then take one recent AI failure or disappointing output and diagnose it. Separate model choice, missing context, instruction quality, tool usage, and verification as possible causes."
 
 Save the response to `./workspace/hello-genai/skill-audit.md` (`c:/workspace/hello-genai/` on Windows, `~/workspace/hello-genai/` on macOS/Linux).
 
-**Verify:** You have a file with your skills mapped to concrete AI-era scenarios. Each skill has at least one specific example of why it matters more now.
+**Verify:** You have a file with your skills mapped to concrete AI-era scenarios. Each skill has at least one specific example of why it matters more now, and you can explain one failed AI interaction without reducing it to "the model is stupid."
 
 ---
 
@@ -165,15 +179,19 @@ code by hand     autocomplete     tasks to one     instructions     systems wher
 
 **Level 5 — Agent Architect:** Designs autonomous pipelines where agents coordinate without human intervention. Issues come in, PRs come out. Human does code review and strategic decisions. Productivity boost: 50-1000x.
 
+The emotional transition is familiar. A senior engineer who becomes a team lead often thinks, "I could do this faster myself." Then the team grows, and doing everything personally stops scaling. They must divide work, teach context, review an imperfect first result, and improve the system. Agent work brings the same delegation crisis earlier: your digital assistants are fast and broadly informed, but they do not know your codebase or your standards until you teach them.
+
+Use the agent as an interviewer, not just a code generator. It can ask one question at a time, notice contradictions, summarize your current level, and point to the next gap. That gives you a mirror instead of another generic lecture.
+
 ### Hands-on
 
 Ask your AI assistant:
 
-> "Based on the five-level evolution spectrum from Manual Coder to Agent Architect, interview me to determine my current level. Ask me 5 specific questions about how I work with AI tools today — one question at a time. After all questions, tell me my level and what specific action would move me to the next level."
+> "Based on the five-level evolution spectrum from Manual Coder to Agent Architect, interview me to determine my current level. Ask me 5 specific questions about how I work with AI tools today — one question at a time. After all questions, tell me my level, the delegation barrier holding me back, and one specific action with evidence that would move me to the next level."
 
 Be honest in your answers. The goal is an accurate assessment, not a flattering one.
 
-**Verify:** You know your current level (1-5) and you have one concrete action to move to the next level.
+**Verify:** You know your current level (1-5), can explain why the senior-to-team-lead delegation crisis also applies to agents, and have one concrete action with evidence to move to the next level.
 
 ---
 
@@ -213,13 +231,15 @@ Remove the mystery from each level by showing what a typical workday looks like.
 
 Notice: Level 4 engineer writes instructions, reviews output, ensures quality, manages the pipeline. The skill is orchestration, not typing.
 
+At this level, think of yourself as the CEO of your own professional company. You have a portfolio of fast assistants, each with different strengths. Your job is to choose the right assistant, give it context, set boundaries, inspect the result, and reinvest the time you recover into better systems and better judgment.
+
 ### Hands-on
 
 Ask your AI assistant:
 
-> "Based on my current level [your level from Part 5] and my specific role, write two detailed 'Day in the Life' scenarios for me: one showing a typical day at my current level, and one showing a typical day at ONE level above. Make them specific to my tech stack and domain — concrete enough that I can see myself doing it."
+> "Based on my current level [your level from Part 5] and my specific role, write two detailed 'Day in the Life' scenarios for me: one showing a typical day at my current level, and one showing a typical day at ONE level above. Make them specific to my tech stack and domain — concrete enough that I can see myself doing it. In the higher-level scenario, show how I manage several specialized assistants without micromanaging them."
 
-**Verify:** You can clearly picture what your work looks like at the next level. It should feel achievable, not alien.
+**Verify:** You can clearly picture what your work looks like at the next level. It should feel achievable, not alien, and you can describe the human decisions that remain yours when assistants do more of the execution.
 
 ---
 
@@ -251,6 +271,8 @@ These feelings are valid. Dismissing them as "resistance to change" misses the p
 | Pride in clean implementation | Pride in reliable, secure, maintainable outcomes |
 
 A master chef isn't diminished when they lead a kitchen instead of cooking every dish. They are elevated — because they shape the entire experience. You are becoming the chef, not the line cook.
+
+You are not becoming a prompt typist. You are becoming the person directing a team of very fast, context-poor assistants. The roles are being rearranged, not erased: your engineering judgment decides what to delegate, what to reject, what to teach, and what quality means.
 
 ### Hands-on
 
@@ -287,6 +309,8 @@ Most engineers focus only on the "Development" box. In the AI era, the engineers
 - Automate more (testing and deployment are highly automatable with agents)
 - Communicate better with stakeholders (translate tech → business language)
 
+This is the same instinct that created DevOps: remove the wall between neighboring stages and automate the handoffs. GenAI lets you push the question further. Do not automate only CI/CD while leaving requirements, design, testing, and operations as disconnected manual islands. Look for the full SDLC loop, while keeping human judgment at the high-risk boundaries.
+
 ### Hands-on
 
 Ask your AI assistant:
@@ -300,7 +324,7 @@ Ask your AI assistant:
 >
 > Be specific to my domain, not generic."
 
-**Verify:** You can name the role before and after you in the SDLC chain, describe what they do, and identify one area where you could expand using AI agent assistance.
+**Verify:** You can name the role before and after you in the SDLC chain, describe what they do, identify one area where you could expand using AI agent assistance, and name one SDLC handoff that could be automated without removing human accountability.
 
 ---
 
@@ -326,15 +350,17 @@ The consistent pattern: **the technology raises the floor, but experienced engin
 
 Low-code tools made simple apps easy — but complex systems still need engineers. AI agents make writing code easy — but designing systems, debugging production, ensuring security, and orchestrating agents still needs you.
 
+Do not give every person the same prescription. One person is afraid of losing their job, another chooses the wrong model, another has never learned the tool, and another is stuck on cost or approval anxiety. The support starts by finding the specific blocker, then choosing the smallest experiment that can disprove it.
+
 ### Hands-on
 
 Ask your AI assistant:
 
 > "I've been through these technology shifts in my career: [list the shifts you personally experienced — Docker, Cloud, microservices, etc.].
 >
-> For each shift I listed, remind me: what was the fear at the time, what actually happened, and what new skills emerged? Then draw a parallel to the current AI shift — what new skills are emerging now, and which of my existing adaptation strategies will work again?"
+> For each shift I listed, remind me: what was the fear at the time, what actually happened, and what new skills emerged? Then draw a parallel to the current AI shift — what new skills are emerging now, which personal blocker is slowing me down, and which of my existing adaptation strategies will work again?"
 
-**Verify:** You identified at least 2 past technology shifts you adapted to and drew a concrete parallel to the current AI shift.
+**Verify:** You identified at least 2 past technology shifts you adapted to, drew a concrete parallel to the current AI shift, and named the personal blocker that your next experiment should address.
 
 ---
 
@@ -348,6 +374,8 @@ Address the anxiety of "everything changes every 2 months" with a practical stra
 
 The AI ecosystem moves at a pace that makes it impossible to master everything. New models every week, new tools every month, new paradigms every quarter. If you try to keep up with everything, you burn out. If you ignore it, you fall behind.
 
+Do not wait until you have finished the perfect training path. Use a real task to create the question. Then study the narrow piece of theory that helps you solve it. Knowledge becomes a skill when it survives contact with a real problem.
+
 ### The 15/1/1 rhythm
 
 A sustainable pace that keeps you current without drowning:
@@ -355,6 +383,8 @@ A sustainable pace that keeps you current without drowning:
 - **15 minutes daily:** One hands-on thing with AI. Could be a module step, could be trying a new prompt pattern, could be reading a changelog. Small, daily, non-negotiable.
 - **1 hour weekly:** Go deeper on one topic. Try a new tool, write an instruction file, automate a repetitive task. Block it in your calendar.
 - **1 experiment monthly:** Do something ambitious. Build a PoC, write a multi-agent workflow, contribute a module, try a new MCP integration.
+
+Protect the first 30-60 minutes of one workday for an experiment on work that already exists. This is not extra homework and it is not a new project. It is a small investment in making today's task easier, then capturing what worked.
 
 ### What to ignore
 
@@ -372,10 +402,11 @@ Ask your AI assistant:
 > - My current AI skill level is [Level from Part 5]
 > - My biggest gap is [from self-assessment]
 > - Tools I currently use: [list them]
+> - One real task I need to do this week: [describe it]
 >
-> Create a 4-week learning schedule following the 15/1/1 rhythm (15 min daily, 1 hour weekly, 1 experiment monthly). Include specific modules from the vibecoding-for-managers training course where relevant. Make it realistic — if I miss a day, the plan shouldn't collapse."
+> Create a 4-week learning schedule following the 15/1/1 rhythm (15 min daily, 1 hour weekly, 1 experiment monthly). Start from my real task instead of assigning a separate side project. Include specific modules from the vibecoding-for-managers training course where relevant. Make it realistic — if I miss a day, the plan shouldn't collapse."
 
-**Verify:** You have a 4-week schedule that feels sustainable, not overwhelming. You blocked the weekly 1-hour slot in your actual calendar.
+**Verify:** You have a 4-week schedule that feels sustainable, not overwhelming. You blocked the weekly 1-hour slot in your actual calendar and connected the first session to a real task rather than postponing practice until after more theory.
 
 ---
 
@@ -384,6 +415,8 @@ Ask your AI assistant:
 ### What we'll do
 
 Before building the roadmap, do one more real thing. Take the most repetitive task in your work week and create a reusable instruction file that automates it.
+
+This is how a conversation becomes a compact, reusable skill instead of a clever answer that disappears in a chat history.
 
 ### The roadmap template
 
@@ -410,7 +443,13 @@ Save the instruction to `./workspace/hello-genai/my-first-instruction.md` (`c:/w
 
 Try it once: paste the instruction into a new agent session with real input data. See if the output matches what you'd normally produce.
 
-**Verify:** You have an instruction file for a real repetitive task and tested it at least once.
+Then run the improvement loop:
+1. Ask the agent what assumptions and decisions it made.
+2. Compare that explanation with how an experienced engineer would do the task.
+3. Add missing context, constraints, quality checks, and evidence requirements to the instruction.
+4. Run it on a second input that is slightly different from the first one.
+
+**Verify:** You have an instruction file for a real repetitive task, tested it at least twice, and recorded at least one improvement based on actual output.
 
 ---
 
@@ -420,11 +459,13 @@ Try it once: paste the instruction into a new agent session with real input data
 
 Combine everything from this session into a concrete, time-bound plan for the next 3 months — grounded in your actual fears, your acceleration factor from Part 2, and the task you automated in Part 11.
 
+Treat the roadmap as the operating plan for your professional company. The point is not to collect more tools. The point is to decide which work your assistants can take, which judgment you must keep, and where the recovered time will be reinvested.
+
 ### Hands-on
 
 Ask your AI assistant:
 
-> "Based on our conversation so far — my fears, my skill audit, my level, my scope expansion, and the task I just automated — create a personal career evolution roadmap. Use this structure:
+> "Based on our conversation so far — my fears, my skill audit, my level, my scope expansion, and the task I just automated — create a personal career evolution roadmap. Act as my structured secretary: preserve the evidence from our conversation, separate facts from guesses, and point out any missing information before making recommendations. Use this structure:
 >
 > ## My Career Evolution Roadmap
 >
@@ -456,52 +497,59 @@ Ask your AI assistant:
 >
 > ### This Week
 > - One concrete action I can do today
+> - One trust barrier or failure mode I will test
 >
 > Make it specific to my situation, not generic motivational advice. Reference concrete modules by name where applicable."
 
 Save the roadmap to `./workspace/hello-genai/career-evolution-roadmap.md` (`c:/workspace/hello-genai/` on Windows, `~/workspace/hello-genai/` on macOS/Linux).
 
-**Verify:** You have a saved roadmap that includes your acceleration factor, your first automated task, a sustainable learning rhythm, and specific monthly goals.
+**Verify:** You have a saved roadmap that includes your acceleration factor, your first automated task, a sustainable learning rhythm, specific monthly goals, and one explicit trust barrier or failure mode to test.
 
 ---
 
 ## Success Criteria
 
 - ✅ You named your specific fears about AI and career, and classified each as A/B/C
+- ✅ You named the hidden blocker beneath at least one fear: trust, context, skill, cost, risk, or another concrete cause
 - ✅ You completed a real task with AI and measured your personal acceleration factor
+- ✅ You can explain GenAI as an interpreter and describe one automation opportunity across the whole SDLC
 - ✅ You reframed "Will AI take my job?" into a productive growth question
 - ✅ You mapped at least 5 existing skills to concrete AI-era advantages
+- ✅ You diagnosed one disappointing AI result without reducing it to "the model is stupid"
 - ✅ You know your current level on the evolution spectrum (1-5)
 - ✅ You can picture what your workday looks like at the next level
+- ✅ You can explain how agent work repeats the senior-to-team-lead delegation crisis
 - ✅ You articulated what professional craftsmanship means at the orchestration level
 - ✅ You identified the SDLC steps before and after your role
 - ✅ You recognized the historical pattern from at least 2 past tech shifts
 - ✅ You have a sustainable 15/1/1 learning rhythm scheduled
 - ✅ You automated one real repetitive task with an instruction file
+- ✅ You ran the instruction on a second input and improved it from evidence
 - ✅ You have a saved career evolution roadmap with specific monthly goals
 - ✅ You wrote and executed at least one delegation brief
 - ✅ You completed a verification checklist for that delegated task
 - ✅ You created and started a 30-day delegation log with Day 1 filled
 - ✅ You can clearly explain micromanagement vs. systematic oversight
 - ✅ You identified at least 3 real tasks to delegate next week
+- ✅ You set a bounded initiative with a stop condition and a two-week review point
 
 ---
 
 ## Understanding Check
 
-1. **A junior developer with 6 months of experience uses AI agents to build features 10x faster than before. Why might they still struggle on production projects?** *(Answer: They lack architecture knowledge, security awareness, debugging experience, and understanding of production constraints. AI generates code fast but doesn't guarantee it's maintainable, secure, or production-ready. When things break in production, they won't know how to diagnose the issue.)*
+1. **A junior developer with 6 months of experience uses AI agents to build features 10x faster than before. Why might they still struggle on production projects?** *(Answer: They lack architecture knowledge, security awareness, debugging experience, and understanding of production constraints. A model can be an encyclopedia without knowing the local codebase or production context. AI generates code fast but doesn't guarantee it's maintainable, secure, or production-ready.)*
 
 2. **Your colleague says "I've been writing Java for 15 years, but now AI writes Java for me — my experience is worthless." How do you respond?** *(Answer: Your experience isn't in writing Java syntax — it's in knowing when to use which pattern, how to design systems that scale, how to debug when things go wrong, and how to evaluate code quality. These judgment skills are exactly what you need to review AI-generated output, write effective instructions, and catch mistakes AI makes confidently.)*
 
-3. **What is the difference between an "Agent User" (Level 3) and an "Agent Lead" (Level 4)?** *(Answer: An Agent User works with one agent in a single chat session, delegating tasks and reviewing output. An Agent Lead writes custom instructions for multiple specialized agents — like a tech lead manages a team. The Lead creates the system that makes agents effective, not just uses them.)*
+3. **What is the difference between an "Agent User" (Level 3) and an "Agent Lead" (Level 4), and why does this resemble a senior becoming a team lead?** *(Answer: An Agent User works with one agent in a single chat session, delegating tasks and reviewing output. An Agent Lead writes custom instructions for multiple specialized agents, teaches context, reviews imperfect results, and improves the system — just as a team lead cannot do every task personally.)*
 
 4. **Why does "expanding your scope one step left and right in the SDLC chain" make you more valuable?** *(Answer: Understanding where your tasks come from (requirements, architecture) and where they go (testing, deployment) means you can write better agent instructions with proper context, catch problems earlier, automate more of the pipeline, and communicate with stakeholders in their language. You become a bridge, not a bottleneck.)*
 
-5. **Name three technology shifts that followed the same pattern as AI: fear of replacement → adaptation → new roles.** *(Answer: Any three from: Cloud computing creating DevOps, Docker/containers creating Kubernetes ecosystem, frameworks reducing boilerplate but needing architects, low-code tools needing engineers for complex cases, mobile development spawning new specializations. The pattern is consistent: technology raises the floor, experienced engineers raise the ceiling.)*
+5. **Name three technology shifts that followed the same pattern as AI: fear of replacement → adaptation → new roles. How does the interpreter metaphor clarify the current shift?** *(Answer: Any three from: Cloud computing creating DevOps, Docker/containers creating Kubernetes ecosystem, frameworks reducing boilerplate but needing architects, low-code tools needing engineers for complex cases, mobile development spawning new specializations. GenAI is a new interface between natural language and technical languages, so the automation surface expands rather than engineering judgment disappearing.)*
 
 6. **Your daily work is "receive Jira ticket → write code → push PR." Which parts of this workflow are most automatable, and what should you focus on instead?** *(Answer: The "write code → push PR" part is increasingly automatable with coding agents. What you should focus on: understanding WHY the ticket exists, validating requirements before coding, reviewing AI-generated PRs for quality/security, and expanding into testing strategy or deployment automation. The "judgment before and after code" becomes your value.)*
 
-7. **A colleague says "I feel like an imposter — everyone around me is adapting to AI faster than me." What do you tell them?** *(Answer: Everyone curates their public image. The person posting AI demos on LinkedIn struggled with the same tool for hours before getting it right. Focus on your own 15/1/1 rhythm, not on comparing your behind-the-scenes with others' highlight reel. Also — your years of experience mean you can evaluate quality that newcomers blindly accept. That's not being slow, that's being thorough.)*
+7. **A colleague says "I need to finish a course or certification before I try delegating a real task." What do you tell them?** *(Answer: Use a real problem to create the learning question. A small failure or friction point makes targeted theory useful; otherwise information can be filed away without becoming a skill. Start with a bounded task, protect a short daily block, and study the narrow gap revealed by practice.)*
 
 ---
 
@@ -510,6 +558,8 @@ Save the roadmap to `./workspace/hello-genai/career-evolution-roadmap.md` (`c:/w
 ### What we'll do
 
 You've built the mindset and the roadmap. Now it's time to practice the daily execution habit that makes everything stick: delegating one real task per day to an AI agent.
+
+This is where the hidden trust problem becomes visible. Choose a task that is small enough to verify and important enough to matter. The goal is not to prove that an agent can do everything; it is to build one trustworthy delegation loop.
 
 1. Open your active project workspace (`c:/workspace/hello-genai/` on Windows or `~/workspace/hello-genai/` on macOS/Linux).
 2. In your notes, list 5 common tasks from this week (for example: bug triage, small refactor, test gap fix, release note draft, onboarding checklist update).
@@ -532,6 +582,8 @@ You transformed delegation from an abstract idea into one concrete candidate tas
 ### What we'll do
 
 You will prepare a brief with context, constraints, and acceptance criteria so the agent can run autonomously.
+
+A model is an encyclopedia that has never worked in your codebase. The delegation brief is how you give it the local context, boundaries, and definition of done that it cannot infer reliably.
 
 1. Open your AI assistant in **Agent Mode** and choose **Claude Sonnet 4.5** (recommended).
 2. Fill this template with your real task details (you can prepare it in a text editor first), then paste and send the whole filled template as one message in your AI assistant chat:
@@ -576,6 +628,8 @@ You converted leadership intent into an executable delegation contract. This is 
 
 You will run the brief and supervise progress through checkpoints, not constant intervention.
 
+Trust is built at checkpoints, not through staring at the agent every minute. You are checking whether the plan, direction, and evidence are still inside the agreed boundaries.
+
 1. Submit the brief to your agent.
 2. Let the agent work without interrupting every step.
 3. Check only at predefined points:
@@ -595,6 +649,8 @@ You practiced oversight without micromanagement. You kept control through checkp
 ### What we'll do
 
 You will verify outcomes fast and systematically, focusing on trust signals rather than full manual rework.
+
+If the result is poor, do not jump straight to "the model is stupid." Diagnose the failure first: wrong model, missing context, unclear brief, tool problem, or verification gap. The diagnosis tells you whether to change the agent, the instruction, the boundary, or the task.
 
 1. Use this checklist for today's delegated task:
 
@@ -624,6 +680,8 @@ You used a repeatable quality gate. This prevents both extremes: blind approval 
 
 You will create a simple log so delegation becomes a durable leadership behavior.
 
+The time you save is not only for taking more tickets. Reinvest some of it in better instructions, stronger checks, and the knowledge that lets you take on the next level of responsibility.
+
 1. Create a file in your project notes area:
    - `c:/workspace/hello-genai/delegation-log.md` (Windows)
    - `~/workspace/hello-genai/delegation-log.md` (macOS/Linux)
@@ -652,6 +710,67 @@ You moved from one-off experimentation to a repeatable operating rhythm. This is
 
 ---
 
+## Part 18: Turn a Guided First Attempt into a Reliable Specialist
+
+### What we'll do
+
+One successful run does not create trust. You will turn a guided first attempt into a repeatable workflow with clear boundaries.
+
+### Why this matters
+
+The model does not suddenly become smarter because you repeated the task. Your system becomes smarter because the context, instructions, checks, and failure handling become explicit. This is how a broad-knowledge assistant gradually becomes a reliable specialist for one narrow job.
+
+### Hands-on
+
+1. Take the instruction file from Part 11 and the output from your first real run.
+2. Ask your agent: "Describe exactly how you solved this task. List the assumptions you made, the decisions you took, the context you needed, the failure modes you noticed, and the evidence that supports the result."
+3. Compare the answer with your own expert process. Add anything the agent needed but the instruction did not state.
+4. Run the improved instruction on a second input with a different edge case.
+5. If it fails, classify the failure before editing anything: wrong model, missing context, unclear instruction, tool problem, or verification gap.
+6. Add the fix to the instruction and define the trust boundary: fully delegate, delegate with review, or keep this step human-owned.
+
+### What happened
+
+You replaced vague confidence with evidence. You did not "teach the model everything"; you built a small operating system around one workflow.
+
+**Verify:** The second run is reproducible, the instruction contains the needed context and checks, and you can explain exactly what the agent may decide without asking you.
+
+---
+
+## Part 19: The Bush-Trimming Test - Take a Small Initiative
+
+### What we'll do
+
+You will practice deciding whether to act on a recurring problem instead of waiting for perfect permission or a perfect plan.
+
+### The metaphor
+
+Imagine a path you use every day. Branches keep hitting you in the face. You can file a request and wait for someone else, or you can spend fifteen minutes with a pair of secateurs and clear the part that is safe to clear. The point is not gardening. The point is noticing a problem, taking responsibility for the part within reach, and learning from the result.
+
+Your anxious voice may object: "This is not my responsibility. Nobody will pay me for it. I am tired. What if I make it worse?" Hear it, but do not confuse it with the decision-maker. The anxious voice is a radio. You are the person holding the dial.
+
+An initiative is a two-week lease, not a life sentence. Define the boundary, the stop condition, and the review date before you begin. You are allowed to give the responsibility back after the experiment.
+
+### Hands-on
+
+1. List three recurring points of friction in your current work: a blocked handoff, a missing document, a repetitive report, a confusing test process, or a team communication gap.
+2. For each one, separate the external part you cannot control from the small part you can influence.
+3. Choose the smallest experiment that is safe, reversible, low-risk, and useful even if it does not solve the whole problem.
+4. Set a two-week lease: what you will do, what you will not do, what evidence you will collect, and when you will decide whether to continue.
+5. Ask your AI assistant:
+
+> "I keep encountering this recurring problem: [describe it]. Act as a skeptical partner. Separate what is outside my control from what I can influence. Propose the smallest safe and reversible experiment I can run for two weeks. Include boundaries, dependencies, a stop condition, evidence of progress, and a review question. Challenge me if I am taking on too much or stepping over someone else's responsibility."
+
+6. Run the experiment or take the first bounded action. Record what changed, what resisted, and what you learned about yourself and the surrounding system.
+
+### What happened
+
+You practiced an internal locus of control without pretending to control everything. You did not wait to become the official owner of the whole problem; you took temporary responsibility for the part you could safely improve.
+
+**Verify:** You have one bounded initiative, a two-week review point, a stop condition, and evidence you will collect. You can explain the difference between taking useful responsibility and trying to control the entire system.
+
+---
+
 ## Delegation Troubleshooting
 
 | Symptom | Fix |
@@ -659,6 +778,10 @@ You moved from one-off experimentation to a repeatable operating rhythm. This is
 | Agent produces broad changes outside the task scope | Tighten constraints in the brief and require explicit file-scope boundaries |
 | Verification takes too long and feels like manual rework | Use a fixed checklist and evidence format so review focuses on pass/fail signals |
 | You keep intervening too often during execution | Define checkpoint timing before execution and only step in at those points |
+| You keep saying you have no time to practice | Treat this first as a trust question. Protect a 30-60 minute block and apply it to an existing task, not a new side project |
+| The agent produces a poor result and you conclude that the model is stupid | Diagnose model choice, missing context, instruction quality, tool usage, and verification separately |
+| You keep studying but never delegate | Run a small real task first, then study the narrow gap that the task exposes |
+| You take on an initiative and immediately feel trapped by it | Turn it into a two-week lease with a boundary, stop condition, and review date |
 
 ---
 
@@ -666,6 +789,12 @@ You moved from one-off experimentation to a repeatable operating rhythm. This is
 
 **"The AI gave me a motivational speech instead of honest assessment."**  
 → Add "Be brutally honest, not motivational. I want specific, actionable analysis, not encouragement" to your prompt. AI tends to be encouraging by default — explicitly ask for directness.
+
+**"I keep postponing practice because I need to learn more first."**
+→ Start with one bounded task from your current work. Let the friction or failure tell you what to study. Do not turn a course or certification into a waiting room.
+
+**"The model is stupid and cannot do this."**
+→ Use the diagnosis sequence: check the model choice, local context, instruction, tool use, and verification. A broad-knowledge model without your context is not the same thing as an incapable model.
 
 **"I'm at Level 1 and feel overwhelmed by the jump to Level 2."**  
 → Start with one thing: enable Agent Mode and give it one real task from your current work. Don't try to learn everything at once. Module [050 — Effective Prompting](../050-effective-prompting-without-arguing/about.md) is your best starting point.
@@ -681,6 +810,9 @@ You moved from one-off experimentation to a repeatable operating rhythm. This is
 
 **"Everything changes so fast, I can't keep up."**  
 → You don't need to keep up with everything. Follow the 15/1/1 rhythm: 15 minutes daily, 1 hour weekly, 1 experiment monthly. Ignore Twitter hype. Focus on tools you actually use. Pull latest course updates monthly and skim what's new.
+
+**"I see a problem, but it is not officially my responsibility."**
+→ Use the bush-trimming test. Choose the smallest safe, reversible improvement, take it on for two weeks, define a stop condition, and then decide whether the work belongs with you or someone else.
 
 **"I'm a manager, not a coder — does this apply to me?"**  
 → Absolutely. Replace "write code" with "review work" and "push PR" with "approve deliverable." The evolution from manual reviewer to orchestrator of AI-assisted teams follows the same pattern. Your SDLC scope expansion matters even more.
